@@ -5,16 +5,16 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { getRandomElementaryFunctions } from '../../tools'
 
-const { equivalent, constantMultiple } = expressionComparisons
+const { areEquivalent, areConstantMultiples } = expressionComparisons
 
 const variableSet = ['x', 'y', 't']
 
 function checkF(func: Expression | undefined, solutionFunc: Expression): boolean {
-	return !!func && constantMultiple(func, solutionFunc)
+	return !!func && areConstantMultiples(func, solutionFunc)
 }
 
 function checkFAndG(input: { f?: Expression, g?: Expression }, solution: { f?: Expression, g?: Expression, h?: Expression }): boolean {
-	return !!input.f && !!input.g && !!solution.f && !!solution.g && !!solution.h && checkF(input.f, solution.f) && checkF(input.g, solution.g) && equivalent(input.f.divide(input.g), solution.h)
+	return !!input.f && !!input.g && !!solution.f && !!solution.g && !!solution.h && checkF(input.f, solution.f) && checkF(input.g, solution.g) && areEquivalent(input.f.divide(input.g), solution.h)
 }
 
 export default buildStepExercise({
@@ -22,7 +22,7 @@ export default buildStepExercise({
 		skill: 'findGeneralDerivative',
 		...createStepExerciseMetadata([undefined, undefined, 'applyQuotientRule']),
 		weight: 2,
-		comparisons: { method: {}, Expression: equivalent, checkF, checkFAndG },
+		comparisons: { method: {}, Expression: areEquivalent, checkF, checkFAndG },
 	},
 
 	generateParameters() {
@@ -40,7 +40,7 @@ export default buildStepExercise({
 			const method = 1
 			const f = fRaw.multiplyLeft(c).cancel()
 			const h = f.divide(g).flatten()
-			const x = h.getVariables()[0]
+			const x = h.collectVariables()[0]
 			return { ...parameters, method, x, f, h }
 		},
 
@@ -55,10 +55,10 @@ export default buildStepExercise({
 			const solutionMerged = { ...solution, ...(inputDependency as { f?: Expression, g?: Expression, adjusted?: boolean }) }
 			const { f, g } = solutionMerged
 			if (!f || !g) throw new Error('Expected the quotient-rule solution to contain functions f and g.')
-			const fDerivative = f.getDerivative().combine()
-			const gDerivative = g.getDerivative().combine()
+			const fDerivative = f.differentiate().combine()
+			const gDerivative = g.differentiate().combine()
 			const derivativeRaw = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2))
-			const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
+			const derivative = derivativeRaw.normalize([], ['cancelPolynomialFactors', 'expandPowersOfSums']).format()
 			return { ...solutionMerged, fDerivative, gDerivative, derivativeRaw, derivative }
 		},
 	},

@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'applySineCosineTangent',
 		...createStepExerciseMetadata([undefined, undefined, undefined]),
-		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
+		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.areEquivalent(input, correct) },
 	},
 
 	generateParameters() {
@@ -36,28 +36,28 @@ export default buildStepExercise({
 
 		// Determine the rule to apply.
 		const rule = 3 - (known + requested) // 0 for sine, 1 for cosine, 2 for tangent.
-		const equation = asEquation(['sin(β)=b/c', 'cos(β)=a/c', 'tan(β)=b/a'][rule], undefined, { degrees: true }).substitute(variables)
+		const equation = asEquation(['sin(β)=b/c', 'cos(β)=a/c', 'tan(β)=b/a'][rule], undefined, { angleUnit: 'degrees' }).substitute(variables)
 
 		// Depending on what is known, determine a, b and c.
 		let a, b, c
 		if (known === 0) {
 			a = x
-			b = asExpression('a*tan(β)', undefined, { degrees: true }).substitute(variables)
-			c = asExpression('a/cos(β)', undefined, { degrees: true }).substitute(variables)
+			b = asExpression('a*tan(β)', undefined, { angleUnit: 'degrees' }).substitute(variables)
+			c = asExpression('a/cos(β)', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		} else if (known === 1) {
-			a = asExpression('b/tan(β)', undefined, { degrees: true }).substitute(variables)
+			a = asExpression('b/tan(β)', undefined, { angleUnit: 'degrees' }).substitute(variables)
 			b = x
-			c = asExpression('b/sin(β)', undefined, { degrees: true }).substitute(variables)
+			c = asExpression('b/sin(β)', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		} else {
-			a = asExpression('c*cos(β)', undefined, { degrees: true }).substitute(variables)
-			b = asExpression('c*sin(β)', undefined, { degrees: true }).substitute(variables)
+			a = asExpression('c*cos(β)', undefined, { angleUnit: 'degrees' }).substitute(variables)
+			b = asExpression('c*sin(β)', undefined, { angleUnit: 'degrees' }).substitute(variables)
 			c = x
 		}
 
 		// Determine the solution.
 		const ansRaw = [a, b, c][requested]
 		const ans = ansRaw.combine()
-		const canSimplifyAns = !expressionComparisons.exactEqual(ans, ansRaw)
+		const canSimplifyAns = !expressionComparisons.areExactlyEqual(ans, ansRaw)
 		return { ...parameters, a, b, c, variables, rule, equation, ansRaw, ans, canSimplifyAns }
 	},
 

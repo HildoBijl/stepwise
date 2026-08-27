@@ -3,16 +3,16 @@ import { type Equation, type Expression, asExpression, asEquation, expressionCom
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 const { hasVariableInDenominator } = equationChecks
 
 // a/(x+b)=c/(x+d).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd']
-const factorMovedComparison = { compareSide: equivalent, allowSwitch: true }
+const factorMovedComparison = { compareSide: areEquivalent, allowSideSwitch: true }
 
 export default buildStepExercise({
 	metadata: {
@@ -21,7 +21,7 @@ export default buildStepExercise({
 		...{ factorMovedComparison },
 		comparisons: {
 			factorMoved: (input: Equation, correct: Equation, { variables }: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, variables.x) && correct.equals(input, factorMovedComparison),
-			ans: onlyOrderChanges,
+			ans: areEqualExceptOrder,
 		},
 	},
 
@@ -35,7 +35,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const { a, b, c, d } = parameters
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('a/(x+b)=c/(x+d)').substitute(variables).removeTrivial()
 		const factorMoved = asEquation('a(x+d)=c(x+b)').substitute(variables).removeTrivial()
 		const expanded = factorMoved.combine(['expandProductsOfSums'])
@@ -44,7 +44,7 @@ export default buildStepExercise({
 		const factor = asExpression(a - c)
 		const solution = asExpression(`(${c * b - a * d})/${a - c}`)
 		const ans = solution.combine()
-		const canCleanSolution = !onlyOrderChanges(solution, ans)
+		const canCleanSolution = !areEqualExceptOrder(solution, ans)
 		const equationInserted = equation.substitute({ [variables.x.toString()]: ans })
 		const sideValue = equationInserted.left.normalize()
 		return { ...parameters, variables, equation, factorMoved, expanded, termMoved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }

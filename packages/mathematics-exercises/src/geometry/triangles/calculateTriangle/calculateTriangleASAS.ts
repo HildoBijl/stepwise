@@ -9,19 +9,17 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateTriangle',
 		...createStepExerciseMetadata(['determine2DAngles', undefined, undefined, undefined, 'solveLinearEquation']),
-		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct) },
+		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.areEquivalent(input, correct) || equationComparisons.areEquivalent(input.invert(), correct) },
 	},
 
 	generateParameters() {
-		// Determine the angles and check if they match the conditions.
-		let α, β
-		do {
-			α = randomInteger(5, 12) * 5
-			β = randomInteger(5, 24, { exclude: [18, 18 - α / 5] }) * 5 // Ensure there is no 90 degree angle.
-		} while (α + β > 155)
-
-		// Gather all data into a parameters.
-		return { α: asExpression(α), β: asExpression(β), a: asExpression(sample(variableSet)), c: asExpression(randomInteger(2, 12)), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
+		for (let attempt = 0; attempt < 100; attempt++) {
+			const α = randomInteger(5, 12) * 5
+			const β = randomInteger(5, 24, { exclude: [18, 18 - α / 5] }) * 5 // Ensure there is no 90 degree angle.
+			if (α + β > 155) continue
+			return { α: asExpression(α), β: asExpression(β), a: asExpression(sample(variableSet)), c: asExpression(randomInteger(2, 12)), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
+		}
+		throw new Error('Failed to generate valid angle-side-angle triangle parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {
@@ -29,19 +27,19 @@ export default buildStepExercise({
 		const variables = { α, β, a, c }
 
 		// Determine gamma.
-		const γRaw = asExpression('180-α-β', undefined, { degrees: true }).substitute(variables)
+		const γRaw = asExpression('180-α-β', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const γ = γRaw.combine()
 		const allVariables = { ...variables, γ }
 
 		// Define solution method data.
 		const rule = 0 // Use the sine rule.
-		const equation = asEquation('a/sin(α)=c/sin(γ)', undefined, { degrees: true }).substitute(allVariables)
+		const equation = asEquation('a/sin(α)=c/sin(γ)', undefined, { angleUnit: 'degrees' }).substitute(allVariables)
 		const numSolutions = 1
 
 		// Determine a and b.
-		const aRaw = asExpression('c*sin(α)/sin(γ)', undefined, { degrees: true }).substitute(allVariables)
+		const aRaw = asExpression('c*sin(α)/sin(γ)', undefined, { angleUnit: 'degrees' }).substitute(allVariables)
 		a = aRaw.combine()
-		const bRaw = asExpression('c*sin(β)/sin(γ)', undefined, { degrees: true }).substitute(allVariables)
+		const bRaw = asExpression('c*sin(β)/sin(γ)', undefined, { angleUnit: 'degrees' }).substitute(allVariables)
 		const b = bRaw.combine()
 		return { ...parameters, variables: allVariables, γRaw, γ, rule, numSolutions, equation, aRaw, a, bRaw, b }
 	},

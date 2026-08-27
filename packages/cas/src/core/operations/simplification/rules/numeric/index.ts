@@ -1,22 +1,22 @@
 import { defineRuleRegistry } from '../ruleDefinition'
 
-import { turnFloatsIntoIntegers } from './turnFloatsIntoIntegers'
-import { mergeSumNumbers } from './mergeSumNumbers'
-import { mergeProductNumbers } from './mergeProductNumbers'
-import { mergeFractionNumbers } from './mergeFractionNumbers'
-import { reduceNumberPowers } from './reduceNumberPowers'
-import { reduceNumberRoots } from './reduceNumberRoots'
-import { removeSignsFromZeros } from './removeSignsFromZeros'
+import { convertIntegerFloatsToIntegers } from './convertIntegerFloatsToIntegers'
+import { combineNumbersInSums } from './combineNumbersInSums'
+import { combineNumbersInProducts } from './combineNumbersInProducts'
+import { combineNumbersInFractions } from './combineNumbersInFractions'
+import { evaluateNumericPowers } from './evaluateNumericPowers'
+import { evaluateNumericRoots } from './evaluateNumericRoots'
+import { removeSignsFromZero } from './removeSignsFromZero'
 import { removeDoubleNegatives } from './removeDoubleNegatives'
 import { removeDoubleSigns } from './removeDoubleSigns'
-import { mergeProductMinuses } from './mergeProductMinuses'
-import { mergeProductPlusMinuses } from './mergeProductPlusMinuses'
-import { mergeFractionMinuses } from './mergeFractionMinuses'
-import { mergeFractionSumMinuses } from './mergeFractionSumMinuses'
-import { mergePowerMinuses } from './mergePowerMinuses'
+import { combineMinusSignsInProducts } from './combineMinusSignsInProducts'
+import { combinePlusMinusSignsInProducts } from './combinePlusMinusSignsInProducts'
+import { combineMinusSignsInFractions } from './combineMinusSignsInFractions'
+import { factorMinusSignsOutOfFractionSums } from './factorMinusSignsOutOfFractionSums'
+import { combineMinusSignsInPowers } from './combineMinusSignsInPowers'
 
-export const numericRules = defineRuleRegistry(turnFloatsIntoIntegers, mergeSumNumbers, mergeProductNumbers, mergeFractionNumbers, reduceNumberPowers, reduceNumberRoots, removeSignsFromZeros, removeDoubleNegatives, removeDoubleSigns, mergeProductMinuses, mergeProductPlusMinuses, mergeFractionMinuses, mergeFractionSumMinuses, mergePowerMinuses)
-export { turnFloatsIntoIntegers, mergeSumNumbers, mergeProductNumbers, mergeFractionNumbers, reduceNumberPowers, reduceNumberRoots, removeSignsFromZeros, removeDoubleNegatives, removeDoubleSigns, mergeProductMinuses, mergeProductPlusMinuses, mergeFractionMinuses, mergeFractionSumMinuses, mergePowerMinuses }
+export const numericRules = defineRuleRegistry(convertIntegerFloatsToIntegers, combineNumbersInSums, combineNumbersInProducts, combineNumbersInFractions, evaluateNumericPowers, evaluateNumericRoots, removeSignsFromZero, removeDoubleNegatives, removeDoubleSigns, combineMinusSignsInProducts, combinePlusMinusSignsInProducts, combineMinusSignsInFractions, factorMinusSignsOutOfFractionSums, combineMinusSignsInPowers)
+export { convertIntegerFloatsToIntegers, combineNumbersInSums, combineNumbersInProducts, combineNumbersInFractions, evaluateNumericPowers, evaluateNumericRoots, removeSignsFromZero, removeDoubleNegatives, removeDoubleSigns, combineMinusSignsInProducts, combinePlusMinusSignsInProducts, combineMinusSignsInFractions, factorMinusSignsOutOfFractionSums, combineMinusSignsInPowers }
 export { applyRemoveDoubleNegatives } from './removeDoubleNegatives'
-export { applyMergeFractionMinuses } from './mergeFractionMinuses'
-export { applyMergeFractionNumbers } from './mergeFractionNumbers'
+export { applyCombineMinusSignsInFractions } from './combineMinusSignsInFractions'
+export { applyCombineNumbersInFractions } from './combineNumbersInFractions'

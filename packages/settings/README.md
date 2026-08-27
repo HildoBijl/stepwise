@@ -1,6 +1,26 @@
-# Step-Wise settings
+# @step-wise/settings
 
 Shared, deployment-time settings used by the Step-Wise API and frontend. These values change infrequently and changes take effect through a new deployment; they are not user preferences or runtime configuration.
+
+
+## Installation
+
+```bash
+npm install @step-wise/settings
+```
+
+
+## Quick start
+
+```ts
+import { defaultLanguage, i18nLoadPath, languages, type Language } from '@step-wise/settings'
+
+const language: Language = defaultLanguage
+const mainTranslations = i18nLoadPath(language, 'main')
+
+console.log(languages) // ['en', 'nl', 'de']
+console.log(mainTranslations) // /locales/en/main.json
+```
 
 
 ## Exports
@@ -21,21 +41,6 @@ Shared, deployment-time settings used by the Step-Wise API and frontend. These v
 **Number settings**
 
 - `defaultDecimalSeparator`: the site-wide decimal separator.
-
-
-## Example
-
-```ts
-import { defaultLanguage, i18nLoadPath, languages, type Language } from '@step-wise/settings'
-
-const language: Language = defaultLanguage
-const mainTranslations = i18nLoadPath(language, 'main')
-
-console.log(languages) // ['en', 'nl', 'de']
-console.log(mainTranslations) // /locales/en/main.json
-```
-
-
 ## Behavioral constraints
 
 Supported languages are a compile-time contract: adding a language requires a code change, matching locale files, and a deployment.

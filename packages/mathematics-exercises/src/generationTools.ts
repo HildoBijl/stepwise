@@ -6,7 +6,7 @@ export function selectRandomVariables(availableVariables: readonly string[], use
 	return fromKeys(usedVariables, (_, index) => asExpression(chosenVariables[index]))
 }
 
-export function filterVariables(parameters: Record<string, unknown>, usedVariables: readonly string[], constants: readonly string[] = []): Record<string, Expression> {
+export function selectExpressionParameters(parameters: Record<string, unknown>, usedVariables: readonly string[], constants: readonly string[] = []): Record<string, Expression> {
 	const allNames = [...usedVariables, ...constants]
 	return fromKeys(allNames, name => asExpression(parameters[name] as ExpressionLike))
 }

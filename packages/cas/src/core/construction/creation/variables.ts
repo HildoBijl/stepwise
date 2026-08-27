@@ -1,15 +1,15 @@
-import { type AccentName, accents, isAccent } from '@step-wise/math-input-value'
+import { type AccentName, accentNames, isAccentName } from '@step-wise/math-input-value'
 
 import { Variable } from '../nodes'
 
 // Define variable patterns.
-const accentPattern = `(?:(?<accent>${accents.join('|')})\\((?<accentedSymbol>[^()_]+)\\))`
+const accentPattern = `(?:(?<accent>${accentNames.join('|')})\\((?<accentedSymbol>[^()_]+)\\))`
 const plainPattern = `(?<plainSymbol>[^()_]+)`
 const subscriptPattern = `(?:_\\((?<longSubscript>[^()]+)\\)|_(?<shortSubscript>[^()_]+))?`
 const pattern = new RegExp(`^(?:${accentPattern}|${plainPattern})${subscriptPattern}$`)
 
 // Turn a string into a variable.
-export function stringToVariable(input: string): Variable {
+export function parseVariable(input: string): Variable {
 	// Match with a regular expression.
 	const match = pattern.exec(input)
 	if (!match?.groups) throw new Error(`Variable interpretation error: could not interpret "${input}" as a variable.`)
@@ -18,7 +18,7 @@ export function stringToVariable(input: string): Variable {
 	const symbol = match.groups.accentedSymbol ?? match.groups.plainSymbol
 	const subscript = match.groups.longSubscript ?? match.groups.shortSubscript
 	const accent = match.groups.accent
-	if (accent !== undefined && !isAccent(accent)) throw new Error(`Unknown accent "${accent}".`)
+	if (accent !== undefined && !isAccentName(accent)) throw new Error(`Unknown accent "${accent}".`)
 	return new Variable(symbol, subscript, accent)
 }
 
@@ -29,12 +29,12 @@ export const variable = (symbol: string, subscript?: string, accent?: AccentName
 export function variableToString(node: Variable): string {
 	let result = node.symbol
 	if (node.accent) result = `${node.accent}(${result})`
-	if (node.subscript) result = node.subscript.length > 1 ? `${result}_(${node.subscript})` : `${result}_${node.subscript}`
+	if (node.subscript) result = node.subscript.length > 1 || node.subscript.includes('_') ? `${result}_(${node.subscript})` : `${result}_${node.subscript}`
 	return result
 }
 
 // Ensure that a string or Variable is a Variable object.
 export type VariableInput = Variable | string
 export function asVariable(variable: VariableInput): Variable {
-	return typeof variable === 'string' ? stringToVariable(variable) : variable
+	return typeof variable === 'string' ? parseVariable(variable) : variable
 }

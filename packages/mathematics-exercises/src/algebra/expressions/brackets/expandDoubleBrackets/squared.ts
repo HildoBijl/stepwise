@@ -3,9 +3,9 @@ import { type Expression, asExpression, expressionChecks, expressionComparisons 
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { equivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, areEqualExceptOrder } = expressionComparisons
 const { hasSumWithinProduct, hasSumWithinPowerBase } = expressionChecks
 
 // (ax^p+bx^q)^2
@@ -18,10 +18,10 @@ export default buildStepExercise({
 		skill: 'expandDoubleBrackets',
 		...createStepExerciseMetadata(['rewritePower', 'expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
 		comparisons: {
-			multiplication: (input: Expression, correct: Expression) => !input.some(factor => factor.isPower() && factor.base.isSum()) && equivalent(input, correct),
-			firstExpanded: (input: Expression, correct: Expression) => !input.some(term => term.isProduct() && count(term.factors, factor => factor.isSum()) > 1) && equivalent(input, correct),
-			allExpanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && !hasSumWithinPowerBase(input) && equivalent(input, correct),
-			ans: onlyOrderChanges,
+			multiplication: (input: Expression, correct: Expression) => !input.some(factor => factor.isPower() && factor.base.isSum()) && areEquivalent(input, correct),
+			firstExpanded: (input: Expression, correct: Expression) => !input.some(term => term.isProduct() && count(term.factors, factor => factor.isSum()) > 1) && areEquivalent(input, correct),
+			allExpanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && !hasSumWithinPowerBase(input) && areEquivalent(input, correct),
+			ans: areEqualExceptOrder,
 		},
 	},
 
@@ -37,12 +37,12 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = asExpression('a*x^p+b*x^q').substitute(variables).removeTrivial()
 		const expression = factor.toPower(2)
 		const multiplication = factor.multiply(factor).flatten()
 		const firstExpanded = factor.terms[0].multiply(factor).add(factor.terms[1].multiply(factor)).flatten()
-		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
+		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'combineLikeFactors'])
 		const jointFactor = asExpression('x^(p+q)').substitute(variables).normalize()
 		const ans = allExpanded.combine()
 		const xPowerToMerge = variables.x.toPower(parameters.p + parameters.q).mergeNumbers()

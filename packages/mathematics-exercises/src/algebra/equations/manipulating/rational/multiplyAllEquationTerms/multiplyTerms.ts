@@ -3,9 +3,9 @@ import { type Expression, asExpression, asEquation, expressionComparisons, expre
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 const { hasSumWithinProduct } = expressionChecks
 
 // Multiply a*x+b+c/x+d/x^2=0 by ex^n.
@@ -18,9 +18,9 @@ export default buildStepExercise({
 		skill: 'multiplyAllEquationTerms',
 		...createStepExerciseMetadata(['multiplyBothEquationSides', 'expandBrackets', 'simplifyFractionWithVariables']),
 		comparisons: {
-			form: { compareSide: equivalent },
-			expanded: { compareSide: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && equivalent(input, correct) },
-			ans: { compareSide: onlyOrderChanges },
+			form: { compareSide: areEquivalent },
+			expanded: { compareSide: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && areEquivalent(input, correct) },
+			ans: { compareSide: areEqualExceptOrder },
 		},
 	},
 
@@ -42,7 +42,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Assemble the equation.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const terms = ['a*x', 'b', 'c/x', 'd/x^2'].map(term => asExpression(term).substitute(variables))
 		const termsLeft = [parameters.aLeft, parameters.bLeft, parameters.cLeft, parameters.dLeft]
 		let left = asExpression(0)
@@ -52,12 +52,12 @@ export default buildStepExercise({
 			else right = right.add(term)
 		})
 		const equation = asEquation({ left, right }).removeTrivial()
-		const factor = asExpression('e*x^n', { eAsConstant: false }).substitute(variables).removeTrivial()
+		const factor = asExpression('e*x^n', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 
 		// Manipulate the equation.
 		const form = equation.multiplyLeft(factor).flatten()
 		const expandedIntermediate = form.removeTrivial(['expandProductsOfSums', 'expandMinusSums'])
-		const expanded = expandedIntermediate.cancel(['expandProductsOfSums', 'mergeFractionProducts', 'mergeProductFactors'])
+		const expanded = expandedIntermediate.cancel(['expandProductsOfSums', 'combineProductFractions', 'combineLikeFactors'])
 		const ans = expanded.combine()
 		return { ...parameters, variables, equation, factor, form, expandedIntermediate, expanded, ans }
 	},

@@ -5,9 +5,9 @@ import { type Expression, asExpression, expressionComparisons } from '@step-wise
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { equivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, areEqualExceptOrder } = expressionComparisons
 
 // (a*(x+c)^p*(x+d)^q)/(b*(x+d)^r*(x+c)^s).
 const variableSet = ['x', 'y', 'z']
@@ -19,8 +19,8 @@ export default buildStepExercise({
 		skill: 'simplifyFractionWithVariables',
 		...createStepExerciseMetadata(['simplifyFraction', and('rewritePower', 'cancelFractionFactors')]),
 		comparisons: {
-			numericSimplified: (input: Expression, correct: Expression) => onlyOrderChanges(input.flatten().flatten(['mergeProductNumbers', 'mergeFractionNumbers']), input.flatten()) && equivalent(input, correct),
-			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
+			numericSimplified: (input: Expression, correct: Expression) => areEqualExceptOrder(input.flatten().flatten(['combineNumbersInProducts', 'combineNumbersInFractions']), input.flatten()) && areEquivalent(input, correct),
+			ans: (input: Expression, correct: Expression) => areEqualExceptOrder(input.combine(), input.flatten()) && areEquivalent(input, correct),
 		},
 	},
 
@@ -43,14 +43,14 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const expression = asExpression(parameters.switch ? '(a*(x+d)^q*(x+c)^p)/(b*(x+c)^s*(x+d)^r)' : '(a*(x+c)^p*(x+d)^q)/(b*(x+d)^r*(x+c)^s)').substitute(variables).removeTrivial()
 		const factor1 = asExpression('x+c').substitute(variables).removeTrivial()
 		const factor2 = asExpression('x+d').substitute(variables).removeTrivial()
 		const numericPartOriginal = asExpression('a/b').substitute(variables).removeTrivial()
 		const numericPart = numericPartOriginal.combine()
 		const factor = gcd(parameters.a, parameters.b) * (parameters.a < 0 && parameters.b < 0 ? -1 : 1)
-		const numericSimplified = expression.flatten(['mergeProductNumbers', 'mergeFractionNumbers'])
+		const numericSimplified = expression.flatten(['combineNumbersInProducts', 'combineNumbersInFractions'])
 		const ans = expression.combine()
 		return { ...parameters, variables, expression, factor1, factor2, numericPartOriginal, numericPart, factor, numericSimplified, ans }
 	},

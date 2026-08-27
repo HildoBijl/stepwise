@@ -1,9 +1,9 @@
 import { defineRuleRegistry } from '../ruleDefinition'
 
 import { factorizeIntegers } from './factorizeIntegers'
-import { pullOutCommonSumNumbers } from './pullOutCommonSumNumbers'
-import { pullOutCommonSumFactors } from './pullOutCommonSumFactors'
-import { pullFactorsOutOfRoots } from './pullFactorsOutOfRoots'
+import { factorCommonNumericTerms } from './factorCommonNumericTerms'
+import { factorCommonFactors } from './factorCommonFactors'
+import { extractFactorsFromRoots } from './extractFactorsFromRoots'
 
-export const factorizationRules = defineRuleRegistry(factorizeIntegers, pullOutCommonSumNumbers, pullOutCommonSumFactors, pullFactorsOutOfRoots)
-export { factorizeIntegers, pullOutCommonSumNumbers, pullOutCommonSumFactors, pullFactorsOutOfRoots }
+export const factorizationRules = defineRuleRegistry(factorizeIntegers, factorCommonNumericTerms, factorCommonFactors, extractFactorsFromRoots)
+export { factorizeIntegers, factorCommonNumericTerms, factorCommonFactors, extractFactorsFromRoots }

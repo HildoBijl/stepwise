@@ -3,9 +3,9 @@ import { type Expression, asExpression, expressionComparisons } from '@step-wise
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 
 // abx^3 + acx^2 + adx = ax(bx^2 + cx + d).
 const variableSet = ['x', 'y', 'z']
@@ -17,7 +17,7 @@ export default buildStepExercise({
 		skill: 'pullFactorOutOfBrackets',
 		...createStepExerciseMetadata([undefined, 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets']),
 		comparisons: {
-			startingForm: (input: Expression, correct: Expression) => onlyOrderChanges(input.flatten(), correct),
+			startingForm: (input: Expression, correct: Expression) => areEqualExceptOrder(input.flatten(), correct),
 			splitUp: (input: Expression, correct: Expression, { expression, factor }: { expression: Expression, factor: Expression }) => {
 				input = input.flatten()
 				if (correct.isMinus()) {
@@ -27,10 +27,10 @@ export default buildStepExercise({
 				}
 				const positiveFactor = factor.isMinus() ? factor.argument : factor
 				if (!positiveFactor.isProduct()) return false
-				return input.isProduct() && input.factors.length === 3 && positiveFactor.factors.every(subFactor => input.factors.some(inputFactor => onlyOrderChanges(inputFactor, subFactor))) && input.factors.some(inputFactor => inputFactor.isSum() && inputFactor.terms.length === expression.terms.length) && equivalent(input, correct)
+				return input.isProduct() && input.factors.length === 3 && positiveFactor.factors.every(subFactor => input.factors.some(inputFactor => areEqualExceptOrder(inputFactor, subFactor))) && input.factors.some(inputFactor => inputFactor.isSum() && inputFactor.terms.length === expression.terms.length) && areEquivalent(input, correct)
 			},
-			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.cancel(), correct),
-			check: (input: Expression, correct: Expression) => onlyOrderChanges(input.cancel(), correct),
+			ans: (input: Expression, correct: Expression) => areEqualExceptOrder(input.cancel(), correct),
+			check: (input: Expression, correct: Expression) => areEqualExceptOrder(input.cancel(), correct),
 		},
 	},
 
@@ -47,7 +47,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = asExpression('a*x').substitute(variables).removeTrivial()
 		const sum = asExpression(parameters.descending ? 'b*x^2+c*x+d' : 'd+c*x+b*x^2').substitute(variables).removeTrivial()
 		const ans = factor.multiply(sum).combine()

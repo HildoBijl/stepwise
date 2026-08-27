@@ -3,9 +3,9 @@ import { type Expression, asExpression, expressionComparisons, expressionChecks 
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { equivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, areEqualExceptOrder } = expressionComparisons
 const { hasPowerWithinPowerBase } = expressionChecks
 
 // ax^b(x^c)^d = ax^(b+cd).
@@ -18,8 +18,8 @@ export default buildStepExercise({
 		skill: 'simplifyProductOfPowers',
 		...createStepExerciseMetadata(['rewritePower', 'rewritePower']),
 		comparisons: {
-			powersReduced: (input: Expression, correct: Expression) => !hasPowerWithinPowerBase(input) && equivalent(input, correct),
-			ans: onlyOrderChanges,
+			powersReduced: (input: Expression, correct: Expression) => !hasPowerWithinPowerBase(input) && areEquivalent(input, correct),
+			ans: areEqualExceptOrder,
 		},
 	},
 
@@ -35,11 +35,11 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const expression = asExpression('a*x^b(x^c)^d').substitute(variables).removeTrivial()
-		const powersReducedStep = expression.removeTrivial(['removePowersWithinPowers'])
-		const powersReduced = powersReducedStep.removeTrivial(['mergeProductNumbers', 'reduceNumberPowers'])
-		const powersMergedStep = powersReduced.removeTrivial(['mergeProductFactors'])
+		const powersReducedStep = expression.removeTrivial(['flattenNestedPowers'])
+		const powersReduced = powersReducedStep.removeTrivial(['combineNumbersInProducts', 'evaluateNumericPowers'])
+		const powersMergedStep = powersReduced.removeTrivial(['combineLikeFactors'])
 		const ans = powersMergedStep.combine()
 		return { ...parameters, variables, expression, powersReducedStep, powersReduced, powersMergedStep, ans }
 	},

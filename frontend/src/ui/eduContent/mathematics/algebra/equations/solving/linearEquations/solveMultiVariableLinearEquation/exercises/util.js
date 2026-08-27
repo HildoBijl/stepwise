@@ -3,7 +3,7 @@ import { expressionComparisons } from '@step-wise/cas'
 import { M } from 'ui/components'
 import { equationChecks } from 'ui/eduTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent: equivalent } = expressionComparisons
 const { sumWithWrongTerms } = equationChecks
 
 // Define termsMoved checks.
@@ -21,7 +21,7 @@ export const termsWithoutVariableInWrongPlace = (input, correct, { variables }, 
 }
 
 export const sumWithWrongTermsAndFlip = (input, correct, solution, isCorrect) => {
-	return input.left.dependsOn(solution.variables.x) ? sumWithWrongTerms(input, correct, solution, isCorrect) : sumWithWrongTerms(input, correct.switch().negate(), solution, isCorrect)
+	return input.left.dependsOn(solution.variables.x) ? sumWithWrongTerms(input, correct, solution, isCorrect) : sumWithWrongTerms(input, correct.switchSides().negate(), solution, isCorrect)
 }
 
 // Define pulledOut checks.
@@ -30,7 +30,7 @@ export const sideWithoutVariableEqual = (input, correct, { variables }, isCorrec
 	const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))?.side
 	if (!sideWithoutVariable)
 		return translateCrossExercise(<>You put the variable <M>{variables.x}</M> on both sides of the equation again. That was not supposed to happen.</>, 'noSideWithoutVariable')
-	if (sideWithVariable && !onlyOrderChanges(sideWithoutVariable, correct.right) && !onlyOrderChanges(sideWithoutVariable, correct.right.negate()))
+	if (sideWithVariable && !areEqualExceptOrder(sideWithoutVariable, correct.right) && !areEqualExceptOrder(sideWithoutVariable, correct.right.negate()))
 		return translateCrossExercise(<>The side without <M>{variables.x}</M> should remain the same!</>, 'unequalSideWithoutVariable')
 }
 

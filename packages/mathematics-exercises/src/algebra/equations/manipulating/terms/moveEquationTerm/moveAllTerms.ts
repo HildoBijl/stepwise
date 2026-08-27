@@ -3,9 +3,9 @@ import { asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 
 // ax^3 + bx^2 + cx + d = 0.
 const variableSet = ['x', 'y', 'z']
@@ -17,8 +17,8 @@ export default buildStepExercise({
 		skill: 'moveEquationTerm',
 		...createStepExerciseMetadata(['addToBothEquationSides', 'cancelSumTerms']),
 		comparisons: {
-			bothSidesChanged: { compareSide: equivalent },
-			ans: { compareSide: onlyOrderChanges },
+			bothSidesChanged: { compareSide: areEquivalent },
+			ans: { compareSide: areEqualExceptOrder },
 		},
 	},
 
@@ -37,7 +37,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Set up the equation.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		let equation = asEquation('0=a*x^3+b*x^2+c*x+d').substitute(variables).removeTrivial()
 		const termsToSubtract = parameters.termsLeft.map(index => equation.right.terms[index])
 		termsToSubtract.forEach(termToSubtract => { equation = equation.subtract(termToSubtract).cancel() })

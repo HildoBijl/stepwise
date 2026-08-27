@@ -1,4 +1,4 @@
-export * from './getInterpretationSettings'
+export * from './inferInterpretationSettings'
 export * from './texDisplayOptions'
 export * from './toString'
 export * from './toTex'

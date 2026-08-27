@@ -1,55 +1,208 @@
-# Math Input Value
+# @step-wise/math-input-value
 
-The `math-input-value` toolbox supports the input of mathematical expressions and equations. Inputting mathematical equations is always tricky:
-- You don't just want to input plain text. Imagine writing `2/(x+3/(y+6))`. It's hard tracking brackets. (And this is only small.) A visual interface would be nice!
-- A visual interface that immediately access the expression tree is not ideal. For new students this is confusing, and it also doesn't allow one to for instance write `sin(x)`, turn `sin` into `cos`, and then edit further.
-To solve all this, the `math-input-value` package has built a middle-ground: keep text where possible, but also provide display tools for visual elements like fractions, roots, etcetera.
+Represent editable mathematical expressions and equations as a mixture of plain text and structured visual constructs.
 
-## The format of a math-input-value object
+The representation is deliberately less rigid than a mathematical expression tree. Ordinary input such as `2x+sin(y)` remains editable text, while fractions, roots, scripts and accents become structured values that a visual math input can render and edit recursively.
 
-A typical `math-input-value` object, for instance to display `2+x/(3+5sin(x))`, looks like this:
+For mathematical interpretation and algebra operations, [@step-wise/cas](https://www.npmjs.com/package/@step-wise/cas) expands this input-value toolbox with expressions, equations, simplification, comparison and other algebra functionality.
 
+
+## Installation
+
+```bash
+npm install @step-wise/math-input-value
 ```
+
+
+## Quick start
+
+```ts
+import { parseExpressionInputValue } from '@step-wise/math-input-value'
+
+const input = parseExpressionInputValue('2+x/(3+sqrt(y))')
+```
+
+This produces an editable expression input value:
+
+```ts
 {
-	"type": "Expression",
-	"value": [
-		"2+",
+	type: 'Expression',
+	value: [
+		'2+',
 		{
-			"type": "Fraction",
-			"alias": "/",
-			"numerator": ["x"],
-			"denominator": ["3+5sin(x)"]
+			type: 'Fraction',
+			alias: '/',
+			numerator: ['x'],
+			denominator: [
+				'3+',
+				{
+					type: 'SquareRoot',
+					alias: 'sqrt(',
+					radicand: ['y'],
+				},
+				'',
+			],
 		},
-		""
-	]
+		'',
+	],
 }
 ```
 
-Everything is a plain object or string, for easy storage. At the top, the type is `Expression` or `Equation`. Its `value` is an expression array that starts and ends with a string. Strings contain the text the user can edit directly. Objects represent constructs that require special visual editing:
+Use `parseEquationInputValue` when the top-level value represents an equation:
 
-- `Fraction` has a `numerator` and `denominator` expression array.
-- `SquareRoot` has a `radicand` expression array.
-- `Root` has `degree` and `radicand` expression arrays.
-- `Logarithm` has a `base` expression array. It opens an external bracket group, so its ordinary argument remains in the text following the construct.
-- `SubSup` has an optional plain-text `subscript` and an optional expression-array `superscript`.
-- `Accent` has a typed accent `name` and a plain-text `value`.
+```ts
+import { parseEquationInputValue } from '@step-wise/math-input-value'
 
-Construct expression fields contain expression arrays directly, without nested `Expression` wrappers or their own settings. An optional `alias` remembers the text that created a construct so the frontend can restore that text if the construct is destroyed.
+parseEquationInputValue('x/2=3')
+```
 
-That's *all*! Everything else (like `sin(x)` or `ln(x)`) is simply kept as plain text, since they don't require special displays.
+The equation parser creates an editable `EquationInputValue`; interpreting the equality and validating that it contains exactly one equals sign are responsibilities of [@step-wise/cas](https://www.npmjs.com/package/@step-wise/cas).
 
-While editing, an `Expression` can also be combined with a recursive cursor. Cursor state is not part of the stored `math-input-value`; it is removed before persistence and restored when the input is hydrated.
 
-## Toolbox contents
+## Input-value structure
 
-This toolbox concerns itself with describing a `math-input-value` and supporting its definition and manipulation. This is done through the following folders.
+An `ExpressionInputValue` or `EquationInputValue` contains an `ExpressionValue`: a non-empty array that starts and ends with a text part. Text and constructs alternate naturally, although adjacent text parts can temporarily occur and can be normalized with `mergeAdjacentTextParts`.
 
-- [settings](./src/settings/) defines a few default settings. This includes:
-  - `InterpretationSettings`: How should we interpret something? For instance, does `f(x+2)` mean multiplication `f*(x+2)` or do we have custom functions in our expression? And is `xy` the multiplication `x*y` or can we also have variables with longer names?
-	- `ExpressionSettings`: What does an already interpreted expression mean? For instance, if we use degrees, then `sin(90)` gives another value than if we use radians.
-- [types](./src/types/): Defines in Typescript what an `ExpressionInputValue` object looks like.
-- [utils](./src/utils/): Provides various utility functions for manipulating the input value. Think of making adjustments, moving the cursor around, etcetera.
-- [definitions](./src/definitions/): Defines what functions and accents exist and what properties they have.
-- [parsing](./src/parsing/): Turn a string into a `math-input-value`. An important note for parsing is the operations order. Implicit multiplication is pulled into fractions, while explicit multiplication is kept outside of fractions. So `a*b/c*d` is formatted as `"a*",fraction("b","c"),"*d"`. However, `x*ab/cd*y` is taken as `"x*",fraction("ab","cd"),"*y"`. This rule is necessary in order to for instance properly interpret `sin(x)/cos(x)`.
+```ts
+type ExpressionValue = InputValuePart[]
+type InputValuePart = string | ConstructInputValue | AccentInputValue
+```
 
-Browse through the respective folders and files to see how it all works behind the scenes.
+The package supports these structured parts:
+
+- `Fraction` contains `numerator` and `denominator` expression values.
+- `SquareRoot` contains a `radicand` expression value.
+- `Root` contains `degree` and `radicand` expression values.
+- `Logarithm` contains a `base`. Its argument remains in the following text because the construct opens an external bracket group.
+- `SubSup` contains an optional plain-text `subscript`, an optional expression-value `superscript`, or both.
+- `Accent` contains the accent `name` (`dot` or `hat`) and a plain-text `value`.
+
+Nested expression fields are arrays directly; they do not have another `Expression` wrapper or their own settings. An optional `alias` records the source text that created a construct, allowing an editor to turn it back into text later.
+
+The structure can represent incomplete editing states. For example, a newly inserted fraction can temporarily have an empty numerator or denominator. Consumers that need a valid mathematical domain value should perform that stricter validation during interpretation.
+
+
+## Parsing syntax
+
+Parsing removes whitespace and recognizes visual syntax including:
+
+```ts
+parseExpressionInputValue('x/y')        // Fraction
+parseExpressionInputValue('sqrt(x)')    // SquareRoot
+parseExpressionInputValue('root[3](x)') // Root with degree 3
+parseExpressionInputValue('root(x)')    // Root with default degree 2
+parseExpressionInputValue('log[2](x)')  // Logarithm with base 2
+parseExpressionInputValue('log(x)')     // Logarithm with default base 10
+parseExpressionInputValue('x_1^2')      // SubSup
+parseExpressionInputValue('hat(x)')     // Accent
+```
+
+Unknown text functions such as `sin(x)` remain text. This lets a learner change the function name without first dismantling a rigid expression-tree node.
+
+Parsing runs functions and accents first, then scripts, then fractions. Fraction operands extend to factor boundaries: explicit operators delimit an operand, while grouped or adjacent input can remain part of it. Parentheses surrounding a complete numerator or denominator are removed from that operand.
+
+Round and square brackets must match by type. Missing, extra and mismatched brackets throw an `InterpretationError`. Empty subscripts and superscripts also throw instead of creating malformed script constructs.
+
+
+## Creating and inspecting values
+
+Values can also be created without parsing:
+
+```ts
+import {
+	createEmptyExpressionInputValue,
+	createExpressionInputValue,
+	createExpressionInputValueFromText,
+	isExpressionInputValue,
+} from '@step-wise/math-input-value'
+
+createEmptyExpressionInputValue() // { type: 'Expression', value: [''] }
+createExpressionInputValueFromText('2x+1') // { type: 'Expression', value: ['2x+1'] }
+const input = createExpressionInputValue(['x']) isExpressionInputValue(input) // true
+```
+
+`createExpressionInputValue` and `createEquationInputValue` reject structurally invalid expression arrays. Runtime predicates are available for every relevant level:
+
+- `isExpressionInputValue` and `isEquationInputValue`
+- `isExpressionValue`
+- `isInputValuePart`
+- `isConstructInputValue`
+- `isAccentInputValue`
+- `isTextPart`
+
+Validation is recursive. It rejects malformed required fields, sparse arrays and circular structures.
+
+
+## Settings
+
+Interpretation settings describe how later mathematical interpretation should understand otherwise ambiguous text:
+
+```ts
+const defaultInterpretationSettings = {
+	interpretEAsConstant: true,
+	recognizeLogarithms: true,
+	recognizeTrigonometricFunctions: true,
+	allowMultiCharacterVariables: false,
+}
+```
+
+Expression settings describe the meaning of an interpreted expression:
+
+```ts
+const defaultExpressionSettings = {
+	angleUnit: 'radians',
+}
+```
+
+Pass partial settings while parsing or creating a wrapper:
+
+```ts
+const input = parseExpressionInputValue(
+	'sin(90)',
+	{ recognizeTrigonometricFunctions: true },
+	{ angleUnit: 'degrees' },
+)
+```
+
+Only non-default settings are stored on the input value. Use `resolveInterpretationSettings` and `resolveExpressionSettings` to merge stored options with the current defaults.
+
+
+## Cursors and input states
+
+An `ExpressionCursor` recursively identifies the active location in an expression. It first selects an array part and then either stores a numeric offset into a text part or enters a construct field:
+
+```ts
+const cursor = {
+	part: 1,
+	cursor: {
+		part: 'denominator',
+		cursor: { part: 0, cursor: 2 },
+	},
+}
+```
+
+Combining an input value with a cursor gives an `ExpressionInputState` or `EquationInputState`. Cursor state is intended for the active editor and is normally removed before persistence.
+
+An `ExpressionTextCursor` is the non-recursive subset used by parsing and array-manipulation helpers. The package provides:
+
+- `getExpressionStartCursor` and `getExpressionEndCursor`
+- `shiftExpressionTextCursorLeft` and `shiftExpressionTextCursorRight`
+- `areExpressionTextCursorsEqual`
+- `sliceExpressionValue`
+
+Cursor helpers validate non-negative integer indexes and offsets. `sliceExpressionValue` additionally checks that its cursors point to valid text parts and occur in the correct order.
+
+
+## Expression-value utilities
+
+- `createEmptyExpressionValue` returns the canonical empty value `['']`.
+- `isEmptyExpressionValue` recognizes that canonical empty value.
+- `mergeAdjacentTextParts` joins neighboring strings and restores required text boundaries.
+- `sliceExpressionValue` extracts a range while preserving any constructs within it.
+
+Definition exports such as `constructDefinitions`, `constructTypes`, `accentNames`, `getConstructTypeByAlias` and `opensExternalBracketGroup` describe the constructs understood by the parser and editor.
+
+
+## TypeScript
+
+The package exports the complete input-value, construct, cursor, state and settings types. All values are plain objects, arrays and strings, making them suitable for application state and storage without class-instance serialization.

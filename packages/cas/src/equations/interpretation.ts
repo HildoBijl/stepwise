@@ -1,47 +1,59 @@
 import { isPlainObject, InterpretationError } from '@step-wise/js-utils'
-import { type ExpressionInputValue, type EquationInputValue, type InputCursorEnd, shiftPositionRight, getSubExpression, isEquationInputValue, isTextPart, stringToInputValue } from '@step-wise/math-input-value'
+import { type ExpressionInputValue, type EquationInputValue, type ExpressionTextCursor, shiftExpressionTextCursorRight, sliceExpressionValue, isEquationInputValue, isTextPart, parseEquationInputValue } from '@step-wise/math-input-value'
 
-import { type InterpretationSettingsInput, type ExpressionSettingsInput, isExpressionLike, Expression, asExpression } from '../expressions'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, isExpressionLike, Expression, asExpression } from '../expressions'
 
-import { type EquationShape, type EquationInput } from './types'
+import { type EquationObjectInput, type EquationInput } from './types'
 
-type EquationParts = { left: Expression, right: Expression, settings?: ExpressionSettingsInput }
+type EquationParts = { left: Expression, right: Expression, settings?: ExpressionSettingsOptions }
 
-function hasEquationShape(value: unknown): value is EquationShape {
+function hasEquationObjectInput(value: unknown): value is EquationObjectInput {
 	return isPlainObject(value) && isExpressionLike(value.left) && isExpressionLike(value.right)
 }
 
 export function isEquationInput(value: unknown): value is EquationInput {
-	return isEquationInputValue(value) || hasEquationShape(value) || typeof value === 'string'
+	return isEquationInputValue(value) || hasEquationObjectInput(value) || typeof value === 'string'
 }
 
-function interpretInputValue(value: EquationInputValue): EquationParts {
-	const equalsPosition = findEqualsPosition(value)
-	const left: ExpressionInputValue = { ...value, value: getSubExpression(value.value, undefined, equalsPosition), type: 'Expression' }
-	const right: ExpressionInputValue = { ...value, value: getSubExpression(value.value, shiftPositionRight(equalsPosition), undefined), type: 'Expression' }
-	return { left: asExpression(left), right: asExpression(right), settings: value.expressionSettings }
+function interpretInputValue(value: EquationInputValue, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): EquationParts {
+	const mergedInterpretationSettings = { ...value.interpretationSettings, ...interpretationSettings }
+	const mergedExpressionSettings = { ...value.expressionSettings, ...expressionSettings }
+	const adjustedValue: EquationInputValue = {
+		...value,
+		...(Object.keys(mergedInterpretationSettings).length === 0 ? {} : { interpretationSettings: mergedInterpretationSettings }),
+		...(Object.keys(mergedExpressionSettings).length === 0 ? {} : { expressionSettings: mergedExpressionSettings }),
+	}
+	const equalsCursor = findEqualsCursor(adjustedValue)
+	const left: ExpressionInputValue = { ...adjustedValue, value: sliceExpressionValue(adjustedValue.value, undefined, equalsCursor), type: 'Expression' }
+	const right: ExpressionInputValue = { ...adjustedValue, value: sliceExpressionValue(adjustedValue.value, shiftExpressionTextCursorRight(equalsCursor), undefined), type: 'Expression' }
+	return { left: asExpression(left), right: asExpression(right), settings: Object.keys(mergedExpressionSettings).length === 0 ? undefined : mergedExpressionSettings }
 }
 
-function interpretEquationShape(value: EquationShape): EquationParts {
-	const result: EquationParts = { left: asExpression(value.left), right: asExpression(value.right) }
-	if (value.settings) result.settings = value.settings
+function interpretEquationObjectInput(value: EquationObjectInput, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): EquationParts {
+	const mergedExpressionSettings = { ...value.settings, ...expressionSettings }
+	const settings = Object.keys(mergedExpressionSettings).length === 0 ? undefined : mergedExpressionSettings
+	const result: EquationParts = {
+		left: asExpression(value.left, interpretationSettings, settings),
+		right: asExpression(value.right, interpretationSettings, settings),
+	}
+	if (settings) result.settings = settings
 	return result
 }
 
-function interpretString(value: string, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): EquationParts {
-	return interpretInputValue(stringToInputValue(value, interpretationSettings, expressionSettings, true))
+function interpretString(value: string, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): EquationParts {
+	return interpretInputValue(parseEquationInputValue(value, interpretationSettings, expressionSettings), interpretationSettings, expressionSettings)
 }
 
-export function interpretEquationInput(value: EquationInput, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): EquationParts {
-	if (isEquationInputValue(value)) return interpretInputValue(value)
-	if (hasEquationShape(value)) return interpretEquationShape(value)
+export function interpretEquationInput(value: EquationInput, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): EquationParts {
+	if (isEquationInputValue(value)) return interpretInputValue(value, interpretationSettings, expressionSettings)
+	if (hasEquationObjectInput(value)) return interpretEquationObjectInput(value, interpretationSettings, expressionSettings)
 	if (typeof value === 'string') return interpretString(value, interpretationSettings, expressionSettings)
 	throw new Error(`Invalid equation interpretation: cannot turn input of type "${typeof value}" into an equation.`)
 }
 
-// Find the position of the equals sign in the ExpressionInputValue. Throw an error if there's zero or 2+.
-function findEqualsPosition(value: EquationInputValue): InputCursorEnd {
-	let result: InputCursorEnd | undefined
+// Find the cursor of the equals sign in the ExpressionInputValue. Throw an error if there's zero or 2+.
+function findEqualsCursor(value: EquationInputValue): ExpressionTextCursor {
+	let result: ExpressionTextCursor | undefined
 	value.value.forEach((part, partIndex) => {
 		if (!isTextPart(part)) return
 		const cursor = part.indexOf('=')

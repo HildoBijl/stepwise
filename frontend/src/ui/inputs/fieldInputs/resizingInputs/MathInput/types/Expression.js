@@ -1,5 +1,5 @@
 import { insertAt, first, last, sum } from '@step-wise/js-utils'
-import { isEmptyExpressionValue, getEmptyExpressionValue, getStartCursor, getEndCursor, opensExternalGroup } from '@step-wise/math-input-value'
+import { isEmptyExpressionValue, createEmptyExpressionValue, getExpressionStartCursor as getStartCursor, getExpressionEndCursor as getEndCursor, opensExternalBracketGroup } from '@step-wise/math-input-value'
 
 import { addCursor } from '../../../FieldInput'
 
@@ -9,7 +9,7 @@ import { asFI, cleanUp, zoomIn, getKeyPressHandlers, isCursorKey } from './suppo
 import { getFIFuncs, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, FIAcceptsKey } from './main.js'
 import { allFunctions as ExpressionPartFunctions } from './ExpressionPart'
 
-export const getEmpty = getEmptyExpressionValue
+export const getEmpty = createEmptyExpressionValue
 export const isEmpty = isEmptyExpressionValue
 export { cleanUp, getStartCursor, getEndCursor }
 export const allFunctions = {
@@ -309,7 +309,7 @@ export function countNetBrackets(FI, relativeToCursor = 0) {
 	// When we don't care about the cursor, we just sum everything up.
 	if (relativeToCursor === 0) {
 		return sum(value.map(element => {
-			if (typeof element !== 'string' && opensExternalGroup(element.type)) return 1
+			if (typeof element !== 'string' && opensExternalBracketGroup(element.type)) return 1
 			const elementFI = asFI(element)
 			const funcs = getFIFuncs(elementFI)
 			const countNetBrackets = funcs.countNetBrackets
@@ -324,7 +324,7 @@ export function countNetBrackets(FI, relativeToCursor = 0) {
 	// Find the right range and add up for that range, also taking into account the element itself.
 	const arrayPart = (relativeToCursor === -1 ? value.slice(0, cursor.part) : value.slice(cursor.part + 1))
 	const netBracketsInPreviousParts = sum(arrayPart.map(element => {
-		if (typeof element !== 'string' && opensExternalGroup(element.type)) return 1
+		if (typeof element !== 'string' && opensExternalBracketGroup(element.type)) return 1
 		const elementFI = asFI(element)
 		const countNetBrackets = getFIFuncs(elementFI).countNetBrackets
 		return countNetBrackets ? countNetBrackets(elementFI, 0) : 0

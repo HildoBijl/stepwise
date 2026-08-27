@@ -1,13 +1,13 @@
-import { type ExpressionInputValue, stringToInputValue } from '@step-wise/math-input-value'
+import { type ExpressionInputValue, parseExpressionInputValue } from '@step-wise/math-input-value'
 
 import { type Expression, asExpression } from './Expression'
 
 export { type ExpressionInputValue } from '@step-wise/math-input-value'
 
-export function interpretExpressionInputValue(inputValue: ExpressionInputValue): Expression {
+export function inputValueToExpression(inputValue: ExpressionInputValue): Expression {
 	return asExpression(inputValue)
 }
 
 export function expressionToInputValue(expression: Expression): ExpressionInputValue {
-	return stringToInputValue(expression.toString(), expression.getInterpretationSettings(), expression.settings)
+	return parseExpressionInputValue(expression.toString(), expression.inferInterpretationSettings(), expression.settings)
 }

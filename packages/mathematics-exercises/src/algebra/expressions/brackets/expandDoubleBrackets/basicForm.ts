@@ -3,9 +3,9 @@ import { type Expression, asExpression, expressionChecks, expressionComparisons 
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { equivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, areEqualExceptOrder } = expressionComparisons
 const { hasSumWithinProduct } = expressionChecks
 
 // (ax+b)(cx+d) = acx^2 + (ad+bc)x + bd
@@ -18,9 +18,9 @@ export default buildStepExercise({
 		skill: 'expandDoubleBrackets',
 		...createStepExerciseMetadata(['expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
 		comparisons: {
-			firstExpanded: (input: Expression, correct: Expression, { factor2 }: { factor2: Expression }) => !input.some(term => term.isProduct() && term.some(factor => factor.isSum() && !equivalent(factor, factor2))) && equivalent(input, correct),
-			allExpanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && equivalent(input, correct),
-			ans: onlyOrderChanges,
+			firstExpanded: (input: Expression, correct: Expression, { factor2 }: { factor2: Expression }) => !input.some(term => term.isProduct() && term.some(factor => factor.isSum() && !areEquivalent(factor, factor2))) && areEquivalent(input, correct),
+			allExpanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && areEquivalent(input, correct),
+			ans: areEqualExceptOrder,
 		},
 	},
 
@@ -36,12 +36,12 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor1 = asExpression(parameters.xFirst ? 'a*x+b' : 'b+a*x').substitute(variables).removeTrivial()
 		const factor2 = asExpression(parameters.xFirst ? 'c*x+d' : 'd+c*x').substitute(variables).removeTrivial()
 		const expression = factor1.multiply(factor2).flatten()
 		const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2)).flatten()
-		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
+		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'combineLikeFactors'])
 		const ans = allExpanded.combine()
 		const xFactors = allExpanded.terms.filter(term => term.isProduct() && term.factors.some(factor => variables.x.equalStructure(factor)))
 		const xFactorsMerged = xFactors[0].add(xFactors[1]).normalize()

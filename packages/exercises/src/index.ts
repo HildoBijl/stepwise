@@ -1,2 +1,2 @@
-export * as exercises from './exerciseGatherer'
-export * from './support'
+export * as exercises from './exerciseRegistry'
+export * from './exerciseQueries'

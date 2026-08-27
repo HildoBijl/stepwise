@@ -3,9 +3,9 @@ import { asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { equivalent } = expressionComparisons
+const { areEquivalent } = expressionComparisons
 
 // a*x^2+b*x+c=0
 const variableSet = ['x', 'y', 'z']
@@ -17,21 +17,23 @@ export default buildStepExercise({
 		skill: 'solveQuadraticEquation',
 		weight: 1,
 		...createStepExerciseMetadata(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined]),
-		comparisons: { a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {} },
+		comparisons: { a: {}, b: {}, c: {}, solutionFull: areEquivalent, D: {}, numSolutions: {} },
 	},
 
 	generateParameters() {
 		let a = 0, b = 0, c = 0
-		while (a === 0 || b ** 2 - 4 * a * c >= 0) {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			a = randomInteger(-6, 6, { exclude: [0] })
 			b = randomInteger(-12, 12)
 			c = randomInteger(-40, 40)
+			if (b ** 2 - 4 * a * c < 0) break
 		}
+		if (b ** 2 - 4 * a * c >= 0) throw new Error('Failed to generate a quadratic equation without real solutions after 100 attempts.')
 		return { x: sample(variableSet), a: asExpression(a), b: asExpression(b), c: asExpression(c) }
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('a*x^2 + b*x + c = 0').substitute(variables).removeTrivial()
 		const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substitute(variables).removeTrivial()
 		const rootFull = solutionFull.find(term => term.isSqrt())

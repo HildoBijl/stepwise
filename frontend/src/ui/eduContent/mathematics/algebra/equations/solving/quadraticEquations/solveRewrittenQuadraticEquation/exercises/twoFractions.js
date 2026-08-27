@@ -9,7 +9,7 @@ import { InputSpace, useInput, selectRandomIncorrect } from 'ui/form'
 import { ExpressionInput, EquationInput, MultipleChoice } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, getFieldInputListFeedback, getMCFeedback, equationChecks, CrossExerciseTranslation } from 'ui/eduTools'
 
-const { onlyOrderChanges } = expressionComparisons
+const { areEqualExceptOrder } = expressionComparisons
 const { originalEquation, sumWithUnsimplifiedTerms } = equationChecks
 
 export default function Exercise() {
@@ -68,8 +68,8 @@ const steps = [
 				<Par>The plan is to apply the quadratic formula. By comparing our simplified equation with the default quadratic equation <M>ax^2 + bx + c = 0</M>, we can see that <M>a = {p}</M>, <M>b = {q}</M> and <M>c = {r}</M>. Substituting this into the quadratic formula gives us <BM>{solutionFull}.</BM> The discriminant here (the value within the square root) is equal to <M>{D}</M>.
 					<Plurals value={numSolutions}>
 						<Plurals.Zero> Since this is a negative number, it means that there are no possible solutions to the equation. No further work is required.</Plurals.Zero>
-						<Plurals.One> Because the discriminant is zero, the square root vanishes and there is only one possible solution. This solution is equal to {onlyOrderChanges(solutionHalfSimplified, solution) ? <BM>{x} = {solutionHalfSimplified}.</BM> : <BM>{x} = {solutionHalfSimplified} = {solution}.</BM>}</Plurals.One>
-						<Plurals.Two> Since this is a positive number, it means that there are two solutions to the equation. These solutions can be simplified into {onlyOrderChanges(solutionHalfSimplified, solution) ? <BM>{x} = {solutionHalfSimplified}.</BM> : <BM>{x} = {solutionHalfSimplified} = {solution}.</BM>} Entering a plus or a minus results in the two actual solutions {onlyOrderChanges(solutionsSplit[0], solutions[0]) ? <BM>{x}_1 = {solutionsSplit[0]},</BM> : <BM>{x}_1 = {solutionsSplit[0]} = {solutions[0]},</BM>} {onlyOrderChanges(solutionsSplit[1], solutions[1]) ? <BM>{x}_2 = {solutionsSplit[1]}.</BM> : <BM>{x}_2 = {solutionsSplit[1]} = {solutions[1]}.</BM>}</Plurals.Two>
+						<Plurals.One> Because the discriminant is zero, the square root vanishes and there is only one possible solution. This solution is equal to {areEqualExceptOrder(solutionHalfSimplified, solution) ? <BM>{x} = {solutionHalfSimplified}.</BM> : <BM>{x} = {solutionHalfSimplified} = {solution}.</BM>}</Plurals.One>
+						<Plurals.Two> Since this is a positive number, it means that there are two solutions to the equation. These solutions can be simplified into {areEqualExceptOrder(solutionHalfSimplified, solution) ? <BM>{x} = {solutionHalfSimplified}.</BM> : <BM>{x} = {solutionHalfSimplified} = {solution}.</BM>} Entering a plus or a minus results in the two actual solutions {areEqualExceptOrder(solutionsSplit[0], solutions[0]) ? <BM>{x}_1 = {solutionsSplit[0]},</BM> : <BM>{x}_1 = {solutionsSplit[0]} = {solutions[0]},</BM>} {areEqualExceptOrder(solutionsSplit[1], solutions[1]) ? <BM>{x}_2 = {solutionsSplit[1]}.</BM> : <BM>{x}_2 = {solutionsSplit[1]} = {solutions[1]}.</BM>}</Plurals.Two>
 					</Plurals>
 				</Par>
 				<Par>

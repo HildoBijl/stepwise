@@ -1,4 +1,4 @@
-import { getSubExpression } from '@step-wise/math-input-value'
+import { sliceExpressionValue } from '@step-wise/math-input-value'
 
 import { removeCursor } from '../../../../FieldInput'
 
@@ -58,8 +58,8 @@ function create(expressionFI, part, position, name, alias) {
 	Object.assign(functionElement, funcs.getInitial(alias))
 
 	// Build the expression around it.
-	const expressionBefore = getSubExpression(value, start, beforeAlias)
-	const expressionAfter = getSubExpression(value, afterAlias, end)
+	const expressionBefore = sliceExpressionValue(value, start, beforeAlias)
+	const expressionAfter = sliceExpressionValue(value, afterAlias, end)
 	value = [
 		...expressionBefore,
 		functionElement,

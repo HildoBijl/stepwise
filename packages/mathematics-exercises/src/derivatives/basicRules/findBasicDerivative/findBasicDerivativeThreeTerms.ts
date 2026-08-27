@@ -12,17 +12,20 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'findBasicDerivative',
 		...createStepExerciseMetadata([[undefined, undefined, undefined], ['lookUpElementaryDerivative', 'lookUpElementaryDerivative', 'lookUpElementaryDerivative'], undefined]),
-		comparisons: { Expression: expressionComparisons.equivalent },
+		comparisons: { Expression: expressionComparisons.areEquivalent },
 	},
 
 	generateParameters() {
-		const [f1, f2, f3] = getRandomElementaryFunctions(3, false)
-		const x = sample(variableSet)
-		const c1 = randomInteger(-12, 12, { exclude: [0] })
-		const c2 = randomInteger(-12, 12, { exclude: [0] })
-		const c3 = randomInteger(-12, 12, { exclude: [0] })
-		const func = f1.multiplyLeft(c1).add(f2.multiplyLeft(c2)).add(f3.multiplyLeft(c3)).substitute('x', x).cancel(['mergeFractionProducts']) // Do not turn 10 * 10^x into 10^(x+1).
-		return { x, f: sample(functionSet), func }
+		for (let attempt = 0; attempt < 100; attempt++) {
+			const [f1, f2, f3] = getRandomElementaryFunctions(3, false)
+			const x = sample(variableSet)
+			const c1 = randomInteger(-12, 12, { exclude: [0] })
+			const c2 = randomInteger(-12, 12, { exclude: [0] })
+			const c3 = randomInteger(-12, 12, { exclude: [0] })
+			const func = f1.multiplyLeft(c1).add(f2.multiplyLeft(c2)).add(f3.multiplyLeft(c3)).substitute('x', x).cancel(['combineProductFractions']) // Do not turn 10 * 10^x into 10^(x+1).
+			if (func.isSum() && func.terms.length === 3) return { x, f: sample(functionSet), func }
+		}
+		throw new Error('Failed to generate a derivative containing three distinct terms after 100 attempts.')
 	},
 
 	getSolution(parameters) {
@@ -31,9 +34,9 @@ export default buildStepExercise({
 		const { constant: c1, func: f1 } = getElementaryFunctionFromTerm(func.terms[0])
 		const { constant: c2, func: f2 } = getElementaryFunctionFromTerm(func.terms[1])
 		const { constant: c3, func: f3 } = getElementaryFunctionFromTerm(func.terms[2])
-		const f1Derivative = f1.getDerivative().combine().sort()
-		const f2Derivative = f2.getDerivative().combine().sort()
-		const f3Derivative = f3.getDerivative().combine().sort()
+		const f1Derivative = f1.differentiate().combine().sort()
+		const f2Derivative = f2.differentiate().combine().sort()
+		const f3Derivative = f3.differentiate().combine().sort()
 		const derivative = c1.multiply(f1Derivative).add(c2.multiply(f2Derivative)).add(c3.multiply(f3Derivative)).combine()
 		return { ...parameters, c1, c2, c3, f1, f2, f3, f1Derivative, f2Derivative, f3Derivative, derivative }
 	},

@@ -3,7 +3,7 @@ import { type ExpressionNode, type Fraction, fraction, sum } from '../../../../c
 import { isFraction, isSum } from '../../../structural'
 
 import { cancelFractionFactors } from '../cancellation'
-import { mergeFractionSums, mergeFractionFactors } from '../combination'
+import { combineSumFractions, combineFractionFactors } from '../combination'
 import { defineRule } from '../ruleDefinition'
 
 function transform(node: Fraction): ExpressionNode {
@@ -15,6 +15,6 @@ export const splitFractions = defineRule({
 	name: 'splitFractions',
 	appliesTo: isFraction,
 	transform,
-	conflictsWith: [mergeFractionSums],
-	after: [cancelFractionFactors, mergeFractionFactors],
+	conflictsWith: [combineSumFractions],
+	after: [cancelFractionFactors, combineFractionFactors],
 })

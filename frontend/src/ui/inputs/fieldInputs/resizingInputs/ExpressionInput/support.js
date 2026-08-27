@@ -85,8 +85,12 @@ export function errorToMessage(error) {
 			return <Translation path={translationPath} entry={`${translationEntry}.misplacedSubscript`}>There is a subscript "{{ subscript: cause }}" without a variable.</Translation>
 		case 'MisplacedSuperscript':
 			return <Translation path={translationPath} entry={`${translationEntry}.misplacedSuperscript`}>There is an exponent without a term prior to it.</Translation>
+		case 'EmptySubscript':
+			return <Translation path={translationPath} entry={`${translationEntry}.emptySubscript`}>There is a subscript symbol "_" without a character after it.</Translation>
 		case 'EmptySuperscript':
 			return <Translation path={translationPath} entry={`${translationEntry}.emptySuperscript`}>There is an exponent symbol "^" without a character after it.</Translation>
+		case 'EmptySubSup':
+			return <Translation path={translationPath} entry={`${translationEntry}.emptySubSup`}>There is an empty subscript/superscript.</Translation>
 
 		default:
 			console.error(error) // Display the error.

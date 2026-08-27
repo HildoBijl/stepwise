@@ -4,9 +4,9 @@ import { Expression, asExpression, asEquation, expressionComparisons } from '@st
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 
 // a*x^2+b*x+c=0
 const variableSet = ['x', 'y', 'z']
@@ -19,32 +19,36 @@ export default buildStepExercise({
 		weight: 3,
 		...createStepExerciseMetadata(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, and('simplifyFraction', 'simplifyRoot')]),
 		comparisons: {
-			a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {},
+			a: {}, b: {}, c: {}, solutionFull: areEquivalent, D: {}, numSolutions: {},
 			// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
-			ans1: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
-			ans2: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
+			ans1: (input: Expression, correct: Expression) => areEqualExceptOrder(input, correct) || areEqualExceptOrder(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
+			ans2: (input: Expression, correct: Expression) => areEqualExceptOrder(input, correct) || areEqualExceptOrder(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
 		},
 	},
 
 	generateParameters() {
 		let a = 0, b = 0, c = 0
-		while (a === 0 || b ** 2 - 4 * a * c <= 0) {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			a = randomInteger(-6, 6, { exclude: [0] })
 			b = randomInteger(-12, 12)
 			c = randomInteger(-40, 40)
+			const discriminant = b ** 2 - 4 * a * c
+			if (discriminant > 0 && !Number.isInteger(Math.sqrt(discriminant))) break
 		}
+		const discriminant = b ** 2 - 4 * a * c
+		if (discriminant <= 0 || Number.isInteger(Math.sqrt(discriminant))) throw new Error('Failed to generate a quadratic equation with two non-integer solutions after 100 attempts.')
 		return { x: sample(variableSet), a: asExpression(a), b: asExpression(b), c: asExpression(c) }
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('a*x^2 + b*x + c = 0').substitute(variables).removeTrivial()
 		const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substitute(variables).removeTrivial()
 		const rootFull = solutionFull.find(term => term.isSqrt())
 		if (!rootFull?.isSqrt()) throw new Error('Expected the quadratic formula to contain a square root.')
 		const DFull = rootFull.radicand
 		const D = DFull.combine()
-		const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial([], ['reduceRootsWithZeroRadicand'])
+		const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial([], ['simplifyZeroRadicandRoots'])
 		const solution = solutionFull.combine()
 		const solutionsSplit = solution.getSingular().map(solution => solution.removeTrivial())
 		const solutions = solutionsSplit.map(solution => solution.normalize().format())

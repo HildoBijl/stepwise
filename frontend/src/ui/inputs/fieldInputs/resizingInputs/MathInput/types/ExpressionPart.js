@@ -1,6 +1,6 @@
 import { isNumber, isNumeric, isLetter, removeAt, insertAt, first } from '@step-wise/js-utils'
 import { defaultDecimalSeparator as decimalSeparator } from '@step-wise/settings'
-import { accents, constructs, textFunctions } from '@step-wise/cas'
+import { accentNames, constructTypes, textFunctions } from '@step-wise/cas'
 
 import { getClickSide } from 'util'
 import { latexMinus } from 'ui/components'
@@ -140,13 +140,13 @@ export function acceptsKey(keyInfo, FI, settings) {
 		return settings.root
 	if (key === 'ln' || key === 'log')
 		return settings.logarithms
-	if (accents.includes(key))
+	if (accentNames.includes(key))
 		return settings.accent
 	if (key === 'eMath')
 		return settings.eMath
 	if (greekAlphabet[key] !== undefined)
 		return (key === 'pi' && settings.pi) || settings.greek
-	if (textFunctions.includes(key) || constructs.includes(key))
+	if (textFunctions.includes(key) || constructTypes.includes(key))
 		return true
 	if (key === '=')
 		return settings.equals
@@ -252,7 +252,7 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 		return addStrToFI(key, FI)
 
 	// On mathematical functions, add the words and then add the bracket.
-	if (textFunctions.includes(key) || accents.includes(key) || constructs.includes(key)) {
+	if (textFunctions.includes(key) || accentNames.includes(key) || constructTypes.includes(key)) {
 		const FIWithKey = addStrToFI(key, FI)
 		return keyPressToFI({ key: '(' }, FIWithKey, settings, charElements, topParentFI, contentsElement, cursorElement)
 	}

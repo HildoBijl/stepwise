@@ -3,7 +3,7 @@ import { type Equation, asEquation, expressionComparisons, equationComparisons }
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 // ax + by = cxy + dz.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -15,9 +15,9 @@ export default buildStepExercise({
 		skill: 'solveMultiVariableLinearEquation',
 		...createStepExerciseMetadata(['moveEquationTerm', 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms']),
 		comparisons: {
-			termsMoved: (input: Equation, correct: Equation) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.negate().normalize()), // Allow switches and minus signs.
-			pulledOut: (input: Equation, correct: Equation) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.mapRight(side => side.negate()).mapLeft(side => side.mapFactors((factor, index) => index === 1 ? factor.negate() : factor)).normalize()), // Allow switches and minus signs inside the brackets.
-			ans: expressionComparisons.equivalent, // For the final answer allow equivalent answers.
+			termsMoved: (input: Equation, correct: Equation) => equationComparisons.areEqualExceptOrderOrSideSwitch(input, correct) || equationComparisons.areEqualExceptOrderOrSideSwitch(input, correct.negate().normalize()), // Allow switches and minus signs.
+			pulledOut: (input: Equation, correct: Equation) => equationComparisons.areEqualExceptOrderOrSideSwitch(input, correct) || equationComparisons.areEqualExceptOrderOrSideSwitch(input, correct.mapRight(side => side.negate()).mapLeft(side => side.mapFactors((factor, index) => index === 1 ? factor.negate() : factor)).normalize()), // Allow switches and minus signs inside the brackets.
+			ans: expressionComparisons.areEquivalent, // For the final answer allow areEquivalent answers.
 		},
 	},
 
@@ -33,7 +33,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Extract parameters variables.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('ax + by = cxy + dz').substitute(variables).removeTrivial()
 
 		// Find the solution.
@@ -47,7 +47,7 @@ export default buildStepExercise({
 
 		// Check the solution.
 		const equationWithSolution = equation.substitute({ [variables.x.toString()]: ans })
-		const equationWithSolutionMergedFractions = equationWithSolution.removeTrivial(['mergeFractionProducts', 'mergeFractionSums'])
+		const equationWithSolutionMergedFractions = equationWithSolution.removeTrivial(['combineProductFractions', 'combineSumFractions'])
 		const equationWithSolutionExpandedBrackets = equationWithSolutionMergedFractions.combine(['expandProductsOfSums', 'expandMinusSums', 'sortSums'])
 
 		return { ...parameters, variables, equation, termsMoved, pulledOut, bracketTerm, ans, equationWithSolution, equationWithSolutionMergedFractions, equationWithSolutionExpandedBrackets }

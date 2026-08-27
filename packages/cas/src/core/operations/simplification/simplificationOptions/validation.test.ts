@@ -11,10 +11,10 @@ describe('simplification option validation', () => {
 	})
 
 	test('rejects a conflict declared by the later rule', () => {
-		expect(() => validateSimplificationOptions(new Set(['mergeFractionProducts', 'mergeFractionSums', 'splitFractions']))).toThrow('"splitFractions" conflicts with "mergeFractionSums"')
+		expect(() => validateSimplificationOptions(new Set(['combineProductFractions', 'combineSumFractions', 'splitFractions']))).toThrow('"splitFractions" conflicts with "combineSumFractions"')
 	})
 
 	test('rejects both directions of root and fraction-exponent rewriting', () => {
-		expect(() => validateSimplificationOptions(new Set(['turnRootsIntoFractionExponents', 'turnFractionExponentsIntoRoots']))).toThrow('"turnFractionExponentsIntoRoots" conflicts with "turnRootsIntoFractionExponents"')
+		expect(() => validateSimplificationOptions(new Set(['rewriteRootsAsFractionalPowers', 'rewriteFractionalPowersAsRoots']))).toThrow('"rewriteFractionalPowersAsRoots" conflicts with "rewriteRootsAsFractionalPowers"')
 	})
 })

@@ -1,2 +1,2 @@
 export * from './support'
-export * from './stringToInputValue'
+export * from './parseInputValue'

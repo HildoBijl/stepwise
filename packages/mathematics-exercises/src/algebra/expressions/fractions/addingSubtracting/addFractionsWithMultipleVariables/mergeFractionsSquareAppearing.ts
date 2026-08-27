@@ -3,9 +3,9 @@ import { asExpression, expressionComparisons, expressionOperations } from '@step
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges } = expressionComparisons
+const { areEqualExceptOrder } = expressionComparisons
 const { multiplyNumeratorAndDenominator } = expressionOperations
 
 // ay/x + bz/y = (ay^2 + bxz)/(xy).
@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'addFractionsWithMultipleVariables',
 		...createStepExerciseMetadata([undefined, ['simplifyFractionWithVariables', 'simplifyFractionWithVariables'], 'addLikeFractionsWithVariables']),
-		comparisons: { Expression: onlyOrderChanges },
+		comparisons: { Expression: areEqualExceptOrder },
 	},
 
 	generateParameters() {
@@ -30,14 +30,14 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const { plus } = parameters
 		const leftExpression = asExpression('(ay)/x').substitute(variables)
 		const rightExpression = asExpression('(bz)/y').substitute(variables)
 		const expression = plus ? leftExpression.add(rightExpression) : leftExpression.subtract(rightExpression)
 		const denominator = asExpression('xy').substitute(variables).flatten(['sortProducts'])
-		const leftAns = multiplyNumeratorAndDenominator(leftExpression, variables.y).removeTrivial(['mergeProductNumbers', 'mergeProductFactors', 'mergeSumNumbers', 'sortProducts'])
-		const rightAns = multiplyNumeratorAndDenominator(rightExpression, variables.x).removeTrivial(['mergeProductNumbers', 'mergeProductFactors', 'mergeSumNumbers', 'sortProducts'])
+		const leftAns = multiplyNumeratorAndDenominator(leftExpression, variables.y).removeTrivial(['combineNumbersInProducts', 'combineLikeFactors', 'combineNumbersInSums', 'sortProducts'])
+		const rightAns = multiplyNumeratorAndDenominator(rightExpression, variables.x).removeTrivial(['combineNumbersInProducts', 'combineLikeFactors', 'combineNumbersInSums', 'sortProducts'])
 		const ans = (plus ? leftAns.numerator.add(rightAns.numerator) : leftAns.numerator.subtract(rightAns.numerator)).divide(denominator)
 		return { ...parameters, variables, leftExpression, rightExpression, expression, denominator, leftAns, rightAns, ans }
 	},

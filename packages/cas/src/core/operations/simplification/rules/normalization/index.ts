@@ -2,10 +2,10 @@ import { defineRuleRegistry } from '../ruleDefinition'
 
 import { sortSums } from './sortSums'
 import { sortProducts } from './sortProducts'
-import { applyPolynomialCancellation } from './applyPolynomialCancellation'
-import { normalizeFractionMinuses } from './normalizeFractionMinuses'
-import { preventRootDenominators } from './preventRootDenominators'
+import { cancelPolynomialFactors } from './cancelPolynomialFactors'
+import { normalizeFractionSigns } from './normalizeFractionSigns'
+import { rationalizeRootDenominators } from './rationalizeRootDenominators'
 
-export const normalizationRules = defineRuleRegistry(sortSums, sortProducts, applyPolynomialCancellation, normalizeFractionMinuses, preventRootDenominators)
-export { sortSums, sortProducts, applyPolynomialCancellation, normalizeFractionMinuses, preventRootDenominators }
+export const normalizationRules = defineRuleRegistry(sortSums, sortProducts, cancelPolynomialFactors, normalizeFractionSigns, rationalizeRootDenominators)
+export { sortSums, sortProducts, cancelPolynomialFactors, normalizeFractionSigns, rationalizeRootDenominators }
 export { normalizationRequirementRules } from './normalizationRequirements'

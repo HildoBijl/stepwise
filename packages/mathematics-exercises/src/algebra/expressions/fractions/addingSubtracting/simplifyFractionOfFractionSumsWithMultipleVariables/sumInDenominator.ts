@@ -4,9 +4,9 @@ import { asExpression, expressionComparisons, expressionOperations } from '@step
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges } = expressionComparisons
+const { areEqualExceptOrder } = expressionComparisons
 const { multiplyNumeratorAndDenominator } = expressionOperations
 
 // (c/x)/(a/x^2 + b/(xy)) = (cxy)/(ay+bx).
@@ -18,7 +18,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'simplifyFractionOfFractionSumsWithMultipleVariables',
 		...createStepExerciseMetadata(['addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables']),
-		comparisons: { Expression: onlyOrderChanges },
+		comparisons: { Expression: areEqualExceptOrder },
 	},
 
 	generateParameters() {
@@ -32,15 +32,15 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const gcdValue = gcd(parameters.a, parameters.b, parameters.c)
 		const fraction1 = asExpression('a/x^2').substitute(variables)
 		const fraction2 = asExpression('b/(xy)').substitute(variables)
 		const numerator = asExpression('c/x').substitute(variables)
 		const denominator = parameters.plus ? fraction1.add(fraction2) : fraction1.subtract(fraction2)
 		const expression = numerator.divide(denominator)
-		const fraction1Intermediate = multiplyNumeratorAndDenominator(fraction1, variables.y).mergeNumbers(['mergeProductFactors'])
-		const fraction2Intermediate = multiplyNumeratorAndDenominator(fraction2, variables.x).mergeNumbers(['mergeProductFactors'])
+		const fraction1Intermediate = multiplyNumeratorAndDenominator(fraction1, variables.y).mergeNumbers(['combineLikeFactors'])
+		const fraction2Intermediate = multiplyNumeratorAndDenominator(fraction2, variables.x).mergeNumbers(['combineLikeFactors'])
 		const intermediateSplit = parameters.plus ? fraction1Intermediate.add(fraction2Intermediate) : fraction1Intermediate.subtract(fraction2Intermediate)
 		const intermediate = (parameters.plus ? fraction1Intermediate.numerator.add(fraction2Intermediate.numerator) : fraction1Intermediate.numerator.subtract(fraction2Intermediate.numerator)).divide(fraction1Intermediate.denominator).combine()
 		const expressionWithIntermediate = numerator.divide(intermediate)

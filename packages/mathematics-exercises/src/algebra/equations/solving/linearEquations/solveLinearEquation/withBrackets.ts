@@ -3,9 +3,9 @@ import { type Equation, asExpression, asEquation, expressionComparisons, equatio
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 
 // a*(x+b)+e=c*(x+d).
 const variableSet = ['x', 'y', 'z']
@@ -18,10 +18,10 @@ export default buildStepExercise({
 		skill: 'solveLinearEquation',
 		...createStepExerciseMetadata(['expandBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation']),
 		comparisons: {
-			expanded: (input: Equation, correct: Equation) => !equationChecks.hasSumWithinProduct(input) && equationComparisons.equivalent(input, correct),
-			moved: { compareSide: equivalent, allowSwitch: true, allowMinus: true },
-			cleaned: { compareSide: onlyOrderChanges, allowSwitch: true, allowMinus: true },
-			ans: onlyOrderChanges,
+			expanded: (input: Equation, correct: Equation) => !equationChecks.hasSumWithinProduct(input) && equationComparisons.areEquivalent(input, correct),
+			moved: { compareSide: areEquivalent, allowSideSwitch: true, allowNegatingBothSides: true },
+			cleaned: { compareSide: areEqualExceptOrder, allowSideSwitch: true, allowNegatingBothSides: true },
+			ans: areEqualExceptOrder,
 		},
 	},
 
@@ -36,16 +36,16 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const { a, b, c, d, e, switchSides, bracketsRight } = parameters
-		const variables = filterVariables(parameters, usedVariables, constants)
-		const baseEquation = asEquation(bracketsRight ? 'a*(x+b)+e=c*(x+d)' : 'a*(x+b)+e=c*x+d', { eAsConstant: false }).substitute(variables).removeTrivial()
-		const equation = switchSides ? baseEquation.switch() : baseEquation.self()
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
+		const baseEquation = asEquation(bracketsRight ? 'a*(x+b)+e=c*(x+d)' : 'a*(x+b)+e=c*x+d', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
+		const equation = switchSides ? baseEquation.switchSides() : baseEquation.self()
 		const baseMoved = asEquation(`a*x-c*x=${bracketsRight ? c * d : d}-(${a * b + e})`).substitute(variables).removeTrivial(['expandMinusSums'])
 		const moved = switchSides ? baseMoved.negate().removeTrivial(['expandMinusSums', 'removeDoubleNegatives']) : baseMoved.self()
 		const cleaned = moved.combine()
 		const factor = asExpression(switchSides ? c - a : a - c)
 		const solution = asExpression(`${(bracketsRight ? c * d : d) - (a * b + e)}/${a - c}`)
 		const ans = solution.normalize()
-		const canCleanSolution = !onlyOrderChanges(solution, ans)
+		const canCleanSolution = !areEqualExceptOrder(solution, ans)
 		const equationInserted = equation.substitute({ [variables.x.toString()]: ans })
 		const sideValue = equationInserted.left.normalize()
 		return { ...parameters, variables, equation, expanded: equation.combine(['expandProductsOfSums']), moved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }

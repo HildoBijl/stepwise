@@ -1,7 +1,7 @@
 // This is the most general template for settings up equation function objects, like sqrt, log, etcetera. It has default functionalities for most basic cases.
 
 import { first } from '@step-wise/js-utils'
-import { getSubExpression } from '@step-wise/math-input-value'
+import { sliceExpressionValue } from '@step-wise/math-input-value'
 
 import { getClosestElement } from '../../../support'
 
@@ -44,8 +44,8 @@ export function create(expressionFI, part, position, name, alias) {
 
 	// Build the new Expression around it.
 	let { value } = expressionFI
-	const expressionBefore = getSubExpression(value, start, beforeAlias)
-	const expressionAfter = getSubExpression(value, afterAlias, end)
+	const expressionBefore = sliceExpressionValue(value, start, beforeAlias)
+	const expressionAfter = sliceExpressionValue(value, afterAlias, end)
 	value = [
 		...expressionBefore,
 		functionElement,

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { createForce, createMoment, decomposeForceIntoAxisComponents, reverseForce, reverseLoad, reverseMoment } from '../..'
+import { createForce, createMoment } from './creation'
+import { decomposeForceIntoAxisComponents, reverseForce, reverseLoad, reverseMoment } from './manipulation'
 
 describe('load manipulation', () => {
 	it('reverses forces while preserving their other properties', () => {

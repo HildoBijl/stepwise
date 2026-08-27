@@ -6,7 +6,7 @@ import { type ExpressionNode, type Power, power, product, sum } from '../../../.
 import { isPower, isIntegerNode, isSum } from '../../../structural'
 
 import { cancelFractionFactors } from '../cancellation'
-import { mergeFractionFactors } from '../combination'
+import { combineFractionFactors } from '../combination'
 import { defineRule } from '../ruleDefinition'
 
 function transform(node: Power): ExpressionNode {
@@ -21,5 +21,5 @@ export const expandPowersOfSums = defineRule({
 	name: 'expandPowersOfSums',
 	appliesTo: isPower,
 	transform,
-	after: [cancelFractionFactors, mergeFractionFactors],
+	after: [cancelFractionFactors, combineFractionFactors],
 })

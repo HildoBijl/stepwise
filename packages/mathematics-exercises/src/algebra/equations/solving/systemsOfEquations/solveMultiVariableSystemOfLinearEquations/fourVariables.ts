@@ -4,7 +4,7 @@ import { Expression, asExpression, asEquation, expressionComparisons, expression
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 // ax + wy = b.
 // zx + cy = d.
@@ -17,10 +17,10 @@ export default buildStepExercise({
 		skill: 'solveMultiVariableSystemOfLinearEquations',
 		...createStepExerciseMetadata(['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveMultiVariableLinearEquation', and('substituteAnExpression', 'simplifyFractionOfFractionSumsWithMultipleVariables')]),
 		comparisons: {
-			eq1Solution: expressionComparisons.equivalent,
-			eq2Substituted: equationComparisons.equivalent,
-			x: (input: Expression, correct: Expression) => expressionComparisons.equivalent(input, correct) && !expressionChecks.hasFractionWithinFraction(input),
-			y: (input: Expression, correct: Expression) => expressionComparisons.equivalent(input, correct) && !expressionChecks.hasFractionWithinFraction(input),
+			eq1Solution: expressionComparisons.areEquivalent,
+			eq2Substituted: equationComparisons.areEquivalent,
+			x: (input: Expression, correct: Expression) => expressionComparisons.areEquivalent(input, correct) && !expressionChecks.hasFractionWithinFraction(input),
+			y: (input: Expression, correct: Expression) => expressionComparisons.areEquivalent(input, correct) && !expressionChecks.hasFractionWithinFraction(input),
 		},
 	},
 
@@ -35,7 +35,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Set up the equations.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const eq1 = asEquation('ax + wy = b').substitute(variables).removeTrivial()
 		const eq2 = asEquation('zx + cy = d').substitute(variables).removeTrivial()
 

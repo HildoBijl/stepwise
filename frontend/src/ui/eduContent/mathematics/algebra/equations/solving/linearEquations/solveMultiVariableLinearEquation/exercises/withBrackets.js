@@ -57,7 +57,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ bracketsExpanded, termsMoved }) => {
-			return <Par><Translation>We move <M>{bracketsExpanded.right.terms[0].abs()}</M> to the left and <M>{bracketsExpanded.left.terms[1].abs()}</M> to the right. This gives us <BM>{termsMoved}.</BM></Translation></Par>
+			return <Par><Translation>We move <M>{bracketsExpanded.right.terms[0].stripSigns()}</M> to the left and <M>{bracketsExpanded.left.terms[1].stripSigns()}</M> to the right. This gives us <BM>{termsMoved}.</BM></Translation></Par>
 		},
 	},
 	{

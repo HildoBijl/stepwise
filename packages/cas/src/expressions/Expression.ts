@@ -1,19 +1,20 @@
 import { isArray, deepEqual } from '@step-wise/js-utils'
 
 import {
-	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, nodeToTree, stringToVariable, variable, number, // Construction
-	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
+	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, nodeToTree, parseVariable, variable, number, // Construction
+	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootFunction, isLn, isLog, isLogarithmFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
-	isNumeric, hasFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
-	add, subtract, multiply, divide, negative, abs, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, // Structural operations
+	isNumeric, containsFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
+	add, subtract, multiply, divide, negative, stripSigns, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan, substitute, substituteAll, evaluateNumericNode, collectVariables, expandToSingulars, areNodesEqual, // Structural operations
+	type TraversalOptions, type OrderedTraversalOptions, // Traversal options
 	type SimplificationOptionsInput, adjustSimplificationOptions, simplify, // Simplification operations
 	flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, format, // Simplification presets
-	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
-	type TexDisplayOptionsInput, getNodeInterpretationSettingsInput, nodeToString, nodeToTex, nodeToInputValue, nodeToStorageValue, storageValueToNode, // Printing
+	convertExpressionSettings, areEquivalent, isConstantMultiple, isIntegerMultiple, differentiate, // Semantic operations
+	type TexDisplayOptionsInput, inferInterpretationSettingsOptions, nodeToString, nodeToTex, nodeToInputValue, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
-import { type InterpretationSettingsInput, type ExpressionSettingsInput, type ExpressionSettings, type ExpressionInputValue, resolveExpressionSettings } from './settingsReexport'
-import { type ExpressionEqualityOptionsInput, asExpressionEqualityOptions } from './equalityOptions'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type ExpressionSettings, type ExpressionInputValue, resolveExpressionSettings } from './settings'
+import { type ExpressionEqualityOptionsInput, type ExpressionStructureComparisonOptions, asExpressionEqualityOptions } from './equalityOptions'
 import { type ExpressionInput } from './types'
 import { isExpressionInput, interpretExpressionInput } from './interpretation'
 
@@ -30,8 +31,8 @@ export type ExpressionFunction = (expression: Expression, ancestors: ExpressionA
 export function isExpressionLike(value: unknown): value is ExpressionLike {
 	return value instanceof Expression || isExpressionInput(value)
 }
-export function asExpression(value: ExpressionLike, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): Expression {
-	if (value instanceof Expression) return expressionSettings ? value.withSettings(expressionSettings) : value
+export function asExpression(value: ExpressionLike, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): Expression {
+	if (value instanceof Expression) return expressionSettings ? value.withSettings({ ...value.settings, ...expressionSettings }) : value
 	const expressionParts = interpretExpressionInput(value, interpretationSettings, expressionSettings)
 	return new Expression(expressionParts.node, expressionParts.expressionSettings)
 }
@@ -47,7 +48,7 @@ export class Expression {
 	 * Creation methods
 	 */
 
-	constructor(private readonly node: ExpressionNode, settings?: ExpressionSettingsInput) {
+	constructor(private readonly node: ExpressionNode, settings?: ExpressionSettingsOptions) {
 		this.settings = resolveExpressionSettings(settings)
 	}
 	get subtype() { return this.node.subtype }
@@ -56,7 +57,7 @@ export class Expression {
 		return node === this.node ? this : new Expression(node, this.settings)
 	}
 
-	withSettings(newSettings: ExpressionSettingsInput = {}): Expression {
+	withSettings(newSettings: ExpressionSettingsOptions = {}): Expression {
 		return deepEqual(newSettings, this.settings) ? this : new Expression(convertExpressionSettings(this.node, this.settings, newSettings), newSettings)
 	}
 
@@ -71,7 +72,7 @@ export class Expression {
 
 	// Turn a VariableLike input to an Expression that's guaranteed to have a Variable node.
 	private coerceVariable(variable: VariableLike): Expression {
-		if (typeof variable === 'string') return this.recreateWith(stringToVariable(variable))
+		if (typeof variable === 'string') return this.recreateWith(parseVariable(variable))
 		if (!isVariable(variable.node)) throw new Error(`Invalid substitution variable: expected a variable, but got expression "${nodeToTree(variable.node)}".`)
 		return variable
 	}
@@ -88,7 +89,7 @@ export class Expression {
 
 	// Assume the expression has a single variable and extract it or throw.
 	getVariable(): Expression | undefined {
-		const variables = this.getVariables()
+		const variables = this.collectVariables()
 		if (variables.length === 0) return undefined
 		if (variables.length === 1) return variables[0]
 		throw new Error(`Invalid call: no variable was specified, while for a multi-variable expression it is required to specify a variable. The expression depends on ${JSON.stringify(variables.map(variable => variable.str))}.`)
@@ -99,13 +100,12 @@ export class Expression {
 	 */
 
 	toStorageValue(): ExpressionNodeStorageValue { return nodeToStorageValue(this.node) }
-	get SO(): ExpressionNodeStorageValue { return this.toStorageValue() } // SO Legacy
-	static fromStorageValue(nodeStorageValue: ExpressionNodeStorageValue, settings?: ExpressionSettingsInput): Expression {
+	static fromStorageValue(nodeStorageValue: ExpressionNodeStorageValue, settings?: ExpressionSettingsOptions): Expression {
 		return new Expression(storageValueToNode(nodeStorageValue), resolveExpressionSettings(settings))
 	}
 
-	getInterpretationSettings(): InterpretationSettingsInput {
-		return getNodeInterpretationSettingsInput(this.node)
+	inferInterpretationSettings(): InterpretationSettingsOptions {
+		return inferInterpretationSettingsOptions(this.node)
 	}
 
 	/*
@@ -113,12 +113,12 @@ export class Expression {
 	 */
 
 	// String
-	toString(settings: InterpretationSettingsInput = this.getInterpretationSettings()): string { return nodeToString(this.node, settings) }
+	toString(settings: InterpretationSettingsOptions = this.inferInterpretationSettings()): string { return nodeToString(this.node, settings) }
 	get str() { return this.toString() }
 	print() { console.log(this.toString()) }
 
 	// LaTeX
-	toTex(options?: TexDisplayOptionsInput): string { return nodeToTex(this.node, this.getInterpretationSettings(), options) }
+	toTex(options?: TexDisplayOptionsInput): string { return nodeToTex(this.node, this.inferInterpretationSettings(), options) }
 	get tex() { return this.toTex() }
 
 	// Tree
@@ -126,7 +126,7 @@ export class Expression {
 	get tree() { return this.toTree() }
 
 	// InputValue
-	toInputValue(interpretationSettings: InterpretationSettingsInput = this.getInterpretationSettings()): ExpressionInputValue {
+	toInputValue(interpretationSettings: InterpretationSettingsOptions = this.inferInterpretationSettings()): ExpressionInputValue {
 		return nodeToInputValue(this.node, interpretationSettings, this.settings)
 	}
 
@@ -154,11 +154,11 @@ export class Expression {
 
 	isRoot(): boolean { return isRoot(this.node) }
 	isSqrt(): boolean { return isSqrt(this.node) }
-	isRootFunction(): boolean { return isRootLike(this.node) }
+	isRootFunction(): boolean { return isRootFunction(this.node) }
 
 	isLn(): boolean { return isLn(this.node) }
 	isLog(): boolean { return isLog(this.node) }
-	isLogFunction(): boolean { return isLogLike(this.node) }
+	isLogFunction(): boolean { return isLogarithmFunction(this.node) }
 
 	isSin(): boolean { return isSin(this.node) }
 	isCos(): boolean { return isCos(this.node) }
@@ -206,18 +206,18 @@ export class Expression {
 	// Fractions
 	get numerator(): Expression {
 		if (isFraction(this.node)) return this.recreateWith(this.node.numerator)
-		if (isMinus(this.node) && isFraction(this.node.node)) return this.recreateWith(this.node.node.numerator)
+		if (isSignNode(this.node) && isFraction(this.node.node)) return this.recreateWith(this.node.node.numerator)
 		throw new Error(`Invalid request: cannot get "numerator" of an Expression of type "${this.subtype}".`)
 	}
 	get denominator(): Expression {
 		if (isFraction(this.node)) return this.recreateWith(this.node.denominator)
-		if (isMinus(this.node) && isFraction(this.node.node)) return this.recreateWith(this.node.node.denominator)
+		if (isSignNode(this.node) && isFraction(this.node.node)) return this.recreateWith(this.node.node.denominator)
 		throw new Error(`Invalid request: cannot get "denominator" of an Expression of type "${this.subtype}".`)
 	}
 
 	// Functions (power, root, and everything else)
 	get base(): Expression {
-		if (isPower(this.node) || isLogLike(this.node)) return this.recreateWith(this.node.base)
+		if (isPower(this.node) || isLogarithmFunction(this.node)) return this.recreateWith(this.node.base)
 		throw new Error(`Invalid request: cannot get "base" of an Expression of type "${this.subtype}".`)
 	}
 	get exponent(): Expression {
@@ -225,16 +225,16 @@ export class Expression {
 		throw new Error(`Invalid request: cannot get "exponent" of an Expression of type "${this.subtype}".`)
 	}
 	get degree(): Expression {
-		if (isRootLike(this.node)) return this.recreateWith(this.node.degree)
+		if (isRootFunction(this.node)) return this.recreateWith(this.node.degree)
 		throw new Error(`Invalid request: cannot get "degree" of an Expression of type "${this.subtype}".`)
 	}
 	get radicand(): Expression {
-		if (isRootLike(this.node)) return this.recreateWith(this.node.radicand)
+		if (isRootFunction(this.node)) return this.recreateWith(this.node.radicand)
 		throw new Error(`Invalid request: cannot get "radicand" of an Expression of type "${this.subtype}".`)
 	}
 	get argument(): Expression {
-		if (isMinus(this.node)) return this.recreateWith(this.node.node)
-		if (isLogLike(this.node) || isSingleArgumentFunctionNode(this.node)) return this.recreateWith(this.node.argument)
+		if (isSignNode(this.node)) return this.recreateWith(this.node.node)
+		if (isLogarithmFunction(this.node) || isSingleArgumentFunctionNode(this.node)) return this.recreateWith(this.node.argument)
 		throw new Error(`Invalid request: cannot get "argument" of an Expression of type "${this.subtype}".`)
 	}
 
@@ -244,7 +244,7 @@ export class Expression {
 
 	dependsOn(variable: VariableLike): boolean { return dependsOn(this.node, this.coerceVariableNode(variable)) }
 	isNumeric(): boolean { return isNumeric(this.node) }
-	hasFloat(): boolean { return hasFloat(this.node) }
+	containsFloat(): boolean { return containsFloat(this.node) }
 	isPolynomial(): boolean { return isPolynomial(this.node) }
 	isRational(): boolean { return isRational(this.node) }
 	isSingular(): boolean { return isSingular(this.node) }
@@ -266,9 +266,9 @@ export class Expression {
 	 * Basic extractions
 	 */
 
-	toNumber(): number { return numericNodeToNumber(this.node, this.settings) }
+	toNumber(): number { return evaluateNumericNode(this.node, this.settings) }
 	get value(): number { return this.toNumber() }
-	getVariables(): Expression[] { return getVariables(this.node).map(variableNode => this.recreateWith(variableNode)) }
+	collectVariables(): Expression[] { return collectVariables(this.node).map(variableNode => this.recreateWith(variableNode)) }
 	getSingular(): Expression[] { return expandToSingulars(this.node).map(node => this.recreateWith(node)) }
 
 	/*
@@ -302,8 +302,13 @@ export class Expression {
 	}
 
 	mapBase(transform: (base: Expression) => Expression): Expression {
-		if (this.isPower()) return transform(this.base).toPower(this.exponent)
-		if (this.isLogFunction()) return this.argument.log(transform(this.base))
+		if (this.isPower() || this.isLogFunction()) {
+			const base = this.base
+			const transformedBase = transform(base)
+			if (transformedBase === base) return this
+			if (this.isPower()) return transformedBase.toPower(this.exponent)
+			return this.argument.log(transformedBase)
+		}
 		throw new Error(`Invalid mapBase call: expression is of type "${this.subtype}", not "Power", "Log" or "Ln".`)
 	}
 	mapExponent(transform: (exponent: Expression) => Expression): Expression {
@@ -312,7 +317,12 @@ export class Expression {
 	}
 
 	mapDegree(transform: (degree: Expression) => Expression): Expression {
-		if (this.isRootFunction()) return this.radicand.root(transform(this.degree))
+		if (this.isRootFunction()) {
+			const degree = this.degree
+			const transformedDegree = transform(degree)
+			if (transformedDegree === degree) return this
+			return this.radicand.root(transformedDegree)
+		}
 		throw new Error(`Invalid mapDegree call: expression is of type "${this.subtype}", not "Root" or "Sqrt".`)
 	}
 	mapRadicand(transform: (radicand: Expression) => Expression): Expression {
@@ -322,7 +332,7 @@ export class Expression {
 	}
 
 	mapArgument(transform: (argument: Expression) => Expression): Expression {
-		if (this.isMinus()) return transform(this.argument).negate()
+		if (this.isSign()) return this.recreateWith(this.node.recreateWithChildren([transform(this.argument).node]))
 		if (this.isLog()) return transform(this.argument).log(this.base)
 		if (this.isLn() || this.isTrigonometricFunction() || this.isInverseTrigonometricFunction()) return this.recreateWith(this.node.recreateWithChildren([transform(this.argument).node]))
 		throw new Error(`Invalid mapArgument call: expression is of type "${this.subtype}", which has no argument.`)
@@ -334,14 +344,14 @@ export class Expression {
 
 	self(): Expression { return this }
 	negate(): Expression { return this.recreateWith(negative(this.node)) }
-	abs(): Expression { return this.recreateWith(abs(this.node)) }
+	stripSigns(): Expression { return this.recreateWith(stripSigns(this.node)) }
 	add(...terms: ExpressionLike[]): Expression { return this.recreateWith(add(this.node, ...terms.map(term => this.coerceExpression(term)).map(expression => expression.node))) }
 	addLeft(...terms: ExpressionLike[]): Expression { return this.recreateWith(add(...terms.map(term => this.coerceExpression(term)).map(expression => expression.node), this.node)) }
 	subtract(term: ExpressionLike): Expression { return this.recreateWith(subtract(this.node, this.coerceExpression(term).node)) }
 	multiply(...factors: ExpressionLike[]): Expression { return this.recreateWith(multiply(this.node, ...factors.map(term => this.coerceExpression(term)).map(expression => expression.node))) }
 	multiplyLeft(...factors: ExpressionLike[]): Expression { return this.recreateWith(multiply(...factors.map(term => this.coerceExpression(term)).map(expression => expression.node), this.node)) }
 	divide(denominator: ExpressionLike): Expression { return this.recreateWith(divide(this.node, this.coerceExpression(denominator).node)) }
-	invert(): Expression { return this.isMinus() ? this.argument.invert().negate() : this.isFraction() ? this.denominator.divide(this.numerator) : this.recreateWith(divide(1, this.node)) }
+	invert(): Expression { return this.isSign() ? this.mapArgument(argument => argument.invert()) : this.isFraction() ? this.denominator.divide(this.numerator) : this.recreateWith(divide(1, this.node)) }
 	toPower(exponent: ExpressionLike): Expression { return this.recreateWith(power(this.node, this.coerceExpression(exponent).node)) }
 	asExponentOf(exponent: ExpressionLike): Expression { return this.recreateWith(power(this.coerceExpression(exponent).node, this.node)) }
 
@@ -400,11 +410,9 @@ export class Expression {
 
 	private substituteAll(variables: readonly VariableLike[], substitutions: readonly ExpressionLike[]): Expression {
 		if (variables.length !== substitutions.length) throw new Error(`Invalid substitute call: got ${variables.length} variables but ${substitutions.length} substitutions.`)
-		const dummyVariableNodes = variables.map((_, index) => variable('TemporaryDummyVariable', `index${index}`))
-		let result: Expression = this
-		variables.forEach((currVariable, index) => { result = result.substituteVariable(this.coerceVariableNode(currVariable), dummyVariableNodes[index]) })
-		substitutions.forEach((substitution, index) => { result = result.substituteVariable(dummyVariableNodes[index], this.coerceExpression(substitution).node) })
-		return result
+		const variableNodes = variables.map(variable => this.coerceVariableNode(variable))
+		const substitutionNodes = substitutions.map(substitution => this.coerceExpression(substitution).node)
+		return this.recreateWith(substituteAll(this.node, variableNodes, substitutionNodes))
 	}
 
 	protected substituteVariable(variableNode: Variable, substitutionNode: ExpressionNode) {
@@ -417,7 +425,7 @@ export class Expression {
 	evaluateAt(substitutions: SubstitutionMap): number
 	evaluateAt(arg1: ExpressionLike | VariableLike | readonly VariableLike[] | SubstitutionMap, arg2?: ExpressionLike | readonly ExpressionLike[]): number {
 		const substituted = this.substitute(arg1 as never, arg2 as never)
-		if (!substituted.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the expression still depends on variables ${JSON.stringify(substituted.getVariables().map(variable => variable.str))}.`)
+		if (!substituted.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the expression still depends on variables ${JSON.stringify(substituted.collectVariables().map(variable => variable.str))}.`)
 		return substituted.toNumber()
 	}
 
@@ -425,29 +433,38 @@ export class Expression {
 	 * Inspection methods
 	 */
 
-	some(check: ExpressionCheck, includeSelf = true, ancestors: ExpressionAncestors = []): boolean {
+	some(check: ExpressionCheck, options: TraversalOptions = {}): boolean {
+		return this.someInternal(check, options.includeSelf ?? true, [])
+	}
+	private someInternal(check: ExpressionCheck, includeSelf: boolean, ancestors: ExpressionAncestors): boolean {
 		if (includeSelf && check(this, ancestors)) return true
-		return this.node.children.some(child => this.recreateWith(child).some(check, true, [...ancestors, this]))
+		return this.node.children.some(child => this.recreateWith(child).someInternal(check, true, [...ancestors, this]))
 	}
 
-	every(check: ExpressionCheck, includeSelf = true, ancestors: ExpressionAncestors = []): boolean {
+	every(check: ExpressionCheck, options: TraversalOptions = {}): boolean {
+		return this.everyInternal(check, options.includeSelf ?? true, [])
+	}
+	private everyInternal(check: ExpressionCheck, includeSelf: boolean, ancestors: ExpressionAncestors): boolean {
 		if (includeSelf && !check(this, ancestors)) return false
-		return this.node.children.every(child => this.recreateWith(child).every(check, true, [...ancestors, this]))
+		return this.node.children.every(child => this.recreateWith(child).everyInternal(check, true, [...ancestors, this]))
 	}
 
-	find(check: ExpressionCheck, childrenFirst = false, includeSelf = true, ancestors: ExpressionAncestors = []): Expression | undefined {
+	find(check: ExpressionCheck, options: OrderedTraversalOptions = {}): Expression | undefined {
+		return this.findInternal(check, options.childrenFirst ?? false, options.includeSelf ?? true, [])
+	}
+	private findInternal(check: ExpressionCheck, childrenFirst: boolean, includeSelf: boolean, ancestors: ExpressionAncestors): Expression | undefined {
 		if (includeSelf && !childrenFirst && check(this, ancestors)) return this
 		for (const child of this.node.children) {
-			const result = this.recreateWith(child).find(check, childrenFirst, true, [...ancestors, this])
+			const result = this.recreateWith(child).findInternal(check, childrenFirst, true, [...ancestors, this])
 			if (result) return result
 		}
 		if (includeSelf && childrenFirst && check(this, ancestors)) return this
 		return undefined
 	}
 
-	findAll(check: ExpressionCheck, childrenFirst = false, includeSelf = true): Expression[] {
+	findAll(check: ExpressionCheck, options: OrderedTraversalOptions = {}): Expression[] {
 		const results: Expression[] = []
-		this.forEvery((expression, ancestors) => { if (check(expression, ancestors)) results.push(expression) }, childrenFirst, includeSelf)
+		this.forEachExpression((expression, ancestors) => { if (check(expression, ancestors)) results.push(expression) }, options)
 		return results
 	}
 
@@ -455,17 +472,23 @@ export class Expression {
 	 * Recursive operations
 	 */
 
-	forEvery(func: ExpressionFunction, childrenFirst = false, includeSelf = true, ancestors: ExpressionAncestors = []): void {
+	forEachExpression(func: ExpressionFunction, options: OrderedTraversalOptions = {}): void {
+		this.forEachExpressionInternal(func, options.childrenFirst ?? false, options.includeSelf ?? true, [])
+	}
+	private forEachExpressionInternal(func: ExpressionFunction, childrenFirst: boolean, includeSelf: boolean, ancestors: ExpressionAncestors): void {
 		if (includeSelf && !childrenFirst) func(this, ancestors)
-		this.node.children.forEach(child => { this.recreateWith(child).forEvery(func, childrenFirst, true, [...ancestors, this]) })
+		this.node.children.forEach(child => { this.recreateWith(child).forEachExpressionInternal(func, childrenFirst, true, [...ancestors, this]) })
 		if (includeSelf && childrenFirst) func(this, ancestors)
 	}
 
-	mapEvery(transform: ExpressionTransform, childrenFirst = true, includeSelf = true, ancestors: ExpressionAncestors = []): Expression {
+	mapExpressions(transform: ExpressionTransform, options: OrderedTraversalOptions = {}): Expression {
+		return this.mapExpressionsInternal(transform, options.childrenFirst ?? true, options.includeSelf ?? true, [])
+	}
+	private mapExpressionsInternal(transform: ExpressionTransform, childrenFirst: boolean, includeSelf: boolean, ancestors: ExpressionAncestors): Expression {
 		let result: Expression = this
-		if (includeSelf && !childrenFirst) result = transform(result, ancestors)
-		result = this.recreateWith(result.node.recreateWithChildren(result.node.children.map(child => this.recreateWith(child).mapEvery(transform, childrenFirst, true, [...ancestors, result]).node)))
-		if (includeSelf && childrenFirst) result = transform(result, ancestors)
+		if (includeSelf && !childrenFirst) result = transform(result, ancestors).withSettings(this.settings)
+		result = this.recreateWith(result.node.recreateWithChildren(result.node.children.map(child => this.recreateWith(child).mapExpressionsInternal(transform, childrenFirst, true, [...ancestors, result]).node)))
+		if (includeSelf && childrenFirst) result = transform(result, ancestors).withSettings(this.settings)
 		return result
 	}
 
@@ -496,18 +519,18 @@ export class Expression {
 	 * Comparisons
 	 */
 
-	equalStructure(other: ExpressionLike, allowOrderChanges = true): boolean {
-		return equalNodes(this.node, this.coerceExpression(other).node, allowOrderChanges)
+	equalStructure(other: ExpressionLike, options: ExpressionStructureComparisonOptions = {}): boolean {
+		return areNodesEqual(this.node, this.coerceExpression(other).node, options.allowOrderChanges ?? true)
 	}
 	strictEqualStructure(other: ExpressionLike): boolean {
-		return this.equalStructure(other, false)
+		return this.equalStructure(other, { allowOrderChanges: false })
 	}
 	equals(other: ExpressionLike, options: ExpressionEqualityOptionsInput = {}): boolean {
 		const { preprocess, allowOrderChanges } = asExpressionEqualityOptions(options)
-		return preprocess(this).equalStructure(preprocess(this.coerceExpression(other)), allowOrderChanges)
+		return preprocess(this).equalStructure(preprocess(this.coerceExpression(other)), { allowOrderChanges })
 	}
-	equivalent(other: ExpressionLike): boolean {
-		return equivalent(this.node, this.coerceExpression(other).node, this.settings)
+	isEquivalentTo(other: ExpressionLike): boolean {
+		return areEquivalent(this.node, this.coerceExpression(other).node, this.settings)
 	}
 	isConstantMultiple(other: ExpressionLike): boolean {
 		return isConstantMultiple(this.node, this.coerceExpression(other).node, this.settings)
@@ -520,13 +543,13 @@ export class Expression {
 	 * Derivatives
 	 */
 
-	getDerivative(derivativeVariable?: VariableLike): Expression {
+	differentiate(derivativeVariable?: VariableLike): Expression {
 		const variableNode = derivativeVariable === undefined ? (this.getVariableNode() ?? variable('x')) : this.coerceVariableNode(derivativeVariable)
-		return this.recreateWith(getDerivative(this.node, variableNode, this.settings))
+		return this.recreateWith(differentiate(this.node, variableNode, this.settings))
 	}
 
-	getGradient(variables: readonly VariableLike[] = this.getVariables()): Expression[] {
-		const derivativeVariables = variables.map(this.coerceVariable)
-		return derivativeVariables.map(variable => this.getDerivative(variable))
+	getGradient(variables: readonly VariableLike[] = this.collectVariables()): Expression[] {
+		const derivativeVariables = variables.map(variable => this.coerceVariable(variable))
+		return derivativeVariables.map(variable => this.differentiate(variable))
 	}
 }

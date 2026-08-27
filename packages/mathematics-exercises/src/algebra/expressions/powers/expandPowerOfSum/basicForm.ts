@@ -5,9 +5,9 @@ import { asExpression, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges } = expressionComparisons
+const { areEqualExceptOrder } = expressionComparisons
 
 // (a*x^b+c*x^d)^e
 const variableSet = ['x', 'y', 'z']
@@ -19,7 +19,7 @@ export default buildStepExercise({
 		skill: 'expandPowerOfSum',
 		...createStepExerciseMetadata([skillRepeat('simplifyProductOfPowers', 2), undefined, 'simplifyNumberProduct']),
 		comparisons: {
-			Expression: onlyOrderChanges,
+			Expression: areEqualExceptOrder,
 		},
 	},
 
@@ -37,7 +37,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const { e } = parameters
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const t1 = asExpression('a*x^b').substitute(variables).removeTrivial()
 		const t2 = asExpression('c*x^d').substitute(variables).removeTrivial()
 		const expression = t1.add(t2).toPower(e)

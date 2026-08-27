@@ -3,7 +3,7 @@ import { type ExpressionNode, type Product, product, sum } from '../../../../con
 import { isProduct, isSum } from '../../../structural'
 
 import { cancelFractionFactors } from '../cancellation'
-import { mergeFractionFactors } from '../combination'
+import { combineFractionFactors } from '../combination'
 import { defineRule } from '../ruleDefinition'
 
 function transform(node: Product): ExpressionNode {
@@ -18,5 +18,5 @@ export const expandProductsOfSums = defineRule({
 	name: 'expandProductsOfSums',
 	appliesTo: isProduct,
 	transform,
-	after: [cancelFractionFactors, mergeFractionFactors],
+	after: [cancelFractionFactors, combineFractionFactors],
 })

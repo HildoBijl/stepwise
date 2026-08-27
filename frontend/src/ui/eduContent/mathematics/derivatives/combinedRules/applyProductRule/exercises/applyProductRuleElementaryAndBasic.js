@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, Substep, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-const { onlyOrderChanges, equivalent, constantMultiple } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent: equivalent, areConstantMultiples } = expressionComparisons
 const { sumWithWrongTerms } = expressionChecks
 
 export default function Exercise() {
@@ -69,11 +69,11 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define h derivative checks.
-	const originalFunction = (input, correct, { h }) => onlyOrderChanges(input, h) && <>Dit is de oorspronkelijke functie. Je hebt hier nog niets mee gedaan.</>
+	const originalFunction = (input, correct, { h }) => areEqualExceptOrder(input, h) && <>Dit is de oorspronkelijke functie. Je hebt hier nog niets mee gedaan.</>
 	const incorrectFunction = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <>Dit is niet de afgeleide. Kijk goed naar of je de productregel correct toegepast hebt.</>
 
 	// Define fDerivative and gDerivative checks.
-	const fDerivativeConstantMultipleCheck = (input, correct, { f, x }, isCorrect) => !isCorrect && constantMultiple(input, correct) && <>Je zit er een constante vermenigvuldiging naast. Kijk goed naar de factor voor de functie.</>
+	const fDerivativeConstantMultipleCheck = (input, correct, { f, x }, isCorrect) => !isCorrect && areConstantMultiples(input, correct) && <>Je zit er een constante vermenigvuldiging naast. Kijk goed naar de factor voor de functie.</>
 	const fDerivativeIncorrectCheck = (input, correct, { f, x }, isCorrect) => !isCorrect && <>Deze klopt niet. Kijk goed in je tabel van basisafgeleiden.</>
 
 	// Assemble the checks for all input fields.

@@ -5,11 +5,11 @@ import { type Equation, type Expression, asEquation, expressionComparisons, equa
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks
-const { exactEqual } = expressionComparisons
-const { equivalent } = equationComparisons
+const { areExactlyEqual } = expressionComparisons
+const { areEquivalent } = equationComparisons
 
 // ax+b=(cx(x+d))/(x^2+e)
 const variableSet = ['x', 'y', 'z']
@@ -40,10 +40,10 @@ export default buildStepExercise({
 		skill: 'bringEquationToStandardForm',
 		...createStepExerciseMetadata(['multiplyAllEquationTerms', 'expandDoubleBrackets', and('moveEquationTerm', 'mergeSimilarTerms'), 'multiplyAllEquationTerms']),
 		comparisons: {
-			multiplied: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && equivalent(input, correct),
-			expanded: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && equivalent(input, correct),
-			moved: { compareLeft: expressionComparisons.constantMultiple, compareRight: expressionComparisons.exactEqual },
-			ans: (input: Equation, correct: Equation, { normalize }: { normalize: boolean }) => (exactEqual(input.left, correct.left) || (!normalize && exactEqual(input.left, correct.left.negate()))) && exactEqual(input.right, correct.right),
+			multiplied: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && areEquivalent(input, correct),
+			expanded: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && areEquivalent(input, correct),
+			moved: { compareLeft: expressionComparisons.areConstantMultiples, compareRight: expressionComparisons.areExactlyEqual },
+			ans: (input: Equation, correct: Equation, { normalize }: { normalize: boolean }) => (areExactlyEqual(input.left, correct.left) || (!normalize && areExactlyEqual(input.left, correct.left.negate()))) && areExactlyEqual(input.right, correct.right),
 		},
 	},
 
@@ -54,8 +54,12 @@ export default buildStepExercise({
 		const flip = example ? false : randomBoolean()
 
 		// Set up parameters for the equation. Ensure that (on a non-normalize exercise) there is a factor to divide by.
-		let parameters = getParameters()
-		while (!normalize && gcd(...getCoefficients(parameters, flip)) === 1) parameters = getParameters()
+		let parameters: ReturnType<typeof getParameters> | undefined
+		for (let attempt = 0; attempt < 100; attempt++) {
+			parameters = getParameters()
+			if (normalize || gcd(...getCoefficients(parameters, flip)) !== 1) break
+		}
+		if (!parameters || (!normalize && gcd(...getCoefficients(parameters, flip)) === 1)) throw new Error('Failed to generate non-normalized cubic-equation coefficients after 100 attempts.')
 
 		// All done. Return the parameters.
 		const [a, b, c, d, e] = parameters
@@ -65,14 +69,14 @@ export default buildStepExercise({
 	getSolution(parameters) {
 		// Assemble the equation.
 		const { a, b, c, d, e, flip, normalize } = parameters
-		const variables = filterVariables(parameters, usedVariables, constants)
-		const baseEquation = asEquation('ax+b=(cx(x+d))/(x^2+e)', { eAsConstant: false }).substitute(variables).removeTrivial()
-		const equation = flip ? baseEquation.switch() : baseEquation.self()
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
+		const baseEquation = asEquation('ax+b=(cx(x+d))/(x^2+e)', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
+		const equation = flip ? baseEquation.switchSides() : baseEquation.self()
 
 		// Rewrite the equation in various ways.
-		const baseMultiplied = asEquation('(ax+b)(x^2+e) = cx(x+d)', { eAsConstant: false }).substitute(variables).removeTrivial()
-		const multiplied = flip ? baseMultiplied.switch() : baseMultiplied.self()
-		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'mergeProductFactors'], ['mergeSumNumbers', 'groupSumTerms']).mapEvery(term => term.isPower() ? term.combine() : term).cancel([], ['mergeSumNumbers', 'groupSumTerms']) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
+		const baseMultiplied = asEquation('(ax+b)(x^2+e) = cx(x+d)', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
+		const multiplied = flip ? baseMultiplied.switchSides() : baseMultiplied.self()
+		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'combineLikeFactors'], ['combineNumbersInSums', 'combineLikeTerms']).mapExpressions(term => term.isPower() ? term.combine() : term).cancel([], ['combineNumbersInSums', 'combineLikeTerms']) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 		const merged = expanded.combine(['sortSums'])
 		const moved = merged.subtract(merged.right).combine(['sortSums'])
 
@@ -80,7 +84,7 @@ export default buildStepExercise({
 		const coefficients = getCoefficients([a, b, c, d, e], flip)
 		let divisor = normalize ? coefficients[0] : gcd(...coefficients)
 		if (Math.sign(divisor) !== Math.sign(coefficients[0])) divisor *= -1
-		const ans = moved.divide(divisor).combine(['splitFractions'], ['mergeFractionSums']).removeTrivial(['pullOutCommonSumNumbers'])
+		const ans = moved.divide(divisor).combine(['splitFractions'], ['combineSumFractions']).removeTrivial(['factorCommonNumericTerms'])
 
 		// Return all calculated parameters.
 		return { ...parameters, variables, equation, multiplied, expanded, merged, moved, coefficients, divisor, ans }

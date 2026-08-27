@@ -1,7 +1,7 @@
 import { ExpressionNode } from '../nodes'
 
 import { number } from './numbers'
-import { stringToVariable } from './variables'
+import { parseVariable } from './variables'
 
 export type ExpressionNodeInput = ExpressionNode | number | string
 
@@ -9,6 +9,6 @@ export type ExpressionNodeInput = ExpressionNode | number | string
 export function asExpressionNode(input: ExpressionNodeInput): ExpressionNode {
 	if (input instanceof ExpressionNode) return input
 	if (typeof input === 'number') return number(input)
-	if (typeof input === 'string') return stringToVariable(input)
+	if (typeof input === 'string') return parseVariable(input)
 	throw new Error(`Invalid expression node input. Could not interpret "${JSON.stringify(input)}".`)
 }

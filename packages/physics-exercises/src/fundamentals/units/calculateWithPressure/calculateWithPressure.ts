@@ -18,7 +18,7 @@ export default buildMonoExercise({
 					significantDigitTolerance: 0,
 				},
 				unit: {
-					target: 'standard',
+					target: 'unchanged',
 				},
 			},
 		},

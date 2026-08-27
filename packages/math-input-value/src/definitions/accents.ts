@@ -1,6 +1,6 @@
-export const accents = ['dot', 'hat'] as const
-export type AccentName = typeof accents[number]
+export const accentNames = ['dot', 'hat'] as const
+export type AccentName = typeof accentNames[number]
 
-export function isAccent(name: string): name is AccentName {
-	return (accents as readonly string[]).includes(name)
+export function isAccentName(name: string): name is AccentName {
+	return (accentNames as readonly string[]).includes(name)
 }

@@ -4,9 +4,9 @@ import { type Expression, asExpression, expressionComparisons } from '@step-wise
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { equivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, areEqualExceptOrder } = expressionComparisons
 
 // (a*x^c)/(b*x^d*(x+f)).
 const variableSet = ['x', 'y', 'z']
@@ -18,8 +18,8 @@ export default buildStepExercise({
 		skill: 'simplifyFractionWithVariables',
 		...createStepExerciseMetadata(['simplifyFraction', and('rewritePower', 'cancelFractionFactors')]),
 		comparisons: {
-			numericSimplified: (input: Expression, correct: Expression) => onlyOrderChanges(input.flatten().simplify(['mergeProductNumbers', 'mergeFractionNumbers']), input.flatten()) && equivalent(input, correct),
-			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
+			numericSimplified: (input: Expression, correct: Expression) => areEqualExceptOrder(input.flatten().simplify(['combineNumbersInProducts', 'combineNumbersInFractions']), input.flatten()) && areEquivalent(input, correct),
+			ans: (input: Expression, correct: Expression) => areEqualExceptOrder(input.combine(), input.flatten()) && areEquivalent(input, correct),
 		},
 	},
 
@@ -37,13 +37,13 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseExpression = asExpression('(a*x^c)/(b*x^d*(x+f))').substitute(variables).removeTrivial()
 		const expression = parameters.switch ? baseExpression.invert() : baseExpression.self()
 		const baseNumericPartOriginal = asExpression('a/b').substitute(variables).removeTrivial()
 		const numericPartOriginal = parameters.switch ? baseNumericPartOriginal.invert() : baseNumericPartOriginal.self()
 		const numericPart = numericPartOriginal.combine()
-		const numericSimplified = expression.removeTrivial(['mergeProductNumbers', 'mergeFractionNumbers'])
+		const numericSimplified = expression.removeTrivial(['combineNumbersInProducts', 'combineNumbersInFractions'])
 		const ans = expression.combine()
 		return { ...parameters, variables, expression, numericPartOriginal, numericPart, numericSimplified, ans }
 	},

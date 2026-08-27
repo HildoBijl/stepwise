@@ -2,7 +2,7 @@ import { Integer, Minus, namedConstants } from '../core'
 
 import { Expression } from './Expression'
 
-export const constants = {
+export const expressionConstants = {
 	// Integer constants.
 	minusOne: new Expression(new Minus(Integer.one)),
 	zero: new Expression(Integer.zero),

@@ -1,14 +1,14 @@
 import { defineRuleRegistry } from '../ruleDefinition'
 
-import { groupSumTerms } from './groupSumTerms'
-import { mergeProductFactors } from './mergeProductFactors'
-import { mergeFractionProducts } from './mergeFractionProducts'
-import { mergeNumericFractionSums } from './mergeNumericFractionSums'
-import { mergeFractionSums } from './mergeFractionSums'
-import { mergeFractionFactors } from './mergeFractionFactors'
-import { mergeProductsOfRoots } from './mergeProductsOfRoots'
-import { mergeProductsWithRoots } from './mergeProductsWithRoots'
-import { pullExponentsIntoRoots } from './pullExponentsIntoRoots'
+import { combineLikeTerms } from './combineLikeTerms'
+import { combineLikeFactors } from './combineLikeFactors'
+import { combineProductFractions } from './combineProductFractions'
+import { combineNumericFractionsInSums } from './combineNumericFractionsInSums'
+import { combineSumFractions } from './combineSumFractions'
+import { combineFractionFactors } from './combineFractionFactors'
+import { combineRootsInProducts } from './combineRootsInProducts'
+import { combineProductsWithRoots } from './combineProductsWithRoots'
+import { moveExponentsIntoRoots } from './moveExponentsIntoRoots'
 
-export const combinationRules = defineRuleRegistry(groupSumTerms, mergeProductFactors, mergeFractionProducts, mergeNumericFractionSums, mergeFractionSums, mergeFractionFactors, mergeProductsOfRoots, mergeProductsWithRoots, pullExponentsIntoRoots)
-export { groupSumTerms, mergeProductFactors, mergeFractionProducts, mergeNumericFractionSums, mergeFractionFactors, mergeFractionSums, mergeProductsOfRoots, mergeProductsWithRoots, pullExponentsIntoRoots }
+export const combinationRules = defineRuleRegistry(combineLikeTerms, combineLikeFactors, combineProductFractions, combineNumericFractionsInSums, combineSumFractions, combineFractionFactors, combineRootsInProducts, combineProductsWithRoots, moveExponentsIntoRoots)
+export { combineLikeTerms, combineLikeFactors, combineProductFractions, combineNumericFractionsInSums, combineFractionFactors, combineSumFractions, combineRootsInProducts, combineProductsWithRoots, moveExponentsIntoRoots }

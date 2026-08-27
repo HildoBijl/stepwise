@@ -1,10 +1,10 @@
 import { approximatelyEqual, deepEqual, identity } from '@step-wise/js-utils'
-import { type ExpressionSettings, type EquationInputValue, resolveExpressionSettings, defaultExpressionSettings, addEquationWrapper, mergeAdjacentTextParts } from '@step-wise/math-input-value'
+import { type ExpressionSettings, type EquationInputValue, resolveExpressionSettings, defaultExpressionSettings, createEquationInputValue, mergeAdjacentTextParts } from '@step-wise/math-input-value'
 
-import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type TexDisplayOptionsInput, type OrderedTraversalOptions, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
 
 import { type EquationInput, type EquationStorageValue, type EquationSideName, type EquationSideCheck, type EquationSideTransform, type EquationSideFunction, type ExpressionInEquationCheck, type ExpressionInEquationTransform, type ExpressionInEquationFunction, equationSideNames } from './types'
-import { type EquationEqualityOptionsInput, asEquationEqualityOptions } from './equalityOptions'
+import { type EquationEqualityOptionsInput, type EquationStructureComparisonOptions, type EquationMultipleComparisonOptions, asEquationEqualityOptions } from './equalityOptions'
 import { isEquationInput, interpretEquationInput } from './interpretation'
 
 // Add a type checker and interpreter.
@@ -12,8 +12,8 @@ export type EquationLike = Equation | EquationInput
 export function isEquationLike(value: unknown): value is EquationLike {
 	return value instanceof Equation || isEquationInput(value)
 }
-export function asEquation(value: EquationLike, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): Equation {
-	if (value instanceof Equation) return expressionSettings ? value.withSettings(expressionSettings) : value
+export function asEquation(value: EquationLike, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): Equation {
+	if (value instanceof Equation) return expressionSettings ? value.withSettings({ ...value.settings, ...expressionSettings }) : value
 	const equationParts = interpretEquationInput(value, interpretationSettings, expressionSettings)
 	return new Equation(equationParts.left, equationParts.right, equationParts.settings)
 }
@@ -31,7 +31,7 @@ export class Equation {
 	 * Creation methods
 	 */
 
-	constructor(left: ExpressionLike, right: ExpressionLike, settings?: ExpressionSettingsInput) {
+	constructor(left: ExpressionLike, right: ExpressionLike, settings?: ExpressionSettingsOptions) {
 		// Determine the expression settings used.
 		if (settings) this.settings = resolveExpressionSettings(settings)
 		else if (left instanceof Expression) this.settings = left.settings
@@ -47,7 +47,7 @@ export class Equation {
 		return left === this.left && right === this.right ? this : new Equation(left, right, this.settings)
 	}
 
-	withSettings(newSettings: ExpressionSettingsInput = {}): Equation {
+	withSettings(newSettings: ExpressionSettingsOptions = {}): Equation {
 		return deepEqual(newSettings, this.settings) ? this : new Equation(this.left, this.right, newSettings)
 	}
 
@@ -66,13 +66,12 @@ export class Equation {
 	toStorageValue(): EquationStorageValue {
 		return { left: this.left.toStorageValue(), right: this.right.toStorageValue() }
 	}
-	get SO(): EquationStorageValue { return this.toStorageValue() } // SO Legacy
-	static fromStorageValue(storageValue: EquationStorageValue, settings: ExpressionSettingsInput = {}): Equation {
+	static fromStorageValue(storageValue: EquationStorageValue, settings: ExpressionSettingsOptions = {}): Equation {
 		return new Equation(Expression.fromStorageValue(storageValue.left, settings), Expression.fromStorageValue(storageValue.right, settings), settings)
 	}
 
-	getInterpretationSettings(): InterpretationSettingsInput {
-		return { ...this.left.getInterpretationSettings(), ...this.right.getInterpretationSettings() }
+	inferInterpretationSettings(): InterpretationSettingsOptions {
+		return this.left.multiply(this.right).inferInterpretationSettings()
 	}
 
 	/*
@@ -80,7 +79,7 @@ export class Equation {
 	 */
 
 	// String
-	toString(settings: InterpretationSettingsInput = this.getInterpretationSettings()): string { return `${this.left.toString(settings)}=${this.right.toString(settings)}` }
+	toString(settings: InterpretationSettingsOptions = this.inferInterpretationSettings()): string { return `${this.left.toString(settings)}=${this.right.toString(settings)}` }
 	get str() { return this.toString() }
 	print() { console.log(this.toString()) }
 
@@ -93,10 +92,10 @@ export class Equation {
 	get tree() { return this.toTree() }
 
 	// InputValue
-	toInputValue(interpretationSettings: InterpretationSettingsInput = this.getInterpretationSettings()): EquationInputValue {
+	toInputValue(interpretationSettings: InterpretationSettingsOptions = this.inferInterpretationSettings()): EquationInputValue {
 		const leftInputValue = this.left.toInputValue(interpretationSettings)
 		const rightInputValue = this.right.toInputValue(interpretationSettings)
-		return addEquationWrapper(mergeAdjacentTextParts([...leftInputValue.value, '=', ...rightInputValue.value]), interpretationSettings, this.settings)
+		return createEquationInputValue(mergeAdjacentTextParts([...leftInputValue.value, '=', ...rightInputValue.value]), interpretationSettings, this.settings)
 	}
 
 	/*
@@ -107,7 +106,7 @@ export class Equation {
 	isTrivial(): boolean { return this.left.equalStructure(this.right) }
 	dependsOn(variable: VariableLike): boolean { return this.someSide(side => side.dependsOn(variable)) }
 	isNumeric(): boolean { return this.everySide(side => side.isNumeric()) }
-	hasFloat(): boolean { return this.someSide(side => side.hasFloat()) }
+	containsFloat(): boolean { return this.someSide(side => side.containsFloat()) }
 	isPolynomial(): boolean { return this.everySide(side => side.isPolynomial()) }
 	isRational(): boolean { return this.everySide(side => side.isRational()) }
 	isSingular(): boolean { return this.everySide(side => side.isSingular()) }
@@ -117,10 +116,10 @@ export class Equation {
 	 * Basic extractions
 	 */
 
-	getVariables(): Expression[] {
+	collectVariables(): Expression[] {
 		const variables: Expression[] = []
-		this.forEverySide(side => {
-			side.getVariables().forEach(variable => {
+		this.forEachSide(side => {
+			side.collectVariables().forEach(variable => {
 				if (!variables.some(existingVariable => existingVariable.strictEqualStructure(variable))) variables.push(variable)
 			})
 		})
@@ -138,9 +137,9 @@ export class Equation {
 	 */
 
 	self(): Equation { return this }
-	switch(): Equation { return this.recreateWith(this.right, this.left) }
+	switchSides(): Equation { return this.recreateWith(this.right, this.left) }
 	negate(): Equation { return this.mapSides(side => side.negate()) }
-	abs(): Equation { return this.mapSides(side => side.abs()) }
+	stripSigns(): Equation { return this.mapSides(side => side.stripSigns()) }
 	add(...terms: ExpressionLike[]): Equation { return this.mapSides(side => side.add(...terms)) }
 	addLeft(...terms: ExpressionLike[]): Equation { return this.mapSides(side => side.addLeft(...terms)) }
 	subtract(term: ExpressionLike): Equation { return this.mapSides(side => side.subtract(term)) }
@@ -169,7 +168,7 @@ export class Equation {
 	evaluateAt(substitutions: SubstitutionMap): boolean
 	evaluateAt(arg1: ExpressionLike | VariableLike | readonly VariableLike[] | SubstitutionMap, arg2?: ExpressionLike | readonly ExpressionLike[]): boolean {
 		const substituted = this.substitute(arg1 as never, arg2 as never)
-		if (!substituted.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the equation still depends on variables ${JSON.stringify(substituted.getVariables().map(variable => variable.str))}.`)
+		if (!substituted.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the equation still depends on variables ${JSON.stringify(substituted.collectVariables().map(variable => variable.str))}.`)
 		return approximatelyEqual(substituted.left.toNumber(), substituted.right.toNumber())
 	}
 
@@ -208,17 +207,17 @@ export class Equation {
 		return this.everySide((side, sideName) => side.every((expression, ancestors) => check(expression, ancestors, sideName)))
 	}
 
-	find(check: ExpressionInEquationCheck, childrenFirst = false): { expression: Expression, sideName: EquationSideName } | undefined {
+	find(check: ExpressionInEquationCheck, options: OrderedTraversalOptions = {}): { expression: Expression, sideName: EquationSideName } | undefined {
 		for (const sideName of equationSideNames) {
-			const result = this[sideName].find((expression, ancestors) => check(expression, ancestors, sideName), childrenFirst, true)
+			const result = this[sideName].find((expression, ancestors) => check(expression, ancestors, sideName), options)
 			if (result) return { expression: result, sideName }
 		}
 		return undefined
 	}
 
-	findAll(check: ExpressionInEquationCheck, childrenFirst = false): Expression[] {
+	findAll(check: ExpressionInEquationCheck, options: OrderedTraversalOptions = {}): Expression[] {
 		const results: Expression[] = []
-		this.forEvery((expression, ancestors, sideName) => { if (check(expression, ancestors, sideName)) results.push(expression) }, childrenFirst)
+		this.forEachExpression((expression, ancestors, sideName) => { if (check(expression, ancestors, sideName)) results.push(expression) }, options)
 		return results
 	}
 
@@ -226,7 +225,7 @@ export class Equation {
 	 * Side operations
 	 */
 
-	forEverySide(func: EquationSideFunction): void {
+	forEachSide(func: EquationSideFunction): void {
 		equationSideNames.forEach(sideName => func(this[sideName], sideName))
 	}
 
@@ -246,12 +245,12 @@ export class Equation {
 	 * Recursive operations
 	 */
 
-	forEvery(func: ExpressionInEquationFunction, childrenFirst = false): void {
-		this.forEverySide((side, sideName) => side.forEvery((child, ancestors) => func(child, ancestors, sideName), childrenFirst, true))
+	forEachExpression(func: ExpressionInEquationFunction, options: OrderedTraversalOptions = {}): void {
+		this.forEachSide((side, sideName) => side.forEachExpression((child, ancestors) => func(child, ancestors, sideName), options))
 	}
 
-	mapEvery(transform: ExpressionInEquationTransform, childrenFirst = true): Equation {
-		return this.mapSides((side, sideName) => side.mapEvery((child, ancestors) => transform(child, ancestors, sideName), childrenFirst, true))
+	mapExpressions(transform: ExpressionInEquationTransform, options: OrderedTraversalOptions = {}): Equation {
+		return this.mapSides((side, sideName) => side.mapExpressions((child, ancestors) => transform(child, ancestors, sideName), options))
 	}
 
 	/*
@@ -279,20 +278,21 @@ export class Equation {
 	 * Comparisons
 	 */
 
-	equalStructure(other: EquationLike, allowSwitch = true, allowOrderChanges?: boolean): boolean {
+	equalStructure(other: EquationLike, options: EquationStructureComparisonOptions = {}): boolean {
+		const { allowSideSwitch = true, allowOrderChanges } = options
 		const equation = this.coerceEquation(other)
-		if (this.left.equalStructure(equation.left, allowOrderChanges) && this.right.equalStructure(equation.right, allowOrderChanges)) return true
-		if (allowSwitch && this.equalStructure(equation.switch(), false, allowOrderChanges)) return true
+		if (this.left.equalStructure(equation.left, { allowOrderChanges }) && this.right.equalStructure(equation.right, { allowOrderChanges })) return true
+		if (allowSideSwitch && this.equalStructure(equation.switchSides(), { allowSideSwitch: false, allowOrderChanges })) return true
 		return false
 	}
 
 	strictEqualStructure(other: EquationLike): boolean {
-		return this.equalStructure(other, false, false)
+		return this.equalStructure(other, { allowSideSwitch: false, allowOrderChanges: false })
 	}
 
 	equals(other: EquationLike, equalityOptions: EquationEqualityOptionsInput): boolean {
 		// Verify the given options.
-		const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSwitch, allowMinus } = asEquationEqualityOptions(equalityOptions)
+		const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSideSwitch, allowNegatingBothSides } = asEquationEqualityOptions(equalityOptions)
 		if (preprocessSide && (preprocessLeft || preprocessRight)) throw new Error(`Invalid equation equality options: cannot define both preprocessSide and preprocessLeft/preprocessRight. Either use preprocessSide to preprocess both sides in the same way, or use preprocessLeft and preprocessRight to define different preprocessing for the two sides.`)
 		if (compareSide && (compareLeft || compareRight)) throw new Error(`Invalid equation equality options: cannot define both compareSide and compareLeft/compareRight. Either use compareSide to compare both sides in the same way, or use compareLeft and compareRight to define different comparisons for the two sides.`)
 
@@ -304,34 +304,36 @@ export class Equation {
 		// Determine preprocessing and comparison methods.
 		const prepLeft = preprocessLeft || preprocessSide || identity
 		const prepRight = preprocessRight || preprocessSide || identity
-		const defaultCompare = (a: Expression, b: Expression) => a.equalStructure(b, allowOrderChanges)
+		const defaultCompare = (a: Expression, b: Expression) => a.equalStructure(b, { allowOrderChanges })
 		const compLeft = compareLeft || compareSide || defaultCompare
 		const compRight = compareRight || compareSide || defaultCompare
 
 		// Run comparisons.
 		if (compLeft(prepLeft(otherEq.left), prepLeft(thisEq.left)) && compRight(prepRight(otherEq.right), prepRight(thisEq.right))) return true
-		if (allowSwitch && this.equals(otherEquation.switch(), { ...equalityOptions, allowSwitch: false })) return true
-		if (allowMinus && this.equals(otherEquation.negate(), { ...equalityOptions, allowMinus: false })) return true
+		if (allowSideSwitch && this.equals(otherEquation.switchSides(), { ...equalityOptions, allowSideSwitch: false })) return true
+		if (allowNegatingBothSides && this.equals(otherEquation.negate(), { ...equalityOptions, allowNegatingBothSides: false })) return true
 		return false
 	}
 
-	equivalent(other: EquationLike): boolean {
+	isEquivalentTo(other: EquationLike): boolean {
 		return this.normalizeToZero().left.isConstantMultiple(this.coerceEquation(other).normalizeToZero().left)
 	}
 
-	isConstantMultiple(other: EquationLike, allowSwitch = true): boolean {
+	isConstantMultiple(other: EquationLike, options: EquationMultipleComparisonOptions = {}): boolean {
+		const { allowSideSwitch = true } = options
 		const equation = this.coerceEquation(other)
 		if (this.hasSameSideMultiple(equation, (a, b) => a.isConstantMultiple(b))) return true
-		return allowSwitch && this.isConstantMultiple(equation.switch(), false)
+		return allowSideSwitch && this.isConstantMultiple(equation.switchSides(), { allowSideSwitch: false })
 	}
 
-	isIntegerMultiple(other: EquationLike, allowSwitch = true): boolean {
+	isIntegerMultiple(other: EquationLike, options: EquationMultipleComparisonOptions = {}): boolean {
+		const { allowSideSwitch = true } = options
 		const equation = this.coerceEquation(other)
 		if (this.hasSameSideMultiple(equation, (a, b) => a.isIntegerMultiple(b))) return true
-		return allowSwitch && this.isIntegerMultiple(equation.switch(), false)
+		return allowSideSwitch && this.isIntegerMultiple(equation.switchSides(), { allowSideSwitch: false })
 	}
 
 	private hasSameSideMultiple(equation: Equation, isMultiple: (a: Expression, b: Expression) => boolean): boolean {
-		return isMultiple(this.left, equation.left) && isMultiple(this.right, equation.right) && this.left.multiply(equation.right).equivalent(equation.left.multiply(this.right))
+		return isMultiple(this.left, equation.left) && isMultiple(this.right, equation.right) && this.left.multiply(equation.right).isEquivalentTo(equation.left.multiply(this.right))
 	}
 }

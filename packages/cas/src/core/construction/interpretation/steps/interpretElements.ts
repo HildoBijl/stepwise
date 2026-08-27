@@ -3,14 +3,14 @@ import { isTextPart } from '@step-wise/math-input-value'
 
 import { ExpressionNode } from '../../nodes'
 
-import type { IntermediateInterpretationPart, InterpreterContext } from '../types'
+import type { InterpretationPart, InterpreterContext } from '../types'
 
 import { interpretAccent } from './interpretAccent'
 import { interpretFraction, interpretRoot, interpretSquareRoot } from './interpretConstruct'
-import { incorporateSubSup } from './interpretSubSup'
+import { interpretSubSup } from './interpretSubSup'
 
 // Interpret the remaining accents, SubSups and self-contained constructs.
-export function interpretElements(value: IntermediateInterpretationPart[], context: InterpreterContext): ExpressionNode[] {
+export function interpretElements(value: InterpretationPart[], context: InterpreterContext): ExpressionNode[] {
 	const result: ExpressionNode[] = []
 	value.forEach(element => {
 		if (element instanceof ExpressionNode) return result.push(element)
@@ -18,7 +18,7 @@ export function interpretElements(value: IntermediateInterpretationPart[], conte
 
 		switch (element.type) {
 			case 'Accent': return result.push(interpretAccent(element))
-			case 'SubSup': return incorporateSubSup(element, result, context)
+			case 'SubSup': return interpretSubSup(element, result, context)
 			case 'Fraction': return result.push(interpretFraction(element, context))
 			case 'SquareRoot': return result.push(interpretSquareRoot(element, context))
 			case 'Root': return result.push(interpretRoot(element, context))

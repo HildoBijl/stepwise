@@ -73,7 +73,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, expanded, termToMove, shifted, pulledOut, bracketFactor, ans }) => {
-			return <Par><Translation>The equation is linear, so we take the default plan of approach. First we expand all brackets to get <BM>{expanded}.</BM> We then move all terms with <M>{variables.x}</M> to one side and all terms without <M>{variables.x}</M> to the other side. That is, <M>{termToMove.abs()}</M> moves to the left, such that <BM>{shifted}.</BM> Next, we pull <M>{variables.x}</M> out of brackets. This turns the above into <BM>{pulledOut}.</BM> Finally we divide both sides of the equation by <M>{bracketFactor}</M> to solve for <M>{variables.x}</M>. The result is <BM>{variables.x} = {ans}.</BM></Translation></Par>
+			return <Par><Translation>The equation is linear, so we take the default plan of approach. First we expand all brackets to get <BM>{expanded}.</BM> We then move all terms with <M>{variables.x}</M> to one side and all terms without <M>{variables.x}</M> to the other side. That is, <M>{termToMove.stripSigns()}</M> moves to the left, such that <BM>{shifted}.</BM> Next, we pull <M>{variables.x}</M> out of brackets. This turns the above into <BM>{pulledOut}.</BM> Finally we divide both sides of the equation by <M>{bracketFactor}</M> to solve for <M>{variables.x}</M>. The result is <BM>{variables.x} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]

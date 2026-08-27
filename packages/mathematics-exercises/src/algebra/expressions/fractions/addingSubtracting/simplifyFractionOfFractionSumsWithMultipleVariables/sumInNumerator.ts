@@ -4,9 +4,9 @@ import { asExpression, expressionComparisons, expressionOperations } from '@step
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges } = expressionComparisons
+const { areEqualExceptOrder } = expressionComparisons
 const { multiplyNumeratorAndDenominator } = expressionOperations
 
 // (x/a + y/b)/(cz).
@@ -18,7 +18,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'simplifyFractionOfFractionSumsWithMultipleVariables',
 		...createStepExerciseMetadata(['addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables']),
-		comparisons: { Expression: onlyOrderChanges },
+		comparisons: { Expression: areEqualExceptOrder },
 	},
 
 	generateParameters() {
@@ -32,15 +32,15 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const fraction1 = asExpression('x/a').substitute(variables)
 		const fraction2 = asExpression('y/b').substitute(variables)
 		const numerator = parameters.plus ? fraction1.add(fraction2) : fraction1.subtract(fraction2)
 		const denominator = asExpression('cz').substitute(variables)
 		const expression = numerator.divide(denominator)
 		const gcdValue = gcd(parameters.a, parameters.b)
-		const fraction1Intermediate = multiplyNumeratorAndDenominator(fraction1, parameters.b / gcdValue).flatten(['mergeProductNumbers'])
-		const fraction2Intermediate = multiplyNumeratorAndDenominator(fraction2, parameters.a / gcdValue).flatten(['mergeProductNumbers'])
+		const fraction1Intermediate = multiplyNumeratorAndDenominator(fraction1, parameters.b / gcdValue).flatten(['combineNumbersInProducts'])
+		const fraction2Intermediate = multiplyNumeratorAndDenominator(fraction2, parameters.a / gcdValue).flatten(['combineNumbersInProducts'])
 		const intermediateSplit = parameters.plus ? fraction1Intermediate.add(fraction2Intermediate) : fraction1Intermediate.subtract(fraction2Intermediate)
 		const intermediate = (parameters.plus ? fraction1Intermediate.numerator.add(fraction2Intermediate.numerator) : fraction1Intermediate.numerator.subtract(fraction2Intermediate.numerator)).divide(fraction1Intermediate.denominator).combine()
 		const expressionWithIntermediate = intermediate.divide(denominator)

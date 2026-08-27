@@ -1,17 +1,17 @@
-import { type ExpressionNode, type RootLike, product } from '../../../../construction'
+import { type ExpressionNode, type RootFunction, product } from '../../../../construction'
 
-import { isRootLike, isProduct } from '../../../structural'
+import { isRootFunction, isProduct } from '../../../structural'
 
-import { mergeFractionFactors, mergeProductsOfRoots, mergeProductsWithRoots } from '../combination'
+import { combineFractionFactors, combineRootsInProducts, combineProductsWithRoots } from '../combination'
 import { defineRule } from '../ruleDefinition'
 
-function transform(node: RootLike): ExpressionNode {
+function transform(node: RootFunction): ExpressionNode {
 	return isProduct(node.radicand) ? product(...node.radicand.factors.map(factor => node.recreateWith(factor))) : node
 }
 
 export const expandRootsOfProducts = defineRule({
 	name: 'expandRootsOfProducts',
-	appliesTo: isRootLike,
+	appliesTo: isRootFunction,
 	transform,
-	conflictsWith: [mergeFractionFactors, mergeProductsOfRoots, mergeProductsWithRoots],
+	conflictsWith: [combineFractionFactors, combineRootsInProducts, combineProductsWithRoots],
 })

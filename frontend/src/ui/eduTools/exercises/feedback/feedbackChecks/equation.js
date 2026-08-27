@@ -20,7 +20,7 @@ export const fullEquationFeedback = (input, correct, solution, isCorrect, compar
 		return selectRandomCorrect()
 
 	// Find the right processing and checking functions.
-	const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSwitch } = asEquationEqualityOptions(resolveFunctionValue(compare, solution))
+	const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSideSwitch } = asEquationEqualityOptions(resolveFunctionValue(compare, solution))
 	input = preprocess(input)
 	correct = preprocess(correct)
 
@@ -37,14 +37,14 @@ export const fullEquationFeedback = (input, correct, solution, isCorrect, compar
 	const isLeftSideCorrect = compLeft(prepLeft(input.left), left)
 	const isRightSideCorrect = compRight(prepRight(input.right), right)
 	if ((isLeftSideCorrect && !isRightSideCorrect) || (!isLeftSideCorrect && isRightSideCorrect))
-		return oneSideCorrect(isLeftSideCorrect, isLeftSideCorrect ? expressionComparisons.equivalent(input.right, correct.right) : expressionComparisons.equivalent(input.left, correct.left))
+		return oneSideCorrect(isLeftSideCorrect, isLeftSideCorrect ? expressionComparisons.areEquivalent(input.right, correct.right) : expressionComparisons.areEquivalent(input.left, correct.left))
 
 	// Check if sides are mixed up.
 	const correctLeftIsRight = compLeft(prepLeft(input.right), left)
 	const correctRightIsLeft = compRight(prepRight(input.left), right)
-	if (allowSwitch) {
+	if (allowSideSwitch) {
 		if (correctLeftIsRight || correctRightIsLeft)
-			return oneSideCorrect(correctRightIsLeft, correctRightIsLeft ? expressionComparisons.equivalent(input.right, correct.left) : expressionComparisons.equivalent(input.left, correct.right))
+			return oneSideCorrect(correctRightIsLeft, correctRightIsLeft ? expressionComparisons.areEquivalent(input.right, correct.left) : expressionComparisons.areEquivalent(input.left, correct.right))
 	} else {
 		if (correctLeftIsRight && correctRightIsLeft)
 			return sidesSwitched()
@@ -71,15 +71,15 @@ function oneSideSwitched(correctRightIsLeft) {
  * Basic checks for extra feedback options.
  */
 
-export const originalEquation = (input, correct, { equation }) => equationComparisons.onlyOrderChanges(input, equation) && <Translation path={translationPath} entry="equation.original">This is the original equation. You have not rewritten it yet.</Translation>
+export const originalEquation = (input, correct, { equation }) => equationComparisons.areEqualExceptOrder(input, equation) && <Translation path={translationPath} entry="equation.original">This is the original equation. You have not rewritten it yet.</Translation>
 
-export const incorrectEquation = (input, correct, solution, isCorrect) => !isCorrect && !equationComparisons.equivalent(input, correct) && <Translation path={translationPath} entry="equation.incorrect">This equation is not equal to what has been given. In rewriting it you took a wrong step somewhere.</Translation>
+export const incorrectEquation = (input, correct, solution, isCorrect) => !isCorrect && !equationComparisons.areEquivalent(input, correct) && <Translation path={translationPath} entry="equation.incorrect">This equation is not equal to what has been given. In rewriting it you took a wrong step somewhere.</Translation>
 
-export const hasIncorrectLeftSide = (input, correct, solution, isCorrect) => !isCorrect && !expressionComparisons.equivalent(input.left, correct.left) && !expressionComparisons.equivalent(input.left, correct.right) && <Translation path={translationPath} entry="equation.incorrectLeftSide">The left side of the equation is not what was expected.</Translation>
-export const hasIncorrectRightSide = (input, correct, solution, isCorrect) => !isCorrect && !expressionComparisons.equivalent(input.right, correct.right) && !expressionComparisons.equivalent(input.right, correct.left) && <Translation path={translationPath} entry="equation.incorrectRightSide">The right side of the equation is not what was expected.</Translation>
+export const hasIncorrectLeftSide = (input, correct, solution, isCorrect) => !isCorrect && !expressionComparisons.areEquivalent(input.left, correct.left) && !expressionComparisons.areEquivalent(input.left, correct.right) && <Translation path={translationPath} entry="equation.incorrectLeftSide">The left side of the equation is not what was expected.</Translation>
+export const hasIncorrectRightSide = (input, correct, solution, isCorrect) => !isCorrect && !expressionComparisons.areEquivalent(input.right, correct.right) && !expressionComparisons.areEquivalent(input.right, correct.left) && <Translation path={translationPath} entry="equation.incorrectRightSide">The right side of the equation is not what was expected.</Translation>
 export const hasIncorrectSide = (...args) => hasIncorrectLeftSide(...args) || hasIncorrectRightSide(...args)
 
-export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equationComparisons.equivalent(input, correct) && resolveFunctionValuesDeep(message, input, correct, solution, isCorrect, exerciseData))
+export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equationComparisons.areEquivalent(input, correct) && resolveFunctionValuesDeep(message, input, correct, solution, isCorrect, exerciseData))
 
 export const correctEquation = correctEquationWithMessage(<Translation path={translationPath} entry="equation.correct">The equation is correct, but you have not done what was required.</Translation>)
 
@@ -132,12 +132,12 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 				return <Translation path={translationPath} entry="equation.wrongNumberOfSumTerms">The sum on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of the equals sign has <CountingWord>{inputSide.terms.length}</CountingWord> terms. There were <CountingWord>{correctSide.terms.length}</CountingWord> terms expected.</Translation>
 
 			// Find an input term that is not in the solution.
-			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.equivalent(inputTerm, correctTerm)))
+			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.areEquivalent(inputTerm, correctTerm)))
 			if (index !== -1)
 				return <Translation path={translationPath} entry="equation.errorInSumTerm">There seems to be an error in the <CountingWord ordinal={true}>{index + 1}</CountingWord> term on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side.</Translation>
 		} else {
 			// Check that the given terms are the same.
-			if (!expressionComparisons.equivalent(inputSide, correctSide))
+			if (!expressionComparisons.areEquivalent(inputSide, correctSide))
 				return <Translation path={translationPath} entry="equation.errorInSide">There seems to be an error in the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of the equation.</Translation>
 		}
 	}
@@ -146,7 +146,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 	return (findWithValue(['left', 'right'], inspectSide) || {}).value
 }
 
-// sumWithUnsimplifiedTerms checks if the left and right side have the same form. When terms are equivalent but do not match the onlyOrderChanges check, it notes that further simplifications are possible.
+// sumWithUnsimplifiedTerms checks if the left and right side have the same form. When terms are equivalent but do not match the areEqualExceptOrder check, it notes that further simplifications are possible.
 export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) => {
 	if (isCorrect)
 		return
@@ -165,12 +165,12 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 		// If the correct answer has a sum ...
 		if (correctSide.isSum()) {
 			// Find an input term that is not in the solution when checking only for order changes.
-			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.onlyOrderChanges(inputTerm, correctTerm)))
+			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.areEqualExceptOrder(inputTerm, correctTerm)))
 			if (index !== -1)
 				return <Translation path={translationPath} entry="equation.unsimplifiedSumTerm">You can still simplify the <CountingWord ordinal={true}>{index + 1}</CountingWord> term on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side.</Translation>
 		} else {
 			// Check that the given terms are the same.
-			if (!expressionComparisons.onlyOrderChanges(inputSide, correctSide))
+			if (!expressionComparisons.areEqualExceptOrder(inputSide, correctSide))
 				return <Translation path={translationPath} entry="equation.unsimplifiedSide">You can still simplify the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side.</Translation>
 		}
 	}

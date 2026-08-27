@@ -40,15 +40,15 @@ describe('simplification stages', () => {
 	})
 
 	test('reduces fraction factors before expanding sums', () => {
-		const { cancelFractionFactors, mergeFractionFactors, expandProductsOfSums, expandPowersOfSums } = simplificationRules
-		const reductionStage = new Set([cancelFractionFactors, mergeFractionFactors])
+		const { cancelFractionFactors, combineFractionFactors, expandProductsOfSums, expandPowersOfSums } = simplificationRules
+		const reductionStage = new Set([cancelFractionFactors, combineFractionFactors])
 		const expansionStage = new Set([...reductionStage, expandProductsOfSums, expandPowersOfSums])
 		expect(resolveSimplificationStages(expansionStage)).toEqual([reductionStage, expansionStage])
 	})
 
 	test('applies polynomial cancellation after its normalization requirements', () => {
 		const requirementStage = new Set(normalizationRequirementRules)
-		const polynomialStage = new Set([...requirementStage, simplificationRules.applyPolynomialCancellation])
+		const polynomialStage = new Set([...requirementStage, simplificationRules.cancelPolynomialFactors])
 		const stages = resolveSimplificationStages(polynomialStage)
 		expect(stages.slice(0, -1)).toEqual(resolveSimplificationStages(requirementStage))
 		expect(stages[stages.length - 1]).toEqual(polynomialStage)

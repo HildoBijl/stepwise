@@ -5,7 +5,7 @@ import { expressionChecks, expressionComparisons } from '@step-wise/cas'
 import { Translation, CountingWord } from 'i18n'
 import { M } from 'ui/components'
 
-const { onlyOrderChanges, equivalent, constantMultiple } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent: equivalent, areConstantMultiples } = expressionComparisons
 
 const translationPath = 'eduTools/feedback'
 
@@ -16,7 +16,7 @@ const translationPath = 'eduTools/feedback'
 export const originalExpression = (input, correct, { expression }, isCorrect) => {
 	if (!expression)
 		throw new Error(`Invalid originalExpression call: to use the originalExpression feedback check, there must be an "expression" parameter (the starting point) in the solution object to compare to. This is not present.`)
-	return !isCorrect && onlyOrderChanges(input.flatten(), expression.flatten()) && <Translation path={translationPath} entry="expression.original">This is the original expression. You have not rewritten it yet.</Translation>
+	return !isCorrect && areEqualExceptOrder(input.flatten(), expression.flatten()) && <Translation path={translationPath} entry="expression.original">This is the original expression. You have not rewritten it yet.</Translation>
 }
 
 // nonEquivalentExpression checks for equivalency and is useful for exercises where an expression needs to be rewritten. The text assumes an expression was given.
@@ -66,7 +66,7 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 		return sumWithWrongTermsResult
 
 	// Find an input term that is not in the solution when checking only for order changes.
-	const index = input.terms.findIndex(inputTerm => !correct.terms.some(correctTerm => onlyOrderChanges(inputTerm, correctTerm)))
+	const index = input.terms.findIndex(inputTerm => !correct.terms.some(correctTerm => areEqualExceptOrder(inputTerm, correctTerm)))
 	if (index !== -1)
 		return <Translation path={translationPath} entry="expression.unsimplifiedSumTerm">You can still further simplify the <CountingWord ordinal={true}>{index + 1}</CountingWord> term of your solution.</Translation>
 }
@@ -108,7 +108,7 @@ export const hasVariable = (variableName) => ((input, correct, { variables }, is
 
 export const hasX = hasVariable('x')
 
-export const hasNumberSimplifications = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.removeTrivial(), input.mergeNumbers()) && <Translation path={translationPath} entry="expression.hasNumberSimplifications">You can still simplify the numbers in your solution.</Translation>
+export const hasNumberSimplifications = (input, correct, solution, isCorrect) => !isCorrect && !areEqualExceptOrder(input.removeTrivial(), input.mergeNumbers()) && <Translation path={translationPath} entry="expression.hasNumberSimplifications">You can still simplify the numbers in your solution.</Translation>
 
 export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinProduct(input) && <Translation path={translationPath} entry="expression.hasSumWithinProduct">Your solution has unexpanded brackets.</Translation>
 
@@ -128,15 +128,15 @@ export const hasFractionWithinFraction = (input, correct, solution, isCorrect) =
 
 export const hasXInDenominator = (input, correct, { variables }, isCorrect) => !isCorrect && expressionChecks.hasVariableInDenominator(input, variables.x) && <Translation path={translationPath} entry="expression.hasXInDenominator">You cannot have <M>{variables.x}</M> appear in any denominator anymore.</Translation>
 
-export const unsimplifiedFractionNumbers = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.flatten(['mergeProductNumbers', 'mergeFractionNumbers']), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionNumbers">The fraction can still be simplified further. Try dividing the numerator and the denominator by the right number.</Translation>
+export const unsimplifiedFractionNumbers = (input, correct, solution, isCorrect) => !isCorrect && !areEqualExceptOrder(input.flatten(['combineNumbersInProducts', 'combineNumbersInFractions']), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionNumbers">The fraction can still be simplified further. Try dividing the numerator and the denominator by the right number.</Translation>
 
-export const unsimplifiedFractionFactors = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.flatten(['mergeProductFactors', 'cancelFractionFactors', 'mergeProductMinuses', 'removeDoubleNegatives']), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionFactors">There are still factors that can be canceled in the numerator and the denominator.</Translation>
+export const unsimplifiedFractionFactors = (input, correct, solution, isCorrect) => !isCorrect && !areEqualExceptOrder(input.flatten(['combineLikeFactors', 'cancelFractionFactors', 'combineMinusSignsInProducts', 'removeDoubleNegatives']), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionFactors">There are still factors that can be canceled in the numerator and the denominator.</Translation>
 
 export const fractionNumeratorHasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && input.isFraction() && expressionChecks.hasSumWithinProduct(input.numerator) && <Translation path={translationPath} entry="expression.fractionNumeratorHasSumWithinProduct">There are still unexpanded brackets in the numerator.</Translation>
 
 export const hasPower = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasPower(input) && <Translation path={translationPath} entry="expression.hasPower">Your solution still has an exponent. You can simplify this further.</Translation>
 
-export const unsimplifiedPowerMerging = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.flatten(['mergeProductFactors']), input) && <Translation path={translationPath} entry="expression.unsimplifiedPowerMerging">There are still factors in a product that can be pulled together into a power.</Translation>
+export const unsimplifiedPowerMerging = (input, correct, solution, isCorrect) => !isCorrect && !areEqualExceptOrder(input.flatten(['combineLikeFactors']), input) && <Translation path={translationPath} entry="expression.unsimplifiedPowerMerging">There are still factors in a product that can be pulled together into a power.</Translation>
 
 /*
  * Common mistake checks.
@@ -159,9 +159,9 @@ export const incorrectFraction = (input, correct, solution, isCorrect) => {
 	// If we didn't receive a Fraction, it's probably because accidentally things got canceled out and we remain with [stuff]/1. So put it back in that form.
 	if (!correct.isFraction())
 		correct = correct.divide(1)
-	if (!constantMultiple(input.numerator, correct.numerator))
+	if (!areConstantMultiples(input.numerator, correct.numerator))
 		return <Translation path={translationPath} entry="expression.incorrectFraction.incorrectNumerator">The numerator of your fraction (above) is not what was expected. Did you apply all the rules correctly?</Translation>
-	if (!constantMultiple(input.denominator, correct.denominator))
+	if (!areConstantMultiples(input.denominator, correct.denominator))
 		return <Translation path={translationPath} entry="expression.incorrectFraction.incorrectDenominator">The denominator of your fraction (below) is not what was expected. Did you apply all the rules correctly?</Translation>
 	return <Translation path={translationPath} entry="expression.incorrectFraction.constantMultiple">You seem to be off by a constant multiple.</Translation>
 }

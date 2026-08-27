@@ -3,9 +3,9 @@ import { asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 
 // a*x^2+b*x+c=0
 const variableSet = ['x', 'y', 'z']
@@ -17,7 +17,7 @@ export default buildStepExercise({
 		skill: 'solveQuadraticEquation',
 		weight: 2,
 		...createStepExerciseMetadata(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, 'simplifyFraction']),
-		comparisons: { a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {}, ans1: onlyOrderChanges, ans2: onlyOrderChanges },
+		comparisons: { a: {}, b: {}, c: {}, solutionFull: areEquivalent, D: {}, numSolutions: {}, ans1: areEqualExceptOrder, ans2: areEqualExceptOrder },
 	},
 
 	generateParameters(example) {
@@ -30,14 +30,14 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('a*x^2 + b*x + c = 0').substitute(variables).removeTrivial()
 		const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substitute(variables).removeTrivial()
 		const rootFull = solutionFull.find(term => term.isSqrt())
 		if (!rootFull?.isSqrt()) throw new Error('Expected the quadratic formula to contain a square root.')
 		const DFull = rootFull.radicand
 		const D = DFull.combine()
-		const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial([], ['reduceRootsWithZeroRadicand'])
+		const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial([], ['simplifyZeroRadicandRoots'])
 		const solution = solutionFull.combine()
 		const solutionsSplit = solution.getSingular().map(solution => solution.removeTrivial())
 		const solutions = solutionsSplit.map(solution => solution.combine())

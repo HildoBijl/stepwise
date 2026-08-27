@@ -1,4 +1,3 @@
-export * from './fundamentals'
-export * from './comparisons'
-export * from './checks'
+export * from './inspection'
+export * from './evaluation'
 export * from './manipulation'

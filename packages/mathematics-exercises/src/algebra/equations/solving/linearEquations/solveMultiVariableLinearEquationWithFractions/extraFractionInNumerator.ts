@@ -3,7 +3,7 @@ import { type Equation, type Expression, asEquation, expressionComparisons, expr
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 // (ax-x^2/y)/(bx^2) = cz.
 const availableVariableSets = [['a', 'b', 'c'], ['w', 'x', 'y'], ['p', 'q', 'r']]
@@ -15,9 +15,9 @@ export default buildStepExercise({
 		skill: 'solveMultiVariableLinearEquationWithFractions',
 		...createStepExerciseMetadata(['simplifyFractionOfFractionSumsWithMultipleVariables', 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation']),
 		comparisons: {
-			simplified: (input: Equation, correct: Equation) => expressionComparisons.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && expressionComparisons.equivalent(input.left, correct.left),
-			multiplied: (input: Equation, correct: Equation) => !equationChecks.hasFraction(input) && (equationComparisons.equivalentSides(input, correct) || equationComparisons.equivalentSides(input, correct.negate())),
-			ans: (input: Expression, correct: Expression) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
+			simplified: (input: Equation, correct: Equation) => expressionComparisons.areEqualExceptOrder(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && expressionComparisons.areEquivalent(input.left, correct.left),
+			multiplied: (input: Equation, correct: Equation) => !equationChecks.hasFraction(input) && (equationComparisons.haveEquivalentSides(input, correct) || equationComparisons.haveEquivalentSides(input, correct.negate())),
+			ans: (input: Expression, correct: Expression) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.areEquivalent(input, correct),
 		},
 	},
 
@@ -32,11 +32,11 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Extract parameters variables.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('(ax-x^2/y)/(bx^2) = cz').substitute(variables).removeTrivial()
 
 		// Find the solution.
-		const simplified = equation.mapLeft(left => left.combine(['mergeFractionSums']))
+		const simplified = equation.mapLeft(left => left.combine(['combineSumFractions']))
 		const multiplied = simplified.mapSides(side => side.multiply(simplified.left.denominator)).combine()
 		const shifted = multiplied.subtract(multiplied.left.terms[1]).cancel()
 		const pulledOut = shifted.mapRight(side => side.factorOut(variables.x).combine())

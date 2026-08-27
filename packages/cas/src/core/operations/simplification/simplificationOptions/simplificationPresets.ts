@@ -11,88 +11,88 @@ export const flatten = new Set<SimplificationOption>([
 	'flattenProducts',
 
 	// Resolve minus confusion
-	'mergeProductMinuses',
+	'combineMinusSignsInProducts',
 ])
 
 export const removeTrivial = new Set<SimplificationOption>([
 	...flatten,
 
 	// Structure
-	'turnFloatsIntoIntegers',
-	'turnDegreeTwoRootsIntoSqrts',
+	'convertIntegerFloatsToIntegers',
+	'rewriteSquareRootsAsSqrts',
 
 	// Excess minuses
-	'removeSignsFromZeros',
+	'removeSignsFromZero',
 	'removeDoubleNegatives',
 
 	// Excess plus-minuses.
 	'removeDoubleSigns',
-	'mergeProductPlusMinuses',
+	'combinePlusMinusSignsInProducts',
 
 	// Excess zeros
 	'removeZeroesFromSums',
-	'reduceProductsWithZero',
-	'reduceFractionsWithZeroNumerator',
-	'reducePowersWithZeroExponent',
-	'reducePowersWithZeroBase',
-	'reduceRootsWithZeroRadicand',
-	'reduceLogarithmsWithOneArgument',
+	'simplifyZeroProducts',
+	'simplifyZeroNumeratorFractions',
+	'simplifyZeroExponentPowers',
+	'simplifyZeroBasePowers',
+	'simplifyZeroRadicandRoots',
+	'simplifyUnitArgumentLogarithms',
 
 	// Excess ones
 	'removeOnesFromProducts',
-	'reduceFractionsWithOneDenominator',
-	'removeOneExponentsFromPowers',
-	'reducePowersWithOneBase',
-	'reduceRootsWithOneRadicand',
-	'reduceRootsWithOneDegree',
-	'reduceLogarithmsWithBaseArgument',
+	'simplifyUnitDenominatorFractions',
+	'simplifyUnitExponentPowers',
+	'simplifyUnitBasePowers',
+	'simplifyUnitRadicandRoots',
+	'simplifyUnitDegreeRoots',
+	'simplifyBaseArgumentLogarithms',
 ])
 
 export const mergeNumbers = new Set<SimplificationOption>([
 	...removeTrivial,
-	'mergeSumNumbers',
-	'mergeProductNumbers',
-	'mergeFractionMinuses',
-	'mergeFractionNumbers',
-	'reduceFractionsWithOneDenominator',
-	'mergePowerMinuses',
-	'reduceNumberPowers',
-	'reduceNumberRoots',
+	'combineNumbersInSums',
+	'combineNumbersInProducts',
+	'combineMinusSignsInFractions',
+	'combineNumbersInFractions',
+	'simplifyUnitDenominatorFractions',
+	'combineMinusSignsInPowers',
+	'evaluateNumericPowers',
+	'evaluateNumericRoots',
 ])
 
 export const cancel = new Set<SimplificationOption>([
 	...mergeNumbers,
 	'expandMinusSums',
-	'mergeFractionSumMinuses',
+	'factorMinusSignsOutOfFractionSums',
 	'cancelSumTerms',
 	'cancelFractionFactors',
-	'reduceCanceledRoots',
+	'cancelMatchingRootsAndPowers',
 ])
 
 export const combine = new Set<SimplificationOption>([
 	...cancel,
-	'groupSumTerms',
-	'mergeProductFactors',
-	'mergeFractionProducts',
+	'combineLikeTerms',
+	'combineLikeFactors',
+	'combineProductFractions',
 	'flattenFractions',
-	'mergeFractionFactors',
-	'mergeNumericFractionSums',
-	'convertNegativePowers',
-	'removePowersWithinPowers',
-	'mergeProductsOfRoots',
-	'pullExponentsIntoRoots',
-	'reducePowersInRoots',
+	'combineFractionFactors',
+	'combineNumericFractionsInSums',
+	'rewriteNegativePowersAsFractions',
+	'flattenNestedPowers',
+	'combineRootsInProducts',
+	'moveExponentsIntoRoots',
+	'reduceRootPowerExponents',
 ])
 
 export const expand = new Set<SimplificationOption>([
 	...combine,
 	'expandPlusMinusSums',
 	'expandProductsOfSums',
-	'mergeFractionSums',
+	'combineSumFractions',
 	'expandPowersOfProducts',
 	'expandPowersOfFractions',
 	'expandPowersOfSums',
-	'mergeProductsWithRoots',
+	'combineProductsWithRoots',
 ])
 
 export const sort = new Set<SimplificationOption>([
@@ -104,35 +104,35 @@ export const normalizationRequirements = new Set<SimplificationOption>(normaliza
 
 export const normalize = new Set<SimplificationOption>([
 	...normalizationRequirements,
-	'normalizeFractionMinuses',
-	'applyPolynomialCancellation',
-	'turnRootsIntoFractionExponents',
+	'normalizeFractionSigns',
+	'cancelPolynomialFactors',
+	'rewriteRootsAsFractionalPowers',
 ])
 
 export const factorize = new Set<SimplificationOption>([
 	...removeTrivial,
-	'mergeSumNumbers',
+	'combineNumbersInSums',
 	'cancelSumTerms',
 	'expandMinusSums',
-	'reducePowersWithZeroExponent',
+	'simplifyZeroExponentPowers',
 	'removeOnesFromProducts',
 	'factorizeIntegers',
-	'mergeProductFactors',
-	'pullOutCommonSumNumbers',
-	'pullOutCommonSumFactors',
+	'combineLikeFactors',
+	'factorCommonNumericTerms',
+	'factorCommonFactors',
 	'expandRootsOfProducts',
-	'pullFactorsOutOfRoots',
+	'extractFactorsFromRoots',
 ])
 
 export const format = difference(new Set<SimplificationOption>([
 	...combine,
 	...sort,
 	'expandMinusSums',
-	'mergeProductFactors',
+	'combineLikeFactors',
 	'cancelSumTerms',
-	'pullOutCommonSumNumbers',
-	'pullOutCommonSumFactors',
-	'turnFractionExponentsIntoRoots',
-	'pullFactorsOutOfRoots',
-	// 'preventRootDenominators',
-]), new Set<SimplificationOption>(['expandProductsOfSums', 'mergeFractionFactors', 'mergeProductFactors', 'mergeProductsOfRoots', 'mergeProductsWithRoots', 'reducePowersInRoots']))
+	'factorCommonNumericTerms',
+	'factorCommonFactors',
+	'rewriteFractionalPowersAsRoots',
+	'extractFactorsFromRoots',
+	// 'rationalizeRootDenominators',
+]), new Set<SimplificationOption>(['expandProductsOfSums', 'combineFractionFactors', 'combineLikeFactors', 'combineRootsInProducts', 'combineProductsWithRoots', 'reduceRootPowerExponents']))

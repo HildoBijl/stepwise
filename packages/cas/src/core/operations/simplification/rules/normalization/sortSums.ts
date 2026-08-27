@@ -1,6 +1,6 @@
 import { type ExpressionNode, type Variable, Sum } from '../../../../construction'
 
-import { isSum, isSignNode, isVariable, isProduct, isPower, isNumeric, isPolynomial, isRational, numericNodeToNumber, getVariables, equalVariables, dependsOn } from '../../../structural'
+import { isSum, isSignNode, isVariable, isProduct, isPower, isNumeric, isSingular, isPolynomial, isRational, tryToEvaluateNumericNode, collectVariables, areVariablesEqual, dependsOn } from '../../../structural'
 
 import { defineRule } from '../ruleDefinition'
 import { compareVariableNodes } from '../utils'
@@ -13,21 +13,25 @@ function transform(node: Sum): Sum {
 // Sorting function that determines which of two expressions should come first.
 function orderSumTerms(a: ExpressionNode, b: ExpressionNode): number {
 	// First sort by type.
-	const tests = [(node: ExpressionNode) => isPolynomial(node) && !isNumeric(node), isNumeric, isRational, () => true]
-	const index = tests.findIndex(test => test(a) || test(b))
-	const test = tests[index]
-	if (!test(a)) return 1
-	if (!test(b)) return -1
+	const categoryPredicates = [(node: ExpressionNode) => isPolynomial(node) && !isNumeric(node), isNumeric, isRational, () => true]
+	const index = categoryPredicates.findIndex(categoryPredicate => categoryPredicate(a) || categoryPredicate(b))
+	const categoryPredicate = categoryPredicates[index]
+	if (!categoryPredicate(a)) return 1
+	if (!categoryPredicate(b)) return -1
 
 	// On numbers, sort large to small. Otherwise check variable lists.
-	if (index === 1) return numericNodeToNumber(b) - numericNodeToNumber(a)
+	if (index === 1 && isSingular(a) && isSingular(b)) {
+		const aValue = tryToEvaluateNumericNode(a)
+		const bValue = tryToEvaluateNumericNode(b)
+		return aValue === undefined || bValue === undefined ? 0 : bValue - aValue
+	}
 	return compareVariableLists(a, b)
 }
 
 // Sorting function that determines, based on the variables that occur in an expression, which expression should come first in a term sorting.
 function compareVariableLists(a: ExpressionNode, b: ExpressionNode): number {
-	const aVariables = getVariables(a)
-	const bVariables = getVariables(b)
+	const aVariables = collectVariables(a)
+	const bVariables = collectVariables(b)
 	for (let i = 0; i < aVariables.length; i++) {
 		const aVariable = aVariables[i]
 		const bVariable = bVariables[i]
@@ -51,8 +55,8 @@ function compareVariablePower(a: ExpressionNode, b: ExpressionNode, variable: Va
 // For an expression depending on a variable, try to find the exponent that's above this variable.
 function getExponentOfVariable(variable: Variable, node: ExpressionNode): number | undefined {
 	if (isSignNode(node)) return getExponentOfVariable(variable, node.node)
-	if (isVariable(node) && equalVariables(node, variable)) return 1
-	if (isPower(node) && isVariable(node.base) && equalVariables(node.base, variable) && isNumeric(node.exponent)) return numericNodeToNumber(node.exponent)
+	if (isVariable(node) && areVariablesEqual(node, variable)) return 1
+	if (isPower(node) && isVariable(node.base) && areVariablesEqual(node.base, variable) && isNumeric(node.exponent) && isSingular(node.exponent)) return tryToEvaluateNumericNode(node.exponent)
 	if (isProduct(node)) {
 		const factor = node.factors.find(factor => dependsOn(factor, variable))
 		return factor ? getExponentOfVariable(variable, factor) : undefined

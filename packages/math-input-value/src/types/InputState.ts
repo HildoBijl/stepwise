@@ -12,8 +12,8 @@ export type SubSupCursor = { part: 'subscript', cursor: number } | { part: 'supe
 export type InputValuePartCursor = TextPartCursor | FractionCursor | SquareRootCursor | RootCursor | LogarithmCursor | SubSupCursor
 export type ExpressionCursor = { part: number, cursor: InputValuePartCursor }
 
-// A flat position within a text part of an expression array. Parsing and manipulation utilities use this to mark expression boundaries.
-export type InputCursorEnd = { part: number, cursor: TextPartCursor }
+// A non-recursive cursor pointing into a text part of an expression array. Parsing and manipulation utilities use this to mark expression boundaries.
+export type ExpressionTextCursor = { part: number, cursor: TextPartCursor }
 
 // Add a cursor to the input value to get an input state.
 export type ExpressionInputState = ExpressionInputValue & { cursor: ExpressionCursor }

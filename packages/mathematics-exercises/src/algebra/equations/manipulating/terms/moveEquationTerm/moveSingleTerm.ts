@@ -3,9 +3,9 @@ import { asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 
 // ax^2 + bx + c = 0.
 const variableSet = ['x', 'y', 'z']
@@ -17,8 +17,8 @@ export default buildStepExercise({
 		skill: 'moveEquationTerm',
 		...createStepExerciseMetadata(['addToBothEquationSides', 'cancelSumTerms']),
 		comparisons: {
-			bothSidesChanged: { compareSide: equivalent },
-			ans: { compareSide: onlyOrderChanges },
+			bothSidesChanged: { compareSide: areEquivalent },
+			ans: { compareSide: areEqualExceptOrder },
 		},
 	},
 
@@ -36,7 +36,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Set up the equation.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const terms = ['a*x^2', 'b*x', 'c'].map(term => asExpression(term).substitute(variables).removeTrivial())
 		let equation = asEquation('0 = 0')
 		terms.forEach((term, index) => {
@@ -47,7 +47,7 @@ export default buildStepExercise({
 		// Find the term to move, add/subtract it and simplify.
 		const termIsLeft = !parameters.switchSides[parameters.toMove]
 		const positive = !terms[parameters.toMove].isMinus()
-		const termToMove = terms[parameters.toMove].abs()
+		const termToMove = terms[parameters.toMove].stripSigns()
 		const bothSidesChanged = positive ? equation.subtract(termToMove) : equation.add(termToMove)
 		const ans = bothSidesChanged.cancel()
 

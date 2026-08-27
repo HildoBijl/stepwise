@@ -3,7 +3,7 @@ import { isEmptyObject, omitDefaults } from '@step-wise/js-utils'
 import { defaultExpressionSettings } from '../expressions'
 
 import { type SerializedEquation } from './types'
-import { Equation } from './Equation'
+import { EquationType, Equation } from './Equation'
 
 export function serializeEquation(equation: Equation): SerializedEquation {
 	const serialized: SerializedEquation = { type: 'Equation', value: equation.toStorageValue() }
@@ -13,5 +13,6 @@ export function serializeEquation(equation: Equation): SerializedEquation {
 }
 
 export function deserializeEquation(serializedEquation: SerializedEquation): Equation {
+	if (serializedEquation.type !== EquationType) throw new TypeError(`Invalid serialized Equation: expected type "${EquationType}".`)
 	return Equation.fromStorageValue(serializedEquation.value, serializedEquation.settings)
 }

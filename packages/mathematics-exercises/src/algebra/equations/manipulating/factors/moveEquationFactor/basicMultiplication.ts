@@ -3,7 +3,7 @@ import { asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 // a = b/x => ax = b.
 const variableSet = ['x', 'y', 'z']
@@ -15,7 +15,7 @@ export default buildStepExercise({
 		skill: 'moveEquationFactor',
 		...createStepExerciseMetadata(['multiplyBothEquationSides', 'cancelFractionFactors']),
 		comparisons: {
-			bothSidesChanged: { compareSide: expressionComparisons.equivalent },
+			bothSidesChanged: { compareSide: expressionComparisons.areEquivalent },
 			ans: {},
 		},
 	},
@@ -31,12 +31,12 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = variables.x
 		const baseEquation = asEquation('a=b/x')
-		const equation = (parameters.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
-		const bothSidesChanged = equation.multiply(factor).removeTrivial(['mergeFractionProducts'])
-		const ans = bothSidesChanged.cancel(['mergeProductFactors', 'cancelFractionFactors'])
+		const equation = (parameters.switchSides ? baseEquation.switchSides() : baseEquation.self()).substitute(variables).removeTrivial()
+		const bothSidesChanged = equation.multiply(factor).removeTrivial(['combineProductFractions'])
+		const ans = bothSidesChanged.cancel(['combineLikeFactors', 'cancelFractionFactors'])
 		return { ...parameters, variables, factor, equation, bothSidesChanged, ans }
 	},
 

@@ -1,14 +1,14 @@
-import { type ExpressionSettingsInput, resolveExpressionSettings } from '@step-wise/math-input-value'
+import { type ExpressionSettingsOptions, resolveExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, nodeToTree } from '../../construction'
 
-import { mapDescendants } from '../structural'
+import { mapNodes } from '../structural'
 
 import { type SimplificationOptionsInput, resolveSimplificationOptions, resolveSimplificationRules, validateSimplificationOptions } from './simplificationOptions'
 import { applySimplificationRules, type AnySimplificationRule, type SimplificationContext, type SimplificationRules } from './rules'
 
 // Take some form of simplification option input, process/check it, and apply it to the node and its children.
-export function simplify(node: ExpressionNode, settings?: ExpressionSettingsInput, options?: SimplificationOptionsInput): ExpressionNode {
+export function simplify(node: ExpressionNode, settings?: ExpressionSettingsOptions, options?: SimplificationOptionsInput): ExpressionNode {
 	const expressionSettings = resolveExpressionSettings(settings)
 	const simplificationOptions = validateSimplificationOptions(resolveSimplificationOptions(options))
 	return simplifyWithRules(node, expressionSettings, resolveSimplificationRules(simplificationOptions))
@@ -58,5 +58,5 @@ function simplifyUntilStable(node: ExpressionNode, context: SimplificationContex
 
 // Run a set of simplification operations once on all nodes.
 function simplifyOnce(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
-	return mapDescendants(node, (descendant, parents) => applySimplificationRules(descendant, { ...context, parents }), true)
+	return mapNodes(node, (descendant, parents) => applySimplificationRules(descendant, { ...context, parents }), { childrenFirst: true })
 }

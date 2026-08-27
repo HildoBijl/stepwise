@@ -2,13 +2,13 @@ import type { InputValuePart, InterpretationSettings } from '@step-wise/math-inp
 
 import type { ExpressionNode } from '../nodes'
 
-export type IntermediateInterpretationPart = InputValuePart | ExpressionNode
+export type InterpretationPart = InputValuePart | ExpressionNode
 
-type Interpreter = (value: IntermediateInterpretationPart[], context: InterpreterContext) => ExpressionNode
+type Interpreter = (value: InterpretationPart[], context: InterpreterContext) => ExpressionNode
 export type InterpreterContext = {
 	interpretationSettings: InterpretationSettings
 	interpretBrackets: (value: InputValuePart[], context: InterpreterContext) => ExpressionNode
 	interpretSums: Interpreter
 	interpretProducts: Interpreter
-	interpretStringsAndElements: Interpreter
+	interpretParts: Interpreter
 }

@@ -1,5 +1,5 @@
 import { randomInteger, sample, randomIndices } from '@step-wise/js-utils'
-import { type Expression, asExpression, constants } from '@step-wise/cas'
+import { type Expression, asExpression, expressionConstants } from '@step-wise/cas'
 
 export function getRandomElementaryFunctions(num = 1, includeConstant = false, includeDivision = true, includeX = true, includeRoots = true): Expression[] {
 	// Determine the indices of the elementary functions that we use.
@@ -54,7 +54,7 @@ export function getRandomElementaryFunction(includeConstant: boolean): Expressio
 // getElementaryFunctionFromTerm takes a term consisting of a constant muliplication times an elementary function, like "-4/x", and extracts the elementary function and the constant.
 export function getElementaryFunctionFromTerm(input: Expression): { func: Expression, constant: Expression } {
 	let func = input
-	let constant: Expression = constants.one
+	let constant: Expression = expressionConstants.one
 
 	// For a minus, take the argument and apply the minus to the constant.
 	if (func.isMinus()) {
@@ -66,7 +66,7 @@ export function getElementaryFunctionFromTerm(input: Expression): { func: Expres
 	if (func.isSum()) throw new Error('Invalid case: cannot process sums. Only a single term is expected.')
 
 	// For integers, just return them right away.
-	if (func.isInteger()) return { constant: constants.one, func }
+	if (func.isInteger()) return { constant: expressionConstants.one, func }
 
 	// For products, pull out the constant.
 	if (func.isProduct()) {
@@ -82,7 +82,7 @@ export function getElementaryFunctionFromTerm(input: Expression): { func: Expres
 	if (func.isFraction()) {
 		if (!func.numerator.isNumeric()) throw new Error('Invalid case: cannot process fractions with a non-constant numerator.')
 		constant = constant.multiply(func.numerator)
-		func = constants.one.divide(func.denominator)
+		func = expressionConstants.one.divide(func.denominator)
 	}
 
 	// Constants have been pulled out. The result should be an elementary function. (Or the input was faulty, but it's too much of a hassle to check.)

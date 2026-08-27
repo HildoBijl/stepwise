@@ -3,9 +3,9 @@ import { type Expression, asExpression, expressionChecks, expressionComparisons 
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { equivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, areEqualExceptOrder } = expressionComparisons
 const { hasSumWithinProduct } = expressionChecks
 
 // (ax^p+bx^q)(cx^r+dx^s) = ...
@@ -18,14 +18,14 @@ export default buildStepExercise({
 		skill: 'expandDoubleBrackets',
 		...createStepExerciseMetadata(['expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
 		comparisons: {
-			firstExpanded: (input: Expression, correct: Expression, { factor2 }: { factor2: Expression }) => !input.some(term => term.isProduct() && term.some(factor => factor.isSum() && !equivalent(factor, factor2))) && equivalent(input, correct),
-			allExpanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && equivalent(input, correct),
-			ans: onlyOrderChanges,
+			firstExpanded: (input: Expression, correct: Expression, { factor2 }: { factor2: Expression }) => !input.some(term => term.isProduct() && term.some(factor => factor.isSum() && !areEquivalent(factor, factor2))) && areEquivalent(input, correct),
+			allExpanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && areEquivalent(input, correct),
+			ans: areEqualExceptOrder,
 		},
 	},
 
 	generateParameters() {
-		while (true) {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			const p = randomInteger(1, 4)
 			const q = randomInteger(0, 3, { exclude: [p] })
 			const s = randomInteger(0, 3, { exclude: [q] })
@@ -41,15 +41,16 @@ export default buildStepExercise({
 				switch: randomBoolean(),
 			}
 		}
+		throw new Error('Failed to generate valid higher-power bracket parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor1 = asExpression(parameters.switch ? 'a*x^p+b*x^q' : 'b*x^q+a*x^p').substitute(variables).removeTrivial()
 		const factor2 = asExpression(parameters.switch ? 'c*x^r+d*x^s' : 'd*x^s+c*x^r').substitute(variables).removeTrivial()
 		const expression = factor1.multiply(factor2).flatten()
 		const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2)).flatten()
-		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
+		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'combineLikeFactors'])
 		const jointFactor = asExpression('x^(q+r)').substitute(variables).normalize()
 		const ans = allExpanded.combine()
 		const xFactors = allExpanded.terms.filter(term => term.some(factor => variables.x.toPower(parameters.q + parameters.r).equalStructure(factor)))

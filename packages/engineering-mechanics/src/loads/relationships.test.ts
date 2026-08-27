@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { createForce, createMoment, isLoadAtPoint } from '../..'
+import { createForce, createMoment } from './creation'
+import { isLoadAtPoint } from './relationships'
 
 describe('load relationships', () => {
 	it('checks force and moment application points', () => {

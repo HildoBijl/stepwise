@@ -3,10 +3,10 @@ import { type Expression, asExpression, expressionChecks, expressionComparisons 
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { hasSumWithinProduct } = expressionChecks
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 
 // (bx+c)*ax^n = bx^(n+1) + cax^n.
 const variableSet = ['x', 'y', 'z']
@@ -18,9 +18,9 @@ export default buildStepExercise({
 		skill: 'expandBrackets',
 		...createStepExerciseMetadata([undefined, 'simplifyNumberProduct', 'rewritePower']),
 		comparisons: {
-			expanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && equivalent(input, correct),
-			numbersMerged: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && !input.some(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
-			ans: onlyOrderChanges,
+			expanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && areEquivalent(input, correct),
+			numbersMerged: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && !input.some(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && areEquivalent(input, correct),
+			ans: areEqualExceptOrder,
 		},
 	},
 
@@ -36,13 +36,13 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = asExpression('a*x^n').substitute(variables).removeTrivial()
 		const sum = asExpression(parameters.xFirst ? 'b*x+c' : 'c+b*x').substitute(variables).removeTrivial()
 		const expression = sum.multiply(factor).removeTrivial()
 		const expanded = expression.flatten(['expandProductsOfSums', 'expandMinusSums'])
-		const numbersMerged = expanded.flatten(['mergeProductNumbers', 'mergeProductMinuses', 'removeDoubleNegatives'])
-		const ans = numbersMerged.flatten(['mergeProductFactors', 'mergeSumNumbers'])
+		const numbersMerged = expanded.flatten(['combineNumbersInProducts', 'combineMinusSignsInProducts', 'removeDoubleNegatives'])
+		const ans = numbersMerged.flatten(['combineLikeFactors', 'combineNumbersInSums'])
 		return { ...parameters, variables, factor, sum, expression, expanded, numbersMerged, ans }
 	},
 

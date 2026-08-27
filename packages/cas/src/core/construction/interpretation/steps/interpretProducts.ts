@@ -1,21 +1,21 @@
 import { InterpretationError } from '@step-wise/js-utils'
-import { type InputCursorEnd, getEndCursor, getStartCursor, getSubExpression, isTextPart, shiftPositionRight, equalCursor } from '@step-wise/math-input-value'
+import { type ExpressionTextCursor, getExpressionEndCursor, getExpressionStartCursor, sliceExpressionValue, isTextPart, shiftExpressionTextCursorRight, areExpressionTextCursorsEqual } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Minus, PlusMinus, Product } from '../../nodes'
 
-import type { IntermediateInterpretationPart, InterpreterContext } from '../types'
+import type { InterpretationPart, InterpreterContext } from '../types'
 
 // Interpret explicit products split by *, in an expression with partly interpreted parts and no brackets.
-export function interpretProducts(value: IntermediateInterpretationPart[], context: InterpreterContext): ExpressionNode {
+export function interpretProducts(value: InterpretationPart[], context: InterpreterContext): ExpressionNode {
 	// Set up a handler to add factors to the product.
 	const factors: ExpressionNode[] = []
-	const addFactor = (start: InputCursorEnd, end: InputCursorEnd) => {
+	const addFactor = (start: ExpressionTextCursor, end: ExpressionTextCursor) => {
 		const startPart = value[start.part]
 		if (!isTextPart(startPart)) throw new Error('A factor must start in a text part.')
 		const firstChar = startPart[start.cursor]
 		const minusAfterTimes = firstChar === '-' || firstChar === '±'
-		const shiftedStart = minusAfterTimes ? shiftPositionRight(start) : start
-		let expression = context.interpretStringsAndElements(getSubExpression<ExpressionNode>(value, shiftedStart, end), context)
+		const shiftedStart = minusAfterTimes ? shiftExpressionTextCursorRight(start) : start
+		let expression = context.interpretParts(sliceExpressionValue<ExpressionNode>(value, shiftedStart, end), context)
 		if (minusAfterTimes) {
 			if (firstChar === '-') expression = new Minus(expression)
 			else if (firstChar === '±') expression = new PlusMinus(expression)
@@ -25,7 +25,7 @@ export function interpretProducts(value: IntermediateInterpretationPart[], conte
 	}
 
 	// Walk through all expression parts, find times operators, and split the expressions up there.
-	let start = getStartCursor<ExpressionNode>(value)
+	let start = getExpressionStartCursor<ExpressionNode>(value)
 	value.forEach((element, part) => {
 		if (!isTextPart(element)) return
 		const str = element
@@ -35,17 +35,17 @@ export function interpretProducts(value: IntermediateInterpretationPart[], conte
 
 			// Run checks: no times at the start, and no double times.
 			if (end.part === 0 && end.cursor === 0) throw new InterpretationError('Could not interpret the Expression due to it starting with a times operator.', 'TimesAtStart', '*')
-			if (equalCursor(start, end)) throw new InterpretationError('Could not interpret the Expression due to a double times operator.', 'DoubleTimes', '**')
+			if (areExpressionTextCursorsEqual(start, end)) throw new InterpretationError('Could not interpret the Expression due to a double times operator.', 'DoubleTimes', '**')
 
 			// Extract, interpret and add the expression.
 			addFactor(start, end)
-			start = shiftPositionRight(end)
+			start = shiftExpressionTextCursorRight(end)
 		}
 	})
 
 	// Add the remaining part (assuming there's no times symbol at the end).
-	const end = getEndCursor<ExpressionNode>(value)
-	if (equalCursor(start, end)) throw new InterpretationError('Could not interpret the Expression due to it ending with a times operator.', 'TimesAtEnd', '*')
+	const end = getExpressionEndCursor<ExpressionNode>(value)
+	if (areExpressionTextCursorsEqual(start, end)) throw new InterpretationError('Could not interpret the Expression due to it ending with a times operator.', 'TimesAtEnd', '*')
 	addFactor(start, end)
 
 	// Assemble the result in a product.

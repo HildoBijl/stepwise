@@ -3,7 +3,7 @@ import { asExpression, asEquation, expressionComparisons, equationComparisons } 
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 // ax + by = c.
 // dx + ey = f.
@@ -15,22 +15,24 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'solveSystemOfLinearEquations',
 		...createStepExerciseMetadata(['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteANumber']),
-		comparisons: { eq1Solution: expressionComparisons.equivalent, eq2Substituted: equationComparisons.equivalent, Expression: expressionComparisons.onlyOrderChanges },
+		comparisons: { eq1Solution: expressionComparisons.areEquivalent, eq2Substituted: equationComparisons.areEquivalent, Expression: expressionComparisons.areEqualExceptOrder },
 	},
 
 	generateParameters(example) {
 		const variableSet = sample(availableVariableSets)
 		const x = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 		const y = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
-		let a, b, d, e
+		let a = 0, b = 0, d = 0, e = 0
 
 		// On a non-invertible system, redo the generation.
-		do {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			a = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 			b = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 			d = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 			e = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
-		} while (a * e - b * d === 0)
+			if (a * e - b * d !== 0) break
+		}
+		if (a * e - b * d === 0) throw new Error('Failed to generate an invertible linear system after 100 attempts.')
 
 		// Set up parameters.
 		const c = a * x + b * y
@@ -40,22 +42,22 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Extract parameters variables.
-		const variables = filterVariables(parameters, usedVariables, constants)
-		const eq1 = asEquation('ax + by = c', { eAsConstant: false }).substitute(variables).removeTrivial()
-		const eq2 = asEquation('dx + ey = f', { eAsConstant: false }).substitute(variables).removeTrivial()
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
+		const eq1 = asEquation('ax + by = c', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
+		const eq2 = asEquation('dx + ey = f', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 
 		// Solve the steps.
-		const eq1Solution = asExpression('(c-b*y)/a', { eAsConstant: false }).substitute(variables).removeTrivial()
+		const eq1Solution = asExpression('(c-b*y)/a', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 		const eq2Substituted = eq2.substitute(variables.x, eq1Solution)
-		const eq2SubstitutedStep1 = asEquation('d*(c-b*y)+a*e*y=a*f', { eAsConstant: false }).substitute(variables).removeTrivial()
-		const eq2SubstitutedStep2 = asEquation('d*c-d*b*y+a*e*y=a*f', { eAsConstant: false }).substitute(variables).cancel()
-		const eq2SubstitutedStep3 = asEquation('-d*b*y+a*e*y=a*f-d*c', { eAsConstant: false }).substitute(variables).combine()
-		const eq2SubstitutedStep4 = asExpression('a*f-d*c', { eAsConstant: false }).substitute(variables).cancel().divide(asExpression('a*e-d*b', { eAsConstant: false }).substitute(variables).cancel())
+		const eq2SubstitutedStep1 = asEquation('d*(c-b*y)+a*e*y=a*f', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
+		const eq2SubstitutedStep2 = asEquation('d*c-d*b*y+a*e*y=a*f', { interpretEAsConstant: false }).substitute(variables).cancel()
+		const eq2SubstitutedStep3 = asEquation('-d*b*y+a*e*y=a*f-d*c', { interpretEAsConstant: false }).substitute(variables).combine()
+		const eq2SubstitutedStep4 = asExpression('a*f-d*c', { interpretEAsConstant: false }).substitute(variables).cancel().divide(asExpression('a*e-d*b', { interpretEAsConstant: false }).substitute(variables).cancel())
 
 		// Find the solution.
 		const { a, b, c, d, e, f } = parameters
-		const x = asExpression((b * f - e * c) / (b * d - a * e), { eAsConstant: false })
-		const y = asExpression((a * f - d * c) / (a * e - b * d), { eAsConstant: false })
+		const x = asExpression((b * f - e * c) / (b * d - a * e), { interpretEAsConstant: false })
+		const y = asExpression((a * f - d * c) / (a * e - b * d), { interpretEAsConstant: false })
 		return { ...parameters, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, y }
 	},
 

@@ -31,7 +31,7 @@ export function validWithVariables(...variables) {
 
 	// Set up a validation function based on these variables.
 	return (expression) => {
-		const inputVariables = expression.getVariables()
+		const inputVariables = expression.collectVariables()
 		const invalidVariable = inputVariables.find(inputVariable => !variables.some(variable => variable.equalStructure(inputVariable)))
 		if (invalidVariable)
 			return <Translation path="inputs" entry="expressionInput.validation.unknownVariable">Unknown variable <M>{invalidVariable}</M>.</Translation>

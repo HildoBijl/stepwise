@@ -3,7 +3,7 @@ import { type Equation, type Expression, asEquation, expressionComparisons, expr
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 // 1/(a/w+b/x) = y/z.
 const availableVariableSets = [['a', 'b', 'c', 'd'], ['w', 'x', 'y', 'z'], ['p', 'q', 'r', 's']]
@@ -15,9 +15,9 @@ export default buildStepExercise({
 		skill: 'solveMultiVariableLinearEquationWithFractions',
 		...createStepExerciseMetadata(['simplifyFractionOfFractionSumsWithMultipleVariables', 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation']),
 		comparisons: {
-			simplified: (input: Equation, correct: Equation) => expressionComparisons.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && expressionComparisons.equivalent(input.left, correct.left),
-			multiplied: (input: Equation, correct: Equation) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions.
-			ans: (input: Expression, correct: Expression) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
+			simplified: (input: Equation, correct: Equation) => expressionComparisons.areEqualExceptOrder(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && expressionComparisons.areEquivalent(input.left, correct.left),
+			multiplied: (input: Equation, correct: Equation) => equationComparisons.haveEquivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions.
+			ans: (input: Expression, correct: Expression) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.areEquivalent(input, correct),
 		},
 	},
 
@@ -31,11 +31,11 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Extract parameters variables.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('1/(a/w+b/x) = y/z').substitute(variables).removeTrivial()
 
 		// Find the solution.
-		const simplified = equation.mapLeft(side => side.combine(['mergeFractionSums']))
+		const simplified = equation.mapLeft(side => side.combine(['combineSumFractions']))
 		const multiplied = simplified.mapSides(side => side.multiply(simplified.left.denominator).multiply(simplified.right.denominator)).combine()
 		const expanded = multiplied.combine(['expandProductsOfSums', 'expandMinusSums'])
 		const termToMove = expanded.right.terms.find(term => term.dependsOn(variables.x))

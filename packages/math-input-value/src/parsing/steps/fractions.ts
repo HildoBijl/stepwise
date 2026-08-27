@@ -1,36 +1,36 @@
 import { first, last } from '@step-wise/js-utils'
 
 import { type InterpretationSettings } from '../../settings'
-import type { ExpressionValue, InputCursorEnd } from '../../types'
 import { constructDefinitions } from '../../definitions'
-import { getStartCursor, getEndCursor, getSubExpression, shiftPositionRight } from '../../utils'
+import type { ExpressionValue, ExpressionTextCursor } from '../../types'
+import { getExpressionStartCursor, getExpressionEndCursor, sliceExpressionValue, shiftExpressionTextCursorRight } from '../../utils'
 
 import { findEndOfFactor } from '../support'
 
 // Turn slashes into fractions.
-export function processFractions(value: ExpressionValue, settings: InterpretationSettings, processExpression: (value: ExpressionValue, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {
+export function parseFractions(value: ExpressionValue, settings: InterpretationSettings, parseExpressionValue: (value: ExpressionValue, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {
 	const findNextSlash = () => {
 		const part = value.findIndex(part => typeof part === 'string' && part.includes('/'))
 		return part === -1 ? undefined : { part, cursor: (value[part] as string).indexOf('/') }
 	}
-	for (let nextSymbol = findNextSlash(); nextSymbol; nextSymbol = findNextSlash()) value = applyFraction(value, nextSymbol, settings, processExpression)
+	for (let nextSymbol = findNextSlash(); nextSymbol; nextSymbol = findNextSlash()) value = replaceSlashWithFraction(value, nextSymbol, settings, parseExpressionValue)
 	return value
 }
 
 // Turn a fraction at a given position into a fraction construct.
-function applyFraction(value: ExpressionValue, cursor: InputCursorEnd, settings: InterpretationSettings, processExpression: (value: ExpressionValue, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {
-	const start = getStartCursor(value)
+function replaceSlashWithFraction(value: ExpressionValue, cursor: ExpressionTextCursor, settings: InterpretationSettings, parseExpressionValue: (value: ExpressionValue, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {
+	const start = getExpressionStartCursor(value)
 	const beforeSymbol = cursor
-	const afterSymbol = shiftPositionRight(cursor)
+	const afterSymbol = shiftExpressionTextCursorRight(cursor)
 	const leftSide = findEndOfFactor(value, beforeSymbol, false, false)
 	const rightSide = findEndOfFactor(value, afterSymbol, true, true)
-	const end = getEndCursor(value)
-	const numerator = removeSurroundingBrackets(processExpression(getSubExpression(value, leftSide, beforeSymbol) as ExpressionValue, settings))
-	const denominator = removeSurroundingBrackets(processExpression(getSubExpression(value, afterSymbol, rightSide) as ExpressionValue, settings))
+	const end = getExpressionEndCursor(value)
+	const numerator = removeSurroundingBrackets(parseExpressionValue(sliceExpressionValue(value, leftSide, beforeSymbol) as ExpressionValue, settings))
+	const denominator = removeSurroundingBrackets(parseExpressionValue(sliceExpressionValue(value, afterSymbol, rightSide) as ExpressionValue, settings))
 	return [
-		...getSubExpression(value, start, leftSide) as ExpressionValue,
+		...sliceExpressionValue(value, start, leftSide) as ExpressionValue,
 		{ type: 'Fraction', alias: constructDefinitions.Fraction.aliases[0], numerator, denominator },
-		...getSubExpression(value, rightSide, end) as ExpressionValue,
+		...sliceExpressionValue(value, rightSide, end) as ExpressionValue,
 	]
 }
 

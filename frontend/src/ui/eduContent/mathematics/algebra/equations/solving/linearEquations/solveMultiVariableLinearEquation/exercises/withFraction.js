@@ -41,7 +41,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ equation, termsMoved }) => {
-			return <Par><Translation>We move <M>{equation.right.terms[1].abs()}</M> to the left and <M>{equation.left.terms[1].abs()}</M> to the right. This gives us <BM>{termsMoved}.</BM></Translation></Par>
+			return <Par><Translation>We move <M>{equation.right.terms[1].stripSigns()}</M> to the left and <M>{equation.left.terms[1].stripSigns()}</M> to the right. This gives us <BM>{termsMoved}.</BM></Translation></Par>
 		},
 	},
 	{

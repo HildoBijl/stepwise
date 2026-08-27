@@ -4,9 +4,9 @@ import { Expression, asExpression, asEquation, expressionComparisons } from '@st
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, constantMultiple, exactEqual } = expressionComparisons
+const { areEqualExceptOrder, areConstantMultiples, areExactlyEqual } = expressionComparisons
 
 // (x+a)^2/(x+b) = cx+d.
 const variableSet = ['x', 'y', 'z']
@@ -32,21 +32,21 @@ export default buildStepExercise({
 		...createStepExerciseMetadata(['bringEquationToStandardForm', 'solveQuadraticEquation']),
 		comparisons: {
 			standardForm: {
-				compareLeft: (input: Expression, correct: Expression) => { // Set up an extra check for constant multiples, since the constantMultiple in the CAS isn't fully functional yet.
-					if (constantMultiple(input, correct)) return true
+				compareLeft: (input: Expression, correct: Expression) => { // Set up an extra check for constant multiples, since the areConstantMultiples in the CAS isn't fully functional yet.
+					if (areConstantMultiples(input, correct)) return true
 					const getFactor = (value: Expression) => {
 						const powerTerm = value.find(term => term.isProduct() && term.factors.some(factor => factor.isPower()))
 						const numericFactor = powerTerm?.find(factor => factor.isNumeric())
 						return numericFactor?.isNumeric() ? numericFactor.toNumber() : 1
 					}
 					const adjustmentFactor = getFactor(input) / getFactor(correct)
-					return constantMultiple(input, correct.multiply(adjustmentFactor).combine())
+					return areConstantMultiples(input, correct.multiply(adjustmentFactor).combine())
 				},
-				compareRight: exactEqual,
+				compareRight: areExactlyEqual,
 			},
 			// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
-			ans1: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
-			ans2: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
+			ans1: (input: Expression, correct: Expression) => areEqualExceptOrder(input, correct) || areEqualExceptOrder(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
+			ans2: (input: Expression, correct: Expression) => areEqualExceptOrder(input, correct) || areEqualExceptOrder(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
 		},
 	},
 
@@ -57,12 +57,16 @@ export default buildStepExercise({
 		const flip = example ? false : randomBoolean()
 
 		// Set up parameters for the equation. Ensure that the number of solutions (zero or non-zero) matches the desired setting.
-		let parameters = getParameters()
 		const hasZeroSolutions = (parameters: [number, number, number, number]) => {
 			const [p, q, r] = getCoefficients(parameters, flip)
 			return q ** 2 - 4 * p * r < 0
 		}
-		while (zeroSolutions !== hasZeroSolutions(parameters)) parameters = getParameters()
+		let parameters: ReturnType<typeof getParameters> | undefined
+		for (let attempt = 0; attempt < 100; attempt++) {
+			parameters = getParameters()
+			if (zeroSolutions === hasZeroSolutions(parameters)) break
+		}
+		if (!parameters || zeroSolutions !== hasZeroSolutions(parameters)) throw new Error('Failed to generate rewritten quadratic-equation parameters with the requested solution count after 100 attempts.')
 
 		// All done. Return the parameters.
 		const [a, b, c, d] = parameters
@@ -72,14 +76,14 @@ export default buildStepExercise({
 	getSolution(parameters) {
 		// Assemble the equation.
 		const { a, b, c, d, flip } = parameters
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equationBase = asEquation('(x+a)^2/(x+b) = cx+d').substitute(variables).removeTrivial()
-		const equation = flip ? equationBase.switch() : equationBase.self()
+		const equation = flip ? equationBase.switchSides() : equationBase.self()
 
 		// Bring the equation into standard form.
 		const multipliedBase = asEquation('(x+a)^2 = (cx+d)(x+b)').substitute(variables).removeTrivial()
-		const multiplied = flip ? multipliedBase.switch() : multipliedBase.self()
-		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'mergeProductFactors'], ['mergeSumNumbers', 'groupSumTerms']).mapEvery(term => term.isPower() ? term.combine() : term) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
+		const multiplied = flip ? multipliedBase.switchSides() : multipliedBase.self()
+		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'combineLikeFactors'], ['combineNumbersInSums', 'combineLikeTerms']).mapExpressions(term => term.isPower() ? term.combine() : term) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 		const merged = expanded.combine(['sortSums'])
 		const moved = merged.subtract(merged.right).combine(['sortSums'])
 
@@ -87,7 +91,7 @@ export default buildStepExercise({
 		const coefficients = getCoefficients([a, b, c, d], flip)
 		let divisor = gcd(...coefficients)
 		if (Math.sign(divisor) !== Math.sign(coefficients[0])) divisor *= -1
-		const standardForm = moved.divide(divisor).combine(['splitFractions'], ['mergeFractionSums']).removeTrivial(['pullOutCommonSumNumbers'])
+		const standardForm = moved.divide(divisor).combine(['splitFractions'], ['combineSumFractions']).removeTrivial(['factorCommonNumericTerms'])
 
 		// Solve the equation in standard form.
 		const [p, q, r] = coefficients.map(coefficient => coefficient / divisor)
@@ -96,7 +100,7 @@ export default buildStepExercise({
 		const DFull = asExpression('q^2-4*p*r').substitute({ p, q, r }).removeTrivial()
 		const D = DFull.combine()
 		const hasRealSolutions = !(D.isNumeric() && D.toNumber() < 0)
-		const solutionHalfSimplified = asExpression('(-q±sqrt(D))/(2p)').substitute({ p, q, r, D }).removeTrivial(['mergeProductNumbers'], ['reduceRootsWithZeroRadicand'])
+		const solutionHalfSimplified = asExpression('(-q±sqrt(D))/(2p)').substitute({ p, q, r, D }).removeTrivial(['combineNumbersInProducts'], ['simplifyZeroRadicandRoots'])
 		const solution = hasRealSolutions ? solutionFull.combine() : solutionHalfSimplified
 		const solutionsSplit = hasRealSolutions ? solution.getSingular().map(solution => solution.removeTrivial()) : [solution, solution]
 		const solutions = hasRealSolutions ? solutionsSplit.map(solution => solution.normalize().format()) : solutionsSplit

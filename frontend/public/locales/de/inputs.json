@@ -1,56 +1,58 @@
 {
-  "integerInput": {
-    "placeHolder": "Ganzzahl",
-    "validation": {
-      "generalValidationError": "Ups ... irgendetwas läuft bei der Eingabeverarbeitung schief.",
-      "onlyMinusSign": "Nur ein Minuszeichen ist keine Zahl."
-    }
-  },
-  "precisionNumberInput": {
-    "placeHolder": "Kommazahl",
-    "validation": {
-      "onlyDecimalSeparator": "Nur ein Komma ist keine Zahl."
-    }
-  },
-  "unitInput": {
-    "placeHolder": "Einheit"
-  },
-  "quantityInput": {
-    "placeHolder": "Zahl mit Einheit"
-  },
-  "expressionInput": {
-    "placeHolder": "Ausdruck",
-    "validation": {
-      "emptyExpression": "Es fehlt ein (Teil eines) Ausdrucks.",
-      "unmatchedClosingBracket": "Es gibt eine schließende Klammer ohne entsprechende öffnende Klammer.",
-      "unmatchedOpeningBracket": "Es gibt eine öffnende Klammer ohne entsprechende schließende Klammer.",
-      "plusAtStart": "Es gibt ein Plus am Anfang.",
-      "doublePlusMinus": "Es sind zwei Plus/Minus-Symbole hintereinander angeordnet.",
-      "plusMinusAtEnd": "Es gibt ein <check><on-true>Plus</on-true><on-false>Minus</on-false></check> am Ende.",
-      "timesAtStart": "Am Anfang eines Terms steht eine Multiplikation.",
-      "doubleTimes": "Zwei Multiplikationszeichen stehen hintereinander.",
-      "timesAtEnd": "Am Ende eines Terms steht ein Multiplikationszeichen.",
-      "unknownFunction": "Es wurde eine unbekannte Funktion \"{name}\" gefunden.",
-      "unknownAccent": "Es wurde ein unbekannter Akzent \"{name}\" gefunden.",
-      "emptyAccent": "Es gibt einen leeren Akzent.",
-      "tooLongAccent": "Es gibt einen Akzent mit mehr als einem Zeichen: \"{contents}\".",
-      "invalidSymbol": "Unerwartetes Zeichen \"{character}\".",
-      "singleDecimalSeparator": "Es steht ein Komma ohne Zahlen drum herum.",
-      "multipleDecimalSeparator": "Es gibt eine Zahl mit mehreren Kommas.",
-      "misplacedSubscript": "Es gibt ein tiefgestelltes \"{subscript}\", dem keine Variable vorangestellt ist.",
-      "misplacedSuperscript": "Es gibt eine Potenz ohne vorgehendes Term.",
-      "emptySuperscript": "Es gibt ein Potenzzeichen \"^\" ohne nachfolgende Ziffer oder Buchstabe.",
-      "remaining": "Die Eingabe konnte nicht interpretiert werden. Etwas stimmt nicht mit der verwendeten Notation.",
-      "notANumber": "Dies ist keine Zahl. Es wurde etwas ohne Variablen erwartet.",
-      "unknownVariable": "Unbekannte Variable <inline-math/>."
-    }
-  },
-  "equationInput": {
-    "placeHolder": "Gleichung",
-    "validation": {
-      "emptyEquation": "Es fehlt ein (Teil eines) Vergleichungs.",
-      "multipleEqualsSigns": "Die Gleichung hat mehrere \"=\"-Zeichen.",
-      "missingEqualsSign": "Die Gleichung hat kein \"=\"-Zeichen."
-    }
-  }
+	"integerInput": {
+		"placeHolder": "Ganzzahl",
+		"validation": {
+			"generalValidationError": "Ups ... irgendetwas läuft bei der Eingabeverarbeitung schief.",
+			"onlyMinusSign": "Nur ein Minuszeichen ist keine Zahl."
+		}
+	},
+	"precisionNumberInput": {
+		"placeHolder": "Kommazahl",
+		"validation": {
+			"onlyDecimalSeparator": "Nur ein Komma ist keine Zahl."
+		}
+	},
+	"unitInput": {
+		"placeHolder": "Einheit"
+	},
+	"quantityInput": {
+		"placeHolder": "Zahl mit Einheit"
+	},
+	"expressionInput": {
+		"placeHolder": "Ausdruck",
+		"validation": {
+			"emptyExpression": "Es fehlt ein (Teil eines) Ausdrucks.",
+			"unmatchedClosingBracket": "Es gibt eine schließende Klammer ohne entsprechende öffnende Klammer.",
+			"unmatchedOpeningBracket": "Es gibt eine öffnende Klammer ohne entsprechende schließende Klammer.",
+			"plusAtStart": "Es gibt ein Plus am Anfang.",
+			"doublePlusMinus": "Es sind zwei Plus/Minus-Symbole hintereinander angeordnet.",
+			"plusMinusAtEnd": "Es gibt ein <check><on-true>Plus</on-true><on-false>Minus</on-false></check> am Ende.",
+			"timesAtStart": "Am Anfang eines Terms steht eine Multiplikation.",
+			"doubleTimes": "Zwei Multiplikationszeichen stehen hintereinander.",
+			"timesAtEnd": "Am Ende eines Terms steht ein Multiplikationszeichen.",
+			"unknownFunction": "Es wurde eine unbekannte Funktion \"{name}\" gefunden.",
+			"unknownAccent": "Es wurde ein unbekannter Akzent \"{name}\" gefunden.",
+			"emptyAccent": "Es gibt einen leeren Akzent.",
+			"tooLongAccent": "Es gibt einen Akzent mit mehr als einem Zeichen: \"{contents}\".",
+			"invalidSymbol": "Unerwartetes Zeichen \"{character}\".",
+			"singleDecimalSeparator": "Es steht ein Komma ohne Zahlen drum herum.",
+			"multipleDecimalSeparator": "Es gibt eine Zahl mit mehreren Kommas.",
+			"misplacedSubscript": "Es gibt ein tiefgestelltes \"{subscript}\", dem keine Variable vorangestellt ist.",
+			"misplacedSuperscript": "Es gibt eine Potenz ohne vorgehendes Term.",
+			"emptySubscript": "Es gibt ein Indexzeichen \"_\" ohne nachfolgende Ziffer oder Buchstabe.",
+			"emptySuperscript": "Es gibt ein Potenzzeichen \"^\" ohne nachfolgende Ziffer oder Buchstabe.",
+			"emptySubSup": "Es gibt ein leeres Index-/Potenzobjekt.",
+			"remaining": "Die Eingabe konnte nicht interpretiert werden. Etwas stimmt nicht mit der verwendeten Notation.",
+			"notANumber": "Dies ist keine Zahl. Es wurde etwas ohne Variablen erwartet.",
+			"unknownVariable": "Unbekannte Variable <inline-math/>."
+		}
+	},
+	"equationInput": {
+		"placeHolder": "Gleichung",
+		"validation": {
+			"emptyEquation": "Es fehlt ein (Teil eines) Vergleichungs.",
+			"multipleEqualsSigns": "Die Gleichung hat mehrere \"=\"-Zeichen.",
+			"missingEqualsSign": "Die Gleichung hat kein \"=\"-Zeichen."
+		}
+	}
 }

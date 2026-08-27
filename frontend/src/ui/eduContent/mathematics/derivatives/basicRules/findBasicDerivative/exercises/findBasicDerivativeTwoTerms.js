@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, Substep, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent: equivalent } = expressionComparisons
 const { sumWithWrongTerms } = expressionChecks
 
 export default function Exercise() {
@@ -87,7 +87,7 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define derivative checks.
-	const originalFunction = (input, correct, { func }) => onlyOrderChanges(input, func) && <>Dit is de oorspronkelijke functie. Je hebt hier nog niets mee gedaan.</>
+	const originalFunction = (input, correct, { func }) => areEqualExceptOrder(input, func) && <>Dit is de oorspronkelijke functie. Je hebt hier nog niets mee gedaan.</>
 	const incorrectFunction = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <>Dit is niet de afgeleide. Kijk goed naar of je de juiste regels toegepast hebt.</>
 
 	// Define f1 and f2 checks.

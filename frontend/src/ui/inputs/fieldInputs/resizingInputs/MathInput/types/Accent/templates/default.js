@@ -1,7 +1,7 @@
 // This is the most general template for settings up accents.
 
 import { removeAt } from '@step-wise/js-utils'
-import { getSubExpression, findNextClosingBracket } from '@step-wise/math-input-value'
+import { sliceExpressionValue, findClosingBracket } from '@step-wise/math-input-value'
 
 import { getFIStartCursor, getFIEndCursor } from '../..'
 import { allFunctions as expressionPartFunctions, addStrToFI } from '../../ExpressionPart'
@@ -32,7 +32,7 @@ export function create(expressionFI, part, position, name, alias) {
 	const start = getFIStartCursor(expressionFI)
 	const beforeAlias = { part, cursor: position }
 	const afterAlias = { part, cursor: positionAfter }
-	const endOfTerm = findNextClosingBracket(value, afterAlias)
+	const endOfTerm = findClosingBracket(value, afterAlias)
 	const end = getFIEndCursor(expressionFI)
 
 	// Check if there is a bracket after the alias. If not, leave the accent empty.
@@ -52,8 +52,8 @@ export function create(expressionFI, part, position, name, alias) {
 	}
 
 	// Build the new Expression around it.
-	const expressionBefore = getSubExpression(value, start, beforeAlias)
-	const expressionAfter = getSubExpression(value, continueFrom, end)
+	const expressionBefore = sliceExpressionValue(value, start, beforeAlias)
+	const expressionAfter = sliceExpressionValue(value, continueFrom, end)
 	value = [
 		...expressionBefore,
 		accentElement,

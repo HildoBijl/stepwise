@@ -1,81 +1,43 @@
-# CAS Equations
+# Equation wrapper internals
 
-An `Equation` object is essentially an object with two attributes `left` and `right` that are both `Expression` objects. So to understand the functionalities of the equations, for read about the [expressions](../expressions/).
-
-
-## Creation
-
-Equation objects are created identically to expression objects, but then there must be an equals sign within the given string.
-
-```
-const eq = asEquation('2x+3=11')
-```
-
-It is also possible to give two expressions.
-
-```
-const exp1 = asExpression('2x+3')
-const exp2 = asExpression(11)
-const eq = asEquation({ left: exp1, right: exp2 })
-```
-
-Interpretation and expression settings can be added in the same way as for expressions. Rendering methods like `str`, `tex` and `tree` also work identically.
+`Equation` coordinates a left and right `Expression`. Most mathematical behavior delegates to the expression layer, while this wrapper enforces equation-wide invariants and side-aware operations.
 
 
-## Inspection
+## Construction and settings
 
-The inspection methods work the same as for expressions. There are three extra methods:
+`asEquation` accepts an existing equation, an equation input value, a string containing one equals sign or an object with `left` and `right` values.
 
-- `eq.someSide(check)` checks if (at least) one of the two sides satisfies a given check.
-- `eq.everySide(check)` checks if both sides satisfy a given check.
-- `eq.findSide(check)` finds the first side (if it exists) that satisfies a given check, or `undefined` otherwise. It returns an object of the form `{ side: theObtainedExpression, sideName: 'left' }`.
+Both sides must use the equation's resolved expression settings. Construction and mapping convert side results where needed so that `equation.settings`, `equation.left.settings` and `equation.right.settings` remain compatible.
 
-
-## Manipulation
-
-Manipulation is mostly the same as well. Extra methods are:
-
-- `eq.switch()` switches the two sides of the equation.
-- `eq.mapSides(mapper)` applies a given mapper function to both sides. You can double both sides of the equation by running `eq.mapSides(side => side.multiplyLeft(2))`. (Although you could also use `eq.multiplyLeft(2)` to do the same.)
-- `eq.mapLeft(mapper)` applies a mapper function to only the left side.
-- `eq.mapRight(mapper)` applies a mapper function to only the right side.
+The two sides may originally be interpreted with different interpretation settings because those settings are discarded after interpretation. When an equation is printed or converted back to an input value, `inferInterpretationSettings` inspects both completed trees. It throws if no single interpretation can reproduce both sides, such as when the same symbol is used as both a named constant and a variable.
 
 
-## Simplification
+## Side and tree operations
 
-Simplification is also done in the same way as for expessions. Extra methods are:
+`someSide`, `everySide` and `findSide` inspect whole sides. `mapSides`, `mapLeft` and `mapRight` transform sides while preserving the settings invariant.
 
-- `eq.moveAllToLeft()` turns `2x+3=11-y` into `2x+3-(11-y)`.
-- `eq.normalizeToZero()` moves all terms to the left and then normalizes it. This can help to compare equations.
+Expression-tree traversal methods add the side name to their callbacks. `find`, `findAll`, `forEachExpression` and `mapExpressions` reuse the expression traversal options and traverse each side independently.
+
+Arithmetic methods apply the same operation to both sides. `switchSides` only exchanges the sides. `moveAllToLeft` and `normalizeToZero` deliberately change the representation to support equation-wide comparison.
 
 
 ## Comparison
 
-For comparison, the same methods apply. The `equalStructure` function does have an extra option `allowSwitch`.
+Equation comparison must decide independently whether to allow:
 
-```
-asEquation('2x=3').equalStructure('3=x*2') // Gives true
-asEquation('2x=3').equalStructure('3=x*2', false) // With `allowSwitch` set to false, this gives false
-asEquation('2x=3').equalStructure('x*2=3', false) // Gives true
-asEquation('2x=3').equalStructure('x*2=3', false, false) // With `allowOrderChanges` set to false, this gives false
-```
+- ordering changes within sums and products;
+- switching the left and right sides;
+- negating both sides;
+- preprocessing the whole equation;
+- preprocessing or comparing each side with shared or side-specific functions.
 
-For the `equals` function there are a few more options. This function is once more called using a set of options.
+`equalStructure` covers structural order and side switching. `equals` handles the broader `EquationEqualityOptions`. It rejects conflicting shared and side-specific preprocessors or comparators rather than choosing one silently.
 
-```
-asEquation('2x=3').equalStructure('x*2=3', equalityOptions)
-```
+Equivalence treats an equation as an expression equal to zero. Both equations are normalized to zero and their remaining left sides are compared up to a nonzero constant multiple.
 
-The `equalityOptions` object can have the following attributes.
 
-- `allowOrderChanges` (default `true`): is `xy` the same as `yx`? (Only used when no `compare` functions are given.)
-- `allowSwitch` (default `true`): is `2x=3` the same as `3=2x`? If set to true, the switched version of the second argument will also be compared with the first argument.
-- `preprocess`: (default `identity`) an equation mapper function used to preprocess the equation before comparison.
-- `preprocessSide`: (default `identity`) an expression mapper function used to preprocess each side before comparison.
-- `preprocessLeft`: an expression mapper function used to preprocess the left side before comparison. (If given, then `preprocessSide` must be `undefined`.)
-- `preprocessRight`: an expression mapper function used to preprocess the right side before comparison. (If given, then `preprocessSide` must be `undefined`.)
-- `compareSide`: (default `equalStructure` with the given `allowOrderChanges` setting) an expression comparison used to see if two sides match. If given, then `allowOrderChanges` is ignored.
-- `compareLeft`: an expression comparison used to see if the left sides match. (If given, then `compareSide` must be `undefined`.)
-- `compareRight`: an expression comparison used to see if the right sides match. (If given, then `compareSide` must be `undefined`.)
+## Storage and serialization
 
-Through this, a variety of equation comparisons can be set up.
+An equation storage value contains the storage values of its left and right expressions. Their shared settings are not duplicated inside that value.
+
+Serialization adds the `Equation` type marker and carries the settings required to reconstruct both sides. Deserialization must restore the common settings invariant.

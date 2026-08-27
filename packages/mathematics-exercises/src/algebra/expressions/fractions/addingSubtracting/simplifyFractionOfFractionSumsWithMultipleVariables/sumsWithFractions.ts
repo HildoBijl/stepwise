@@ -4,9 +4,9 @@ import { type Expression, asExpression, expressionComparisons, expressionChecks,
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
-const { equivalent } = expressionComparisons
+const { areEquivalent } = expressionComparisons
 const { hasFractionWithinFraction } = expressionChecks
 const { multiplyNumeratorAndDenominator } = expressionOperations
 
@@ -19,7 +19,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'simplifyFractionOfFractionSumsWithMultipleVariables',
 		...createStepExerciseMetadata(['addFractionsWithMultipleVariables', 'addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables']),
-		comparisons: { Expression: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct) },
+		comparisons: { Expression: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && areEquivalent(input, correct) },
 	},
 
 	generateParameters() {
@@ -35,7 +35,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const fraction1 = asExpression('a/w').substitute(variables)
 		const fraction2 = asExpression('b/x').substitute(variables)
 		const fraction3 = asExpression('c/y').substitute(variables)
@@ -54,7 +54,7 @@ export default buildStepExercise({
 		const denominatorIntermediate = (parameters.plus2 ? fraction3Intermediate.numerator.add(fraction4Intermediate.numerator) : fraction3Intermediate.numerator.subtract(fraction4Intermediate.numerator)).divide(fraction3Intermediate.denominator).combine()
 		const intermediate = numeratorIntermediate.divide(denominatorIntermediate)
 		const intermediateFlipped = intermediate.numerator.multiply(intermediate.denominator.invert())
-		const intermediateMerged = intermediateFlipped.flatten(['mergeFractionProducts'])
+		const intermediateMerged = intermediateFlipped.flatten(['combineProductFractions'])
 		const ans = asExpression(`((${parameters.a / gcdValue}x ${parameters.plus1 ? '+' : '-'} ${parameters.b / gcdValue}w)yz)/(wx(${parameters.c / gcdValue}z ${parameters.plus2 ? '+' : '-'} ${parameters.d / gcdValue}y))`).substitute(variables).removeTrivial(['sortProducts'])
 		return { ...parameters, variables, fraction1, fraction2, fraction3, fraction4, numerator, denominator, expression, gcdValue, fraction1Intermediate, fraction2Intermediate, fraction3Intermediate, fraction4Intermediate, numeratorSplit, denominatorSplit, numeratorIntermediate, denominatorIntermediate, intermediate, intermediateFlipped, intermediateMerged, ans }
 	},

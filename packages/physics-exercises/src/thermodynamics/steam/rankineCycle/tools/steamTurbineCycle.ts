@@ -1,25 +1,34 @@
-import { integerRange, sample, randomInteger } from '@step-wise/js-utils'
+import { sample } from '@step-wise/js-utils'
 import { interpolateTable } from '@step-wise/interpolation'
 import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { saturatedSteamPropertiesByPressure, superheatedSteamProperties } from '@step-wise/physics-data'
 
+const minimumCondenserPressure = new Quantity('0.1 bar')
+const maximumCondenserPressure = new Quantity('1 bar')
+const minimumEvaporatorPressure = new Quantity('50 bar')
+const maximumEvaporatorPressure = new Quantity('120 bar')
+const minimumTurbineInletTemperature = new Quantity('280 dC')
+const maximumTurbineInletTemperature = new Quantity('720 dC')
+
 export function getCycle() {
-	while (true) {
+	const saturatedPressureRange = saturatedSteamPropertiesByPressure.inputAxes[0]
+	const condenserPressureOptions = saturatedPressureRange.filter(pressure => pressure.compare(minimumCondenserPressure) >= 0 && pressure.compare(maximumCondenserPressure) <= 0)
+	const superheatedPressureRange = superheatedSteamProperties.inputAxes[superheatedSteamProperties.inputLabels.indexOf('pressure')]
+	const evaporatorPressureOptions = superheatedPressureRange.filter(pressure => pressure.compare(minimumEvaporatorPressure) >= 0 && pressure.compare(maximumEvaporatorPressure) <= 0)
+	if (condenserPressureOptions.length === 0 || evaporatorPressureOptions.length === 0) throw new Error('Cannot generate a Rankine cycle: the steam tables do not cover the configured pressure ranges.')
+
+	for (let attempt = 0; attempt < 100; attempt++) {
 		// Get pressure in condensor and evaporator.
-		const pressureRangeTable1 = saturatedSteamPropertiesByPressure.inputAxes[0]
-		const condenserIndex = randomInteger(3, 8)
-		const pc = pressureRangeTable1[condenserIndex]
+		const pc = sample(condenserPressureOptions)
 		const Tc = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'boilingTemperature')!
-		const pressureRangeTable2 = superheatedSteamProperties.inputAxes[superheatedSteamProperties.inputLabels.indexOf('pressure')]
-		const evaporatorIndex = randomInteger(13, 19)
-		const pe = pressureRangeTable2[evaporatorIndex]
+		const pe = sample(evaporatorPressureOptions)
 		const Te = interpolateTable(pe, saturatedSteamPropertiesByPressure, 'boilingTemperature')!
 		const x3 = getRandomQuantity({ min: 0.95, max: 1, unit: '' })
 
 		// Check which rows (that is, temperatures) from the enthalpy table are suitable. Pick one randomly.
 		const temperatureRange = superheatedSteamProperties.inputAxes[superheatedSteamProperties.inputLabels.indexOf('temperature')]
-		const temperatureIndexOptions = integerRange(3, 25).filter(temperatureIndex => {
-			const T = temperatureRange[temperatureIndex]
+		const temperatureOptions = temperatureRange.filter(T => {
+			if (T.compare(minimumTurbineInletTemperature) < 0 || T.compare(maximumTurbineInletTemperature) > 0) return false
 			if (T.compare(Te) < 0) return false
 			const cycleProperties = getCycleProperties(pc, pe, T, x3)
 			if (cycleProperties === undefined) return false
@@ -28,8 +37,8 @@ export function getCycle() {
 			if (etai.number < 0.8 || etai.number > 1) return false
 			return true
 		})
-		if (temperatureIndexOptions.length === 0) continue
-		const T2 = temperatureRange[sample(temperatureIndexOptions)]
+		if (temperatureOptions.length === 0) continue
+		const T2 = sample(temperatureOptions)
 
 		// Find the remaining properties and check requirements.
 		const { hx0, hx1, sx0, sx1, h2, s2, s3p, x3p, h3p, s3, h3, etai } = getCycleProperties(pc, pe, T2, x3)!
@@ -56,33 +65,32 @@ export function getCycle() {
 
 		return { pc, Tc, pe, Te, hx0, hx1, sx0, sx1, h1, s1, p1, T1, h2, s2, p2, T2, x3p, h3p, s3p, x3, h3, s3, p3, T3, h4, s4, p4, T4, etai, mdot, P, Ph, eta }
 	}
+	throw new Error('Failed to generate a valid Rankine cycle after 100 attempts.')
 }
 
 function getCycleProperties(pc: Quantity, pe: Quantity, T2: Quantity, x3: Quantity) {
-	while (true) {
-		// Liquid and vapor points.
-		const hx0 = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'enthalpyLiquid')
-		const hx1 = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'enthalpyVapor')
-		const sx0 = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'entropyLiquid')
-		const sx1 = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'entropyVapor')
-		if (hx0 === undefined || hx1 === undefined || sx0 === undefined || sx1 === undefined) return undefined
+	// Liquid and vapor points.
+	const hx0 = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'enthalpyLiquid')
+	const hx1 = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'enthalpyVapor')
+	const sx0 = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'entropyLiquid')
+	const sx1 = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'entropyVapor')
+	if (hx0 === undefined || hx1 === undefined || sx0 === undefined || sx1 === undefined) return undefined
 
-		// Point 2.
-		const h2 = interpolateTable([pe, T2], superheatedSteamProperties, 'enthalpy')
-		const s2 = interpolateTable([pe, T2], superheatedSteamProperties, 'entropy')
-		if (h2 === undefined || s2 === undefined) return undefined
+	// Point 2.
+	const h2 = interpolateTable([pe, T2], superheatedSteamProperties, 'enthalpy')
+	const s2 = interpolateTable([pe, T2], superheatedSteamProperties, 'entropy')
+	if (h2 === undefined || s2 === undefined) return undefined
 
-		// Point 3-prime.
-		const s3p = s2
-		const x3p = s3p.subtract(sx0).divide(sx1.subtract(sx0)).setUnit('')
-		const h3p = hx0.add(x3p.multiply(hx1.subtract(hx0)))
+	// Point 3-prime.
+	const s3p = s2
+	const x3p = s3p.subtract(sx0).divide(sx1.subtract(sx0)).setUnit('')
+	const h3p = hx0.add(x3p.multiply(hx1.subtract(hx0)))
 
-		// Point 3.
-		const h3 = hx0.add(x3.multiply(hx1.subtract(hx0)))
-		const s3 = sx0.add(x3.multiply(sx1.subtract(sx0)))
+	// Point 3.
+	const h3 = hx0.add(x3.multiply(hx1.subtract(hx0)))
+	const s3 = sx0.add(x3.multiply(sx1.subtract(sx0)))
 
-		// Remaining properties.
-		const etai = h2.subtract(h3).divide(h2.subtract(h3p)).setUnit('')
-		return { hx0, hx1, sx0, sx1, h2, s2, s3p, x3p, h3p, s3, x3, h3, etai }
-	}
+	// Remaining properties.
+	const etai = h2.subtract(h3).divide(h2.subtract(h3p)).setUnit('')
+	return { hx0, hx1, sx0, sx1, h2, s2, s3p, x3p, h3p, s3, x3, h3, etai }
 }

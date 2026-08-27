@@ -20,7 +20,7 @@ const Problem = () => {
 		<Par><Translation>Consider the equation <BM>{equation}.</BM> Move the term <M>{termToMove}</M> to the other side. Simplify the result as much as possible.</Translation></Par>
 		<InputSpace>
 			<Par>
-				<EquationInput id="ans" size="l" settings={EquationInput.settings.polynomes} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
+				<EquationInput id="ans" size="l" settings={EquationInput.settings.polynomes} validate={EquationInput.validation.validWithVariables(equation.collectVariables())} />
 			</Par>
 		</InputSpace>
 	</>
@@ -34,7 +34,7 @@ const steps = [
 				<Par><Translation><Check value={positive}><Check.True><Emp>Subtract</Emp> the term <M>{termToMove}</M> from</Check.True><Check.False><Emp>Add</Emp> the term <M>{termToMove}</M> to</Check.False></Check> both sides of the equation. (After all, the term <M>{termToMove}</M> is currently being <Check value={positive}><Check.True><Emp>added</Emp></Check.True><Check.False><Emp>subtracted</Emp></Check.False></Check>.)</Translation></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="bothSidesChanged" size="l" settings={EquationInput.settings.polynomes} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
+						<EquationInput id="bothSidesChanged" size="l" settings={EquationInput.settings.polynomes} validate={EquationInput.validation.validWithVariables(equation.collectVariables())} />
 					</Par>
 				</InputSpace>
 			</>
@@ -50,7 +50,7 @@ const steps = [
 				<Par><Translation>Simplify the expression on the <Check value={switchSides[toMove]}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side by canceling sum terms where possible. Also apply any other potential simplifications.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="ans" size="l" settings={EquationInput.settings.polynomes} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
+						<EquationInput id="ans" size="l" settings={EquationInput.settings.polynomes} validate={EquationInput.validation.validWithVariables(equation.collectVariables())} />
 					</Par>
 				</InputSpace>
 			</>

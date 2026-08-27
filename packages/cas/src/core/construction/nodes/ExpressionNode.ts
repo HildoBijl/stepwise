@@ -18,8 +18,14 @@ export abstract class ExpressionNode {
 	}
 
 	recreateWithChildren(children: readonly ExpressionNode[]): ExpressionNode {
-		if (children.length !== 0) throw new Error(`Cannot recreate "${this.subtype}" with children.`)
+		this.validateChildren(children, 0)
 		return this
+	}
+
+	protected validateChildren(children: readonly ExpressionNode[], expectedCount?: number): void {
+		if (!Array.isArray(children)) throw new TypeError(`Invalid children for "${this.subtype}": expected an array of ExpressionNodes.`)
+		if (expectedCount !== undefined && children.length !== expectedCount) throw new Error(`Invalid children for "${this.subtype}": expected ${expectedCount}, but received ${children.length}.`)
+		if (!children.every(child => child instanceof ExpressionNode)) throw new TypeError(`Invalid children for "${this.subtype}": every child must be an ExpressionNode.`)
 	}
 }
 

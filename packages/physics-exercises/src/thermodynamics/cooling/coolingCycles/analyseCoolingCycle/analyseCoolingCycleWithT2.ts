@@ -22,14 +22,28 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		let { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, mdot, point2 } = getCycle()
-		pEvap = pEvap.setUnit('bar').setSignificantDigits(2).roundToPrecision()
-		pCond = pCond.setUnit('bar').setSignificantDigits(2).roundToPrecision()
-		dTSuperheating = dTSuperheating.setDecimals(0).roundToPrecision()
-		dTSubcooling = dTSubcooling.setDecimals(0).roundToPrecision()
-		const T2 = point2.temperature.setDecimals(0).roundToPrecision()
-		mdot = mdot.setUnit('g/s').setDecimals(0).roundToPrecision()
-		return { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, T2, mdot }
+		for (let attempt = 0; attempt < 100; attempt++) {
+			let { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, mdot, point2 } = getCycle()
+			pEvap = pEvap.setUnit('bar').setSignificantDigits(2).roundToPrecision()
+			pCond = pCond.setUnit('bar').setSignificantDigits(2).roundToPrecision()
+			dTSuperheating = dTSuperheating.setDecimals(0).roundToPrecision()
+			dTSubcooling = dTSubcooling.setDecimals(0).roundToPrecision()
+			const T2 = point2.temperature.setDecimals(0).roundToPrecision()
+			mdot = mdot.setUnit('g/s').setDecimals(0).roundToPrecision()
+
+			const refrigerantData = refrigerantDatasets[refrigerant]
+			const TEvap = getSaturationTemperature(refrigerantData, pEvap)
+			const TCond = getSaturationTemperature(refrigerantData, pCond)
+			if (!TEvap || !TCond) continue
+			const point1 = getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, pEvap, TEvap.add(dTSuperheating))
+			if (!point1) continue
+			const point2p = getRefrigerantPropertiesFromPressureAndEntropy(refrigerantData, pCond, point1.entropy)
+			const checkedPoint2 = getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, pCond, T2)
+			const point3 = getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, pCond, TCond.subtract(dTSubcooling))
+			if (!point2p || !checkedPoint2 || !point3) continue
+			return { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, T2, mdot }
+		}
+		throw new Error('Failed to generate valid rounded cooling-cycle analysis parameters after 100 attempts.')
 	},
 
 	getSolution({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, T2, mdot }) {

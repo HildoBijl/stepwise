@@ -3,10 +3,10 @@ import { type Expression, asExpression, expressionChecks, expressionComparisons 
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { hasFractionWithinFraction } = expressionChecks
-const { equivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, areEqualExceptOrder } = expressionComparisons
 
 // ((a*(x+e)^p)/(b*(x+f)^q))/((c*(x+e)^r)/(d*(x+f)^s)).
 const variableSet = ['x', 'y', 'z']
@@ -18,8 +18,8 @@ export default buildStepExercise({
 		skill: 'simplifyFractionOfFractionsWithVariables',
 		...createStepExerciseMetadata(['multiplyDivideFractions', 'simplifyFractionWithVariables']),
 		comparisons: {
-			singleFraction: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
-			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
+			singleFraction: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && areEquivalent(input, correct),
+			ans: (input: Expression, correct: Expression) => areEqualExceptOrder(input.combine(), input.flatten()) && areEquivalent(input, correct),
 		},
 	},
 
@@ -42,12 +42,12 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
-		const fraction1 = asExpression('((a*(x+e)^p)/(b*(x+f)^q))', { eAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
-		const fraction2 = asExpression('((c*(x+e)^r)/(d*(x+f)^s))', { eAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
+		const fraction1 = asExpression('((a*(x+e)^p)/(b*(x+f)^q))', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['combineMinusSignsInFractions'])
+		const fraction2 = asExpression('((c*(x+e)^r)/(d*(x+f)^s))', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['combineMinusSignsInFractions'])
 		const baseExpression = fraction1.divide(fraction2)
-		const expression = (parameters.flip ? baseExpression.invert() : baseExpression.self()).removeTrivial([], ['mergeFractionMinuses'])
-		const singleFraction = expression.flatten(['mergeFractionProducts', 'flattenFractions'])
+		const expression = (parameters.flip ? baseExpression.invert() : baseExpression.self()).removeTrivial([], ['combineMinusSignsInFractions'])
+		const singleFraction = expression.flatten(['combineProductFractions', 'flattenFractions'])
 		const inBetween = singleFraction.cancel()
 		const ans = expression.combine()
 		return { ...parameters, variables, fraction1, fraction2, expression, singleFraction, inBetween, ans }

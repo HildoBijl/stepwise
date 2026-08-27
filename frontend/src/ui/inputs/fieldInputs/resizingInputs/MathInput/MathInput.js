@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useMemo } from 'react'
 
 import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionValue, deepEqual } from '@step-wise/js-utils'
-import { getEmptyExpressionValue, isEmptyExpressionValue } from '@step-wise/math-input-value'
+import { createEmptyExpressionValue, isEmptyExpressionValue } from '@step-wise/math-input-value'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -29,7 +29,7 @@ export const defaultMathInputOptions = {
 	heightDelta: -10, // Equations always have some margin, and we want less for the input field.
 
 	// Add in other options.
-	initialValue: getEmptyExpressionValue(),
+	initialValue: createEmptyExpressionValue(),
 	settings: {}, // The settings object specifying what is allowed.
 }
 

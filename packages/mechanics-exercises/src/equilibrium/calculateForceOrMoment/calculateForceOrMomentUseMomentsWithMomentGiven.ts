@@ -13,7 +13,7 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		while (true) {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			const getRandomPoint = () => new Vector(randomInteger(0, 4), randomInteger(0, 4))
 			const intersection = getRandomPoint()
 			const lowerBound = Math.max(-intersection.x, -intersection.y)
@@ -34,6 +34,7 @@ export default buildStepExercise({
 			if (intersection.equals(points[0])) continue
 			return { points, angle, up, right, MD }
 		}
+		throw new Error('Failed to generate valid calculate-force-or-moment parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {

@@ -3,7 +3,7 @@ import { asExpression } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 const variableSet = ['α', 'β', 'γ', 'δ']
 const usedVariables = ['alpha', 'beta', 'gamma', 'delta']
@@ -31,7 +31,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const { a } = parameters
 		const alpha = asExpression(90)
 		const beta = asExpression(90 - a)

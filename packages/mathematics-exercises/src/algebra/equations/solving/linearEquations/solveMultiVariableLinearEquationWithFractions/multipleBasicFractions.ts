@@ -3,7 +3,7 @@ import { type Equation, type Expression, asEquation, expressionComparisons, expr
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 // (y+b)/(x+c) + a/x = z/x.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -15,8 +15,8 @@ export default buildStepExercise({
 		skill: 'solveMultiVariableLinearEquationWithFractions',
 		...createStepExerciseMetadata(['multiplyAllEquationTerms', 'solveMultiVariableLinearEquation']),
 		comparisons: {
-			multiplied: (input: Equation, correct: Equation) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions left.
-			ans: (input: Expression, correct: Expression) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
+			multiplied: (input: Equation, correct: Equation) => equationComparisons.haveEquivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions left.
+			ans: (input: Expression, correct: Expression) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.areEquivalent(input, correct),
 		},
 	},
 
@@ -29,15 +29,15 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Extract parameters variables.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('(y+b)/(x+c) + a/x = z/x').substitute(variables).removeTrivial()
 
 		// Find the solution.
 		const factor1 = variables.x
 		const factor2 = equation.left.terms[0].denominator
 		const factor = factor1.multiply(factor2)
-		const multiplied = equation.mapLeft(side => side.mapTerms(term => term.multiply(factor))).mapRight(side => side.multiply(factor)).cancel(['mergeFractionProducts'])
-		const expanded = multiplied.simplify(['expandProductsOfSums', 'expandMinusSums', 'mergeProductNumbers'])
+		const multiplied = equation.mapLeft(side => side.mapTerms(term => term.multiply(factor))).mapRight(side => side.multiply(factor)).cancel(['combineProductFractions'])
+		const expanded = multiplied.simplify(['expandProductsOfSums', 'expandMinusSums', 'combineNumbersInProducts'])
 		const merged = expanded.combine()
 		const shifted = merged.subtract(merged.left.terms[2]).subtract(merged.right.terms[0]).cancel()
 		const pulledOut = shifted.mapLeft(side => side.factorOut(variables.x).combine())

@@ -11,7 +11,7 @@ const functionSet = ['f', 'g', 'h']
 export default buildMonoExercise({
 	metadata: {
 		skill: 'lookUpElementaryDerivative',
-		comparisons: { Expression: expressionComparisons.equivalent },
+		comparisons: { Expression: expressionComparisons.areEquivalent },
 	},
 
 	generateParameters() {
@@ -21,7 +21,7 @@ export default buildMonoExercise({
 	},
 
 	getSolution(parameters) {
-		return { ...parameters, derivative: parameters.func.getDerivative().combine() }
+		return { ...parameters, derivative: parameters.func.differentiate().combine() }
 	},
 
 	checkInput(data) {

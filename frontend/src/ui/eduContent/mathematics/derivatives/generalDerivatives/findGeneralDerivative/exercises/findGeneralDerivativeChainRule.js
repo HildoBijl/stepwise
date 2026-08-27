@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
-const { onlyOrderChanges, equivalent, constantMultiple } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent: equivalent, areConstantMultiples } = expressionComparisons
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -94,12 +94,12 @@ function getFeedback(exerciseData) {
 	const { x, fRaw } = solution
 
 	// Define h derivative checks.
-	const originalFunction = (input, correct, { h }) => onlyOrderChanges(input, h) && <>Dit is de oorspronkelijke functie. Je hebt hier nog niets mee gedaan.</>
+	const originalFunction = (input, correct, { h }) => areEqualExceptOrder(input, h) && <>Dit is de oorspronkelijke functie. Je hebt hier nog niets mee gedaan.</>
 	const incorrectFunction = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <>Dit is niet de afgeleide. Kijk goed naar of je de betreffende regel correct toegepast hebt.</>
 	const derivativeChecks = [originalFunction, incorrectFunction]
 
 	// Define f and g checks.
-	const missingConstant = (input, correct, solution, isCorrect) => !isCorrect && constantMultiple(input, correct) && <>Je zit er een constante vermenigvuldiging naast. Kijk goed naar de factor voor de functie.</>
+	const missingConstant = (input, correct, solution, isCorrect) => !isCorrect && areConstantMultiples(input, correct) && <>Je zit er een constante vermenigvuldiging naast. Kijk goed naar de factor voor de functie.</>
 	const incorrectF = (input, correct, solution, isCorrect) => !isCorrect && <>Dit is niet de buitenste functie. Onthoud: de buitenste functie bevat de <em>laatste</em> operatie die je uitvoert. Dus iets met <M>{fRaw}.</M></>
 	const incorrectG = (input, correct, solution, isCorrect) => !isCorrect && <>Dit is niet de binnenste funtie. Onthoud: de binnenste functie is wat je <em>in</em> de laatste operatie (hier <M>{fRaw}</M>) stopt.</>
 	const fChecks = [missingConstant, incorrectF]

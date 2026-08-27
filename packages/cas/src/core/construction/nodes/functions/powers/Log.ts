@@ -4,7 +4,7 @@ import { FunctionNode } from '../abstracts'
 
 import { type Ln } from './Ln'
 
-export type LogLike = Log | Ln
+export type LogarithmFunction = Log | Ln
 
 export class Log extends FunctionNode {
 	static readonly argumentNames = ['argument', 'base'] as const

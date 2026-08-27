@@ -9,20 +9,18 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateTriangle',
 		...createStepExerciseMetadata([undefined, undefined, undefined, 'solveQuadraticEquation']),
-		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
+		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.areEquivalent(input, correct) },
 	},
 
 	generateParameters() {
-		// Generate numbers and ensure that there are two solutions.
-		let α, a, c
-		do {
-			α = randomInteger(5, 17) * 5
-			c = randomInteger(6, 12)
-			a = randomInteger(2, c - 1)
-		} while (a <= c * Math.sin(degreesToRadians(α)) + epsilon)
-
-		// Assemble the parameters.
-		return { α: asExpression(α), a: asExpression(a), b: asExpression(sample(variableSet)), c: asExpression(c), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
+		for (let attempt = 0; attempt < 100; attempt++) {
+			const α = randomInteger(5, 17) * 5
+			const c = randomInteger(6, 12)
+			const a = randomInteger(2, c - 1)
+			if (a <= c * Math.sin(degreesToRadians(α)) + epsilon) continue
+			return { α: asExpression(α), a: asExpression(a), b: asExpression(sample(variableSet)), c: asExpression(c), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
+		}
+		throw new Error('Failed to generate valid side-side-angle triangle parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {
@@ -31,15 +29,15 @@ export default buildStepExercise({
 
 		// Define solution method data.
 		const rule = 1 // Use the cosine rule.
-		const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*c*b*cos(α)', undefined, { degrees: true }).substitute(variables)
+		const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*c*b*cos(α)', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const equation = equationRaw.combine()
-		const equationInStandardForm = equation.mapSides(side => side.subtract(equation.left)).switch().combine()
+		const equationInStandardForm = equation.mapSides(side => side.subtract(equation.left)).switchSides().combine()
 		const numSolutions = 2
 
 		// Determine the solution.
-		const b1Raw = asExpression('c*cos(α) + sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { degrees: true }).substitute(variables)
+		const b1Raw = asExpression('c*cos(α) + sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const b1 = b1Raw.combine()
-		const b2Raw = asExpression('c*cos(α) - sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { degrees: true }).substitute(variables)
+		const b2Raw = asExpression('c*cos(α) - sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const b2 = b2Raw.combine()
 		return { ...parameters, variables, rule, equationRaw, equation, equationInStandardForm, numSolutions, b1Raw, b1, b2Raw, b2 }
 	},

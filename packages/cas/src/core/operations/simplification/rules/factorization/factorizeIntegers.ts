@@ -6,7 +6,7 @@ import { Integer, Product, Power } from '../../../../construction'
 import { isIntegerNode, isPower } from '../../../structural'
 
 import { defineRule } from '../ruleDefinition'
-import { mergeProductNumbers, reduceNumberPowers } from '../numeric'
+import { combineNumbersInProducts, evaluateNumericPowers } from '../numeric'
 
 function transform(node: Integer): Integer | Product | Power {
 	// Check out trivial cases.
@@ -27,5 +27,5 @@ export const factorizeIntegers = defineRule({
 	name: 'factorizeIntegers',
 	appliesTo: (node, context): node is Parameters<typeof transform>[0] => isIntegerNode(node) && !context.parents.some((parent, index) => isPower(parent) && isIntegerNode(parent.base) && parent.exponent === (context.parents[index + 1] ?? node)),
 	transform,
-	conflictsWith: [mergeProductNumbers, reduceNumberPowers],
+	conflictsWith: [combineNumbersInProducts, evaluateNumericPowers],
 })

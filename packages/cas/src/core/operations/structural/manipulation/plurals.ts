@@ -2,7 +2,7 @@ import { cartesianProduct } from '@step-wise/js-utils'
 
 import { type ExpressionNode, negative } from '../../../construction'
 
-import { isPlusMinus } from '../fundamentals'
+import { isPlusMinus } from '../inspection'
 
 export function expandToSingulars(node: ExpressionNode): ExpressionNode[] {
 	// Turn a plus/minus sign into a list of options.

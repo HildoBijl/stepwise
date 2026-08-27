@@ -1,6 +1,6 @@
 // Smoothing settings.
 export const timeDecayHalfLife = 365.25 * 24 * 60 * 60 * 1000 // [Milliseconds] The time after which half of the convergence towards the flat distribution is obtained.
-export const initialPracticeDecayTime = 2 * 30 * 24 * 60 * 60 * 1000 // [Milliseconds] The equivalent time of decay for practicing a problem.
+export const initialPracticeDecayTime = 2 * 30 * 24 * 60 * 60 * 1000 // [Milliseconds] The areEquivalent time of decay for practicing a problem.
 export const practiceCountHalfLife = 20 // [Problems practiced] The number of problems practiced until the practice decay halves.
 
 // Inference settings.

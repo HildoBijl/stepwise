@@ -5,9 +5,9 @@ import { type Expression, asExpression, expressionComparisons } from '@step-wise
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
-const { equivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, areEqualExceptOrder } = expressionComparisons
 
 // (a*(x+c)^p*(x+e)*(x+d))/(b*(x+d)^p*(x+c)).
 const variableSet = ['x', 'y', 'z']
@@ -19,8 +19,8 @@ export default buildStepExercise({
 		skill: 'simplifyFractionWithVariables',
 		...createStepExerciseMetadata(['simplifyFraction', and('rewritePower', 'cancelFractionFactors')]),
 		comparisons: {
-			numericSimplified: (input: Expression, correct: Expression) => onlyOrderChanges(input.flatten().flatten(['mergeProductNumbers', 'mergeFractionNumbers']), input.flatten()) && equivalent(input, correct),
-			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
+			numericSimplified: (input: Expression, correct: Expression) => areEqualExceptOrder(input.flatten().flatten(['combineNumbersInProducts', 'combineNumbersInFractions']), input.flatten()) && areEquivalent(input, correct),
+			ans: (input: Expression, correct: Expression) => areEqualExceptOrder(input.combine(), input.flatten()) && areEquivalent(input, correct),
 		},
 	},
 
@@ -42,8 +42,8 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
-		const baseExpression = asExpression('(a*(x+c)^p*(x+e)*(x+d))/(b*(x+d)^p*(x+c))', { eAsConstant: false }).substitute(variables).removeTrivial()
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
+		const baseExpression = asExpression('(a*(x+c)^p*(x+e)*(x+d))/(b*(x+d)^p*(x+c))', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 		const expression = parameters.switch ? baseExpression.invert() : baseExpression.self()
 		const factor1 = asExpression('x+c').substitute(variables).removeTrivial()
 		const factor2 = asExpression('x+d').substitute(variables).removeTrivial()
@@ -51,7 +51,7 @@ export default buildStepExercise({
 		const numericPartOriginal = parameters.switch ? baseNumericPartOriginal.invert() : baseNumericPartOriginal.self()
 		const numericPart = numericPartOriginal.combine()
 		const factor = gcd(parameters.a, parameters.b) * (parameters.a < 0 && parameters.b < 0 ? -1 : 1)
-		const numericSimplified = expression.removeTrivial(['mergeProductNumbers', 'mergeFractionNumbers'])
+		const numericSimplified = expression.removeTrivial(['combineNumbersInProducts', 'combineNumbersInFractions'])
 		const ans = expression.combine()
 		return { ...parameters, variables, expression, factor1, factor2, numericPartOriginal, numericPart, factor, numericSimplified, ans }
 	},

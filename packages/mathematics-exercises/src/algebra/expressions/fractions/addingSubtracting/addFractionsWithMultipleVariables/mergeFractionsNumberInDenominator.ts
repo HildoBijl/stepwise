@@ -4,9 +4,9 @@ import { asExpression, expressionComparisons, expressionOperations } from '@step
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges } = expressionComparisons
+const { areEqualExceptOrder } = expressionComparisons
 const { multiplyNumeratorAndDenominator } = expressionOperations
 
 // 1/(ax) + 1/(by) = (by + ax)/(abxy).
@@ -18,7 +18,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'addFractionsWithMultipleVariables',
 		...createStepExerciseMetadata([undefined, ['simplifyFractionWithVariables', 'simplifyFractionWithVariables'], 'addLikeFractionsWithVariables']),
-		comparisons: { Expression: onlyOrderChanges },
+		comparisons: { Expression: areEqualExceptOrder },
 	},
 
 	generateParameters() {
@@ -31,15 +31,15 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const { plus, a, b } = parameters
 		const leftExpression = asExpression('1/(ax)').substitute(variables)
 		const rightExpression = asExpression('1/(by)').substitute(variables)
 		const expression = plus ? leftExpression.add(rightExpression) : leftExpression.subtract(rightExpression)
 		const lcmValue = lcm(a, b)
 		const denominator = asExpression(`${lcmValue}xy`).substitute(variables).flatten(['sortProducts'])
-		const leftAns = multiplyNumeratorAndDenominator(multiplyNumeratorAndDenominator(leftExpression, lcmValue / a), variables.y).removeTrivial(['mergeProductNumbers', 'sortProducts'])
-		const rightAns = multiplyNumeratorAndDenominator(multiplyNumeratorAndDenominator(rightExpression, lcmValue / b), variables.x).removeTrivial(['mergeProductNumbers', 'sortProducts'])
+		const leftAns = multiplyNumeratorAndDenominator(multiplyNumeratorAndDenominator(leftExpression, lcmValue / a), variables.y).removeTrivial(['combineNumbersInProducts', 'sortProducts'])
+		const rightAns = multiplyNumeratorAndDenominator(multiplyNumeratorAndDenominator(rightExpression, lcmValue / b), variables.x).removeTrivial(['combineNumbersInProducts', 'sortProducts'])
 		const ans = (plus ? leftAns.numerator.add(rightAns.numerator) : leftAns.numerator.subtract(rightAns.numerator)).divide(denominator)
 		return { ...parameters, variables, leftExpression, rightExpression, expression, lcmValue, denominator, leftAns, rightAns, ans }
 	},

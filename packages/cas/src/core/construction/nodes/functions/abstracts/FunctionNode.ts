@@ -4,9 +4,12 @@ import { ExpressionNode } from '../../ExpressionNode'
 
 export abstract class FunctionNode extends ExpressionNode {
 	static readonly argumentNames: readonly string[] = []
+	readonly args: readonly ExpressionNode[]
 
-	constructor(readonly args: readonly ExpressionNode[]) {
+	constructor(args: readonly ExpressionNode[]) {
 		super()
+		this.validateChildren(args, this.argumentNames.length)
+		this.args = Object.freeze([...args])
 	}
 
 	get argumentNames(): readonly string[] {
@@ -18,6 +21,7 @@ export abstract class FunctionNode extends ExpressionNode {
 	}
 
 	override recreateWithChildren(children: readonly ExpressionNode[]): ExpressionNode {
+		this.validateChildren(children, this.argumentNames.length)
 		if (shallowEqual(children, this.children)) return this
 		return new (this.constructor as new (...args: ExpressionNode[]) => ExpressionNode)(...children)
 	}

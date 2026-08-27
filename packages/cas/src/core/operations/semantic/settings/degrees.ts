@@ -1,9 +1,9 @@
 import { type ExpressionNode, namedConstants, product, fraction, sin, cos, tan, arcsin, arccos, arctan } from '../../../construction'
 
-import { isSin, isCos, isTan, isArcsin, isArccos, isArctan, mapDescendants } from '../../structural'
+import { isSin, isCos, isTan, isArcsin, isArccos, isArctan, mapNodes } from '../../structural'
 
-export function convertDegreesToRadians(node: ExpressionNode): ExpressionNode {
-	return mapDescendants(node, node => {
+export function convertExpressionToRadians(node: ExpressionNode): ExpressionNode {
+	return mapNodes(node, node => {
 		if (isSin(node)) return sin(product(node.argument, fraction(namedConstants.pi, 180)))
 		if (isCos(node)) return cos(product(node.argument, fraction(namedConstants.pi, 180)))
 		if (isTan(node)) return tan(product(node.argument, fraction(namedConstants.pi, 180)))
@@ -14,8 +14,8 @@ export function convertDegreesToRadians(node: ExpressionNode): ExpressionNode {
 	})
 }
 
-export function convertRadiansToDegrees(node: ExpressionNode): ExpressionNode {
-	return mapDescendants(node, node => {
+export function convertExpressionToDegrees(node: ExpressionNode): ExpressionNode {
+	return mapNodes(node, node => {
 		if (isSin(node)) return sin(product(node.argument, fraction(180, namedConstants.pi)))
 		if (isCos(node)) return cos(product(node.argument, fraction(180, namedConstants.pi)))
 		if (isTan(node)) return tan(product(node.argument, fraction(180, namedConstants.pi)))

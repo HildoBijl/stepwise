@@ -10,20 +10,18 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateTriangle',
 		...createStepExerciseMetadata([undefined, undefined, undefined, and('solveLinearEquation', 'applySineCosineTangent')]),
-		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
+		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.areEquivalent(input, correct) },
 	},
 
 	generateParameters() {
-		// Determine sides and check the triangle inequality.
-		let a, b, c
-		do {
-			a = randomInteger(2, 12)
-			b = randomInteger(2, 12)
-			c = randomInteger(2, 12)
-		} while (a + b <= c || a + c <= b || b + c <= a)
-
-		// Assemble the parameters.
-		return { α: asExpression(sample(variableSet)), a: asExpression(a), b: asExpression(b), c: asExpression(c), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
+		for (let attempt = 0; attempt < 100; attempt++) {
+			const a = randomInteger(2, 12)
+			const b = randomInteger(2, 12)
+			const c = randomInteger(2, 12)
+			if (a + b <= c || a + c <= b || b + c <= a) continue
+			return { α: asExpression(sample(variableSet)), a: asExpression(a), b: asExpression(b), c: asExpression(c), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
+		}
+		throw new Error('Failed to generate valid side-side-side triangle parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {
@@ -32,12 +30,12 @@ export default buildStepExercise({
 
 		// Define solution method data.
 		const rule = 1 // Use the cosine rule.
-		const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*b*c*cos(α)', undefined, { degrees: true }).substitute(variables)
+		const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*b*c*cos(α)', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const equation = equationRaw.combine()
 		const numSolutions = 1
 
 		// Determine the remaining side a.
-		const intermediateEquation = asEquation('cos(α) = (b^2 + c^2 - a^2)/(2*b*c)', undefined, { degrees: true }).substitute(variables).combine()
+		const intermediateEquation = asEquation('cos(α) = (b^2 + c^2 - a^2)/(2*b*c)', undefined, { angleUnit: 'degrees' }).substitute(variables).combine()
 		α = intermediateEquation.right.arccos()
 		return { ...parameters, variables, rule, equationRaw, equation, numSolutions, intermediateEquation, α }
 	},

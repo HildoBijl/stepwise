@@ -101,7 +101,7 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Set up an extra feedbackCheck to check that the two check-parameters are equal.
-	const unbalancedEquation = (input, answer, solution, correct, { input: { checkLeft, checkRight }, translateCrossExercise }) => checkLeft && checkRight && !expressionComparisons.onlyOrderChanges(checkLeft, checkRight) && { correct: false, text: translateCrossExercise(<>The two sides of the equation should in the end be the same. This value is not equal to the other one.</>, 'unbalancedEquation') }
+	const unbalancedEquation = (input, answer, solution, correct, { input: { checkLeft, checkRight }, translateCrossExercise }) => checkLeft && checkRight && !expressionComparisons.areEqualExceptOrder(checkLeft, checkRight) && { correct: false, text: translateCrossExercise(<>The two sides of the equation should in the end be the same. This value is not equal to the other one.</>, 'unbalancedEquation') }
 
 	// Assemble the feedback.
 	return getFieldInputFeedback(exerciseData, {

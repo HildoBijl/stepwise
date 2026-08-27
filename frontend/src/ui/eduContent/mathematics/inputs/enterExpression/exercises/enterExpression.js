@@ -16,7 +16,7 @@ function Problem({ expression }) {
 	return <Translation>
 		<Par>Enter the expression <M>{expression}</M> exactly as shown.</Par>
 		<InputSpace>
-			<Par><ExpressionInput id="ans" prelabel={<M>{expression} =</M>} label="Enter the expression here" size="l" validate={ExpressionInput.validation.validWithVariables(expression.getVariables())} /></Par>
+			<Par><ExpressionInput id="ans" prelabel={<M>{expression} =</M>} label="Enter the expression here" size="l" validate={ExpressionInput.validation.validWithVariables(expression.collectVariables())} /></Par>
 		</InputSpace>
 	</Translation>
 }
@@ -29,7 +29,7 @@ function getFeedback(exerciseData) {
 	const { translate } = exerciseData
 	return getFieldInputFeedback(exerciseData, {
 		ans: [
-			(input, solution, _, correct) => !correct && expressionComparisons.equivalent(input, solution) && translate(<>Technically this is equivalent to the expression above, but you must enter the expression <strong>as shown</strong>.</>, 'equivalent'),
+			(input, solution, _, correct) => !correct && expressionComparisons.areEquivalent(input, solution) && translate(<>Technically this is equivalent to the expression above, but you must enter the expression <strong>as shown</strong>.</>, 'equivalent'),
 			(input, solution, _, correct) => !correct && translate(<>This is not equal to the expression shown above.</>, 'remaining'),
 		]
 	})
