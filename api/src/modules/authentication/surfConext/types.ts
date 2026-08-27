@@ -1,4 +1,5 @@
 import type { Transaction } from 'sequelize'
+import { isPlainObject } from '@step-wise/js-utils'
 
 import type { UserModel } from '../../user/model.ts'
 
@@ -28,6 +29,31 @@ export interface SurfConextIdentity {
 	locale?: string | null
 	eduperson_affiliation?: string[] | null
 	[claim: string]: unknown
+}
+
+const nullableStringClaims = [
+	'databaseId',
+	'name',
+	'given_name',
+	'family_name',
+	'email',
+	'schac_home_organization',
+	'locale',
+] as const
+
+const nullableStringArrayClaims = ['schac_personal_unique_code', 'eduperson_affiliation'] as const
+
+export function isSurfConextIdentity(value: unknown): value is SurfConextIdentity {
+	if (!isPlainObject(value) || typeof value.sub !== 'string') return false
+	if (nullableStringClaims.some(claim => value[claim] !== undefined && value[claim] !== null && typeof value[claim] !== 'string')) return false
+	return nullableStringArrayClaims.every(claim => {
+		const claimValue = value[claim]
+		return claimValue === undefined || claimValue === null || (Array.isArray(claimValue) && claimValue.every(entry => typeof entry === 'string'))
+	})
+}
+
+export function ensureSurfConextIdentities(value: unknown): asserts value is SurfConextIdentity[] {
+	if (!Array.isArray(value) || !value.every(isSurfConextIdentity)) throw new TypeError('Expected an array of valid SurfConext identities.')
 }
 
 export interface SurfConextClient {

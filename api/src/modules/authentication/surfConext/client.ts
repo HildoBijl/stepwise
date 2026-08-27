@@ -1,7 +1,7 @@
 import crypto from 'node:crypto'
 import { Client as OpenIdClient, Issuer } from 'openid-client'
 
-import type { SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } from './types.ts'
+import { type SurfConextCallbackParams, type SurfConextClient, type SurfConextIdentity, isSurfConextIdentity } from './types.ts'
 
 function hash(text: string): string {
 	return crypto.createHash('sha256').update(text).digest('hex')
@@ -40,7 +40,7 @@ export class Client implements SurfConextClient {
 			if (!client) return null
 			const tokenSet = await client.callback(this._redirectUrl, { state: params.state, code: params.code }, { state: hash(sessionId) })
 			const userInfo = await client.userinfo(tokenSet)
-			return userInfo as SurfConextIdentity
+			return isSurfConextIdentity(userInfo) ? userInfo : null
 		} catch {
 			return null
 		}
