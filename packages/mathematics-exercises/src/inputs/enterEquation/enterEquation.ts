@@ -15,7 +15,7 @@ const usedVariables = ['x', 'y', 'z']
 export default buildMonoExercise({
 	metadata: {
 		skill: 'enterEquation',
-		comparisons: { ans: (input: Equation, correct: Equation) => !equationComparisons.areExactlyEqual(input, correct.switch()) && equationComparisons.areEquivalent(input, correct.switch()) },
+		comparisons: { ans: (input: Equation, correct: Equation) => !equationComparisons.areExactlyEqual(input, correct.switchSides()) && equationComparisons.areEquivalent(input, correct.switchSides()) },
 	},
 
 	generateParameters() {
@@ -32,7 +32,7 @@ export default buildMonoExercise({
 	},
 
 	getSolution({ equation }) {
-		return { ans: equation.switch() }
+		return { ans: equation.switchSides() }
 	},
 
 	checkInput(data) {

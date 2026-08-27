@@ -1,17 +1,17 @@
 import {
-	type Expression, type ExpressionInputValue, ExpressionType, interpretExpressionInputValue, expressionToInputValue,
-	type Equation, type EquationInputValue, EquationType, interpretEquationInputValue, equationToInputValue,
+	type Expression, type ExpressionInputValue, ExpressionType, inputValueToExpression, expressionToInputValue,
+	type Equation, type EquationInputValue, EquationType, inputValueToEquation, equationToInputValue,
 } from '@step-wise/cas'
 
 import type { InputValueAdapter } from '../types'
 
 export const expressionInputValueAdapter = {
-	interpret: interpretExpressionInputValue,
+	interpret: inputValueToExpression,
 	toInputValue: expressionToInputValue,
 } satisfies InputValueAdapter<ExpressionInputValue, Expression>
 
 export const equationInputValueAdapter = {
-	interpret: interpretEquationInputValue,
+	interpret: inputValueToEquation,
 	toInputValue: equationToInputValue,
 } satisfies InputValueAdapter<EquationInputValue, Equation>
 

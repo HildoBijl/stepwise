@@ -5,12 +5,12 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { getRandomElementaryFunctions } from '../../tools'
 
-const { areEquivalent, constantMultiple } = expressionComparisons
+const { areEquivalent, areConstantMultiples } = expressionComparisons
 
 const variableSet = ['x', 'y', 't']
 
 function checkF(func: Expression | undefined, solutionFunc: Expression): boolean {
-	return !!func && constantMultiple(func, solutionFunc)
+	return !!func && areConstantMultiples(func, solutionFunc)
 }
 
 function checkFAndG(input: { f?: Expression, g?: Expression }, solution: { f?: Expression, g?: Expression, h?: Expression }): boolean {

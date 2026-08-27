@@ -31,7 +31,7 @@ export default buildStepExercise({
 		const rule = 1 // Use the cosine rule.
 		const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*c*b*cos(α)', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const equation = equationRaw.combine()
-		const equationInStandardForm = equation.mapSides(side => side.subtract(equation.left)).switch().combine()
+		const equationInStandardForm = equation.mapSides(side => side.subtract(equation.left)).switchSides().combine()
 		const numSolutions = 2
 
 		// Determine the solution.

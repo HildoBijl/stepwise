@@ -15,7 +15,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'solveSystemOfLinearEquations',
 		...createStepExerciseMetadata(['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteANumber']),
-		comparisons: { eq1Solution: expressionComparisons.areEquivalent, eq2Substituted: equationComparisons.areEquivalent, Expression: expressionComparisons.onlyOrderChanges },
+		comparisons: { eq1Solution: expressionComparisons.areEquivalent, eq2Substituted: equationComparisons.areEquivalent, Expression: expressionComparisons.areEqualExceptOrder },
 	},
 
 	generateParameters(example) {

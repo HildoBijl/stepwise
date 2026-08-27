@@ -1,6 +1,6 @@
 import { isEmptyObject, omitDefaults } from '@step-wise/js-utils'
 
-import { defaultExpressionSettings } from './settingsReexport'
+import { defaultExpressionSettings } from './settings'
 import { type SerializedExpression } from './types'
 import { ExpressionType, Expression } from './Expression'
 

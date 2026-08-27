@@ -3,29 +3,29 @@ import { approximatelyEqual } from '@step-wise/js-utils'
 import { type ExpressionLike, asExpression } from './Expression'
 
 export const expressionComparisons = {
-	areExactlyEqual(input: ExpressionLike, correct: ExpressionLike): boolean {
-		return asExpression(correct).strictEqualStructure(asExpression(input))
+	areExactlyEqual(input: ExpressionLike, expected: ExpressionLike): boolean {
+		return asExpression(expected).strictEqualStructure(asExpression(input))
 	},
 
-	onlyOrderChanges(input: ExpressionLike, correct: ExpressionLike): boolean {
-		return asExpression(correct).flatten().equalStructure(asExpression(input).flatten())
+	areEqualExceptOrder(input: ExpressionLike, expected: ExpressionLike): boolean {
+		return asExpression(expected).flatten().equalStructure(asExpression(input).flatten())
 	},
 
-	equalNumber(input: ExpressionLike, correct: ExpressionLike): boolean {
+	haveEqualNumericValue(input: ExpressionLike, expected: ExpressionLike): boolean {
 		const inputExpression = asExpression(input)
-		const correctExpression = asExpression(correct)
-		return inputExpression.isNumeric() && correctExpression.isNumeric() && approximatelyEqual(inputExpression.toNumber(), correctExpression.toNumber())
+		const expectedExpression = asExpression(expected)
+		return inputExpression.isNumeric() && expectedExpression.isNumeric() && approximatelyEqual(inputExpression.toNumber(), expectedExpression.toNumber())
 	},
 
-	areEquivalent(input: ExpressionLike, correct: ExpressionLike): boolean {
-		return asExpression(input).isEquivalentTo(correct)
+	areEquivalent(input: ExpressionLike, expected: ExpressionLike): boolean {
+		return asExpression(input).isEquivalentTo(expected)
 	},
 
-	integerMultiple(input: ExpressionLike, correct: ExpressionLike): boolean {
-		return asExpression(input).isIntegerMultiple(correct)
+	areIntegerMultiples(input: ExpressionLike, expected: ExpressionLike): boolean {
+		return asExpression(input).isIntegerMultiple(expected)
 	},
 
-	constantMultiple(input: ExpressionLike, correct: ExpressionLike): boolean {
-		return asExpression(input).isConstantMultiple(correct)
+	areConstantMultiples(input: ExpressionLike, expected: ExpressionLike): boolean {
+		return asExpression(input).isConstantMultiple(expected)
 	},
 }

@@ -2,7 +2,7 @@ import { type ExpressionInputValue, isExpressionInputValue } from '@step-wise/ma
 
 import { type ExpressionNode, interpretExpressionInputValue, parseExpressionNode, number } from '../core'
 
-import { type InterpretationSettingsOptions, type ExpressionSettingsOptions } from './settingsReexport'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions } from './settings'
 import { type ExpressionInput } from './types'
 
 type ExpressionParts = { node: ExpressionNode, expressionSettings?: ExpressionSettingsOptions }

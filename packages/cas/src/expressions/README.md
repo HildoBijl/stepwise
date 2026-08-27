@@ -125,11 +125,11 @@ The mappers that exist depend on the expression type. Sums have `mapTerms`, frac
 
 ### Recursive mapping
 
-Sometimes you want to apply an operation to every child in the expression tree. For this, you can use `mapEvery`. This function takes a mapper and applies it to every child. We could for instance set all exponents within powers to zero. This can be done in multiple ways.
+Sometimes you want to apply an operation to every child in the expression tree. For this, you can use `mapExpressions`. This function takes a mapper and applies it to every child. We could for instance set all exponents within powers to zero. This can be done in multiple ways.
 
 ```
-exp.mapEvery(child => child.isPower() ? child.mapExponent(() => 0) : child)
-exp.mapEvery((child, ancestors) => ancestors[ancestors.length-1]?.isPower() ? 0 : child)
+exp.mapExpressions(child => child.isPower() ? child.mapExponent(() => 0) : child)
+exp.mapExpressions((child, ancestors) => ancestors[ancestors.length-1]?.isPower() ? 0 : child)
 ```
 
 Both of the above lines do the same thing. Note that we can simply insert `0` since this is passed through `asExpression` anyway. Also note that the mappers receive a second parameter: the list of ancestors of the given child, with the closest ancestors last. (And `ancestors[0]` equals `exp`, except when the mapper is applied to `exp` itself.)

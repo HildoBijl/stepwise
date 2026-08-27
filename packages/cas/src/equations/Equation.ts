@@ -119,7 +119,7 @@ export class Equation {
 
 	collectVariables(): Expression[] {
 		const variables: Expression[] = []
-		this.forEverySide(side => {
+		this.forEachSide(side => {
 			side.collectVariables().forEach(variable => {
 				if (!variables.some(existingVariable => existingVariable.strictEqualStructure(variable))) variables.push(variable)
 			})
@@ -138,7 +138,7 @@ export class Equation {
 	 */
 
 	self(): Equation { return this }
-	switch(): Equation { return this.recreateWith(this.right, this.left) }
+	switchSides(): Equation { return this.recreateWith(this.right, this.left) }
 	negate(): Equation { return this.mapSides(side => side.negate()) }
 	stripSigns(): Equation { return this.mapSides(side => side.stripSigns()) }
 	add(...terms: ExpressionLike[]): Equation { return this.mapSides(side => side.add(...terms)) }
@@ -218,7 +218,7 @@ export class Equation {
 
 	findAll(check: ExpressionInEquationCheck, childrenFirst = false): Expression[] {
 		const results: Expression[] = []
-		this.forEvery((expression, ancestors, sideName) => { if (check(expression, ancestors, sideName)) results.push(expression) }, childrenFirst)
+		this.forEachExpression((expression, ancestors, sideName) => { if (check(expression, ancestors, sideName)) results.push(expression) }, childrenFirst)
 		return results
 	}
 
@@ -226,7 +226,7 @@ export class Equation {
 	 * Side operations
 	 */
 
-	forEverySide(func: EquationSideFunction): void {
+	forEachSide(func: EquationSideFunction): void {
 		equationSideNames.forEach(sideName => func(this[sideName], sideName))
 	}
 
@@ -246,12 +246,12 @@ export class Equation {
 	 * Recursive operations
 	 */
 
-	forEvery(func: ExpressionInEquationFunction, childrenFirst = false): void {
-		this.forEverySide((side, sideName) => side.forEvery((child, ancestors) => func(child, ancestors, sideName), childrenFirst, true))
+	forEachExpression(func: ExpressionInEquationFunction, childrenFirst = false): void {
+		this.forEachSide((side, sideName) => side.forEachExpression((child, ancestors) => func(child, ancestors, sideName), childrenFirst, true))
 	}
 
-	mapEvery(transform: ExpressionInEquationTransform, childrenFirst = true): Equation {
-		return this.mapSides((side, sideName) => side.mapEvery((child, ancestors) => transform(child, ancestors, sideName), childrenFirst, true))
+	mapExpressions(transform: ExpressionInEquationTransform, childrenFirst = true): Equation {
+		return this.mapSides((side, sideName) => side.mapExpressions((child, ancestors) => transform(child, ancestors, sideName), childrenFirst, true))
 	}
 
 	/*
@@ -279,10 +279,10 @@ export class Equation {
 	 * Comparisons
 	 */
 
-	equalStructure(other: EquationLike, allowSwitch = true, allowOrderChanges?: boolean): boolean {
+	equalStructure(other: EquationLike, allowSideSwitch = true, allowOrderChanges?: boolean): boolean {
 		const equation = this.coerceEquation(other)
 		if (this.left.equalStructure(equation.left, allowOrderChanges) && this.right.equalStructure(equation.right, allowOrderChanges)) return true
-		if (allowSwitch && this.equalStructure(equation.switch(), false, allowOrderChanges)) return true
+		if (allowSideSwitch && this.equalStructure(equation.switchSides(), false, allowOrderChanges)) return true
 		return false
 	}
 
@@ -292,7 +292,7 @@ export class Equation {
 
 	equals(other: EquationLike, equalityOptions: EquationEqualityOptionsInput): boolean {
 		// Verify the given options.
-		const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSwitch, allowMinus } = asEquationEqualityOptions(equalityOptions)
+		const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSideSwitch, allowNegatingBothSides } = asEquationEqualityOptions(equalityOptions)
 		if (preprocessSide && (preprocessLeft || preprocessRight)) throw new Error(`Invalid equation equality options: cannot define both preprocessSide and preprocessLeft/preprocessRight. Either use preprocessSide to preprocess both sides in the same way, or use preprocessLeft and preprocessRight to define different preprocessing for the two sides.`)
 		if (compareSide && (compareLeft || compareRight)) throw new Error(`Invalid equation equality options: cannot define both compareSide and compareLeft/compareRight. Either use compareSide to compare both sides in the same way, or use compareLeft and compareRight to define different comparisons for the two sides.`)
 
@@ -310,8 +310,8 @@ export class Equation {
 
 		// Run comparisons.
 		if (compLeft(prepLeft(otherEq.left), prepLeft(thisEq.left)) && compRight(prepRight(otherEq.right), prepRight(thisEq.right))) return true
-		if (allowSwitch && this.equals(otherEquation.switch(), { ...equalityOptions, allowSwitch: false })) return true
-		if (allowMinus && this.equals(otherEquation.negate(), { ...equalityOptions, allowMinus: false })) return true
+		if (allowSideSwitch && this.equals(otherEquation.switchSides(), { ...equalityOptions, allowSideSwitch: false })) return true
+		if (allowNegatingBothSides && this.equals(otherEquation.negate(), { ...equalityOptions, allowNegatingBothSides: false })) return true
 		return false
 	}
 
@@ -319,16 +319,16 @@ export class Equation {
 		return this.normalizeToZero().left.isConstantMultiple(this.coerceEquation(other).normalizeToZero().left)
 	}
 
-	isConstantMultiple(other: EquationLike, allowSwitch = true): boolean {
+	isConstantMultiple(other: EquationLike, allowSideSwitch = true): boolean {
 		const equation = this.coerceEquation(other)
 		if (this.hasSameSideMultiple(equation, (a, b) => a.isConstantMultiple(b))) return true
-		return allowSwitch && this.isConstantMultiple(equation.switch(), false)
+		return allowSideSwitch && this.isConstantMultiple(equation.switchSides(), false)
 	}
 
-	isIntegerMultiple(other: EquationLike, allowSwitch = true): boolean {
+	isIntegerMultiple(other: EquationLike, allowSideSwitch = true): boolean {
 		const equation = this.coerceEquation(other)
 		if (this.hasSameSideMultiple(equation, (a, b) => a.isIntegerMultiple(b))) return true
-		return allowSwitch && this.isIntegerMultiple(equation.switch(), false)
+		return allowSideSwitch && this.isIntegerMultiple(equation.switchSides(), false)
 	}
 
 	private hasSameSideMultiple(equation: Equation, isMultiple: (a: Expression, b: Expression) => boolean): boolean {

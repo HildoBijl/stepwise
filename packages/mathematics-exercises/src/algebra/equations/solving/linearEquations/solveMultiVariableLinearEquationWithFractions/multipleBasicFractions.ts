@@ -15,7 +15,7 @@ export default buildStepExercise({
 		skill: 'solveMultiVariableLinearEquationWithFractions',
 		...createStepExerciseMetadata(['multiplyAllEquationTerms', 'solveMultiVariableLinearEquation']),
 		comparisons: {
-			multiplied: (input: Equation, correct: Equation) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions left.
+			multiplied: (input: Equation, correct: Equation) => equationComparisons.haveEquivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions left.
 			ans: (input: Expression, correct: Expression) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.areEquivalent(input, correct),
 		},
 	},

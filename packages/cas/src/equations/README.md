@@ -35,7 +35,7 @@ The inspection methods work the same as for expressions. There are three extra m
 
 Manipulation is mostly the same as well. Extra methods are:
 
-- `eq.switch()` switches the two sides of the equation.
+- `eq.switchSides()` switches the two sides of the equation.
 - `eq.mapSides(mapper)` applies a given mapper function to both sides. You can double both sides of the equation by running `eq.mapSides(side => side.multiplyLeft(2))`. (Although you could also use `eq.multiplyLeft(2)` to do the same.)
 - `eq.mapLeft(mapper)` applies a mapper function to only the left side.
 - `eq.mapRight(mapper)` applies a mapper function to only the right side.
@@ -51,11 +51,11 @@ Simplification is also done in the same way as for expessions. Extra methods are
 
 ## Comparison
 
-For comparison, the same methods apply. The `equalStructure` function does have an extra option `allowSwitch`.
+For comparison, the same methods apply. The `equalStructure` function does have an extra option `allowSideSwitch`.
 
 ```
 asEquation('2x=3').equalStructure('3=x*2') // Gives true
-asEquation('2x=3').equalStructure('3=x*2', false) // With `allowSwitch` set to false, this gives false
+asEquation('2x=3').equalStructure('3=x*2', false) // With `allowSideSwitch` set to false, this gives false
 asEquation('2x=3').equalStructure('x*2=3', false) // Gives true
 asEquation('2x=3').equalStructure('x*2=3', false, false) // With `allowOrderChanges` set to false, this gives false
 ```
@@ -69,7 +69,7 @@ asEquation('2x=3').equalStructure('x*2=3', equalityOptions)
 The `equalityOptions` object can have the following attributes.
 
 - `allowOrderChanges` (default `true`): is `xy` the same as `yx`? (Only used when no `compare` functions are given.)
-- `allowSwitch` (default `true`): is `2x=3` the same as `3=2x`? If set to true, the switched version of the second argument will also be compared with the first argument.
+- `allowSideSwitch` (default `true`): is `2x=3` the same as `3=2x`? If set to true, the switched version of the second argument will also be compared with the first argument.
 - `preprocess`: (default `identity`) an equation mapper function used to preprocess the equation before comparison.
 - `preprocessSide`: (default `identity`) an expression mapper function used to preprocess each side before comparison.
 - `preprocessLeft`: an expression mapper function used to preprocess the left side before comparison. (If given, then `preprocessSide` must be `undefined`.)

@@ -20,7 +20,7 @@ export const fullEquationFeedback = (input, correct, solution, isCorrect, compar
 		return selectRandomCorrect()
 
 	// Find the right processing and checking functions.
-	const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSwitch } = asEquationEqualityOptions(resolveFunctionValue(compare, solution))
+	const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSideSwitch } = asEquationEqualityOptions(resolveFunctionValue(compare, solution))
 	input = preprocess(input)
 	correct = preprocess(correct)
 
@@ -42,7 +42,7 @@ export const fullEquationFeedback = (input, correct, solution, isCorrect, compar
 	// Check if sides are mixed up.
 	const correctLeftIsRight = compLeft(prepLeft(input.right), left)
 	const correctRightIsLeft = compRight(prepRight(input.left), right)
-	if (allowSwitch) {
+	if (allowSideSwitch) {
 		if (correctLeftIsRight || correctRightIsLeft)
 			return oneSideCorrect(correctRightIsLeft, correctRightIsLeft ? expressionComparisons.areEquivalent(input.right, correct.left) : expressionComparisons.areEquivalent(input.left, correct.right))
 	} else {
@@ -71,7 +71,7 @@ function oneSideSwitched(correctRightIsLeft) {
  * Basic checks for extra feedback options.
  */
 
-export const originalEquation = (input, correct, { equation }) => equationComparisons.onlyOrderChanges(input, equation) && <Translation path={translationPath} entry="equation.original">This is the original equation. You have not rewritten it yet.</Translation>
+export const originalEquation = (input, correct, { equation }) => equationComparisons.areEqualExceptOrder(input, equation) && <Translation path={translationPath} entry="equation.original">This is the original equation. You have not rewritten it yet.</Translation>
 
 export const incorrectEquation = (input, correct, solution, isCorrect) => !isCorrect && !equationComparisons.areEquivalent(input, correct) && <Translation path={translationPath} entry="equation.incorrect">This equation is not equal to what has been given. In rewriting it you took a wrong step somewhere.</Translation>
 
@@ -146,7 +146,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 	return (findWithValue(['left', 'right'], inspectSide) || {}).value
 }
 
-// sumWithUnsimplifiedTerms checks if the left and right side have the same form. When terms are equivalent but do not match the onlyOrderChanges check, it notes that further simplifications are possible.
+// sumWithUnsimplifiedTerms checks if the left and right side have the same form. When terms are equivalent but do not match the areEqualExceptOrder check, it notes that further simplifications are possible.
 export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) => {
 	if (isCorrect)
 		return
@@ -165,12 +165,12 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 		// If the correct answer has a sum ...
 		if (correctSide.isSum()) {
 			// Find an input term that is not in the solution when checking only for order changes.
-			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.onlyOrderChanges(inputTerm, correctTerm)))
+			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.areEqualExceptOrder(inputTerm, correctTerm)))
 			if (index !== -1)
 				return <Translation path={translationPath} entry="equation.unsimplifiedSumTerm">You can still simplify the <CountingWord ordinal={true}>{index + 1}</CountingWord> term on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side.</Translation>
 		} else {
 			// Check that the given terms are the same.
-			if (!expressionComparisons.onlyOrderChanges(inputSide, correctSide))
+			if (!expressionComparisons.areEqualExceptOrder(inputSide, correctSide))
 				return <Translation path={translationPath} entry="equation.unsimplifiedSide">You can still simplify the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side.</Translation>
 		}
 	}

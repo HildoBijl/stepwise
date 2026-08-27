@@ -6,7 +6,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { selectExpressionParameters } from '#generationTools'
 
 const { hasSumWithinProduct, hasSimilarTerms, isFractionLike, hasFractionWithinFraction } = expressionChecks
-const { areEquivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, areEqualExceptOrder } = expressionComparisons
 
 // (a*(x+b))/(e*x+f) +/- (c*x+d)/(e*x+f).
 const variableSet = ['x', 'y', 'z']
@@ -47,7 +47,7 @@ export default buildStepExercise({
 		const bracketsExpanded = singleFraction.removeTrivial(['expandProductsOfSums', 'combineNumbersInProducts'])
 		const ans = bracketsExpanded.cancel(['combineLikeTerms'])
 		const ansCleaned = ans.combine()
-		const isFurtherSimplificationPossible = !onlyOrderChanges(ans, ansCleaned)
+		const isFurtherSimplificationPossible = !areEqualExceptOrder(ans, ansCleaned)
 		return { ...parameters, variables, expression, singleFraction, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }
 	},
 

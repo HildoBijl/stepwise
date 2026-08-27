@@ -1,4 +1,4 @@
-export * from './settingsReexport'
+export * from './settings'
 export * from './equalityOptions'
 export * from './types'
 export * from './Expression'

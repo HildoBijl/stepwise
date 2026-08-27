@@ -42,7 +42,7 @@ export default buildStepExercise({
 		comparisons: {
 			multiplied: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && areEquivalent(input, correct),
 			expanded: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && areEquivalent(input, correct),
-			moved: { compareLeft: expressionComparisons.constantMultiple, compareRight: expressionComparisons.areExactlyEqual },
+			moved: { compareLeft: expressionComparisons.areConstantMultiples, compareRight: expressionComparisons.areExactlyEqual },
 			ans: (input: Equation, correct: Equation, { normalize }: { normalize: boolean }) => (areExactlyEqual(input.left, correct.left) || (!normalize && areExactlyEqual(input.left, correct.left.negate()))) && areExactlyEqual(input.right, correct.right),
 		},
 	},
@@ -71,12 +71,12 @@ export default buildStepExercise({
 		const { a, b, c, d, e, flip, normalize } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseEquation = asEquation('ax+b=(cx(x+d))/(x^2+e)', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
-		const equation = flip ? baseEquation.switch() : baseEquation.self()
+		const equation = flip ? baseEquation.switchSides() : baseEquation.self()
 
 		// Rewrite the equation in various ways.
 		const baseMultiplied = asEquation('(ax+b)(x^2+e) = cx(x+d)', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
-		const multiplied = flip ? baseMultiplied.switch() : baseMultiplied.self()
-		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'combineLikeFactors'], ['combineNumbersInSums', 'combineLikeTerms']).mapEvery(term => term.isPower() ? term.combine() : term).cancel([], ['combineNumbersInSums', 'combineLikeTerms']) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
+		const multiplied = flip ? baseMultiplied.switchSides() : baseMultiplied.self()
+		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'combineLikeFactors'], ['combineNumbersInSums', 'combineLikeTerms']).mapExpressions(term => term.isPower() ? term.combine() : term).cancel([], ['combineNumbersInSums', 'combineLikeTerms']) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 		const merged = expanded.combine(['sortSums'])
 		const moved = merged.subtract(merged.right).combine(['sortSums'])
 

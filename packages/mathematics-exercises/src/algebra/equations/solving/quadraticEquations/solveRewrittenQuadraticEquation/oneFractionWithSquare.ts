@@ -6,7 +6,7 @@ import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, constantMultiple, areExactlyEqual } = expressionComparisons
+const { areEqualExceptOrder, areConstantMultiples, areExactlyEqual } = expressionComparisons
 
 // (x+a)^2/(x+b) = cx+d.
 const variableSet = ['x', 'y', 'z']
@@ -32,21 +32,21 @@ export default buildStepExercise({
 		...createStepExerciseMetadata(['bringEquationToStandardForm', 'solveQuadraticEquation']),
 		comparisons: {
 			standardForm: {
-				compareLeft: (input: Expression, correct: Expression) => { // Set up an extra check for constant multiples, since the constantMultiple in the CAS isn't fully functional yet.
-					if (constantMultiple(input, correct)) return true
+				compareLeft: (input: Expression, correct: Expression) => { // Set up an extra check for constant multiples, since the areConstantMultiples in the CAS isn't fully functional yet.
+					if (areConstantMultiples(input, correct)) return true
 					const getFactor = (value: Expression) => {
 						const powerTerm = value.find(term => term.isProduct() && term.factors.some(factor => factor.isPower()))
 						const numericFactor = powerTerm?.find(factor => factor.isNumeric())
 						return numericFactor?.isNumeric() ? numericFactor.toNumber() : 1
 					}
 					const adjustmentFactor = getFactor(input) / getFactor(correct)
-					return constantMultiple(input, correct.multiply(adjustmentFactor).combine())
+					return areConstantMultiples(input, correct.multiply(adjustmentFactor).combine())
 				},
 				compareRight: areExactlyEqual,
 			},
 			// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
-			ans1: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
-			ans2: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
+			ans1: (input: Expression, correct: Expression) => areEqualExceptOrder(input, correct) || areEqualExceptOrder(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
+			ans2: (input: Expression, correct: Expression) => areEqualExceptOrder(input, correct) || areEqualExceptOrder(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
 		},
 	},
 
@@ -78,12 +78,12 @@ export default buildStepExercise({
 		const { a, b, c, d, flip } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equationBase = asEquation('(x+a)^2/(x+b) = cx+d').substitute(variables).removeTrivial()
-		const equation = flip ? equationBase.switch() : equationBase.self()
+		const equation = flip ? equationBase.switchSides() : equationBase.self()
 
 		// Bring the equation into standard form.
 		const multipliedBase = asEquation('(x+a)^2 = (cx+d)(x+b)').substitute(variables).removeTrivial()
-		const multiplied = flip ? multipliedBase.switch() : multipliedBase.self()
-		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'combineLikeFactors'], ['combineNumbersInSums', 'combineLikeTerms']).mapEvery(term => term.isPower() ? term.combine() : term) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
+		const multiplied = flip ? multipliedBase.switchSides() : multipliedBase.self()
+		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'combineLikeFactors'], ['combineNumbersInSums', 'combineLikeTerms']).mapExpressions(term => term.isPower() ? term.combine() : term) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 		const merged = expanded.combine(['sortSums'])
 		const moved = merged.subtract(merged.right).combine(['sortSums'])
 

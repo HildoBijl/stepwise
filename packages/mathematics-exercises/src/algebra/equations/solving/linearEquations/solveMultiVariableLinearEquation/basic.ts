@@ -15,8 +15,8 @@ export default buildStepExercise({
 		skill: 'solveMultiVariableLinearEquation',
 		...createStepExerciseMetadata(['moveEquationTerm', 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms']),
 		comparisons: {
-			termsMoved: (input: Equation, correct: Equation) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.negate().normalize()), // Allow switches and minus signs.
-			pulledOut: (input: Equation, correct: Equation) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.mapRight(side => side.negate()).mapLeft(side => side.mapFactors((factor, index) => index === 1 ? factor.negate() : factor)).normalize()), // Allow switches and minus signs inside the brackets.
+			termsMoved: (input: Equation, correct: Equation) => equationComparisons.areEqualExceptOrderOrSideSwitch(input, correct) || equationComparisons.areEqualExceptOrderOrSideSwitch(input, correct.negate().normalize()), // Allow switches and minus signs.
+			pulledOut: (input: Equation, correct: Equation) => equationComparisons.areEqualExceptOrderOrSideSwitch(input, correct) || equationComparisons.areEqualExceptOrderOrSideSwitch(input, correct.mapRight(side => side.negate()).mapLeft(side => side.mapFactors((factor, index) => index === 1 ? factor.negate() : factor)).normalize()), // Allow switches and minus signs inside the brackets.
 			ans: expressionComparisons.areEquivalent, // For the final answer allow areEquivalent answers.
 		},
 	},

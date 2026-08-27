@@ -7,7 +7,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges } = expressionComparisons
+const { areEqualExceptOrder } = expressionComparisons
 
 // (a*x^b+c*x^d)^e
 const variableSet = ['x', 'y', 'z']
@@ -19,7 +19,7 @@ export default buildStepExercise({
 		skill: 'expandPowerOfSum',
 		...createStepExerciseMetadata([skillRepeat('simplifyProductOfPowers', 2), undefined, 'simplifyNumberProduct']),
 		comparisons: {
-			Expression: onlyOrderChanges,
+			Expression: areEqualExceptOrder,
 		},
 	},
 

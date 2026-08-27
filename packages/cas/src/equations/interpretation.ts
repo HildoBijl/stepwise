@@ -3,16 +3,16 @@ import { type ExpressionInputValue, type EquationInputValue, type ExpressionText
 
 import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, isExpressionLike, Expression, asExpression } from '../expressions'
 
-import { type EquationShape, type EquationInput } from './types'
+import { type EquationObjectInput, type EquationInput } from './types'
 
 type EquationParts = { left: Expression, right: Expression, settings?: ExpressionSettingsOptions }
 
-function hasEquationShape(value: unknown): value is EquationShape {
+function hasEquationObjectInput(value: unknown): value is EquationObjectInput {
 	return isPlainObject(value) && isExpressionLike(value.left) && isExpressionLike(value.right)
 }
 
 export function isEquationInput(value: unknown): value is EquationInput {
-	return isEquationInputValue(value) || hasEquationShape(value) || typeof value === 'string'
+	return isEquationInputValue(value) || hasEquationObjectInput(value) || typeof value === 'string'
 }
 
 function interpretInputValue(value: EquationInputValue, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): EquationParts {
@@ -29,7 +29,7 @@ function interpretInputValue(value: EquationInputValue, interpretationSettings?:
 	return { left: asExpression(left), right: asExpression(right), settings: Object.keys(mergedExpressionSettings).length === 0 ? undefined : mergedExpressionSettings }
 }
 
-function interpretEquationShape(value: EquationShape, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): EquationParts {
+function interpretEquationObjectInput(value: EquationObjectInput, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): EquationParts {
 	const mergedExpressionSettings = { ...value.settings, ...expressionSettings }
 	const settings = Object.keys(mergedExpressionSettings).length === 0 ? undefined : mergedExpressionSettings
 	const result: EquationParts = {
@@ -46,7 +46,7 @@ function interpretString(value: string, interpretationSettings?: InterpretationS
 
 export function interpretEquationInput(value: EquationInput, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): EquationParts {
 	if (isEquationInputValue(value)) return interpretInputValue(value, interpretationSettings, expressionSettings)
-	if (hasEquationShape(value)) return interpretEquationShape(value, interpretationSettings, expressionSettings)
+	if (hasEquationObjectInput(value)) return interpretEquationObjectInput(value, interpretationSettings, expressionSettings)
 	if (typeof value === 'string') return interpretString(value, interpretationSettings, expressionSettings)
 	throw new Error(`Invalid equation interpretation: cannot turn input of type "${typeof value}" into an equation.`)
 }

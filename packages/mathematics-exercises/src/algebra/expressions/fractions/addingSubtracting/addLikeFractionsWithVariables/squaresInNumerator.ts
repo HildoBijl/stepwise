@@ -6,7 +6,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { selectExpressionParameters } from '#generationTools'
 
 const { hasSumWithinProduct, hasSimilarTerms, isFractionLike, hasFractionWithinFraction } = expressionChecks
-const { areEquivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, areEqualExceptOrder } = expressionComparisons
 
 // (a*x*(x+b))/(fx) +/- (c*x^2+d*x+e)/(fx).
 const variableSet = ['x', 'y', 'z']
@@ -44,10 +44,10 @@ export default buildStepExercise({
 		const fractions = ['(a*x*(x+b))/(fx)', '(c*x^2+d*x+e)/(f*x)'].map(str => asExpression(str, { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['combineMinusSignsInFractions']))
 		const expression = (parameters.plus ? fractions[parameters.switch ? 1 : 0].add(fractions[parameters.switch ? 0 : 1]) : fractions[parameters.switch ? 1 : 0].subtract(fractions[parameters.switch ? 0 : 1])).removeTrivial([], ['combineMinusSignsInFractions'])
 		const singleFraction = (parameters.plus ? fractions[parameters.switch ? 1 : 0].numerator.add(fractions[parameters.switch ? 0 : 1].numerator) : fractions[parameters.switch ? 1 : 0].numerator.subtract(fractions[parameters.switch ? 0 : 1].numerator)).divide(fractions[0].denominator).removeTrivial([], ['combineMinusSignsInFractions'])
-		const bracketsExpanded = singleFraction.removeTrivial(['expandProductsOfSums', 'combineLikeFactors', 'combineNumbersInProducts'], ['combineMinusSignsInFractions']).mapEvery(child => child.isPower() ? child.combine() : child)
+		const bracketsExpanded = singleFraction.removeTrivial(['expandProductsOfSums', 'combineLikeFactors', 'combineNumbersInProducts'], ['combineMinusSignsInFractions']).mapExpressions(child => child.isPower() ? child.combine() : child)
 		const ans = bracketsExpanded.cancel(['combineLikeTerms'], ['factorMinusSignsOutOfFractionSums', 'combineMinusSignsInFractions'])
 		const ansCleaned = ans.normalize()
-		const isFurtherSimplificationPossible = !onlyOrderChanges(ans, ansCleaned)
+		const isFurtherSimplificationPossible = !areEqualExceptOrder(ans, ansCleaned)
 		return { ...parameters, variables, expression, singleFraction, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }
 	},
 

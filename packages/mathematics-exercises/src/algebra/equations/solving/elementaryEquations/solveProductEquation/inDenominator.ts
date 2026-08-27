@@ -6,7 +6,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, areEquivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 
 // a/b = c/(d*x).
 const variableSet = ['x', 'y', 'z']
@@ -18,11 +18,11 @@ export default buildStepExercise({
 		skill: 'solveProductEquation',
 		...createStepExerciseMetadata(['moveEquationFactor', 'moveEquationFactor', 'simplifyFraction', 'checkEquationSolution']),
 		comparisons: {
-			moved: { compareSide: areEquivalent, allowSwitch: true },
-			isolated: { compareSide: areEquivalent, allowSwitch: true },
-			ans: onlyOrderChanges,
-			checkLeft: onlyOrderChanges,
-			checkRight: onlyOrderChanges,
+			moved: { compareSide: areEquivalent, allowSideSwitch: true },
+			isolated: { compareSide: areEquivalent, allowSideSwitch: true },
+			ans: areEqualExceptOrder,
+			checkLeft: areEqualExceptOrder,
+			checkRight: areEqualExceptOrder,
 		},
 	},
 
@@ -42,11 +42,11 @@ export default buildStepExercise({
 		const { switchSides } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseEquation = asEquation('a/b=c/(dx)').substitute(variables).removeTrivial()
-		const equation = switchSides ? baseEquation.switch() : baseEquation.self()
+		const equation = switchSides ? baseEquation.switchSides() : baseEquation.self()
 		const baseMoved = asEquation('ax/b=c/d').substitute(variables).removeTrivial()
-		const moved = switchSides ? baseMoved.switch() : baseMoved.self()
+		const moved = switchSides ? baseMoved.switchSides() : baseMoved.self()
 		const baseIsolated = asEquation('x = (cb)/(da)').substitute(variables).flatten()
-		const isolated = switchSides ? baseIsolated.switch() : baseIsolated.self()
+		const isolated = switchSides ? baseIsolated.switchSides() : baseIsolated.self()
 		const isolatedSolution = switchSides ? isolated.left : isolated.right
 		const isolatedSolutionSimplified = isolatedSolution.mergeNumbers(['combineMinusSignsInFractions'], ['combineNumbersInFractions'])
 		const fractionGcd = gcd(isolatedSolutionSimplified.numerator.toNumber(), isolatedSolutionSimplified.denominator.toNumber())
@@ -55,7 +55,7 @@ export default buildStepExercise({
 		const equationWithSolution = equation.substitute({ [parameters.x]: ans })
 		const checkLeft = equationWithSolution.left.normalize()
 		const checkRight = equationWithSolution.right.normalize()
-		const canNumberSideBeSimplified = !onlyOrderChanges(switchSides ? equationWithSolution.right : equationWithSolution.left, switchSides ? checkRight : checkLeft)
+		const canNumberSideBeSimplified = !areEqualExceptOrder(switchSides ? equationWithSolution.right : equationWithSolution.left, switchSides ? checkRight : checkLeft)
 		return { ...parameters, variables, equation, moved, isolated, isolatedSolution, isolatedSolutionSimplified, fractionGcd, canSimplifyFraction, ans, equationWithSolution, checkLeft, checkRight, canNumberSideBeSimplified }
 	},
 

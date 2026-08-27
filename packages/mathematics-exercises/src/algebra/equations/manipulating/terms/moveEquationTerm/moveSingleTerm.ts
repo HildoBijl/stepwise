@@ -5,7 +5,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, areEquivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 
 // ax^2 + bx + c = 0.
 const variableSet = ['x', 'y', 'z']
@@ -18,7 +18,7 @@ export default buildStepExercise({
 		...createStepExerciseMetadata(['addToBothEquationSides', 'cancelSumTerms']),
 		comparisons: {
 			bothSidesChanged: { compareSide: areEquivalent },
-			ans: { compareSide: onlyOrderChanges },
+			ans: { compareSide: areEqualExceptOrder },
 		},
 	},
 

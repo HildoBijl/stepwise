@@ -5,7 +5,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, areEquivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 
 // abx^(n+1) + acx^n = ax^n(bx + c).
 const variableSet = ['x', 'y', 'z']
@@ -17,7 +17,7 @@ export default buildStepExercise({
 		skill: 'pullFactorOutOfBrackets',
 		...createStepExerciseMetadata([undefined, 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets']),
 		comparisons: {
-			startingForm: (input: Expression, correct: Expression) => onlyOrderChanges(input.flatten(), correct),
+			startingForm: (input: Expression, correct: Expression) => areEqualExceptOrder(input.flatten(), correct),
 			splitUp: (input: Expression, correct: Expression, { expression, factor }: { expression: Expression, factor: Expression }) => {
 				input = input.flatten()
 				if (correct.isMinus()) {
@@ -27,10 +27,10 @@ export default buildStepExercise({
 				}
 				const positiveFactor = factor.isMinus() ? factor.argument : factor
 				if (!positiveFactor.isProduct()) return false
-				return input.isProduct() && input.factors.length === 3 && positiveFactor.factors.every(subFactor => input.factors.some(inputFactor => onlyOrderChanges(inputFactor, subFactor))) && input.factors.some(inputFactor => inputFactor.isSum() && inputFactor.terms.length === expression.terms.length) && areEquivalent(input, correct)
+				return input.isProduct() && input.factors.length === 3 && positiveFactor.factors.every(subFactor => input.factors.some(inputFactor => areEqualExceptOrder(inputFactor, subFactor))) && input.factors.some(inputFactor => inputFactor.isSum() && inputFactor.terms.length === expression.terms.length) && areEquivalent(input, correct)
 			},
-			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.cancel(), correct),
-			check: (input: Expression, correct: Expression) => onlyOrderChanges(input.cancel(), correct),
+			ans: (input: Expression, correct: Expression) => areEqualExceptOrder(input.cancel(), correct),
+			check: (input: Expression, correct: Expression) => areEqualExceptOrder(input.cancel(), correct),
 		},
 	},
 

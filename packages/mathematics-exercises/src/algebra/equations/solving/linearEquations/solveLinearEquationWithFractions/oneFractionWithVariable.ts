@@ -5,14 +5,14 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, areEquivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 const { hasVariableInDenominator } = equationChecks
 
 // (a*x+b)/(x+c)=d.
 const variableSet = ['x', 'y', 'z']
 const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd']
-const factorMovedComparison = { compareSide: areEquivalent, allowSwitch: true }
+const factorMovedComparison = { compareSide: areEquivalent, allowSideSwitch: true }
 
 export default buildStepExercise({
 	metadata: {
@@ -21,7 +21,7 @@ export default buildStepExercise({
 		...{ factorMovedComparison },
 		comparisons: {
 			factorMoved: (input: Equation, correct: Equation, { variables }: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, variables.x) && correct.equals(input, factorMovedComparison),
-			ans: onlyOrderChanges,
+			ans: areEqualExceptOrder,
 		},
 	},
 
@@ -37,16 +37,16 @@ export default buildStepExercise({
 		const { a, b, c, d, switchSides } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseEquation = asEquation('(a*x+b)/(x+c)=d').substitute(variables).removeTrivial()
-		const equation = switchSides ? baseEquation.switch() : baseEquation.self()
+		const equation = switchSides ? baseEquation.switchSides() : baseEquation.self()
 		const baseFactorMoved = asEquation('a*x+b=d(x+c)').substitute(variables).removeTrivial()
-		const factorMoved = switchSides ? baseFactorMoved.switch() : baseFactorMoved.self()
+		const factorMoved = switchSides ? baseFactorMoved.switchSides() : baseFactorMoved.self()
 		const expanded = factorMoved.combine(['expandProductsOfSums'])
 		const termMoved = asEquation(switchSides ? `d*x-a*x=b-(${d * c})` : `a*x-d*x=(${d * c})-b`).substitute(variables).removeTrivial()
 		const cleaned = termMoved.combine()
 		const factor = asExpression(switchSides ? d - a : a - d)
 		const solution = asExpression(switchSides ? `(${b - d * c})/${d - a}` : `(${d * c - b})/${a - d}`)
 		const ans = solution.combine()
-		const canCleanSolution = !onlyOrderChanges(solution, ans)
+		const canCleanSolution = !areEqualExceptOrder(solution, ans)
 		const equationInserted = equation.substitute({ [variables.x.toString()]: ans })
 		const sideValue = equationInserted.left.normalize()
 		return { ...parameters, variables, equation, factorMoved, expanded, termMoved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }

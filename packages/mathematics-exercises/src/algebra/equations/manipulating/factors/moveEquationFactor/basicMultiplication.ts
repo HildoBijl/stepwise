@@ -34,7 +34,7 @@ export default buildStepExercise({
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = variables.x
 		const baseEquation = asEquation('a=b/x')
-		const equation = (parameters.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
+		const equation = (parameters.switchSides ? baseEquation.switchSides() : baseEquation.self()).substitute(variables).removeTrivial()
 		const bothSidesChanged = equation.multiply(factor).removeTrivial(['combineProductFractions'])
 		const ans = bothSidesChanged.cancel(['combineLikeFactors', 'cancelFractionFactors'])
 		return { ...parameters, variables, factor, equation, bothSidesChanged, ans }

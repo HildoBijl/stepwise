@@ -5,15 +5,15 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, areEquivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks
 
 // (x+a)/(x+b)=(x+c)/(x+d).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd']
-const factorMovedComparison = { compareSide: areEquivalent, allowSwitch: true }
-const expandedComparison = { compareSide: areEquivalent, allowSwitch: true }
+const factorMovedComparison = { compareSide: areEquivalent, allowSideSwitch: true }
+const expandedComparison = { compareSide: areEquivalent, allowSideSwitch: true }
 
 export default buildStepExercise({
 	metadata: {
@@ -23,7 +23,7 @@ export default buildStepExercise({
 		comparisons: {
 			factorMoved: (input: Equation, correct: Equation, { variables }: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, variables.x) && correct.equals(input, factorMovedComparison),
 			expanded: (input: Equation, correct: Equation) => !hasSumWithinProduct(input) && correct.equals(input, expandedComparison),
-			ans: onlyOrderChanges,
+			ans: areEqualExceptOrder,
 		},
 	},
 
@@ -46,7 +46,7 @@ export default buildStepExercise({
 		const factor = asExpression(a + d - b - c)
 		const solution = asExpression(`(${c * b - a * d})/${a + d - b - c}`)
 		const ans = solution.combine()
-		const canCleanSolution = !onlyOrderChanges(solution, ans)
+		const canCleanSolution = !areEqualExceptOrder(solution, ans)
 		const equationInserted = equation.substitute({ [variables.x.toString()]: ans })
 		const sideValue = equationInserted.left.normalize()
 		return { ...parameters, variables, equation, factorMoved, expanded, termMoved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }

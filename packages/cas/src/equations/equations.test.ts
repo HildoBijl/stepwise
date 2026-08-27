@@ -42,7 +42,7 @@ describe('equation algebraic operations', () => {
 		expectEquationToEqual(asEquation('x=3').divide(2), 'x/2=3/2')
 	})
 	test('switches sides and applies minus', () => {
-		expectEquationToEqual(asEquation('x=3').switch(), '3=x')
+		expectEquationToEqual(asEquation('x=3').switchSides(), '3=x')
 		expectEquationToEqual(asEquation('x=3').negate(), '-x=-3')
 	})
 })

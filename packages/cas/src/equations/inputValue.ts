@@ -4,7 +4,7 @@ import { type Equation, asEquation } from './Equation'
 
 export { type EquationInputValue } from '@step-wise/math-input-value'
 
-export function interpretEquationInputValue(inputValue: EquationInputValue): Equation {
+export function inputValueToEquation(inputValue: EquationInputValue): Equation {
 	return asEquation(inputValue)
 }
 

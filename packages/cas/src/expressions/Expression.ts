@@ -12,7 +12,7 @@ import {
 	type TexDisplayOptionsInput, inferInterpretationSettingsOptions, nodeToString, nodeToTex, nodeToInputValue, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
-import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type ExpressionSettings, type ExpressionInputValue, resolveExpressionSettings } from './settingsReexport'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type ExpressionSettings, type ExpressionInputValue, resolveExpressionSettings } from './settings'
 import { type ExpressionEqualityOptionsInput, asExpressionEqualityOptions } from './equalityOptions'
 import { type ExpressionInput } from './types'
 import { isExpressionInput, interpretExpressionInput } from './interpretation'
@@ -455,7 +455,7 @@ export class Expression {
 
 	findAll(check: ExpressionCheck, childrenFirst = false, includeSelf = true): Expression[] {
 		const results: Expression[] = []
-		this.forEvery((expression, ancestors) => { if (check(expression, ancestors)) results.push(expression) }, childrenFirst, includeSelf)
+		this.forEachExpression((expression, ancestors) => { if (check(expression, ancestors)) results.push(expression) }, childrenFirst, includeSelf)
 		return results
 	}
 
@@ -463,16 +463,16 @@ export class Expression {
 	 * Recursive operations
 	 */
 
-	forEvery(func: ExpressionFunction, childrenFirst = false, includeSelf = true, ancestors: ExpressionAncestors = []): void {
+	forEachExpression(func: ExpressionFunction, childrenFirst = false, includeSelf = true, ancestors: ExpressionAncestors = []): void {
 		if (includeSelf && !childrenFirst) func(this, ancestors)
-		this.node.children.forEach(child => { this.recreateWith(child).forEvery(func, childrenFirst, true, [...ancestors, this]) })
+		this.node.children.forEach(child => { this.recreateWith(child).forEachExpression(func, childrenFirst, true, [...ancestors, this]) })
 		if (includeSelf && childrenFirst) func(this, ancestors)
 	}
 
-	mapEvery(transform: ExpressionTransform, childrenFirst = true, includeSelf = true, ancestors: ExpressionAncestors = []): Expression {
+	mapExpressions(transform: ExpressionTransform, childrenFirst = true, includeSelf = true, ancestors: ExpressionAncestors = []): Expression {
 		let result: Expression = this
 		if (includeSelf && !childrenFirst) result = transform(result, ancestors).withSettings(this.settings)
-		result = this.recreateWith(result.node.recreateWithChildren(result.node.children.map(child => this.recreateWith(child).mapEvery(transform, childrenFirst, true, [...ancestors, result]).node)))
+		result = this.recreateWith(result.node.recreateWithChildren(result.node.children.map(child => this.recreateWith(child).mapExpressions(transform, childrenFirst, true, [...ancestors, result]).node)))
 		if (includeSelf && childrenFirst) result = transform(result, ancestors).withSettings(this.settings)
 		return result
 	}

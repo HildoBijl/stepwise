@@ -2,7 +2,7 @@ import type { ExpressionInputValue } from '@step-wise/math-input-value'
 
 import type { ExpressionNodeStorageValue } from '../core'
 
-import type { ExpressionSettingsOptions } from './settingsReexport'
+import type { ExpressionSettingsOptions } from './settings'
 
 // Input
 export type ExpressionInput = ExpressionInputValue | string | number

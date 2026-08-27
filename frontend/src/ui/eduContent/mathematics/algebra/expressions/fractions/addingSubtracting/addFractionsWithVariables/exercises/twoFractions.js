@@ -8,7 +8,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-const { onlyOrderChanges, areEquivalent: equivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent: equivalent } = expressionComparisons
 const { originalExpression, equivalentExpression, nonEquivalentExpression, hasSimilarTerms, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct } = expressionChecks
 
 export default function Exercise() {
@@ -86,7 +86,7 @@ function getFeedback(exerciseData) {
 
 	const unsimplifiedNumerator = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !input.terms.every(term => {
 		const numerator = term.find(part => part.isFraction()).numerator
-		return onlyOrderChanges(numerator.flatten(), numerator.cancel(['expandProductsOfSums', 'combineLikeTerms']))
+		return areEqualExceptOrder(numerator.flatten(), numerator.cancel(['expandProductsOfSums', 'combineLikeTerms']))
 	}) && translateCrossExercise(<>You can still further simplify the numerators.</>, 'unsimplifiedNumerator')
 
 	// Merge all checks in the right order.

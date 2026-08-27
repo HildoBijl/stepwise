@@ -2,11 +2,11 @@ import { mergeDefaults, identity } from '@step-wise/js-utils'
 
 import { type Expression } from './Expression'
 
-export type ExpressionPreprocess = (expression: Expression) => Expression
-export type ExpressionComparison = (input: Expression, correct: Expression) => boolean
+export type ExpressionPreprocessor = (expression: Expression) => Expression
+export type ExpressionComparison = (input: Expression, expected: Expression) => boolean
 export type ExpressionEqualityOptions = {
 	allowOrderChanges: boolean // In expression lists, is x+y the same as y+x and is x*y the same as y*x?
-	preprocess: ExpressionPreprocess // What do we do with expressions before running a structural comparison?
+	preprocess: ExpressionPreprocessor // What do we do with expressions before running a structural comparison?
 }
 export type ExpressionEqualityOptionsInput = Partial<ExpressionEqualityOptions>
 

@@ -15,8 +15,8 @@ export default buildStepExercise({
 		skill: 'solveMultiVariableLinearEquationWithFractions',
 		...createStepExerciseMetadata(['simplifyFractionOfFractionSumsWithMultipleVariables', 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation']),
 		comparisons: {
-			simplified: (input: Equation, correct: Equation) => expressionComparisons.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && expressionComparisons.areEquivalent(input.left, correct.left),
-			multiplied: (input: Equation, correct: Equation) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions.
+			simplified: (input: Equation, correct: Equation) => expressionComparisons.areEqualExceptOrder(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && expressionComparisons.areEquivalent(input.left, correct.left),
+			multiplied: (input: Equation, correct: Equation) => equationComparisons.haveEquivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions.
 			ans: (input: Expression, correct: Expression) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.areEquivalent(input, correct),
 		},
 	},

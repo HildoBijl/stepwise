@@ -15,8 +15,8 @@ export type ExpressionInEquationTransform = (expression: Expression, ancestors: 
 export type ExpressionInEquationFunction = (expression: Expression, ancestors: ExpressionAncestors, sideName: EquationSideName) => void
 
 // Input
-export type EquationShape = Record<EquationSideName, ExpressionLike> & { settings?: ExpressionSettingsOptions }
-export type EquationInput = EquationInputValue | EquationShape | string
+export type EquationObjectInput = Record<EquationSideName, ExpressionLike> & { settings?: ExpressionSettingsOptions }
+export type EquationInput = EquationInputValue | EquationObjectInput | string
 
 // Serialization
 export type EquationStorageValue = Record<EquationSideName, ExpressionStorageValue>

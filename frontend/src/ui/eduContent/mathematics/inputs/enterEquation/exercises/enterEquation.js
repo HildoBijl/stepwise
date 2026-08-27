@@ -29,8 +29,8 @@ function getFeedback(exerciseData) {
 	const { translate } = exerciseData
 	return getFieldInputFeedback(exerciseData, {
 		ans: [
-			(input, solution, _, correct) => !correct && equationComparisons.exactEqual(input, solution.switch()) && translate(<>You have entered the equation without making any modifications. You must rewrite the equation to something different.</>, 'exactlyEqual'),
-			(input, solution, _, correct) => !correct && !equationComparisons.areEquivalent(input, solution.switch()) && translate(<>This is not equivalent to the original equation. You have done something to it that's mathematically not allowed, or that's too different for us to detect.</>, 'notEquivalent'),
+			(input, solution, _, correct) => !correct && equationComparisons.areExactlyEqual(input, solution.switchSides()) && translate(<>You have entered the equation without making any modifications. You must rewrite the equation to something different.</>, 'exactlyEqual'),
+			(input, solution, _, correct) => !correct && !equationComparisons.areEquivalent(input, solution.switchSides()) && translate(<>This is not equivalent to the original equation. You have done something to it that's mathematically not allowed, or that's too different for us to detect.</>, 'notEquivalent'),
 		]
 	})
 }

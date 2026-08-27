@@ -5,7 +5,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, areEquivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 const { hasFractionWithinFraction } = equationChecks
 
 // ax = b/c => [..] = b/(c[..]).
@@ -13,7 +13,7 @@ const variableSet = ['x', 'y', 'z']
 const usedVariables = ['x']
 const constants = ['a', 'b', 'c']
 
-const ansEqualsOptions = ({ switchSides }: { switchSides: boolean }) => ({ preprocessSide: (side: Expression) => side.cancel(), compareLeft: switchSides ? areEquivalent : onlyOrderChanges, compareRight: switchSides ? onlyOrderChanges : areEquivalent })
+const ansEqualsOptions = ({ switchSides }: { switchSides: boolean }) => ({ preprocessSide: (side: Expression) => side.cancel(), compareLeft: switchSides ? areEquivalent : areEqualExceptOrder, compareRight: switchSides ? areEqualExceptOrder : areEquivalent })
 
 export default buildStepExercise({
 	metadata: {
@@ -43,12 +43,12 @@ export default buildStepExercise({
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = [variables.a, variables.x, variables.a.multiply(variables.x)][parameters.type].removeTrivial()
 		const baseEquation = asEquation('a*x=b/c')
-		const equation = (parameters.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
+		const equation = (parameters.switchSides ? baseEquation.switchSides() : baseEquation.self()).substitute(variables).removeTrivial()
 		const bothSidesChanged = equation.divide(factor)
 		const fractionFactorsCanceled = parameters.switchSides ? bothSidesChanged.mapRight(side => side.cancel(['combineNumbersInFractions', 'cancelFractionFactors', 'flattenFractions'])) : bothSidesChanged.mapLeft(side => side.cancel(['combineNumbersInFractions', 'cancelFractionFactors', 'flattenFractions']))
 		const ans = fractionFactorsCanceled.removeTrivial(['flattenFractions'])
 		const ansCleaned = ans.normalize()
-		const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)
+		const isFurtherSimplificationPossible = !equationComparisons.areEqualExceptOrder(ans, ansCleaned)
 		return { ...parameters, variables, factor, equation, bothSidesChanged, fractionFactorsCanceled, ans, ansCleaned, isFurtherSimplificationPossible }
 	},
 

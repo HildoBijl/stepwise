@@ -6,7 +6,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, areEquivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 
 // (ay)/(bx) = cz.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -18,11 +18,11 @@ export default buildStepExercise({
 		skill: 'solveMultiVariableProductEquation',
 		...createStepExerciseMetadata(['moveEquationFactor', 'moveEquationFactor', 'simplifyFractionWithVariables', 'checkMultiVariableEquationSolution']),
 		comparisons: {
-			moved: { compareSide: areEquivalent, allowSwitch: true },
-			isolated: { compareSide: areEquivalent, allowSwitch: true },
-			ans: onlyOrderChanges,
-			checkLeft: onlyOrderChanges,
-			checkRight: onlyOrderChanges,
+			moved: { compareSide: areEquivalent, allowSideSwitch: true },
+			isolated: { compareSide: areEquivalent, allowSideSwitch: true },
+			ans: areEqualExceptOrder,
+			checkLeft: areEqualExceptOrder,
+			checkRight: areEqualExceptOrder,
 		},
 	},
 
@@ -40,12 +40,12 @@ export default buildStepExercise({
 		const { a, b, c, switchSides } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseEquation = asEquation('(a*y)/(b*x) = c*z').substitute(variables).removeTrivial()
-		const equation = switchSides ? baseEquation.switch() : baseEquation.self()
+		const equation = switchSides ? baseEquation.switchSides() : baseEquation.self()
 		const factor = switchSides ? equation.left : equation.right
 		const baseMoved = asEquation('(a*y)/b = c*z*x').substitute(variables).removeTrivial()
-		const moved = switchSides ? baseMoved.switch() : baseMoved.self()
+		const moved = switchSides ? baseMoved.switchSides() : baseMoved.self()
 		const baseIsolated = asEquation('(a*y)/(b*c*z) = x').substitute(variables).removeTrivial()
-		const isolated = switchSides ? baseIsolated.switch() : baseIsolated.self()
+		const isolated = switchSides ? baseIsolated.switchSides() : baseIsolated.self()
 		const isolatedSolution = switchSides ? isolated.right : isolated.left
 		const fractionGcd = gcd(a, b * c)
 		const canSimplifyFraction = fractionGcd !== 1

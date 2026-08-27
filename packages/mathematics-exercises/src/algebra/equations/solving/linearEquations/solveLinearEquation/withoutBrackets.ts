@@ -5,7 +5,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, areEquivalent } = expressionComparisons
+const { areEqualExceptOrder, areEquivalent } = expressionComparisons
 
 // a*x+b=c*x+d.
 const variableSet = ['x', 'y', 'z']
@@ -17,9 +17,9 @@ export default buildStepExercise({
 		skill: 'solveLinearEquation',
 		...createStepExerciseMetadata(['moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation']),
 		comparisons: {
-			moved: { compareSide: areEquivalent, allowSwitch: true, allowMinus: true },
-			cleaned: { compareSide: onlyOrderChanges, allowSwitch: true, allowMinus: true },
-			ans: onlyOrderChanges,
+			moved: { compareSide: areEquivalent, allowSideSwitch: true, allowNegatingBothSides: true },
+			cleaned: { compareSide: areEqualExceptOrder, allowSideSwitch: true, allowNegatingBothSides: true },
+			ans: areEqualExceptOrder,
 		},
 	},
 
@@ -40,7 +40,7 @@ export default buildStepExercise({
 		const factor = asExpression(a - c)
 		const solution = asExpression(`${d - b}/${a - c}`)
 		const ans = solution.normalize()
-		const canCleanSolution = !onlyOrderChanges(solution, ans)
+		const canCleanSolution = !areEqualExceptOrder(solution, ans)
 		const equationInserted = equation.substitute({ [variables.x.toString()]: ans })
 		const sideValue = equationInserted.left.normalize()
 		return { ...parameters, variables, equation, moved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
