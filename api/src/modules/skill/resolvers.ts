@@ -14,8 +14,8 @@ interface SkillsUpdatedPayload {
 	updatedSkills: UserSkillRecord[]
 }
 
-async function userSkills(user: UserRecord, { ids }: { ids?: string[] }, context: SkillContext) {
-	return loadVisibleSkills(user.id, ids ? ensureSkillIds(ids) : undefined, context)
+async function userSkills(user: UserRecord, { skillIds }: { skillIds?: string[] }, context: SkillContext) {
+	return loadVisibleSkills(user.id, skillIds ? ensureSkillIds(skillIds) : undefined, context)
 }
 
 export const skillResolvers = {
@@ -37,6 +37,6 @@ export const skillResolvers = {
 	},
 
 	Subscription: {
-		...createSubscriptionResolver('skillsUpdate', [skillEvents.skillsUpdated], ({ updatedSkills, userId }: SkillsUpdatedPayload, _args: unknown, context: SkillContext) => userId === context.userId ? updatedSkills : undefined),
+		...createSubscriptionResolver('skillsUpdated', [skillEvents.skillsUpdated], ({ updatedSkills, userId }: SkillsUpdatedPayload, _args: unknown, context: SkillContext) => userId === context.userId ? updatedSkills : undefined),
 	},
 }

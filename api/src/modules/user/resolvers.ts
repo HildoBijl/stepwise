@@ -48,7 +48,7 @@ const userResolvers = {
 			if (!user!.privacyPolicyAcceptedVersion || user!.privacyPolicyAcceptedVersion < currentPrivacyPolicyVersion) await user!.update({ privacyPolicyAcceptedVersion: currentPrivacyPolicyVersion, privacyPolicyAcceptedAt: new Date() })
 			return { ...privacyPolicyConsent(user!), isLatestVersion: true }
 		},
-		shutdownAccount: async (_source: unknown, { confirmEmail }: { confirmEmail: string }, { ensureLoggedIn, user }: UserContext) => {
+		deleteAccount: async (_source: unknown, { confirmEmail }: { confirmEmail: string }, { ensureLoggedIn, user }: UserContext) => {
 			ensureLoggedIn()
 			if (user!.email !== confirmEmail) throw new UserInputError('User shutdown denied: the confirmation email does not match.')
 			await user!.destroy()

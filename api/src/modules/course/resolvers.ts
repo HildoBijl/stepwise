@@ -34,7 +34,7 @@ type AuthenticatedCourseContext = Pick<AuthenticatedContext, 'db' | 'ensureLogge
 
 const courseForUserResolvers = {
 	role: (course: CourseRecord) => course.courseSubscription?.role,
-	subscribedOn: (course: CourseRecord) => course.courseSubscription?.createdAt,
+	subscribedAt: (course: CourseRecord) => course.courseSubscription?.createdAt,
 	teachers: (course: CourseRecord, _args: unknown, { loaders }: CourseContext) => loaders.courseTeachers.load(course.id),
 }
 
@@ -61,13 +61,13 @@ function validateCourse(input: CreateCourseInput | UpdateCourseInput, current?: 
 }
 
 export const courseResolvers = {
-	CourseForExternal: {},
-	CourseForStudent: courseForUserResolvers,
-	CourseForTeacher: { ...courseForUserResolvers, students: (course: CourseRecord, _args: unknown, { loaders }: CourseContext) => loaders.courseStudents.load(course.id) },
+	ExternalCourse: {},
+	StudentCourse: courseForUserResolvers,
+	TeacherCourse: { ...courseForUserResolvers, students: (course: CourseRecord, _args: unknown, { loaders }: CourseContext) => loaders.courseStudents.load(course.id) },
 	Course: {
 		__resolveType(course: CourseRecord, { isLoggedIn, user }: CourseContext) {
-			if (!isLoggedIn) return 'CourseForExternal'
-			return course.courseSubscription?.role === 'teacher' || user?.role === 'admin' ? 'CourseForTeacher' : 'CourseForStudent'
+			if (!isLoggedIn) return 'ExternalCourse'
+			return course.courseSubscription?.role === 'teacher' || user?.role === 'admin' ? 'TeacherCourse' : 'StudentCourse'
 		},
 	},
 

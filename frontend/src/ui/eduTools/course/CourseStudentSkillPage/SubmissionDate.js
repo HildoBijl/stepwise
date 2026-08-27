@@ -9,7 +9,7 @@ export function SubmissionDate({ exercise, submissionIndex, events, event }) {
 	const previousInputEvent = last(earlierInputEvents, { allowOutOfBounds: true })
 
 	// Determine some important dates.
-	const exerciseStartDate = new Date(exercise.startedOn)
+	const exerciseStartDate = new Date(exercise.startedAt)
 	const inputDate = event && new Date(event.performedAt)
 	const previousInputDate = previousInputEvent && new Date(previousInputEvent.performedAt)
 

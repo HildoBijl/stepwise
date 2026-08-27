@@ -26,7 +26,7 @@ export const exerciseFields = `
 	mode
 	parameters
 	initialState
-	startedOn
+	startedAt
 	active
 	state
 	history {

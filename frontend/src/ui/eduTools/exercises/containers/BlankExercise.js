@@ -47,7 +47,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 				active: true,
 				state: initialState,
 				history: [],
-				startedOn: new Date(),
+				startedAt: new Date(),
 			})
 		}
 	}, [exerciseId, exerciseDefinition])
@@ -71,7 +71,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 		return <LoadingNote text={translate('Loading the exercise...', 'loadingNotes.loadingExercise', 'eduTools/exercises')} />
 
 	// No loading/error notes: show the exercise! Use a key to force a rerender on a new exercise.
-	return <ExerciseContainer key={exercise.startedOn} skillId={skillId} exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
+	return <ExerciseContainer key={exercise.startedAt} skillId={skillId} exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
 export function ExerciseName() {

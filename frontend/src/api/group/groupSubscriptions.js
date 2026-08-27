@@ -13,7 +13,7 @@ export function useGroupSubscription(code, subscribeToMore) {
 			document: GROUP_UPDATED,
 			variables: { code },
 			updateQuery: (prev, { subscriptionData }) => {
-				const updatedGroup = subscriptionData?.data?.groupUpdate
+				const updatedGroup = subscriptionData?.data?.groupUpdated
 				if (!updatedGroup)
 					return prev
 
@@ -29,8 +29,8 @@ export function useGroupSubscription(code, subscribeToMore) {
 	}, [userId, code, subscribeToMore])
 }
 const GROUP_UPDATED = gql`
-	subscription groupUpdate($code: String!) {
-		groupUpdate(code: $code) {
+	subscription groupUpdated($code: String!) {
+		groupUpdated(code: $code) {
 			${groupParameters}
 		}
 	}
@@ -45,7 +45,7 @@ export function useMyActiveGroupSubscription(subscribeToMore, apply = true) {
 		const unsubscribe = subscribeToMore({
 			document: MY_ACTIVE_GROUP_UPDATED,
 			updateQuery: ({ myActiveGroup }, { subscriptionData }) => {
-				const updatedGroup = subscriptionData?.data?.myActiveGroupUpdate
+				const updatedGroup = subscriptionData?.data?.myActiveGroupUpdated
 				if (!updatedGroup)
 					return { myActiveGroup }
 
@@ -67,8 +67,8 @@ export function useMyActiveGroupSubscription(subscribeToMore, apply = true) {
 	}, [apply, userId, subscribeToMore])
 }
 const MY_ACTIVE_GROUP_UPDATED = gql`
-	subscription myActiveGroupUpdate {
-		myActiveGroupUpdate {
+	subscription myActiveGroupUpdated {
+		myActiveGroupUpdated {
 			${groupParameters}
 		}
 	}
@@ -81,7 +81,7 @@ export function useMyGroupsSubscription(subscribeToMore) {
 		const unsubscribe = subscribeToMore({
 			document: MY_GROUPS_UPDATED,
 			updateQuery: ({ myGroups }, { subscriptionData }) => {
-				const updatedGroup = subscriptionData?.data?.myGroupsUpdate
+				const updatedGroup = subscriptionData?.data?.myGroupsUpdated
 				if (!updatedGroup)
 					return { myGroups }
 
@@ -102,8 +102,8 @@ export function useMyGroupsSubscription(subscribeToMore) {
 	}, [userId, subscribeToMore])
 }
 const MY_GROUPS_UPDATED = gql`
-	subscription myGroupsUpdate {
-		myGroupsUpdate {
+	subscription myGroupsUpdated {
+		myGroupsUpdated {
 			${groupParameters}
 		}
 	}

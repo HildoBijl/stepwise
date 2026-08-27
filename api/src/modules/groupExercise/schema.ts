@@ -13,7 +13,7 @@ export const groupExerciseTypeDefs = gql`
 	}
 
 	extend type Subscription {
-		activeGroupExercisesUpdate(code: String!): GroupExercise!
+		activeGroupExercisesUpdated(code: String!): GroupExercise!
 	}
 
 	type GroupExercise {
@@ -24,7 +24,7 @@ export const groupExerciseTypeDefs = gql`
 		parameters: JSON!
 		initialState: JSON!
 		active: Boolean!
-		startedOn: DateTime!
+		startedAt: DateTime!
 		state: JSON
 		history: [GroupEvent]!
 	}

@@ -21,17 +21,17 @@ export const getCourseFields = (addTeachers, addStudents, addSkills, addExercise
 	}
 	createdAt
 	updatedAt
-	... on CourseForStudent {
+	... on StudentCourse {
 		${courseForStudentFields(addTeachers)}
 	}
-	... on CourseForTeacher {
+	... on TeacherCourse {
 		${courseForTeacherFields(addTeachers, addStudents, addSkills, addExercises)}
 	}
 `
 
 const courseForStudentFields = (addTeachers) => `
 		role
-		subscribedOn
+		subscribedAt
 		${addTeachers ? `teachers {
 			id
 			name

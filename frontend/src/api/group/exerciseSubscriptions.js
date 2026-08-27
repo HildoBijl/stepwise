@@ -12,7 +12,7 @@ export function useActiveGroupExercisesSubscription(code, subscribeToMore, apply
 			document: ACTIVE_GROUP_EXERCISE_UPDATED,
 			variables: { code },
 			updateQuery: ({ activeGroupExercises }, { subscriptionData }) => {
-				const updatedExercise = subscriptionData?.data?.activeGroupExercisesUpdate
+				const updatedExercise = subscriptionData?.data?.activeGroupExercisesUpdated
 				if (!updatedExercise)
 					return { activeGroupExercises }
 
@@ -29,8 +29,8 @@ export function useActiveGroupExercisesSubscription(code, subscribeToMore, apply
 	}, [apply, code, subscribeToMore])
 }
 const ACTIVE_GROUP_EXERCISE_UPDATED = gql`
-	subscription activeGroupExercisesUpdate($code: String!) {
-		activeGroupExercisesUpdate(code: $code) {
+	subscription activeGroupExercisesUpdated($code: String!) {
+		activeGroupExercisesUpdated(code: $code) {
 			${groupExerciseParameters}
 		}
 	}

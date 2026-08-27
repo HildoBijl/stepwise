@@ -34,14 +34,14 @@ export const exerciseResolvers = {
 	},
 	Exercise: {
 		mode: () => 'solo',
-		startedOn: (exercise: ExerciseSampleRecord) => exercise.createdAt,
+		startedAt: (exercise: ExerciseSampleRecord) => exercise.createdAt,
 		state: getCurrentExerciseState,
 		lastAction: (exercise: ExerciseSampleRecord) => getLatestExerciseEvent(exercise)?.action ?? null,
 		lastActionAt: (exercise: ExerciseSampleRecord) => getLatestExerciseEvent(exercise)?.createdAt ?? null,
 		history: (exercise: ExerciseSampleRecord) => exercise.events ?? [],
 		active: (exercise: ExerciseSampleRecord) => exercise.active,
 	},
-	Event: { performedAt: (event: ExerciseEventRecord) => event.createdAt },
+	ExerciseEvent: { performedAt: (event: ExerciseEventRecord) => event.createdAt },
 
 	Mutation: {
 		startExercise: async (_source: unknown, { skillId: rawSkillId }: { skillId: string }, { db, ensureLoggedIn, userId }: ExerciseContext) => {

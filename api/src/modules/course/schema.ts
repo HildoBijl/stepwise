@@ -17,7 +17,7 @@ const courseExternal = `
 
 const courseStudent = `${courseExternal}
 	role: String
-	subscribedOn: DateTime
+	subscribedAt: DateTime
 	teachers: [User]!
 `
 
@@ -38,10 +38,10 @@ export const courseTypeDefs = gql`
 	}
 
 	interface Course { ${courseExternal} }
-	type CourseForExternal implements Course { ${courseExternal} }
-	interface CourseForUser implements Course { ${courseStudent} }
-	type CourseForStudent implements CourseForUser & Course { ${courseStudent} }
-	type CourseForTeacher implements CourseForUser & Course {
+	type ExternalCourse implements Course { ${courseExternal} }
+	interface UserCourse implements Course { ${courseStudent} }
+	type StudentCourse implements UserCourse & Course { ${courseStudent} }
+	type TeacherCourse implements UserCourse & Course {
 		${courseStudent}
 		students: [User]!
 	}

@@ -38,7 +38,7 @@ export function useSubscribeToCourseMutation(addTeachers = true, addStudents = t
 						const newCourseRef = cache.writeFragment({
 							data: newCourse,
 							fragment: gql`
-              fragment NewCourse on CourseForStudent {
+              fragment NewCourse on StudentCourse {
                 id
                 __typename
               }`,
@@ -48,17 +48,17 @@ export function useSubscribeToCourseMutation(addTeachers = true, addStudents = t
 				},
 			})
 
-			// Update the CourseForStudent query.
+			// Update the StudentCourse query.
 			cache.modify({
-				id: cache.identify({ __typename: "CourseForStudent", id: newCourse.id }),
+				id: cache.identify({ __typename: "StudentCourse", id: newCourse.id }),
 				fields: {
 					role: () => "student",
 				}
 			})
 
-			// Update the CourseForTeacher query.
+			// Update the TeacherCourse query.
 			cache.modify({
-				id: cache.identify({ __typename: "CourseForTeacher", id: newCourse.id }),
+				id: cache.identify({ __typename: "TeacherCourse", id: newCourse.id }),
 				fields: {
 					role: () => "student",
 					students: (existingRefs = [], { readField }) => {
@@ -107,16 +107,16 @@ export function useUnsubscribeFromCourseMutation(addTeachers = true, addStudents
 				},
 			})
 
-			// Update the CourseForStudent and CourseForTeacher queries.
+			// Update the StudentCourse and TeacherCourse queries.
 			cache.modify({
-				id: cache.identify({ __typename: "CourseForStudent", id: removedCourse.id }),
+				id: cache.identify({ __typename: "StudentCourse", id: removedCourse.id }),
 				fields: {
 					role: () => undefined,
 					teachers: (existingRefs = [], { readField }) => existingRefs.filter(ref => readField("id", ref) !== userId),
 				},
 			})
 			cache.modify({
-				id: cache.identify({ __typename: "CourseForTeacher", id: removedCourse.id }),
+				id: cache.identify({ __typename: "TeacherCourse", id: removedCourse.id }),
 				fields: {
 					role: () => undefined,
 					students: (existingRefs = [], { readField }) => existingRefs.filter(ref => readField("id", ref) !== userId),

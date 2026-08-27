@@ -26,11 +26,11 @@ export const exerciseTypeDefs = gql`
 		parameters: JSON!
 		initialState: JSON!
 		active: Boolean!
-		startedOn: DateTime!
+		startedAt: DateTime!
 		state: JSON!
 		lastAction: JSON
 		lastActionAt: DateTime
-		history: [Event]!
+		history: [ExerciseEvent]!
 	}
 
 	type ExerciseActionResult {
@@ -38,7 +38,7 @@ export const exerciseTypeDefs = gql`
 		updatedSkills: [Skill]!
 	}
 
-	type Event {
+	type ExerciseEvent {
 		id: ID!
 		action: JSON!
 		state: JSON!

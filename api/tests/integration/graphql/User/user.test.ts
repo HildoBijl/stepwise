@@ -123,9 +123,9 @@ describe('shutdown account', () => {
 		await client.loginSurfConext(BOB_SURFSUB)
 
 		// Shut down the account should give the ID back.
-		const { data: shutdownData, errors: shutdownErrors } = await client.graphql({ query: `mutation {shutdownAccount(confirmEmail: "${BOB.email}")}` })
+		const { data: shutdownData, errors: shutdownErrors } = await client.graphql({ query: `mutation {deleteAccount(confirmEmail: "${BOB.email}")}` })
 		expect(shutdownErrors).toBeUndefined()
-		expect(shutdownData).toMatchObject({ shutdownAccount: BOB_ID })
+		expect(shutdownData).toMatchObject({ deleteAccount: BOB_ID })
 
 		// The account should not be accessible anymore.
 		const { data: { me }, errors: fetchErrors } = await client.graphql({ query: `{me {name}}` })
@@ -136,7 +136,7 @@ describe('shutdown account', () => {
 	it('cannot shutdown account if not logged in', async () => {
 		const client = await createClient(seed)
 
-		const { data, errors } = await client.graphql({ query: `mutation {shutdownAccount(confirmEmail: "${BOB.email}")}` })
+		const { data, errors } = await client.graphql({ query: `mutation {deleteAccount(confirmEmail: "${BOB.email}")}` })
 		expect(errors).not.toBeUndefined()
 		expect(data).toBeNull()
 	})
@@ -145,7 +145,7 @@ describe('shutdown account', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(BOB_SURFSUB)
 
-		const { data, errors } = await client.graphql({ query: `mutation {shutdownAccount(confirmEmail: "incorrect@email.address")}` })
+		const { data, errors } = await client.graphql({ query: `mutation {deleteAccount(confirmEmail: "incorrect@email.address")}` })
 		expect(errors).not.toBeUndefined()
 		expect(data).toBeNull()
 	})

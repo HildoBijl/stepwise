@@ -53,7 +53,7 @@ function LastActivity({ processedStudent, course, overview }) {
 	const getLastSkillActivity = skill => {
 		if (skill.exercises.length === 0) return undefined
 		const lastExercise = last(skill.exercises)
-		if (lastExercise.history.length === 0) return new Date(lastExercise.startedOn)
+		if (lastExercise.history.length === 0) return new Date(lastExercise.startedAt)
 		const lastEvent = last(lastExercise.history)
 		return new Date(lastEvent.performedAt)
 	}

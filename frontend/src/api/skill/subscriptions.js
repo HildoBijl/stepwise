@@ -15,7 +15,7 @@ export function useSkillsSubscription(subscribeToMore, apply = true) {
 			document: SKILLS_UPDATED,
 			updateQuery: ({ skills }, { subscriptionData }) => {
 				// If there is no new data, keep the old query result.
-				const updatedSkills = subscriptionData?.data?.skillsUpdate
+				const updatedSkills = subscriptionData?.data?.skillsUpdated
 				if (!updatedSkills)
 					return { skills }
 
@@ -35,8 +35,8 @@ export function useSkillsSubscription(subscribeToMore, apply = true) {
 	}, [apply, isSignedIn, subscribeToMore])
 }
 export const SKILLS_UPDATED = gql`
-	subscription skillsUpdate {
-		skillsUpdate {
+	subscription skillsUpdated {
+		skillsUpdated {
 			${skillFields(false)}
 		}
 	}

@@ -31,7 +31,7 @@ export const userTypeDefs = gql`
 	extend type Mutation {
 		setLanguage(language: String!): User!
 		acceptLatestPrivacyPolicy: PrivacyPolicyConsent!
-		shutdownAccount(confirmEmail: String!): ID!
+		deleteAccount(confirmEmail: String!): ID!
 	}
 
 	type PrivacyPolicyConsent {

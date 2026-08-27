@@ -46,14 +46,14 @@ const ACCEPT_LATEST_PRIVACY_POLICY = gql`
 	}
 `
 
-// Shut down (delete) an account.
-export function useShutdownAccountMutation() {
-	const [shutdownAccount, data] = useMutation(SHUTDOWN_ACCOUNT)
-	const newShutdownAccount = (confirmEmail) => shutdownAccount({ variables: { confirmEmail } })
-	return [newShutdownAccount, data]
+// Delete an account.
+export function useDeleteAccountMutation() {
+	const [deleteAccount, data] = useMutation(DELETE_ACCOUNT)
+	const confirmAccountDeletion = confirmEmail => deleteAccount({ variables: { confirmEmail } })
+	return [confirmAccountDeletion, data]
 }
-const SHUTDOWN_ACCOUNT = gql`
-	mutation shutdownAccount($confirmEmail: String!) {
-		shutdownAccount(confirmEmail: $confirmEmail)
+const DELETE_ACCOUNT = gql`
+	mutation deleteAccount($confirmEmail: String!) {
+		deleteAccount(confirmEmail: $confirmEmail)
 	}
 `

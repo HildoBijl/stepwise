@@ -17,7 +17,7 @@ export const groupResolvers = {
 		members: (group: GroupRecord) => group.members ?? group.getMembers(),
 	},
 
-	Member: {
+	GroupMember: {
 		groupId: (member: GroupMemberRecord) => member.groupMembership.groupId, // This is needed for efficient caching.
 		userId: (member: GroupMemberRecord) => member.id,
 		active: (member: GroupMemberRecord) => member.groupMembership.active,
@@ -153,7 +153,7 @@ export const groupResolvers = {
 	},
 
 	Subscription: {
-		...createSubscriptionResolver('groupUpdate', [groupEvents.groupUpdated], ({ updatedGroup }: GroupUpdatedPayload, { code }: { code: string }) => {
+		...createSubscriptionResolver('groupUpdated', [groupEvents.groupUpdated], ({ updatedGroup }: GroupUpdatedPayload, { code }: { code: string }) => {
 			// Only pass on when the code matches.
 			if (updatedGroup.code === code.toUpperCase()) return updatedGroup
 		}, async ({ code }: { code: string }, { db, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
@@ -161,7 +161,7 @@ export const groupResolvers = {
 			ensureGroupMembership(await getGroup(db, code, { includeMembers: true }), userId)
 		}),
 
-		...createSubscriptionResolver('myActiveGroupUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }: GroupUpdatedPayload, _args: unknown, { userId }: AuthenticatedGroupContext) => {
+		...createSubscriptionResolver('myActiveGroupUpdated', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }: GroupUpdatedPayload, _args: unknown, { userId }: AuthenticatedGroupContext) => {
 			// If the user caused this update, always pass the group on. The client can incorporate the data appropriately.
 			if (userId === eventUserId && action === 'deactivate') return updatedGroup
 
@@ -170,7 +170,7 @@ export const groupResolvers = {
 			if (member && member.groupMembership.active) return updatedGroup
 		}),
 
-		...createSubscriptionResolver('myGroupsUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId }: GroupUpdatedPayload, _args: unknown, { userId }: AuthenticatedGroupContext) => {
+		...createSubscriptionResolver('myGroupsUpdated', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId }: GroupUpdatedPayload, _args: unknown, { userId }: AuthenticatedGroupContext) => {
 			// Only pass on the updated group when the user caused this event (like deactivated) or when the user is a member.
 			if (userId === eventUserId || updatedGroup.members.some(member => member.id === userId)) return updatedGroup
 		}),

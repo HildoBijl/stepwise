@@ -21,7 +21,7 @@ export const groupExerciseParameters = `
 	parameters
 	initialState
 	active
-	startedOn
+	startedAt
 	state
 	history {
 		id

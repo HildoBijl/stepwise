@@ -32,7 +32,7 @@ async function lockPendingGroupEvent(db: GroupExerciseDatabase, eventId: string,
 export const groupExerciseResolvers = {
 	GroupExercise: {
 		mode: () => 'group',
-		startedOn: (exercise: GroupExerciseSampleRecord) => exercise.createdAt,
+		startedAt: (exercise: GroupExerciseSampleRecord) => exercise.createdAt,
 		state: (exercise: GroupExerciseSampleRecord) => getCurrentGroupExerciseState(exercise),
 		history: (exercise: GroupExerciseSampleRecord) => [...(exercise.events ?? [])].sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime()), // Sort the history ascending by date.
 	},
@@ -259,7 +259,7 @@ export const groupExerciseResolvers = {
 	},
 
 	Subscription: {
-		...createSubscriptionResolver('activeGroupExercisesUpdate', [groupExerciseEvents.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }: GroupExerciseUpdatedPayload, { code: codeOfFollowedGroup }: { code: string }) => {
+		...createSubscriptionResolver('activeGroupExercisesUpdated', [groupExerciseEvents.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }: GroupExerciseUpdatedPayload, { code: codeOfFollowedGroup }: { code: string }) => {
 			// Only pass on when the code matches.
 			if (codeOfEvent === codeOfFollowedGroup.toUpperCase()) return updatedGroupExercise
 		}, async ({ code }: { code: string }, { db, ensureLoggedIn, userId }: GroupExerciseContext) => {

@@ -17,12 +17,12 @@ export const groupTypeDefs = gql`
 	}
 
 	extend type Subscription {
-		groupUpdate(code: String!): Group!
-		myActiveGroupUpdate: Group!
-		myGroupsUpdate: Group!
+		groupUpdated(code: String!): Group!
+		myActiveGroupUpdated: Group!
+		myGroupsUpdated: Group!
 	}
 
-	type Member {
+	type GroupMember {
 		groupId: ID!
 		userId: ID!
 		name: String
@@ -35,6 +35,6 @@ export const groupTypeDefs = gql`
 	type Group {
 		id: ID!
 		code: String!
-		members: [Member]
+		members: [GroupMember]
 	}
 `

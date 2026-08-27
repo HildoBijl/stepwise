@@ -54,18 +54,18 @@ const apolloClient = new ApolloClient({
 					actions: { merge: false },
 				},
 			},
-			Member: { keyFields: ['groupId', 'userId'] },
+			GroupMember: { keyFields: ['groupId', 'userId'] },
 			Query: {
 				fields: {
 					myGroups: { merge: false },
 				},
 			},
-			CourseForStudent: { // Define custom merge functions to prevent warnings from Apollo on updates.
+			StudentCourse: { // Define custom merge functions to prevent warnings from Apollo on updates.
 				fields: {
 					teachers: { merge(existing, incoming) { return incoming } },
 				},
 			},
-			CourseForTeacher: {
+			TeacherCourse: {
 				fields: {
 					students: { merge(existing, incoming) { return incoming } },
 					teachers: { merge(existing, incoming) { return incoming } },
