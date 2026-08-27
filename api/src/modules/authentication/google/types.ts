@@ -1,5 +1,7 @@
 import type { TokenPayload } from 'google-auth-library'
 
+import type { UserModel } from '../../user/model.ts'
+
 export type GoogleAuthData = Readonly<{
 	credential: string
 	g_csrf_token?: string
@@ -18,20 +20,8 @@ export type AuthenticatedUser = Readonly<{
 	id: string
 }>
 
-export interface GoogleUserModel {
-	findOne(options: { where: { email: string } }): Promise<AuthenticatedUser | null>
-	create(values: {
-		id?: string
-		name?: string
-		givenName?: string
-		familyName?: string
-		email: string
-		role?: string
-	}): Promise<AuthenticatedUser>
-}
-
 export interface GoogleAuthDatabase {
-	User: GoogleUserModel
+	User: UserModel
 }
 
 export interface GoogleAuthRequest {

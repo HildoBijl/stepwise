@@ -1,34 +1,4 @@
-import type { SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } from './types.ts'
-
-interface UserRecord {
-	id: string
-}
-
-interface SurfConextProfileRecord {
-	user: UserRecord
-}
-
-interface FindOptions {
-	where: Record<string, unknown>
-	include?: { model: unknown }
-}
-
-interface WriteOptions {
-	returning?: boolean
-	transaction: unknown
-}
-
-interface ApiDatabase {
-	User: {
-		findOne(options: FindOptions): Promise<UserRecord | null>
-		upsert(values: Record<string, unknown>, options: WriteOptions): Promise<[UserRecord, unknown?]>
-	}
-	SurfConextProfile: {
-		findOne(options: FindOptions): Promise<SurfConextProfileRecord | null>
-		upsert(values: Record<string, unknown>, options: WriteOptions): Promise<unknown>
-	}
-	transaction<T>(callback: (transaction: unknown) => Promise<T>): Promise<T>
-}
+import type { SurfConextAuthDatabase, SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } from './types.ts'
 
 interface AuthenticationRequest {
 	query: SurfConextCallbackParams
@@ -36,21 +6,22 @@ interface AuthenticationRequest {
 }
 
 export class AuthStrategy {
-	constructor(private readonly _db: ApiDatabase, private readonly _surfConextClient: SurfConextClient) { }
+	constructor(private readonly _db: SurfConextAuthDatabase, private readonly _surfConextClient: SurfConextClient) { }
 
 	async initiate(sessionId: string): Promise<string | null> {
 		return this._surfConextClient.authorizationUrl(sessionId)
 	}
 
-	async authenticateAndSync(req: AuthenticationRequest): Promise<UserRecord | null> {
+	async authenticateAndSync(req: AuthenticationRequest) {
 		const surfRawData = await this._surfConextClient.getData(req.query, req.session.id)
 		if (!surfRawData?.email) return null
+		const email = surfRawData.email
 
 		const surfProfile = await this._db.SurfConextProfile.findOne({ where: { id: surfRawData.sub }, include: { model: this._db.User } })
-		let userId = surfProfile?.user.id
+		let userId = surfProfile?.user?.id
 
 		if (!userId) {
-			const userWithoutSurfProfile = await this._db.User.findOne({ where: { email: surfRawData.email } })
+			const userWithoutSurfProfile = await this._db.User.findOne({ where: { email } })
 			userId = userWithoutSurfProfile?.id
 		}
 
@@ -60,7 +31,7 @@ export class AuthStrategy {
 				name: surfRawData.name || undefined,
 				givenName: surfRawData.given_name || undefined,
 				familyName: surfRawData.family_name || undefined,
-				email: surfRawData.email,
+				email,
 				role: getRole(surfRawData),
 			}, { returning: true, transaction })
 			await this._db.SurfConextProfile.upsert({

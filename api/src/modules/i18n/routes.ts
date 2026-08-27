@@ -3,9 +3,9 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import express, { type NextFunction, type Request, type Response } from 'express'
 import { type Language, i18nLoadPath, i18nUpdateLogPath } from '@step-wise/settings'
-import { getByPath, setByPath } from '@step-wise/js-utils'
+import { getByPath, isPlainObject, setByPath } from '@step-wise/js-utils'
 
-type JsonObject = Record<string, any>
+type JsonObject = Record<string, unknown>
 type I18nUpdates = Record<string, Record<string, Record<string, unknown>>>
 
 const pathToPublicFolder = '../frontend/public'
@@ -15,7 +15,9 @@ function filePath(language: Language, path: string) {
 const logPath = `${pathToPublicFolder}${i18nUpdateLogPath}`
 
 function parseJson(contents: string): JsonObject {
-	return JSON.parse(contents) as JsonObject
+	const data: unknown = JSON.parse(contents)
+	if (!isPlainObject(data)) throw new TypeError('Expected the JSON document to contain an object.')
+	return data
 }
 function formatJson(data: JsonObject): string {
 	return JSON.stringify(data, null, 2).replace(/\n/g, '\r\n')

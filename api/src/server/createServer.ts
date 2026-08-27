@@ -1,5 +1,5 @@
 import http from 'node:http'
-import express from 'express'
+import express, { type Request, type Response } from 'express'
 import session from 'express-session'
 import cors from 'cors'
 import { ApolloServer } from '@apollo/server'
@@ -68,7 +68,7 @@ export async function createServer({ config, database, sessionStore, surfConextC
 			// Attach session object to upgrade request.
 			const upgradeRequest = context.extra.request
 			const request = await new Promise<SessionRequest>((resolve, reject) => {
-				processSession(upgradeRequest as any, {} as any, error => error ? reject(error) : resolve(upgradeRequest as SessionRequest))
+				processSession(upgradeRequest as Request, {} as Response, error => error ? reject(error) : resolve(upgradeRequest as SessionRequest))
 			})
 			// Ensure that only logged-in users can connect to the socket.
 			if (!getIdFromRequest(request)) return false

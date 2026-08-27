@@ -2,16 +2,17 @@ import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import express, { type Request, type RequestHandler } from 'express'
 
-import { AuthStrategy as GoogleAuthStrategy, type GoogleClient } from './google/index.ts'
-import { AuthStrategy as SurfConextAuthStrategy, type SurfConextClient } from './surfConext/index.ts'
+import { type GoogleAuthDatabase, type GoogleClient, AuthStrategy as GoogleAuthStrategy } from './google/index.ts'
+import { type SurfConextAuthDatabase, type SurfConextClient, AuthStrategy as SurfConextAuthStrategy } from './surfConext/index.ts'
 
 const INVALID_AUTHENTICATION = 'INVALID_AUTHENTICATION'
 const INTERNAL_ERROR = 'INTERNAL_ERROR'
 
 interface AuthConfig { homepageUrl: string }
 interface AuthenticatedUser { id: string }
+type AuthenticationDatabase = GoogleAuthDatabase & SurfConextAuthDatabase
 
-export function createAuthRouter(config: AuthConfig, database: any, clients: { surfConextClient: SurfConextClient; googleClient: GoogleClient }) {
+export function createAuthRouter(config: AuthConfig, database: AuthenticationDatabase, clients: { surfConextClient: SurfConextClient; googleClient: GoogleClient }) {
 	const router = express.Router()
 	router.use(cookieParser())
 	router.use(bodyParser.urlencoded({ extended: true }))

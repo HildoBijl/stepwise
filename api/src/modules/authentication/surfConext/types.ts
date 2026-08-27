@@ -1,3 +1,15 @@
+import type { Transaction } from 'sequelize'
+
+import type { UserModel } from '../../user/model.ts'
+
+import type { SurfConextProfileModel } from '../model.ts'
+
+export interface SurfConextAuthDatabase {
+	User: UserModel
+	SurfConextProfile: SurfConextProfileModel
+	transaction<T>(procedure: (transaction: Transaction) => PromiseLike<T>): Promise<T>
+}
+
 export interface SurfConextCallbackParams {
 	state?: unknown
 	code?: unknown
