@@ -1,22 +1,53 @@
 import { AuthenticationError } from '../../errors.ts'
+import { type SerializedSkillSetup, deserializeSetup } from '@step-wise/skill-setup'
+import type { SkillId } from '@step-wise/skill-definition'
 import { Course, validateCourseDiagnostics } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
 
+import type { ApiContext } from '../types.ts'
+import type { AuthenticatedContext } from '../user/index.ts'
+
+import type { CourseRecord } from './models.ts'
 import { getCourseByCode, getCourseById, getCourses } from './service.ts'
 
-const courseForStudent = {
-	role: (course: any) => course.courseSubscription?.role,
-	subscribedOn: (course: any) => course.courseSubscription?.createdAt,
-	teachers: (course: any, _args: unknown, { loaders }: any) => loaders.courseTeachers.load(course.id),
+interface CourseBlockInput {
+	name: string
+	goals: SkillId[]
 }
 
-function validateCourse(input: any, current?: any) {
+interface CreateCourseInput {
+	code: string
+	name: string
+	description?: string | null
+	goals: SkillId[]
+	goalWeights?: number[] | null
+	startingPoints: SkillId[]
+	setup?: SerializedSkillSetup | null
+	organization?: string
+	blocks?: CourseBlockInput[] | null
+}
+
+type UpdateCourseInput = Partial<CreateCourseInput>
+type CourseContext = Pick<ApiContext, 'db' | 'isLoggedIn' | 'loaders' | 'user' | 'userId'>
+type AuthenticatedCourseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'isAdmin' | 'loaders' | 'user' | 'userId'>
+
+const courseForStudent = {
+	role: (course: CourseRecord) => course.courseSubscription?.role,
+	subscribedOn: (course: CourseRecord) => course.courseSubscription?.createdAt,
+	teachers: (course: CourseRecord, _args: unknown, { loaders }: CourseContext) => loaders.courseTeachers.load(course.id),
+}
+
+function validateCourse(input: CreateCourseInput | UpdateCourseInput, current?: CourseRecord) {
+	const serializedSetup = input.setup ?? current?.setup
+	const startingPointIds = input.startingPoints ?? current?.startingPoints
+	const learningGoalIds = input.goals ?? current?.goals
+	if (!startingPointIds || !learningGoalIds) throw new Error('Cannot validate a course without starting points and learning goals.')
 	const data = {
-		startingPointIds: input.startingPoints ?? current?.startingPoints,
-		learningGoalIds: input.goals ?? current?.goals,
-		learningGoalWeights: input.goalWeights ?? current?.goalWeights,
-		blockLearningGoalIds: (input.blocks ?? current?.blocks)?.map((block: any) => block.goals),
-		setup: input.setup ?? current?.setup,
+		startingPointIds,
+		learningGoalIds,
+		learningGoalWeights: input.goalWeights ?? current?.goalWeights ?? undefined,
+		blockLearningGoalIds: (input.blocks ?? current?.blocks)?.map(block => block.goals),
+		setup: serializedSetup ? deserializeSetup(serializedSetup) : undefined,
 	}
 	validateCourseDiagnostics(new Course(skillTree, data).diagnostics)
 }
@@ -24,53 +55,52 @@ function validateCourse(input: any, current?: any) {
 export const courseResolvers = {
 	CourseForExternal: {},
 	CourseForStudent: courseForStudent,
-	CourseForTeacher: { ...courseForStudent, students: (course: any, _args: unknown, { loaders }: any) => loaders.courseStudents.load(course.id) },
+	CourseForTeacher: { ...courseForStudent, students: (course: CourseRecord, _args: unknown, { loaders }: CourseContext) => loaders.courseStudents.load(course.id) },
 	Course: {
-		__resolveType(course: any, { isLoggedIn, user }: any) {
+		__resolveType(course: CourseRecord, { isLoggedIn, user }: CourseContext) {
 			if (!isLoggedIn) return 'CourseForExternal'
-			return course.courseSubscription?.role === 'teacher' || user.role === 'admin' ? 'CourseForTeacher' : 'CourseForStudent'
+			return course.courseSubscription?.role === 'teacher' || user?.role === 'admin' ? 'CourseForTeacher' : 'CourseForStudent'
 		},
 	},
 
 	Query: {
-		allCourses: (_source: unknown, _args: unknown, { db, userId }: any) => getCourses(db, userId),
-		myCourses: (_source: unknown, _args: unknown, { db, ensureLoggedIn, userId }: any) => {
+		allCourses: (_source: unknown, _args: unknown, { db, userId }: CourseContext) => getCourses(db, userId),
+		myCourses: (_source: unknown, _args: unknown, { db, ensureLoggedIn, userId }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
 			return getCourses(db, userId, true)
 		},
-		course: (_source: unknown, { code }: { code: string }, { db, userId }: any) => getCourseByCode(db, code, userId),
+		course: (_source: unknown, { code }: { code: string }, { db, userId }: CourseContext) => getCourseByCode(db, code, userId),
 	},
 
 	Mutation: {
-		createCourse: async (_source: unknown, { input }: any, { db, ensureLoggedIn, user }: any) => {
+		createCourse: async (_source: unknown, { input }: { input: CreateCourseInput }, { db, ensureLoggedIn, user }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
 			if (user.role !== 'teacher' && user.role !== 'admin') throw new AuthenticationError('Invalid createCourse call: user does not have the rights to create a new course.')
 			validateCourse(input)
-			return db.transaction(async (transaction: any) => {
+			return db.transaction(async transaction => {
 				const { blocks, ...courseData } = input
-				const course = await user.createCourse(courseData, { transaction })
-				const result = await course.addParticipant(user, { through: { role: 'teacher' }, transaction })
-				course.courseSubscription = result[0]
-				if (blocks) course.blocks = await Promise.all(blocks.map((block: any, index: number) => course.createBlock({ ...block, index }, { transaction })))
+				const course = await db.Course.create(courseData, { transaction })
+				course.courseSubscription = await db.CourseSubscription.create({ courseId: course.id, userId: user.id, role: 'teacher' }, { transaction })
+				if (blocks) course.blocks = await Promise.all(blocks.map((block, index) => course.createBlock({ ...block, index }, { transaction })))
 				return course
 			})
 		},
-		updateCourse: async (_source: unknown, { courseId, input }: any, { db, ensureLoggedIn, user, isAdmin }: any) => {
+		updateCourse: async (_source: unknown, { courseId, input }: { courseId: string; input: UpdateCourseInput }, { db, ensureLoggedIn, user, isAdmin }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
 			const course = await getCourseById(db, courseId, user.id)
 			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new AuthenticationError(`Invalid updateCourse call: user does not have the rights to edit the course with courseId "${courseId}".`)
 			validateCourse(input, course)
-			return db.transaction(async (transaction: any) => {
+			return db.transaction(async transaction => {
 				const { blocks, ...courseData } = input
 				await course.update(courseData, { transaction })
 				if (blocks) {
-					await course.setBlocks([])
-					course.blocks = await Promise.all(blocks.map((block: any, index: number) => course.createBlock({ ...block, index }, { transaction })))
+					await course.setBlocks([], { transaction })
+					course.blocks = await Promise.all(blocks.map((block, index) => course.createBlock({ ...block, index }, { transaction })))
 				}
 				return course
 			})
 		},
-		deleteCourse: async (_source: unknown, { courseId }: any, { db, ensureLoggedIn, user, isAdmin }: any) => {
+		deleteCourse: async (_source: unknown, { courseId }: { courseId: string }, { db, ensureLoggedIn, user, isAdmin }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
 			const course = await getCourseById(db, courseId, user.id)
 			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new AuthenticationError(`Invalid deleteCourse call: user does not have the rights to remove the course with courseId "${courseId}".`)
@@ -78,20 +108,20 @@ export const courseResolvers = {
 			return true
 		},
 		
-		subscribeToCourse: async (_source: unknown, { courseId }: any, { db, ensureLoggedIn, userId }: any) => {
+		subscribeToCourse: async (_source: unknown, { courseId }: { courseId: string }, { db, ensureLoggedIn, userId }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
 			const course = await getCourseById(db, courseId, userId)
-			course.courseSubscription = (await course.addParticipant(userId))[0]
+			course.courseSubscription = await db.CourseSubscription.create({ courseId, userId })
 			return course
 		},
-		unsubscribeFromCourse: async (_source: unknown, { courseId }: any, { db, ensureLoggedIn, userId }: any) => {
+		unsubscribeFromCourse: async (_source: unknown, { courseId }: { courseId: string }, { db, ensureLoggedIn, userId }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
 			const course = await getCourseById(db, courseId, userId)
-			await course.removeParticipant(userId)
+			await db.CourseSubscription.destroy({ where: { courseId, userId } })
 			course.courseSubscription = undefined
 			return course
 		},
-		promoteToTeacher: async (_source: unknown, { courseId, userId }: any, { db, ensureLoggedIn, userId: currentUserId, isAdmin }: any) => {
+		promoteToTeacher: async (_source: unknown, { courseId, userId }: { courseId: string; userId: string }, { db, ensureLoggedIn, userId: currentUserId, isAdmin }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
 			const course = await getCourseById(db, courseId, currentUserId)
 			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new AuthenticationError(`Promotion to teacher failed: the user with ID "${currentUserId}" does not have the rights to assign teachers for the course with ID "${courseId}".`)

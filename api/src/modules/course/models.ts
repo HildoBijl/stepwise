@@ -1,4 +1,8 @@
-import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, ModelStatic, NonAttribute, Sequelize } from 'sequelize'
+import { type CreationOptional, type HasManyCreateAssociationMixin, type HasManySetAssociationsMixin, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
+import type { SerializedSkillSetup } from '@step-wise/skill-setup'
+import type { SkillId } from '@step-wise/skill-definition'
+
+import type { UserRecord } from '../user/index.ts'
 
 export type CourseRole = 'student' | 'teacher'
 
@@ -7,21 +11,19 @@ export class CourseRecord extends Model<InferAttributes<CourseRecord>, InferCrea
 	declare code: string
 	declare name: string
 	declare description: string | null
-	declare goals: string[]
+	declare goals: SkillId[]
 	declare goalWeights: number[] | null
-	declare startingPoints: string[]
-	declare setup: unknown | null
+	declare startingPoints: SkillId[]
+	declare setup: SerializedSkillSetup | null
 	declare organization: CreationOptional<string>
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 	declare blocks?: NonAttribute<CourseBlockRecord[]>
-	declare participants?: NonAttribute<any[]>
-	declare students?: NonAttribute<any[]>
+	declare participants?: NonAttribute<CourseParticipantRecord[]>
+	declare students?: NonAttribute<CourseParticipantRecord[]>
 	declare courseSubscription?: NonAttribute<CourseSubscriptionRecord>
-	declare addParticipant: NonAttribute<(user: any, options?: any) => Promise<any[]>>
-	declare removeParticipant: NonAttribute<(user: any, options?: any) => Promise<unknown>>
-	declare createBlock: NonAttribute<(values: any, options?: any) => Promise<CourseBlockRecord>>
-	declare setBlocks: NonAttribute<(blocks: any[], options?: any) => Promise<unknown>>
+	declare createBlock: NonAttribute<HasManyCreateAssociationMixin<CourseBlockRecord, 'courseId'>>
+	declare setBlocks: NonAttribute<HasManySetAssociationsMixin<CourseBlockRecord, string>>
 }
 
 export class CourseSubscriptionRecord extends Model<InferAttributes<CourseSubscriptionRecord>, InferCreationAttributes<CourseSubscriptionRecord>> {
@@ -30,7 +32,7 @@ export class CourseSubscriptionRecord extends Model<InferAttributes<CourseSubscr
 	declare role: CreationOptional<CourseRole>
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
-	declare user?: NonAttribute<any>
+	declare user?: NonAttribute<UserRecord>
 }
 
 export class CourseBlockRecord extends Model<InferAttributes<CourseBlockRecord>, InferCreationAttributes<CourseBlockRecord>> {
@@ -38,10 +40,12 @@ export class CourseBlockRecord extends Model<InferAttributes<CourseBlockRecord>,
 	declare courseId: string
 	declare index: CreationOptional<number>
 	declare name: string
-	declare goals: string[]
+	declare goals: SkillId[]
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 }
+
+export type CourseParticipantRecord = UserRecord & { courseSubscription: CourseSubscriptionRecord }
 
 export type CourseModel = ModelStatic<CourseRecord>
 export type CourseSubscriptionModel = ModelStatic<CourseSubscriptionRecord>

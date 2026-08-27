@@ -24,6 +24,7 @@ export function createCourseLoaders(context: LoaderContext): CourseLoaders {
 		})
 		const users: Record<string, UserRecord[]> = {}
 		subscriptions.forEach(subscription => {
+			if (!subscription.user) throw new Error(`Failed to load the user for course subscription to course "${subscription.courseId}".`)
 			if (!users[subscription.courseId]) users[subscription.courseId] = []
 			users[subscription.courseId].push(subscription.user)
 		})

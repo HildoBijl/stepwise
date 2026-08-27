@@ -48,6 +48,6 @@ export function createCourseFromRecord(course: CourseRecord): Course {
 		learningGoalIds: course.goals,
 		learningGoalWeights: course.goalWeights ?? undefined,
 		blockLearningGoalIds: course.blocks?.map(block => block.goals),
-		setup: course.setup ? deserializeSetup(course.setup as any) : undefined,
+		setup: course.setup ? deserializeSetup(course.setup) : undefined,
 	})
 }
