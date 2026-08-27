@@ -58,15 +58,17 @@ export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: st
 		where: { userId, skillId },
 		...(exerciseInclude ? { include: exerciseInclude } : {}),
 	})
+	let skillWasCreated = false
 	if (!skill) {
 		if (requireActiveExercise) throw new UserInputError(`There is no active exercise for skill "${skillId}".`)
 		if (!createIfNoneExists) return null
 		skill = await db.UserSkill.create({ userId, skillId })
+		skillWasCreated = true
 	}
 
 	// Extract the active exercise and run a check on it.
 	let loadedExercises: ExerciseSampleRecord[] = []
-	if (loadExercises) {
+	if (loadExercises && !skillWasCreated) {
 		if (!hasLoadedExercises(skill)) throw new Error(`Failed to load exercises for user skill "${skill.id}".`)
 		loadedExercises = skill.exercises
 	}
