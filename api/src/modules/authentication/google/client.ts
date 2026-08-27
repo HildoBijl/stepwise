@@ -17,8 +17,13 @@ export class Client implements GoogleClient {
 		if (credentials.g_csrf_token !== csrfToken) return null
 
 		// Obtain the payload.
-		const ticket = await this.client.verifyIdToken({ idToken: credentials.credential, audience: this.clientId })
-		const payload = ticket.getPayload()
+		let payload
+		try {
+			const ticket = await this.client.verifyIdToken({ idToken: credentials.credential, audience: this.clientId })
+			payload = ticket.getPayload()
+		} catch {
+			return null
+		}
 
 		// A payload is not an authenticated identity. Only accept email addresses that Google has verified.
 		if (!payload?.email_verified) return null
