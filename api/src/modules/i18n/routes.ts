@@ -43,8 +43,8 @@ async function updateLanguageFiles(request: Request, response: Response, next: N
 		try {
 			log = parseJson(await fs.readFile(logPath, 'utf8'))
 		} catch (error) {
-			if ((error as NodeJS.ErrnoException).code === 'ENOENT') throw error
-			log = {}
+			if ((error as NodeJS.ErrnoException).code === 'ENOENT') log = {}
+			else throw error
 		}
 
 		const now = new Date()
