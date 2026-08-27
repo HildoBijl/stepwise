@@ -9,7 +9,7 @@ import { UserInputError } from '../../errors.ts'
 
 import { getSubscription } from '../subscriptions.ts'
 import type { AuthenticatedContext } from '../user/index.ts'
-import { groupEvents, getGroup, verifyGroupAccess, verifyGroupMembership } from '../group/index.ts'
+import { groupEvents, getGroup, hasLoadedGroupMembers, verifyGroupAccess, verifyGroupMembership } from '../group/index.ts'
 import { type UserSkillRecord, type UserSkillUpdate, applySkillUpdates, skillEvents } from '../skill/index.ts'
 
 import { type GroupExerciseActionRecord, type GroupExerciseEventRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents } from './models.ts'
@@ -64,45 +64,41 @@ export const groupExerciseResolvers = {
 
 	Mutation: {
 		leaveGroup: async (_source: unknown, { code }: { code: string }, { db, pubsub, ensureLoggedIn, userId }: GroupExerciseContext) => {
-			// Load the group and check how many users are left.
 			ensureLoggedIn()
-			const group = await getGroup(db, code, true)
-			verifyGroupMembership(group, userId)
-			group.members = group.members.filter(member => member.id !== userId)
+			const result = await db.transaction(async transaction => {
+				// Lock the group so concurrent leave operations cannot both make decisions from the same member list.
+				const group = await getGroup(db, code, false, transaction)
+				await group.reload({ transaction, lock: transaction.LOCK.UPDATE })
+				group.members = await group.getMembers({ transaction })
+				if (!hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
+				verifyGroupMembership(group, userId)
+				group.members = group.members.filter(member => member.id !== userId)
 
-			// When the group is left empty, remove it entirely. Otherwise remove all traces from the user.
-			if (group.members.length === 0) {
-				await group.destroy()
-				await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'destroy' })
-			} else {
-				// Get all user action IDs that have to be removed.
-				const groupWithExercises = await getGroupWithAllExercises(code, db)
-				if (!groupWithExercises) throw new Error(`Failed to reload group "${code}" with exercises.`)
-				const exerciseList: GroupExerciseSampleWithEvents[] = []
-				const userActionIdList: string[] = []
-				groupWithExercises.exercises.forEach(exercise => {
-					// If the user never did anything in this exercise, ignore it.
-					if (!exercise.events.some(event => event.actions.some(userAction => userAction.userId === userId))) return
+				// When the group is left empty, remove it entirely through cascading deletes.
+				if (group.members.length === 0) {
+					await group.destroy({ transaction })
+					return { group, activeExercises: [], action: 'destroy' as const }
+				}
 
-					// Remember the exercise and all actions that the user did in it.
-					exerciseList.push(exercise)
-					exercise.events.forEach(event => {
-						event.actions.forEach(userAction => {
-							if (userAction.userId === userId) userActionIdList.push(userAction.id)
-						})
-						event.actions = event.actions.filter(userAction => userAction.userId !== userId)
-					})
-				})
+				const groupWithExercises = await getGroupWithAllExercises(group.code, db, transaction)
+				if (!groupWithExercises) throw new Error(`Failed to reload group "${group.code}" with exercises.`)
+				const eventIds = groupWithExercises.exercises.flatMap(exercise => exercise.events.map(event => event.id)).sort()
+				if (eventIds.length > 0) await db.GroupExerciseEvent.findAll({ where: { id: { [Op.in]: eventIds } }, order: [['id', 'ASC']], transaction, lock: transaction.LOCK.UPDATE })
 
-				// Remove the user and all its actions. (Including the userId is technically not needed, but still wise for security reasons.)
-				await group.removeMember(userId)
-				await db.GroupExerciseAction.destroy({ where: { userId, id: { [Op.in]: userActionIdList } } })
+				// Reload actions after acquiring the event locks, then remove the user's actions and membership atomically.
+				const userActions = await db.GroupExerciseAction.findAll({ where: { userId, groupExerciseEventId: { [Op.in]: eventIds } }, transaction })
+				const userActionIds = new Set(userActions.map(action => action.id))
+				const affectedEventIds = new Set(userActions.map(action => action.groupExerciseEventId))
+				const affectedExercises = groupWithExercises.exercises.filter(exercise => exercise.events.some(event => affectedEventIds.has(event.id)))
+				affectedExercises.forEach(exercise => exercise.events.forEach(event => { event.actions = event.actions.filter(action => !userActionIds.has(action.id)) }))
+				await group.removeMember(userId, { transaction })
+				await db.GroupExerciseAction.destroy({ where: { userId, id: { [Op.in]: [...userActionIds] } }, transaction })
 
-				// Publish events about each of the active exercises and on the updated group.
-				const activeExercises = exerciseList.filter(exercise => exercise.active)
-				await Promise.all(activeExercises.map(async exercise => await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code: group.code, action: 'resolveEvent' })))
-				await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'leave' })
-			}
+				return { group, activeExercises: affectedExercises.filter(exercise => exercise.active), action: 'leave' as const }
+			})
+
+			await Promise.all(result.activeExercises.map(async exercise => await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code: result.group.code, action: 'resolveEvent' })))
+			await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId, action: result.action })
 
 			return true
 		},

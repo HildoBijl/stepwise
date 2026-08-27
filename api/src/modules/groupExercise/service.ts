@@ -1,5 +1,7 @@
 import { findOptimum } from '@step-wise/js-utils'
 import type { ExerciseState } from '@step-wise/exercise-definition'
+import type { Transaction } from 'sequelize'
+
 import type { SkillId } from '@step-wise/skill-definition'
 import { getExercise } from '@step-wise/exercises'
 
@@ -38,8 +40,9 @@ async function deactivateMissingGroupExercises(group: GroupWithExercises | null)
 	return group
 }
 
-async function getGroupWithExercises(code: string, db: GroupExerciseDatabase, where?: Record<string, unknown>): Promise<GroupWithExercises | null> {
+async function getGroupWithExercises(code: string, db: GroupExerciseDatabase, where?: Record<string, unknown>, transaction?: Transaction): Promise<GroupWithExercises | null> {
 	const group = await db.Group.findOne({
+		...(transaction ? { transaction } : {}),
 		where: { code: code.toUpperCase() },
 		include: [{ association: 'members' }, {
 			association: 'exercises', ...(where ? { where } : {}), required: false,
@@ -54,12 +57,12 @@ async function getGroupWithExercises(code: string, db: GroupExerciseDatabase, wh
 	return group
 }
 
-export function getGroupWithActiveExercises(code: string, db: GroupExerciseDatabase): Promise<GroupWithExercises | null> {
-	return getGroupWithExercises(code, db, { active: true })
+export function getGroupWithActiveExercises(code: string, db: GroupExerciseDatabase, transaction?: Transaction): Promise<GroupWithExercises | null> {
+	return getGroupWithExercises(code, db, { active: true }, transaction)
 }
-export function getGroupWithAllExercises(code: string, db: GroupExerciseDatabase): Promise<GroupWithExercises | null> {
-	return getGroupWithExercises(code, db)
+export function getGroupWithAllExercises(code: string, db: GroupExerciseDatabase, transaction?: Transaction): Promise<GroupWithExercises | null> {
+	return getGroupWithExercises(code, db, undefined, transaction)
 }
-export function getGroupWithActiveSkillExercise(code: string, skillId: SkillId, db: GroupExerciseDatabase): Promise<GroupWithExercises | null> {
-	return getGroupWithExercises(code, db, { skillId, active: true })
+export function getGroupWithActiveSkillExercise(code: string, skillId: SkillId, db: GroupExerciseDatabase, transaction?: Transaction): Promise<GroupWithExercises | null> {
+	return getGroupWithExercises(code, db, { skillId, active: true }, transaction)
 }
