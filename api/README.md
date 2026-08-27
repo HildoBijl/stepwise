@@ -31,13 +31,7 @@ From the repository root:
    npm run -w @step-wise/api db:migrate -- up
    ```
 
-5. Optionally insert development data.
-
-   ```sh
-   npm run -w @step-wise/api db:seed
-   ```
-
-6. Start the development server.
+5. Start the development server.
 
    ```sh
    npm run -w @step-wise/api dev
@@ -70,7 +64,7 @@ Production enables secure, cross-site session cookies. Development enables Apoll
 | --- | --- |
 | `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DB` | PostgreSQL connection location. |
 | `POSTGRES_APP_USER`, `POSTGRES_APP_PASSWORD` | Credentials used by the running API. |
-| `POSTGRES_ADMIN_USER`, `POSTGRES_ADMIN_PASSWORD` | Credentials used by migrations, seeding, clearing, and integration tests. |
+| `POSTGRES_ADMIN_USER`, `POSTGRES_ADMIN_PASSWORD` | Credentials used by migrations, schema clearing, and integration tests. |
 | `POSTGRES_SSLCERT` | Optional CA certificate. Use literal `\n` sequences for line breaks. An empty value disables database SSL. |
 
 The application and administrator credentials may be identical during local development. They should have appropriately restricted permissions in deployed environments.
@@ -153,11 +147,10 @@ Common commands are:
 ```sh
 npm run -w @step-wise/api db:migrate -- up
 npm run -w @step-wise/api db:migrate -- down
-npm run -w @step-wise/api db:seed
 npm run -w @step-wise/api db:clear
 ```
 
-`db:migrate -- up` applies all pending migrations. `db:migrate -- down` reverts the most recent migration. `db:clear` drops and recreates the configured database schema, so verify the target database before running it.
+`db:migrate -- up` applies all pending migrations. `db:migrate -- down` reverts the most recent migration. `db:clear` drops and recreates the configured database schema without reapplying migrations, so verify the target database before running it and run `db:migrate -- up` afterwards.
 
 Use explicit, stable names for indexes and constraints in both migrations and model definitions. Test both the `up` and `down` paths locally. See [`migrations/README.md`](migrations/README.md) for the migration procedure and production guidance.
 
