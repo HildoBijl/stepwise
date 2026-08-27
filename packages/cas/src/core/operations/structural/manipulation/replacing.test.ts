@@ -1,6 +1,6 @@
 import { power, product, sum } from '../../../construction'
 
-import { areNodesEqual } from '../fundamentals'
+import { areNodesEqual } from '../inspection'
 
 import { substitute } from './replacing'
 

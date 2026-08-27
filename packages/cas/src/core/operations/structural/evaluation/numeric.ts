@@ -3,8 +3,7 @@ import { type ExpressionSettingsOptions, type ExpressionSettings, resolveExpress
 
 import { type ExpressionNode, variableToString } from '../../../construction'
 
-import { isConstantNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isLn, isLog, isTrigonometricFunction, isInverseTrigonometricFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan } from './typeChecks'
-import { isSingular } from './algebraicChecks'
+import { isConstantNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isLn, isLog, isTrigonometricFunction, isInverseTrigonometricFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isSingular } from '../inspection'
 
 // Turn a numeric expression into a Javascript number. Throws on non-numeric elements.
 export function evaluateNumericNode(node: ExpressionNode, settings?: ExpressionSettingsOptions): number {

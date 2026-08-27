@@ -1,6 +1,6 @@
 import { type ExpressionNode, negative, plusMinus, product, sum, variable } from '../../../construction'
 
-import { areNodesEqual } from '../fundamentals'
+import { areNodesEqual } from '../inspection'
 
 import { expandToSingulars } from './plurals'
 

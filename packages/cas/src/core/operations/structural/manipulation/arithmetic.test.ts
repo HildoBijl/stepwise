@@ -1,6 +1,6 @@
 import { fraction, negative, product, sum } from '../../../construction'
 
-import { areNodesEqual } from '../fundamentals'
+import { areNodesEqual } from '../inspection'
 
 import { add, divide, multiply, subtract } from './arithmetic'
 
