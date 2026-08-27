@@ -1,4 +1,4 @@
-import { Op, UniqueConstraintError } from 'sequelize'
+import { type Transaction, Op, UniqueConstraintError } from 'sequelize'
 
 import { findOptimum } from '@step-wise/js-utils'
 import { type UpdateSkills, ensureExerciseAction, isStateDone } from '@step-wise/exercise-definition'
@@ -13,12 +13,20 @@ import { groupEvents, getGroup, verifyGroupAccess, verifyGroupMembership } from 
 import { type UserSkillRecord, type UserSkillUpdate, applySkillUpdates, skillEvents } from '../skill/index.ts'
 
 import { type GroupExerciseActionRecord, type GroupExerciseEventRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents } from './models.ts'
-import { type GroupExerciseUpdatedPayload, groupExerciseEvents, getGroupExerciseState, getGroupWithAllExercises, getGroupWithActiveExercises, getGroupWithActiveSkillExercise } from './service.ts'
+import { type GroupExerciseDatabase, type GroupExerciseUpdatedPayload, groupExerciseEvents, getGroupExerciseState, getGroupWithAllExercises, getGroupWithActiveExercises, getGroupWithActiveSkillExercise } from './service.ts'
 
 type GroupExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'pubsub' | 'userId'>
 
 function getGroupEventPerformedAt(event: GroupExerciseEventWithActions): Date {
 	return findOptimum(event.actions.map(userAction => userAction.updatedAt), (a, b) => a.getTime() > b.getTime()) ?? event.updatedAt
+}
+
+async function lockPendingGroupEvent(db: GroupExerciseDatabase, eventId: string, groupCode: string, transaction: Transaction): Promise<GroupExerciseEventWithActions> {
+	const event = await db.GroupExerciseEvent.findByPk(eventId, { transaction, lock: transaction.LOCK.UPDATE })
+	if (!event || event.state !== null) throw new UserInputError(`Could not update group event. The active event for group ${groupCode} has already been resolved.`)
+	event.actions = await db.GroupExerciseAction.findAll({ where: { groupExerciseEventId: event.id }, transaction })
+	if (!hasLoadedGroupExerciseActions(event)) throw new Error(`Failed to load actions for group exercise event "${event.id}".`)
+	return event
 }
 
 export const groupExerciseResolvers = {
@@ -146,25 +154,21 @@ export const groupExerciseResolvers = {
 			const activeExercise = group.exercises[0]
 			if (!activeExercise) throw new UserInputError(`Could not submit group action. The group ${group.code} does not have an active exercise.`)
 
-			// If there is no active event (should never happen) then add one.
-			let activeEvent = activeExercise.events.find(event => event.state === null)
-			if (!activeEvent) {
-				const newActiveEvent = await activeExercise.createEvent({ state: null })
-				newActiveEvent.actions = []
-				if (!hasLoadedGroupExerciseActions(newActiveEvent)) throw new Error('Failed to initialize group exercise event actions.')
-				activeEvent = newActiveEvent
-				activeExercise.events = [newActiveEvent]
-			}
+			const activeEvent = activeExercise.events.find(event => event.state === null)
+			if (!activeEvent) throw new UserInputError(`Could not submit group action. The group ${group.code} does not have an active event.`)
 
-			// If there is already an action for the user, overwrite it. Otherwise add it.
-			const currentUserAction = activeEvent.actions.find(userAction => userAction.userId === userId)
-			if (currentUserAction) {
-				const newUserAction = await currentUserAction.update({ action })
-				activeEvent.actions = activeEvent.actions.map(userAction => userAction.id === newUserAction.id ? newUserAction : userAction)
-			} else {
-				const newUserAction = await activeEvent.createAction({ userId, action })
-				activeEvent.actions = [...activeEvent.actions, newUserAction]
-			}
+			await db.transaction(async transaction => {
+				const lockedEvent = await lockPendingGroupEvent(db, activeEvent.id, group.code, transaction)
+				const currentUserAction = lockedEvent.actions.find(userAction => userAction.userId === userId)
+				if (currentUserAction) {
+					const newUserAction = await currentUserAction.update({ action }, { transaction })
+					lockedEvent.actions = lockedEvent.actions.map(userAction => userAction.id === newUserAction.id ? newUserAction : userAction)
+				} else {
+					const newUserAction = await lockedEvent.createAction({ userId, action }, { transaction })
+					lockedEvent.actions = [...lockedEvent.actions, newUserAction]
+				}
+				activeExercise.events = activeExercise.events.map(event => event.id === lockedEvent.id ? lockedEvent : event)
+			})
 
 			// Return the exercise as result.
 			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: activeExercise, code: group.code, action: 'submitAction' })
@@ -181,11 +185,17 @@ export const groupExerciseResolvers = {
 			const activeEvent = activeExercise.events.find(event => event.state === null)
 			if (!activeEvent) throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active event.`)
 
-			// Load the user's action and delete it if it exists.
-			const currentUserAction = activeEvent.actions.find(userAction => userAction.userId === userId)
-			if (currentUserAction) {
-				await currentUserAction.destroy()
-				activeEvent.actions = activeEvent.actions.filter(userAction => userAction.id !== currentUserAction.id)
+			// Lock the pending event before deleting an action, so resolution cannot process stale actions.
+			const actionWasCanceled = await db.transaction(async transaction => {
+				const lockedEvent = await lockPendingGroupEvent(db, activeEvent.id, group.code, transaction)
+				const currentUserAction = lockedEvent.actions.find(userAction => userAction.userId === userId)
+				if (!currentUserAction) return false
+				await currentUserAction.destroy({ transaction })
+				lockedEvent.actions = lockedEvent.actions.filter(userAction => userAction.id !== currentUserAction.id)
+				activeExercise.events = activeExercise.events.map(event => event.id === lockedEvent.id ? lockedEvent : event)
+				return true
+			})
+			if (actionWasCanceled) {
 				await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: activeExercise, code: group.code, action: 'cancelAction' })
 			}
 
@@ -203,32 +213,31 @@ export const groupExerciseResolvers = {
 			const activeEvent = activeExercise.events.find(event => event.state === null)
 			if (!activeEvent) throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active event.`)
 
-			// Check whether the event can be resolved. This requires at least two active members and an action from every active member.
-			const activeMembers = group.members.filter(member => member.groupMembership.active)
-			if (activeMembers.length < 2) throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have sufficient users present.`)
-			if (activeMembers.some(member => !activeEvent.actions.some(userAction => userAction.userId === member.id))) throw new UserInputError(`Could not resolve group event. Not every active user in group ${group.code} has submitted an action.`)
-
-			// Set up an updateSkills handler that only collects calls.
-			const skillUpdates: UserSkillUpdate[] = []
-			const updateSkills: UpdateSkills = (setup, correct, givenUserId) => {
-				if (setup) skillUpdates.push({ setup, correct, userId: givenUserId || userId })
-			}
-
-			// Check the exercise, getting an updated state. Store this and prepare for a new event.
-			const previousState = getGroupExerciseState(activeExercise)
 			const exercise = getExercise(skillId, activeExercise.exerciseId)
 			if (!exercise) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
 			if (!exercise.processGroupActions) throw new Error(`Unsupported exercise mode: exercise "${activeExercise.exerciseId}" does not support group actions.`)
-			const state = exercise.processGroupActions({ parameters: activeExercise.parameters, state: previousState, actions: activeEvent.actions, updateSkills })
-			if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise state.`)
+			const processGroupActions = exercise.processGroupActions
 
-			// Time to store things in the database.
+			// Try to process things in the database. Lock the event to prevent concurrent changes.
 			let updatedSkillsPerUser: Record<string, UserSkillRecord[]> = {}
 			await db.transaction(async transaction => {
-				// Atomically claim this pending event. A concurrent resolver will wait for this transaction and then update zero rows.
-				const [claimedEventCount] = await db.GroupExerciseEvent.update({ state }, { where: { id: activeEvent.id, state: null }, transaction })
-				if (claimedEventCount === 0) throw new UserInputError(`Could not resolve group event. The active event for group ${group.code} has already been resolved.`)
-				activeEvent.state = state
+				const lockedEvent = await lockPendingGroupEvent(db, activeEvent.id, group.code, transaction)
+				activeExercise.events = activeExercise.events.map(event => event.id === lockedEvent.id ? lockedEvent : event)
+
+				// Resolution requires at least two active members and an action from every active member.
+				const activeMembers = group.members.filter(member => member.groupMembership.active)
+				if (activeMembers.length < 2) throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have sufficient users present.`)
+				if (activeMembers.some(member => !lockedEvent.actions.some(userAction => userAction.userId === member.id))) throw new UserInputError(`Could not resolve group event. Not every active user in group ${group.code} has submitted an action.`)
+
+				const skillUpdates: UserSkillUpdate[] = []
+				const updateSkills: UpdateSkills = (setup, correct, givenUserId) => {
+					if (setup) skillUpdates.push({ setup, correct, userId: givenUserId || userId })
+				}
+				const previousState = getGroupExerciseState(activeExercise)
+				const state = processGroupActions({ parameters: activeExercise.parameters, state: previousState, actions: lockedEvent.actions, updateSkills })
+				if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise state.`)
+				await lockedEvent.update({ state }, { transaction })
+				lockedEvent.state = state
 
 				// Apply all the skill updates that were collected so far.
 				updatedSkillsPerUser = await applySkillUpdates(db, skillUpdates, transaction)

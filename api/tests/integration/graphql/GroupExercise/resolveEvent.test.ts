@@ -119,4 +119,26 @@ describe('resolve group exercise:', () => {
 		expect(failedResponse.errors[0].extensions).toStrictEqual({ code: 'BAD_USER_INPUT' })
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(4)
 	})
+
+	it('serializes action cancellation against event resolution', async () => {
+		const client = await createClient(seed)
+
+		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
+		const { data: { startGroupExercise: exercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {parameters}}` })
+		const parameters = deserializeData(exercise.parameters) as any
+		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(parameters.x + 1))}){skillId}}` })
+		await client.logout()
+		await client.loginSurfConext(BOB_SURFSUB)
+		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
+		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(parameters.x - 1))}){skillId}}` })
+
+		const responses = await Promise.all([
+			client.graphql({ query: `mutation{cancelGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}"){id}}` }),
+			client.graphql({ query: `mutation{resolveGroupEvent(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}"){id}}` }),
+		])
+		expect(responses.filter(response => response.errors === undefined)).toHaveLength(1)
+		expect(responses.filter(response => response.errors !== undefined)).toHaveLength(1)
+		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(4)
+	})
 })
