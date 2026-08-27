@@ -13,8 +13,15 @@ function interpretNode(node: ExpressionNode, expressionSettings?: ExpressionSett
 	return result
 }
 
-function interpretInputValue(value: ExpressionInputValue): ExpressionParts {
-	return interpretNode(interpretExpressionInputValue(value), value.expressionSettings)
+function interpretInputValue(value: ExpressionInputValue, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): ExpressionParts {
+	const mergedInterpretationSettings = { ...value.interpretationSettings, ...interpretationSettings }
+	const mergedExpressionSettings = { ...value.expressionSettings, ...expressionSettings }
+	const adjustedValue: ExpressionInputValue = {
+		...value,
+		...(Object.keys(mergedInterpretationSettings).length === 0 ? {} : { interpretationSettings: mergedInterpretationSettings }),
+		...(Object.keys(mergedExpressionSettings).length === 0 ? {} : { expressionSettings: mergedExpressionSettings }),
+	}
+	return interpretNode(interpretExpressionInputValue(adjustedValue), Object.keys(mergedExpressionSettings).length === 0 ? undefined : mergedExpressionSettings)
 }
 
 function interpretString(value: string, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): ExpressionParts {
@@ -26,7 +33,7 @@ export function isExpressionInput(value: unknown): value is ExpressionInput {
 }
 
 export function interpretExpressionInput(value: ExpressionInput, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): ExpressionParts {
-	if (isExpressionInputValue(value)) return interpretInputValue(value)
+	if (isExpressionInputValue(value)) return interpretInputValue(value, interpretationSettings, expressionSettings)
 	if (typeof value === 'string') return interpretString(value, interpretationSettings, expressionSettings)
 	if (typeof value === 'number') return interpretNode(number(value), expressionSettings)
 	throw new Error(`Invalid expression interpretation: cannot turn input of type "${typeof value}" into an expression.`)

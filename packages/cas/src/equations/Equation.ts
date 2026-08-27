@@ -13,7 +13,7 @@ export function isEquationLike(value: unknown): value is EquationLike {
 	return value instanceof Equation || isEquationInput(value)
 }
 export function asEquation(value: EquationLike, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): Equation {
-	if (value instanceof Equation) return expressionSettings ? value.withSettings(expressionSettings) : value
+	if (value instanceof Equation) return expressionSettings ? value.withSettings({ ...value.settings, ...expressionSettings }) : value
 	const equationParts = interpretEquationInput(value, interpretationSettings, expressionSettings)
 	return new Equation(equationParts.left, equationParts.right, equationParts.settings)
 }
@@ -72,7 +72,7 @@ export class Equation {
 	}
 
 	inferInterpretationSettings(): InterpretationSettingsOptions {
-		return { ...this.left.inferInterpretationSettings(), ...this.right.inferInterpretationSettings() }
+		return this.left.multiply(this.right).inferInterpretationSettings()
 	}
 
 	/*

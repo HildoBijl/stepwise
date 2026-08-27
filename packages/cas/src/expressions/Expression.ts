@@ -31,7 +31,7 @@ export function isExpressionLike(value: unknown): value is ExpressionLike {
 	return value instanceof Expression || isExpressionInput(value)
 }
 export function asExpression(value: ExpressionLike, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): Expression {
-	if (value instanceof Expression) return expressionSettings ? value.withSettings(expressionSettings) : value
+	if (value instanceof Expression) return expressionSettings ? value.withSettings({ ...value.settings, ...expressionSettings }) : value
 	const expressionParts = interpretExpressionInput(value, interpretationSettings, expressionSettings)
 	return new Expression(expressionParts.node, expressionParts.expressionSettings)
 }
@@ -206,12 +206,12 @@ export class Expression {
 	// Fractions
 	get numerator(): Expression {
 		if (isFraction(this.node)) return this.recreateWith(this.node.numerator)
-		if (isMinus(this.node) && isFraction(this.node.node)) return this.recreateWith(this.node.node.numerator)
+		if (isSignNode(this.node) && isFraction(this.node.node)) return this.recreateWith(this.node.node.numerator)
 		throw new Error(`Invalid request: cannot get "numerator" of an Expression of type "${this.subtype}".`)
 	}
 	get denominator(): Expression {
 		if (isFraction(this.node)) return this.recreateWith(this.node.denominator)
-		if (isMinus(this.node) && isFraction(this.node.node)) return this.recreateWith(this.node.node.denominator)
+		if (isSignNode(this.node) && isFraction(this.node.node)) return this.recreateWith(this.node.node.denominator)
 		throw new Error(`Invalid request: cannot get "denominator" of an Expression of type "${this.subtype}".`)
 	}
 
@@ -233,7 +233,7 @@ export class Expression {
 		throw new Error(`Invalid request: cannot get "radicand" of an Expression of type "${this.subtype}".`)
 	}
 	get argument(): Expression {
-		if (isMinus(this.node)) return this.recreateWith(this.node.node)
+		if (isSignNode(this.node)) return this.recreateWith(this.node.node)
 		if (isLogarithmFunction(this.node) || isSingleArgumentFunctionNode(this.node)) return this.recreateWith(this.node.argument)
 		throw new Error(`Invalid request: cannot get "argument" of an Expression of type "${this.subtype}".`)
 	}
@@ -322,7 +322,7 @@ export class Expression {
 	}
 
 	mapArgument(transform: (argument: Expression) => Expression): Expression {
-		if (this.isMinus()) return transform(this.argument).negate()
+		if (this.isSign()) return this.recreateWith(this.node.recreateWithChildren([transform(this.argument).node]))
 		if (this.isLog()) return transform(this.argument).log(this.base)
 		if (this.isLn() || this.isTrigonometricFunction() || this.isInverseTrigonometricFunction()) return this.recreateWith(this.node.recreateWithChildren([transform(this.argument).node]))
 		throw new Error(`Invalid mapArgument call: expression is of type "${this.subtype}", which has no argument.`)
@@ -341,7 +341,7 @@ export class Expression {
 	multiply(...factors: ExpressionLike[]): Expression { return this.recreateWith(multiply(this.node, ...factors.map(term => this.coerceExpression(term)).map(expression => expression.node))) }
 	multiplyLeft(...factors: ExpressionLike[]): Expression { return this.recreateWith(multiply(...factors.map(term => this.coerceExpression(term)).map(expression => expression.node), this.node)) }
 	divide(denominator: ExpressionLike): Expression { return this.recreateWith(divide(this.node, this.coerceExpression(denominator).node)) }
-	invert(): Expression { return this.isMinus() ? this.argument.invert().negate() : this.isFraction() ? this.denominator.divide(this.numerator) : this.recreateWith(divide(1, this.node)) }
+	invert(): Expression { return this.isSign() ? this.mapArgument(argument => argument.invert()) : this.isFraction() ? this.denominator.divide(this.numerator) : this.recreateWith(divide(1, this.node)) }
 	toPower(exponent: ExpressionLike): Expression { return this.recreateWith(power(this.node, this.coerceExpression(exponent).node)) }
 	asExponentOf(exponent: ExpressionLike): Expression { return this.recreateWith(power(this.coerceExpression(exponent).node, this.node)) }
 
@@ -526,7 +526,7 @@ export class Expression {
 	}
 
 	getGradient(variables: readonly VariableLike[] = this.collectVariables()): Expression[] {
-		const derivativeVariables = variables.map(this.coerceVariable)
+		const derivativeVariables = variables.map(variable => this.coerceVariable(variable))
 		return derivativeVariables.map(variable => this.differentiate(variable))
 	}
 }
