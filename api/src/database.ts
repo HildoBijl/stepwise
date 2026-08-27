@@ -1,16 +1,44 @@
 import type { Sequelize, Transaction } from 'sequelize'
 
-import { type ApiModel, type ApiModels, type ModelFactory, apiModules } from './modules/index.ts'
+import { type ApiModel, type ApiModels, type CompleteModelFactories, type ModelFactories, apiModules, defineRegistryKeys, ensureCompleteRegistry } from './modules/index.ts'
 
-const modelFactories: Record<string, ModelFactory> = Object.assign({}, ...apiModules.map(module => module.models ?? {}))
+const modelNames = defineRegistryKeys<ApiModels>()(
+	'User',
+	'SurfConextProfile',
+	'Course',
+	'CourseSubscription',
+	'CourseBlock',
+	'UserSkill',
+	'ExerciseSample',
+	'ExerciseEvent',
+	'Group',
+	'GroupMembership',
+	'GroupExerciseSample',
+	'GroupExerciseEvent',
+	'GroupExerciseAction',
+)
+
+function collectModelFactories(): CompleteModelFactories {
+	const factories: ModelFactories = {}
+	apiModules.forEach(module => {
+		Object.entries(module.models ?? {}).forEach(([name, factory]) => {
+			if (Object.hasOwn(factories, name)) throw new Error(`Duplicate model registration for "${name}".`)
+			Object.assign(factories, { [name]: factory })
+		})
+	})
+	ensureCompleteRegistry(factories, modelNames, 'model')
+	return factories
+}
+
+const modelFactories = collectModelFactories()
 
 function initializeModels(sequelize: Sequelize): ApiModels {
 	const models: Partial<ApiModels> = {}
 	Object.entries(modelFactories).forEach(([name, factory]) => Object.assign(models, { [name]: factory(sequelize) }))
-	const initializedModels = models as ApiModels
-	Object.values(initializedModels).forEach((model: ApiModel) => model.associate?.(initializedModels))
-	apiModules.forEach(module => module.associate?.(initializedModels))
-	return initializedModels
+	ensureCompleteRegistry(models, modelNames, 'initialized model')
+	Object.values(models).forEach((model: ApiModel) => model.associate?.(models))
+	apiModules.forEach(module => module.associate?.(models))
+	return models
 }
 
 export interface Database extends ApiModels {}
