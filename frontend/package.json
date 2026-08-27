@@ -28,6 +28,7 @@
 		"@step-wise/input-exercises": "1.0.0",
 		"@step-wise/input-interpretation": "1.0.0",
 		"@step-wise/interpolation": "1.0.0",
+		"@step-wise/js-utils": "1.0.0",
 		"@step-wise/math-input-value": "1.0.0",
 		"@step-wise/math-tools": "1.0.0",
 		"@step-wise/mechanics-exercises": "1.0.0",
@@ -40,8 +41,6 @@
 		"@step-wise/skill-setup": "1.0.0",
 		"@step-wise/skill-tracking": "1.0.0",
 		"@step-wise/skill-tree": "1.0.0",
-		"@step-wise/js-utils": "1.0.0",
-		"@testing-library/jest-dom": "^5.16.5",
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^14.4.3",
 		"clsx": "^1.1.1",
@@ -79,6 +78,7 @@
 		]
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "^7.0.1",
 		"@vitejs/plugin-react": "^5.0.0",
 		"jsdom": "^26.0.0",
 		"resize-observer-polyfill": "^1.5.1",
