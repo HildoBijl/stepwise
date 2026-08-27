@@ -1,18 +1,23 @@
 import type { Transaction } from 'sequelize'
-import { SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
-import { ensureSetup, type SkillSetupLike } from '@step-wise/skill-setup'
+import type { SkillId } from '@step-wise/skill-definition'
+import { type SkillObservation, SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
+import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 import { ensureSkillIds, expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
 import { ensureBoolean, fromKeysAndValues, fromKeys, mapValues, union } from '@step-wise/js-utils'
 
-import { getUserSkills, type SkillDatabase } from './service.ts'
+import type { UserSkillRecord } from './model.ts'
+import { type SkillDatabase, getUserSkills } from './service.ts'
 
-interface SkillUpdate {
+export interface SkillUpdate {
 	setup: SkillSetupLike
-	correct: unknown
-	userId?: string
+	correct: boolean
 }
 
-export async function getUserSkillLevelSet(database: SkillDatabase, userId: string, skillIds: string[]) {
+export interface UserSkillUpdate extends SkillUpdate {
+	userId: string
+}
+
+export async function getUserSkillLevelSet(database: SkillDatabase, userId: string, skillIds: readonly SkillId[]): Promise<SkillLevelSet> {
 	const allSkillIds = [...expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds)]
 	const storedSkills = await getUserSkills(database, userId, allSkillIds)
 	const skillsAsObject = fromKeysAndValues(storedSkills.map(skill => skill.skillId), storedSkills.map(skill => ensureSkillLevel(skill.get({ plain: true }))))
@@ -20,10 +25,9 @@ export async function getUserSkillLevelSet(database: SkillDatabase, userId: stri
 	return new SkillLevelSet(skillTree, skills)
 }
 
-export async function applySkillUpdates(database: SkillDatabase, skillUpdates: SkillUpdate[], transaction: Transaction) {
-	const updatesPerUser: Record<string, SkillUpdate[]> = {}
+export async function applySkillUpdates(database: SkillDatabase, skillUpdates: readonly UserSkillUpdate[], transaction: Transaction): Promise<Record<string, UserSkillRecord[]>> {
+	const updatesPerUser: Record<string, UserSkillUpdate[]> = {}
 	skillUpdates.forEach(update => {
-		if (!update.userId) throw new Error('Cannot apply a skill update without a user ID.')
 		if (!updatesPerUser[update.userId]) updatesPerUser[update.userId] = []
 		updatesPerUser[update.userId].push(update)
 	})
@@ -33,8 +37,8 @@ export async function applySkillUpdates(database: SkillDatabase, skillUpdates: S
 	return fromKeysAndValues(userIds, result)
 }
 
-export async function applySkillUpdatesForUser(database: SkillDatabase, userId: string, skillUpdates: SkillUpdate[], transaction: Transaction) {
-	const observations = skillUpdates.map(({ setup, correct }) => ({ setup: ensureSetup(setup), correct: ensureBoolean(correct) }))
+export async function applySkillUpdatesForUser(database: SkillDatabase, userId: string, skillUpdates: readonly SkillUpdate[], transaction: Transaction): Promise<UserSkillRecord[]> {
+	const observations: SkillObservation[] = skillUpdates.map(({ setup, correct }) => ({ setup: ensureSetup(setup), correct: ensureBoolean(correct) }))
 	const skillSets = observations.map(({ setup }) => setup.getSkillSet())
 	const skillIds = ensureSkillIds([...union(...skillSets)])
 	if (skillIds.length === 0) return []

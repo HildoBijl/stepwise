@@ -1,14 +1,17 @@
 import { ensureSkillId, ensureSkillIds } from '@step-wise/skill-tree'
 
 import { getSubscription } from '../subscriptions.ts'
-import { type UserRecord, getUser } from '../user/index.ts'
+import { type AuthenticatedContext, type UserRecord, getUser } from '../user/index.ts'
 
-import { type SkillDatabase, skillEvents } from './service.ts'
+import type { UserSkillRecord } from './model.ts'
+import { skillEvents } from './service.ts'
 import { loadVisibleSkills, type SkillAccessContext } from './skillAccess.ts'
 
-interface SkillContext extends SkillAccessContext {
-	db: SkillDatabase
-	ensureLoggedIn(): void
+type SkillContext = SkillAccessContext & Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn'>
+
+interface SkillsUpdatedPayload {
+	userId: string
+	updatedSkills: UserSkillRecord[]
 }
 
 async function userSkills(user: UserRecord, { ids }: { ids?: string[] }, context: SkillContext) {
@@ -34,6 +37,6 @@ export const skillResolvers = {
 	},
 
 	Subscription: {
-		...getSubscription('skillsUpdate', [skillEvents.skillsUpdated], ({ updatedSkills, userId }: any, _args: unknown, context: SkillContext) => userId === context.userId ? updatedSkills : undefined),
+		...getSubscription('skillsUpdate', [skillEvents.skillsUpdated], ({ updatedSkills, userId }: SkillsUpdatedPayload, _args: unknown, context: SkillContext) => userId === context.userId ? updatedSkills : undefined),
 	},
 }

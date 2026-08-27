@@ -25,3 +25,4 @@ export function createUserModule({ privateAccessRules = [] }: UserModuleOptions 
 export * from './model.ts'
 export * from './service.ts'
 export * from './resolvers.ts'
+export * from './context.ts'

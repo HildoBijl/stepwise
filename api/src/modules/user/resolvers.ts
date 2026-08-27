@@ -1,17 +1,12 @@
 import { UserInputError } from '../../errors.ts'
 import { currentPrivacyPolicyVersion, languages } from '@step-wise/settings'
 
-import type { UserRecord } from './model.ts'
-import { type UserDatabase, getAllUsers, getUser } from './service.ts'
+import type { ApiContext } from '../types.ts'
 
-export interface UserContext {
-	db: UserDatabase
-	user: UserRecord | null
-	isAdmin: boolean
-	loaders: any
-	ensureLoggedIn(): void
-	ensureAdmin(): void
-}
+import type { UserRecord } from './model.ts'
+import { getAllUsers, getUser } from './service.ts'
+
+export type UserContext = Pick<ApiContext, 'db' | 'user' | 'isAdmin' | 'loaders' | 'ensureLoggedIn' | 'ensureAdmin'>
 
 export type UserPrivateAccessRule = (user: UserRecord, context: UserContext) => boolean | Promise<boolean>
 
