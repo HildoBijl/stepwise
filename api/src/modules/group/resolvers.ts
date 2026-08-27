@@ -34,8 +34,9 @@ export const groupResolvers = {
 			try {
 				await getGroup(db, code)
 				return true
-			} catch {
-				return false
+			} catch (error) {
+				if (error instanceof UserInputError) return false
+				throw error
 			}
 		},
 
