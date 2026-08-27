@@ -100,7 +100,6 @@ export class Expression {
 	 */
 
 	toStorageValue(): ExpressionNodeStorageValue { return nodeToStorageValue(this.node) }
-	get SO(): ExpressionNodeStorageValue { return this.toStorageValue() } // SO Legacy
 	static fromStorageValue(nodeStorageValue: ExpressionNodeStorageValue, settings?: ExpressionSettingsOptions): Expression {
 		return new Expression(storageValueToNode(nodeStorageValue), resolveExpressionSettings(settings))
 	}

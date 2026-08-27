@@ -66,7 +66,6 @@ export class Equation {
 	toStorageValue(): EquationStorageValue {
 		return { left: this.left.toStorageValue(), right: this.right.toStorageValue() }
 	}
-	get SO(): EquationStorageValue { return this.toStorageValue() } // SO Legacy
 	static fromStorageValue(storageValue: EquationStorageValue, settings: ExpressionSettingsOptions = {}): Equation {
 		return new Equation(Expression.fromStorageValue(storageValue.left, settings), Expression.fromStorageValue(storageValue.right, settings), settings)
 	}
