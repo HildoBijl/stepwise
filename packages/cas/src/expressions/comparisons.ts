@@ -3,8 +3,8 @@ import { approximatelyEqual } from '@step-wise/js-utils'
 import { type ExpressionLike, asExpression } from './Expression'
 
 export const expressionComparisons = {
-	exactEqual(input: ExpressionLike, correct: ExpressionLike): boolean {
-		return asExpression(correct).flatten().strictEqualStructure(asExpression(input).flatten())
+	areExactlyEqual(input: ExpressionLike, correct: ExpressionLike): boolean {
+		return asExpression(correct).strictEqualStructure(asExpression(input))
 	},
 
 	onlyOrderChanges(input: ExpressionLike, correct: ExpressionLike): boolean {

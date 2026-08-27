@@ -55,7 +55,7 @@ export default buildStepExercise({
 		const ansSquaredSimplified = ansSquared.combine()
 		const ansRaw = ansSquaredSimplified.sqrt()
 		const ans = ansRaw.combine()
-		const ansCanBeSimplified = !expressionComparisons.exactEqual(ans, ansRaw)
+		const ansCanBeSimplified = !expressionComparisons.areExactlyEqual(ans, ansRaw)
 
 		// Define the right variables.
 		let x

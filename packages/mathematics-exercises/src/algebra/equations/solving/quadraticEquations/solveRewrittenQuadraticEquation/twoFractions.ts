@@ -6,7 +6,7 @@ import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, constantMultiple, exactEqual } = expressionComparisons
+const { onlyOrderChanges, constantMultiple, areExactlyEqual } = expressionComparisons
 
 // a/(x+b) + c = d/(x+e).
 const variableSet = ['x', 'y', 'z']
@@ -43,7 +43,7 @@ export default buildStepExercise({
 					const adjustmentFactor = getFactor(input) / getFactor(correct)
 					return constantMultiple(input, correct.multiply(adjustmentFactor).combine())
 				},
-				compareRight: exactEqual,
+				compareRight: areExactlyEqual,
 			},
 			// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
 			ans1: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['combineSumFractions'])),

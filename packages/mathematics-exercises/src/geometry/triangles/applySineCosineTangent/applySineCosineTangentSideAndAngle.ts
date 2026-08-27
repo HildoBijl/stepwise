@@ -57,7 +57,7 @@ export default buildStepExercise({
 		// Determine the solution.
 		const ansRaw = [a, b, c][requested]
 		const ans = ansRaw.combine()
-		const canSimplifyAns = !expressionComparisons.exactEqual(ans, ansRaw)
+		const canSimplifyAns = !expressionComparisons.areExactlyEqual(ans, ansRaw)
 		return { ...parameters, a, b, c, variables, rule, equation, ansRaw, ans, canSimplifyAns }
 	},
 

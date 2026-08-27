@@ -8,7 +8,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { selectExpressionParameters } from '#generationTools'
 
 const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks
-const { exactEqual } = expressionComparisons
+const { areExactlyEqual } = expressionComparisons
 const { areEquivalent } = equationComparisons
 
 // ax+b=(cx(x+d))/(x^2+e)
@@ -42,8 +42,8 @@ export default buildStepExercise({
 		comparisons: {
 			multiplied: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && areEquivalent(input, correct),
 			expanded: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && areEquivalent(input, correct),
-			moved: { compareLeft: expressionComparisons.constantMultiple, compareRight: expressionComparisons.exactEqual },
-			ans: (input: Equation, correct: Equation, { normalize }: { normalize: boolean }) => (exactEqual(input.left, correct.left) || (!normalize && exactEqual(input.left, correct.left.negate()))) && exactEqual(input.right, correct.right),
+			moved: { compareLeft: expressionComparisons.constantMultiple, compareRight: expressionComparisons.areExactlyEqual },
+			ans: (input: Equation, correct: Equation, { normalize }: { normalize: boolean }) => (areExactlyEqual(input.left, correct.left) || (!normalize && areExactlyEqual(input.left, correct.left.negate()))) && areExactlyEqual(input.right, correct.right),
 		},
 	},
 

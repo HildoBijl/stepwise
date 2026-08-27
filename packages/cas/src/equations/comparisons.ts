@@ -3,8 +3,8 @@ import { expressionComparisons } from '../expressions'
 import { type EquationLike, asEquation } from './Equation'
 
 export const equationComparisons = {
-	exactEqual(input: EquationLike, correct: EquationLike): boolean {
-		return asEquation(correct).flatten().strictEqualStructure(asEquation(input).flatten())
+	areExactlyEqual(input: EquationLike, correct: EquationLike): boolean {
+		return asEquation(correct).strictEqualStructure(asEquation(input))
 	},
 
 	onlyOrderChanges(input: EquationLike, correct: EquationLike): boolean {

@@ -15,7 +15,7 @@ const usedVariables = ['x', 'y']
 export default buildMonoExercise({
 	metadata: {
 		skill: 'enterExpression',
-		comparisons: { ans: (input: Expression, correct: Expression) => expressionComparisons.exactEqual(input.flatten(), correct.flatten()) },
+		comparisons: { ans: (input: Expression, correct: Expression) => expressionComparisons.areExactlyEqual(input.flatten(), correct.flatten()) },
 	},
 
 	generateParameters() {

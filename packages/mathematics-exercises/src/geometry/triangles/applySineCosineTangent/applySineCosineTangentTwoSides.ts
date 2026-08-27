@@ -49,7 +49,7 @@ export default buildStepExercise({
 		const equation = asEquation(['sin(β) = b/c', 'cos(β) = a/c', 'tan(β) = b/a'][rule], undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const ansRaw = asExpression(['asin(b/c)', 'acos(a/c)', 'atan(b/a)'][rule], undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const ans = ansRaw.combine()
-		const canSimplifyAns = !expressionComparisons.exactEqual(ans, ansRaw)
+		const canSimplifyAns = !expressionComparisons.areExactlyEqual(ans, ansRaw)
 
 		// Calculate the remaining side.
 		if (notGiven === 0) a = asExpression('sqrt(c^2 - b^2)').substitute(variables)
