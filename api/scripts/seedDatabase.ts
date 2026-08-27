@@ -60,12 +60,14 @@ async function seedTestData(db: Database): Promise<void> {
 
 // Wipe database and apply seeds freshly.
 const sequelize = createSequelize()
-sequelize.authenticate()
-	.then(async () => {
-		const db = new Database(sequelize)
-		await sequelize.sync({ force: true })
-		return db
-	})
-	.then(seedTestData)
-	.then(async () => await sequelize.close())
-	.catch(console.error)
+try {
+	await sequelize.authenticate()
+	const db = new Database(sequelize)
+	await sequelize.sync({ force: true })
+	await seedTestData(db)
+} catch (error) {
+	console.error(error)
+	process.exitCode = 1
+} finally {
+	await sequelize.close()
+}

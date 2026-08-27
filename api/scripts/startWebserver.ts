@@ -32,4 +32,10 @@ async function startWebserver(): Promise<void> {
 	server.listen(config.port, () => console.log(`Server listening on port ${config.port}`))
 }
 
-startWebserver().catch(console.error)
+try {
+	await startWebserver()
+} catch (error) {
+	console.error(error)
+	process.exitCode = 1
+	await sequelize.close()
+}
