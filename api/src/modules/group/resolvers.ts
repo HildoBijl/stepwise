@@ -7,7 +7,7 @@ import type { AuthenticatedContext } from '../user/index.ts'
 import { getSubscription } from '../subscriptions.ts'
 
 import type { GroupMemberRecord, GroupRecord } from './models.ts'
-import { type GroupUpdatedPayload, createRandomCode, deactivateUserGroups, getGroup, getUserGroups, getUserWithDeactivatedGroups, getUserWithGroups, groupEvents, verifyGroupMembership } from './service.ts'
+import { type GroupUpdatedPayload, createRandomCode, deactivateUserGroups, getGroup, getUserGroups, getUserWithGroups, groupEvents, publishDeactivatedGroups, verifyGroupMembership } from './service.ts'
 
 type GroupContext = Pick<ApiContext, 'db'>
 type AuthenticatedGroupContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'pubsub' | 'userId'>
@@ -57,11 +57,18 @@ export const groupResolvers = {
 		createGroup: async (_source: unknown, _args: unknown, { db, pubsub, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
 			ensureLoggedIn()
 
-			// Create a new group with a random code. The code may already exist in the database, so we have re-try until it eventually succeeds. Even though a collision is not very likely, we still bail out at some point, otherwise the server would be blocked completely.
-			const group = await (async () => {
-				for (let i = 10; i > 0; --i) {
+			// Create and join a new group atomically. The code may already exist, so retry the entire transaction on a collision.
+			const result = await (async () => {
+				for (let attemptsRemaining = 10; attemptsRemaining > 0; --attemptsRemaining) {
 					try {
-						return await db.Group.create({ code: createRandomCode() })
+						return await db.transaction(async transaction => {
+							const group = await db.Group.create({ code: createRandomCode() }, { transaction })
+							const user = await getUserWithGroups(db, userId, false, transaction)
+							const deactivatedGroups = await deactivateUserGroups(user, undefined, transaction)
+							await group.addMember(userId, { through: { active: true }, transaction })
+							group.members = await group.getMembers({ transaction })
+							return { group, deactivatedGroups }
+						})
 					} catch (e) {
 						if (e instanceof UniqueConstraintError) continue // Try again...
 						throw e
@@ -70,75 +77,77 @@ export const groupResolvers = {
 				throw new Error('Failed to create group: not enough unique codes remaining.')
 			})()
 
-			// Deactivate the user from other groups.
-			await getUserWithDeactivatedGroups(db, pubsub, userId)
-
-			// The creator automatically joins the group.
-			await group.addMember(userId, { through: { active: true } })
-			group.members = await group.getMembers()
-			await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'create' })
-			return group
+			await publishDeactivatedGroups(pubsub, result.deactivatedGroups, userId)
+			await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId, action: 'create' })
+			return result.group
 		},
 
 		joinGroup: async (_source: unknown, { code }: { code: string }, { db, pubsub, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
 			ensureLoggedIn()
+			const result = await db.transaction(async transaction => {
+				// Validate the target before changing any existing memberships.
+				const group = await getGroup(db, code, false, transaction)
+				const user = await getUserWithGroups(db, userId, false, transaction)
+				const deactivatedGroups = await deactivateUserGroups(user, group.code, transaction)
 
-			// Validate the target before changing any existing memberships.
-			const group = await getGroup(db, code)
-
-			// Deactivate the user from other groups.
-			const user = await getUserWithDeactivatedGroups(db, pubsub, userId, group.code)
-			const groups = user.groups
-
-			// If the user is already a member of the group, simply activate the membership.
-			const existingGroup = groups.find(existingGroup => existingGroup.code === group.code)
-			const existingMember = existingGroup?.members.find(member => member.id === userId)
-			const existingMembership = existingMember?.groupMembership
-			if (existingGroup && existingMember && existingMembership) {
-				if (!existingMembership.active) {
-					existingMember.groupMembership = await existingMembership.update({ active: true })
-					existingGroup.members = await existingGroup.getMembers()
-					await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: existingGroup, userId, action: 'activate' })
+				// If the user is already a member of the group, simply activate the membership.
+				const existingGroup = user.groups.find(existingGroup => existingGroup.code === group.code)
+				const existingMember = existingGroup?.members.find(member => member.id === userId)
+				const existingMembership = existingMember?.groupMembership
+				if (existingGroup && existingMember && existingMembership) {
+					const activated = !existingMembership.active
+					if (activated) {
+						existingMember.groupMembership = await existingMembership.update({ active: true }, { transaction })
+						existingGroup.members = await existingGroup.getMembers({ transaction })
+					}
+					return { group: existingGroup, deactivatedGroups, action: activated ? 'activate' as const : undefined }
 				}
-				return existingGroup
-			}
 
-			// Add the user to the group.
-			await group.addMember(userId, { through: { active: true } })
-			group.members = await group.getMembers()
-			await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'join' })
-			return group
+				// Add the user to the group.
+				await group.addMember(userId, { through: { active: true }, transaction })
+				group.members = await group.getMembers({ transaction })
+				return { group, deactivatedGroups, action: 'join' as const }
+			})
+
+			await publishDeactivatedGroups(pubsub, result.deactivatedGroups, userId)
+			if (result.action) await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId, action: result.action })
+			return result.group
 		},
 
 		activateGroup: async (_source: unknown, { code }: { code: string }, { db, pubsub, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
-			// Deactivate the user from other groups.
 			ensureLoggedIn()
-			const user = await getUserWithDeactivatedGroups(db, pubsub, userId, code)
-			const groups = user.groups
+			const result = await db.transaction(async transaction => {
+				const user = await getUserWithGroups(db, userId, false, transaction)
+				const normalizedCode = code.toUpperCase()
 
-			// Extract the given group.
-			const group = groups.find(group => group.code === code)
-			if (!group) throw new UserInputError(`Failed to activate group: user is not a member of group "${code}".`)
+				// Validate the target before changing any memberships.
+				const group = user.groups.find(group => group.code === normalizedCode)
+				if (!group) throw new UserInputError(`Failed to activate group: user is not a member of group "${code}".`)
 
-			// Activate the given group.
-			const member = group.members.find(member => member.id === userId)
-			if (!member) throw new Error(`Failed to find user "${userId}" among members of group "${code}".`)
-			const membership = member.groupMembership
-			if (!membership.active) {
-				member.groupMembership = await membership.update({ active: true })
-				await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'activate' })
-			}
-			return group
+				const deactivatedGroups = await deactivateUserGroups(user, normalizedCode, transaction)
+				const member = group.members.find(member => member.id === userId)
+				if (!member) throw new Error(`Failed to find user "${userId}" among members of group "${group.code}".`)
+				const activated = !member.groupMembership.active
+				if (activated) member.groupMembership = await member.groupMembership.update({ active: true }, { transaction })
+				return { group, deactivatedGroups, activated }
+			})
+
+			await publishDeactivatedGroups(pubsub, result.deactivatedGroups, userId)
+			if (result.activated) await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId, action: 'activate' })
+			return result.group
 		},
 
 		deactivateGroup: async (_source: unknown, _args: unknown, { db, pubsub, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
 			// Load all groups, find one where the user is active (so it may be returned as the deactivated group) and then deactivate all groups.
 			ensureLoggedIn()
-			const user = await getUserWithGroups(db, userId)
-			const groups = user.groups
-			const activeGroup = groups.find(group => group.members.some(member => member.id === userId && member.groupMembership.active))
-			await deactivateUserGroups(pubsub, user)
-			return activeGroup
+			const result = await db.transaction(async transaction => {
+				const user = await getUserWithGroups(db, userId, false, transaction)
+				const activeGroup = user.groups.find(group => group.members.some(member => member.id === userId && member.groupMembership.active))
+				const deactivatedGroups = await deactivateUserGroups(user, undefined, transaction)
+				return { activeGroup, deactivatedGroups }
+			})
+			await publishDeactivatedGroups(pubsub, result.deactivatedGroups, userId)
+			return result.activeGroup
 		},
 	},
 

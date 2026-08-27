@@ -1,4 +1,5 @@
 import type { PubSubEngine } from 'graphql-subscriptions'
+import type { Transaction } from 'sequelize'
 
 import { integerRange, sample } from '@step-wise/js-utils'
 
@@ -36,8 +37,9 @@ export function verifyGroupAccess(group: GroupWithMembers | null, userId: string
 	if (!member.groupMembership.active) throw new ForbiddenError(`Access to group "${group.code}" is not allowed: the user is currently not active in that group.`)
 }
 
-export async function getUserWithGroups(db: GroupDatabase, userId: string, onlyActive = false): Promise<UserWithGroups> {
+export async function getUserWithGroups(db: GroupDatabase, userId: string, onlyActive = false, transaction?: Transaction): Promise<UserWithGroups> {
 	const user = await db.User.findByPk(userId, {
+		...(transaction ? { transaction } : {}),
 		include: {
 			association: 'groups',
 			...(onlyActive ? { through: { where: { active: true } } } : {}),
@@ -53,29 +55,28 @@ export async function getUserGroups(db: GroupDatabase, userId: string, onlyActiv
 	return (await getUserWithGroups(db, userId, onlyActive)).groups
 }
 
-export async function deactivateUserGroups(pubsub: PubSubEngine, user: UserWithGroups, exceptionCode?: string): Promise<GroupWithMembers[]> {
-	return Promise.all(user.groups.map(async group => {
-		if (exceptionCode && group.code === exceptionCode) return group
+export async function deactivateUserGroups(user: UserWithGroups, exceptionCode?: string, transaction?: Transaction): Promise<GroupWithMembers[]> {
+	const deactivatedGroups = await Promise.all(user.groups.map(async group => {
+		if (exceptionCode && group.code === exceptionCode) return undefined
 		const member = group.members.find(candidate => candidate.id === user.id)
 		if (!member) throw new Error(`Failed to find user "${user.id}" among members of group "${group.code}".`)
 		const membership = member.groupMembership
-		if (!membership.active) return group
-		member.groupMembership = await membership.update({ active: false })
-		await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId: user.id, action: 'deactivate' })
+		if (!membership.active) return undefined
+		member.groupMembership = await membership.update({ active: false }, transaction ? { transaction } : {})
 		return group
 	}))
+	return deactivatedGroups.filter(group => group !== undefined)
 }
 
-export async function getUserWithDeactivatedGroups(db: GroupDatabase, pubsub: PubSubEngine, userId: string, exceptionCode?: string): Promise<UserWithGroups> {
-	const user = await getUserWithGroups(db, userId)
-	user.groups = await deactivateUserGroups(pubsub, user, exceptionCode)
-	return user
+export async function publishDeactivatedGroups(pubsub: PubSubEngine, groups: GroupWithMembers[], userId: string): Promise<void> {
+	await Promise.all(groups.map(async updatedGroup => await pubsub.publish(groupEvents.groupUpdated, { updatedGroup, userId, action: 'deactivate' })))
 }
 
-export function getGroup(db: GroupDatabase, code: string, includeMembers: true): Promise<GroupWithMembers>
-export function getGroup(db: GroupDatabase, code: string, includeMembers?: false): Promise<GroupRecord>
-export async function getGroup(db: GroupDatabase, code: string, includeMembers = false): Promise<GroupRecord | GroupWithMembers> {
+export function getGroup(db: GroupDatabase, code: string, includeMembers: true, transaction?: Transaction): Promise<GroupWithMembers>
+export function getGroup(db: GroupDatabase, code: string, includeMembers?: false, transaction?: Transaction): Promise<GroupRecord>
+export async function getGroup(db: GroupDatabase, code: string, includeMembers = false, transaction?: Transaction): Promise<GroupRecord | GroupWithMembers> {
 	const group = await db.Group.findOne({
+		...(transaction ? { transaction } : {}),
 		where: { code: code.toUpperCase() },
 		...(includeMembers ? { include: { association: 'members' } } : {}),
 	})
