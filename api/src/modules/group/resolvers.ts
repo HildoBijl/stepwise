@@ -1,4 +1,5 @@
 import { UniqueConstraintError } from 'sequelize'
+
 import { ForbiddenError, UserInputError } from '../../errors.ts'
 
 import type { ApiContext } from '../types.ts'

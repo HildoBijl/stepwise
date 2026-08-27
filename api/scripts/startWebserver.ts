@@ -1,10 +1,9 @@
 import 'dotenv/config'
-
 import { PubSub } from 'graphql-subscriptions'
 
+import { SurfConext } from '../src/modules/authentication/index.ts'
 import { Database } from '../src/database.ts'
 import { createServer, loadConfig } from '../src/server/index.ts'
-import { SurfConext } from '../src/modules/authentication/index.ts'
 
 import { createGoogleClient, createSurfConext } from './authentication.ts'
 import { createSequelize } from './sequelize.ts'

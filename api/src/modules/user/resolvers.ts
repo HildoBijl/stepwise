@@ -1,5 +1,6 @@
-import { UserInputError } from '../../errors.ts'
 import { currentPrivacyPolicyVersion, languages } from '@step-wise/settings'
+
+import { UserInputError } from '../../errors.ts'
 
 import type { ApiContext } from '../types.ts'
 

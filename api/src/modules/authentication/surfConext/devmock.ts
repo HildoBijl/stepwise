@@ -1,9 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { MemoryStore, type SessionData } from 'express-session'
+import { type SessionData, MemoryStore } from 'express-session'
 
 import { type SurfConextCallbackParams, type SurfConextClient, type SurfConextIdentity, ensureSurfConextIdentities } from './types.ts'
-
 import rawUserInfo from './mockData.json' with { type: 'json' }
 
 ensureSurfConextIdentities(rawUserInfo)

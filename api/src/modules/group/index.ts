@@ -1,6 +1,7 @@
 import { defineApiModule } from '../types.ts'
-import { groupResolvers } from './resolvers.ts'
+
 import { type GroupMembershipModel, type GroupModel, createGroupMembershipModel, createGroupModel } from './models.ts'
+import { groupResolvers } from './resolvers.ts'
 import { groupTypeDefs } from './schema.ts'
 
 declare module '../types.ts' {

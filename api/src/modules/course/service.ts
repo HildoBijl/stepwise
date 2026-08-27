@@ -3,6 +3,7 @@ import { Course } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
 
 import type { UserDatabase } from '../user/index.ts'
+
 import type { CourseBlockModel, CourseModel, CourseRecord, CourseSubscriptionModel } from './models.ts'
 
 export interface CourseDatabase extends UserDatabase {

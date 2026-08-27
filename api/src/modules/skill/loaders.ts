@@ -1,5 +1,6 @@
 import DataLoader from 'dataloader'
 import { Op } from 'sequelize'
+
 import type { SkillId } from '@step-wise/skill-definition'
 import { expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 

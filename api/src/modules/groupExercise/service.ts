@@ -1,6 +1,6 @@
+import { findOptimum } from '@step-wise/js-utils'
 import type { ExerciseState } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/skill-definition'
-import { findOptimum } from '@step-wise/js-utils'
 import { getExercise } from '@step-wise/exercises'
 
 import { type GroupDatabase, hasLoadedGroupMembers } from '../group/index.ts'

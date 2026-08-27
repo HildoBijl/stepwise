@@ -1,5 +1,4 @@
 import 'dotenv/config'
-
 import { Sequelize } from 'sequelize'
 
 export function createSequelize(admin = false): Sequelize {

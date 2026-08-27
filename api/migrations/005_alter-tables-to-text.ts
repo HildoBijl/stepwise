@@ -1,4 +1,5 @@
 import { DataTypes } from 'sequelize'
+
 import type { MigrationParameters } from './types.ts'
 
 const TABLE_COLUMN: [string, string, boolean][] = [

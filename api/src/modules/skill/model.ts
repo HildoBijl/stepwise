@@ -1,6 +1,7 @@
+import { type CreationOptional, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
+
 import type { BernsteinCoefficients } from '@step-wise/bernstein-polynomials'
 import type { SkillId } from '@step-wise/skill-definition'
-import { type CreationOptional, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
 
 export class UserSkillRecord extends Model<InferAttributes<UserSkillRecord>, InferCreationAttributes<UserSkillRecord>> {
 	declare id: CreationOptional<string>

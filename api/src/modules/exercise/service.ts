@@ -1,4 +1,5 @@
 import type { IncludeOptions } from 'sequelize'
+
 import { last } from '@step-wise/js-utils'
 import type { SkillId } from '@step-wise/skill-definition'
 import type { ExerciseState } from '@step-wise/exercise-definition'

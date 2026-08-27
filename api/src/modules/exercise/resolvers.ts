@@ -1,10 +1,10 @@
 import { ensureExerciseAction, isStateDone } from '@step-wise/exercise-definition'
 import { generateSkillBasedExerciseInstance } from '@step-wise/exercise-selection'
-import { getExercise, getExercises } from '@step-wise/exercises'
 import { ensureSkillId } from '@step-wise/skill-tree'
+import { getExercise, getExercises } from '@step-wise/exercises'
 
-import { type SkillUpdate, type UserSkillRecord, applySkillUpdatesForUser, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
 import type { AuthenticatedContext } from '../user/index.ts'
+import { type SkillUpdate, type UserSkillRecord, applySkillUpdatesForUser, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
 
 import type { ExerciseEventRecord, ExerciseSampleRecord, ExerciseSampleWithEvents } from './models.ts'
 import { getExerciseState, getLastEvent, getUserSkillWithExercises } from './service.ts'

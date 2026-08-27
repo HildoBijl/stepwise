@@ -1,4 +1,5 @@
 import type { Transaction } from 'sequelize'
+
 import { isPlainObject } from '@step-wise/js-utils'
 
 import type { UserModel } from '../../user/model.ts'

@@ -1,15 +1,16 @@
-import { UserInputError } from '../../errors.ts'
 import { Op } from 'sequelize'
 
-import { type UpdateSkills, ensureExerciseAction, isStateDone } from '@step-wise/exercise-definition'
 import { findOptimum } from '@step-wise/js-utils'
+import { type UpdateSkills, ensureExerciseAction, isStateDone } from '@step-wise/exercise-definition'
 import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { getExercises, getExercise } from '@step-wise/exercises'
 
+import { UserInputError } from '../../errors.ts'
+
 import { getSubscription } from '../subscriptions.ts'
+import type { AuthenticatedContext } from '../user/index.ts'
 import { groupEvents, getGroup, verifyGroupAccess } from '../group/index.ts'
 import { type UserSkillRecord, type UserSkillUpdate, applySkillUpdates, skillEvents } from '../skill/index.ts'
-import type { AuthenticatedContext } from '../user/index.ts'
 
 import { type GroupExerciseActionRecord, type GroupExerciseEventRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents } from './models.ts'
 import { type GroupExerciseUpdatedPayload, groupExerciseEvents, getGroupExerciseState, getGroupWithAllExercises, getGroupWithActiveExercises, getGroupWithActiveSkillExercise } from './service.ts'

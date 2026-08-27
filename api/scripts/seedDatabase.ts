@@ -1,5 +1,5 @@
-import { Database } from '../src/database.ts'
 import { SurfConext } from '../src/modules/authentication/index.ts'
+import { Database } from '../src/database.ts'
 
 import { createSequelize } from './sequelize.ts'
 

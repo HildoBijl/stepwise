@@ -1,4 +1,5 @@
 import { type CreationOptional, type HasManyCreateAssociationMixin, type HasManySetAssociationsMixin, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
+
 import type { SerializedSkillSetup } from '@step-wise/skill-setup'
 import type { SkillId } from '@step-wise/skill-definition'
 

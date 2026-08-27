@@ -1,5 +1,7 @@
 import { currentPrivacyPolicyVersion } from '@step-wise/settings'
+
 import surfConextMockData from '../../../../src/modules/authentication/surfConext/mockData.json' with { type: 'json' }
+
 import { createClient } from '../../../support/client.ts'
 
 const ALEX_ID = 'a0000000-0000-0000-0000-000000000000'

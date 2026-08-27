@@ -1,4 +1,4 @@
-import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, ModelStatic, Sequelize } from 'sequelize'
+import { type CreationOptional, type InferAttributes, type InferCreationAttributes, type ModelStatic, type Sequelize, DataTypes, Model } from 'sequelize'
 
 export const USER_ROLES = ['student', 'teacher', 'admin'] as const
 export type UserRole = typeof USER_ROLES[number]

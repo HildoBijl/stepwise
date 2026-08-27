@@ -1,4 +1,5 @@
 import { type CreationOptional, type HasManyCreateAssociationMixin, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
+
 import type { ExerciseAction, ExerciseParameters, ExerciseState } from '@step-wise/exercise-definition'
 
 export class ExerciseEventRecord extends Model<InferAttributes<ExerciseEventRecord>, InferCreationAttributes<ExerciseEventRecord>> {

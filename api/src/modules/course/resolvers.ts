@@ -1,8 +1,9 @@
-import { AuthenticationError } from '../../errors.ts'
 import { type SerializedSkillSetup, deserializeSetup } from '@step-wise/skill-setup'
 import type { SkillId } from '@step-wise/skill-definition'
 import { Course, validateCourseDiagnostics } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
+
+import { AuthenticationError } from '../../errors.ts'
 
 import type { ApiContext } from '../types.ts'
 import type { AuthenticatedContext } from '../user/index.ts'

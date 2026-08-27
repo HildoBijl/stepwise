@@ -1,5 +1,6 @@
-import { AuthenticationError } from '../../errors.ts'
 import type { SkillId } from '@step-wise/skill-definition'
+
+import { AuthenticationError } from '../../errors.ts'
 
 import type { AuthenticatedContext } from '../user/index.ts'
 

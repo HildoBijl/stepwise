@@ -5,7 +5,7 @@ import { type AuthenticatedContext, type UserRecord, getUser } from '../user/ind
 
 import type { UserSkillRecord } from './model.ts'
 import { skillEvents } from './service.ts'
-import { loadVisibleSkills, type SkillAccessContext } from './skillAccess.ts'
+import { type SkillAccessContext, loadVisibleSkills } from './skillAccess.ts'
 
 type SkillContext = SkillAccessContext & Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'pubsub'>
 

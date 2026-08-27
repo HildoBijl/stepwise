@@ -2,8 +2,8 @@ import request, { type Response } from 'supertest'
 import type { PubSubEngine } from 'graphql-subscriptions'
 
 import { Google, SurfConext } from '../../src/modules/authentication/index.ts'
-import { createServer, type ApiServer, type ServerConfig } from '../../src/server/index.ts'
 import { Database } from '../../src/database.ts'
+import { type ApiServer, type ServerConfig, createServer } from '../../src/server/index.ts'
 import { createSequelize } from '../../scripts/index.ts'
 
 import { clearDatabaseData } from './database.ts'

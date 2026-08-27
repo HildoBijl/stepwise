@@ -1,5 +1,6 @@
 import { createUmzug } from '../scripts/migrations.ts'
 import { createSequelize } from '../scripts/sequelize.ts'
+
 import { clearDatabaseSchema } from './support/database.ts'
 
 export default async function setupTestDatabase(): Promise<void> {

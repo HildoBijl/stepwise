@@ -1,4 +1,5 @@
 import { DataTypes } from 'sequelize'
+
 import type { MigrationParameters } from './types.ts'
 
 export async function up({ context: queryInterface }: MigrationParameters): Promise<void> {

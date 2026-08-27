@@ -1,4 +1,5 @@
 import { Op } from 'sequelize'
+
 import type { SkillId } from '@step-wise/skill-definition'
 
 import type { UserDatabase } from '../user/index.ts'

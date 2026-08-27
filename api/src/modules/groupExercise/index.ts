@@ -1,6 +1,7 @@
 import { defineApiModule } from '../types.ts'
-import { groupExerciseResolvers } from './resolvers.ts'
+
 import { type GroupExerciseActionModel, type GroupExerciseEventModel, type GroupExerciseSampleModel, createGroupExerciseActionModel, createGroupExerciseEventModel, createGroupExerciseSampleModel } from './models.ts'
+import { groupExerciseResolvers } from './resolvers.ts'
 import { groupExerciseTypeDefs } from './schema.ts'
 
 declare module '../types.ts' {
