@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import express, { type NextFunction, type Request, type Response } from 'express'
+import express, { type NextFunction, type Request, type Response, type Router } from 'express'
 import { type Language, i18nLoadPath, i18nUpdateLogPath } from '@step-wise/settings'
 import { getByPath, isPlainObject, setByPath } from '@step-wise/js-utils'
 
@@ -23,7 +23,7 @@ function formatJson(data: JsonObject): string {
 	return JSON.stringify(data, null, 2).replace(/\n/g, '\r\n')
 }
 
-export function createI18nRouter() {
+export function createI18nRouter(): Router {
 	const router = express.Router()
 	router.use(cors())
 	router.use(bodyParser.json())

@@ -1,6 +1,6 @@
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
-import express, { type Request, type RequestHandler } from 'express'
+import express, { type Request, type RequestHandler, type Router } from 'express'
 
 import { type GoogleAuthDatabase, type GoogleClient, AuthStrategy as GoogleAuthStrategy } from './google/index.ts'
 import { type SurfConextAuthDatabase, type SurfConextClient, AuthStrategy as SurfConextAuthStrategy } from './surfConext/index.ts'
@@ -12,7 +12,7 @@ interface AuthConfig { homepageUrl: string }
 interface AuthenticatedUser { id: string }
 type AuthenticationDatabase = GoogleAuthDatabase & SurfConextAuthDatabase
 
-export function createAuthRouter(config: AuthConfig, database: AuthenticationDatabase, clients: { surfConextClient: SurfConextClient; googleClient: GoogleClient }) {
+export function createAuthRouter(config: AuthConfig, database: AuthenticationDatabase, clients: { surfConextClient: SurfConextClient; googleClient: GoogleClient }): Router {
 	const router = express.Router()
 	router.use(cookieParser())
 	router.use(bodyParser.urlencoded({ extended: true }))

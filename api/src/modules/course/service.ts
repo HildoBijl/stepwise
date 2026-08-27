@@ -35,10 +35,10 @@ async function getCourse(database: CourseDatabase, where: Record<string, unknown
 	return course
 }
 
-export function getCourseByCode(database: CourseDatabase, code: string, userId?: string) {
+export function getCourseByCode(database: CourseDatabase, code: string, userId?: string): Promise<CourseRecord> {
 	return getCourse(database, { code }, userId)
 }
-export function getCourseById(database: CourseDatabase, courseId: string, userId?: string) {
+export function getCourseById(database: CourseDatabase, courseId: string, userId?: string): Promise<CourseRecord> {
 	return getCourse(database, { id: courseId }, userId)
 }
 

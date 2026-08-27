@@ -24,8 +24,9 @@ declare module '../modules/types.ts' {
 }
 
 export interface ApolloContext extends ApiContext {}
+export type ApolloContextProvider = (options: { req: RequestWithSession }) => Promise<ApolloContext>
 
-export function createApolloContext(database: Database, pubsub: PubSubEngine) {
+export function createApolloContext(database: Database, pubsub: PubSubEngine): ApolloContextProvider {
 	return async ({ req }: { req: RequestWithSession }): Promise<ApolloContext> => {
 		// Determine whether there is a user.
 		const userId = getIdFromRequest(req)
