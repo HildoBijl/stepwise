@@ -39,5 +39,5 @@ export async function up({ context: queryInterface }: MigrationParameters): Prom
 }
 
 export async function down({ context: queryInterface }: MigrationParameters): Promise<void> {
-	queryInterface.dropTable('exerciseEvents')
+	await queryInterface.dropTable('exerciseEvents')
 }
