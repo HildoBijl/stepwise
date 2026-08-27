@@ -119,14 +119,24 @@ describe('joining group:', () => {
 		expect(myGroups[0]).toStrictEqual({ code: GROUP_CODE })
 	})
 
-	it('cannot join a non-existing group', async () => {
+	it('cannot join a non-existing group without deactivating the current group', async () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(ALEX_SURFSUB)
+
+		// Join an existing group first.
+		const { errors: initialJoinErrors } = await client.graphql({ query: `mutation {joinGroup(code: "${GROUP_CODE}"){code}}` })
+		expect(initialJoinErrors).toBeUndefined()
+		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(1)
 
 		// Join a non-existing group.
 		const { errors: joinErrors } = await client.graphql({ query: `mutation {joinGroup(code: "1234"){code}}` })
 		expect(joinErrors[0].extensions).toStrictEqual({ code: 'BAD_USER_INPUT' })
-		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(0)
+		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(1)
+
+		// The original group is still active.
+		const { data: { myActiveGroup }, errors: activeGroupErrors } = await client.graphql({ query: '{myActiveGroup{code}}' })
+		expect(activeGroupErrors).toBeUndefined()
+		expect(myActiveGroup).toStrictEqual({ code: GROUP_CODE })
 	})
 
 	it('accepts group codes in lowercase', async () => {

@@ -81,13 +81,17 @@ export const groupResolvers = {
 		},
 
 		joinGroup: async (_source: unknown, { code }: { code: string }, { db, pubsub, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
-			// Deactivate the user from other groups.
 			ensureLoggedIn()
-			const user = await getUserWithDeactivatedGroups(db, pubsub, userId, code)
+
+			// Validate the target before changing any existing memberships.
+			const group = await getGroup(db, code)
+
+			// Deactivate the user from other groups.
+			const user = await getUserWithDeactivatedGroups(db, pubsub, userId, group.code)
 			const groups = user.groups
 
 			// If the user is already a member of the group, simply activate the membership.
-			const existingGroup = groups.find(group => group.code === code)
+			const existingGroup = groups.find(existingGroup => existingGroup.code === group.code)
 			const existingMember = existingGroup?.members.find(member => member.id === userId)
 			const existingMembership = existingMember?.groupMembership
 			if (existingGroup && existingMember && existingMembership) {
@@ -99,8 +103,7 @@ export const groupResolvers = {
 				return existingGroup
 			}
 
-			// Load the group and add the user.
-			const group = await getGroup(db, code)
+			// Add the user to the group.
 			await group.addMember(userId, { through: { active: true } })
 			group.members = await group.getMembers()
 			await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'join' })
