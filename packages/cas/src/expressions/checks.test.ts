@@ -23,8 +23,8 @@ describe('expressionChecks', () => {
 
 	test('honors includeSelf and semantic callbacks', () => {
 		expect(expressionChecks.hasFraction('x/y')).toBe(true)
-		expect(expressionChecks.hasFraction('x/y', false)).toBe(false)
-		expect(expressionChecks.hasPower('x^2', false)).toBe(false)
+		expect(expressionChecks.hasFraction('x/y', { includeSelf: false })).toBe(false)
+		expect(expressionChecks.hasPower('x^2', { includeSelf: false })).toBe(false)
 		expect(expressionChecks.hasFractionSatisfying('(x+1)/y', fraction => fraction.numerator.isSum())).toBe(true)
 		expect(expressionChecks.hasSimilarTerms('x+2*x')).toBe(true)
 		expect(expressionChecks.hasSimilarTerms('x+y')).toBe(false)

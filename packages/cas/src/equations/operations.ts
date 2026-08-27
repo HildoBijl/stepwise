@@ -1,9 +1,9 @@
-import { type ExpressionLike, expressionOperations } from '../expressions'
+import { type ExpressionLike, type MultiplyNumeratorAndDenominatorOptions, expressionOperations } from '../expressions'
 
 import { type Equation, type EquationLike, asEquation } from './Equation'
 
 export const equationOperations = {
-	multiplyNumeratorAndDenominator(equation: EquationLike, factor: ExpressionLike, putAtStart?: boolean): Equation {
-		return asEquation(equation).mapSides(side => expressionOperations.multiplyNumeratorAndDenominator(side, factor, putAtStart))
+	multiplyNumeratorAndDenominator(equation: EquationLike, factor: ExpressionLike, options: MultiplyNumeratorAndDenominatorOptions = {}): Equation {
+		return asEquation(equation).mapSides(side => expressionOperations.multiplyNumeratorAndDenominator(side, factor, options))
 	},
 }

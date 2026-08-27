@@ -59,7 +59,7 @@ describe('Expression', () => {
 		const parentFirst: string[] = []
 		const childrenFirst: string[] = []
 		asExpression('x+1').forEachExpression(child => parentFirst.push(child.subtype))
-		asExpression('x+1').forEachExpression(child => childrenFirst.push(child.subtype), true)
+		asExpression('x+1').forEachExpression(child => childrenFirst.push(child.subtype), { childrenFirst: true })
 		expect(parentFirst).toEqual(['Sum', 'Variable', 'Integer'])
 		expect(childrenFirst).toEqual(['Variable', 'Integer', 'Sum'])
 	})

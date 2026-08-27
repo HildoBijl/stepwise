@@ -8,7 +8,7 @@ export const equationComparisons = {
 	},
 
 	areEqualExceptOrder(input: EquationLike, expected: EquationLike): boolean {
-		return asEquation(expected).flatten().equalStructure(asEquation(input).flatten(), false)
+		return asEquation(expected).flatten().equalStructure(asEquation(input).flatten(), { allowSideSwitch: false })
 	},
 
 	areEqualExceptOrderOrSideSwitch(input: EquationLike, expected: EquationLike): boolean {

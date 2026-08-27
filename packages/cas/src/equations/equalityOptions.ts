@@ -20,6 +20,8 @@ export type EquationEqualityOptions = {
 	compareRight?: ExpressionComparison
 }
 export type EquationEqualityOptionsInput = Partial<EquationEqualityOptions>
+export type EquationStructureComparisonOptions = Pick<EquationEqualityOptionsInput, 'allowOrderChanges' | 'allowSideSwitch'>
+export type EquationMultipleComparisonOptions = Pick<EquationEqualityOptionsInput, 'allowSideSwitch'>
 
 export const defaultEquationEqualityOptions: EquationEqualityOptions = {
 	allowOrderChanges: true,

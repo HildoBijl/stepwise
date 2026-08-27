@@ -54,7 +54,7 @@ export default buildStepExercise({
 		const fractions = ['(a*x+b)/(c*x+d)', '(e*x+f)/(g*x+h)'].map(str => asExpression(str, { interpretEAsConstant: false }).substitute(variables).removeTrivial())
 		const joinFractions = (items: Expression[]) => items[0].add(parameters.plus ? items[1] : items[1].negate()).removeTrivial()
 		const expression = joinFractions(fractions)
-		const fractionsWithSameDenominator = fractions.map((fraction, index) => multiplyNumeratorAndDenominator(fraction, fractions[1 - index].denominator, index === 1))
+		const fractionsWithSameDenominator = fractions.map((fraction, index) => multiplyNumeratorAndDenominator(fraction, fractions[1 - index].denominator, { putAtStart: index === 1 }))
 		const sameDenominator = joinFractions(fractionsWithSameDenominator)
 		const fractionsWithBracketsExpanded = fractionsWithSameDenominator.map(fraction => fraction.mapNumerator(numerator => numerator.cancel(['expandProductsOfSums', 'combineLikeFactors', 'combineLikeTerms'])))
 		const bracketsExpanded = joinFractions(fractionsWithBracketsExpanded)

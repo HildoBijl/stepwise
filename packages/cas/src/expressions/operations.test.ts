@@ -5,7 +5,7 @@ import { expressionOperations } from './operations'
 describe('expressionOperations', () => {
 	test('multiplies the numerator and denominator of fractions', () => {
 		expectExpressionToEqual(expressionOperations.multiplyNumeratorAndDenominator('x/y', 2), '(x*2)/(y*2)')
-		expectExpressionToEqual(expressionOperations.multiplyNumeratorAndDenominator('x/y', 2, true), '(2*x)/(2*y)')
+		expectExpressionToEqual(expressionOperations.multiplyNumeratorAndDenominator('x/y', 2, { putAtStart: true }), '(2*x)/(2*y)')
 	})
 
 	test('preserves a sign around a fraction', () => {

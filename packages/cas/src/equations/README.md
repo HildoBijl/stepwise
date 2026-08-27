@@ -55,9 +55,9 @@ For comparison, the same methods apply. The `equalStructure` function does have 
 
 ```
 asEquation('2x=3').equalStructure('3=x*2') // Gives true
-asEquation('2x=3').equalStructure('3=x*2', false) // With `allowSideSwitch` set to false, this gives false
-asEquation('2x=3').equalStructure('x*2=3', false) // Gives true
-asEquation('2x=3').equalStructure('x*2=3', false, false) // With `allowOrderChanges` set to false, this gives false
+asEquation('2x=3').equalStructure('3=x*2', { allowSideSwitch: false }) // Gives false
+asEquation('2x=3').equalStructure('x*2=3', { allowSideSwitch: false }) // Gives true
+asEquation('2x=3').equalStructure('x*2=3', { allowSideSwitch: false, allowOrderChanges: false }) // Gives false
 ```
 
 For the `equals` function there are a few more options. This function is once more called using a set of options.

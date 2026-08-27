@@ -6,6 +6,7 @@ import {
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	isNumeric, containsFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
 	add, subtract, multiply, divide, negative, stripSigns, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan, substitute, substituteAll, evaluateNumericNode, collectVariables, expandToSingulars, areNodesEqual, // Structural operations
+	type TraversalOptions, type OrderedTraversalOptions, // Traversal options
 	type SimplificationOptionsInput, adjustSimplificationOptions, simplify, // Simplification operations
 	flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, format, // Simplification presets
 	convertExpressionSettings, areEquivalent, isConstantMultiple, isIntegerMultiple, differentiate, // Semantic operations
@@ -13,7 +14,7 @@ import {
 } from '../core'
 
 import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type ExpressionSettings, type ExpressionInputValue, resolveExpressionSettings } from './settings'
-import { type ExpressionEqualityOptionsInput, asExpressionEqualityOptions } from './equalityOptions'
+import { type ExpressionEqualityOptionsInput, type ExpressionStructureComparisonOptions, asExpressionEqualityOptions } from './equalityOptions'
 import { type ExpressionInput } from './types'
 import { isExpressionInput, interpretExpressionInput } from './interpretation'
 
@@ -433,29 +434,38 @@ export class Expression {
 	 * Inspection methods
 	 */
 
-	some(check: ExpressionCheck, includeSelf = true, ancestors: ExpressionAncestors = []): boolean {
+	some(check: ExpressionCheck, options: TraversalOptions = {}): boolean {
+		return this.someInternal(check, options.includeSelf ?? true, [])
+	}
+	private someInternal(check: ExpressionCheck, includeSelf: boolean, ancestors: ExpressionAncestors): boolean {
 		if (includeSelf && check(this, ancestors)) return true
-		return this.node.children.some(child => this.recreateWith(child).some(check, true, [...ancestors, this]))
+		return this.node.children.some(child => this.recreateWith(child).someInternal(check, true, [...ancestors, this]))
 	}
 
-	every(check: ExpressionCheck, includeSelf = true, ancestors: ExpressionAncestors = []): boolean {
+	every(check: ExpressionCheck, options: TraversalOptions = {}): boolean {
+		return this.everyInternal(check, options.includeSelf ?? true, [])
+	}
+	private everyInternal(check: ExpressionCheck, includeSelf: boolean, ancestors: ExpressionAncestors): boolean {
 		if (includeSelf && !check(this, ancestors)) return false
-		return this.node.children.every(child => this.recreateWith(child).every(check, true, [...ancestors, this]))
+		return this.node.children.every(child => this.recreateWith(child).everyInternal(check, true, [...ancestors, this]))
 	}
 
-	find(check: ExpressionCheck, childrenFirst = false, includeSelf = true, ancestors: ExpressionAncestors = []): Expression | undefined {
+	find(check: ExpressionCheck, options: OrderedTraversalOptions = {}): Expression | undefined {
+		return this.findInternal(check, options.childrenFirst ?? false, options.includeSelf ?? true, [])
+	}
+	private findInternal(check: ExpressionCheck, childrenFirst: boolean, includeSelf: boolean, ancestors: ExpressionAncestors): Expression | undefined {
 		if (includeSelf && !childrenFirst && check(this, ancestors)) return this
 		for (const child of this.node.children) {
-			const result = this.recreateWith(child).find(check, childrenFirst, true, [...ancestors, this])
+			const result = this.recreateWith(child).findInternal(check, childrenFirst, true, [...ancestors, this])
 			if (result) return result
 		}
 		if (includeSelf && childrenFirst && check(this, ancestors)) return this
 		return undefined
 	}
 
-	findAll(check: ExpressionCheck, childrenFirst = false, includeSelf = true): Expression[] {
+	findAll(check: ExpressionCheck, options: OrderedTraversalOptions = {}): Expression[] {
 		const results: Expression[] = []
-		this.forEachExpression((expression, ancestors) => { if (check(expression, ancestors)) results.push(expression) }, childrenFirst, includeSelf)
+		this.forEachExpression((expression, ancestors) => { if (check(expression, ancestors)) results.push(expression) }, options)
 		return results
 	}
 
@@ -463,16 +473,22 @@ export class Expression {
 	 * Recursive operations
 	 */
 
-	forEachExpression(func: ExpressionFunction, childrenFirst = false, includeSelf = true, ancestors: ExpressionAncestors = []): void {
+	forEachExpression(func: ExpressionFunction, options: OrderedTraversalOptions = {}): void {
+		this.forEachExpressionInternal(func, options.childrenFirst ?? false, options.includeSelf ?? true, [])
+	}
+	private forEachExpressionInternal(func: ExpressionFunction, childrenFirst: boolean, includeSelf: boolean, ancestors: ExpressionAncestors): void {
 		if (includeSelf && !childrenFirst) func(this, ancestors)
-		this.node.children.forEach(child => { this.recreateWith(child).forEachExpression(func, childrenFirst, true, [...ancestors, this]) })
+		this.node.children.forEach(child => { this.recreateWith(child).forEachExpressionInternal(func, childrenFirst, true, [...ancestors, this]) })
 		if (includeSelf && childrenFirst) func(this, ancestors)
 	}
 
-	mapExpressions(transform: ExpressionTransform, childrenFirst = true, includeSelf = true, ancestors: ExpressionAncestors = []): Expression {
+	mapExpressions(transform: ExpressionTransform, options: OrderedTraversalOptions = {}): Expression {
+		return this.mapExpressionsInternal(transform, options.childrenFirst ?? true, options.includeSelf ?? true, [])
+	}
+	private mapExpressionsInternal(transform: ExpressionTransform, childrenFirst: boolean, includeSelf: boolean, ancestors: ExpressionAncestors): Expression {
 		let result: Expression = this
 		if (includeSelf && !childrenFirst) result = transform(result, ancestors).withSettings(this.settings)
-		result = this.recreateWith(result.node.recreateWithChildren(result.node.children.map(child => this.recreateWith(child).mapExpressions(transform, childrenFirst, true, [...ancestors, result]).node)))
+		result = this.recreateWith(result.node.recreateWithChildren(result.node.children.map(child => this.recreateWith(child).mapExpressionsInternal(transform, childrenFirst, true, [...ancestors, result]).node)))
 		if (includeSelf && childrenFirst) result = transform(result, ancestors).withSettings(this.settings)
 		return result
 	}
@@ -504,15 +520,15 @@ export class Expression {
 	 * Comparisons
 	 */
 
-	equalStructure(other: ExpressionLike, allowOrderChanges = true): boolean {
-		return areNodesEqual(this.node, this.coerceExpression(other).node, allowOrderChanges)
+	equalStructure(other: ExpressionLike, options: ExpressionStructureComparisonOptions = {}): boolean {
+		return areNodesEqual(this.node, this.coerceExpression(other).node, options.allowOrderChanges ?? true)
 	}
 	strictEqualStructure(other: ExpressionLike): boolean {
-		return this.equalStructure(other, false)
+		return this.equalStructure(other, { allowOrderChanges: false })
 	}
 	equals(other: ExpressionLike, options: ExpressionEqualityOptionsInput = {}): boolean {
 		const { preprocess, allowOrderChanges } = asExpressionEqualityOptions(options)
-		return preprocess(this).equalStructure(preprocess(this.coerceExpression(other)), allowOrderChanges)
+		return preprocess(this).equalStructure(preprocess(this.coerceExpression(other)), { allowOrderChanges })
 	}
 	isEquivalentTo(other: ExpressionLike): boolean {
 		return areEquivalent(this.node, this.coerceExpression(other).node, this.settings)

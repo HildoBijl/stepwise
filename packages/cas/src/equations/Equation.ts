@@ -1,10 +1,10 @@
 import { approximatelyEqual, deepEqual, identity } from '@step-wise/js-utils'
 import { type ExpressionSettings, type EquationInputValue, resolveExpressionSettings, defaultExpressionSettings, createEquationInputValue, mergeAdjacentTextParts } from '@step-wise/math-input-value'
 
-import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type TexDisplayOptionsInput, type OrderedTraversalOptions, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
 
 import { type EquationInput, type EquationStorageValue, type EquationSideName, type EquationSideCheck, type EquationSideTransform, type EquationSideFunction, type ExpressionInEquationCheck, type ExpressionInEquationTransform, type ExpressionInEquationFunction, equationSideNames } from './types'
-import { type EquationEqualityOptionsInput, asEquationEqualityOptions } from './equalityOptions'
+import { type EquationEqualityOptionsInput, type EquationStructureComparisonOptions, type EquationMultipleComparisonOptions, asEquationEqualityOptions } from './equalityOptions'
 import { isEquationInput, interpretEquationInput } from './interpretation'
 
 // Add a type checker and interpreter.
@@ -208,17 +208,17 @@ export class Equation {
 		return this.everySide((side, sideName) => side.every((expression, ancestors) => check(expression, ancestors, sideName)))
 	}
 
-	find(check: ExpressionInEquationCheck, childrenFirst = false): { expression: Expression, sideName: EquationSideName } | undefined {
+	find(check: ExpressionInEquationCheck, options: OrderedTraversalOptions = {}): { expression: Expression, sideName: EquationSideName } | undefined {
 		for (const sideName of equationSideNames) {
-			const result = this[sideName].find((expression, ancestors) => check(expression, ancestors, sideName), childrenFirst, true)
+			const result = this[sideName].find((expression, ancestors) => check(expression, ancestors, sideName), options)
 			if (result) return { expression: result, sideName }
 		}
 		return undefined
 	}
 
-	findAll(check: ExpressionInEquationCheck, childrenFirst = false): Expression[] {
+	findAll(check: ExpressionInEquationCheck, options: OrderedTraversalOptions = {}): Expression[] {
 		const results: Expression[] = []
-		this.forEachExpression((expression, ancestors, sideName) => { if (check(expression, ancestors, sideName)) results.push(expression) }, childrenFirst)
+		this.forEachExpression((expression, ancestors, sideName) => { if (check(expression, ancestors, sideName)) results.push(expression) }, options)
 		return results
 	}
 
@@ -246,12 +246,12 @@ export class Equation {
 	 * Recursive operations
 	 */
 
-	forEachExpression(func: ExpressionInEquationFunction, childrenFirst = false): void {
-		this.forEachSide((side, sideName) => side.forEachExpression((child, ancestors) => func(child, ancestors, sideName), childrenFirst, true))
+	forEachExpression(func: ExpressionInEquationFunction, options: OrderedTraversalOptions = {}): void {
+		this.forEachSide((side, sideName) => side.forEachExpression((child, ancestors) => func(child, ancestors, sideName), options))
 	}
 
-	mapExpressions(transform: ExpressionInEquationTransform, childrenFirst = true): Equation {
-		return this.mapSides((side, sideName) => side.mapExpressions((child, ancestors) => transform(child, ancestors, sideName), childrenFirst, true))
+	mapExpressions(transform: ExpressionInEquationTransform, options: OrderedTraversalOptions = {}): Equation {
+		return this.mapSides((side, sideName) => side.mapExpressions((child, ancestors) => transform(child, ancestors, sideName), options))
 	}
 
 	/*
@@ -279,15 +279,16 @@ export class Equation {
 	 * Comparisons
 	 */
 
-	equalStructure(other: EquationLike, allowSideSwitch = true, allowOrderChanges?: boolean): boolean {
+	equalStructure(other: EquationLike, options: EquationStructureComparisonOptions = {}): boolean {
+		const { allowSideSwitch = true, allowOrderChanges } = options
 		const equation = this.coerceEquation(other)
-		if (this.left.equalStructure(equation.left, allowOrderChanges) && this.right.equalStructure(equation.right, allowOrderChanges)) return true
-		if (allowSideSwitch && this.equalStructure(equation.switchSides(), false, allowOrderChanges)) return true
+		if (this.left.equalStructure(equation.left, { allowOrderChanges }) && this.right.equalStructure(equation.right, { allowOrderChanges })) return true
+		if (allowSideSwitch && this.equalStructure(equation.switchSides(), { allowSideSwitch: false, allowOrderChanges })) return true
 		return false
 	}
 
 	strictEqualStructure(other: EquationLike): boolean {
-		return this.equalStructure(other, false, false)
+		return this.equalStructure(other, { allowSideSwitch: false, allowOrderChanges: false })
 	}
 
 	equals(other: EquationLike, equalityOptions: EquationEqualityOptionsInput): boolean {
@@ -304,7 +305,7 @@ export class Equation {
 		// Determine preprocessing and comparison methods.
 		const prepLeft = preprocessLeft || preprocessSide || identity
 		const prepRight = preprocessRight || preprocessSide || identity
-		const defaultCompare = (a: Expression, b: Expression) => a.equalStructure(b, allowOrderChanges)
+		const defaultCompare = (a: Expression, b: Expression) => a.equalStructure(b, { allowOrderChanges })
 		const compLeft = compareLeft || compareSide || defaultCompare
 		const compRight = compareRight || compareSide || defaultCompare
 
@@ -319,16 +320,18 @@ export class Equation {
 		return this.normalizeToZero().left.isConstantMultiple(this.coerceEquation(other).normalizeToZero().left)
 	}
 
-	isConstantMultiple(other: EquationLike, allowSideSwitch = true): boolean {
+	isConstantMultiple(other: EquationLike, options: EquationMultipleComparisonOptions = {}): boolean {
+		const { allowSideSwitch = true } = options
 		const equation = this.coerceEquation(other)
 		if (this.hasSameSideMultiple(equation, (a, b) => a.isConstantMultiple(b))) return true
-		return allowSideSwitch && this.isConstantMultiple(equation.switchSides(), false)
+		return allowSideSwitch && this.isConstantMultiple(equation.switchSides(), { allowSideSwitch: false })
 	}
 
-	isIntegerMultiple(other: EquationLike, allowSideSwitch = true): boolean {
+	isIntegerMultiple(other: EquationLike, options: EquationMultipleComparisonOptions = {}): boolean {
+		const { allowSideSwitch = true } = options
 		const equation = this.coerceEquation(other)
 		if (this.hasSameSideMultiple(equation, (a, b) => a.isIntegerMultiple(b))) return true
-		return allowSideSwitch && this.isIntegerMultiple(equation.switchSides(), false)
+		return allowSideSwitch && this.isIntegerMultiple(equation.switchSides(), { allowSideSwitch: false })
 	}
 
 	private hasSameSideMultiple(equation: Equation, isMultiple: (a: Expression, b: Expression) => boolean): boolean {

@@ -9,6 +9,7 @@ export { type ExpressionInputValue } from '@step-wise/math-input-value'
 
 // Simplification
 export { type SimplificationOption, type SimplificationOptions, type SimplificationOptionsInput, allSimplificationOptions } from '../core'
+export { type TraversalOptions, type OrderedTraversalOptions } from '../core'
 export { flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, format } from '../core'
 
 // Printing

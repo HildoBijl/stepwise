@@ -8,6 +8,6 @@ describe('equationOperations', () => {
 	})
 
 	test('supports placing the factor first', () => {
-		expectEquationToEqual(equationOperations.multiplyNumeratorAndDenominator('x/y=z', 2, true), '(2*x)/(2*y)=(2*z)/2')
+		expectEquationToEqual(equationOperations.multiplyNumeratorAndDenominator('x/y=z', 2, { putAtStart: true }), '(2*x)/(2*y)=(2*z)/2')
 	})
 })

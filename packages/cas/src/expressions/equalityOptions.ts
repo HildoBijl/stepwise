@@ -9,6 +9,7 @@ export type ExpressionEqualityOptions = {
 	preprocess: ExpressionPreprocessor // What do we do with expressions before running a structural comparison?
 }
 export type ExpressionEqualityOptionsInput = Partial<ExpressionEqualityOptions>
+export type ExpressionStructureComparisonOptions = Pick<ExpressionEqualityOptionsInput, 'allowOrderChanges'>
 
 export const defaultExpressionEqualityOptions = {
 	allowOrderChanges: true,
