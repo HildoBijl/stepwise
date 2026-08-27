@@ -1,5 +1,5 @@
 import http from 'node:http'
-import express, { type Request, type Response } from 'express'
+import express, { type Request, type RequestHandler, type Response } from 'express'
 import session from 'express-session'
 import cors from 'cors'
 import { ApolloServer } from '@apollo/server'
@@ -66,14 +66,14 @@ export async function createServer({ config, database, sessionStore, surfConextC
 		schema,
 		async onConnect(context) {
 			// Attach session object to upgrade request.
-			const upgradeRequest = context.extra.request
-			const request = await new Promise<SessionRequest>((resolve, reject) => {
-				processSession(upgradeRequest as Request, {} as Response, error => error ? reject(error) : resolve(upgradeRequest as SessionRequest))
-			})
+			const request = await attachSession(context.extra.request, processSession)
 			// Ensure that only logged-in users can connect to the socket.
 			if (!getIdFromRequest(request)) return false
 		},
-		context: context => contextProvider({ req: context.extra.request as SessionRequest }),
+		context: context => {
+			ensureSessionRequest(context.extra.request)
+			return contextProvider({ req: context.extra.request })
+		},
 	}, webSocketServer)
 
 	const apolloServer = new ApolloServer({
@@ -95,8 +95,25 @@ export async function createServer({ config, database, sessionStore, surfConextC
 	})
 	await apolloServer.start()
 	app.use('/graphql', express.json(), expressMiddleware(apolloServer, { context: contextProvider }))
-	const apiServer = httpServer as ApiServer
-	apiServer.stop = () => apolloServer.stop()
+	const apiServer: ApiServer = Object.assign(httpServer, { stop: () => apolloServer.stop() })
 
 	return apiServer
+}
+
+async function attachSession(request: http.IncomingMessage, processSession: RequestHandler): Promise<SessionRequest> {
+	// express-session only uses Node's response header API here. A real ServerResponse avoids pretending that an empty object is an Express response.
+	const response = new http.ServerResponse(request)
+	await new Promise<void>((resolve, reject) => {
+		try {
+			processSession(request as Request, response as Response, error => error ? reject(error) : resolve())
+		} catch (error) {
+			reject(error)
+		}
+	})
+	ensureSessionRequest(request)
+	return request
+}
+
+function ensureSessionRequest(request: http.IncomingMessage): asserts request is SessionRequest {
+	if (!('session' in request) || typeof request.session !== 'object' || request.session === null) throw new Error('Session middleware did not attach a session to the WebSocket request.')
 }
