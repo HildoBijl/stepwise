@@ -234,6 +234,22 @@ describe('groups security', () => {
 		expect(groupErrors[0].extensions).toStrictEqual({ code: 'FORBIDDEN' })
 	})
 
+	it('cannot leave a group without being a member', async () => {
+		const client = await createClient(seed)
+		await client.loginSurfConext(ALEX_SURFSUB)
+
+		// Try to leave Bob's group and fail without publishing an update.
+		const { data, errors } = await client.graphql({ query: `mutation {leaveGroup(code: "${GROUP_CODE}")}` })
+		expect(data).toStrictEqual(null)
+		expect(errors[0].extensions).toStrictEqual({ code: 'FORBIDDEN' })
+		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(0)
+
+		// The group still exists.
+		const { data: { groupExists }, errors: groupExistsErrors } = await client.graphql({ query: `{groupExists(code: "${GROUP_CODE}")}` })
+		expect(groupExistsErrors).toBeUndefined()
+		expect(groupExists).toStrictEqual(true)
+	})
+
 	it('cannot retrieve personal information such as the email address', async () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(ALEX_SURFSUB)

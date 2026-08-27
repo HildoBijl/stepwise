@@ -9,7 +9,7 @@ import { UserInputError } from '../../errors.ts'
 
 import { getSubscription } from '../subscriptions.ts'
 import type { AuthenticatedContext } from '../user/index.ts'
-import { groupEvents, getGroup, verifyGroupAccess } from '../group/index.ts'
+import { groupEvents, getGroup, verifyGroupAccess, verifyGroupMembership } from '../group/index.ts'
 import { type UserSkillRecord, type UserSkillUpdate, applySkillUpdates, skillEvents } from '../skill/index.ts'
 
 import { type GroupExerciseActionRecord, type GroupExerciseEventRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents } from './models.ts'
@@ -59,6 +59,7 @@ export const groupExerciseResolvers = {
 			// Load the group and check how many users are left.
 			ensureLoggedIn()
 			const group = await getGroup(db, code, true)
+			verifyGroupMembership(group, userId)
 			group.members = group.members.filter(member => member.id !== userId)
 
 			// When the group is left empty, remove it entirely. Otherwise remove all traces from the user.
