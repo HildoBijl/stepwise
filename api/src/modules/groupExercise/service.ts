@@ -1,10 +1,9 @@
 import { findOptimum } from '@step-wise/js-utils'
 import type { ExerciseState } from '@step-wise/exercise-definition'
-import type { Transaction } from 'sequelize'
-
 import type { SkillId } from '@step-wise/skill-definition'
 import { getExercise } from '@step-wise/exercises'
 
+import type { ServiceOptions } from '../types.ts'
 import { type GroupDatabase, hasLoadedGroupMembers } from '../group/index.ts'
 
 import { type GroupExerciseActionModel, type GroupExerciseEventModel, type GroupExerciseEventRecord, type GroupExerciseSampleModel, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, type GroupWithExercises, hasLoadedGroupExercises } from './models.ts'
@@ -34,13 +33,17 @@ export function getGroupExerciseState(exercise: GroupExerciseSampleRecord): Exer
 	return getLastResolvedGroupEvent(exercise)?.state ?? exercise.initialState
 }
 
-async function deactivateMissingGroupExercises(group: GroupWithExercises | null): Promise<GroupWithExercises | null> {
+async function deactivateMissingGroupExercises(group: GroupWithExercises | null, { transaction }: ServiceOptions = {}): Promise<GroupWithExercises | null> {
 	if (!group) return null
-	await Promise.all(group.exercises.filter(exercise => exercise.active && !getExercise(exercise.skillId, exercise.exerciseId)).map(exercise => exercise.update({ active: false })))
+	await Promise.all(group.exercises.filter(exercise => exercise.active && !getExercise(exercise.skillId, exercise.exerciseId)).map(exercise => exercise.update({ active: false }, transaction ? { transaction } : {})))
 	return group
 }
 
-async function getGroupWithExercises(code: string, db: GroupExerciseDatabase, where?: Record<string, unknown>, transaction?: Transaction): Promise<GroupWithExercises | null> {
+interface GetGroupWithExercisesOptions extends ServiceOptions {
+	where?: Record<string, unknown>
+}
+
+async function getGroupWithExercises(db: GroupExerciseDatabase, code: string, { where, transaction }: GetGroupWithExercisesOptions = {}): Promise<GroupWithExercises | null> {
 	const group = await db.Group.findOne({
 		...(transaction ? { transaction } : {}),
 		where: { code: code.toUpperCase() },
@@ -52,17 +55,17 @@ async function getGroupWithExercises(code: string, db: GroupExerciseDatabase, wh
 	if (!group) return null
 	if (!hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
 	if (!hasLoadedGroupExercises(group)) throw new Error(`Failed to load exercises, events, and actions of group "${group.code}".`)
-	await deactivateMissingGroupExercises(group)
+	await deactivateMissingGroupExercises(group, { ...(transaction ? { transaction } : {}) })
 	if (where?.active) group.exercises = group.exercises.filter(exercise => exercise.active)
 	return group
 }
 
-export function getGroupWithActiveExercises(code: string, db: GroupExerciseDatabase, transaction?: Transaction): Promise<GroupWithExercises | null> {
-	return getGroupWithExercises(code, db, { active: true }, transaction)
+export function getGroupWithActiveExercises(db: GroupExerciseDatabase, code: string, options: ServiceOptions = {}): Promise<GroupWithExercises | null> {
+	return getGroupWithExercises(db, code, { ...options, where: { active: true } })
 }
-export function getGroupWithAllExercises(code: string, db: GroupExerciseDatabase, transaction?: Transaction): Promise<GroupWithExercises | null> {
-	return getGroupWithExercises(code, db, undefined, transaction)
+export function getGroupWithAllExercises(db: GroupExerciseDatabase, code: string, options: ServiceOptions = {}): Promise<GroupWithExercises | null> {
+	return getGroupWithExercises(db, code, options)
 }
-export function getGroupWithActiveSkillExercise(code: string, skillId: SkillId, db: GroupExerciseDatabase, transaction?: Transaction): Promise<GroupWithExercises | null> {
-	return getGroupWithExercises(code, db, { skillId, active: true }, transaction)
+export function getGroupWithActiveSkillExercise(db: GroupExerciseDatabase, code: string, skillId: SkillId, options: ServiceOptions = {}): Promise<GroupWithExercises | null> {
+	return getGroupWithExercises(db, code, { ...options, where: { skillId, active: true } })
 }

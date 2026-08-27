@@ -41,12 +41,12 @@ export const groupResolvers = {
 
 		myActiveGroup: async (_source: unknown, _args: unknown, { db, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
 			ensureLoggedIn()
-			return (await getUserGroups(db, userId, true))[0]
+			return (await getUserGroups(db, userId, { onlyActive: true }))[0]
 		},
 
 		group: async (_source: unknown, { code }: { code: string }, { db, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
 			ensureLoggedIn()
-			const group = await getGroup(db, code, true)
+			const group = await getGroup(db, code, { includeMembers: true })
 			const member = group.members.find(member => member.id === userId)
 			if (!member) throw new ForbiddenError('Failed to load group data: only members have access.')
 			return group
@@ -63,8 +63,8 @@ export const groupResolvers = {
 					try {
 						return await db.transaction(async transaction => {
 							const group = await db.Group.create({ code: createRandomCode() }, { transaction })
-							const user = await getUserWithGroups(db, userId, false, transaction)
-							const deactivatedGroups = await deactivateUserGroups(user, undefined, transaction)
+							const user = await getUserWithGroups(db, userId, { transaction })
+							const deactivatedGroups = await deactivateUserGroups(user, { transaction })
 							await group.addMember(userId, { through: { active: true }, transaction })
 							group.members = await group.getMembers({ transaction })
 							return { group, deactivatedGroups }
@@ -86,9 +86,9 @@ export const groupResolvers = {
 			ensureLoggedIn()
 			const result = await db.transaction(async transaction => {
 				// Validate the target before changing any existing memberships.
-				const group = await getGroup(db, code, false, transaction)
-				const user = await getUserWithGroups(db, userId, false, transaction)
-				const deactivatedGroups = await deactivateUserGroups(user, group.code, transaction)
+				const group = await getGroup(db, code, { transaction })
+				const user = await getUserWithGroups(db, userId, { transaction })
+				const deactivatedGroups = await deactivateUserGroups(user, { exceptionCode: group.code, transaction })
 
 				// If the user is already a member of the group, simply activate the membership.
 				const existingGroup = user.groups.find(existingGroup => existingGroup.code === group.code)
@@ -117,14 +117,14 @@ export const groupResolvers = {
 		activateGroup: async (_source: unknown, { code }: { code: string }, { db, pubsub, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
 			ensureLoggedIn()
 			const result = await db.transaction(async transaction => {
-				const user = await getUserWithGroups(db, userId, false, transaction)
+				const user = await getUserWithGroups(db, userId, { transaction })
 				const normalizedCode = code.toUpperCase()
 
 				// Validate the target before changing any memberships.
 				const group = user.groups.find(group => group.code === normalizedCode)
 				if (!group) throw new UserInputError(`Failed to activate group: user is not a member of group "${code}".`)
 
-				const deactivatedGroups = await deactivateUserGroups(user, normalizedCode, transaction)
+				const deactivatedGroups = await deactivateUserGroups(user, { exceptionCode: normalizedCode, transaction })
 				const member = group.members.find(member => member.id === userId)
 				if (!member) throw new Error(`Failed to find user "${userId}" among members of group "${group.code}".`)
 				const activated = !member.groupMembership.active
@@ -141,9 +141,9 @@ export const groupResolvers = {
 			// Load all groups, find one where the user is active (so it may be returned as the deactivated group) and then deactivate all groups.
 			ensureLoggedIn()
 			const result = await db.transaction(async transaction => {
-				const user = await getUserWithGroups(db, userId, false, transaction)
+				const user = await getUserWithGroups(db, userId, { transaction })
 				const activeGroup = user.groups.find(group => group.members.some(member => member.id === userId && member.groupMembership.active))
-				const deactivatedGroups = await deactivateUserGroups(user, undefined, transaction)
+				const deactivatedGroups = await deactivateUserGroups(user, { transaction })
 				return { activeGroup, deactivatedGroups }
 			})
 			await publishDeactivatedGroups(pubsub, result.deactivatedGroups, userId)
@@ -157,7 +157,7 @@ export const groupResolvers = {
 			if (updatedGroup.code === code.toUpperCase()) return updatedGroup
 		}, async ({ code }: { code: string }, { db, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
 			ensureLoggedIn()
-			verifyGroupMembership(await getGroup(db, code, true), userId)
+			verifyGroupMembership(await getGroup(db, code, { includeMembers: true }), userId)
 		}),
 
 		...getSubscription('myActiveGroupUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }: GroupUpdatedPayload, _args: unknown, { userId }: AuthenticatedGroupContext) => {

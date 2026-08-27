@@ -56,7 +56,7 @@ export const groupExerciseResolvers = {
 	Query: {
 		activeGroupExercises: async (_source: unknown, { code }: { code: string }, { db, ensureLoggedIn, userId }: GroupExerciseContext) => {
 			ensureLoggedIn()
-			const group = await getGroupWithActiveExercises(code, db)
+			const group = await getGroupWithActiveExercises(db, code)
 			verifyGroupAccess(group, userId)
 			return group.exercises
 		},
@@ -67,8 +67,7 @@ export const groupExerciseResolvers = {
 			ensureLoggedIn()
 			const result = await db.transaction(async transaction => {
 				// Lock the group so concurrent leave operations cannot both make decisions from the same member list.
-				const group = await getGroup(db, code, false, transaction)
-				await group.reload({ transaction, lock: transaction.LOCK.UPDATE })
+				const group = await getGroup(db, code, { transaction, lock: transaction.LOCK.UPDATE })
 				group.members = await group.getMembers({ transaction })
 				if (!hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
 				verifyGroupMembership(group, userId)
@@ -80,7 +79,7 @@ export const groupExerciseResolvers = {
 					return { group, activeExercises: [], action: 'destroy' as const }
 				}
 
-				const groupWithExercises = await getGroupWithAllExercises(group.code, db, transaction)
+				const groupWithExercises = await getGroupWithAllExercises(db, group.code, { transaction })
 				if (!groupWithExercises) throw new Error(`Failed to reload group "${group.code}" with exercises.`)
 				const eventIds = groupWithExercises.exercises.flatMap(exercise => exercise.events.map(event => event.id)).sort()
 				if (eventIds.length > 0) await db.GroupExerciseEvent.findAll({ where: { id: { [Op.in]: eventIds } }, order: [['id', 'ASC']], transaction, lock: transaction.LOCK.UPDATE })
@@ -106,7 +105,7 @@ export const groupExerciseResolvers = {
 		startGroupExercise: async (_source: unknown, { code, skillId }: { code: string; skillId: string }, { db, pubsub, ensureLoggedIn, userId }: GroupExerciseContext) => {
 			// Verify that the user is a member of the given group.
 			ensureLoggedIn()
-			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
+			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
 			verifyGroupAccess(group, userId)
 
 			// If an active group exercise already exists, return this. (So if two users start an exercise at the same time, this prevents an error.)
@@ -129,7 +128,7 @@ export const groupExerciseResolvers = {
 				})
 			} catch (error) {
 				if (!(error instanceof UniqueConstraintError)) throw error
-				const updatedGroup = await getGroupWithActiveSkillExercise(code, skillId, db)
+				const updatedGroup = await getGroupWithActiveSkillExercise(db, code, skillId)
 				verifyGroupAccess(updatedGroup, userId)
 				const existingExercise = updatedGroup.exercises[0]
 				if (!existingExercise) throw error
@@ -145,7 +144,7 @@ export const groupExerciseResolvers = {
 			// Load and verify data.
 			ensureLoggedIn()
 			const action = ensureExerciseAction(rawAction)
-			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
+			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
 			verifyGroupAccess(group, userId)
 			const activeExercise = group.exercises[0]
 			if (!activeExercise) throw new UserInputError(`Could not submit group action. The group ${group.code} does not have an active exercise.`)
@@ -174,7 +173,7 @@ export const groupExerciseResolvers = {
 		cancelGroupAction: async (_source: unknown, { code, skillId }: { code: string; skillId: string }, { db, pubsub, ensureLoggedIn, userId }: GroupExerciseContext) => {
 			// Load and verify data.
 			ensureLoggedIn()
-			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
+			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
 			verifyGroupAccess(group, userId)
 			const activeExercise = group.exercises[0]
 			if (!activeExercise) throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active exercise.`)
@@ -202,7 +201,7 @@ export const groupExerciseResolvers = {
 		resolveGroupEvent: async (_source: unknown, { code, skillId }: { code: string; skillId: string }, { db, pubsub, ensureLoggedIn, userId }: GroupExerciseContext) => {
 			// Load and verify data.
 			ensureLoggedIn()
-			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
+			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
 			verifyGroupAccess(group, userId)
 			const activeExercise = group.exercises[0]
 			if (!activeExercise) throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active exercise.`)
@@ -265,7 +264,7 @@ export const groupExerciseResolvers = {
 			if (codeOfEvent === codeOfFollowedGroup.toUpperCase()) return updatedGroupExercise
 		}, async ({ code }: { code: string }, { db, ensureLoggedIn, userId }: GroupExerciseContext) => {
 			ensureLoggedIn()
-			verifyGroupAccess(await getGroupWithActiveExercises(code, db), userId)
+			verifyGroupAccess(await getGroupWithActiveExercises(db, code), userId)
 		}),
 	},
 }

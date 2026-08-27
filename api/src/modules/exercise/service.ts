@@ -7,6 +7,7 @@ import { getExercise } from '@step-wise/exercises'
 
 import { UserInputError } from '../../errors.ts'
 
+import type { ServiceOptions } from '../types.ts'
 import type { SkillDatabase, UserSkillRecord } from '../skill/index.ts'
 
 import { type ExerciseEventModel, type ExerciseEventRecord, type ExerciseSampleModel, type ExerciseSampleRecord, type ExerciseSampleWithEvents, hasLoadedExerciseEvents } from './models.ts'
@@ -16,7 +17,7 @@ export interface ExerciseDatabase extends SkillDatabase {
 	ExerciseSample: ExerciseSampleModel
 }
 
-export interface GetUserSkillWithExercisesOptions {
+export interface GetUserSkillWithExercisesOptions extends ServiceOptions {
 	includeActiveExercise?: boolean
 	includeExercises?: boolean
 	requireActiveExercise?: boolean
@@ -46,7 +47,7 @@ export function getExerciseState(exercise: ExerciseSampleRecord): ExerciseState 
 }
 
 export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: string, skillId: SkillId, options: GetUserSkillWithExercisesOptions = {}): Promise<UserSkillWithExercisesResult | null> {
-	const { includeActiveExercise = false, includeExercises = false, requireActiveExercise = false, requireNoActiveExercise = false, createIfNoneExists = false } = options
+	const { includeActiveExercise = false, includeExercises = false, requireActiveExercise = false, requireNoActiveExercise = false, createIfNoneExists = false, transaction } = options
 	const loadExercises = includeActiveExercise || includeExercises || requireActiveExercise || requireNoActiveExercise
 	const exerciseInclude: IncludeOptions | undefined = loadExercises ? {
 		association: 'exercises', ...(includeExercises ? {} : { where: { active: true } }), required: false,
@@ -56,6 +57,7 @@ export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: st
 
 	// Load in the skill.
 	let skill = await db.UserSkill.findOne({
+		...(transaction ? { transaction } : {}),
 		where: { userId, skillId },
 		...(exerciseInclude ? { include: exerciseInclude } : {}),
 	})
@@ -63,7 +65,7 @@ export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: st
 	if (!skill) {
 		if (requireActiveExercise) throw new UserInputError(`There is no active exercise for skill "${skillId}".`)
 		if (!createIfNoneExists) return null
-		const result = await db.UserSkill.findOrCreate({ where: { userId, skillId }, defaults: { userId, skillId } })
+		const result = await db.UserSkill.findOrCreate({ where: { userId, skillId }, defaults: { userId, skillId }, ...(transaction ? { transaction } : {}) })
 		skill = result[0]
 		skillWasCreated = result[1]
 	}
@@ -78,7 +80,7 @@ export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: st
 	const exercises: ExerciseSampleWithEvents[] = loadedExercises
 	let activeExercise = exercises.find(exercise => exercise.active)
 	if (activeExercise && !getExercise(skillId, activeExercise.exerciseId)) {
-		await activeExercise.update({ active: false })
+		await activeExercise.update({ active: false }, transaction ? { transaction } : {})
 		activeExercise = undefined
 	}
 	if (requireActiveExercise && !activeExercise) throw new UserInputError(`There is no active exercise for skill "${skillId}".`)

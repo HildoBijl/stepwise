@@ -12,6 +12,10 @@ export interface SkillDatabase extends UserDatabase {
 
 export const skillEvents = { skillsUpdated: 'SKILLS_UPDATED' } as const
 
-export function getUserSkills(database: SkillDatabase, userId: string, skillIds?: readonly SkillId[]): Promise<UserSkillRecord[]> {
-	return database.UserSkill.findAll({ where: { userId, ...(skillIds ? { skillId: { [Op.in]: skillIds } } : {}) } })
+export interface GetUserSkillsOptions {
+	skillIds?: readonly SkillId[]
+}
+
+export function getUserSkills(db: SkillDatabase, userId: string, { skillIds }: GetUserSkillsOptions = {}): Promise<UserSkillRecord[]> {
+	return db.UserSkill.findAll({ where: { userId, ...(skillIds ? { skillId: { [Op.in]: skillIds } } : {}) } })
 }

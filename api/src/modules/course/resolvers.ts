@@ -72,12 +72,12 @@ export const courseResolvers = {
 	},
 
 	Query: {
-		allCourses: (_source: unknown, _args: unknown, { db, userId }: CourseContext) => getCourses(db, userId),
+		allCourses: (_source: unknown, _args: unknown, { db, userId }: CourseContext) => getCourses(db, { ...(userId ? { userId } : {}) }),
 		myCourses: (_source: unknown, _args: unknown, { db, ensureLoggedIn, userId }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
-			return getCourses(db, userId, true)
+			return getCourses(db, { userId, onlyOwnCourses: true })
 		},
-		course: (_source: unknown, { code }: { code: string }, { db, userId }: CourseContext) => getCourseByCode(db, code, userId),
+		course: (_source: unknown, { code }: { code: string }, { db, userId }: CourseContext) => getCourseByCode(db, code, { ...(userId ? { userId } : {}) }),
 	},
 
 	Mutation: {
@@ -95,7 +95,7 @@ export const courseResolvers = {
 		},
 		updateCourse: async (_source: unknown, { courseId, input }: { courseId: string; input: UpdateCourseInput }, { db, ensureLoggedIn, user, isAdmin }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
-			const course = await getCourseById(db, courseId, user.id)
+			const course = await getCourseById(db, courseId, { userId: user.id })
 			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new AuthenticationError(`Invalid updateCourse call: user does not have the rights to edit the course with courseId "${courseId}".`)
 			validateCourse(input, course)
 			return db.transaction(async transaction => {
@@ -110,7 +110,7 @@ export const courseResolvers = {
 		},
 		deleteCourse: async (_source: unknown, { courseId }: { courseId: string }, { db, ensureLoggedIn, user, isAdmin }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
-			const course = await getCourseById(db, courseId, user.id)
+			const course = await getCourseById(db, courseId, { userId: user.id })
 			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new AuthenticationError(`Invalid deleteCourse call: user does not have the rights to remove the course with courseId "${courseId}".`)
 			await course.destroy()
 			return true
@@ -118,20 +118,20 @@ export const courseResolvers = {
 		
 		subscribeToCourse: async (_source: unknown, { courseId }: { courseId: string }, { db, ensureLoggedIn, userId }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
-			const course = await getCourseById(db, courseId, userId)
+			const course = await getCourseById(db, courseId, { userId })
 			course.courseSubscription = await db.CourseSubscription.create({ courseId, userId })
 			return course
 		},
 		unsubscribeFromCourse: async (_source: unknown, { courseId }: { courseId: string }, { db, ensureLoggedIn, userId }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
-			const course = await getCourseById(db, courseId, userId)
+			const course = await getCourseById(db, courseId, { userId })
 			await db.CourseSubscription.destroy({ where: { courseId, userId } })
 			delete course.courseSubscription
 			return course
 		},
 		promoteToTeacher: async (_source: unknown, { courseId, userId }: { courseId: string; userId: string }, { db, ensureLoggedIn, userId: currentUserId, isAdmin }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
-			const course = await getCourseById(db, courseId, currentUserId)
+			const course = await getCourseById(db, courseId, { userId: currentUserId })
 			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new AuthenticationError(`Promotion to teacher failed: the user with ID "${currentUserId}" does not have the rights to assign teachers for the course with ID "${courseId}".`)
 			const [updatedCount] = await db.CourseSubscription.update({ role: 'teacher' }, { where: { courseId, userId } })
 			if (updatedCount === 0) throw new Error(`Promotion to teacher failed: it seems that the user with userId "${userId}" is not subscribed to the course with courseId "${courseId}" and so cannot be promoted to teacher.`)

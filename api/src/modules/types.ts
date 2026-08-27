@@ -1,10 +1,18 @@
 import type { DocumentNode } from 'graphql'
-import type { Model, ModelStatic, Sequelize } from 'sequelize'
+import type { LOCK, Model, ModelStatic, Sequelize, Transaction } from 'sequelize'
 
 export interface ApiContext {}
 export interface ApiLoaders {}
 export type LoaderContext = Omit<ApiContext, 'loaders'>
 export type ApiModel = ModelStatic<Model> & { associate?: (models: ApiModels) => void }
+
+export interface ServiceOptions {
+	transaction?: Transaction
+}
+
+export interface LockingServiceOptions extends ServiceOptions {
+	lock?: LOCK
+}
 
 // API modules augment this registry with the models they contribute.
 export interface ApiModels {}

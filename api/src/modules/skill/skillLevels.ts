@@ -20,7 +20,7 @@ export interface UserSkillUpdate extends SkillUpdate {
 
 export async function getUserSkillLevelSet(database: SkillDatabase, userId: string, skillIds: readonly SkillId[]): Promise<SkillLevelSet> {
 	const allSkillIds = [...expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds)]
-	const storedSkills = await getUserSkills(database, userId, allSkillIds)
+	const storedSkills = await getUserSkills(database, userId, { skillIds: allSkillIds })
 	const skillsAsObject = fromKeysAndValues(storedSkills.map(skill => skill.skillId), storedSkills.map(skill => ensureSkillLevel(skill.get({ plain: true }))))
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
 	return new SkillLevelSet(skillTree, skills)
@@ -49,7 +49,7 @@ export async function applySkillUpdatesForUser(database: SkillDatabase, userId: 
 	if (skillIds.length === 0) return []
 
 	const skillsToLoad = [...expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds)]
-	const skills = await getUserSkills(database, userId, skillsToLoad)
+	const skills = await getUserSkills(database, userId, { skillIds: skillsToLoad })
 	const skillsAsObject = fromKeysAndValues(skills.map(skill => skill.skillId), skills)
 	const skillLevels = mapValues(skillsAsObject, skill => ensureSkillLevel(skill.get({ plain: true })))
 	const storedSkillLevelSet = fromKeys(skillsToLoad, skillId => skillLevels[skillId] ?? getInitialSkillLevel())
