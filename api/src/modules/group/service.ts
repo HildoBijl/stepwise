@@ -57,7 +57,7 @@ export async function getUserGroups(db: GroupDatabase, userId: string, onlyActiv
 
 export async function deactivateUserGroups(user: UserWithGroups, exceptionCode?: string, transaction?: Transaction): Promise<GroupWithMembers[]> {
 	const deactivatedGroups = await Promise.all(user.groups.map(async group => {
-		if (exceptionCode && group.code === exceptionCode) return undefined
+		if (exceptionCode && group.code === exceptionCode.toUpperCase()) return undefined
 		const member = group.members.find(candidate => candidate.id === user.id)
 		if (!member) throw new Error(`Failed to find user "${user.id}" among members of group "${group.code}".`)
 		const membership = member.groupMembership

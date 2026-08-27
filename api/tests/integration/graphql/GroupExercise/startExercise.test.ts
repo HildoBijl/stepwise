@@ -61,11 +61,12 @@ describe('start group exercise:', () => {
 		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(1)
 
 		// Start the exercise.
-		const { data: { startGroupExercise: exercise }, errors: startErrors } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {skillId initialState state active}}` })
+		const { data: { startGroupExercise: exercise }, errors: startErrors } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE.toLowerCase()}", skillId: "${SAMPLE_SKILL}") {skillId initialState state active}}` })
 		expect(startErrors).toBeUndefined()
 		expect(exercise).toStrictEqual({ skillId: SAMPLE_SKILL, initialState: {}, state: {}, active: true })
 		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(1)
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
+		expect(client.eventsFor('GROUP_EXERCISE_UPDATED')).toMatchObject([{ code: GROUP_CODE }])
 
 		// Starting an exercise again should not give an error, but should return the same exercise.
 		const { data: { startGroupExercise: restartExercise }, errors: restartErrors } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {skillId initialState state active}}` })

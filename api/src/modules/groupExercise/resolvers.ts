@@ -92,7 +92,7 @@ export const groupExerciseResolvers = {
 
 				// Publish events about each of the active exercises and on the updated group.
 				const activeExercises = exerciseList.filter(exercise => exercise.active)
-				await Promise.all(activeExercises.map(async exercise => await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'resolveEvent' })))
+				await Promise.all(activeExercises.map(async exercise => await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code: group.code, action: 'resolveEvent' })))
 				await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'leave' })
 			}
 
@@ -133,7 +133,7 @@ export const groupExerciseResolvers = {
 			}
 
 			// Return the exercise as result.
-			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: loadedExercise, code, action: 'startExercise' })
+			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: loadedExercise, code: group.code, action: 'startExercise' })
 			return loadedExercise
 		},
 
@@ -167,7 +167,7 @@ export const groupExerciseResolvers = {
 			}
 
 			// Return the exercise as result.
-			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: activeExercise, code, action: 'submitAction' })
+			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: activeExercise, code: group.code, action: 'submitAction' })
 			return activeExercise
 		},
 
@@ -186,7 +186,7 @@ export const groupExerciseResolvers = {
 			if (currentUserAction) {
 				await currentUserAction.destroy()
 				activeEvent.actions = activeEvent.actions.filter(userAction => userAction.id !== currentUserAction.id)
-				await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: activeExercise, code, action: 'cancelAction' })
+				await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: activeExercise, code: group.code, action: 'cancelAction' })
 			}
 
 			// Return the exercise as result.
@@ -244,7 +244,7 @@ export const groupExerciseResolvers = {
 
 			// Resolve subscriptions where needed.
 			await Promise.all(Object.keys(updatedSkillsPerUser).map(async userId => await pubsub.publish(skillEvents.skillsUpdated, { updatedSkills: updatedSkillsPerUser[userId], userId })))
-			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: activeExercise, code, action: 'resolveEvent' })
+			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: activeExercise, code: group.code, action: 'resolveEvent' })
 
 			// Return the exercise as a result.
 			return activeExercise

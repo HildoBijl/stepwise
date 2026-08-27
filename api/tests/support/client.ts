@@ -21,16 +21,19 @@ const database = new Database(sequelize)
 
 class PubSubMock {
 	eventCount: Record<string, number> = {}
+	eventPayloads: Record<string, unknown[]> = {}
 
-	async publish(eventId: string): Promise<void> {
+	async publish(eventId: string, payload?: unknown): Promise<void> {
 		if (this.eventCount[eventId] === undefined) {
 			this.eventCount[eventId] = 0
 		}
 		this.eventCount[eventId] += 1
+		this.eventPayloads[eventId] = [...(this.eventPayloads[eventId] ?? []), payload]
 	}
 
 	reset(): void {
 		this.eventCount = {}
+		this.eventPayloads = {}
 	}
 }
 
@@ -109,6 +112,10 @@ class Client {
 
 	countEvents(eventId: string): number {
 		return this._pubsub.eventCount[eventId] || 0
+	}
+
+	eventsFor(eventId: string): readonly unknown[] {
+		return this._pubsub.eventPayloads[eventId] ?? []
 	}
 }
 
