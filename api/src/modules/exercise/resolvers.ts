@@ -1,65 +1,82 @@
+import { isPlainDataObject } from '@step-wise/js-utils'
+import { type ExerciseAction, isStateDone } from '@step-wise/exercise-definition'
 import { generateSkillBasedExerciseInstance } from '@step-wise/exercise-selection'
 import { getExercise, getExercises } from '@step-wise/exercises'
 import { ensureSkillId } from '@step-wise/skill-tree'
 
-import { applySkillUpdatesForUser, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
+import { type SkillUpdate, type UserSkillRecord, applySkillUpdatesForUser, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
+import type { AuthenticatedContext } from '../user/index.ts'
 
+import type { ExerciseEventRecord, ExerciseSampleRecord, ExerciseSampleWithEvents } from './models.ts'
 import { getExerciseState, getLastEvent, getUserSkillWithExercises } from './service.ts'
 
-export const exerciseResolvers: Record<string, any> = {
-	Skill: { __resolveType: (skill: any) => skill.mayViewExercises ? 'SkillWithExercises' : 'SkillWithoutExercises' },
+type ExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'loaders' | 'pubsub' | 'userId'>
+
+function isExerciseAction(value: unknown): value is ExerciseAction {
+	return isPlainDataObject(value) && typeof value.type === 'string'
+}
+
+export const exerciseResolvers = {
+	Skill: { __resolveType: (skill: UserSkillRecord) => skill.mayViewExercises ? 'SkillWithExercises' : 'SkillWithoutExercises' },
 	SkillWithExercises: {
-		exercises: (skill: any, _args: unknown, { loaders }: any) => loaders.exercisesForSkill.load(skill.id),
-		activeExercise: async (skill: any, _args: unknown, { loaders }: any) => {
+		exercises: (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => loaders.exercisesForSkill.load(skill.id),
+		activeExercise: async (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => {
 			const exercises = await loaders.exercisesForSkill.load(skill.id)
-			return exercises.find((exercise: any) => exercise.active && !!getExercise(skill.skillId, exercise.exerciseId)) ?? null
+			return exercises.find(exercise => exercise.active && !!getExercise(skill.skillId, exercise.exerciseId)) ?? null
 		},
 	},
 	Exercise: {
 		mode: () => 'solo',
-		startedOn: (exercise: any) => exercise.createdAt,
+		startedOn: (exercise: ExerciseSampleRecord) => exercise.createdAt,
 		state: getExerciseState,
-		lastAction: (exercise: any) => getLastEvent(exercise)?.action || null,
-		lastActionAt: (exercise: any) => getLastEvent(exercise)?.createdAt || null,
-		history: (exercise: any) => exercise.events || [],
-		active: (exercise: any) => exercise.active,
+		lastAction: (exercise: ExerciseSampleRecord) => getLastEvent(exercise)?.action ?? null,
+		lastActionAt: (exercise: ExerciseSampleRecord) => getLastEvent(exercise)?.createdAt ?? null,
+		history: (exercise: ExerciseSampleRecord) => exercise.events ?? [],
+		active: (exercise: ExerciseSampleRecord) => exercise.active,
 	},
-	Event: { performedAt: (event: any) => event.createdAt },
+	Event: { performedAt: (event: ExerciseEventRecord) => event.createdAt },
 
 	Mutation: {
-		startExercise: async (_source: unknown, { skillId }: any, { db, ensureLoggedIn, userId }: any) => {
+		startExercise: async (_source: unknown, { skillId: rawSkillId }: { skillId: string }, { db, ensureLoggedIn, userId }: ExerciseContext) => {
 			ensureLoggedIn()
-			ensureSkillId(skillId)
-			const { skill, exercises } = (await getUserSkillWithExercises(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true, createIfNoneExists: true }))!
-			const generated = await generateSkillBasedExerciseInstance(getExercises(skillId)!, (ids: string[]) => getUserSkillLevelSet(db, userId, ids), exercises)
-			return skill.createExercise({ exerciseId: generated.exerciseId, parameters: generated.parameters, initialState: generated.initialState, active: true })
+			const skillId = ensureSkillId(rawSkillId)
+			const skillData = await getUserSkillWithExercises(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true, createIfNoneExists: true })
+			if (!skillData) throw new Error(`Failed to load or create user skill "${skillId}".`)
+			const definitions = getExercises(skillId)
+			if (!definitions) throw new Error(`Cannot start an exercise for skill "${skillId}": no exercises are available.`)
+			const generated = await generateSkillBasedExerciseInstance(definitions, ids => getUserSkillLevelSet(db, userId, ids), skillData.exercises)
+			return db.ExerciseSample.create({ userSkillId: skillData.skill.id, exerciseId: generated.exerciseId, parameters: generated.parameters, initialState: generated.initialState, active: true })
 		},
 
-		submitExerciseAction: async (_source: unknown, { skillId, action }: any, { db, pubsub, ensureLoggedIn, userId }: any) => {
+		submitExerciseAction: async (_source: unknown, { skillId: rawSkillId, action }: { skillId: string; action: unknown }, { db, pubsub, ensureLoggedIn, userId }: ExerciseContext) => {
 			ensureLoggedIn()
+			const skillId = ensureSkillId(rawSkillId)
+			if (!isExerciseAction(action)) throw new Error('Invalid exercise action: expected a plain data object with a string "type" property.')
 
 			// Load in the active exercise and its scripts.
-			const { activeExercise } = (await getUserSkillWithExercises(db, userId, skillId, { includeActiveExercise: true, requireActiveExercise: true }))!
+			const skillData = await getUserSkillWithExercises(db, userId, skillId, { includeActiveExercise: true, requireActiveExercise: true })
+			if (!skillData?.activeExercise) throw new Error(`Failed to load the active exercise for skill "${skillId}".`)
+			const activeExercise: ExerciseSampleWithEvents = skillData.activeExercise
 			const definition = getExercise(skillId, activeExercise.exerciseId)
 			if (!definition) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
 			if (!definition.processSoloAction) throw new Error(`Unsupported exercise mode: exercise "${activeExercise.exerciseId}" does not support solo actions.`)
 
 			// Apply the action to the exerccise.
-			const skillUpdates: any[] = []
+			const skillUpdates: SkillUpdate[] = []
 			const state = definition.processSoloAction({
 				parameters: activeExercise.parameters,
 				state: getExerciseState(activeExercise),
 				action,
-				updateSkills: (setup: any, correct: boolean) => { if (setup) skillUpdates.push({ setup, correct, userId }) },
+				updateSkills: (setup, correct) => { if (setup) skillUpdates.push({ setup, correct }) },
 			})
 			if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise state.`)
 
 			// Apply potential skill updates.
-			let updatedSkills: any[] = []
-			await db.transaction(async (transaction: any) => {
+			let updatedSkills: UserSkillRecord[] = []
+			await db.transaction(async transaction => {
 				updatedSkills = await applySkillUpdatesForUser(db, userId, skillUpdates, transaction)
-				activeExercise.events.push(await activeExercise.createEvent({ action, state }, { transaction }))
-				if (state.done) {
+				activeExercise.events.push(await db.ExerciseEvent.create({ exerciseSampleId: activeExercise.id, action, state }, { transaction }))
+				if (isStateDone(state)) {
 					await activeExercise.update({ active: false }, { transaction })
 					activeExercise.active = false
 				}

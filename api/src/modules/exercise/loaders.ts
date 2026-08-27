@@ -3,10 +3,10 @@ import { fromKeys } from '@step-wise/js-utils'
 
 import type { LoaderContext } from '../types.ts'
 
-import type { ExerciseSampleRecord } from './models.ts'
+import { type ExerciseSampleWithEvents, hasLoadedExerciseEvents } from './models.ts'
 
 export interface ExerciseLoaders {
-	exercisesForSkill: DataLoader<string, ExerciseSampleRecord[]>
+	exercisesForSkill: DataLoader<string, ExerciseSampleWithEvents[]>
 }
 
 declare module '../types.ts' {
@@ -16,9 +16,10 @@ declare module '../types.ts' {
 export function createExerciseLoaders(context: LoaderContext): ExerciseLoaders {
 	const { db } = context
 	return {
-		exercisesForSkill: new DataLoader<string, ExerciseSampleRecord[]>(async userSkillIds => {
+		exercisesForSkill: new DataLoader<string, ExerciseSampleWithEvents[]>(async userSkillIds => {
 			const exercises = await db.ExerciseSample.findAll({ where: { userSkillId: userSkillIds }, include: [{ association: 'events', order: [['createdAt', 'ASC']], separate: true }] })
-			const groupedExercises: Record<string, ExerciseSampleRecord[]> = fromKeys(userSkillIds, () => [])
+			if (!exercises.every(hasLoadedExerciseEvents)) throw new Error('Failed to load exercise events for one or more exercise samples.')
+			const groupedExercises: Record<string, ExerciseSampleWithEvents[]> = fromKeys(userSkillIds, () => [])
 			exercises.forEach(exercise => groupedExercises[exercise.userSkillId].push(exercise))
 			Object.values(groupedExercises).forEach(exerciseList => exerciseList.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime()))
 			return userSkillIds.map(id => groupedExercises[id])

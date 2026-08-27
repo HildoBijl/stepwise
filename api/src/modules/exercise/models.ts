@@ -1,10 +1,11 @@
-import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, ModelStatic, NonAttribute, Sequelize } from 'sequelize'
+import { type CreationOptional, type HasManyCreateAssociationMixin, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
+import type { ExerciseAction, ExerciseParameters, ExerciseState } from '@step-wise/exercise-definition'
 
 export class ExerciseEventRecord extends Model<InferAttributes<ExerciseEventRecord>, InferCreationAttributes<ExerciseEventRecord>> {
 	declare id: CreationOptional<string>
 	declare exerciseSampleId: string
-	declare action: unknown
-	declare state: unknown
+	declare action: ExerciseAction
+	declare state: ExerciseState
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 }
@@ -13,13 +14,19 @@ export class ExerciseSampleRecord extends Model<InferAttributes<ExerciseSampleRe
 	declare id: CreationOptional<string>
 	declare userSkillId: string
 	declare exerciseId: string
-	declare parameters: unknown
-	declare initialState: CreationOptional<unknown>
+	declare parameters: ExerciseParameters
+	declare initialState: CreationOptional<ExerciseState>
 	declare active: CreationOptional<boolean>
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 	declare events?: NonAttribute<ExerciseEventRecord[]>
-	declare createEvent: NonAttribute<(values: any, options?: any) => Promise<ExerciseEventRecord>>
+	declare createEvent: NonAttribute<HasManyCreateAssociationMixin<ExerciseEventRecord, 'exerciseSampleId'>>
+}
+
+export type ExerciseSampleWithEvents = ExerciseSampleRecord & { events: ExerciseEventRecord[] }
+
+export function hasLoadedExerciseEvents(exercise: ExerciseSampleRecord): exercise is ExerciseSampleWithEvents {
+	return exercise.events !== undefined
 }
 
 export type ExerciseEventModel = ModelStatic<ExerciseEventRecord>
