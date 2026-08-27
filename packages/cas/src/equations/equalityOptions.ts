@@ -46,7 +46,7 @@ export function getEquationPreprocessor(options: EquationEqualityOptionsInput): 
 		if (preprocessSide && (preprocessLeft || preprocessRight)) throw new Error(`Invalid equation equality options: cannot define both preprocessSide and preprocessLeft/preprocessRight. Either use preprocessSide to preprocess both sides equally, or use preprocessLeft and preprocessRight to define different preprocessing for the two sides.`)
 		if (preprocessSide) equation = equation.mapSides(preprocessSide)
 		if (preprocessLeft) equation = equation.mapLeft(preprocessLeft)
-		if (preprocessRight) equation = equation.mapLeft(preprocessRight)
+		if (preprocessRight) equation = equation.mapRight(preprocessRight)
 		return equation
 	}
 }
