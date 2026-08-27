@@ -145,7 +145,7 @@ describe('polynomials', () => {
 		expectPolynomial(pick(['a', 'b', 'c'], 2, [1, 2, 3]).getPolynomial(), { coefficients: [[[0, 0], [0, 6 / 11]], [[0, 3 / 11], [2 / 11, 0]]], variables: ['a', 'b', 'c'] })
 	})
 
-	it('makes selecting every setup equivalent to And', () => {
+	it('makes selecting every setup areEquivalent to And', () => {
 		expectPolynomial(pick(['a', 'b'], 2).getPolynomial(), and('a', 'b').getPolynomial())
 	})
 

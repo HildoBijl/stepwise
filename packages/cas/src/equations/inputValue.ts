@@ -9,5 +9,5 @@ export function interpretEquationInputValue(inputValue: EquationInputValue): Equ
 }
 
 export function equationToInputValue(equation: Equation): EquationInputValue {
-	return parseEquationInputValue(equation.toString(), equation.getInterpretationSettings(), equation.settings)
+	return parseEquationInputValue(equation.toString(), equation.inferInterpretationSettings(), equation.settings)
 }

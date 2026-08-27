@@ -17,10 +17,10 @@ export default buildStepExercise({
 		skill: 'solveMultiVariableSystemOfLinearEquations',
 		...createStepExerciseMetadata(['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveMultiVariableLinearEquation', and('substituteAnExpression', 'simplifyFractionOfFractionSumsWithMultipleVariables')]),
 		comparisons: {
-			eq1Solution: expressionComparisons.equivalent,
-			eq2Substituted: equationComparisons.equivalent,
-			x: (input: Expression, correct: Expression) => expressionComparisons.equivalent(input, correct) && !expressionChecks.hasFractionWithinFraction(input),
-			y: (input: Expression, correct: Expression) => expressionComparisons.equivalent(input, correct) && !expressionChecks.hasFractionWithinFraction(input),
+			eq1Solution: expressionComparisons.areEquivalent,
+			eq2Substituted: equationComparisons.areEquivalent,
+			x: (input: Expression, correct: Expression) => expressionComparisons.areEquivalent(input, correct) && !expressionChecks.hasFractionWithinFraction(input),
+			y: (input: Expression, correct: Expression) => expressionComparisons.areEquivalent(input, correct) && !expressionChecks.hasFractionWithinFraction(input),
 		},
 	},
 

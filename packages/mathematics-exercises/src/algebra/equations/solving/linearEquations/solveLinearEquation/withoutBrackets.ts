@@ -5,7 +5,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, areEquivalent } = expressionComparisons
 
 // a*x+b=c*x+d.
 const variableSet = ['x', 'y', 'z']
@@ -17,7 +17,7 @@ export default buildStepExercise({
 		skill: 'solveLinearEquation',
 		...createStepExerciseMetadata(['moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation']),
 		comparisons: {
-			moved: { compareSide: equivalent, allowSwitch: true, allowMinus: true },
+			moved: { compareSide: areEquivalent, allowSwitch: true, allowMinus: true },
 			cleaned: { compareSide: onlyOrderChanges, allowSwitch: true, allowMinus: true },
 			ans: onlyOrderChanges,
 		},

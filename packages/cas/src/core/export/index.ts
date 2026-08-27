@@ -1,2 +1,2 @@
-export * from './serialization'
+export * from './storage'
 export * from './printing'

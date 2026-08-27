@@ -56,12 +56,12 @@ describe('expression comparison', () => {
 
 describe('expression equivalence', () => {
 	test('detects equivalent expressions', () => {
-		expect(asExpression('x+1-1').equivalent('x')).toBe(true)
-		expect(asExpression('2*x+3*x').equivalent('5*x')).toBe(true)
-		expect(asExpression('(x*y)/y').equivalent('x')).toBe(true)
+		expect(asExpression('x+1-1').isEquivalentTo('x')).toBe(true)
+		expect(asExpression('2*x+3*x').isEquivalentTo('5*x')).toBe(true)
+		expect(asExpression('(x*y)/y').isEquivalentTo('x')).toBe(true)
 	})
 	test('detects non-equivalent expressions', () => {
-		expect(asExpression('x+1').equivalent('x+2')).toBe(false)
+		expect(asExpression('x+1').isEquivalentTo('x+2')).toBe(false)
 	})
 })
 
@@ -82,20 +82,20 @@ describe('expression multiple comparisons', () => {
 
 describe('expression derivatives', () => {
 	test('differentiates constants and variables', () => {
-		expectExpressionToEqual(asExpression('3').getDerivative('x'), '0')
-		expectExpressionToEqual(asExpression('x').getDerivative('x'), '1')
-		expectExpressionToEqual(asExpression('y').getDerivative('x'), '0')
+		expectExpressionToEqual(asExpression('3').differentiate('x'), '0')
+		expectExpressionToEqual(asExpression('x').differentiate('x'), '1')
+		expectExpressionToEqual(asExpression('y').differentiate('x'), '0')
 	})
 	test('infers derivative variable', () => {
-		expectExpressionToEqual(asExpression('x^2').getDerivative(), '2*x^(2-1)')
+		expectExpressionToEqual(asExpression('x^2').differentiate(), '2*x^(2-1)')
 	})
 	test('differentiates sums and products', () => {
-		expectExpressionToEqual(asExpression('x^2+3*x').getDerivative('x'), '2*x^(2-1)+3')
-		expectExpressionToEqual(asExpression('x*y').getDerivative('x'), 'y')
+		expectExpressionToEqual(asExpression('x^2+3*x').differentiate('x'), '2*x^(2-1)+3')
+		expectExpressionToEqual(asExpression('x*y').differentiate('x'), 'y')
 	})
 	test('differentiates trigonometric functions', () => {
-		expectExpressionToEqual(asExpression('sin(x)').getDerivative('x'), 'cos(x)')
-		expectExpressionToEqual(asExpression('cos(x)').getDerivative('x'), '-sin(x)')
+		expectExpressionToEqual(asExpression('sin(x)').differentiate('x'), 'cos(x)')
+		expectExpressionToEqual(asExpression('cos(x)').differentiate('x'), '-sin(x)')
 	})
 })
 

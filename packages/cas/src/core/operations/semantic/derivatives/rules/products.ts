@@ -3,5 +3,5 @@ import { type ExpressionNode, type Product, product, sum } from '../../../../con
 import { type DerivativeContext } from '../types'
 
 export function getProductDerivative(node: Product, context: DerivativeContext): ExpressionNode {
-	return sum(...node.factors.map((factor, index) => product(...node.factors.slice(0, index), context.getDerivative(factor), ...node.factors.slice(index + 1))))
+	return sum(...node.factors.map((factor, index) => product(...node.factors.slice(0, index), context.differentiate(factor), ...node.factors.slice(index + 1))))
 }

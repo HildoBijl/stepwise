@@ -6,7 +6,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
-const { equivalent } = expressionComparisons
+const { areEquivalent } = expressionComparisons
 const { hasFractionWithinFraction } = expressionChecks
 const { multiplyNumeratorAndDenominator } = expressionOperations
 
@@ -19,7 +19,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'simplifyFractionOfFractionSumsWithMultipleVariables',
 		...createStepExerciseMetadata(['addFractionsWithMultipleVariables', 'addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables']),
-		comparisons: { Expression: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct) },
+		comparisons: { Expression: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && areEquivalent(input, correct) },
 	},
 
 	generateParameters() {

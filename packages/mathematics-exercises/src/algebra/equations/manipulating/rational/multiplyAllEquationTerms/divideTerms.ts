@@ -5,7 +5,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, areEquivalent } = expressionComparisons
 const { hasSumWithinFraction } = expressionChecks
 
 // Divide a*x^4+b*x^3+c*x^2+d*x=0 by ex^n.
@@ -18,8 +18,8 @@ export default buildStepExercise({
 		skill: 'multiplyAllEquationTerms',
 		...createStepExerciseMetadata(['multiplyBothEquationSides', 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables']),
 		comparisons: {
-			form: { compareSide: equivalent },
-			expanded: { compareSide: (input: Expression, correct: Expression) => !hasSumWithinFraction(input) && equivalent(input, correct) },
+			form: { compareSide: areEquivalent },
+			expanded: { compareSide: (input: Expression, correct: Expression) => !hasSumWithinFraction(input) && areEquivalent(input, correct) },
 			ans: { compareSide: onlyOrderChanges },
 		},
 	},

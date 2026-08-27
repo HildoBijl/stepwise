@@ -44,4 +44,4 @@ export class Arctan extends SingleArgumentFunctionNode {
 }
 export type InverseTrigonometricFunction = Arcsin | Arccos | Arctan
 
-export type TrigonometryLike = TrigonometricFunction | InverseTrigonometricFunction
+export type AnyTrigonometricFunction = TrigonometricFunction | InverseTrigonometricFunction

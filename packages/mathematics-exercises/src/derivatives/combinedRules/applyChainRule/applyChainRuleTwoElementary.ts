@@ -12,7 +12,7 @@ export default buildStepExercise({
 		skill: 'applyChainRule',
 		...createStepExerciseMetadata([['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], undefined]),
 		weight: 2,
-		comparisons: { Expression: expressionComparisons.equivalent },
+		comparisons: { Expression: expressionComparisons.areEquivalent },
 	},
 
 	generateParameters() {
@@ -25,10 +25,10 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const { f, g } = parameters
-		const x = f.getVariables()[0]
+		const x = f.collectVariables()[0]
 		const h = f.substitute(x, g).removeTrivial()
-		const fDerivative = f.getDerivative().combine()
-		const gDerivative = g.getDerivative().combine()
+		const fDerivative = f.differentiate().combine()
+		const gDerivative = g.differentiate().combine()
 		const derivativeRaw = fDerivative.substitute(x, g).multiply(gDerivative).flatten()
 		const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
 		return { ...parameters, x, h, fDerivative, gDerivative, derivativeRaw, derivative }

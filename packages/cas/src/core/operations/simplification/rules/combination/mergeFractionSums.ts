@@ -1,6 +1,6 @@
 import { type ExpressionNode, type Sum, type Fraction, negative, sum, product, fraction } from '../../../../construction'
 
-import { isSum, equalNodes, isMinus, isFraction } from '../../../structural'
+import { isSum, areNodesEqual, isMinus, isFraction } from '../../../structural'
 
 import { defineRule } from '../ruleDefinition'
 
@@ -9,7 +9,7 @@ import { mergeFractionProducts } from './mergeFractionProducts'
 export function applyMergeFractionSums(node: Sum): Sum | Fraction {
 	// Handle basic cases: no existing fractions, or all fractions with equal denominators.
 	if (!(node.terms.some(isFraction) || node.terms.some(node => isMinus(node) && isFraction(node.node)))) return node
-	if (node.terms.every(isFraction) && node.terms.every(term => equalNodes(term.denominator, (node.terms[0] as Fraction).denominator))) return fraction(sum(...node.terms.map(term => term.numerator)), node.terms[0].denominator)
+	if (node.terms.every(isFraction) && node.terms.every(term => areNodesEqual(term.denominator, (node.terms[0] as Fraction).denominator))) return fraction(sum(...node.terms.map(term => term.numerator)), node.terms[0].denominator)
 
 	// Assemble the denominator and the numerator.
 	const getDenominator = (node: ExpressionNode): ExpressionNode | undefined => isFraction(node) ? node.denominator : isMinus(node) ? getDenominator(node.node) : undefined

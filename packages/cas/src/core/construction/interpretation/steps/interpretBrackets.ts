@@ -3,7 +3,7 @@ import { type InputValuePart, getExpressionEndCursor, getTopLevelBracketMatches,
 
 import { ExpressionNode } from '../../nodes'
 
-import type { IntermediateInterpretationPart, InterpreterContext } from '../types'
+import type { InterpretationPart, InterpreterContext } from '../types'
 import { type TextFunctionName, textFunctionComponents, isTextFunction, isTextFunctionInterpreted } from '../textFunctionComponents'
 
 import { interpretLogarithm } from './interpretConstruct'
@@ -14,7 +14,7 @@ export function interpretBrackets(value: InputValuePart[], context: InterpreterC
 
 	// Walk through matching brackets and add each interpreted part in order.
 	const bracketSets = getTopLevelBracketMatches(value)
-	const result: IntermediateInterpretationPart[] = []
+	const result: InterpretationPart[] = []
 	let lastCursor = getExpressionStartCursor(value)
 	bracketSets.forEach(({ opening, closing }) => {
 		const openingPart = value[opening.part]

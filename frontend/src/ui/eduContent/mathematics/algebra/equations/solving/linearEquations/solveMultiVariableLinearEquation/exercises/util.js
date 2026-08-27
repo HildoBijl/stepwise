@@ -3,7 +3,7 @@ import { expressionComparisons } from '@step-wise/cas'
 import { M } from 'ui/components'
 import { equationChecks } from 'ui/eduTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, areEquivalent: equivalent } = expressionComparisons
 const { sumWithWrongTerms } = equationChecks
 
 // Define termsMoved checks.

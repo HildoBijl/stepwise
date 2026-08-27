@@ -16,7 +16,7 @@ export default buildStepExercise({
 		...createStepExerciseMetadata(['multiplyAllEquationTerms', 'solveMultiVariableLinearEquation']),
 		comparisons: {
 			multiplied: (input: Equation, correct: Equation) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions left.
-			ans: (input: Expression, correct: Expression) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
+			ans: (input: Expression, correct: Expression) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.areEquivalent(input, correct),
 		},
 	},
 

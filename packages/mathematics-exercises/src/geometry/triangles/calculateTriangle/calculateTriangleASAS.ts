@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateTriangle',
 		...createStepExerciseMetadata(['determine2DAngles', undefined, undefined, undefined, 'solveLinearEquation']),
-		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct) },
+		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.areEquivalent(input, correct) || equationComparisons.areEquivalent(input.invert(), correct) },
 	},
 
 	generateParameters() {

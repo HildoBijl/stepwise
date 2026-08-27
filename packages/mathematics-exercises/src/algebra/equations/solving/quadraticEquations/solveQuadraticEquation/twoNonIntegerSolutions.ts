@@ -6,7 +6,7 @@ import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, areEquivalent } = expressionComparisons
 
 // a*x^2+b*x+c=0
 const variableSet = ['x', 'y', 'z']
@@ -19,7 +19,7 @@ export default buildStepExercise({
 		weight: 3,
 		...createStepExerciseMetadata(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, and('simplifyFraction', 'simplifyRoot')]),
 		comparisons: {
-			a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {},
+			a: {}, b: {}, c: {}, solutionFull: areEquivalent, D: {}, numSolutions: {},
 			// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
 			ans1: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
 			ans2: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),

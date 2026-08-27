@@ -2,9 +2,9 @@ import { type ExpressionSettingsOptions, type ExpressionInputValue, parseExpress
 
 import { type ExpressionNode } from '../../construction'
 
-import { getNodeInterpretationSettingsInput } from './getInterpretationSettings'
+import { inferInterpretationSettingsOptions } from './inferInterpretationSettings'
 import { nodeToString } from './toString'
 
-export function nodeToInputValue(node: ExpressionNode, interpretationSettings = getNodeInterpretationSettingsInput(node), expressionSettings?: ExpressionSettingsOptions): ExpressionInputValue {
+export function nodeToInputValue(node: ExpressionNode, interpretationSettings = inferInterpretationSettingsOptions(node), expressionSettings?: ExpressionSettingsOptions): ExpressionInputValue {
 	return parseExpressionInputValue(nodeToString(node, interpretationSettings), interpretationSettings, expressionSettings)
 }

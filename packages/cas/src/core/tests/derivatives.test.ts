@@ -1,5 +1,5 @@
 import { type ExpressionNodeInput, type VariableInput, Integer, namedConstants, asExpressionNode, negative, variable, sum, product, fraction, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan } from '../construction'
-import { getDerivative } from '../operations'
+import { differentiate } from '../operations'
 
 import { expectNodeToEqual } from './testUtils'
 
@@ -7,7 +7,7 @@ const x = variable('x')
 const y = variable('y')
 
 function expectDerivativeToGive(input: ExpressionNodeInput, variable: VariableInput, output: ExpressionNodeInput, settings = {}) {
-	expectNodeToEqual(getDerivative(asExpressionNode(input), variable, settings), output)
+	expectNodeToEqual(differentiate(asExpressionNode(input), variable, settings), output)
 }
 
 describe('derivatives', () => {

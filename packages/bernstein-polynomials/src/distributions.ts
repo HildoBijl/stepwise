@@ -91,7 +91,7 @@ type BernsteinInterval = {
 	upperBound: number
 }
 
-// Split Bernstein coefficients into equivalent representations of the left and right halves of their interval.
+// Split Bernstein coefficients into areEquivalent representations of the left and right halves of their interval.
 function subdivideBernsteinCoefficients(coefficients: BernsteinCoefficients): [BernsteinCoefficients, BernsteinCoefficients] {
 	let level = coefficients
 	const left = [level[0]]

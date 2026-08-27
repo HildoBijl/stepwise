@@ -5,7 +5,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { equivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, onlyOrderChanges } = expressionComparisons
 const { hasPowerWithinPowerBase } = expressionChecks
 
 // ax^b(x^c)^d = ax^(b+cd).
@@ -18,7 +18,7 @@ export default buildStepExercise({
 		skill: 'simplifyProductOfPowers',
 		...createStepExerciseMetadata(['rewritePower', 'rewritePower']),
 		comparisons: {
-			powersReduced: (input: Expression, correct: Expression) => !hasPowerWithinPowerBase(input) && equivalent(input, correct),
+			powersReduced: (input: Expression, correct: Expression) => !hasPowerWithinPowerBase(input) && areEquivalent(input, correct),
 			ans: onlyOrderChanges,
 		},
 	},

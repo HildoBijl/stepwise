@@ -1,44 +1,44 @@
 import { type ExpressionNode } from '../../../construction'
 
-import { isFloatNode, isIntegerNode, isSignNode, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRootLike, isLogLike, isTrigonometryLike } from './typeChecks'
+import { isFloatNode, isIntegerNode, isSignNode, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRootFunction, isLogarithmFunction, isAnyTrigonometricFunction } from './typeChecks'
 
-import { someDescendant } from './traversal'
+import { someNode } from './traversal'
 import { isInteger } from './valueChecks'
 
 // Check if an expression contains variables.
-export function hasVariables(node: ExpressionNode): boolean {
-	return someDescendant(node, isVariable)
+export function containsVariables(node: ExpressionNode): boolean {
+	return someNode(node, isVariable)
 }
 
 // Check if an expression is numeric: no variables except known numeric constants.
 export function isNumeric(node: ExpressionNode): boolean {
-	return !hasVariables(node)
+	return !containsVariables(node)
 }
 
 // Check if there any multi-character variables. (Needed for determining interpretation settings.)
-export function hasMultiCharacterVariables(node: ExpressionNode): boolean {
-	return someDescendant(node, node => isVariable(node) && node.symbol.length > 1)
+export function containsMultiCharacterVariables(node: ExpressionNode): boolean {
+	return someNode(node, node => isVariable(node) && node.symbol.length > 1)
 }
 
 // Check if an expression has any float.
-export function hasFloat(node: ExpressionNode): boolean {
-	return someDescendant(node, isFloatNode)
+export function containsFloat(node: ExpressionNode): boolean {
+	return someNode(node, isFloatNode)
 }
 
 // Check if there are specific types of functions.
-export function hasRoot(node: ExpressionNode): boolean {
-	return someDescendant(node, node => isRootLike(node))
+export function containsRoot(node: ExpressionNode): boolean {
+	return someNode(node, node => isRootFunction(node))
 }
-export function hasLog(node: ExpressionNode): boolean {
-	return someDescendant(node, node => isLogLike(node))
+export function containsLogarithm(node: ExpressionNode): boolean {
+	return someNode(node, node => isLogarithmFunction(node))
 }
-export function hasTrigonometry(node: ExpressionNode): boolean {
-	return someDescendant(node, node => isTrigonometryLike(node))
+export function containsTrigonometricFunction(node: ExpressionNode): boolean {
+	return someNode(node, node => isAnyTrigonometricFunction(node))
 }
 
 // Check if an expression is plural-valued or single-valued.
 export function isPlural(node: ExpressionNode): boolean {
-	return someDescendant(node, isPlusMinus)
+	return someNode(node, isPlusMinus)
 }
 export function isSingular(node: ExpressionNode): boolean {
 	return !isPlural(node)

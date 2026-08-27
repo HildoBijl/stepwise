@@ -18,7 +18,7 @@ export const equationComparisons = {
 	equivalentSides(input: EquationLike, correct: EquationLike): boolean {
 		const inputEquation = asEquation(input)
 		const correctEquation = asEquation(correct)
-		return correctEquation.everySide((side, sideName) => expressionComparisons.equivalent(side, inputEquation[sideName]))
+		return correctEquation.everySide((side, sideName) => expressionComparisons.areEquivalent(side, inputEquation[sideName]))
 	}
 	,
 	equivalentSidesAndSwitch(input: EquationLike, correct: EquationLike): boolean {
@@ -33,8 +33,8 @@ export const equationComparisons = {
 		return expressionComparisons.equalNumber(inputEquation.left, correctEquation.left) && expressionComparisons.equalNumber(inputEquation.right, correctEquation.right)
 	},
 
-	equivalent(input: EquationLike, correct: EquationLike): boolean {
-		return asEquation(input).equivalent(correct)
+	areEquivalent(input: EquationLike, correct: EquationLike): boolean {
+		return asEquation(input).isEquivalentTo(correct)
 	},
 
 	integerMultiple(input: EquationLike, correct: EquationLike): boolean {
@@ -42,6 +42,6 @@ export const equationComparisons = {
 	},
 
 	constantMultiple(input: EquationLike, correct: EquationLike): boolean {
-		return asEquation(input).equivalent(correct)
+		return asEquation(input).isEquivalentTo(correct)
 	},
 }

@@ -1,6 +1,6 @@
 import { type ExpressionNode, type Fraction, fraction, power, product } from '../../../../construction'
 
-import { isFraction, isRootLike, subtract } from '../../../structural'
+import { isFraction, isRootFunction, subtract } from '../../../structural'
 
 import { mergeFractionFactors } from '../combination'
 import { defineRule } from '../ruleDefinition'
@@ -9,7 +9,7 @@ import { getProductFactors, getBaseAndExponent } from '../utils'
 function transform(node: Fraction): ExpressionNode {
 	const multiplicationFactors: ExpressionNode[] = []
 	const denominatorFactors = getProductFactors(node.denominator).map(factor => {
-		if (!isRootLike(factor)) return factor
+		if (!isRootFunction(factor)) return factor
 		const { base, exponent } = getBaseAndExponent(factor.radicand)
 		multiplicationFactors.push(factor.recreateWith(power(base, subtract(factor.degree, exponent))))
 		return base

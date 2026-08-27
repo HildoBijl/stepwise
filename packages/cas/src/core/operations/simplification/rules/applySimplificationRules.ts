@@ -1,6 +1,6 @@
 import { type ExpressionNode } from '../../../construction'
 
-import { isFraction, isPower, isRootLike, isZero } from '../../structural'
+import { isFraction, isPower, isRootFunction, isZero } from '../../structural'
 
 import { type SimplificationContext, type SimplificationRule } from './types'
 
@@ -8,7 +8,7 @@ import { type SimplificationContext, type SimplificationRule } from './types'
 export function applySimplificationRules(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
 	if (isFraction(node) && isZero(node.denominator)) return node
 	if (isPower(node) && isFraction(node.exponent) && isZero(node.exponent.denominator)) return node
-	if (isRootLike(node) && isZero(node.degree)) return node
+	if (isRootFunction(node) && isZero(node.degree)) return node
 	for (const rule of context.simplificationRules) node = applySimplificationRule(rule, node, context)
 	return node
 }

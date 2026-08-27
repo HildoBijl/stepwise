@@ -1,15 +1,15 @@
 import { type ExpressionNodeInput, asExpressionNode, negative, plusMinus, variable, sum, product, fraction, power } from '../../construction'
-import { equivalent } from '../../operations'
+import { areEquivalent } from '../../operations'
 
 const x = variable('x')
 const y = variable('y')
 
 // Define supporting checks.
 function expectEquivalent(a: ExpressionNodeInput, b: ExpressionNodeInput) {
-	expect(equivalent(asExpressionNode(a), asExpressionNode(b))).toBe(true)
+	expect(areEquivalent(asExpressionNode(a), asExpressionNode(b))).toBe(true)
 }
 function expectNotEquivalent(a: ExpressionNodeInput, b: ExpressionNodeInput) {
-	expect(equivalent(asExpressionNode(a), asExpressionNode(b))).toBe(false)
+	expect(areEquivalent(asExpressionNode(a), asExpressionNode(b))).toBe(false)
 }
 
 // Run the tests.

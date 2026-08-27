@@ -5,14 +5,14 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, areEquivalent } = expressionComparisons
 const { hasVariableInDenominator } = equationChecks
 
 // (a*x+b)/(x+c)=d.
 const variableSet = ['x', 'y', 'z']
 const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd']
-const factorMovedComparison = { compareSide: equivalent, allowSwitch: true }
+const factorMovedComparison = { compareSide: areEquivalent, allowSwitch: true }
 
 export default buildStepExercise({
 	metadata: {

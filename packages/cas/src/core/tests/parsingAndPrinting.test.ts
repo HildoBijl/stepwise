@@ -1,5 +1,5 @@
-import { type ExpressionNode, namedConstants, integer, negative, plusMinus, variable, sum, product, fraction, power, sqrt, root, ln, log, sin, stringToNode } from '../construction'
-import { nodeToString, getNodeInterpretationSettingsInput } from '../export'
+import { type ExpressionNode, namedConstants, integer, negative, plusMinus, variable, sum, product, fraction, power, sqrt, root, ln, log, sin, parseExpressionNode } from '../construction'
+import { nodeToString, inferInterpretationSettingsOptions } from '../export'
 
 import { expectNodeToEqual } from './testUtils'
 
@@ -127,32 +127,32 @@ const parserTestCases: ParserTestCase[] = [
 // Test the printing: does the node give the string?
 describe('toString', () => {
 	test.each(parserTestCases)('prints "$str"', ({ str, node, oneWay }) => {
-		if (!oneWay) expect(nodeToString(node, getNodeInterpretationSettingsInput(node))).toBe(str)
+		if (!oneWay) expect(nodeToString(node, inferInterpretationSettingsOptions(node))).toBe(str)
 	})
 })
 
 // Test the parsing: does the string give the node?
 describe('stringToExpressionNode', () => {
 	test.each(parserTestCases)('interprets "$str"', ({ str, node }) => {
-		expectNodeToEqual(stringToNode(str, getNodeInterpretationSettingsInput(node)), node)
+		expectNodeToEqual(parseExpressionNode(str, inferInterpretationSettingsOptions(node)), node)
 	})
 })
 
 // Test the interpretation of multi-character variables.
 describe('multi-character variable interpretation', () => {
 	test('interprets adjacent letters as separate variables by default', () => {
-		expectNodeToEqual(stringToNode('xy', {}), product('x', 'y'))
-		expectNodeToEqual(stringToNode('xy2', {}), product('x', 'y', 2))
-		expectNodeToEqual(stringToNode('23xy2', {}), product(23, 'x', 'y', 2))
+		expectNodeToEqual(parseExpressionNode('xy', {}), product('x', 'y'))
+		expectNodeToEqual(parseExpressionNode('xy2', {}), product('x', 'y', 2))
+		expectNodeToEqual(parseExpressionNode('23xy2', {}), product(23, 'x', 'y', 2))
 	})
 	test('interprets adjacent letters as one variable when enabled', () => {
-		expectNodeToEqual(stringToNode('xy', { allowMultiCharacterVariables: true }), variable('xy'))
-		expectNodeToEqual(stringToNode('xy2', { allowMultiCharacterVariables: true }), variable('xy2'))
-		expectNodeToEqual(stringToNode('23xy2', { allowMultiCharacterVariables: true }), product(23, variable('xy2')))
+		expectNodeToEqual(parseExpressionNode('xy', { allowMultiCharacterVariables: true }), variable('xy'))
+		expectNodeToEqual(parseExpressionNode('xy2', { allowMultiCharacterVariables: true }), variable('xy2'))
+		expectNodeToEqual(parseExpressionNode('23xy2', { allowMultiCharacterVariables: true }), product(23, variable('xy2')))
 	})
 	test('keeps infinity separate from variables', () => {
-		expectNodeToEqual(stringToNode('∞xy', { allowMultiCharacterVariables: true }), product(namedConstants.infinity, variable('xy')))
-		expectNodeToEqual(stringToNode('23∞45xy', { allowMultiCharacterVariables: true }), product(23, namedConstants.infinity, 45, variable('xy')))
+		expectNodeToEqual(parseExpressionNode('∞xy', { allowMultiCharacterVariables: true }), product(namedConstants.infinity, variable('xy')))
+		expectNodeToEqual(parseExpressionNode('23∞45xy', { allowMultiCharacterVariables: true }), product(23, namedConstants.infinity, 45, variable('xy')))
 	})
 	test('prints products implicitly by default', () => {
 		expect(nodeToString(product('x', 'y'))).toBe('xy')
@@ -164,12 +164,12 @@ describe('multi-character variable interpretation', () => {
 	})
 	test('derives interpretation settings from multi-character variables', () => {
 		const node = product(variable('xy'), 'z')
-		expect(getNodeInterpretationSettingsInput(node)).toEqual({ allowMultiCharacterVariables: true })
-		expect(nodeToString(node, getNodeInterpretationSettingsInput(node))).toBe('xy*z')
+		expect(inferInterpretationSettingsOptions(node)).toEqual({ allowMultiCharacterVariables: true })
+		expect(nodeToString(node, inferInterpretationSettingsOptions(node))).toBe('xy*z')
 	})
 	test('does not enable multi-character variables for single-character variables', () => {
 		const node = product('x', 'y')
-		expect(getNodeInterpretationSettingsInput(node)).toEqual({})
-		expect(nodeToString(node, getNodeInterpretationSettingsInput(node))).toBe('xy')
+		expect(inferInterpretationSettingsOptions(node)).toEqual({})
+		expect(nodeToString(node, inferInterpretationSettingsOptions(node))).toBe('xy')
 	})
 })

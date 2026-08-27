@@ -1,16 +1,16 @@
 import { partition } from '@step-wise/js-utils'
 
-import { type ExpressionNode, type Product, type RootLike, product } from '../../../../construction'
+import { type ExpressionNode, type Product, type RootFunction, product } from '../../../../construction'
 
-import { isProduct, isRootLike, equalNodes } from '../../../structural'
+import { isProduct, isRootFunction, areNodesEqual } from '../../../structural'
 
 import { defineRule } from '../ruleDefinition'
 
 function transform(node: Product): ExpressionNode {
-	const [rootFactors, otherFactors] = partition(node.factors, isRootLike)
-	const groups: { root: RootLike, radicands: ExpressionNode[] }[] = []
+	const [rootFactors, otherFactors] = partition(node.factors, isRootFunction)
+	const groups: { root: RootFunction, radicands: ExpressionNode[] }[] = []
 	for (const root of rootFactors) {
-		const group = groups.find(group => equalNodes(group.root.degree, root.degree) && group.root.constructor === root.constructor)
+		const group = groups.find(group => areNodesEqual(group.root.degree, root.degree) && group.root.constructor === root.constructor)
 		if (group) group.radicands.push(root.radicand)
 		else groups.push({ root, radicands: [root.radicand] })
 	}

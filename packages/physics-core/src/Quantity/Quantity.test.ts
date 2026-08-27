@@ -113,7 +113,7 @@ describe('Quantity', () => {
 	})
 
 	describe('unit adjustments and simplification', () => {
-		test('sets equivalent units', () => {
+		test('sets areEquivalent units', () => {
 			const temperature = new Quantity('20 °C')
 			expect(temperature.setUnit('°C')).toBe(temperature)
 			expect(new Quantity('2000 m').setUnit('km').toString()).toBe('2000 * 10^(-3) km')

@@ -12,7 +12,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'findBasicDerivative',
 		...createStepExerciseMetadata([[undefined, undefined, undefined], ['lookUpElementaryDerivative', 'lookUpElementaryDerivative', 'lookUpElementaryDerivative'], undefined]),
-		comparisons: { Expression: expressionComparisons.equivalent },
+		comparisons: { Expression: expressionComparisons.areEquivalent },
 	},
 
 	generateParameters() {
@@ -34,9 +34,9 @@ export default buildStepExercise({
 		const { constant: c1, func: f1 } = getElementaryFunctionFromTerm(func.terms[0])
 		const { constant: c2, func: f2 } = getElementaryFunctionFromTerm(func.terms[1])
 		const { constant: c3, func: f3 } = getElementaryFunctionFromTerm(func.terms[2])
-		const f1Derivative = f1.getDerivative().combine().sort()
-		const f2Derivative = f2.getDerivative().combine().sort()
-		const f3Derivative = f3.getDerivative().combine().sort()
+		const f1Derivative = f1.differentiate().combine().sort()
+		const f2Derivative = f2.differentiate().combine().sort()
+		const f3Derivative = f3.differentiate().combine().sort()
 		const derivative = c1.multiply(f1Derivative).add(c2.multiply(f2Derivative)).add(c3.multiply(f3Derivative)).combine()
 		return { ...parameters, c1, c2, c3, f1, f2, f3, f1Derivative, f2Derivative, f3Derivative, derivative }
 	},

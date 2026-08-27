@@ -5,7 +5,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { getRandomElementaryFunctions } from '../../tools'
 
-const { equivalent } = expressionComparisons
+const { areEquivalent } = expressionComparisons
 
 const variableSet = ['x', 'y', 't']
 
@@ -14,7 +14,7 @@ export default buildStepExercise({
 		skill: 'findAdvancedDerivative',
 		...createStepExerciseMetadata([undefined, undefined, ['applyChainRule', 'lookUpElementaryDerivative'], undefined]),
 		weight: 3,
-		comparisons: { method: {}, Expression: equivalent },
+		comparisons: { method: {}, Expression: areEquivalent },
 	},
 
 	generateParameters() {
@@ -30,7 +30,7 @@ export default buildStepExercise({
 		getStaticSolution(parameters) {
 			const { f, g1, g2 } = parameters
 			const method = 0
-			const x = f.getVariables()[0]
+			const x = f.collectVariables()[0]
 			const g = g1.substitute(x, g2).flatten()
 			const h = f.multiply(g).flatten()
 			return { ...parameters, method, x, f, g, h }
@@ -40,7 +40,7 @@ export default buildStepExercise({
 		getInputDependency(input, solution) {
 			const f = input.f as typeof solution.f
 			const g = input.g as typeof solution.g
-			return !!(f && g && solution.f && solution.g && equivalent(f, solution.g) && equivalent(g, solution.f))
+			return !!(f && g && solution.f && solution.g && areEquivalent(f, solution.g) && areEquivalent(g, solution.f))
 		},
 
 		getDynamicSolution(inputDependency, solution) {
@@ -49,8 +49,8 @@ export default buildStepExercise({
 			const f = switched ? solution.g : solution.f
 			const g = switched ? solution.f : solution.g
 			const solutionAdjusted = { ...solution, f, g }
-			const fDerivative = f.getDerivative().combine()
-			const gDerivative = g.getDerivative().combine()
+			const fDerivative = f.differentiate().combine()
+			const gDerivative = g.differentiate().combine()
 			const derivativeRaw = fDerivative.multiply(g).add(f.multiply(gDerivative))
 			const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
 			return { ...solutionAdjusted, switched, fDerivative, gDerivative, derivativeRaw, derivative }

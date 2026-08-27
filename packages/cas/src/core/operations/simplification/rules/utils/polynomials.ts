@@ -2,7 +2,7 @@ import { last, repeat, ensureInteger } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Variable, Integer, power, product, sum } from '../../../../construction'
 
-import { subtract, multiply, divide, equalVariables, getVariables, isNumeric, isSingular, isZero, isPolynomial, isPower, isVariable, tryNumericNodeToNumber } from '../../../structural'
+import { subtract, multiply, divide, areVariablesEqual, collectVariables, isNumeric, isSingular, isZero, isPolynomial, isPower, isVariable, tryToEvaluateNumericNode } from '../../../structural'
 
 import { getSumTerms, getConstantAndVariablePart } from './defaults'
 
@@ -44,10 +44,10 @@ export function getPolynomialGCD(a: ExpressionNode, b: ExpressionNode, simplify:
 // Check that the two expressions are both polynomial and share a single variable. If not, return undefined.
 function getSinglePolynomialVariable(a: ExpressionNode, b: ExpressionNode): Variable | undefined {
 	if (!isPolynomial(a) || !isPolynomial(b)) return undefined
-	const aVariables = getVariables(a)
-	const bVariables = getVariables(b)
+	const aVariables = collectVariables(a)
+	const bVariables = collectVariables(b)
 	if (aVariables.length !== 1 || bVariables.length !== 1) return undefined
-	if (!equalVariables(aVariables[0], bVariables[0])) return undefined
+	if (!areVariablesEqual(aVariables[0], bVariables[0])) return undefined
 	return aVariables[0]
 }
 
@@ -72,9 +72,9 @@ function coefficientsToPolynomial(coefficients: ExpressionNode[], variable: Vari
 // Find the order of a polynomial term with respect to a given variable. So 8*x^3 gives 3.
 function getTermOrder(variablePart: ExpressionNode, variable: Variable): number | undefined {
 	if (isNumeric(variablePart)) return 0
-	if (isVariable(variablePart) && equalVariables(variablePart, variable)) return 1
-	if (isPower(variablePart) && isVariable(variablePart.base) && equalVariables(variablePart.base, variable) && isNumeric(variablePart.exponent) && isSingular(variablePart.exponent)) {
-		const order = tryNumericNodeToNumber(variablePart.exponent)
+	if (isVariable(variablePart) && areVariablesEqual(variablePart, variable)) return 1
+	if (isPower(variablePart) && isVariable(variablePart.base) && areVariablesEqual(variablePart.base, variable) && isNumeric(variablePart.exponent) && isSingular(variablePart.exponent)) {
+		const order = tryToEvaluateNumericNode(variablePart.exponent)
 		return order !== undefined && Number.isInteger(order) && order >= 0 ? order : undefined
 	}
 	return undefined

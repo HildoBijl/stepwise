@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, Substep, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, areEquivalent: equivalent } = expressionComparisons
 const { sumWithWrongTerms } = expressionChecks
 
 export default function Exercise() {

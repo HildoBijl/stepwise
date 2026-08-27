@@ -3,10 +3,10 @@ import { type ExpressionTextCursor, getExpressionEndCursor, getExpressionStartCu
 
 import { ExpressionNode, Minus, PlusMinus, Sum } from '../../nodes'
 
-import type { IntermediateInterpretationPart, InterpreterContext } from '../types'
+import type { InterpretationPart, InterpreterContext } from '../types'
 
 // Interpret pluses, minuses and plus-minuses in an expression with some already-interpreted ExpressionNodes but without brackets.
-export function interpretSums(value: IntermediateInterpretationPart[], context: InterpreterContext): ExpressionNode {
+export function interpretSums(value: InterpretationPart[], context: InterpreterContext): ExpressionNode {
 	// Set up a handler to add terms to the sum.
 	const terms: ExpressionNode[] = []
 	let symbolBefore = ''

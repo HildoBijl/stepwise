@@ -2,7 +2,7 @@ import { partition } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, product, fraction } from '../../../../construction'
 
-import { isSignNode, isSum, isProduct, isFraction, isPower, isNumeric, isOne, isRootLike } from '../../../structural'
+import { isSignNode, isSum, isProduct, isFraction, isPower, isNumeric, isOne, isRootFunction } from '../../../structural'
 
 // Get all the terms in a sum, or turn it into a list if not a sum.
 export function getSumTerms(node: ExpressionNode): readonly ExpressionNode[] {
@@ -26,7 +26,7 @@ export function getBaseAndExponent(node: ExpressionNode): BaseAndExponent {
 		const internal = getBaseAndExponent(node.base)
 		return { base: internal.base, exponent: isOne(internal.exponent) ? node.exponent : product(internal.exponent, node.exponent) }
 	}
-	if (isRootLike(node)) {
+	if (isRootFunction(node)) {
 		const internal = getBaseAndExponent(node.radicand)
 		return { base: internal.base, exponent: isOne(internal.exponent) ? fraction(1, node.degree) : fraction(internal.exponent, node.degree) }
 	}

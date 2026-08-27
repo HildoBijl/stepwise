@@ -7,15 +7,15 @@ import { isConstantNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isF
 import { isSingular } from './algebraicChecks'
 
 // Turn a numeric expression into a Javascript number. Throws on non-numeric elements.
-export function numericNodeToNumber(node: ExpressionNode, settings?: ExpressionSettingsOptions): number {
+export function evaluateNumericNode(node: ExpressionNode, settings?: ExpressionSettingsOptions): number {
 	if (!isSingular(node)) throw new Error('Invalid toNumber call: cannot turn a plural expression into a single number.')
 	const number = toNumberInternal(node, resolveExpressionSettings(settings))
 	return approximatelyEqual(number, 0) ? 0 : number
 }
 
-export function tryNumericNodeToNumber(node: ExpressionNode, settings?: ExpressionSettingsOptions): number | undefined {
+export function tryToEvaluateNumericNode(node: ExpressionNode, settings?: ExpressionSettingsOptions): number | undefined {
 	try {
-		return numericNodeToNumber(node, settings)
+		return evaluateNumericNode(node, settings)
 	} catch {
 		return undefined
 	}
@@ -90,6 +90,6 @@ function radiansToDegrees(value: number, settings: ExpressionSettings): number {
 }
 
 // Check if two numeric expressions are equal. Throws when given non-numeric expressions.
-export function equalNumbers(a: ExpressionNode, b: ExpressionNode, aSettings: ExpressionSettingsOptions = {}, bSettings: ExpressionSettingsOptions = aSettings): boolean {
-	return approximatelyEqual(numericNodeToNumber(a, aSettings), numericNodeToNumber(b, bSettings))
+export function areNumbersEqual(a: ExpressionNode, b: ExpressionNode, aSettings: ExpressionSettingsOptions = {}, bSettings: ExpressionSettingsOptions = aSettings): boolean {
+	return approximatelyEqual(evaluateNumericNode(a, aSettings), evaluateNumericNode(b, bSettings))
 }

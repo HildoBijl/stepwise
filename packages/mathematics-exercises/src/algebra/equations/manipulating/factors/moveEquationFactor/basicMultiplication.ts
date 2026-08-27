@@ -15,7 +15,7 @@ export default buildStepExercise({
 		skill: 'moveEquationFactor',
 		...createStepExerciseMetadata(['multiplyBothEquationSides', 'cancelFractionFactors']),
 		comparisons: {
-			bothSidesChanged: { compareSide: expressionComparisons.equivalent },
+			bothSidesChanged: { compareSide: expressionComparisons.areEquivalent },
 			ans: {},
 		},
 	},

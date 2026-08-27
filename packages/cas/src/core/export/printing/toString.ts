@@ -4,11 +4,11 @@ import { type InterpretationSettings, type InterpretationSettingsOptions, defaul
 import { type ExpressionNode, type ConstantNode, type SignNode, type Sum, type Product, type Fraction, type Power, type FunctionNode, variableToString } from '../../construction'
 import { isConstantNode, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
 
-import { bracketLevels, requiresBracketsFor } from './bracketSupport'
+import { bracketLevels, requiresBrackets } from './bracketSupport'
 import { requiresPlusBetweenNodes, requiresTimesBetweenFactors } from './listSupport'
-import { getNodeInterpretationSettingsInput } from './getInterpretationSettings'
+import { inferInterpretationSettingsOptions } from './inferInterpretationSettings'
 
-export function nodeToString(node: ExpressionNode, interpretationSettings: InterpretationSettingsOptions = getNodeInterpretationSettingsInput(node)) {
+export function nodeToString(node: ExpressionNode, interpretationSettings: InterpretationSettingsOptions = inferInterpretationSettingsOptions(node)) {
 	const settings = mergeDefaults(interpretationSettings, defaultInterpretationSettings)
 	if (isConstantNode(node)) return constantToString(node, settings)
 	if (isSignNode(node)) return signToString(node, settings)
@@ -26,7 +26,7 @@ function constantToString(node: ConstantNode, settings: InterpretationSettings):
 }
 
 function signToString(node: SignNode, settings: InterpretationSettings): string {
-	const nodeStr = addBrackets(nodeToString(node.node, settings), requiresBracketsFor(node.node, bracketLevels.negation))
+	const nodeStr = addBrackets(nodeToString(node.node, settings), requiresBrackets(node.node, bracketLevels.negation))
 	return `${getSignSymbol(node)}${nodeStr}`
 }
 function getSignSymbol(node: SignNode): string {
@@ -39,7 +39,7 @@ function sumToString(node: Sum, settings: InterpretationSettings): string {
 	return node.terms.map((term, index) => {
 		const previousTerm = index > 0 ? node.terms[index - 1] : undefined
 		const prefix = previousTerm && requiresPlusBetweenNodes(term, previousTerm) ? '+' : ''
-		const termStr = addBrackets(nodeToString(term, settings), requiresBracketsFor(term, bracketLevels.addition, index, node.terms.length))
+		const termStr = addBrackets(nodeToString(term, settings), requiresBrackets(term, bracketLevels.addition, index, node.terms.length))
 		return `${prefix}${termStr}`
 	}).join('')
 }
@@ -48,20 +48,20 @@ function productToString(node: Product, settings: InterpretationSettings): strin
 	return node.factors.map((factor, index) => {
 		const previousFactor = index > 0 ? node.factors[index - 1] : undefined
 		const precursor = previousFactor && requiresTimesBetweenFactors(factor, previousFactor, settings) ? '*' : ''
-		const factorStr = addBrackets(nodeToString(factor, settings), requiresBracketsFor(factor, bracketLevels.multiplication, index, node.factors.length))
+		const factorStr = addBrackets(nodeToString(factor, settings), requiresBrackets(factor, bracketLevels.multiplication, index, node.factors.length))
 		return `${precursor}${factorStr}`
 	}).join('')
 }
 
 function fractionToString(node: Fraction, settings: InterpretationSettings): string {
-	const numeratorStr = addBrackets(nodeToString(node.numerator, settings), requiresBracketsFor(node.numerator, bracketLevels.division, 0, 2))
-	const denominatorStr = addBrackets(nodeToString(node.denominator, settings), requiresBracketsFor(node.denominator, bracketLevels.division, 1, 2))
+	const numeratorStr = addBrackets(nodeToString(node.numerator, settings), requiresBrackets(node.numerator, bracketLevels.division, 0, 2))
+	const denominatorStr = addBrackets(nodeToString(node.denominator, settings), requiresBrackets(node.denominator, bracketLevels.division, 1, 2))
 	return `${numeratorStr}/${denominatorStr}`
 }
 
 function powerToString(node: Power, settings: InterpretationSettings): string {
-	const baseStr = addBrackets(nodeToString(node.base, settings), requiresBracketsFor(node.base, bracketLevels.powers, 0, 2))
-	const exponentStr = addBrackets(nodeToString(node.exponent, settings), requiresBracketsFor(node.exponent, bracketLevels.powers, 1, 2))
+	const baseStr = addBrackets(nodeToString(node.base, settings), requiresBrackets(node.base, bracketLevels.powers, 0, 2))
+	const exponentStr = addBrackets(nodeToString(node.exponent, settings), requiresBrackets(node.exponent, bracketLevels.powers, 1, 2))
 	return `${baseStr}^${exponentStr}`
 }
 

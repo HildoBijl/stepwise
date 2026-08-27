@@ -11,7 +11,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'applyQuotientRule',
 		...createStepExerciseMetadata([['lookUpElementaryDerivative', 'findBasicDerivative'], undefined]),
-		comparisons: { Expression: expressionComparisons.equivalent },
+		comparisons: { Expression: expressionComparisons.areEquivalent },
 	},
 
 	generateParameters() {
@@ -23,11 +23,11 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const { c, f1, f2, g } = parameters
-		const x = g.getVariables()[0]
+		const x = g.collectVariables()[0]
 		const f = f1.add(f2.multiplyLeft(c)).removeTrivial()
 		const h = f.divide(g).removeTrivial()
-		const fDerivative = f.getDerivative().combine()
-		const gDerivative = g.getDerivative().combine()
+		const fDerivative = f.differentiate().combine()
+		const gDerivative = g.differentiate().combine()
 		const derivativeRaw = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2)).flatten()
 		const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
 		return { ...parameters, x, f, h, fDerivative, gDerivative, derivativeRaw, derivative }

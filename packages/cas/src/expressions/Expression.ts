@@ -1,15 +1,15 @@
 import { isArray, deepEqual } from '@step-wise/js-utils'
 
 import {
-	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, nodeToTree, stringToVariable, variable, number, // Construction
-	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
+	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, nodeToTree, parseVariable, variable, number, // Construction
+	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootFunction, isLn, isLog, isLogarithmFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
-	isNumeric, hasFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
-	add, subtract, multiply, divide, negative, abs, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, // Structural operations
+	isNumeric, containsFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
+	add, subtract, multiply, divide, negative, stripSigns, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan, substitute, evaluateNumericNode, collectVariables, expandToSingulars, areNodesEqual, // Structural operations
 	type SimplificationOptionsInput, adjustSimplificationOptions, simplify, // Simplification operations
 	flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, format, // Simplification presets
-	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
-	type TexDisplayOptionsInput, getNodeInterpretationSettingsInput, nodeToString, nodeToTex, nodeToInputValue, nodeToStorageValue, storageValueToNode, // Printing
+	convertExpressionSettings, areEquivalent, isConstantMultiple, isIntegerMultiple, differentiate, // Semantic operations
+	type TexDisplayOptionsInput, inferInterpretationSettingsOptions, nodeToString, nodeToTex, nodeToInputValue, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
 import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type ExpressionSettings, type ExpressionInputValue, resolveExpressionSettings } from './settingsReexport'
@@ -71,7 +71,7 @@ export class Expression {
 
 	// Turn a VariableLike input to an Expression that's guaranteed to have a Variable node.
 	private coerceVariable(variable: VariableLike): Expression {
-		if (typeof variable === 'string') return this.recreateWith(stringToVariable(variable))
+		if (typeof variable === 'string') return this.recreateWith(parseVariable(variable))
 		if (!isVariable(variable.node)) throw new Error(`Invalid substitution variable: expected a variable, but got expression "${nodeToTree(variable.node)}".`)
 		return variable
 	}
@@ -88,7 +88,7 @@ export class Expression {
 
 	// Assume the expression has a single variable and extract it or throw.
 	getVariable(): Expression | undefined {
-		const variables = this.getVariables()
+		const variables = this.collectVariables()
 		if (variables.length === 0) return undefined
 		if (variables.length === 1) return variables[0]
 		throw new Error(`Invalid call: no variable was specified, while for a multi-variable expression it is required to specify a variable. The expression depends on ${JSON.stringify(variables.map(variable => variable.str))}.`)
@@ -104,8 +104,8 @@ export class Expression {
 		return new Expression(storageValueToNode(nodeStorageValue), resolveExpressionSettings(settings))
 	}
 
-	getInterpretationSettings(): InterpretationSettingsOptions {
-		return getNodeInterpretationSettingsInput(this.node)
+	inferInterpretationSettings(): InterpretationSettingsOptions {
+		return inferInterpretationSettingsOptions(this.node)
 	}
 
 	/*
@@ -113,12 +113,12 @@ export class Expression {
 	 */
 
 	// String
-	toString(settings: InterpretationSettingsOptions = this.getInterpretationSettings()): string { return nodeToString(this.node, settings) }
+	toString(settings: InterpretationSettingsOptions = this.inferInterpretationSettings()): string { return nodeToString(this.node, settings) }
 	get str() { return this.toString() }
 	print() { console.log(this.toString()) }
 
 	// LaTeX
-	toTex(options?: TexDisplayOptionsInput): string { return nodeToTex(this.node, this.getInterpretationSettings(), options) }
+	toTex(options?: TexDisplayOptionsInput): string { return nodeToTex(this.node, this.inferInterpretationSettings(), options) }
 	get tex() { return this.toTex() }
 
 	// Tree
@@ -126,7 +126,7 @@ export class Expression {
 	get tree() { return this.toTree() }
 
 	// InputValue
-	toInputValue(interpretationSettings: InterpretationSettingsOptions = this.getInterpretationSettings()): ExpressionInputValue {
+	toInputValue(interpretationSettings: InterpretationSettingsOptions = this.inferInterpretationSettings()): ExpressionInputValue {
 		return nodeToInputValue(this.node, interpretationSettings, this.settings)
 	}
 
@@ -154,11 +154,11 @@ export class Expression {
 
 	isRoot(): boolean { return isRoot(this.node) }
 	isSqrt(): boolean { return isSqrt(this.node) }
-	isRootFunction(): boolean { return isRootLike(this.node) }
+	isRootFunction(): boolean { return isRootFunction(this.node) }
 
 	isLn(): boolean { return isLn(this.node) }
 	isLog(): boolean { return isLog(this.node) }
-	isLogFunction(): boolean { return isLogLike(this.node) }
+	isLogFunction(): boolean { return isLogarithmFunction(this.node) }
 
 	isSin(): boolean { return isSin(this.node) }
 	isCos(): boolean { return isCos(this.node) }
@@ -217,7 +217,7 @@ export class Expression {
 
 	// Functions (power, root, and everything else)
 	get base(): Expression {
-		if (isPower(this.node) || isLogLike(this.node)) return this.recreateWith(this.node.base)
+		if (isPower(this.node) || isLogarithmFunction(this.node)) return this.recreateWith(this.node.base)
 		throw new Error(`Invalid request: cannot get "base" of an Expression of type "${this.subtype}".`)
 	}
 	get exponent(): Expression {
@@ -225,16 +225,16 @@ export class Expression {
 		throw new Error(`Invalid request: cannot get "exponent" of an Expression of type "${this.subtype}".`)
 	}
 	get degree(): Expression {
-		if (isRootLike(this.node)) return this.recreateWith(this.node.degree)
+		if (isRootFunction(this.node)) return this.recreateWith(this.node.degree)
 		throw new Error(`Invalid request: cannot get "degree" of an Expression of type "${this.subtype}".`)
 	}
 	get radicand(): Expression {
-		if (isRootLike(this.node)) return this.recreateWith(this.node.radicand)
+		if (isRootFunction(this.node)) return this.recreateWith(this.node.radicand)
 		throw new Error(`Invalid request: cannot get "radicand" of an Expression of type "${this.subtype}".`)
 	}
 	get argument(): Expression {
 		if (isMinus(this.node)) return this.recreateWith(this.node.node)
-		if (isLogLike(this.node) || isSingleArgumentFunctionNode(this.node)) return this.recreateWith(this.node.argument)
+		if (isLogarithmFunction(this.node) || isSingleArgumentFunctionNode(this.node)) return this.recreateWith(this.node.argument)
 		throw new Error(`Invalid request: cannot get "argument" of an Expression of type "${this.subtype}".`)
 	}
 
@@ -244,7 +244,7 @@ export class Expression {
 
 	dependsOn(variable: VariableLike): boolean { return dependsOn(this.node, this.coerceVariableNode(variable)) }
 	isNumeric(): boolean { return isNumeric(this.node) }
-	hasFloat(): boolean { return hasFloat(this.node) }
+	containsFloat(): boolean { return containsFloat(this.node) }
 	isPolynomial(): boolean { return isPolynomial(this.node) }
 	isRational(): boolean { return isRational(this.node) }
 	isSingular(): boolean { return isSingular(this.node) }
@@ -266,9 +266,9 @@ export class Expression {
 	 * Basic extractions
 	 */
 
-	toNumber(): number { return numericNodeToNumber(this.node, this.settings) }
+	toNumber(): number { return evaluateNumericNode(this.node, this.settings) }
 	get value(): number { return this.toNumber() }
-	getVariables(): Expression[] { return getVariables(this.node).map(variableNode => this.recreateWith(variableNode)) }
+	collectVariables(): Expression[] { return collectVariables(this.node).map(variableNode => this.recreateWith(variableNode)) }
 	getSingular(): Expression[] { return expandToSingulars(this.node).map(node => this.recreateWith(node)) }
 
 	/*
@@ -334,7 +334,7 @@ export class Expression {
 
 	self(): Expression { return this }
 	negate(): Expression { return this.recreateWith(negative(this.node)) }
-	abs(): Expression { return this.recreateWith(abs(this.node)) }
+	stripSigns(): Expression { return this.recreateWith(stripSigns(this.node)) }
 	add(...terms: ExpressionLike[]): Expression { return this.recreateWith(add(this.node, ...terms.map(term => this.coerceExpression(term)).map(expression => expression.node))) }
 	addLeft(...terms: ExpressionLike[]): Expression { return this.recreateWith(add(...terms.map(term => this.coerceExpression(term)).map(expression => expression.node), this.node)) }
 	subtract(term: ExpressionLike): Expression { return this.recreateWith(subtract(this.node, this.coerceExpression(term).node)) }
@@ -417,7 +417,7 @@ export class Expression {
 	evaluateAt(substitutions: SubstitutionMap): number
 	evaluateAt(arg1: ExpressionLike | VariableLike | readonly VariableLike[] | SubstitutionMap, arg2?: ExpressionLike | readonly ExpressionLike[]): number {
 		const substituted = this.substitute(arg1 as never, arg2 as never)
-		if (!substituted.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the expression still depends on variables ${JSON.stringify(substituted.getVariables().map(variable => variable.str))}.`)
+		if (!substituted.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the expression still depends on variables ${JSON.stringify(substituted.collectVariables().map(variable => variable.str))}.`)
 		return substituted.toNumber()
 	}
 
@@ -497,7 +497,7 @@ export class Expression {
 	 */
 
 	equalStructure(other: ExpressionLike, allowOrderChanges = true): boolean {
-		return equalNodes(this.node, this.coerceExpression(other).node, allowOrderChanges)
+		return areNodesEqual(this.node, this.coerceExpression(other).node, allowOrderChanges)
 	}
 	strictEqualStructure(other: ExpressionLike): boolean {
 		return this.equalStructure(other, false)
@@ -506,8 +506,8 @@ export class Expression {
 		const { preprocess, allowOrderChanges } = asExpressionEqualityOptions(options)
 		return preprocess(this).equalStructure(preprocess(this.coerceExpression(other)), allowOrderChanges)
 	}
-	equivalent(other: ExpressionLike): boolean {
-		return equivalent(this.node, this.coerceExpression(other).node, this.settings)
+	isEquivalentTo(other: ExpressionLike): boolean {
+		return areEquivalent(this.node, this.coerceExpression(other).node, this.settings)
 	}
 	isConstantMultiple(other: ExpressionLike): boolean {
 		return isConstantMultiple(this.node, this.coerceExpression(other).node, this.settings)
@@ -520,13 +520,13 @@ export class Expression {
 	 * Derivatives
 	 */
 
-	getDerivative(derivativeVariable?: VariableLike): Expression {
+	differentiate(derivativeVariable?: VariableLike): Expression {
 		const variableNode = derivativeVariable === undefined ? (this.getVariableNode() ?? variable('x')) : this.coerceVariableNode(derivativeVariable)
-		return this.recreateWith(getDerivative(this.node, variableNode, this.settings))
+		return this.recreateWith(differentiate(this.node, variableNode, this.settings))
 	}
 
-	getGradient(variables: readonly VariableLike[] = this.getVariables()): Expression[] {
+	getGradient(variables: readonly VariableLike[] = this.collectVariables()): Expression[] {
 		const derivativeVariables = variables.map(this.coerceVariable)
-		return derivativeVariables.map(variable => this.getDerivative(variable))
+		return derivativeVariables.map(variable => this.differentiate(variable))
 	}
 }

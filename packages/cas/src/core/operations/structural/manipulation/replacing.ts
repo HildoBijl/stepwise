@@ -1,16 +1,16 @@
 import { type VariableInput, type ExpressionNode, type ExpressionNodeInput, asExpressionNode, asVariable } from '../../../construction'
 
-import { type NodeAncestors, type OrderedTraversalOptions, isVariable, equalVariables } from '../fundamentals'
+import { type NodeAncestors, type OrderedTraversalOptions, isVariable, areVariablesEqual } from '../fundamentals'
 
-export type NodeTransform = (node: ExpressionNode, parents: readonly ExpressionNode[]) => ExpressionNode
+export type NodeTransform = (node: ExpressionNode, ancestors: NodeAncestors) => ExpressionNode
 
-// Run a replacer function on each descendant. Start at the leaves and work upwards.
-export function mapDescendants(node: ExpressionNode, transform: NodeTransform, options: OrderedTraversalOptions = {}): ExpressionNode {
-	return mapDescendantsInternal(node, transform, options.childrenFirst ?? true, options.includeSelf ?? true, [])
+// Transform selected nodes in an expression tree. Start at the leaves by default.
+export function mapNodes(node: ExpressionNode, transform: NodeTransform, options: OrderedTraversalOptions = {}): ExpressionNode {
+	return mapNodesInternal(node, transform, options.childrenFirst ?? true, options.includeSelf ?? true, [])
 }
-function mapDescendantsInternal(node: ExpressionNode, transform: NodeTransform, childrenFirst: boolean, includeSelf: boolean, ancestors: NodeAncestors): ExpressionNode {
+function mapNodesInternal(node: ExpressionNode, transform: NodeTransform, childrenFirst: boolean, includeSelf: boolean, ancestors: NodeAncestors): ExpressionNode {
 	if (includeSelf && !childrenFirst) node = transform(node, ancestors)
-	node = node.recreateWithChildren(node.children.map(child => mapDescendantsInternal(child, transform, childrenFirst, true, [...ancestors, node])))
+	node = node.recreateWithChildren(node.children.map(child => mapNodesInternal(child, transform, childrenFirst, true, [...ancestors, node])))
 	if (includeSelf && childrenFirst) node = transform(node, ancestors)
 	return node
 }
@@ -19,5 +19,5 @@ function mapDescendantsInternal(node: ExpressionNode, transform: NodeTransform, 
 export function substitute(node: ExpressionNode, variable: VariableInput, substitution: ExpressionNodeInput): ExpressionNode {
 	const variableNode = asVariable(variable)
 	const substitutionNode = asExpressionNode(substitution)
-	return mapDescendants(node, descendant => isVariable(descendant) && equalVariables(descendant, variableNode) ? substitutionNode : descendant)
+	return mapNodes(node, descendant => isVariable(descendant) && areVariablesEqual(descendant, variableNode) ? substitutionNode : descendant)
 }

@@ -30,7 +30,7 @@ const steps = [
 		Problem: () => {
 			const { variables } = useSolution()
 			return <>
-				<Par><Translation>Before starting, simplify the equation a bit by bringing the <M>{variables.c.abs()}</M> to the other side and merging numbers together.</Translation></Par>
+				<Par><Translation>Before starting, simplify the equation a bit by bringing the <M>{variables.c.stripSigns()}</M> to the other side and merging numbers together.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="termMoved" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
@@ -39,7 +39,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, switchSides, termMoved }) => {
-			return <Par><Translation>By bringing the <M>{variables.c.abs()}</M> to the <Check value={switchSides}><Check.True>left</Check.True><Check.False>right</Check.False></Check> and <Check value={variables.c.number > 0}><Check.True>subtracting it from</Check.True><Check.False>adding it to</Check.False></Check> the <M>{variables.d}</M>, we get <BM>{termMoved}.</BM></Translation></Par>
+			return <Par><Translation>By bringing the <M>{variables.c.stripSigns()}</M> to the <Check value={switchSides}><Check.True>left</Check.True><Check.False>right</Check.False></Check> and <Check value={variables.c.number > 0}><Check.True>subtracting it from</Check.True><Check.False>adding it to</Check.False></Check> the <M>{variables.d}</M>, we get <BM>{termMoved}.</BM></Translation></Par>
 		},
 	},
 	{

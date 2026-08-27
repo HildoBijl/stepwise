@@ -3,10 +3,10 @@ import { type ExpressionTextCursor, getExpressionEndCursor, getExpressionStartCu
 
 import { ExpressionNode, Minus, PlusMinus, Product } from '../../nodes'
 
-import type { IntermediateInterpretationPart, InterpreterContext } from '../types'
+import type { InterpretationPart, InterpreterContext } from '../types'
 
 // Interpret explicit products split by *, in an expression with partly interpreted parts and no brackets.
-export function interpretProducts(value: IntermediateInterpretationPart[], context: InterpreterContext): ExpressionNode {
+export function interpretProducts(value: InterpretationPart[], context: InterpreterContext): ExpressionNode {
 	// Set up a handler to add factors to the product.
 	const factors: ExpressionNode[] = []
 	const addFactor = (start: ExpressionTextCursor, end: ExpressionTextCursor) => {
@@ -15,7 +15,7 @@ export function interpretProducts(value: IntermediateInterpretationPart[], conte
 		const firstChar = startPart[start.cursor]
 		const minusAfterTimes = firstChar === '-' || firstChar === '±'
 		const shiftedStart = minusAfterTimes ? shiftExpressionTextCursorRight(start) : start
-		let expression = context.interpretStringsAndElements(sliceExpressionValue<ExpressionNode>(value, shiftedStart, end), context)
+		let expression = context.interpretParts(sliceExpressionValue<ExpressionNode>(value, shiftedStart, end), context)
 		if (minusAfterTimes) {
 			if (firstChar === '-') expression = new Minus(expression)
 			else if (firstChar === '±') expression = new PlusMinus(expression)

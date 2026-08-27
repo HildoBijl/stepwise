@@ -9,5 +9,5 @@ export function interpretExpressionInputValue(inputValue: ExpressionInputValue):
 }
 
 export function expressionToInputValue(expression: Expression): ExpressionInputValue {
-	return parseExpressionInputValue(expression.toString(), expression.getInterpretationSettings(), expression.settings)
+	return parseExpressionInputValue(expression.toString(), expression.inferInterpretationSettings(), expression.settings)
 }

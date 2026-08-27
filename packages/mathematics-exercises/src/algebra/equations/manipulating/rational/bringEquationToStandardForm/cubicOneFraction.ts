@@ -9,7 +9,7 @@ import { selectExpressionParameters } from '#generationTools'
 
 const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks
 const { exactEqual } = expressionComparisons
-const { equivalent } = equationComparisons
+const { areEquivalent } = equationComparisons
 
 // ax+b=(cx(x+d))/(x^2+e)
 const variableSet = ['x', 'y', 'z']
@@ -40,8 +40,8 @@ export default buildStepExercise({
 		skill: 'bringEquationToStandardForm',
 		...createStepExerciseMetadata(['multiplyAllEquationTerms', 'expandDoubleBrackets', and('moveEquationTerm', 'mergeSimilarTerms'), 'multiplyAllEquationTerms']),
 		comparisons: {
-			multiplied: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && equivalent(input, correct),
-			expanded: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && equivalent(input, correct),
+			multiplied: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && areEquivalent(input, correct),
+			expanded: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && areEquivalent(input, correct),
 			moved: { compareLeft: expressionComparisons.constantMultiple, compareRight: expressionComparisons.exactEqual },
 			ans: (input: Equation, correct: Equation, { normalize }: { normalize: boolean }) => (exactEqual(input.left, correct.left) || (!normalize && exactEqual(input.left, correct.left.negate()))) && exactEqual(input.right, correct.right),
 		},

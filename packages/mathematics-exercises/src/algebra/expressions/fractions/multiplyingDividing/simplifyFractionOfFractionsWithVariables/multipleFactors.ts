@@ -6,7 +6,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { selectExpressionParameters } from '#generationTools'
 
 const { hasFractionWithinFraction } = expressionChecks
-const { equivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, onlyOrderChanges } = expressionComparisons
 
 // ((a*(x+p)*(x+q))/(b*(x+r)*(x+s)))/((c*(x+q)*(x+s))/(d*(x+p)*(x+r))).
 const variableSet = ['x', 'y', 'z']
@@ -18,8 +18,8 @@ export default buildStepExercise({
 		skill: 'simplifyFractionOfFractionsWithVariables',
 		...createStepExerciseMetadata(['multiplyDivideFractions', 'simplifyFractionWithVariables']),
 		comparisons: {
-			singleFraction: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
-			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
+			singleFraction: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && areEquivalent(input, correct),
+			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && areEquivalent(input, correct),
 		},
 	},
 

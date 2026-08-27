@@ -5,7 +5,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, areEquivalent } = expressionComparisons
 const { hasSumWithinProduct } = expressionChecks
 
 // Multiply a*x+b+c/x+d/x^2=0 by ex^n.
@@ -18,8 +18,8 @@ export default buildStepExercise({
 		skill: 'multiplyAllEquationTerms',
 		...createStepExerciseMetadata(['multiplyBothEquationSides', 'expandBrackets', 'simplifyFractionWithVariables']),
 		comparisons: {
-			form: { compareSide: equivalent },
-			expanded: { compareSide: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && equivalent(input, correct) },
+			form: { compareSide: areEquivalent },
+			expanded: { compareSide: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && areEquivalent(input, correct) },
 			ans: { compareSide: onlyOrderChanges },
 		},
 	},

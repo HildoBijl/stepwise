@@ -94,7 +94,7 @@ function getFeedback(exerciseData) {
 	// Set up feedback checks for the equation field.
 	const hasNoFunction = (input, correct, solution, isCorrect) => !isCorrect && !input.left.isTrigonometricFunction() && <>Aan de linkerkant wordt een goniometrische functie (sinus/cosinus/tangens) verwacht. Kijk nog eens goed naar hoe je de betreffende regel toepast.</>
 	const hasWrongFunction = (input, correct, solution, isCorrect) => !isCorrect && input.left.subtype !== correct.left.subtype && <>Je hebt aan de linkerkant niet de juiste goniometrische functie (sinus/cosinus/tangens) gebruikt. Kijk nog eens goed naar welke regel je toepast.</>
-	const hasWrongLeft = (input, correct, { beta }, isCorrect) => !isCorrect && !expressionComparisons.equivalent(input.left, correct.left) && <>Je moet aan de linkerkant binnenin de functie simpelweg de hoek <M>{beta}</M> gebruiken.</>
+	const hasWrongLeft = (input, correct, { beta }, isCorrect) => !isCorrect && !expressionComparisons.areEquivalent(input.left, correct.left) && <>Je moet aan de linkerkant binnenin de functie simpelweg de hoek <M>{beta}</M> gebruiken.</>
 	const equationRemaining = (input, correct, solution, isCorrect) => !isCorrect && <>De linkerkant klopt, maar de rechterkant is niet correct. Heb je wel de juiste zijden door elkaar gedeeld?</>
 	const equationChecks = [hasNoFunction, hasWrongFunction, hasWrongLeft, equationRemaining]
 

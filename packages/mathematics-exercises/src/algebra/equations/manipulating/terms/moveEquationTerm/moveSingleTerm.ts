@@ -5,7 +5,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, areEquivalent } = expressionComparisons
 
 // ax^2 + bx + c = 0.
 const variableSet = ['x', 'y', 'z']
@@ -17,7 +17,7 @@ export default buildStepExercise({
 		skill: 'moveEquationTerm',
 		...createStepExerciseMetadata(['addToBothEquationSides', 'cancelSumTerms']),
 		comparisons: {
-			bothSidesChanged: { compareSide: equivalent },
+			bothSidesChanged: { compareSide: areEquivalent },
 			ans: { compareSide: onlyOrderChanges },
 		},
 	},
@@ -47,7 +47,7 @@ export default buildStepExercise({
 		// Find the term to move, add/subtract it and simplify.
 		const termIsLeft = !parameters.switchSides[parameters.toMove]
 		const positive = !terms[parameters.toMove].isMinus()
-		const termToMove = terms[parameters.toMove].abs()
+		const termToMove = terms[parameters.toMove].stripSigns()
 		const bothSidesChanged = positive ? equation.subtract(termToMove) : equation.add(termToMove)
 		const ans = bothSidesChanged.cancel()
 

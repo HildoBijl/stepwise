@@ -2,7 +2,7 @@ import { expressionComparisons } from '@step-wise/cas'
 
 import { M } from 'ui/components'
 
-const { equivalent } = expressionComparisons
+const { areEquivalent: equivalent } = expressionComparisons
 
 export const wrongDenominatorWithLCM = (input, correct, { fraction1, fraction2 }, isCorrect, { translateCrossExercise }) => !isCorrect && !equivalent(correct.denominator, input.denominator) && translateCrossExercise(<>Your fraction does not have the right denominator. Is your denominator the least common multiple of <M>{fraction1.denominator}</M> and <M>{fraction2.denominator}</M>?</>, 'wrongDenominatorWithLCM')
 

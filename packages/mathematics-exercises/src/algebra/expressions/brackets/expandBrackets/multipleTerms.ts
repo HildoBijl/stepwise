@@ -6,7 +6,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { selectExpressionParameters } from '#generationTools'
 
 const { hasSumWithinProduct } = expressionChecks
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, areEquivalent } = expressionComparisons
 
 // ax(bx^2+cx+d) = abx^3+acx^2+adx.
 const variableSet = ['x', 'y', 'z']
@@ -18,8 +18,8 @@ export default buildStepExercise({
 		skill: 'expandBrackets',
 		...createStepExerciseMetadata([undefined, 'simplifyNumberProduct', 'rewritePower']),
 		comparisons: {
-			expanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && equivalent(input, correct),
-			numbersMerged: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && !input.some(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
+			expanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && areEquivalent(input, correct),
+			numbersMerged: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && !input.some(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && areEquivalent(input, correct),
 			ans: onlyOrderChanges,
 		},
 	},

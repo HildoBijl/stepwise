@@ -1,6 +1,6 @@
 import { type ExpressionInputValue, isExpressionInputValue } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, inputValueToNode, stringToNode, number } from '../core'
+import { type ExpressionNode, interpretExpressionInputValue, parseExpressionNode, number } from '../core'
 
 import { type InterpretationSettingsOptions, type ExpressionSettingsOptions } from './settingsReexport'
 import { type ExpressionInput } from './types'
@@ -14,11 +14,11 @@ function interpretNode(node: ExpressionNode, expressionSettings?: ExpressionSett
 }
 
 function interpretInputValue(value: ExpressionInputValue): ExpressionParts {
-	return interpretNode(inputValueToNode(value), value.expressionSettings)
+	return interpretNode(interpretExpressionInputValue(value), value.expressionSettings)
 }
 
 function interpretString(value: string, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): ExpressionParts {
-	return interpretNode(stringToNode(value, interpretationSettings, expressionSettings), expressionSettings)
+	return interpretNode(parseExpressionNode(value, interpretationSettings, expressionSettings), expressionSettings)
 }
 
 export function isExpressionInput(value: unknown): value is ExpressionInput {

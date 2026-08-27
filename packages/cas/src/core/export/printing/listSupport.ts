@@ -7,7 +7,7 @@ import { isNumberNode, isVariable, isSignNode, isFraction, isFunctionNode, isPow
 export function requiresPlusBetweenNodes(nextNode: ExpressionNode, previousNode: ExpressionNode): boolean {
 	return !isSignNode(nextNode)
 }
-export function requiresPlusBetweenNodesTex(nextNode: ExpressionNode, previousNode: ExpressionNode): boolean {
+export function requiresPlusBetweenNodesInTex(nextNode: ExpressionNode, previousNode: ExpressionNode): boolean {
 	return requiresPlusBetweenNodes(nextNode, previousNode)
 }
 
@@ -20,7 +20,7 @@ export function requiresTimesBetweenFactors(nextNode: ExpressionNode, previousNo
 	if (isVariable(previousNode) && settings.allowMultiCharacterVariables) return true
 	return false
 }
-export function requiresTimesBetweenFactorsTex(nextNode: ExpressionNode, previousNode: ExpressionNode, settings: InterpretationSettings): boolean {
+export function requiresTimesBetweenFactorsInTex(nextNode: ExpressionNode, previousNode: ExpressionNode, settings: InterpretationSettings): boolean {
 	if (isFraction(previousNode) || isFraction(nextNode)) return false
 	if (isFunctionNode(nextNode) && !isPower(nextNode)) return false
 	return requiresTimesBetweenFactors(nextNode, previousNode, settings)

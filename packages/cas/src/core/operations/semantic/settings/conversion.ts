@@ -3,11 +3,11 @@ import { type ExpressionSettingsOptions, resolveExpressionSettings } from '@step
 
 import { type ExpressionNode } from '../../../construction'
 
-import { convertDegreesToRadians, convertRadiansToDegrees } from './degrees'
+import { convertExpressionToRadians, convertExpressionToDegrees } from './degrees'
 
-export function convertExpressionSettings(node: ExpressionNode, oldSettings?: ExpressionSettingsOptions, newSettings?: ExpressionSettingsOptions): ExpressionNode {
-	const oldFullSettings = resolveExpressionSettings(oldSettings)
-	const newFullSettings = resolveExpressionSettings(newSettings)
-	if (oldFullSettings.angleUnit !== newFullSettings.angleUnit) node = oldFullSettings.angleUnit === 'degrees' ? convertDegreesToRadians(node) : convertRadiansToDegrees(node)
+export function convertExpressionSettings(node: ExpressionNode, sourceSettings?: ExpressionSettingsOptions, targetSettings?: ExpressionSettingsOptions): ExpressionNode {
+	const resolvedSourceSettings = resolveExpressionSettings(sourceSettings)
+	const resolvedTargetSettings = resolveExpressionSettings(targetSettings)
+	if (resolvedSourceSettings.angleUnit !== resolvedTargetSettings.angleUnit) node = resolvedSourceSettings.angleUnit === 'degrees' ? convertExpressionToRadians(node) : convertExpressionToDegrees(node)
 	return node
 }

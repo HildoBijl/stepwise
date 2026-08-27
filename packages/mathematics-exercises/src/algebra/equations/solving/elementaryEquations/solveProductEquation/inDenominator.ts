@@ -6,7 +6,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, areEquivalent } = expressionComparisons
 
 // a/b = c/(d*x).
 const variableSet = ['x', 'y', 'z']
@@ -18,8 +18,8 @@ export default buildStepExercise({
 		skill: 'solveProductEquation',
 		...createStepExerciseMetadata(['moveEquationFactor', 'moveEquationFactor', 'simplifyFraction', 'checkEquationSolution']),
 		comparisons: {
-			moved: { compareSide: equivalent, allowSwitch: true },
-			isolated: { compareSide: equivalent, allowSwitch: true },
+			moved: { compareSide: areEquivalent, allowSwitch: true },
+			isolated: { compareSide: areEquivalent, allowSwitch: true },
 			ans: onlyOrderChanges,
 			checkLeft: onlyOrderChanges,
 			checkRight: onlyOrderChanges,

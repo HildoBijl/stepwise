@@ -12,7 +12,7 @@ export default buildStepExercise({
 		skill: 'findGeneralDerivative',
 		...createStepExerciseMetadata([undefined, undefined, 'applyChainRule']),
 		weight: 4,
-		comparisons: { method: {}, Expression: expressionComparisons.equivalent },
+		comparisons: { method: {}, Expression: expressionComparisons.areEquivalent },
 	},
 
 	generateParameters() {
@@ -26,10 +26,10 @@ export default buildStepExercise({
 		const { c, fRaw, g } = parameters
 		const method = 2
 		const f = fRaw.multiplyLeft(c).cancel()
-		const x = f.getVariables()[0]
+		const x = f.collectVariables()[0]
 		const h = f.substitute(x, g).flatten()
-		const fDerivative = f.getDerivative().combine()
-		const gDerivative = g.getDerivative().combine()
+		const fDerivative = f.differentiate().combine()
+		const gDerivative = g.differentiate().combine()
 		const derivativeRaw = fDerivative.substitute(x, g).multiply(gDerivative)
 		const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
 		return { ...parameters, method, x, f, h, fDerivative, gDerivative, derivativeRaw, derivative }

@@ -4,8 +4,8 @@ import type { ExpressionNode, ConstantNode, NamedConstant, SignNode, Variable, S
 import { isConstantNode, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations'
 
 import { type TexDisplayOptions, type TexDisplayOptionsInput, resolveTexDisplayOptions } from './texDisplayOptions'
-import { bracketLevels, requiresBracketsFor } from './bracketSupport'
-import { requiresPlusBetweenNodesTex, requiresTimesBetweenFactorsTex } from './listSupport'
+import { bracketLevels, requiresBrackets } from './bracketSupport'
+import { requiresPlusBetweenNodesInTex, requiresTimesBetweenFactorsInTex } from './listSupport'
 
 // Set up the main nodeToTex function.
 export function nodeToTex(node: ExpressionNode, interpretationSettings?: InterpretationSettingsOptions, displayOptions?: TexDisplayOptionsInput) {
@@ -35,7 +35,7 @@ function getNamedConstantTex(node: NamedConstant) {
 }
 
 function signToTex(node: SignNode, settings: InterpretationSettings, options: TexDisplayOptions): string {
-	const nodeTex = addBrackets(nodeToTex(node.node, settings, options), requiresBracketsFor(node.node, bracketLevels.negation))
+	const nodeTex = addBrackets(nodeToTex(node.node, settings, options), requiresBrackets(node.node, bracketLevels.negation))
 	return `${getSignSymbol(node)}${nodeTex}`
 }
 function getSignSymbol(node: SignNode): string {
@@ -60,8 +60,8 @@ function variableToTex(node: Variable, settings: InterpretationSettings, options
 function sumToTex(node: Sum, settings: InterpretationSettings, options: TexDisplayOptions): string {
 	return node.terms.map((term, index) => {
 		const previousTerm = index > 0 ? node.terms[index - 1] : undefined
-		const prefix = previousTerm && requiresPlusBetweenNodesTex(term, previousTerm) ? '+' : ''
-		const termTex = addBrackets(nodeToTex(term, settings, options), requiresBracketsFor(term, bracketLevels.addition, index, node.terms.length))
+		const prefix = previousTerm && requiresPlusBetweenNodesInTex(term, previousTerm) ? '+' : ''
+		const termTex = addBrackets(nodeToTex(term, settings, options), requiresBrackets(term, bracketLevels.addition, index, node.terms.length))
 		return `${prefix}${termTex}`
 	}).join('')
 }
@@ -69,8 +69,8 @@ function sumToTex(node: Sum, settings: InterpretationSettings, options: TexDispl
 function productToTex(node: Product, settings: InterpretationSettings, options: TexDisplayOptions): string {
 	return node.factors.map((factor, index) => {
 		const previousFactor = index > 0 ? node.factors[index - 1] : undefined
-		const precursor = previousFactor && requiresTimesBetweenFactorsTex(factor, previousFactor, settings) ? ' \\cdot ' : ''
-		const factorTex = addBrackets(nodeToTex(factor, settings, options), requiresBracketsFor(factor, bracketLevels.multiplication, index, node.factors.length))
+		const precursor = previousFactor && requiresTimesBetweenFactorsInTex(factor, previousFactor, settings) ? ' \\cdot ' : ''
+		const factorTex = addBrackets(nodeToTex(factor, settings, options), requiresBrackets(factor, bracketLevels.multiplication, index, node.factors.length))
 		return `${precursor}${factorTex}`
 	}).join('')
 }
@@ -80,7 +80,7 @@ function fractionToTex(node: Fraction, settings: InterpretationSettings, options
 }
 
 function powerToTex(node: Power, settings: InterpretationSettings, options: TexDisplayOptions): string {
-	const baseTex = addBrackets(nodeToTex(node.base, settings, options), requiresBracketsFor(node.base, bracketLevels.powers, 0, 2))
+	const baseTex = addBrackets(nodeToTex(node.base, settings, options), requiresBrackets(node.base, bracketLevels.powers, 0, 2))
 	return `${baseTex}^{${nodeToTex(node.exponent, settings, options)}}`
 }
 

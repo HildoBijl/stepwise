@@ -4,7 +4,7 @@ import { FunctionNode } from '../abstracts'
 
 import { type Sqrt } from './Sqrt'
 
-export type RootLike = Root | Sqrt
+export type RootFunction = Root | Sqrt
 
 export class Root extends FunctionNode {
 	static readonly argumentNames = ['radicand', 'degree'] as const

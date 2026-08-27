@@ -6,7 +6,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { selectExpressionParameters } from '#generationTools'
 
 const { hasFractionWithinFraction } = expressionChecks
-const { equivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, onlyOrderChanges } = expressionComparisons
 const { multiplyNumeratorAndDenominator } = expressionOperations
 
 // (a*x+b)/(c*x+d) +/- (e*x+f)/(g*x+h).
@@ -22,16 +22,16 @@ export default buildStepExercise({
 			sameDenominator: (input: Expression, correct: Expression) => {
 				if (!input.isSum() || input.terms.length !== 2) return false
 				const fractions = input.terms.map(term => term.find(part => part.isFraction()))
-				return fractions.every(fraction => fraction?.isFraction()) && equivalent(fractions[0]!.denominator, fractions[1]!.denominator) && equivalent(input, correct)
+				return fractions.every(fraction => fraction?.isFraction()) && areEquivalent(fractions[0]!.denominator, fractions[1]!.denominator) && areEquivalent(input, correct)
 			},
 			bracketsExpanded: (input: Expression, correct: Expression) => {
 				if (!input.isSum() || input.terms.length !== 2) return false
 				const fractions = input.terms.map(term => term.find(part => part.isFraction()))
-				return fractions.every(fraction => fraction?.isFraction()) && equivalent(fractions[0]!.denominator, fractions[1]!.denominator) && fractions.every(fraction => onlyOrderChanges(fraction!.numerator.flatten(), fraction!.numerator.cancel(['expandProductsOfSums', 'groupSumTerms']))) && equivalent(input, correct)
+				return fractions.every(fraction => fraction?.isFraction()) && areEquivalent(fractions[0]!.denominator, fractions[1]!.denominator) && fractions.every(fraction => onlyOrderChanges(fraction!.numerator.flatten(), fraction!.numerator.cancel(['expandProductsOfSums', 'groupSumTerms']))) && areEquivalent(input, correct)
 			},
 			ans: (input: Expression, correct: Expression) => {
 				const flattened = input.flatten()
-				return flattened.isFractionLike() && !hasFractionWithinFraction(input) && onlyOrderChanges(flattened.numerator, flattened.numerator.cancel(['expandProductsOfSums', 'mergeProductFactors', 'groupSumTerms'])) && equivalent(input, correct)
+				return flattened.isFractionLike() && !hasFractionWithinFraction(input) && onlyOrderChanges(flattened.numerator, flattened.numerator.cancel(['expandProductsOfSums', 'mergeProductFactors', 'groupSumTerms'])) && areEquivalent(input, correct)
 			},
 		},
 	},

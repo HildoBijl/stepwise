@@ -1,6 +1,6 @@
 import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, product, fraction } from '../../../../construction'
 
-import { isFraction, isOne, isSignNode, isSum, equalNodes, abs } from '../../../structural'
+import { isFraction, isOne, isSignNode, isSum, areNodesEqual, stripSigns } from '../../../structural'
 
 import { removeDoubleNegatives, mergeProductMinuses } from '../numeric'
 import { defineRule } from '../ruleDefinition'
@@ -35,17 +35,17 @@ function transform(node: Fraction): ExpressionNode {
 
 // Find all common factors of a set of nodes, requiring exact matches. (x^3 only matches x^3 and not x^2.)
 function getExactCommonFactors(...nodes: ExpressionNode[]): readonly ExpressionNode[] {
-	let commonFactors = getProductFactors(abs(nodes[0])).filter(factor => !isOne(factor))
+	let commonFactors = getProductFactors(stripSigns(nodes[0])).filter(factor => !isOne(factor))
 	for (const node of nodes.slice(1)) {
-		const factors = getProductFactors(abs(node))
-		const used = factors.map(() => false)
+		const factors = getProductFactors(stripSigns(node))
+		const matchedIndices = factors.map(() => false)
 		commonFactors = commonFactors.filter(commonFactor => {
-			const index = factors.findIndex((factor, index) => !used[index] && equalNodes(factor, commonFactor))
+			const index = factors.findIndex((factor, index) => !matchedIndices[index] && areNodesEqual(factor, commonFactor))
 			if (index === -1) return false
-			used[index] = true
+			matchedIndices[index] = true
 			return true
 		})
-		commonFactors = commonFactors.filter(commonFactor => factors.some(factor => equalNodes(factor, commonFactor)))
+		commonFactors = commonFactors.filter(commonFactor => factors.some(factor => areNodesEqual(factor, commonFactor)))
 	}
 	return commonFactors
 }
@@ -53,13 +53,13 @@ function getExactCommonFactors(...nodes: ExpressionNode[]): readonly ExpressionN
 // Remove multiple factors from a given expression.
 export function removeExactFactors(node: ExpressionNode, factorsToRemove: readonly ExpressionNode[]): ExpressionNode {
 	if (isSum(node)) {
-		if (factorsToRemove.length === 1 && equalNodes(node, factorsToRemove[0])) return Integer.one
+		if (factorsToRemove.length === 1 && areNodesEqual(node, factorsToRemove[0])) return Integer.one
 		return sum(...node.terms.map(term => removeExactFactors(term, factorsToRemove)))
 	}
 	if (isSignNode(node)) return recreateSignNode(node, removeExactFactors(node.node, factorsToRemove))
 	let factors = getProductFactors(node)
 	for (const factorToRemove of factorsToRemove) {
-		const index = factors.findIndex(factor => equalNodes(factor, factorToRemove))
+		const index = factors.findIndex(factor => areNodesEqual(factor, factorToRemove))
 		if (index === -1) throw new Error('Invalid removeFactor call: cannot remove the factor from the given expression.')
 		factors = factors.filter((_, factorIndex) => factorIndex !== index)
 	}

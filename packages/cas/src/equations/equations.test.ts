@@ -72,7 +72,7 @@ describe('equation property checks', () => {
 		expect(asEquation('x+3=5').isNumeric()).toBe(false)
 	})
 	test('extracts variables', () => {
-		expect(asEquation('x+y=5').getVariables().map(variable => variable.str)).toEqual(['x', 'y'])
+		expect(asEquation('x+y=5').collectVariables().map(variable => variable.str)).toEqual(['x', 'y'])
 	})
 })
 
@@ -83,14 +83,14 @@ describe('equation equality and equivalence', () => {
 		expect(asEquation('x+2=5').strictEqualStructure('5=x+2')).toBe(false)
 	})
 	test('detects equivalent equations', () => {
-		expect(asEquation('2*x=6').equivalent('4*x=12')).toBe(true)
-		expect(asEquation('2*x=6').equivalent('2*x-6=0')).toBe(true)
-		expect(asEquation('2*x=6').equivalent('4*x-12=0')).toBe(true)
+		expect(asEquation('2*x=6').isEquivalentTo('4*x=12')).toBe(true)
+		expect(asEquation('2*x=6').isEquivalentTo('2*x-6=0')).toBe(true)
+		expect(asEquation('2*x=6').isEquivalentTo('4*x-12=0')).toBe(true)
 	})
 	test('detects non-equivalent equations', () => {
-		expect(asEquation('2*x=6').equivalent('2*x=8')).toBe(false)
-		expect(asEquation('2*x=6').equivalent('2*x^2=6*x')).toBe(false)
-		expect(asEquation('2*x=6').equivalent('4*x*y-12*y=0')).toBe(false)
+		expect(asEquation('2*x=6').isEquivalentTo('2*x=8')).toBe(false)
+		expect(asEquation('2*x=6').isEquivalentTo('2*x^2=6*x')).toBe(false)
+		expect(asEquation('2*x=6').isEquivalentTo('4*x*y-12*y=0')).toBe(false)
 	})
 	test('detects constant multiples of equations', () => {
 		expect(asEquation('4*x=12').isConstantMultiple('2*x=6')).toBe(true)

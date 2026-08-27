@@ -17,8 +17,8 @@ export const expressionComparisons = {
 		return inputExpression.isNumeric() && correctExpression.isNumeric() && approximatelyEqual(inputExpression.toNumber(), correctExpression.toNumber())
 	},
 
-	equivalent(input: ExpressionLike, correct: ExpressionLike): boolean {
-		return asExpression(input).equivalent(correct)
+	areEquivalent(input: ExpressionLike, correct: ExpressionLike): boolean {
+		return asExpression(input).isEquivalentTo(correct)
 	},
 
 	integerMultiple(input: ExpressionLike, correct: ExpressionLike): boolean {

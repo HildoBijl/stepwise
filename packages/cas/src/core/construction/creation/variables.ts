@@ -9,7 +9,7 @@ const subscriptPattern = `(?:_\\((?<longSubscript>[^()]+)\\)|_(?<shortSubscript>
 const pattern = new RegExp(`^(?:${accentPattern}|${plainPattern})${subscriptPattern}$`)
 
 // Turn a string into a variable.
-export function stringToVariable(input: string): Variable {
+export function parseVariable(input: string): Variable {
 	// Match with a regular expression.
 	const match = pattern.exec(input)
 	if (!match?.groups) throw new Error(`Variable interpretation error: could not interpret "${input}" as a variable.`)
@@ -36,5 +36,5 @@ export function variableToString(node: Variable): string {
 // Ensure that a string or Variable is a Variable object.
 export type VariableInput = Variable | string
 export function asVariable(variable: VariableInput): Variable {
-	return typeof variable === 'string' ? stringToVariable(variable) : variable
+	return typeof variable === 'string' ? parseVariable(variable) : variable
 }

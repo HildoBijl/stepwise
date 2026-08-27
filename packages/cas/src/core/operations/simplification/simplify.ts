@@ -2,7 +2,7 @@ import { type ExpressionSettingsOptions, resolveExpressionSettings } from '@step
 
 import { type ExpressionNode, nodeToTree } from '../../construction'
 
-import { mapDescendants } from '../structural'
+import { mapNodes } from '../structural'
 
 import { type SimplificationOptionsInput, resolveSimplificationOptions, resolveSimplificationRules, validateSimplificationOptions } from './simplificationOptions'
 import { applySimplificationRules, type AnySimplificationRule, type SimplificationContext, type SimplificationRules } from './rules'
@@ -58,5 +58,5 @@ function simplifyUntilStable(node: ExpressionNode, context: SimplificationContex
 
 // Run a set of simplification operations once on all nodes.
 function simplifyOnce(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
-	return mapDescendants(node, (descendant, parents) => applySimplificationRules(descendant, { ...context, parents }), { childrenFirst: true })
+	return mapNodes(node, (descendant, parents) => applySimplificationRules(descendant, { ...context, parents }), { childrenFirst: true })
 }

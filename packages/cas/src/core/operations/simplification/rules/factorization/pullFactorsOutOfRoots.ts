@@ -1,14 +1,14 @@
 import { getLargestPerfectPowerDivisor } from '@step-wise/math-tools'
 
-import { type ExpressionNode, type RootLike, integer, product, power } from '../../../../construction'
+import { type ExpressionNode, type RootFunction, integer, product, power } from '../../../../construction'
 
-import { isRootLike, isIntegerNode, isPower, isOne } from '../../../structural'
+import { isRootFunction, isIntegerNode, isPower, isOne } from '../../../structural'
 
 import { mergeFractionFactors, mergeProductsOfRoots, mergeProductsWithRoots } from '../combination'
 import { defineRule } from '../ruleDefinition'
 import { getProductFactors } from '../utils'
 
-function transform(node: RootLike): ExpressionNode {
+function transform(node: RootFunction): ExpressionNode {
 	if (!isIntegerNode(node.degree)) return node
 	const { pulledFactor, remainder } = getPulledFactor(node.radicand, node.degree.value)
 	return isOne(pulledFactor) ? node : product(...getProductFactors(pulledFactor), node.recreateWith(remainder))
@@ -51,7 +51,7 @@ function getPulledFactor(radicand: ExpressionNode, degree: number): { pulledFact
 
 export const pullFactorsOutOfRoots = defineRule({
 	name: 'pullFactorsOutOfRoots',
-	appliesTo: isRootLike,
+	appliesTo: isRootFunction,
 	transform,
 	conflictsWith: [mergeProductsOfRoots, mergeProductsWithRoots, mergeFractionFactors],
 })

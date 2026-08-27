@@ -6,7 +6,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, areEquivalent } = expressionComparisons
 
 // (ay)/(bx) = cz.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -18,8 +18,8 @@ export default buildStepExercise({
 		skill: 'solveMultiVariableProductEquation',
 		...createStepExerciseMetadata(['moveEquationFactor', 'moveEquationFactor', 'simplifyFractionWithVariables', 'checkMultiVariableEquationSolution']),
 		comparisons: {
-			moved: { compareSide: equivalent, allowSwitch: true },
-			isolated: { compareSide: equivalent, allowSwitch: true },
+			moved: { compareSide: areEquivalent, allowSwitch: true },
+			isolated: { compareSide: areEquivalent, allowSwitch: true },
 			ans: onlyOrderChanges,
 			checkLeft: onlyOrderChanges,
 			checkRight: onlyOrderChanges,

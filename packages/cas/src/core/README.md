@@ -34,14 +34,14 @@ The `core` is structured through four folders, each with various subfolders. The
 - [construction](./construction/): everything needed to set up `ExpressionNodes`. This includes:
   - [nodes](./construction/nodes/): defining all `ExpressionNode` types.
 	- [creation](./construction/creation/): helper functions like `sum`, `product`, etcetera to easily set up `ExpressionNodes`.
-	- [interpreting](./construction/interpreting/): tools that can turn a string into an `ExpressionNode`.
+	- [interpretation](./construction/interpretation/): tools that can turn a string into an `ExpressionNode`.
 - [operations](./operations/): everything used to adjust/manipulate `ExpressionNodes` into different `ExpressionNodes`.
   - [structural](./operations/structural/): operations working directly on the structure of the data. Think of type checks, traversal tools, etcetera.
 	- [simplification](./operations/simplification/): the `simplify` function can receive a large variety of options and uses it to rewrite the expression into something that is equivalent but differently written.
-	- [semantic](./operations/semantic/): all operations that have an inherent mathematical meaning outside of just tree nodes. For instance `getDerivative`.
+	- [semantic](./operations/semantic/): all operations that have an inherent mathematical meaning outside of just tree nodes. For instance `differentiate`.
 - [export](./export/): everything needed to display/output expressions.
   - [printing](./export/printing/): turn an expression into something that can be displayed, either as a string or through TeX or so.
-	- [serialization](./export/serialization/): turn an expression into a plain object that can be stored in a database, or reinterpret/deserialize stored objects.
+	- [storage](./export/storage/): turn an expression node into the intrinsic plain data needed to reconstruct it when its domain type is already known. Domain-level serialization, including type information and expression settings, is handled by the `Expression` layer.
 - [tests](./tests/): unit tests to see if everything does what it's intended to do.
 
 All tools are plain functions that require one or more nodes and perform operations with them.

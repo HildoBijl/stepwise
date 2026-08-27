@@ -88,7 +88,7 @@ function getFeedback(exerciseData) {
 
 	const hasNoTrigFunction = (input, correct, solution, isCorrect) => !isCorrect && !input.some(expression => expression.isTrigonometricFunction()) && <>Ergens in het antwoord wordt een goniometrische functie (sinus/cosinus/tangens) verwacht. Deze zit niet in je antwoord.</>
 	const hasNoCorrectTrigFunction = (input, correct, { rule }, isCorrect) => !isCorrect && !input.some(finder) && <>Je hebt niet de juiste goniometrische functie (sinus/cosinus/tangens) gebruikt.</>
-	const hasIncorrectTrigFunctionArgument = (input, correct, { rule }, isCorrect) => !isCorrect && !expressionComparisons.equivalent(input.find(finder).argument, correct.find(finder).argument) && <>Je hebt de juiste goniometrische functie gebruikt, maar tussen de haakjes gaat er iets mis.</>
+	const hasIncorrectTrigFunctionArgument = (input, correct, { rule }, isCorrect) => !isCorrect && !expressionComparisons.areEquivalent(input.find(finder).argument, correct.find(finder).argument) && <>Je hebt de juiste goniometrische functie gebruikt, maar tussen de haakjes gaat er iets mis.</>
 	const hasMissingSide = (input, correct, solution, isCorrect) => !isCorrect && !input.find(expression => x.equals(expression)) && <>Heb je de bekende zijde van <M>{x}</M> wel in je antwoord gebruikt?</>
 	const isWrongForm = (input, correct, solution, isCorrect) => !isCorrect && input.subtype !== correct.subtype && <>Als antwoord wordt een {correct.isFraction() ? 'deling' : 'vermenigvuldiging'} van termen verwacht. Dat is bij jouw antwoord niet het geval. Heb je je vergelijking wel correct herschreven?</>
 	const ansRemaining = (input, correct, solution, isCorrect) => !isCorrect && <>Je antwoord heeft de juiste onderdelen, maar je hebt bij het herschrijven van je vergelijking een foutje gemaakt.</>
@@ -96,7 +96,7 @@ function getFeedback(exerciseData) {
 
 	const hasNoFunction = (input, correct, solution, isCorrect) => !isCorrect && !input.left.isTrigonometricFunction() && <>Aan de linkerkant wordt een goniometrische functie (sinus/cosinus/tangens) verwacht. Kijk nog eens goed naar hoe je de betreffende regel toepast.</>
 	const hasWrongFunction = (input, correct, solution, isCorrect) => !isCorrect && input.left.subtype !== correct.left.subtype && <>Je hebt aan de linkerkant niet de juiste goniometrische functie (sinus/cosinus/tangens) gebruikt. Kijk nog eens goed naar welke regel je toepast.</>
-	const hasWrongLeft = (input, correct, { beta }, isCorrect) => !isCorrect && !expressionComparisons.equivalent(input.left, correct.left) && <>Je moet aan de linkerkant binnenin de functie simpelweg de hoek van <M>{beta}</M> graden gebruiken.</>
+	const hasWrongLeft = (input, correct, { beta }, isCorrect) => !isCorrect && !expressionComparisons.areEquivalent(input.left, correct.left) && <>Je moet aan de linkerkant binnenin de functie simpelweg de hoek van <M>{beta}</M> graden gebruiken.</>
 	const equationRemaining = (input, correct, solution, isCorrect) => !isCorrect && <>De linkerkant klopt, maar de rechterkant is niet correct. Heb je wel de juiste zijden door elkaar gedeeld?</>
 	const equationChecks = [hasNoFunction, hasWrongFunction, hasWrongLeft, equationRemaining]
 

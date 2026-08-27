@@ -5,7 +5,7 @@ import { expressionChecks, expressionComparisons } from '@step-wise/cas'
 import { Translation, CountingWord } from 'i18n'
 import { M } from 'ui/components'
 
-const { onlyOrderChanges, equivalent, constantMultiple } = expressionComparisons
+const { onlyOrderChanges, areEquivalent: equivalent, constantMultiple } = expressionComparisons
 
 const translationPath = 'eduTools/feedback'
 

@@ -5,7 +5,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { equivalent, onlyOrderChanges } = expressionComparisons
+const { areEquivalent, onlyOrderChanges } = expressionComparisons
 const { hasSumWithinProduct, hasSumWithinPowerBase } = expressionChecks
 
 // (ax^p+bx^q)^2
@@ -18,9 +18,9 @@ export default buildStepExercise({
 		skill: 'expandDoubleBrackets',
 		...createStepExerciseMetadata(['rewritePower', 'expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
 		comparisons: {
-			multiplication: (input: Expression, correct: Expression) => !input.some(factor => factor.isPower() && factor.base.isSum()) && equivalent(input, correct),
-			firstExpanded: (input: Expression, correct: Expression) => !input.some(term => term.isProduct() && count(term.factors, factor => factor.isSum()) > 1) && equivalent(input, correct),
-			allExpanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && !hasSumWithinPowerBase(input) && equivalent(input, correct),
+			multiplication: (input: Expression, correct: Expression) => !input.some(factor => factor.isPower() && factor.base.isSum()) && areEquivalent(input, correct),
+			firstExpanded: (input: Expression, correct: Expression) => !input.some(term => term.isProduct() && count(term.factors, factor => factor.isSum()) > 1) && areEquivalent(input, correct),
+			allExpanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && !hasSumWithinPowerBase(input) && areEquivalent(input, correct),
 			ans: onlyOrderChanges,
 		},
 	},

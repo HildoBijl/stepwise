@@ -3,15 +3,15 @@ import { isTextPart } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Product } from '../../nodes'
 
-import type { IntermediateInterpretationPart, InterpreterContext } from '../types'
+import type { InterpretationPart, InterpreterContext } from '../types'
 
 import { interpretElements } from './interpretElements'
 import { interpretString } from './interpretString'
 
 // Interpret strings, functions and accents that remain after brackets/sums/products.
-export function interpretStringsAndElements(value: IntermediateInterpretationPart[], context: InterpreterContext): ExpressionNode {
+export function interpretParts(parts: InterpretationPart[], context: InterpreterContext): ExpressionNode {
 	// Turn all text parts into arrays of interpreted elements. Keep constructs and already interpreted nodes as they are.
-	const interpretedParts = value.map(element => isTextPart(element) ? interpretString(element, context) : element).flat()
+	const interpretedParts = parts.map(element => isTextPart(element) ? interpretString(element, context) : element).flat()
 
 	// Interpret the remaining elements (accents, SubSup, special functions). This needs to be done after the interpreting of strings, in case of SubSups that need merging with the prior variable.
 	const elements = interpretElements(interpretedParts, context)

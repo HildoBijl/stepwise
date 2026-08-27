@@ -18,7 +18,7 @@ const Problem = () => {
 		<Par><Translation>Consider the equation <BM>{equation}.</BM> Move the factor <M>{factor}</M> to the other side. (Also make sure that there are no fractions of fractions in the final result.)</Translation></Par>
 		<InputSpace>
 			<Par>
-				<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
+				<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.collectVariables())} />
 			</Par>
 		</InputSpace>
 	</>
@@ -32,7 +32,7 @@ const steps = [
 				<Par><Translation><Emp>Divide</Emp> both sides of the equation by <M>{factor}</M>. (After all, the factor <M>{factor}</M> is inside a <Emp>multiplication</Emp>.)</Translation></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="bothSidesChanged" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
+						<EquationInput id="bothSidesChanged" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.collectVariables())} />
 					</Par>
 				</InputSpace>
 			</>
@@ -48,7 +48,7 @@ const steps = [
 				<Par><Translation>Simplify the fraction on the <Check value={switchSides}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side by canceling fraction factors where possible.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="fractionFactorsCanceled" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
+						<EquationInput id="fractionFactorsCanceled" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.collectVariables())} />
 					</Par>
 				</InputSpace>
 			</>
@@ -64,7 +64,7 @@ const steps = [
 				<Par><Translation>Also simplify the fraction on the <Check value={switchSides}><Check.True>left</Check.True><Check.False>right</Check.False></Check> (if not already done) to ensure that there is no fraction of fractions in the final result.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
+						<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.collectVariables())} />
 					</Par>
 				</InputSpace>
 			</>

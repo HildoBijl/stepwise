@@ -5,7 +5,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectExpressionParameters } from '#generationTools'
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, areEquivalent } = expressionComparisons
 const { hasFractionWithinFraction } = equationChecks
 
 // ax = b => x = b/a.
@@ -13,7 +13,7 @@ const variableSet = ['x', 'y', 'z']
 const usedVariables = ['x']
 const constants = ['a', 'b']
 
-const ansEqualsOptions = ({ switchSides }: { switchSides: boolean }) => ({ preprocessSide: (side: Expression) => side.cancel(), compareLeft: switchSides ? equivalent : onlyOrderChanges, compareRight: switchSides ? onlyOrderChanges : equivalent })
+const ansEqualsOptions = ({ switchSides }: { switchSides: boolean }) => ({ preprocessSide: (side: Expression) => side.cancel(), compareLeft: switchSides ? areEquivalent : onlyOrderChanges, compareRight: switchSides ? onlyOrderChanges : areEquivalent })
 
 export default buildStepExercise({
 	metadata: {
@@ -21,7 +21,7 @@ export default buildStepExercise({
 		...createStepExerciseMetadata(['multiplyBothEquationSides', 'cancelFractionFactors']),
 		...{ ansEqualsOptions },
 		comparisons: {
-			bothSidesChanged: { compareSide: equivalent },
+			bothSidesChanged: { compareSide: areEquivalent },
 			ans: (input: Equation, correct: Equation, solution: { switchSides: boolean }) => !hasFractionWithinFraction(input) && correct.equals(input, ansEqualsOptions(solution)),
 		},
 	},

@@ -3,27 +3,27 @@ import { type ExpressionNode, type Sin, type Cos, type Tan, type Arcsin, type Ar
 import { type DerivativeContext } from '../types'
 
 export function getSinDerivative(node: Sin, context: DerivativeContext): ExpressionNode {
-	return product(cos(node.argument), context.getDerivative(node.argument), getTrigonometryDerivativeFactor(context))
+	return product(cos(node.argument), context.differentiate(node.argument), getTrigonometryDerivativeFactor(context))
 }
 
 export function getCosDerivative(node: Cos, context: DerivativeContext): ExpressionNode {
-	return negative(product(sin(node.argument), context.getDerivative(node.argument), getTrigonometryDerivativeFactor(context)))
+	return negative(product(sin(node.argument), context.differentiate(node.argument), getTrigonometryDerivativeFactor(context)))
 }
 
 export function getTanDerivative(node: Tan, context: DerivativeContext): ExpressionNode {
-	return product(fraction(context.getDerivative(node.argument), power(cos(node.argument), 2)), getTrigonometryDerivativeFactor(context))
+	return product(fraction(context.differentiate(node.argument), power(cos(node.argument), 2)), getTrigonometryDerivativeFactor(context))
 }
 
 export function getArcsinDerivative(node: Arcsin, context: DerivativeContext): ExpressionNode {
-	return product(fraction(context.getDerivative(node.argument), sqrt(sum(1, negative(power(node.argument, 2))))), getInverseTrigonometryDerivativeFactor(context))
+	return product(fraction(context.differentiate(node.argument), sqrt(sum(1, negative(power(node.argument, 2))))), getInverseTrigonometryDerivativeFactor(context))
 }
 
 export function getArccosDerivative(node: Arccos, context: DerivativeContext): ExpressionNode {
-	return negative(product(fraction(context.getDerivative(node.argument), sqrt(sum(1, negative(power(node.argument, 2))))), getInverseTrigonometryDerivativeFactor(context)))
+	return negative(product(fraction(context.differentiate(node.argument), sqrt(sum(1, negative(power(node.argument, 2))))), getInverseTrigonometryDerivativeFactor(context)))
 }
 
 export function getArctanDerivative(node: Arctan, context: DerivativeContext): ExpressionNode {
-	return product(fraction(context.getDerivative(node.argument), sum(1, power(node.argument, 2))), getInverseTrigonometryDerivativeFactor(context))
+	return product(fraction(context.differentiate(node.argument), sum(1, power(node.argument, 2))), getInverseTrigonometryDerivativeFactor(context))
 }
 
 function getTrigonometryDerivativeFactor(context: DerivativeContext): ExpressionNode {

@@ -2,7 +2,7 @@ import { sum as arraySum } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Sum, sum, product } from '../../../../construction'
 
-import { isSum, equalNodes, isOne } from '../../../structural'
+import { isSum, areNodesEqual, isOne } from '../../../structural'
 
 import { defineRule } from '../ruleDefinition'
 import { type SimplificationContext } from '../types'
@@ -13,7 +13,7 @@ function transform(node: Sum, context: SimplificationContext): ExpressionNode {
 	const groups: { variablePart: ExpressionNode, constantParts: ExpressionNode[], original: ExpressionNode }[] = []
 	for (const term of node.terms) {
 		const { constantPart, variablePart } = getConstantAndVariablePart(term)
-		const group = isOne(variablePart) ? undefined : groups.find(group => equalNodes(group.variablePart, variablePart)) // Don't group numeric terms.
+		const group = isOne(variablePart) ? undefined : groups.find(group => areNodesEqual(group.variablePart, variablePart)) // Don't group numeric terms.
 		if (group) group.constantParts.push(constantPart)
 		else groups.push({ variablePart, constantParts: [constantPart], original: term })
 	}

@@ -12,7 +12,7 @@ export default buildStepExercise({
 		skill: 'findAdvancedDerivative',
 		...createStepExerciseMetadata([undefined, undefined, ['applyQuotientRule', 'lookUpElementaryDerivative'], undefined]),
 		weight: 2,
-		comparisons: { method: {}, Expression: expressionComparisons.equivalent },
+		comparisons: { method: {}, Expression: expressionComparisons.areEquivalent },
 	},
 
 	generateParameters() {
@@ -28,10 +28,10 @@ export default buildStepExercise({
 		const method = 2
 		const f = fRaw.multiplyLeft(c).cancel()
 		const g = g1.divide(g2)
-		const x = f.getVariables()[0]
+		const x = f.collectVariables()[0]
 		const h = f.substitute(x, g).flatten()
-		const fDerivative = f.getDerivative().combine()
-		const gDerivative = g.getDerivative().combine()
+		const fDerivative = f.differentiate().combine()
+		const gDerivative = g.differentiate().combine()
 		const derivativeRaw = fDerivative.substitute(x, g).multiply(gDerivative)
 		const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
 		return { ...parameters, method, x, f, g, h, fDerivative, gDerivative, derivativeRaw, derivative }

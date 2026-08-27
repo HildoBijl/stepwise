@@ -71,8 +71,8 @@ export class Equation {
 		return new Equation(Expression.fromStorageValue(storageValue.left, settings), Expression.fromStorageValue(storageValue.right, settings), settings)
 	}
 
-	getInterpretationSettings(): InterpretationSettingsOptions {
-		return { ...this.left.getInterpretationSettings(), ...this.right.getInterpretationSettings() }
+	inferInterpretationSettings(): InterpretationSettingsOptions {
+		return { ...this.left.inferInterpretationSettings(), ...this.right.inferInterpretationSettings() }
 	}
 
 	/*
@@ -80,7 +80,7 @@ export class Equation {
 	 */
 
 	// String
-	toString(settings: InterpretationSettingsOptions = this.getInterpretationSettings()): string { return `${this.left.toString(settings)}=${this.right.toString(settings)}` }
+	toString(settings: InterpretationSettingsOptions = this.inferInterpretationSettings()): string { return `${this.left.toString(settings)}=${this.right.toString(settings)}` }
 	get str() { return this.toString() }
 	print() { console.log(this.toString()) }
 
@@ -93,7 +93,7 @@ export class Equation {
 	get tree() { return this.toTree() }
 
 	// InputValue
-	toInputValue(interpretationSettings: InterpretationSettingsOptions = this.getInterpretationSettings()): EquationInputValue {
+	toInputValue(interpretationSettings: InterpretationSettingsOptions = this.inferInterpretationSettings()): EquationInputValue {
 		const leftInputValue = this.left.toInputValue(interpretationSettings)
 		const rightInputValue = this.right.toInputValue(interpretationSettings)
 		return createEquationInputValue(mergeAdjacentTextParts([...leftInputValue.value, '=', ...rightInputValue.value]), interpretationSettings, this.settings)
@@ -107,7 +107,7 @@ export class Equation {
 	isTrivial(): boolean { return this.left.equalStructure(this.right) }
 	dependsOn(variable: VariableLike): boolean { return this.someSide(side => side.dependsOn(variable)) }
 	isNumeric(): boolean { return this.everySide(side => side.isNumeric()) }
-	hasFloat(): boolean { return this.someSide(side => side.hasFloat()) }
+	containsFloat(): boolean { return this.someSide(side => side.containsFloat()) }
 	isPolynomial(): boolean { return this.everySide(side => side.isPolynomial()) }
 	isRational(): boolean { return this.everySide(side => side.isRational()) }
 	isSingular(): boolean { return this.everySide(side => side.isSingular()) }
@@ -117,10 +117,10 @@ export class Equation {
 	 * Basic extractions
 	 */
 
-	getVariables(): Expression[] {
+	collectVariables(): Expression[] {
 		const variables: Expression[] = []
 		this.forEverySide(side => {
-			side.getVariables().forEach(variable => {
+			side.collectVariables().forEach(variable => {
 				if (!variables.some(existingVariable => existingVariable.strictEqualStructure(variable))) variables.push(variable)
 			})
 		})
@@ -140,7 +140,7 @@ export class Equation {
 	self(): Equation { return this }
 	switch(): Equation { return this.recreateWith(this.right, this.left) }
 	negate(): Equation { return this.mapSides(side => side.negate()) }
-	abs(): Equation { return this.mapSides(side => side.abs()) }
+	stripSigns(): Equation { return this.mapSides(side => side.stripSigns()) }
 	add(...terms: ExpressionLike[]): Equation { return this.mapSides(side => side.add(...terms)) }
 	addLeft(...terms: ExpressionLike[]): Equation { return this.mapSides(side => side.addLeft(...terms)) }
 	subtract(term: ExpressionLike): Equation { return this.mapSides(side => side.subtract(term)) }
@@ -169,7 +169,7 @@ export class Equation {
 	evaluateAt(substitutions: SubstitutionMap): boolean
 	evaluateAt(arg1: ExpressionLike | VariableLike | readonly VariableLike[] | SubstitutionMap, arg2?: ExpressionLike | readonly ExpressionLike[]): boolean {
 		const substituted = this.substitute(arg1 as never, arg2 as never)
-		if (!substituted.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the equation still depends on variables ${JSON.stringify(substituted.getVariables().map(variable => variable.str))}.`)
+		if (!substituted.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the equation still depends on variables ${JSON.stringify(substituted.collectVariables().map(variable => variable.str))}.`)
 		return approximatelyEqual(substituted.left.toNumber(), substituted.right.toNumber())
 	}
 
@@ -315,7 +315,7 @@ export class Equation {
 		return false
 	}
 
-	equivalent(other: EquationLike): boolean {
+	isEquivalentTo(other: EquationLike): boolean {
 		return this.normalizeToZero().left.isConstantMultiple(this.coerceEquation(other).normalizeToZero().left)
 	}
 
@@ -332,6 +332,6 @@ export class Equation {
 	}
 
 	private hasSameSideMultiple(equation: Equation, isMultiple: (a: Expression, b: Expression) => boolean): boolean {
-		return isMultiple(this.left, equation.left) && isMultiple(this.right, equation.right) && this.left.multiply(equation.right).equivalent(equation.left.multiply(this.right))
+		return isMultiple(this.left, equation.left) && isMultiple(this.right, equation.right) && this.left.multiply(equation.right).isEquivalentTo(equation.left.multiply(this.right))
 	}
 }

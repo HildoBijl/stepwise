@@ -73,7 +73,7 @@ Important: if you request an attribute that doesn't exist, like the numerator of
 
 ### Property checks
 
-There are a variety of other properties that can be checked too. These include value checks like `isZero`, `isOne`, `isPositiveInteger`, etcetera. They also include properties like `isNumeric`, `isPolynomial` or `isRational`. We can also check the dependencies through `exp.getVariables()` (gives a list of `Variable` expressions that are present in the equation) or `exp.dependsOn(asExpression('x'))` which checks if the expression depends on a variable.
+There are a variety of other properties that can be checked too. These include value checks like `isZero`, `isOne`, `isPositiveInteger`, etcetera. They also include properties like `isNumeric`, `isPolynomial` or `isRational`. We can also check the dependencies through `exp.collectVariables()` (gives a list of `Variable` expressions that are present in the equation) or `exp.dependsOn(asExpression('x'))` which checks if the expression depends on a variable.
 
 
 ### Recursive checks
@@ -202,10 +202,10 @@ asExpression('2x').strictEqualStructure('x*2') // Gives false
 Often, we just want to check for equivalency.
 
 ```
-asExpression('(x+3)^2').equivalent('x^2+6x+18/2') // Gives true
+asExpression('(x+3)^2').isEquivalentTo('x^2+6x+18/2') // Gives true
 ```
 
-This basically runs a `normalize` simplification on both expressions and then checks the structure. So getting `true` guarantees equivalence, but getting `false` does not guarantee non-equivalence. For instance, `asExpression('sin(x)^2+cos(x)^2').equivalent(1)` is likely to not be detected.
+This basically runs a `normalize` simplification on both expressions and then checks the structure. So getting `true` guarantees equivalence, but getting `false` does not guarantee non-equivalence. For instance, `asExpression('sin(x)^2+cos(x)^2').isEquivalentTo(1)` is likely to not be detected.
 
 
 ### General equality
@@ -216,7 +216,7 @@ The above steps can also be done through the `equals` function which requires op
 asExpression('(3x)^2').equals('9x^2', { preprocess: exp => exp.combine(), allowOrderChanges: true }) // Gives true
 ```
 
-By default, the `equals` function uses the same options as `equalStructure`, but by adding `normalize` as preprocessing step, we can turn it into `equivalent` as well. The possibilities are a bit larger here.
+By default, the `equals` function uses the same options as `equalStructure`, but by adding `normalize` as preprocessing step, we can turn it into `isEquivalentTo` as well. The possibilities are a bit larger here.
 
 
 ### Other comparisons
@@ -238,12 +238,12 @@ The amount of other operations for the CAS is still growing. The CAS remains a w
 
 ### Derivatives
 
-To get a derivative, we call `getDerivative` with the variable we want to take the derivative of. (If there is only one variable, it may be ommitted.)
+To get a derivative, we call `differentiate` with the variable we want to take the derivative of. (If there is only one variable, it may be ommitted.)
 
 ```
-asExpression('3x^2').getDerivative('x') // Gives 3*2x^(2-1)
+asExpression('3x^2').differentiate('x') // Gives 3*2x^(2-1)
 ```
 
-Note that `getDerivative` does not do any simplification, so it's wise to run a `combine` call after, or alternatively `exp.getDerivative('x').normalize().format()`.
+Note that `differentiate` does not do any simplification, so it's wise to run a `combine` call after, or alternatively `exp.differentiate('x').normalize().format()`.
 
-To get the derivative with respect to all variables, use `exp.getGradient()`. This gives an array of expressions. The order of the derivative entries will equal the order of the variables in `exp.getVariables()`.
+To get the derivative with respect to all variables, use `exp.getGradient()`. This gives an array of expressions. The order of the derivative entries will equal the order of the variables in `exp.collectVariables()`.

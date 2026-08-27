@@ -6,7 +6,7 @@ import { type ExpressionNode } from '../../../construction'
 import { subtract, isZero, expandToSingulars } from '../../structural'
 import { simplify, normalize } from '../../simplification'
 
-export function equivalent(a: ExpressionNode, b: ExpressionNode, settings: ExpressionSettingsOptions = {}): boolean {
+export function areEquivalent(a: ExpressionNode, b: ExpressionNode, settings: ExpressionSettingsOptions = {}): boolean {
 	const aSingulars = expandToSingulars(a)
 	const bSingulars = expandToSingulars(b)
 	return hasOneToOneMatching(aSingulars, bSingulars, (a, b) => equivalentSingular(a, b, settings))

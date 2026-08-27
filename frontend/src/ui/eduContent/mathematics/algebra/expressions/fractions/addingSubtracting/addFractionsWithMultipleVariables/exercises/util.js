@@ -3,7 +3,7 @@ import { expressionComparisons } from '@step-wise/cas'
 import { M } from 'ui/components'
 import { CrossExerciseTranslation } from 'ui/eduTools'
 
-const { onlyOrderChanges, equivalent, integerMultiple, constantMultiple } = expressionComparisons
+const { onlyOrderChanges, areEquivalent: equivalent, integerMultiple, constantMultiple } = expressionComparisons
 
 export function LCM() {
 	return <>

@@ -12,7 +12,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'findBasicDerivative',
 		...createStepExerciseMetadata([[undefined, undefined], ['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], undefined]),
-		comparisons: { Expression: expressionComparisons.equivalent },
+		comparisons: { Expression: expressionComparisons.areEquivalent },
 	},
 
 	generateParameters() {
@@ -32,8 +32,8 @@ export default buildStepExercise({
 		if (!func.isSum()) throw new Error('Expected a sum containing two elementary-function terms.')
 		const { constant: c1, func: f1 } = getElementaryFunctionFromTerm(func.terms[0])
 		const { constant: c2, func: f2 } = getElementaryFunctionFromTerm(func.terms[1])
-		const f1Derivative = f1.getDerivative().combine().sort()
-		const f2Derivative = f2.getDerivative().combine().sort()
+		const f1Derivative = f1.differentiate().combine().sort()
+		const f2Derivative = f2.differentiate().combine().sort()
 		const derivative = c1.multiply(f1Derivative).add(c2.multiply(f2Derivative)).combine()
 		return { ...parameters, c1, c2, f1, f2, f1Derivative, f2Derivative, derivative }
 	},
