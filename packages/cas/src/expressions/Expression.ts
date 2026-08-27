@@ -5,7 +5,7 @@ import {
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootFunction, isLn, isLog, isLogarithmFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	isNumeric, containsFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
-	add, subtract, multiply, divide, negative, stripSigns, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan, substitute, evaluateNumericNode, collectVariables, expandToSingulars, areNodesEqual, // Structural operations
+	add, subtract, multiply, divide, negative, stripSigns, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan, substitute, substituteAll, evaluateNumericNode, collectVariables, expandToSingulars, areNodesEqual, // Structural operations
 	type SimplificationOptionsInput, adjustSimplificationOptions, simplify, // Simplification operations
 	flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, format, // Simplification presets
 	convertExpressionSettings, areEquivalent, isConstantMultiple, isIntegerMultiple, differentiate, // Semantic operations
@@ -302,8 +302,13 @@ export class Expression {
 	}
 
 	mapBase(transform: (base: Expression) => Expression): Expression {
-		if (this.isPower()) return transform(this.base).toPower(this.exponent)
-		if (this.isLogFunction()) return this.argument.log(transform(this.base))
+		if (this.isPower() || this.isLogFunction()) {
+			const base = this.base
+			const transformedBase = transform(base)
+			if (transformedBase === base) return this
+			if (this.isPower()) return transformedBase.toPower(this.exponent)
+			return this.argument.log(transformedBase)
+		}
 		throw new Error(`Invalid mapBase call: expression is of type "${this.subtype}", not "Power", "Log" or "Ln".`)
 	}
 	mapExponent(transform: (exponent: Expression) => Expression): Expression {
@@ -312,7 +317,12 @@ export class Expression {
 	}
 
 	mapDegree(transform: (degree: Expression) => Expression): Expression {
-		if (this.isRootFunction()) return this.radicand.root(transform(this.degree))
+		if (this.isRootFunction()) {
+			const degree = this.degree
+			const transformedDegree = transform(degree)
+			if (transformedDegree === degree) return this
+			return this.radicand.root(transformedDegree)
+		}
 		throw new Error(`Invalid mapDegree call: expression is of type "${this.subtype}", not "Root" or "Sqrt".`)
 	}
 	mapRadicand(transform: (radicand: Expression) => Expression): Expression {
@@ -400,11 +410,9 @@ export class Expression {
 
 	private substituteAll(variables: readonly VariableLike[], substitutions: readonly ExpressionLike[]): Expression {
 		if (variables.length !== substitutions.length) throw new Error(`Invalid substitute call: got ${variables.length} variables but ${substitutions.length} substitutions.`)
-		const dummyVariableNodes = variables.map((_, index) => variable('TemporaryDummyVariable', `index${index}`))
-		let result: Expression = this
-		variables.forEach((currVariable, index) => { result = result.substituteVariable(this.coerceVariableNode(currVariable), dummyVariableNodes[index]) })
-		substitutions.forEach((substitution, index) => { result = result.substituteVariable(dummyVariableNodes[index], this.coerceExpression(substitution).node) })
-		return result
+		const variableNodes = variables.map(variable => this.coerceVariableNode(variable))
+		const substitutionNodes = substitutions.map(substitution => this.coerceExpression(substitution).node)
+		return this.recreateWith(substituteAll(this.node, variableNodes, substitutionNodes))
 	}
 
 	protected substituteVariable(variableNode: Variable, substitutionNode: ExpressionNode) {
