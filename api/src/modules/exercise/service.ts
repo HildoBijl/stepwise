@@ -25,7 +25,7 @@ export interface GetUserSkillWithExercisesOptions extends ServiceOptions {
 	createIfNoneExists?: boolean
 }
 
-export interface UserSkillWithExercisesResult {
+export interface UserSkillExerciseData {
 	skill: UserSkillRecord
 	exercises: ExerciseSampleWithEvents[]
 	activeExercise: ExerciseSampleWithEvents | undefined
@@ -37,16 +37,16 @@ function hasLoadedExercises(skill: UserSkillRecord): skill is UserSkillWithLoade
 	return Array.isArray(Reflect.get(skill, 'exercises'))
 }
 
-export function getLastEvent(exercise: ExerciseSampleRecord): ExerciseEventRecord | null {
+export function getLatestExerciseEvent(exercise: ExerciseSampleRecord): ExerciseEventRecord | null {
 	const events = exercise.events ?? []
 	return events.length > 0 ? last(events) : null
 }
 
-export function getExerciseState(exercise: ExerciseSampleRecord): ExerciseState {
-	return getLastEvent(exercise)?.state ?? exercise.initialState
+export function getCurrentExerciseState(exercise: ExerciseSampleRecord): ExerciseState {
+	return getLatestExerciseEvent(exercise)?.state ?? exercise.initialState
 }
 
-export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: string, skillId: SkillId, options: GetUserSkillWithExercisesOptions = {}): Promise<UserSkillWithExercisesResult | null> {
+export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: string, skillId: SkillId, options: GetUserSkillWithExercisesOptions = {}): Promise<UserSkillExerciseData | null> {
 	const { includeActiveExercise = false, includeExercises = false, requireActiveExercise = false, requireNoActiveExercise = false, createIfNoneExists = false, transaction } = options
 	const loadExercises = includeActiveExercise || includeExercises || requireActiveExercise || requireNoActiveExercise
 	const exerciseInclude: IncludeOptions | undefined = loadExercises ? {

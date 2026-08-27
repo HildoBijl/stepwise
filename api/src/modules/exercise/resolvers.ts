@@ -8,10 +8,10 @@ import { getExercise, getExercises } from '@step-wise/exercises'
 import { UserInputError } from '../../errors.ts'
 
 import type { AuthenticatedContext } from '../user/index.ts'
-import { type SkillUpdate, type UserSkillRecord, applySkillUpdatesForUser, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
+import { type SkillObservationInput, type UserSkillRecord, applySkillObservationsForUser, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
 
 import { type ExerciseEventRecord, type ExerciseSampleRecord, type ExerciseSampleWithEvents, hasLoadedExerciseEvents } from './models.ts'
-import { type ExerciseDatabase, getExerciseState, getLastEvent, getUserSkillWithExercises } from './service.ts'
+import { type ExerciseDatabase, getCurrentExerciseState, getLatestExerciseEvent, getUserSkillWithExercises } from './service.ts'
 
 type ExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'loaders' | 'pubsub' | 'userId'>
 
@@ -35,9 +35,9 @@ export const exerciseResolvers = {
 	Exercise: {
 		mode: () => 'solo',
 		startedOn: (exercise: ExerciseSampleRecord) => exercise.createdAt,
-		state: getExerciseState,
-		lastAction: (exercise: ExerciseSampleRecord) => getLastEvent(exercise)?.action ?? null,
-		lastActionAt: (exercise: ExerciseSampleRecord) => getLastEvent(exercise)?.createdAt ?? null,
+		state: getCurrentExerciseState,
+		lastAction: (exercise: ExerciseSampleRecord) => getLatestExerciseEvent(exercise)?.action ?? null,
+		lastActionAt: (exercise: ExerciseSampleRecord) => getLatestExerciseEvent(exercise)?.createdAt ?? null,
 		history: (exercise: ExerciseSampleRecord) => exercise.events ?? [],
 		active: (exercise: ExerciseSampleRecord) => exercise.active,
 	},
@@ -79,15 +79,15 @@ export const exerciseResolvers = {
 			let updatedSkills: UserSkillRecord[] = []
 			await db.transaction(async transaction => {
 				updatedExercise = await lockActiveExercise(db, activeExercise.id, skillId, transaction)
-				const skillUpdates: SkillUpdate[] = []
+				const skillObservations: SkillObservationInput[] = []
 				const state = processSoloAction({
 					parameters: updatedExercise.parameters,
-					state: getExerciseState(updatedExercise),
+					state: getCurrentExerciseState(updatedExercise),
 					action,
-					updateSkills: (setup, correct) => { if (setup) skillUpdates.push({ setup, correct }) },
+					updateSkills: (setup, correct) => { if (setup) skillObservations.push({ setup, correct }) },
 				})
 				if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${updatedExercise.exerciseId}" due to an error in updating the exercise state.`)
-				updatedSkills = await applySkillUpdatesForUser(db, userId, skillUpdates, transaction)
+				updatedSkills = await applySkillObservationsForUser(db, userId, skillObservations, transaction)
 				updatedExercise.events.push(await db.ExerciseEvent.create({ exerciseSampleId: updatedExercise.id, action, state }, { transaction }))
 				if (isStateDone(state)) {
 					await updatedExercise.update({ active: false }, { transaction })

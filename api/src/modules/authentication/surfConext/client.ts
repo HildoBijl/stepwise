@@ -32,7 +32,7 @@ export class Client implements SurfConextClient {
 		}
 	}
 
-	async getData(params: SurfConextCallbackParams, sessionId: string): Promise<SurfConextIdentity | null> {
+	async getIdentity(params: SurfConextCallbackParams, sessionId: string): Promise<SurfConextIdentity | null> {
 		if (typeof params.state !== 'string' || typeof params.code !== 'string') return null
 
 		try {

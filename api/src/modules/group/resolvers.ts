@@ -4,10 +4,10 @@ import { ForbiddenError, UserInputError } from '../../errors.ts'
 
 import type { ApiContext } from '../types.ts'
 import type { AuthenticatedContext } from '../user/index.ts'
-import { getSubscription } from '../subscriptions.ts'
+import { createSubscriptionResolver } from '../subscriptions.ts'
 
 import type { GroupMemberRecord, GroupRecord } from './models.ts'
-import { type GroupUpdatedPayload, createRandomCode, deactivateUserGroups, getGroup, getUserGroups, getUserWithGroups, groupEvents, publishDeactivatedGroups, verifyGroupMembership } from './service.ts'
+import { type GroupUpdatedPayload, createRandomGroupCode, deactivateUserGroupMemberships, ensureGroupMembership, getGroup, getUserGroups, getUserWithGroups, groupEvents, publishDeactivatedGroupMemberships } from './service.ts'
 
 type GroupContext = Pick<ApiContext, 'db'>
 type AuthenticatedGroupContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'pubsub' | 'userId'>
@@ -63,9 +63,9 @@ export const groupResolvers = {
 				for (let attemptsRemaining = 10; attemptsRemaining > 0; --attemptsRemaining) {
 					try {
 						return await db.transaction(async transaction => {
-							const group = await db.Group.create({ code: createRandomCode() }, { transaction })
+							const group = await db.Group.create({ code: createRandomGroupCode() }, { transaction })
 							const user = await getUserWithGroups(db, userId, { transaction })
-							const deactivatedGroups = await deactivateUserGroups(user, { transaction })
+							const deactivatedGroups = await deactivateUserGroupMemberships(user, { transaction })
 							await group.addMember(userId, { through: { active: true }, transaction })
 							group.members = await group.getMembers({ transaction })
 							return { group, deactivatedGroups }
@@ -78,7 +78,7 @@ export const groupResolvers = {
 				throw new Error('Failed to create group: not enough unique codes remaining.')
 			})()
 
-			await publishDeactivatedGroups(pubsub, result.deactivatedGroups, userId)
+			await publishDeactivatedGroupMemberships(pubsub, result.deactivatedGroups, userId)
 			await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId, action: 'create' })
 			return result.group
 		},
@@ -89,7 +89,7 @@ export const groupResolvers = {
 				// Validate the target before changing any existing memberships.
 				const group = await getGroup(db, code, { transaction })
 				const user = await getUserWithGroups(db, userId, { transaction })
-				const deactivatedGroups = await deactivateUserGroups(user, { exceptionCode: group.code, transaction })
+				const deactivatedGroups = await deactivateUserGroupMemberships(user, { exceptionCode: group.code, transaction })
 
 				// If the user is already a member of the group, simply activate the membership.
 				const existingGroup = user.groups.find(existingGroup => existingGroup.code === group.code)
@@ -110,7 +110,7 @@ export const groupResolvers = {
 				return { group, deactivatedGroups, action: 'join' as const }
 			})
 
-			await publishDeactivatedGroups(pubsub, result.deactivatedGroups, userId)
+			await publishDeactivatedGroupMemberships(pubsub, result.deactivatedGroups, userId)
 			if (result.action) await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId, action: result.action })
 			return result.group
 		},
@@ -125,7 +125,7 @@ export const groupResolvers = {
 				const group = user.groups.find(group => group.code === normalizedCode)
 				if (!group) throw new UserInputError(`Failed to activate group: user is not a member of group "${code}".`)
 
-				const deactivatedGroups = await deactivateUserGroups(user, { exceptionCode: normalizedCode, transaction })
+				const deactivatedGroups = await deactivateUserGroupMemberships(user, { exceptionCode: normalizedCode, transaction })
 				const member = group.members.find(member => member.id === userId)
 				if (!member) throw new Error(`Failed to find user "${userId}" among members of group "${group.code}".`)
 				const activated = !member.groupMembership.active
@@ -133,7 +133,7 @@ export const groupResolvers = {
 				return { group, deactivatedGroups, activated }
 			})
 
-			await publishDeactivatedGroups(pubsub, result.deactivatedGroups, userId)
+			await publishDeactivatedGroupMemberships(pubsub, result.deactivatedGroups, userId)
 			if (result.activated) await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId, action: 'activate' })
 			return result.group
 		},
@@ -144,24 +144,24 @@ export const groupResolvers = {
 			const result = await db.transaction(async transaction => {
 				const user = await getUserWithGroups(db, userId, { transaction })
 				const activeGroup = user.groups.find(group => group.members.some(member => member.id === userId && member.groupMembership.active))
-				const deactivatedGroups = await deactivateUserGroups(user, { transaction })
+				const deactivatedGroups = await deactivateUserGroupMemberships(user, { transaction })
 				return { activeGroup, deactivatedGroups }
 			})
-			await publishDeactivatedGroups(pubsub, result.deactivatedGroups, userId)
+			await publishDeactivatedGroupMemberships(pubsub, result.deactivatedGroups, userId)
 			return result.activeGroup
 		},
 	},
 
 	Subscription: {
-		...getSubscription('groupUpdate', [groupEvents.groupUpdated], ({ updatedGroup }: GroupUpdatedPayload, { code }: { code: string }) => {
+		...createSubscriptionResolver('groupUpdate', [groupEvents.groupUpdated], ({ updatedGroup }: GroupUpdatedPayload, { code }: { code: string }) => {
 			// Only pass on when the code matches.
 			if (updatedGroup.code === code.toUpperCase()) return updatedGroup
 		}, async ({ code }: { code: string }, { db, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
 			ensureLoggedIn()
-			verifyGroupMembership(await getGroup(db, code, { includeMembers: true }), userId)
+			ensureGroupMembership(await getGroup(db, code, { includeMembers: true }), userId)
 		}),
 
-		...getSubscription('myActiveGroupUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }: GroupUpdatedPayload, _args: unknown, { userId }: AuthenticatedGroupContext) => {
+		...createSubscriptionResolver('myActiveGroupUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }: GroupUpdatedPayload, _args: unknown, { userId }: AuthenticatedGroupContext) => {
 			// If the user caused this update, always pass the group on. The client can incorporate the data appropriately.
 			if (userId === eventUserId && action === 'deactivate') return updatedGroup
 
@@ -170,7 +170,7 @@ export const groupResolvers = {
 			if (member && member.groupMembership.active) return updatedGroup
 		}),
 
-		...getSubscription('myGroupsUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId }: GroupUpdatedPayload, _args: unknown, { userId }: AuthenticatedGroupContext) => {
+		...createSubscriptionResolver('myGroupsUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId }: GroupUpdatedPayload, _args: unknown, { userId }: AuthenticatedGroupContext) => {
 			// Only pass on the updated group when the user caused this event (like deactivated) or when the user is a member.
 			if (userId === eventUserId || updatedGroup.members.some(member => member.id === userId)) return updatedGroup
 		}),

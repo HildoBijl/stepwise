@@ -7,13 +7,13 @@ import { getExercises, getExercise } from '@step-wise/exercises'
 
 import { UserInputError } from '../../errors.ts'
 
-import { getSubscription } from '../subscriptions.ts'
+import { createSubscriptionResolver } from '../subscriptions.ts'
 import type { AuthenticatedContext } from '../user/index.ts'
-import { groupEvents, getGroup, hasLoadedGroupMembers, verifyGroupAccess, verifyGroupMembership } from '../group/index.ts'
-import { type UserSkillRecord, type UserSkillUpdate, applySkillUpdates, skillEvents } from '../skill/index.ts'
+import { ensureActiveGroupMembership, ensureGroupMembership, getGroup, groupEvents, hasLoadedGroupMembers } from '../group/index.ts'
+import { type UserSkillObservationInput, type UserSkillRecord, applySkillObservations, skillEvents } from '../skill/index.ts'
 
 import { type GroupExerciseActionRecord, type GroupExerciseEventRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents } from './models.ts'
-import { type GroupExerciseDatabase, type GroupExerciseUpdatedPayload, groupExerciseEvents, getGroupExerciseState, getGroupWithAllExercises, getGroupWithActiveExercises, getGroupWithActiveSkillExercise } from './service.ts'
+import { type GroupExerciseDatabase, type GroupExerciseUpdatedPayload, getCurrentGroupExerciseState, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, getGroupWithAllExercises, groupExerciseEvents } from './service.ts'
 
 type GroupExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'pubsub' | 'userId'>
 
@@ -33,7 +33,7 @@ export const groupExerciseResolvers = {
 	GroupExercise: {
 		mode: () => 'group',
 		startedOn: (exercise: GroupExerciseSampleRecord) => exercise.createdAt,
-		state: (exercise: GroupExerciseSampleRecord) => getGroupExerciseState(exercise),
+		state: (exercise: GroupExerciseSampleRecord) => getCurrentGroupExerciseState(exercise),
 		history: (exercise: GroupExerciseSampleRecord) => [...(exercise.events ?? [])].sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime()), // Sort the history ascending by date.
 	},
 
@@ -57,7 +57,7 @@ export const groupExerciseResolvers = {
 		activeGroupExercises: async (_source: unknown, { code }: { code: string }, { db, ensureLoggedIn, userId }: GroupExerciseContext) => {
 			ensureLoggedIn()
 			const group = await getGroupWithActiveExercises(db, code)
-			verifyGroupAccess(group, userId)
+			ensureActiveGroupMembership(group, userId)
 			return group.exercises
 		},
 	},
@@ -70,7 +70,7 @@ export const groupExerciseResolvers = {
 				const group = await getGroup(db, code, { transaction, lock: transaction.LOCK.UPDATE })
 				group.members = await group.getMembers({ transaction })
 				if (!hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
-				verifyGroupMembership(group, userId)
+				ensureGroupMembership(group, userId)
 				group.members = group.members.filter(member => member.id !== userId)
 
 				// When the group is left empty, remove it entirely through cascading deletes.
@@ -106,7 +106,7 @@ export const groupExerciseResolvers = {
 			// Verify that the user is a member of the given group.
 			ensureLoggedIn()
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
-			verifyGroupAccess(group, userId)
+			ensureActiveGroupMembership(group, userId)
 
 			// If an active group exercise already exists, return this. (So if two users start an exercise at the same time, this prevents an error.)
 			if (group.exercises.length > 0) return group.exercises[0]
@@ -129,7 +129,7 @@ export const groupExerciseResolvers = {
 			} catch (error) {
 				if (!(error instanceof UniqueConstraintError)) throw error
 				const updatedGroup = await getGroupWithActiveSkillExercise(db, code, skillId)
-				verifyGroupAccess(updatedGroup, userId)
+				ensureActiveGroupMembership(updatedGroup, userId)
 				const existingExercise = updatedGroup.exercises[0]
 				if (!existingExercise) throw error
 				return existingExercise
@@ -145,7 +145,7 @@ export const groupExerciseResolvers = {
 			ensureLoggedIn()
 			const action = ensureExerciseAction(rawAction)
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
-			verifyGroupAccess(group, userId)
+			ensureActiveGroupMembership(group, userId)
 			const activeExercise = group.exercises[0]
 			if (!activeExercise) throw new UserInputError(`Could not submit group action. The group ${group.code} does not have an active exercise.`)
 
@@ -174,7 +174,7 @@ export const groupExerciseResolvers = {
 			// Load and verify data.
 			ensureLoggedIn()
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
-			verifyGroupAccess(group, userId)
+			ensureActiveGroupMembership(group, userId)
 			const activeExercise = group.exercises[0]
 			if (!activeExercise) throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active exercise.`)
 			const activeEvent = activeExercise.events.find(event => event.state === null)
@@ -202,7 +202,7 @@ export const groupExerciseResolvers = {
 			// Load and verify data.
 			ensureLoggedIn()
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
-			verifyGroupAccess(group, userId)
+			ensureActiveGroupMembership(group, userId)
 			const activeExercise = group.exercises[0]
 			if (!activeExercise) throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active exercise.`)
 			const activeEvent = activeExercise.events.find(event => event.state === null)
@@ -224,18 +224,18 @@ export const groupExerciseResolvers = {
 				if (activeMembers.length < 2) throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have sufficient users present.`)
 				if (activeMembers.some(member => !lockedEvent.actions.some(userAction => userAction.userId === member.id))) throw new UserInputError(`Could not resolve group event. Not every active user in group ${group.code} has submitted an action.`)
 
-				const skillUpdates: UserSkillUpdate[] = []
+				const skillObservations: UserSkillObservationInput[] = []
 				const updateSkills: UpdateSkills = (setup, correct, givenUserId) => {
-					if (setup) skillUpdates.push({ setup, correct, userId: givenUserId || userId })
+					if (setup) skillObservations.push({ setup, correct, userId: givenUserId || userId })
 				}
-				const previousState = getGroupExerciseState(activeExercise)
+				const previousState = getCurrentGroupExerciseState(activeExercise)
 				const state = processGroupActions({ parameters: activeExercise.parameters, state: previousState, actions: lockedEvent.actions, updateSkills })
 				if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise state.`)
 				await lockedEvent.update({ state }, { transaction })
 				lockedEvent.state = state
 
 				// Apply all the skill updates that were collected so far.
-				updatedSkillsPerUser = await applySkillUpdates(db, skillUpdates, transaction)
+				updatedSkillsPerUser = await applySkillObservations(db, skillObservations, transaction)
 
 				// If the exercise is done, note this. If not, prepare for future actions.
 				if (isStateDone(state)) {
@@ -259,12 +259,12 @@ export const groupExerciseResolvers = {
 	},
 
 	Subscription: {
-		...getSubscription('activeGroupExercisesUpdate', [groupExerciseEvents.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }: GroupExerciseUpdatedPayload, { code: codeOfFollowedGroup }: { code: string }) => {
+		...createSubscriptionResolver('activeGroupExercisesUpdate', [groupExerciseEvents.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }: GroupExerciseUpdatedPayload, { code: codeOfFollowedGroup }: { code: string }) => {
 			// Only pass on when the code matches.
 			if (codeOfEvent === codeOfFollowedGroup.toUpperCase()) return updatedGroupExercise
 		}, async ({ code }: { code: string }, { db, ensureLoggedIn, userId }: GroupExerciseContext) => {
 			ensureLoggedIn()
-			verifyGroupAccess(await getGroupWithActiveExercises(db, code), userId)
+			ensureActiveGroupMembership(await getGroupWithActiveExercises(db, code), userId)
 		}),
 	},
 }

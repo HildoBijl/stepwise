@@ -40,7 +40,7 @@ export class GroupExerciseSampleRecord extends Model<InferAttributes<GroupExerci
 
 export type GroupExerciseEventWithActions = Omit<GroupExerciseEventRecord, 'actions'> & { actions: GroupExerciseActionRecord[] }
 export type GroupExerciseSampleWithEvents = Omit<GroupExerciseSampleRecord, 'events'> & { events: GroupExerciseEventWithActions[] }
-export type GroupWithExercises = GroupWithMembers & { exercises: GroupExerciseSampleWithEvents[] }
+export type GroupWithLoadedExercises = GroupWithMembers & { exercises: GroupExerciseSampleWithEvents[] }
 
 export function hasLoadedGroupExerciseActions(event: GroupExerciseEventRecord): event is GroupExerciseEventWithActions {
 	return event.actions !== undefined
@@ -50,7 +50,7 @@ export function hasLoadedGroupExerciseEvents(exercise: GroupExerciseSampleRecord
 	return exercise.events !== undefined && exercise.events.every(hasLoadedGroupExerciseActions)
 }
 
-export function hasLoadedGroupExercises(group: GroupWithMembers): group is GroupWithExercises {
+export function hasLoadedGroupExercises(group: GroupWithMembers): group is GroupWithLoadedExercises {
 	const exercises = Reflect.get(group, 'exercises')
 	return Array.isArray(exercises) && exercises.every(hasLoadedGroupExerciseEvents)
 }

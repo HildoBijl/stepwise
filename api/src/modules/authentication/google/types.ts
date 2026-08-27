@@ -1,8 +1,8 @@
 import type { TokenPayload } from 'google-auth-library'
 
-import type { UserModel } from '../../user/model.ts'
+import type { UserModel } from '../../user/models.ts'
 
-export type GoogleAuthData = Readonly<{
+export type GoogleCredentialPayload = Readonly<{
 	credential: string
 	g_csrf_token?: string
 }>
@@ -13,10 +13,10 @@ export type GoogleIdentity = TokenPayload & {
 }
 
 export interface GoogleClient {
-	getData(authData: GoogleAuthData, csrfToken?: string): Promise<GoogleIdentity | null>
+	getIdentity(credentials: GoogleCredentialPayload, csrfToken?: string): Promise<GoogleIdentity | null>
 }
 
-export type AuthenticatedUser = Readonly<{
+export type AuthenticatedUserReference = Readonly<{
 	id: string
 }>
 
@@ -25,6 +25,6 @@ export interface GoogleAuthDatabase {
 }
 
 export interface GoogleAuthRequest {
-	body: GoogleAuthData
+	body: GoogleCredentialPayload
 	cookies: Record<string, string | undefined>
 }

@@ -6,50 +6,50 @@ import type { SkillId } from '@step-wise/skill-definition'
 import { type SkillObservation, SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
 import { ensureSkillIds, expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
 
-import type { UserSkillRecord } from './model.ts'
+import type { UserSkillRecord } from './models.ts'
 import { type SkillDatabase, getUserSkills } from './service.ts'
 
-export interface SkillUpdate {
+export interface SkillObservationInput {
 	setup: SkillSetupLike
 	correct: boolean
 }
 
-export interface UserSkillUpdate extends SkillUpdate {
+export interface UserSkillObservationInput extends SkillObservationInput {
 	userId: string
 }
 
-export async function getUserSkillLevelSet(database: SkillDatabase, userId: string, skillIds: readonly SkillId[]): Promise<SkillLevelSet> {
+export async function getUserSkillLevelSet(db: SkillDatabase, userId: string, skillIds: readonly SkillId[]): Promise<SkillLevelSet> {
 	const allSkillIds = [...expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds)]
-	const storedSkills = await getUserSkills(database, userId, { skillIds: allSkillIds })
+	const storedSkills = await getUserSkills(db, userId, { skillIds: allSkillIds })
 	const skillsAsObject = fromKeysAndValues(storedSkills.map(skill => skill.skillId), storedSkills.map(skill => ensureSkillLevel(skill.get({ plain: true }))))
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
 	return new SkillLevelSet(skillTree, skills)
 }
 
-export async function applySkillUpdates(database: SkillDatabase, skillUpdates: readonly UserSkillUpdate[], transaction: Transaction): Promise<Record<string, UserSkillRecord[]>> {
-	const updatesPerUser: Record<string, UserSkillUpdate[]> = {}
-	skillUpdates.forEach(update => {
-		const userUpdates = updatesPerUser[update.userId] ??= []
-		userUpdates.push(update)
+export async function applySkillObservations(db: SkillDatabase, observations: readonly UserSkillObservationInput[], transaction: Transaction): Promise<Record<string, UserSkillRecord[]>> {
+	const observationsPerUser: Record<string, UserSkillObservationInput[]> = {}
+	observations.forEach(observation => {
+		const userObservations = observationsPerUser[observation.userId] ??= []
+		userObservations.push(observation)
 	})
-	const userIds = Object.keys(updatesPerUser)
+	const userIds = Object.keys(observationsPerUser)
 	const result: UserSkillRecord[][] = []
 	for (const userId of userIds) {
-		const userUpdates = updatesPerUser[userId]
-		if (!userUpdates) throw new Error(`Failed to collect skill updates for user "${userId}".`)
-		result.push(await applySkillUpdatesForUser(database, userId, userUpdates, transaction))
+		const userObservations = observationsPerUser[userId]
+		if (!userObservations) throw new Error(`Failed to collect skill observations for user "${userId}".`)
+		result.push(await applySkillObservationsForUser(db, userId, userObservations, transaction))
 	}
 	return fromKeysAndValues(userIds, result)
 }
 
-export async function applySkillUpdatesForUser(database: SkillDatabase, userId: string, skillUpdates: readonly SkillUpdate[], transaction: Transaction): Promise<UserSkillRecord[]> {
-	const observations: SkillObservation[] = skillUpdates.map(({ setup, correct }) => ({ setup: ensureSetup(setup), correct: ensureBoolean(correct) }))
+export async function applySkillObservationsForUser(db: SkillDatabase, userId: string, observationInputs: readonly SkillObservationInput[], transaction: Transaction): Promise<UserSkillRecord[]> {
+	const observations: SkillObservation[] = observationInputs.map(({ setup, correct }) => ({ setup: ensureSetup(setup), correct: ensureBoolean(correct) }))
 	const skillSets = observations.map(({ setup }) => setup.getSkillSet())
 	const skillIds = ensureSkillIds([...union(...skillSets)])
 	if (skillIds.length === 0) return []
 
 	const skillsToLoad = [...expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds)]
-	const skills = await getUserSkills(database, userId, { skillIds: skillsToLoad })
+	const skills = await getUserSkills(db, userId, { skillIds: skillsToLoad })
 	const skillsAsObject = fromKeysAndValues(skills.map(skill => skill.skillId), skills)
 	const skillLevels = mapValues(skillsAsObject, skill => ensureSkillLevel(skill.get({ plain: true })))
 	const storedSkillLevelSet = fromKeys(skillsToLoad, skillId => skillLevels[skillId] ?? getInitialSkillLevel())
@@ -60,7 +60,7 @@ export async function applySkillUpdatesForUser(database: SkillDatabase, userId: 
 		const skill = skillsAsObject[skillId]
 		const update = updates[skillId]
 		if (!update) throw new Error(`Failed to calculate a skill update for skill "${skillId}".`)
-		result.push(skill ? await skill.update(update, { transaction }) : await database.UserSkill.create({ userId, skillId, ...update }, { transaction }))
+		result.push(skill ? await skill.update(update, { transaction }) : await db.UserSkill.create({ userId, skillId, ...update }, { transaction }))
 	}
 	return result
 }

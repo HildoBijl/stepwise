@@ -4,7 +4,7 @@ import { UserInputError } from '../../errors.ts'
 
 import type { ApiContext } from '../types.ts'
 
-import type { UserRecord } from './model.ts'
+import type { UserRecord } from './models.ts'
 import { getAllUsers, getUser } from './service.ts'
 
 export type UserContext = Pick<ApiContext, 'db' | 'user' | 'isAdmin' | 'loaders' | 'ensureLoggedIn' | 'ensureAdmin'>

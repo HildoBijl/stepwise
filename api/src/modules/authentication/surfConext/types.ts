@@ -2,9 +2,9 @@ import type { Transaction } from 'sequelize'
 
 import { isPlainObject } from '@step-wise/js-utils'
 
-import type { UserModel } from '../../user/model.ts'
+import type { UserModel } from '../../user/models.ts'
 
-import type { SurfConextProfileModel } from '../model.ts'
+import type { SurfConextProfileModel } from '../models.ts'
 
 export interface SurfConextAuthDatabase {
 	User: UserModel
@@ -59,7 +59,7 @@ export function ensureSurfConextIdentities(value: unknown): asserts value is Sur
 
 export interface SurfConextClient {
 	authorizationUrl(sessionId: string): Promise<string | null>
-	getData(
+	getIdentity(
 		params: SurfConextCallbackParams,
 		sessionId: string,
 	): Promise<SurfConextIdentity | null>

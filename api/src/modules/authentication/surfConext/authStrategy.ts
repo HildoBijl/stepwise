@@ -1,4 +1,4 @@
-import type { UserRecord } from '../../user/model.ts'
+import type { UserRecord } from '../../user/models.ts'
 
 import type { SurfConextAuthDatabase, SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } from './types.ts'
 
@@ -15,7 +15,7 @@ export class AuthStrategy {
 	}
 
 	async authenticateAndSync(req: AuthenticationRequest): Promise<UserRecord | null> {
-		const surfRawData = await this._surfConextClient.getData(req.query, req.session.id)
+		const surfRawData = await this._surfConextClient.getIdentity(req.query, req.session.id)
 		if (!surfRawData?.email) return null
 		const email = surfRawData.email
 

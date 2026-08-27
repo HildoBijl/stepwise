@@ -32,7 +32,7 @@ type UpdateCourseInput = Partial<CreateCourseInput>
 type CourseContext = Pick<ApiContext, 'db' | 'isLoggedIn' | 'loaders' | 'user' | 'userId'>
 type AuthenticatedCourseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'isAdmin' | 'loaders' | 'user' | 'userId'>
 
-const courseForStudent = {
+const courseForUserResolvers = {
 	role: (course: CourseRecord) => course.courseSubscription?.role,
 	subscribedOn: (course: CourseRecord) => course.courseSubscription?.createdAt,
 	teachers: (course: CourseRecord, _args: unknown, { loaders }: CourseContext) => loaders.courseTeachers.load(course.id),
@@ -62,8 +62,8 @@ function validateCourse(input: CreateCourseInput | UpdateCourseInput, current?: 
 
 export const courseResolvers = {
 	CourseForExternal: {},
-	CourseForStudent: courseForStudent,
-	CourseForTeacher: { ...courseForStudent, students: (course: CourseRecord, _args: unknown, { loaders }: CourseContext) => loaders.courseStudents.load(course.id) },
+	CourseForStudent: courseForUserResolvers,
+	CourseForTeacher: { ...courseForUserResolvers, students: (course: CourseRecord, _args: unknown, { loaders }: CourseContext) => loaders.courseStudents.load(course.id) },
 	Course: {
 		__resolveType(course: CourseRecord, { isLoggedIn, user }: CourseContext) {
 			if (!isLoggedIn) return 'CourseForExternal'

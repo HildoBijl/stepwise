@@ -1,6 +1,6 @@
 import { UserInputError } from '../../errors.ts'
 
-import type { UserModel, UserRecord } from './model.ts'
+import type { UserModel, UserRecord } from './models.ts'
 
 export interface UserDatabase {
 	User: UserModel

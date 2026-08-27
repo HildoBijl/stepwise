@@ -34,7 +34,7 @@ export interface DevAuthPortal {
 
 export interface CreateServerOptions {
 	config: ServerConfig
-	database: Database
+	db: Database
 	sessionStore?: Store
 	surfConextClient: SurfConextClient
 	googleClient: GoogleClient

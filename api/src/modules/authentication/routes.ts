@@ -9,15 +9,15 @@ const INVALID_AUTHENTICATION = 'INVALID_AUTHENTICATION'
 const INTERNAL_ERROR = 'INTERNAL_ERROR'
 
 interface AuthConfig { homepageUrl: string }
-interface AuthenticatedUser { id: string }
+interface AuthenticatedUserReference { id: string }
 type AuthenticationDatabase = GoogleAuthDatabase & SurfConextAuthDatabase
 
-export function createAuthRouter(config: AuthConfig, database: AuthenticationDatabase, clients: { surfConextClient: SurfConextClient; googleClient: GoogleClient }): Router {
+export function createAuthRouter(config: AuthConfig, db: AuthenticationDatabase, clients: { surfConextClient: SurfConextClient; googleClient: GoogleClient }): Router {
 	const router = express.Router()
 	router.use(cookieParser())
 	router.use(bodyParser.urlencoded({ extended: true }))
 
-	const createLoginHandler = (getUser: (request: Request) => Promise<AuthenticatedUser | null>): RequestHandler => async (request, response) => {
+	const createLoginHandler = (getUser: (request: Request) => Promise<AuthenticatedUserReference | null>): RequestHandler => async (request, response) => {
 		try {
 			const user = await getUser(request)
 			if (!user) return void response.redirect(`${config.homepageUrl}?error=${INVALID_AUTHENTICATION}`)
@@ -33,7 +33,7 @@ export function createAuthRouter(config: AuthConfig, database: AuthenticationDat
 
 	router.get('/logout', (request, response) => request.session.destroy(() => response.redirect(config.homepageUrl)))
 
-	const surfConext = new SurfConextAuthStrategy(database, clients.surfConextClient)
+	const surfConext = new SurfConextAuthStrategy(db, clients.surfConextClient)
 	router.get('/surfconext/login', createLoginHandler(request => surfConext.authenticateAndSync(request)))
 	router.get('/surfconext/initiate', async (request, response) => {
 		try {
@@ -49,7 +49,7 @@ export function createAuthRouter(config: AuthConfig, database: AuthenticationDat
 		}
 	})
 
-	const google = new GoogleAuthStrategy(database, clients.googleClient)
+	const google = new GoogleAuthStrategy(db, clients.googleClient)
 	router.post('/google/login', createLoginHandler(request => google.authenticateAndSync(request)))
 	router.get('/google/initiate', async (request, response) => {
 		try {

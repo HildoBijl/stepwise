@@ -16,11 +16,11 @@ import { createI18nRouter } from '../modules/i18n/index.ts'
 import { typeDefs, resolvers } from '../graphql/index.ts'
 
 import type { ApiServer, CreateServerOptions, SessionRequest } from './types.ts'
-import { getIdFromRequest } from './support.ts'
+import { getSessionUserId } from './support.ts'
 import { validateServerConfig } from './config.ts'
 import { createApolloContext } from './apolloContext.ts'
 
-export async function createServer({ config, database, sessionStore, surfConextClient, googleClient, pubsub, useI18n, devAuthPortal }: CreateServerOptions): Promise<ApiServer> {
+export async function createServer({ config, db, sessionStore, surfConextClient, googleClient, pubsub, useI18n, devAuthPortal }: CreateServerOptions): Promise<ApiServer> {
 	validateServerConfig(config)
 
 	const corsOptions = { origin: config.corsUrls, credentials: true }
@@ -50,7 +50,7 @@ export async function createServer({ config, database, sessionStore, surfConextC
 	const httpServer = http.createServer(app)
 
 	// Authentication endpoints
-	app.use('/auth', createAuthRouter(config, database, { surfConextClient, googleClient }))
+	app.use('/auth', createAuthRouter(config, db, { surfConextClient, googleClient }))
 
 	// Language file submission from i18n
 	if (useI18n) app.use('/locales', createI18nRouter())
@@ -59,7 +59,7 @@ export async function createServer({ config, database, sessionStore, surfConextC
 	if (devAuthPortal) app.get(devAuthPortal.path, devAuthPortal.directory)
 
 	// Apollo / GraphQL
-	const contextProvider = createApolloContext(database, pubsub)
+	const contextProvider = createApolloContext(db, pubsub)
 	const schema = makeExecutableSchema({ typeDefs, resolvers })
 	const webSocketServer = new WebSocketServer({ server: httpServer, path: '/graphql' })
 	const webSocketCleanup = useServer({
@@ -68,7 +68,7 @@ export async function createServer({ config, database, sessionStore, surfConextC
 			// Attach session object to upgrade request.
 			const request = await attachSession(context.extra.request, processSession)
 			// Ensure that only logged-in users can connect to the socket.
-			if (!getIdFromRequest(request)) return false
+			if (!getSessionUserId(request)) return false
 		},
 		context: context => {
 			ensureSessionRequest(context.extra.request)

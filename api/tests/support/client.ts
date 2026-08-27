@@ -17,7 +17,7 @@ export const defaultConfig: ServerConfig = Object.freeze({
 })
 
 const sequelize = createSequelize(true)
-const database = new Database(sequelize)
+const db = new Database(sequelize)
 
 class PubSubMock {
 	eventCount: Record<string, number> = {}
@@ -119,9 +119,9 @@ class Client {
 	}
 }
 
-export async function createClient(seedingProcedure: (database: Database) => Promise<void> = async () => {}): Promise<Client> {
+export async function createClient(seedingProcedure: (db: Database) => Promise<void> = async () => {}): Promise<Client> {
 	await clearDatabaseData(sequelize)
-	await seedingProcedure(database)
+	await seedingProcedure(db)
 	pubsub.reset()
 	if (!server) throw new Error('Cannot create a test client before the API server has started.')
 	return new Client(server, pubsub)
@@ -139,7 +139,7 @@ let server: ApiServer | undefined
 beforeAll(async () => {
 	await sequelize.authenticate()
 	server = await createServer({
-		database,
+		db,
 		config: defaultConfig,
 		surfConextClient: new SurfConext.MockClient(),
 		googleClient: new Google.MockClient(),

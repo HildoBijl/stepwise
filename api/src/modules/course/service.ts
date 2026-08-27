@@ -18,7 +18,7 @@ interface ParticipantAssociationOptions {
 	userId?: string
 }
 
-function participantAssociation({ userId, required = false }: ParticipantAssociationOptions = {}) {
+function createParticipantInclude({ userId, required = false }: ParticipantAssociationOptions = {}) {
 	return userId ? [{ association: 'participants', where: { id: userId }, required }] : []
 }
 
@@ -30,10 +30,10 @@ export interface GetCoursesOptions extends ServiceOptions {
 export async function getCourses(db: CourseDatabase, { userId, onlyOwnCourses = false, transaction }: GetCoursesOptions = {}): Promise<CourseRecord[]> {
 	const courses = await db.Course.findAll({
 		...(transaction ? { transaction } : {}),
-		include: [...participantAssociation({ ...(userId ? { userId } : {}), required: onlyOwnCourses }), { association: 'blocks' }],
+		include: [...createParticipantInclude({ ...(userId ? { userId } : {}), required: onlyOwnCourses }), { association: 'blocks' }],
 		order: [[{ model: db.CourseBlock, as: 'blocks' }, 'index', 'ASC']],
 	})
-	courses.forEach(course => setCourseSubscription(course, course.participants?.[0]?.courseSubscription))
+	courses.forEach(course => assignLoadedCourseSubscription(course, course.participants?.[0]?.courseSubscription))
 	return courses
 }
 
@@ -45,15 +45,15 @@ async function getCourse(db: CourseDatabase, where: Record<string, unknown>, { u
 	const course = await db.Course.findOne({
 		...(transaction ? { transaction } : {}),
 		where,
-		include: [...participantAssociation({ ...(userId ? { userId } : {}) }), { association: 'blocks' }],
+		include: [...createParticipantInclude({ ...(userId ? { userId } : {}) }), { association: 'blocks' }],
 		order: [[{ model: db.CourseBlock, as: 'blocks' }, 'index', 'ASC']],
 	})
 	if (!course) throw new Error(`Failed to load course with specifications "${JSON.stringify(where)}".`)
-	setCourseSubscription(course, course.participants?.[0]?.courseSubscription)
+	assignLoadedCourseSubscription(course, course.participants?.[0]?.courseSubscription)
 	return course
 }
 
-function setCourseSubscription(course: CourseRecord, subscription: CourseRecord['courseSubscription']): void {
+function assignLoadedCourseSubscription(course: CourseRecord, subscription: CourseRecord['courseSubscription']): void {
 	if (subscription) course.courseSubscription = subscription
 	else delete course.courseSubscription
 }
@@ -65,7 +65,7 @@ export function getCourseById(db: CourseDatabase, courseId: string, options: Get
 	return getCourse(db, { id: courseId }, options)
 }
 
-export function createCourseFromRecord(course: CourseRecord): Course {
+export function createCourseDefinition(course: CourseRecord): Course {
 	return new Course(skillTree, {
 		startingPointIds: course.startingPoints,
 		learningGoalIds: course.goals,

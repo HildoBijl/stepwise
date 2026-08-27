@@ -5,9 +5,9 @@ import type { SkillId } from '@step-wise/skill-definition'
 import { expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 
 import type { ApiLoaders, LoaderContext } from '../types.ts'
-import { createCourseFromRecord } from '../course/index.ts'
+import { createCourseDefinition } from '../course/index.ts'
 
-import type { UserSkillRecord } from './model.ts'
+import type { UserSkillRecord } from './models.ts'
 
 interface SkillPermission {
 	withExercises: SkillId[]
@@ -38,7 +38,7 @@ export function createSkillLoaders(context: LoaderContext, { coursesWithStudent 
 				const withoutExercises = new Set<string>()
 				courses.forEach(course => {
 					if (!courseSkills[course.id]) {
-						const analyzedCourse = createCourseFromRecord(course)
+						const analyzedCourse = createCourseDefinition(course)
 						courseSkills[course.id] = [...analyzedCourse.allSkillIds]
 						courseSkillsWithLinks[course.id] = [...expandSkillIdsWithDirectPrerequisitesAndLinks(analyzedCourse.allSkillIds)]
 					}

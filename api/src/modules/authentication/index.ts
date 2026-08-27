@@ -1,6 +1,6 @@
 import { defineApiModule } from '../types.ts'
 
-import { type SurfConextProfileModel, createSurfConextProfileModel } from './model.ts'
+import { type SurfConextProfileModel, createSurfConextProfileModel } from './models.ts'
 
 declare module '../types.ts' {
 	interface ApiModels {
@@ -18,5 +18,5 @@ export const authenticationModule = defineApiModule({
 
 export * as Google from './google/index.ts'
 export * as SurfConext from './surfConext/index.ts'
-export * from './model.ts'
+export * from './models.ts'
 export * from './routes.ts'

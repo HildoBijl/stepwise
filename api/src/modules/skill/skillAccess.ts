@@ -4,7 +4,7 @@ import { AuthenticationError } from '../../errors.ts'
 
 import type { AuthenticatedContext } from '../user/index.ts'
 
-import type { UserSkillRecord } from './model.ts'
+import type { UserSkillRecord } from './models.ts'
 
 export type SkillAccessContext = Pick<AuthenticatedContext, 'loaders' | 'isAdmin' | 'userId'>
 

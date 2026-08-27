@@ -16,7 +16,7 @@ export class MockClient implements SurfConextClient {
 		return directoryPath
 	}
 
-	async getData(params: SurfConextCallbackParams, sessionId: string): Promise<SurfConextIdentity | null> {
+	async getIdentity(params: SurfConextCallbackParams, sessionId: string): Promise<SurfConextIdentity | null> {
 		const sfUserinfo = mockUsers.find(user => user.sub === params.sub)
 		if (!sfUserinfo) return null
 		fs.writeFileSync(LAST_SESSION_DATA_PATH, `${sessionId}\n${sfUserinfo.sub}`)

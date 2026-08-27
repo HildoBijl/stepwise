@@ -20,8 +20,8 @@ export class CourseRecord extends Model<InferAttributes<CourseRecord>, InferCrea
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 	declare blocks?: NonAttribute<CourseBlockRecord[]>
-	declare participants?: NonAttribute<CourseParticipantRecord[]>
-	declare students?: NonAttribute<CourseParticipantRecord[]>
+	declare participants?: NonAttribute<CourseParticipantWithSubscription[]>
+	declare students?: NonAttribute<CourseParticipantWithSubscription[]>
 	declare courseSubscription?: NonAttribute<CourseSubscriptionRecord>
 	declare createBlock: NonAttribute<HasManyCreateAssociationMixin<CourseBlockRecord, 'courseId'>>
 }
@@ -45,7 +45,7 @@ export class CourseBlockRecord extends Model<InferAttributes<CourseBlockRecord>,
 	declare updatedAt: CreationOptional<Date>
 }
 
-export type CourseParticipantRecord = UserRecord & { courseSubscription: CourseSubscriptionRecord }
+export type CourseParticipantWithSubscription = UserRecord & { courseSubscription: CourseSubscriptionRecord }
 
 export type CourseModel = ModelStatic<CourseRecord>
 export type CourseSubscriptionModel = ModelStatic<CourseSubscriptionRecord>

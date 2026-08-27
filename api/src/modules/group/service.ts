@@ -24,14 +24,14 @@ export interface GroupUpdatedPayload {
 	action: GroupUpdateAction
 }
 
-export function verifyGroupMembership(group: GroupWithMembers | null, userId: string): asserts group is GroupWithMembers {
+export function ensureGroupMembership(group: GroupWithMembers | null, userId: string): asserts group is GroupWithMembers {
 	if (!group) throw new UserInputError('No group with the given code exists.')
 	const member = group.members.find(candidate => candidate.id === userId)
 	if (!member) throw new ForbiddenError(`Access to group "${group.code}" is not allowed: the user is not a member.`)
 }
 
-export function verifyGroupAccess(group: GroupWithMembers | null, userId: string): asserts group is GroupWithMembers {
-	verifyGroupMembership(group, userId)
+export function ensureActiveGroupMembership(group: GroupWithMembers | null, userId: string): asserts group is GroupWithMembers {
+	ensureGroupMembership(group, userId)
 	const member = group.members.find(candidate => candidate.id === userId)
 	if (!member) throw new Error(`Failed to find user "${userId}" among members of group "${group.code}".`)
 	if (!member.groupMembership.active) throw new ForbiddenError(`Access to group "${group.code}" is not allowed: the user is currently not active in that group.`)
@@ -59,11 +59,11 @@ export async function getUserGroups(db: GroupDatabase, userId: string, options: 
 	return (await getUserWithGroups(db, userId, options)).groups
 }
 
-export interface DeactivateUserGroupsOptions extends ServiceOptions {
+export interface DeactivateGroupMembershipsOptions extends ServiceOptions {
 	exceptionCode?: string
 }
 
-export async function deactivateUserGroups(user: UserWithGroups, { exceptionCode, transaction }: DeactivateUserGroupsOptions = {}): Promise<GroupWithMembers[]> {
+export async function deactivateUserGroupMemberships(user: UserWithGroups, { exceptionCode, transaction }: DeactivateGroupMembershipsOptions = {}): Promise<GroupWithMembers[]> {
 	const deactivatedGroups = await Promise.all(user.groups.map(async group => {
 		if (exceptionCode && group.code === exceptionCode.toUpperCase()) return undefined
 		const member = group.members.find(candidate => candidate.id === user.id)
@@ -76,7 +76,7 @@ export async function deactivateUserGroups(user: UserWithGroups, { exceptionCode
 	return deactivatedGroups.filter(group => group !== undefined)
 }
 
-export async function publishDeactivatedGroups(pubsub: PubSubEngine, groups: GroupWithMembers[], userId: string): Promise<void> {
+export async function publishDeactivatedGroupMemberships(pubsub: PubSubEngine, groups: GroupWithMembers[], userId: string): Promise<void> {
 	await Promise.all(groups.map(async updatedGroup => await pubsub.publish(groupEvents.groupUpdated, { updatedGroup, userId, action: 'deactivate' })))
 }
 
@@ -99,6 +99,6 @@ export async function getGroup(db: GroupDatabase, code: string, { includeMembers
 }
 
 const ALPHABET = 'ABCDEFGHJKLMNPQRTUVWXYZ2346789'.split('')
-export function createRandomCode(): string {
+export function createRandomGroupCode(): string {
 	return integerRange(1, 4).map(() => sample(ALPHABET)).join('')
 }

@@ -1,9 +1,9 @@
 import { ensureSkillId, ensureSkillIds } from '@step-wise/skill-tree'
 
-import { getSubscription } from '../subscriptions.ts'
+import { createSubscriptionResolver } from '../subscriptions.ts'
 import { type AuthenticatedContext, type UserRecord, getUser } from '../user/index.ts'
 
-import type { UserSkillRecord } from './model.ts'
+import type { UserSkillRecord } from './models.ts'
 import { skillEvents } from './service.ts'
 import { type SkillAccessContext, loadVisibleSkills } from './skillAccess.ts'
 
@@ -37,6 +37,6 @@ export const skillResolvers = {
 	},
 
 	Subscription: {
-		...getSubscription('skillsUpdate', [skillEvents.skillsUpdated], ({ updatedSkills, userId }: SkillsUpdatedPayload, _args: unknown, context: SkillContext) => userId === context.userId ? updatedSkills : undefined),
+		...createSubscriptionResolver('skillsUpdate', [skillEvents.skillsUpdated], ({ updatedSkills, userId }: SkillsUpdatedPayload, _args: unknown, context: SkillContext) => userId === context.userId ? updatedSkills : undefined),
 	},
 }

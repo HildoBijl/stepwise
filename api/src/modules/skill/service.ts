@@ -4,7 +4,7 @@ import type { SkillId } from '@step-wise/skill-definition'
 
 import type { UserDatabase } from '../user/index.ts'
 
-import type { UserSkillModel, UserSkillRecord } from './model.ts'
+import type { UserSkillModel, UserSkillRecord } from './models.ts'
 
 export interface SkillDatabase extends UserDatabase {
 	UserSkill: UserSkillModel
