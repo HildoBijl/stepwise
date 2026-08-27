@@ -1,6 +1,58 @@
-# Simplification options
+# Simplification engine
 
-The table below lists all available simplification options. It is ordered by the node type under which the rules were historically grouped. The category column indicates the rule's current folder under [`rules`](./rules).
+The simplification engine rewrites an expression tree with an explicitly selected set of rules. It validates the selected rules, resolves their stages and repeatedly applies each stage until the tree stabilizes.
+
+
+## Rule model
+
+Rules are defined with `defineRule`. Each rule contains:
+
+- a unique `name`, which becomes its public simplification option;
+- an `appliesTo` type guard;
+- a `transform` that returns an equivalent node;
+- optional `requires`, `conflictsWith` and `after` relationships.
+
+`requires` describes rules that must be selected together. `conflictsWith` prevents combinations that could be contradictory or fail to stabilize. `after` controls staging: the later rule is introduced only after the earlier selected rules have had a complete stabilization stage.
+
+Rules are grouped by transformation purpose under [`rules`](./rules): structural, numeric, cancellation, combination, expansion, rewriting, normalization and factorization. Folder placement describes what the rule does, not only which node subtype it targets.
+
+
+## Execution
+
+`simplify` resolves option names to registered rules and validates their relationships. For each resolved cumulative stage it:
+
+1. traverses the tree children-first;
+2. offers every node to the selected rules in registry order;
+3. recreates changed parents;
+4. repeats until a full pass returns the same root reference.
+
+The process throws after twenty changing passes. Hitting that guard generally means two rules rewrite back and forth or a rule recreates an unchanged node unnecessarily.
+
+The `SimplificationContext` supplies resolved expression settings, parent nodes, the active rule set and a recursive simplifier. A rule should use the context rather than starting an unrelated simplification with different settings.
+
+
+## Presets
+
+Presets are named rule sets in [`simplificationOptions/simplificationPresets.ts`](./simplificationOptions/simplificationPresets.ts). The wrapper methods `flatten`, `removeTrivial`, `mergeNumbers`, `cancel`, `combine`, `expand`, `sort`, `normalize`, `factorize` and `format` apply these sets.
+
+Wrapper calls may provide one collection of rules to add and another to remove. The resulting set is still validated, so removing a required rule or introducing a conflict throws.
+
+
+## Adding a rule
+
+1. Add the rule to the folder matching its transformation purpose.
+2. Register and export it through that folder's `index.ts`; duplicate names are rejected.
+3. Declare requirements, conflicts and staging constraints with rule references rather than repeated names.
+4. Add focused tests for branching and boundary cases.
+5. Add integration coverage under `core/tests/integration/simplification` when the rule interacts with other rules or presets.
+6. Add the rule to the reference table below and to a preset only when it belongs in that preset's intended behavior.
+
+Transforms must preserve mathematical meaning and should return the input node when no change is needed.
+
+
+## Rule reference
+
+The table below lists all available simplification options. It is ordered by node type for lookup, while the category column indicates the rule's folder under [`rules`](./rules).
 
 | Node type | Option | Category | Description |
 |---|---|---|---|

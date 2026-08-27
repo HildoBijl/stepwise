@@ -217,3 +217,8 @@ Full serialization also records type information and may carry context such as s
 ## TypeScript
 
 The package is written in TypeScript and exports the public types used by its APIs, including expression and equation inputs, settings, storage values, comparison options, simplification options and preprocessors.
+
+
+## Development
+
+See the [developer guide](./src/README.md) for the internal architecture, extension points and testing conventions.
