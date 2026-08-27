@@ -64,4 +64,19 @@ describe('startExercise', () => {
 		expect(errorsAfter).not.toBeUndefined()
 		expect(data).toBe(null)
 	})
+
+	it('does not create multiple active exercises for concurrent requests', async () => {
+		const client = await createClient(seed)
+		await client.loginSurfConext(ALEX_SURFSUB)
+
+		const query = { query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id}}` }
+		const responses = await Promise.all([client.graphql(query), client.graphql(query)])
+		expect(responses.filter(response => response.errors === undefined)).toHaveLength(1)
+		expect(responses.filter(response => response.errors !== undefined)).toHaveLength(1)
+
+		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {... on SkillWithExercises {exercises {id active}}}}` })
+		expect(errors).toBeUndefined()
+		expect(skill.exercises).toHaveLength(1)
+		expect(skill.exercises[0].active).toStrictEqual(true)
+	})
 })

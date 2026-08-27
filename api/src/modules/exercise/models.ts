@@ -44,7 +44,7 @@ export function createExerciseSampleModel(sequelize: Sequelize): ExerciseSampleM
 		active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
-	}, { sequelize, modelName: 'exerciseSample' })
+	}, { sequelize, modelName: 'exerciseSample', indexes: [{ fields: ['userSkillId'], name: 'exerciseSamples_userSkillId_active_unique', unique: true, where: { active: true } }] })
 	return ExerciseSample
 }
 

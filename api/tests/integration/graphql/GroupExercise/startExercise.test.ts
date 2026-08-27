@@ -73,4 +73,16 @@ describe('start group exercise:', () => {
 		expect(restartExercise).toStrictEqual(exercise)
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
 	})
+
+	it('returns the same exercise for concurrent start requests', async () => {
+		const client = await createClient(seed)
+		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
+
+		const query = { query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {id}}` }
+		const responses = await Promise.all([client.graphql(query), client.graphql(query)])
+		expect(responses.every(response => response.errors === undefined)).toStrictEqual(true)
+		expect(responses[0].data.startGroupExercise.id).toStrictEqual(responses[1].data.startGroupExercise.id)
+		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
+	})
 })

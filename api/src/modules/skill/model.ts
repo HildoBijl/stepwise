@@ -33,7 +33,7 @@ export function createUserSkillModel(sequelize: Sequelize): UserSkillModel {
 		highestOn: { type: DataTypes.DATE, defaultValue: DataTypes.NOW, allowNull: false },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
-	}, { sequelize, modelName: 'userSkill' })
+	}, { sequelize, modelName: 'userSkill', indexes: [{ fields: ['userId', 'skillId'], unique: true }] })
 
 	return UserSkill
 }

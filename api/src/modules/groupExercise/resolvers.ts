@@ -1,4 +1,4 @@
-import { Op } from 'sequelize'
+import { Op, UniqueConstraintError } from 'sequelize'
 
 import { findOptimum } from '@step-wise/js-utils'
 import { type UpdateSkills, ensureExerciseAction, isStateDone } from '@step-wise/exercise-definition'
@@ -112,13 +112,25 @@ export const groupExerciseResolvers = {
 			const skillExercises = getExercises(skillId)
 			if (!skillExercises) throw new UserInputError(`Cannot start group exercise: no exercises exist for skill "${skillId}".`)
 			const newExercise = generateRandomExerciseInstance(skillExercises, 'group')
-			const exercise = await db.GroupExerciseSample.create({ groupId: group.id, skillId, exerciseId: newExercise.exerciseId, parameters: newExercise.parameters, initialState: newExercise.initialState, active: true })
-			const activeEvent = await db.GroupExerciseEvent.create({ groupExerciseSampleId: exercise.id, state: null })
-			activeEvent.actions = []
-			if (!hasLoadedGroupExerciseActions(activeEvent)) throw new Error('Failed to initialize group exercise event actions.')
-			exercise.events = [activeEvent]
-			if (!hasLoadedGroupExerciseEvents(exercise)) throw new Error('Failed to initialize group exercise events.')
-			const loadedExercise = exercise
+			let loadedExercise: GroupExerciseSampleWithEvents
+			try {
+				loadedExercise = await db.transaction(async transaction => {
+					const exercise = await db.GroupExerciseSample.create({ groupId: group.id, skillId, exerciseId: newExercise.exerciseId, parameters: newExercise.parameters, initialState: newExercise.initialState, active: true }, { transaction })
+					const activeEvent = await db.GroupExerciseEvent.create({ groupExerciseSampleId: exercise.id, state: null }, { transaction })
+					activeEvent.actions = []
+					if (!hasLoadedGroupExerciseActions(activeEvent)) throw new Error('Failed to initialize group exercise event actions.')
+					exercise.events = [activeEvent]
+					if (!hasLoadedGroupExerciseEvents(exercise)) throw new Error('Failed to initialize group exercise events.')
+					return exercise
+				})
+			} catch (error) {
+				if (!(error instanceof UniqueConstraintError)) throw error
+				const updatedGroup = await getGroupWithActiveSkillExercise(code, skillId, db)
+				verifyGroupAccess(updatedGroup, userId)
+				const existingExercise = updatedGroup.exercises[0]
+				if (!existingExercise) throw error
+				return existingExercise
+			}
 
 			// Return the exercise as result.
 			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: loadedExercise, code, action: 'startExercise' })

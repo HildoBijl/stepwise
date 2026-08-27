@@ -63,8 +63,9 @@ export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: st
 	if (!skill) {
 		if (requireActiveExercise) throw new UserInputError(`There is no active exercise for skill "${skillId}".`)
 		if (!createIfNoneExists) return null
-		skill = await db.UserSkill.create({ userId, skillId })
-		skillWasCreated = true
+		const result = await db.UserSkill.findOrCreate({ where: { userId, skillId }, defaults: { userId, skillId } })
+		skill = result[0]
+		skillWasCreated = result[1]
 	}
 
 	// Extract the active exercise and run a check on it.

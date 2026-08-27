@@ -1,7 +1,11 @@
+import { UniqueConstraintError } from 'sequelize'
+
 import { ensureExerciseAction, isStateDone } from '@step-wise/exercise-definition'
 import { generateSkillBasedExerciseInstance } from '@step-wise/exercise-selection'
 import { ensureSkillId } from '@step-wise/skill-tree'
 import { getExercise, getExercises } from '@step-wise/exercises'
+
+import { UserInputError } from '../../errors.ts'
 
 import type { AuthenticatedContext } from '../user/index.ts'
 import { type SkillUpdate, type UserSkillRecord, applySkillUpdatesForUser, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
@@ -40,7 +44,12 @@ export const exerciseResolvers = {
 			const definitions = getExercises(skillId)
 			if (!definitions) throw new Error(`Cannot start an exercise for skill "${skillId}": no exercises are available.`)
 			const generated = await generateSkillBasedExerciseInstance(definitions, ids => getUserSkillLevelSet(db, userId, ids), skillData.exercises)
-			return db.ExerciseSample.create({ userSkillId: skillData.skill.id, exerciseId: generated.exerciseId, parameters: generated.parameters, initialState: generated.initialState, active: true })
+			try {
+				return await db.ExerciseSample.create({ userSkillId: skillData.skill.id, exerciseId: generated.exerciseId, parameters: generated.parameters, initialState: generated.initialState, active: true })
+			} catch (error) {
+				if (error instanceof UniqueConstraintError) throw new UserInputError(`There is still an active exercise for skill "${skillId}".`)
+				throw error
+			}
 		},
 
 		submitExerciseAction: async (_source: unknown, { skillId: rawSkillId, action: rawAction }: { skillId: string; action: unknown }, { db, pubsub, ensureLoggedIn, userId }: ExerciseContext) => {

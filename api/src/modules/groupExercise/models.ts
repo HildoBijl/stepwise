@@ -71,7 +71,7 @@ export function createGroupExerciseSampleModel(sequelize: Sequelize): GroupExerc
 		active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
-	}, { sequelize, modelName: 'groupExerciseSample' })
+	}, { sequelize, modelName: 'groupExerciseSample', indexes: [{ fields: ['groupId', 'skillId'], name: 'groupExerciseSamples_groupId_skillId_active_unique', unique: true, where: { active: true } }] })
 	return GroupExerciseSample
 }
 
