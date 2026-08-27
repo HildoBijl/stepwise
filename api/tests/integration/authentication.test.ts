@@ -59,6 +59,7 @@ describe('Authentication: SurfConext', () => {
 				email: 'old@email.com',
 				givenName: 'Old given name',
 				familyName: 'Old family name',
+				role: 'teacher',
 			})
 			await db.SurfConextProfile.create({
 				id: SPECIAL_USER_SURFSUB,
@@ -82,6 +83,19 @@ describe('Authentication: SurfConext', () => {
 			email: 'step@wise.com',
 			role: 'student',
 		})
+	})
+
+	it('preserves locally assigned administrator access', async () => {
+		const client = await createClient(async db => {
+			const user = await db.User.create({ id: SPECIAL_USER_ID, name: 'Step Wise', email: 'step@wise.com', role: 'admin' })
+			await db.SurfConextProfile.create({ id: SPECIAL_USER_SURFSUB, userId: user.id })
+		})
+
+		await client.loginSurfConext(SPECIAL_USER_SURFSUB)
+
+		await expect(
+			client.graphql({ query: '{me {... on UserFull {role}}}' }).then(({ data }) => data.me)
+		).resolves.toEqual({ role: 'admin' })
 	})
 
 	it('automatically creates account for unregistered users', async () => {

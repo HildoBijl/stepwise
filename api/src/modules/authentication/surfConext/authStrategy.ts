@@ -20,22 +20,20 @@ export class AuthStrategy {
 		const email = surfRawData.email
 
 		const surfProfile = await this._db.SurfConextProfile.findOne({ where: { id: surfRawData.sub }, include: { model: this._db.User } })
-		let userId = surfProfile?.user?.id
-
-		if (!userId) {
-			const userWithoutSurfProfile = await this._db.User.findOne({ where: { email } })
-			userId = userWithoutSurfProfile?.id
-		}
+		let existingUser: UserRecord | null | undefined = surfProfile?.user
+		if (!existingUser) existingUser = await this._db.User.findOne({ where: { email } })
+		const userId = existingUser?.id
 
 		return this._db.transaction(async transaction => {
-			const role = getRole(surfRawData)
+			// SurfConext determines student/teacher access on every login. Administrators are assigned locally and retain that role.
+			const role = existingUser?.role === 'admin' ? 'admin' : getRole(surfRawData)
 			const [user] = await this._db.User.upsert({
 				...(userId || surfRawData.databaseId ? { id: userId || surfRawData.databaseId! } : {}),
 				...(surfRawData.name != null ? { name: surfRawData.name } : {}),
 				...(surfRawData.given_name != null ? { givenName: surfRawData.given_name } : {}),
 				...(surfRawData.family_name != null ? { familyName: surfRawData.family_name } : {}),
 				email,
-				...(role ? { role } : {}),
+				role,
 			}, { returning: true, transaction })
 			await this._db.SurfConextProfile.upsert({
 				id: surfRawData.sub,
@@ -49,7 +47,7 @@ export class AuthStrategy {
 	}
 }
 
-function getRole(surfRawData: SurfConextIdentity): 'teacher' | undefined {
+function getRole(surfRawData: SurfConextIdentity): 'student' | 'teacher' {
 	const affiliation = surfRawData.eduperson_affiliation
-	return Array.isArray(affiliation) && affiliation.includes('teacher') ? 'teacher' : undefined
+	return Array.isArray(affiliation) && affiliation.includes('teacher') ? 'teacher' : 'student'
 }
