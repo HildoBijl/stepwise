@@ -111,4 +111,24 @@ describe('submitExerciseAction', () => {
 		expect(skillAfterRestart.activeExercise).toMatchObject(secondExercise)
 		expect(skillAfterRestart.exercises).toHaveLength(2)
 	})
+
+	it('only processes an exercise-completing action once under concurrent requests', async () => {
+		const client = await createClient(seed)
+		await client.loginSurfConext(ALEX_SURFSUB)
+
+		const { data: { startExercise: exercise } } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {parameters}}` })
+		const parameters = deserializeData(exercise.parameters) as any
+		const query = { query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(parameters.x))}) {updatedExercise {id}}}` }
+		const responses = await Promise.all([client.graphql(query), client.graphql(query)])
+
+		expect(responses.filter(response => response.errors === undefined)).toHaveLength(1)
+		expect(responses.filter(response => response.errors !== undefined)).toHaveLength(1)
+		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
+
+		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {... on SkillWithExercises {exercises {active history {action}}}}}` })
+		expect(errors).toBeUndefined()
+		expect(skill.exercises).toHaveLength(1)
+		expect(skill.exercises[0]).toMatchObject({ active: false })
+		expect(skill.exercises[0].history).toHaveLength(1)
+	})
 })

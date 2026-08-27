@@ -1,4 +1,4 @@
-import { UniqueConstraintError } from 'sequelize'
+import { type Transaction, UniqueConstraintError } from 'sequelize'
 
 import { ensureExerciseAction, isStateDone } from '@step-wise/exercise-definition'
 import { generateSkillBasedExerciseInstance } from '@step-wise/exercise-selection'
@@ -10,10 +10,18 @@ import { UserInputError } from '../../errors.ts'
 import type { AuthenticatedContext } from '../user/index.ts'
 import { type SkillUpdate, type UserSkillRecord, applySkillUpdatesForUser, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
 
-import type { ExerciseEventRecord, ExerciseSampleRecord, ExerciseSampleWithEvents } from './models.ts'
-import { getExerciseState, getLastEvent, getUserSkillWithExercises } from './service.ts'
+import { type ExerciseEventRecord, type ExerciseSampleRecord, type ExerciseSampleWithEvents, hasLoadedExerciseEvents } from './models.ts'
+import { type ExerciseDatabase, getExerciseState, getLastEvent, getUserSkillWithExercises } from './service.ts'
 
 type ExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'loaders' | 'pubsub' | 'userId'>
+
+async function lockActiveExercise(db: ExerciseDatabase, exerciseId: string, skillId: string, transaction: Transaction): Promise<ExerciseSampleWithEvents> {
+	const exercise = await db.ExerciseSample.findByPk(exerciseId, { transaction, lock: transaction.LOCK.UPDATE })
+	if (!exercise || !exercise.active) throw new UserInputError(`Cannot submit action: there is no longer an active exercise for skill "${skillId}".`)
+	exercise.events = await db.ExerciseEvent.findAll({ where: { exerciseSampleId: exercise.id }, order: [['createdAt', 'ASC']], transaction })
+	if (!hasLoadedExerciseEvents(exercise)) throw new Error(`Failed to load events for exercise "${exercise.id}".`)
+	return exercise
+}
 
 export const exerciseResolvers = {
 	Skill: { __resolveType: (skill: UserSkillRecord) => skill.mayViewExercises ? 'SkillWithExercises' : 'SkillWithoutExercises' },
@@ -64,31 +72,32 @@ export const exerciseResolvers = {
 			const definition = getExercise(skillId, activeExercise.exerciseId)
 			if (!definition) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
 			if (!definition.processSoloAction) throw new Error(`Unsupported exercise mode: exercise "${activeExercise.exerciseId}" does not support solo actions.`)
+			const processSoloAction = definition.processSoloAction
 
-			// Apply the action to the exerccise.
-			const skillUpdates: SkillUpdate[] = []
-			const state = definition.processSoloAction({
-				parameters: activeExercise.parameters,
-				state: getExerciseState(activeExercise),
-				action,
-				updateSkills: (setup, correct) => { if (setup) skillUpdates.push({ setup, correct }) },
-			})
-			if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise state.`)
-
-			// Apply potential skill updates.
+			// Lock and reload the exercise before calculating its next state, then apply all changes atomically.
+			let updatedExercise: ExerciseSampleWithEvents = activeExercise
 			let updatedSkills: UserSkillRecord[] = []
 			await db.transaction(async transaction => {
+				updatedExercise = await lockActiveExercise(db, activeExercise.id, skillId, transaction)
+				const skillUpdates: SkillUpdate[] = []
+				const state = processSoloAction({
+					parameters: updatedExercise.parameters,
+					state: getExerciseState(updatedExercise),
+					action,
+					updateSkills: (setup, correct) => { if (setup) skillUpdates.push({ setup, correct }) },
+				})
+				if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${updatedExercise.exerciseId}" due to an error in updating the exercise state.`)
 				updatedSkills = await applySkillUpdatesForUser(db, userId, skillUpdates, transaction)
-				activeExercise.events.push(await db.ExerciseEvent.create({ exerciseSampleId: activeExercise.id, action, state }, { transaction }))
+				updatedExercise.events.push(await db.ExerciseEvent.create({ exerciseSampleId: updatedExercise.id, action, state }, { transaction }))
 				if (isStateDone(state)) {
-					await activeExercise.update({ active: false }, { transaction })
-					activeExercise.active = false
+					await updatedExercise.update({ active: false }, { transaction })
+					updatedExercise.active = false
 				}
 			})
 
 			// Publish the outcome.
 			await pubsub.publish(skillEvents.skillsUpdated, { userId, updatedSkills })
-			return { updatedExercise: activeExercise, updatedSkills }
+			return { updatedExercise, updatedSkills }
 		},
 	},
 }
