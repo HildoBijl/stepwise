@@ -1,9 +1,9 @@
-import { type ApiContext, type ApiLoaders, apiModules } from '../modules/index.ts'
+import { type ApiLoaders, type LoaderContext, apiModules } from '../modules/index.ts'
 
-export function createLoaders(context: ApiContext): ApiLoaders {
-	let loaders: ApiLoaders = {}
+export function createLoaders(context: LoaderContext): ApiLoaders {
+	let loaders: Partial<ApiLoaders> = {}
 	apiModules.forEach(module => {
 		if (module.createLoaders) loaders = { ...loaders, ...module.createLoaders(context, loaders) }
 	})
-	return loaders
+	return loaders as ApiLoaders
 }

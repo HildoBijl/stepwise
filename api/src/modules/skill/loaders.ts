@@ -2,25 +2,36 @@ import DataLoader from 'dataloader'
 import { Op } from 'sequelize'
 import { expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 
-import type { ApiContext, ApiLoaders } from '../types.ts'
+import type { ApiLoaders, LoaderContext } from '../types.ts'
 import { createCourseFromRecord } from '../course/index.ts'
 
 import type { UserSkillRecord } from './model.ts'
-import type { SkillDatabase } from './service.ts'
 
 interface SkillPermission {
 	withExercises: string[]
 	withoutExercises: string[]
 }
 
-export function createSkillLoaders(context: ApiContext, { coursesWithStudent }: ApiLoaders): ApiLoaders {
-	const db = context.db as SkillDatabase
+export interface SkillLoaders {
+	permittedSkillsForStudent: DataLoader<string, SkillPermission>
+	allSkillsForUser: DataLoader<string, UserSkillRecord[]>
+	skillForUser: DataLoader<{ userId: string; skillId: string }, UserSkillRecord | null>
+}
+
+declare module '../types.ts' {
+	interface ApiLoaders extends SkillLoaders {}
+}
+
+export function createSkillLoaders(context: LoaderContext, { coursesWithStudent }: Partial<ApiLoaders>): SkillLoaders {
+	if (!coursesWithStudent) throw new Error('Cannot create skill loaders before course loaders.')
+	const { db } = context
 	return {
 		permittedSkillsForStudent: new DataLoader<string, SkillPermission>(async studentIds => {
 			const coursesPerStudent = await coursesWithStudent.loadMany(studentIds)
 			const courseSkills: Record<string, string[]> = {}
 			const courseSkillsWithLinks: Record<string, string[]> = {}
-			return coursesPerStudent.map((courses: any[]) => {
+			return coursesPerStudent.map(courses => {
+				if (courses instanceof Error) throw courses
 				const withExercises = new Set<string>()
 				const withoutExercises = new Set<string>()
 				courses.forEach(course => {

@@ -2,7 +2,8 @@ import type { DocumentNode } from 'graphql'
 import type { Model, ModelStatic, Sequelize } from 'sequelize'
 
 export interface ApiContext {}
-export type ApiLoaders = Record<string, any>
+export interface ApiLoaders {}
+export type LoaderContext = Omit<ApiContext, 'loaders'>
 export type ApiModel = ModelStatic<Model> & { associate?: (models: ApiModels) => void }
 
 // API modules augment this registry with the models they contribute.
@@ -10,7 +11,7 @@ export interface ApiModels {}
 
 export type ModelFactory<ModelType extends ApiModel = ApiModel> = (sequelize: Sequelize) => ModelType
 export type ModelFactories = Partial<{ [Name in keyof ApiModels]: ModelFactory<ApiModels[Name]> }>
-export type LoaderFactory = (context: ApiContext, loaders: ApiLoaders) => ApiLoaders
+export type LoaderFactory = (context: LoaderContext, loaders: Partial<ApiLoaders>) => Partial<ApiLoaders>
 
 export interface ApiModule {
 	models?: ModelFactories

@@ -1,14 +1,23 @@
 import DataLoader from 'dataloader'
 import { Op } from 'sequelize'
 
-import type { ApiContext, ApiLoaders } from '../types.ts'
+import type { LoaderContext } from '../types.ts'
 import type { UserRecord } from '../user/index.ts'
 
-import type { CourseDatabase } from './service.ts'
 import type { CourseRecord } from './models.ts'
 
-export function createCourseLoaders(context: ApiContext): ApiLoaders {
-	const { db, userId } = context as { db: CourseDatabase; userId?: string }
+export interface CourseLoaders {
+	courseTeachers: DataLoader<string, UserRecord[]>
+	courseStudents: DataLoader<string, UserRecord[]>
+	coursesWithStudent: DataLoader<string, CourseRecord[]>
+}
+
+declare module '../types.ts' {
+	interface ApiLoaders extends CourseLoaders {}
+}
+
+export function createCourseLoaders(context: LoaderContext): CourseLoaders {
+	const { db, userId } = context
 	const usersByCourse = (role: 'teacher' | 'student') => new DataLoader<string, UserRecord[]>(async courseIds => {
 		const subscriptions = await db.CourseSubscription.findAll({
 			where: { courseId: { [Op.in]: courseIds }, role }, include: [{ model: db.User, as: 'user' }],

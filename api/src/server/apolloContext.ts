@@ -1,7 +1,7 @@
 import type { PubSubEngine } from 'graphql-subscriptions'
 
 import { AuthenticationError } from '../errors.ts'
-import type { ApiContext, ApiLoaders } from '../modules/index.ts'
+import type { ApiContext, ApiLoaders, LoaderContext } from '../modules/index.ts'
 import type { UserRecord } from '../modules/user/index.ts'
 import type { Database } from '../database.ts'
 import { createLoaders } from '../graphql/index.ts'
@@ -32,7 +32,7 @@ export function createApolloContext(database: Database, pubsub: PubSubEngine) {
 		const user = userId ? await database.User.findByPk(userId) : null
 
 		// Set up a context object. Loaders receive the same context object that is returned to Apollo.
-		const context: ApolloContext = {
+		const context: LoaderContext = {
 			db: database,
 			isLoggedIn: !!user,
 			isAdmin: user?.role === 'admin',
@@ -44,10 +44,8 @@ export function createApolloContext(database: Database, pubsub: PubSubEngine) {
 			ensureAdmin: () => {
 				if (user?.role !== 'admin') throw new AuthenticationError('No admin rights.')
 			},
-			loaders: {},
 			pubsub,
 		}
-		context.loaders = createLoaders(context)
-		return context
+		return { ...context, loaders: createLoaders(context) }
 	}
 }
