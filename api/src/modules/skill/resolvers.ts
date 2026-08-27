@@ -7,7 +7,7 @@ import type { UserSkillRecord } from './model.ts'
 import { skillEvents } from './service.ts'
 import { loadVisibleSkills, type SkillAccessContext } from './skillAccess.ts'
 
-type SkillContext = SkillAccessContext & Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn'>
+type SkillContext = SkillAccessContext & Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'pubsub'>
 
 interface SkillsUpdatedPayload {
 	userId: string

@@ -1,14 +1,23 @@
 import { withFilter } from 'graphql-subscriptions'
 
-type SubscriptionProcessor = (payload: any, args: any, context: any, source?: any) => unknown
+import type { ApiContext } from './types.ts'
 
-export function getSubscription(name: string, events: string[], process: SubscriptionProcessor, extraOptions: Record<string, unknown> = {}) {
+type SubscriptionContext = Pick<ApiContext, 'pubsub'>
+type SubscriptionProcessor<Payload, Args, Context, Result> = (payload: Payload, args: Args, context: Context) => Result | Promise<Result>
+
+export function getSubscription<Payload, Args, Context extends SubscriptionContext, Result>(name: string, events: string[], process: SubscriptionProcessor<Payload, Args, Context, Result>, extraOptions: Record<string, unknown> = {}) {
 	return {
 		[name]: {
 			...extraOptions,
-			subscribe: withFilter(
-				(_source: unknown, _args: unknown, { pubsub }: any) => pubsub.asyncIterableIterator(events),
-				(payload: unknown, args: unknown, context: unknown) => !!process(payload, args, context),
+			subscribe: withFilter<Payload, Args, Context>(
+				(_source, _args, context) => {
+					if (!context) throw new Error('Cannot create a subscription without an API context.')
+					return context.pubsub.asyncIterableIterator(events)
+				},
+				async (payload, args, context) => {
+					if (payload === undefined || args === undefined || context === undefined) return false
+					return !!await process(payload, args, context)
+				},
 			),
 			resolve: process,
 		},

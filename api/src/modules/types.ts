@@ -17,7 +17,7 @@ export interface ApiModule {
 	models?: ModelFactories
 	associate?: (models: ApiModels) => void
 	typeDefs?: DocumentNode | DocumentNode[]
-	resolvers?: Record<string, any>
+	resolvers?: Record<string, unknown>
 	createLoaders?: LoaderFactory
 }
 
