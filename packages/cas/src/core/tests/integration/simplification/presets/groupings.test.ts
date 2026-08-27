@@ -1,0 +1,23 @@
+import { variable, sum, product, fraction, power } from '../../../../construction'
+import { simplify, combine } from '../../../../operations'
+
+import { expectNodeToEqual } from '../../../testUtils'
+
+const x = variable('x')
+const y = variable('y')
+const z = variable('z')
+
+describe('apply-groupings simplification', () => {
+	test('groups sum terms', () => {
+		expectNodeToEqual(simplify(sum(product(2, x), product(3, x)), undefined, combine), product(5, x))
+	})
+
+	test('merges product factors', () => {
+		expectNodeToEqual(simplify(product(x, power(x, 2)), undefined, combine), power(x, 3))
+	})
+
+	test('merges fraction products', () => {
+		expectNodeToEqual(simplify(product(fraction(x, y), fraction(z, 2)), undefined, combine), fraction(product(x, z), product(2, y)))
+		expectNodeToEqual(simplify(product(fraction(x, product(3, y)), fraction(z, 2)), undefined, combine), fraction(product(x, z), product(6, y)))
+	})
+})
