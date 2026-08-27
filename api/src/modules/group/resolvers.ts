@@ -7,7 +7,7 @@ import type { AuthenticatedContext } from '../user/index.ts'
 import { getSubscription } from '../subscriptions.ts'
 
 import type { GroupMemberRecord, GroupRecord } from './models.ts'
-import { type GroupUpdatedPayload, createRandomCode, deactivateUserGroups, getGroup, getUserGroups, getUserWithDeactivatedGroups, getUserWithGroups, groupEvents } from './service.ts'
+import { type GroupUpdatedPayload, createRandomCode, deactivateUserGroups, getGroup, getUserGroups, getUserWithDeactivatedGroups, getUserWithGroups, groupEvents, verifyGroupMembership } from './service.ts'
 
 type GroupContext = Pick<ApiContext, 'db'>
 type AuthenticatedGroupContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'pubsub' | 'userId'>
@@ -142,7 +142,10 @@ export const groupResolvers = {
 	Subscription: {
 		...getSubscription('groupUpdate', [groupEvents.groupUpdated], ({ updatedGroup }: GroupUpdatedPayload, { code }: { code: string }) => {
 			// Only pass on when the code matches.
-			if (updatedGroup.code === code) return updatedGroup
+			if (updatedGroup.code === code.toUpperCase()) return updatedGroup
+		}, async ({ code }: { code: string }, { db, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
+			ensureLoggedIn()
+			verifyGroupMembership(await getGroup(db, code, true), userId)
 		}),
 
 		...getSubscription('myActiveGroupUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }: GroupUpdatedPayload, _args: unknown, { userId }: AuthenticatedGroupContext) => {

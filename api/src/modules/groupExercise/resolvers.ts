@@ -241,7 +241,10 @@ export const groupExerciseResolvers = {
 	Subscription: {
 		...getSubscription('activeGroupExercisesUpdate', [groupExerciseEvents.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }: GroupExerciseUpdatedPayload, { code: codeOfFollowedGroup }: { code: string }) => {
 			// Only pass on when the code matches.
-			if (codeOfEvent === codeOfFollowedGroup) return updatedGroupExercise
+			if (codeOfEvent === codeOfFollowedGroup.toUpperCase()) return updatedGroupExercise
+		}, async ({ code }: { code: string }, { db, ensureLoggedIn, userId }: GroupExerciseContext) => {
+			ensureLoggedIn()
+			verifyGroupAccess(await getGroupWithActiveExercises(code, db), userId)
 		}),
 	},
 }

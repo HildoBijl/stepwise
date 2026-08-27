@@ -23,10 +23,16 @@ export interface GroupUpdatedPayload {
 	action: GroupUpdateAction
 }
 
-export function verifyGroupAccess(group: GroupWithMembers | null, userId: string): asserts group is GroupWithMembers {
+export function verifyGroupMembership(group: GroupWithMembers | null, userId: string): asserts group is GroupWithMembers {
 	if (!group) throw new UserInputError('No group with the given code exists.')
 	const member = group.members.find(candidate => candidate.id === userId)
 	if (!member) throw new ForbiddenError(`Access to group "${group.code}" is not allowed: the user is not a member.`)
+}
+
+export function verifyGroupAccess(group: GroupWithMembers | null, userId: string): asserts group is GroupWithMembers {
+	verifyGroupMembership(group, userId)
+	const member = group.members.find(candidate => candidate.id === userId)
+	if (!member) throw new Error(`Failed to find user "${userId}" among members of group "${group.code}".`)
 	if (!member.groupMembership.active) throw new ForbiddenError(`Access to group "${group.code}" is not allowed: the user is currently not active in that group.`)
 }
 
