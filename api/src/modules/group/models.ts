@@ -1,4 +1,6 @@
-import { type CreationOptional, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
+import { type BelongsToManyAddAssociationMixin, type BelongsToManyGetAssociationsMixin, type BelongsToManyRemoveAssociationMixin, type CreationOptional, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
+
+import type { UserRecord } from '../user/index.ts'
 
 export class GroupMembershipRecord extends Model<InferAttributes<GroupMembershipRecord>, InferCreationAttributes<GroupMembershipRecord>> {
 	declare userId: string
@@ -13,12 +15,22 @@ export class GroupRecord extends Model<InferAttributes<GroupRecord>, InferCreati
 	declare code: string
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
-	declare members?: NonAttribute<any[]>
-	declare exercises?: NonAttribute<any[]>
-	declare getMembers: NonAttribute<() => Promise<any[]>>
-	declare addMember: NonAttribute<(user: any, options?: any) => Promise<unknown>>
-	declare removeMember: NonAttribute<(user: any, options?: any) => Promise<unknown>>
-	declare createExercise: NonAttribute<(values: any, options?: any) => Promise<any>>
+	declare members?: NonAttribute<GroupMemberRecord[]>
+	declare getMembers: NonAttribute<BelongsToManyGetAssociationsMixin<GroupMemberRecord>>
+	declare addMember: NonAttribute<BelongsToManyAddAssociationMixin<UserRecord, string>>
+	declare removeMember: NonAttribute<BelongsToManyRemoveAssociationMixin<UserRecord, string>>
+}
+
+export type GroupMemberRecord = UserRecord & { groupMembership: GroupMembershipRecord }
+export type GroupWithMembers = GroupRecord & { members: GroupMemberRecord[] }
+export type UserWithGroups = UserRecord & { groups: GroupWithMembers[] }
+
+export function hasLoadedGroupMembers(group: GroupRecord): group is GroupWithMembers {
+	return group.members !== undefined
+}
+
+export function hasLoadedUserGroups(user: UserRecord): user is UserWithGroups {
+	return Array.isArray(Reflect.get(user, 'groups'))
 }
 
 export type GroupModel = ModelStatic<GroupRecord>
