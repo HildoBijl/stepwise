@@ -8,51 +8,51 @@ const z = variable('z')
 
 describe('power simplification', () => {
 	test('removes zero exponent from powers', () => {
-		expectSimplifyToGive(power(x, 0), 1, ['reducePowersWithZeroExponent'])
-		expectSimplifyToGive(power(sum(x, y), 0), 1, ['reducePowersWithZeroExponent'])
-		expectSimplifyToGive(power(0, 0), power(0, 0), ['reducePowersWithZeroExponent'])
+		expectSimplifyToGive(power(x, 0), 1, ['simplifyZeroExponentPowers'])
+		expectSimplifyToGive(power(sum(x, y), 0), 1, ['simplifyZeroExponentPowers'])
+		expectSimplifyToGive(power(0, 0), power(0, 0), ['simplifyZeroExponentPowers'])
 	})
 
 	test('removes zero base from powers', () => {
-		expectSimplifyToGive(power(0, 3), 0, ['reducePowersWithZeroBase'])
-		expectSimplifyToGive(power(0, sum(x, y)), 0, ['reducePowersWithZeroBase'])
-		expectSimplifyToGive(power(0, 0), power(0, 0), ['reducePowersWithZeroBase'])
+		expectSimplifyToGive(power(0, 3), 0, ['simplifyZeroBasePowers'])
+		expectSimplifyToGive(power(0, sum(x, y)), 0, ['simplifyZeroBasePowers'])
+		expectSimplifyToGive(power(0, 0), power(0, 0), ['simplifyZeroBasePowers'])
 	})
 
 	test('removes one exponent from powers', () => {
-		expectSimplifyToGive(power(x, 1), x, ['removeOneExponentsFromPowers'])
-		expectSimplifyToGive(power(sum(x, y), 1), sum(x, y), ['removeOneExponentsFromPowers'])
+		expectSimplifyToGive(power(x, 1), x, ['simplifyUnitExponentPowers'])
+		expectSimplifyToGive(power(sum(x, y), 1), sum(x, y), ['simplifyUnitExponentPowers'])
 	})
 
 	test('removes one base from powers', () => {
-		expectSimplifyToGive(power(1, x), 1, ['reducePowersWithOneBase'])
-		expectSimplifyToGive(power(1, sum(x, y)), 1, ['reducePowersWithOneBase'])
+		expectSimplifyToGive(power(1, x), 1, ['simplifyUnitBasePowers'])
+		expectSimplifyToGive(power(1, sum(x, y)), 1, ['simplifyUnitBasePowers'])
 	})
 
 	test('merges power minuses', () => {
-		expectSimplifyToGive(power(negative(x), 2), power(x, 2), ['mergePowerMinuses'])
-		expectSimplifyToGive(power(negative(x), 3), negative(power(x, 3)), ['mergePowerMinuses'])
-		expectSimplifyToGive(power(negative(sum(x, y)), 4), power(sum(x, y), 4), ['mergePowerMinuses'])
-		expectSimplifyToGive(power(negative(sum(x, y)), 5), negative(power(sum(x, y), 5)), ['mergePowerMinuses'])
+		expectSimplifyToGive(power(negative(x), 2), power(x, 2), ['combineMinusSignsInPowers'])
+		expectSimplifyToGive(power(negative(x), 3), negative(power(x, 3)), ['combineMinusSignsInPowers'])
+		expectSimplifyToGive(power(negative(sum(x, y)), 4), power(sum(x, y), 4), ['combineMinusSignsInPowers'])
+		expectSimplifyToGive(power(negative(sum(x, y)), 5), negative(power(sum(x, y), 5)), ['combineMinusSignsInPowers'])
 	})
 
 	test('merges power numbers', () => {
-		expectSimplifyToGive(power(2, 3), 8, ['reduceNumberPowers'])
-		expectSimplifyToGive(power(3, 2), 9, ['reduceNumberPowers'])
-		expectSimplifyToGive(power(5, 1), 5, ['reduceNumberPowers'])
-		expectSimplifyToGive(power(x, 2), power(x, 2), ['reduceNumberPowers'])
+		expectSimplifyToGive(power(2, 3), 8, ['evaluateNumericPowers'])
+		expectSimplifyToGive(power(3, 2), 9, ['evaluateNumericPowers'])
+		expectSimplifyToGive(power(5, 1), 5, ['evaluateNumericPowers'])
+		expectSimplifyToGive(power(x, 2), power(x, 2), ['evaluateNumericPowers'])
 	})
 
 	test('removes powers within powers', () => {
-		expectSimplifyToGive(power(power(x, 2), 3), power(x, product(2, 3)), ['removePowersWithinPowers'])
-		expectSimplifyToGive(power(power(x, y), z), power(x, product(y, z)), ['removePowersWithinPowers'])
-		expectSimplifyToGive(power(power(sum(x, y), 2), z), power(sum(x, y), product(2, z)), ['removePowersWithinPowers'])
+		expectSimplifyToGive(power(power(x, 2), 3), power(x, product(2, 3)), ['flattenNestedPowers'])
+		expectSimplifyToGive(power(power(x, y), z), power(x, product(y, z)), ['flattenNestedPowers'])
+		expectSimplifyToGive(power(power(sum(x, y), 2), z), power(sum(x, y), product(2, z)), ['flattenNestedPowers'])
 	})
 
 	test('removes negative powers', () => {
-		expectSimplifyToGive(power(x, -2), fraction(1, power(x, 2)), ['convertNegativePowers'])
-		expectSimplifyToGive(power(sum(x, y), -3), fraction(1, power(sum(x, y), 3)), ['convertNegativePowers'])
-		expectSimplifyToGive(power(x, 2), power(x, 2), ['convertNegativePowers'])
+		expectSimplifyToGive(power(x, -2), fraction(1, power(x, 2)), ['rewriteNegativePowersAsFractions'])
+		expectSimplifyToGive(power(sum(x, y), -3), fraction(1, power(sum(x, y), 3)), ['rewriteNegativePowersAsFractions'])
+		expectSimplifyToGive(power(x, 2), power(x, 2), ['rewriteNegativePowersAsFractions'])
 	})
 
 	test('expands powers', () => {
@@ -74,6 +74,6 @@ describe('power simplification', () => {
 	test('expands powers of sums', () => {
 		expectSimplifyToGive(power(sum(x, y), 2), sum(product(1, power(x, 2), power(y, 0)), product(2, power(x, 1), power(y, 1)), product(1, power(x, 0), power(y, 2))), ['expandPowersOfSums'])
 		expectSimplifyToGive(power(sum(x, y), 3), sum(product(1, power(x, 3), power(y, 0)), product(3, power(x, 2), power(y, 1)), product(3, power(x, 1), power(y, 2)), product(1, power(x, 0), power(y, 3))), ['expandPowersOfSums'])
-		expectSimplifyToGive(power(sum(x, y, z), 2), sum(power(x, 2), product(2, x, y), product(2, x, z), power(y, 2), product(2, y, z), power(z, 2)), ['flattenSums', 'flattenProducts', 'removeOnesFromProducts', 'reducePowersWithZeroExponent', 'removeOneExponentsFromPowers', 'expandProductsOfSums', 'expandPowersOfSums'])
+		expectSimplifyToGive(power(sum(x, y, z), 2), sum(power(x, 2), product(2, x, y), product(2, x, z), power(y, 2), product(2, y, z), power(z, 2)), ['flattenSums', 'flattenProducts', 'removeOnesFromProducts', 'simplifyZeroExponentPowers', 'simplifyUnitExponentPowers', 'expandProductsOfSums', 'expandPowersOfSums'])
 	})
 })

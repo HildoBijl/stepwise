@@ -50,7 +50,7 @@ export default buildStepExercise({
 		const factor2 = asExpression(parameters.switch ? 'c*x^r+d*x^s' : 'd*x^s+c*x^r').substitute(variables).removeTrivial()
 		const expression = factor1.multiply(factor2).flatten()
 		const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2)).flatten()
-		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
+		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'combineLikeFactors'])
 		const jointFactor = asExpression('x^(q+r)').substitute(variables).normalize()
 		const ans = allExpanded.combine()
 		const xFactors = allExpanded.terms.filter(term => term.some(factor => variables.x.toPower(parameters.q + parameters.r).equalStructure(factor)))

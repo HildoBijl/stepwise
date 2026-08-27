@@ -35,7 +35,7 @@ export default buildStepExercise({
 		const equation = asEquation('1/(a/w+b/x) = y/z').substitute(variables).removeTrivial()
 
 		// Find the solution.
-		const simplified = equation.mapLeft(side => side.combine(['mergeFractionSums']))
+		const simplified = equation.mapLeft(side => side.combine(['combineSumFractions']))
 		const multiplied = simplified.mapSides(side => side.multiply(simplified.left.denominator).multiply(simplified.right.denominator)).combine()
 		const expanded = multiplied.combine(['expandProductsOfSums', 'expandMinusSums'])
 		const termToMove = expanded.right.terms.find(term => term.dependsOn(variables.x))

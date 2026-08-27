@@ -42,7 +42,7 @@ export default buildStepExercise({
 		const factor2 = asExpression(parameters.switch ? 'c*x^2+d*x+f' : 'f+d*x+c*x^2').substitute(variables).removeTrivial()
 		const expression = factor1.multiply(factor2).flatten()
 		const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2)).flatten()
-		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
+		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'combineLikeFactors'])
 		const ans = allExpanded.combine()
 		const hasFactor = (term: Expression, factor: Expression): boolean => term.equalStructure(factor) || (term.isProduct() && term.factors.some(termFactor => termFactor.equalStructure(factor))) || (term.isMinus() && hasFactor(term.argument, factor))
 		const xFactors1 = allExpanded.terms.filter(term => hasFactor(term, variables.x))

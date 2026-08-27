@@ -43,7 +43,7 @@ export default buildStepExercise({
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseExpression = asExpression('(a(x+c)^p)/(b(x+c)^q/(x+d)^r)').substitute(variables)
 		const expression = (parameters.flip ? baseExpression.invert() : baseExpression.self()).removeTrivial()
-		const singleFraction = expression.flatten(['mergeFractionProducts', 'flattenFractions'])
+		const singleFraction = expression.flatten(['combineProductFractions', 'flattenFractions'])
 		const ans = expression.combine()
 		return { ...parameters, variables, expression, singleFraction, ans }
 	},

@@ -43,8 +43,8 @@ export default buildStepExercise({
 		const factor = [variables.c, variables.x, variables.c.multiply(variables.x)][parameters.type].removeTrivial()
 		const baseEquation = asEquation('a=b/(c*x)')
 		const equation = (parameters.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
-		const bothSidesChanged = equation.multiply(factor).removeTrivial(['mergeFractionProducts'], ['mergeProductMinuses', 'mergeProductPlusMinuses'])
-		const ans = parameters.switchSides ? bothSidesChanged.mapLeft(side => side.removeTrivial(['mergeFractionMinuses', 'cancelFractionFactors'])) : bothSidesChanged.mapRight(side => side.removeTrivial(['mergeFractionMinuses', 'cancelFractionFactors']))
+		const bothSidesChanged = equation.multiply(factor).removeTrivial(['combineProductFractions'], ['combineMinusSignsInProducts', 'combinePlusMinusSignsInProducts'])
+		const ans = parameters.switchSides ? bothSidesChanged.mapLeft(side => side.removeTrivial(['combineMinusSignsInFractions', 'cancelFractionFactors'])) : bothSidesChanged.mapRight(side => side.removeTrivial(['combineMinusSignsInFractions', 'cancelFractionFactors']))
 		const ansCleaned = ans.normalize()
 		const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)
 		return { ...parameters, variables, factor, equation, bothSidesChanged, ans, ansCleaned, isFurtherSimplificationPossible }

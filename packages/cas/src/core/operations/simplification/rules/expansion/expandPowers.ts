@@ -4,7 +4,7 @@ import { type ExpressionNode, type Power, product } from '../../../../constructi
 
 import { isPower, isIntegerNode } from '../../../structural'
 
-import { mergeProductFactors } from '../combination'
+import { combineLikeFactors } from '../combination'
 import { defineRule } from '../ruleDefinition'
 
 function transform(node: Power): ExpressionNode {
@@ -16,5 +16,5 @@ export const expandPowers = defineRule({
 	name: 'expandPowers',
 	appliesTo: isPower,
 	transform,
-	conflictsWith: [mergeProductFactors],
+	conflictsWith: [combineLikeFactors],
 })

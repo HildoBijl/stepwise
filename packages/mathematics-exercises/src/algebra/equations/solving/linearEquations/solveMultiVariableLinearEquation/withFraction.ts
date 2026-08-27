@@ -48,7 +48,7 @@ export default buildStepExercise({
 
 		// Check the solution.
 		const equationWithSolution = equation.substitute({ [variables.x.toString()]: ansCleaned })
-		const equationWithSolutionMergedFractions = equationWithSolution.removeTrivial(['flattenFractions', 'expandMinusSums', 'mergeFractionProducts', 'mergeFractionSums'])
+		const equationWithSolutionMergedFractions = equationWithSolution.removeTrivial(['flattenFractions', 'expandMinusSums', 'combineProductFractions', 'combineSumFractions'])
 		const equationWithSolutionExpandedBrackets = equationWithSolutionMergedFractions.combine(['expandProductsOfSums', 'expandMinusSums', 'sortSums'])
 
 		return { ...parameters, variables, equation, termsMoved, pulledOut, bracketTerm, ans, ansCleaned, equationWithSolution, equationWithSolutionMergedFractions, equationWithSolutionExpandedBrackets }

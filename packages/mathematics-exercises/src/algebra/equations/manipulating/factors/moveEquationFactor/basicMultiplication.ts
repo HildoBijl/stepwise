@@ -35,8 +35,8 @@ export default buildStepExercise({
 		const factor = variables.x
 		const baseEquation = asEquation('a=b/x')
 		const equation = (parameters.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
-		const bothSidesChanged = equation.multiply(factor).removeTrivial(['mergeFractionProducts'])
-		const ans = bothSidesChanged.cancel(['mergeProductFactors', 'cancelFractionFactors'])
+		const bothSidesChanged = equation.multiply(factor).removeTrivial(['combineProductFractions'])
+		const ans = bothSidesChanged.cancel(['combineLikeFactors', 'cancelFractionFactors'])
 		return { ...parameters, variables, factor, equation, bothSidesChanged, ans }
 	},
 

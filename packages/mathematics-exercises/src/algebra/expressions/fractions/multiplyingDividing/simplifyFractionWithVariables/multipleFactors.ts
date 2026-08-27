@@ -19,7 +19,7 @@ export default buildStepExercise({
 		skill: 'simplifyFractionWithVariables',
 		...createStepExerciseMetadata(['simplifyFraction', and('rewritePower', 'cancelFractionFactors')]),
 		comparisons: {
-			numericSimplified: (input: Expression, correct: Expression) => onlyOrderChanges(input.flatten().flatten(['mergeProductNumbers', 'mergeFractionNumbers']), input.flatten()) && areEquivalent(input, correct),
+			numericSimplified: (input: Expression, correct: Expression) => onlyOrderChanges(input.flatten().flatten(['combineNumbersInProducts', 'combineNumbersInFractions']), input.flatten()) && areEquivalent(input, correct),
 			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && areEquivalent(input, correct),
 		},
 	},
@@ -51,7 +51,7 @@ export default buildStepExercise({
 		const numericPartOriginal = parameters.switch ? baseNumericPartOriginal.invert() : baseNumericPartOriginal.self()
 		const numericPart = numericPartOriginal.combine()
 		const factor = gcd(parameters.a, parameters.b) * (parameters.a < 0 && parameters.b < 0 ? -1 : 1)
-		const numericSimplified = expression.removeTrivial(['mergeProductNumbers', 'mergeFractionNumbers'])
+		const numericSimplified = expression.removeTrivial(['combineNumbersInProducts', 'combineNumbersInFractions'])
 		const ans = expression.combine()
 		return { ...parameters, variables, expression, factor1, factor2, numericPartOriginal, numericPart, factor, numericSimplified, ans }
 	},

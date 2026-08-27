@@ -57,7 +57,7 @@ export default buildStepExercise({
 		// Manipulate the equation.
 		const form = equation.multiplyLeft(factor).flatten()
 		const expandedIntermediate = form.removeTrivial(['expandProductsOfSums', 'expandMinusSums'])
-		const expanded = expandedIntermediate.cancel(['expandProductsOfSums', 'mergeFractionProducts', 'mergeProductFactors'])
+		const expanded = expandedIntermediate.cancel(['expandProductsOfSums', 'combineProductFractions', 'combineLikeFactors'])
 		const ans = expanded.combine()
 		return { ...parameters, variables, equation, factor, form, expandedIntermediate, expanded, ans }
 	},

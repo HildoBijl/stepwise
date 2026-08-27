@@ -36,8 +36,8 @@ export default buildStepExercise({
 		const rightExpression = asExpression('b/(yz)').substitute(variables)
 		const expression = plus ? leftExpression.add(rightExpression) : leftExpression.subtract(rightExpression)
 		const denominator = asExpression('xyz').substitute(variables).flatten(['sortProducts'])
-		const leftAns = multiplyNumeratorAndDenominator(leftExpression, variables.y).removeTrivial(['mergeProductNumbers', 'sortProducts'])
-		const rightAns = multiplyNumeratorAndDenominator(rightExpression, variables.x).removeTrivial(['mergeProductNumbers', 'sortProducts'])
+		const leftAns = multiplyNumeratorAndDenominator(leftExpression, variables.y).removeTrivial(['combineNumbersInProducts', 'sortProducts'])
+		const rightAns = multiplyNumeratorAndDenominator(rightExpression, variables.x).removeTrivial(['combineNumbersInProducts', 'sortProducts'])
 		const ans = (plus ? leftAns.numerator.add(rightAns.numerator) : leftAns.numerator.subtract(rightAns.numerator)).divide(denominator)
 		return { ...parameters, variables, leftExpression, rightExpression, expression, denominator, leftAns, rightAns, ans }
 	},

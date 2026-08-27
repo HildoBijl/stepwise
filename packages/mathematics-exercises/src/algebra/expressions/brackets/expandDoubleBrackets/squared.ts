@@ -42,7 +42,7 @@ export default buildStepExercise({
 		const expression = factor.toPower(2)
 		const multiplication = factor.multiply(factor).flatten()
 		const firstExpanded = factor.terms[0].multiply(factor).add(factor.terms[1].multiply(factor)).flatten()
-		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
+		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'combineLikeFactors'])
 		const jointFactor = asExpression('x^(p+q)').substitute(variables).normalize()
 		const ans = allExpanded.combine()
 		const xPowerToMerge = variables.x.toPower(parameters.p + parameters.q).mergeNumbers()

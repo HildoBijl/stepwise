@@ -41,7 +41,7 @@ export default buildStepExercise({
 		const factor2 = asExpression(parameters.xFirst ? 'c*x+d' : 'd+c*x').substitute(variables).removeTrivial()
 		const expression = factor1.multiply(factor2).flatten()
 		const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2)).flatten()
-		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
+		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'combineLikeFactors'])
 		const ans = allExpanded.combine()
 		const xFactors = allExpanded.terms.filter(term => term.isProduct() && term.factors.some(factor => variables.x.equalStructure(factor)))
 		const xFactorsMerged = xFactors[0].add(xFactors[1]).normalize()

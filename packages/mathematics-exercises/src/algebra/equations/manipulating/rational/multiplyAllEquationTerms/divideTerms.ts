@@ -57,7 +57,7 @@ export default buildStepExercise({
 		// Manipulate the equation.
 		const form = equation.divide(factor)
 		const expanded = form.removeTrivial(['splitFractions'])
-		const ansIntermediate = expanded.cancel(['mergeFractionNumbers'])
+		const ansIntermediate = expanded.cancel(['combineNumbersInFractions'])
 		const ans = ansIntermediate.combine()
 		return { ...parameters, variables, equation, factor, form, expanded, ansIntermediate, ans }
 	},

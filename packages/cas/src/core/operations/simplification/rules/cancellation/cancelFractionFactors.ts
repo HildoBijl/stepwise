@@ -2,7 +2,7 @@ import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, pro
 
 import { isFraction, isOne, isSignNode, isSum, areNodesEqual, stripSigns } from '../../../structural'
 
-import { removeDoubleNegatives, mergeProductMinuses } from '../numeric'
+import { removeDoubleNegatives, combineMinusSignsInProducts } from '../numeric'
 import { defineRule } from '../ruleDefinition'
 import { getProductFactors } from '../utils'
 
@@ -70,5 +70,5 @@ export const cancelFractionFactors = defineRule({
 	name: 'cancelFractionFactors',
 	appliesTo: isFraction,
 	transform,
-	requires: [mergeProductMinuses, removeDoubleNegatives],
+	requires: [combineMinusSignsInProducts, removeDoubleNegatives],
 })

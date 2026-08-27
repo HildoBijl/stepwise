@@ -76,7 +76,7 @@ export default buildStepExercise({
 		// Rewrite the equation in various ways.
 		const baseMultiplied = asEquation('(ax+b)(x^2+e) = cx(x+d)', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 		const multiplied = flip ? baseMultiplied.switch() : baseMultiplied.self()
-		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'mergeProductFactors'], ['mergeSumNumbers', 'groupSumTerms']).mapEvery(term => term.isPower() ? term.combine() : term).cancel([], ['mergeSumNumbers', 'groupSumTerms']) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
+		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'combineLikeFactors'], ['combineNumbersInSums', 'combineLikeTerms']).mapEvery(term => term.isPower() ? term.combine() : term).cancel([], ['combineNumbersInSums', 'combineLikeTerms']) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 		const merged = expanded.combine(['sortSums'])
 		const moved = merged.subtract(merged.right).combine(['sortSums'])
 
@@ -84,7 +84,7 @@ export default buildStepExercise({
 		const coefficients = getCoefficients([a, b, c, d, e], flip)
 		let divisor = normalize ? coefficients[0] : gcd(...coefficients)
 		if (Math.sign(divisor) !== Math.sign(coefficients[0])) divisor *= -1
-		const ans = moved.divide(divisor).combine(['splitFractions'], ['mergeFractionSums']).removeTrivial(['pullOutCommonSumNumbers'])
+		const ans = moved.divide(divisor).combine(['splitFractions'], ['combineSumFractions']).removeTrivial(['factorCommonNumericTerms'])
 
 		// Return all calculated parameters.
 		return { ...parameters, variables, equation, multiplied, expanded, merged, moved, coefficients, divisor, ans }

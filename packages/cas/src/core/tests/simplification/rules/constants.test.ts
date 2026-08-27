@@ -4,10 +4,10 @@ import { expectSimplifyToGive } from '../../testUtils'
 
 describe('constant simplification', () => {
 	test('turns floats into integers', () => {
-		expectSimplifyToGive(new Float(3), 3, ['turnFloatsIntoIntegers'])
-		expectSimplifyToGive(new Float(12), Integer.twelve, ['turnFloatsIntoIntegers'])
-		expectSimplifyToGive(new Float(3.5), new Float(3.5), ['turnFloatsIntoIntegers'])
-		expectSimplifyToGive(3.5, 3.5, ['turnFloatsIntoIntegers'])
+		expectSimplifyToGive(new Float(3), 3, ['convertIntegerFloatsToIntegers'])
+		expectSimplifyToGive(new Float(12), Integer.twelve, ['convertIntegerFloatsToIntegers'])
+		expectSimplifyToGive(new Float(3.5), new Float(3.5), ['convertIntegerFloatsToIntegers'])
+		expectSimplifyToGive(3.5, 3.5, ['convertIntegerFloatsToIntegers'])
 	})
 
 	test('factorizes integers', () => {

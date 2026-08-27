@@ -21,8 +21,8 @@ export default buildStepExercise({
 		comparisons: {
 			a: {}, b: {}, c: {}, solutionFull: areEquivalent, D: {}, numSolutions: {},
 			// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
-			ans1: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
-			ans2: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
+			ans1: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
+			ans2: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
 		},
 	},
 
@@ -48,7 +48,7 @@ export default buildStepExercise({
 		if (!rootFull?.isSqrt()) throw new Error('Expected the quadratic formula to contain a square root.')
 		const DFull = rootFull.radicand
 		const D = DFull.combine()
-		const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial([], ['reduceRootsWithZeroRadicand'])
+		const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial([], ['simplifyZeroRadicandRoots'])
 		const solution = solutionFull.combine()
 		const solutionsSplit = solution.getSingular().map(solution => solution.removeTrivial())
 		const solutions = solutionsSplit.map(solution => solution.normalize().format())

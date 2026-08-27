@@ -46,8 +46,8 @@ export function getConstantAndVariablePart(node: ExpressionNode): { constantPart
 		const numeratorParts = getConstantAndVariablePart(node.numerator)
 		const denominatorParts = getConstantAndVariablePart(node.denominator)
 		return {
-			constantPart: reduceFractionsWithOneDenominator(fraction(numeratorParts.constantPart, denominatorParts.constantPart)),
-			variablePart: reduceFractionsWithOneDenominator(fraction(numeratorParts.variablePart, denominatorParts.variablePart)),
+			constantPart: simplifyUnitDenominatorFractions(fraction(numeratorParts.constantPart, denominatorParts.constantPart)),
+			variablePart: simplifyUnitDenominatorFractions(fraction(numeratorParts.variablePart, denominatorParts.variablePart)),
 		}
 	}
 	if (isProduct(node)) {
@@ -57,6 +57,6 @@ export function getConstantAndVariablePart(node: ExpressionNode): { constantPart
 	return { constantPart: Integer.one, variablePart: node }
 }
 
-export function reduceFractionsWithOneDenominator(node: Fraction): ExpressionNode {
+export function simplifyUnitDenominatorFractions(node: Fraction): ExpressionNode {
 	return isOne(node.denominator) ? node.numerator : node
 }

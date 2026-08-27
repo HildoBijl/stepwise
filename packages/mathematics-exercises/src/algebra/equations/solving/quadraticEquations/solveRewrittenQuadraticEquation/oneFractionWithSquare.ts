@@ -45,8 +45,8 @@ export default buildStepExercise({
 				compareRight: exactEqual,
 			},
 			// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
-			ans1: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
-			ans2: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
+			ans1: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
+			ans2: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
 		},
 	},
 
@@ -83,7 +83,7 @@ export default buildStepExercise({
 		// Bring the equation into standard form.
 		const multipliedBase = asEquation('(x+a)^2 = (cx+d)(x+b)').substitute(variables).removeTrivial()
 		const multiplied = flip ? multipliedBase.switch() : multipliedBase.self()
-		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'mergeProductFactors'], ['mergeSumNumbers', 'groupSumTerms']).mapEvery(term => term.isPower() ? term.combine() : term) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
+		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'combineLikeFactors'], ['combineNumbersInSums', 'combineLikeTerms']).mapEvery(term => term.isPower() ? term.combine() : term) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 		const merged = expanded.combine(['sortSums'])
 		const moved = merged.subtract(merged.right).combine(['sortSums'])
 
@@ -91,7 +91,7 @@ export default buildStepExercise({
 		const coefficients = getCoefficients([a, b, c, d], flip)
 		let divisor = gcd(...coefficients)
 		if (Math.sign(divisor) !== Math.sign(coefficients[0])) divisor *= -1
-		const standardForm = moved.divide(divisor).combine(['splitFractions'], ['mergeFractionSums']).removeTrivial(['pullOutCommonSumNumbers'])
+		const standardForm = moved.divide(divisor).combine(['splitFractions'], ['combineSumFractions']).removeTrivial(['factorCommonNumericTerms'])
 
 		// Solve the equation in standard form.
 		const [p, q, r] = coefficients.map(coefficient => coefficient / divisor)
@@ -100,7 +100,7 @@ export default buildStepExercise({
 		const DFull = asExpression('q^2-4*p*r').substitute({ p, q, r }).removeTrivial()
 		const D = DFull.combine()
 		const hasRealSolutions = !(D.isNumeric() && D.toNumber() < 0)
-		const solutionHalfSimplified = asExpression('(-q±sqrt(D))/(2p)').substitute({ p, q, r, D }).removeTrivial(['mergeProductNumbers'], ['reduceRootsWithZeroRadicand'])
+		const solutionHalfSimplified = asExpression('(-q±sqrt(D))/(2p)').substitute({ p, q, r, D }).removeTrivial(['combineNumbersInProducts'], ['simplifyZeroRadicandRoots'])
 		const solution = hasRealSolutions ? solutionFull.combine() : solutionHalfSimplified
 		const solutionsSplit = hasRealSolutions ? solution.getSingular().map(solution => solution.removeTrivial()) : [solution, solution]
 		const solutions = hasRealSolutions ? solutionsSplit.map(solution => solution.normalize().format()) : solutionsSplit

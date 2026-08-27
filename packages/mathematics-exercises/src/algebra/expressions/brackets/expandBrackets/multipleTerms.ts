@@ -41,8 +41,8 @@ export default buildStepExercise({
 		const sum = asExpression(parameters.descending ? 'b*x^2+c*x+d' : 'd+c*x+b*x^2').substitute(variables).removeTrivial()
 		const expression = factor.multiply(sum).removeTrivial()
 		const expanded = expression.flatten(['expandProductsOfSums', 'expandMinusSums'])
-		const numbersMerged = expanded.flatten(['mergeProductNumbers', 'mergeProductMinuses', 'removeDoubleNegatives'])
-		const ans = numbersMerged.flatten(['mergeProductFactors', 'mergeSumNumbers'])
+		const numbersMerged = expanded.flatten(['combineNumbersInProducts', 'combineMinusSignsInProducts', 'removeDoubleNegatives'])
+		const ans = numbersMerged.flatten(['combineLikeFactors', 'combineNumbersInSums'])
 		return { ...parameters, variables, factor, sum, expression, expanded, numbersMerged, ans }
 	},
 

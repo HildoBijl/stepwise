@@ -43,7 +43,7 @@ export default buildStepExercise({
 		if (!rootFull?.isSqrt()) throw new Error('Expected the quadratic formula to contain a square root.')
 		const DFull = rootFull.radicand
 		const D = DFull.combine()
-		const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial([], ['reduceRootsWithZeroRadicand'])
+		const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial([], ['simplifyZeroRadicandRoots'])
 		const solution = solutionFull.combine()
 		const solutions = solution.getSingular().map(solution => solution.removeTrivial().combine())
 		const numSolutions = solutions.length

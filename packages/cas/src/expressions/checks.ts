@@ -27,6 +27,6 @@ export const expressionChecks = {
 	hasFractionSatisfying(input: ExpressionLike, check: ExpressionCheck): boolean { return asExpression(input).some((expression, ancestors) => expression.isFraction() && check(expression, ancestors)) },
 	hasSimilarTerms(input: ExpressionLike): boolean {
 		const expression = asExpression(input).removeTrivial()
-		return !expression.removeTrivial(['groupSumTerms', 'mergeSumNumbers', 'mergeProductFactors']).equalStructure(expression)
+		return !expression.removeTrivial(['combineLikeTerms', 'combineNumbersInSums', 'combineLikeFactors']).equalStructure(expression)
 	},
 }

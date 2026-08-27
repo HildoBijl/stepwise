@@ -45,7 +45,7 @@ export default buildStepExercise({
 		const baseEquation = asEquation('a*x=b/c')
 		const equation = (parameters.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
 		const bothSidesChanged = equation.divide(factor)
-		const fractionFactorsCanceled = parameters.switchSides ? bothSidesChanged.mapRight(side => side.cancel(['mergeFractionNumbers', 'cancelFractionFactors', 'flattenFractions'])) : bothSidesChanged.mapLeft(side => side.cancel(['mergeFractionNumbers', 'cancelFractionFactors', 'flattenFractions']))
+		const fractionFactorsCanceled = parameters.switchSides ? bothSidesChanged.mapRight(side => side.cancel(['combineNumbersInFractions', 'cancelFractionFactors', 'flattenFractions'])) : bothSidesChanged.mapLeft(side => side.cancel(['combineNumbersInFractions', 'cancelFractionFactors', 'flattenFractions']))
 		const ans = fractionFactorsCanceled.removeTrivial(['flattenFractions'])
 		const ansCleaned = ans.normalize()
 		const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)

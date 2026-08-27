@@ -52,13 +52,13 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
-		const part1 = asExpression('a*(x+c)^p*(x+d)^q', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
-		const part2 = asExpression('b*(x+d)^r*(x+e)^s*(x+c)^t', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
-		const expression = (parameters.flip ? part2.divide(part1) : part1.divide(part2)).removeTrivial([], ['mergeFractionMinuses'])
-		const part1WithoutNegativeExponents = part1.removeTrivial(['convertNegativePowers'])
-		const part2WithoutNegativeExponents = part2.removeTrivial(['convertNegativePowers'])
-		const withoutNegativeExponents = expression.removeTrivial(['convertNegativePowers'])
-		const singleFraction = withoutNegativeExponents.removeTrivial(['mergeFractionProducts', 'flattenFractions'])
+		const part1 = asExpression('a*(x+c)^p*(x+d)^q', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['combineMinusSignsInFractions'])
+		const part2 = asExpression('b*(x+d)^r*(x+e)^s*(x+c)^t', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['combineMinusSignsInFractions'])
+		const expression = (parameters.flip ? part2.divide(part1) : part1.divide(part2)).removeTrivial([], ['combineMinusSignsInFractions'])
+		const part1WithoutNegativeExponents = part1.removeTrivial(['rewriteNegativePowersAsFractions'])
+		const part2WithoutNegativeExponents = part2.removeTrivial(['rewriteNegativePowersAsFractions'])
+		const withoutNegativeExponents = expression.removeTrivial(['rewriteNegativePowersAsFractions'])
+		const singleFraction = withoutNegativeExponents.removeTrivial(['combineProductFractions', 'flattenFractions'])
 		const inBetween = singleFraction.cancel()
 		const ans = expression.combine()
 		return { ...parameters, variables, part1, part2, part1WithoutNegativeExponents, part2WithoutNegativeExponents, expression, withoutNegativeExponents, singleFraction, inBetween, ans }

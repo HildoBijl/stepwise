@@ -36,7 +36,7 @@ export default buildStepExercise({
 		const equation = asEquation('(ax-x^2/y)/(bx^2) = cz').substitute(variables).removeTrivial()
 
 		// Find the solution.
-		const simplified = equation.mapLeft(left => left.combine(['mergeFractionSums']))
+		const simplified = equation.mapLeft(left => left.combine(['combineSumFractions']))
 		const multiplied = simplified.mapSides(side => side.multiply(simplified.left.denominator)).combine()
 		const shifted = multiplied.subtract(multiplied.left.terms[1]).cancel()
 		const pulledOut = shifted.mapRight(side => side.factorOut(variables.x).combine())

@@ -45,7 +45,7 @@ export default buildStepExercise({
 		const baseIsolated = asEquation('x = (cb)/(da)').substitute(variables).flatten()
 		const isolated = switchSides ? baseIsolated.switch() : baseIsolated.self()
 		const isolatedSolution = switchSides ? isolated.left : isolated.right
-		const isolatedSolutionSimplified = isolatedSolution.mergeNumbers(['mergeFractionMinuses'], ['mergeFractionNumbers'])
+		const isolatedSolutionSimplified = isolatedSolution.mergeNumbers(['combineMinusSignsInFractions'], ['combineNumbersInFractions'])
 		const fractionGcd = gcd(isolatedSolutionSimplified.numerator.toNumber(), isolatedSolutionSimplified.denominator.toNumber())
 		const canSimplifyFraction = fractionGcd !== 1
 		const ans = isolatedSolution.normalize()

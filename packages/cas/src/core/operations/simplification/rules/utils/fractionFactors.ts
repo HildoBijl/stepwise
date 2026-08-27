@@ -4,7 +4,7 @@ import { isSum } from '../../../structural'
 
 import { getCommonFactors, removeFactors } from './factors'
 
-export function applyMergeFractionFactors(node: Fraction): Fraction {
+export function applyCombineFractionFactors(node: Fraction): Fraction {
 	const wholeCommonFactors = getCommonFactors(node.numerator, node.denominator)
 	if (wholeCommonFactors.length > 0) return fraction(removeFactors(node.numerator, wholeCommonFactors), removeFactors(node.denominator, wholeCommonFactors))
 

@@ -1,0 +1,27 @@
+import { type ExpressionNode, type Sum, type Fraction, negative, sum, product, fraction } from '../../../../construction'
+
+import { isSum, areNodesEqual, isMinus, isFraction } from '../../../structural'
+
+import { defineRule } from '../ruleDefinition'
+
+import { combineProductFractions } from './combineProductFractions'
+
+export function applyCombineSumFractions(node: Sum): Sum | Fraction {
+	// Handle basic cases: no existing fractions, or all fractions with equal denominators.
+	if (!(node.terms.some(isFraction) || node.terms.some(node => isMinus(node) && isFraction(node.node)))) return node
+	if (node.terms.every(isFraction) && node.terms.every(term => areNodesEqual(term.denominator, (node.terms[0] as Fraction).denominator))) return fraction(sum(...node.terms.map(term => term.numerator)), node.terms[0].denominator)
+
+	// Assemble the denominator and the numerator.
+	const getDenominator = (node: ExpressionNode): ExpressionNode | undefined => isFraction(node) ? node.denominator : isMinus(node) ? getDenominator(node.node) : undefined
+	const getNumerator = (node: ExpressionNode): ExpressionNode => isFraction(node) ? node.numerator : isMinus(node) ? negative(getNumerator(node.node)) : node
+	const denominator = product(...node.terms.map(getDenominator))
+	const numerator = sum(...node.terms.map((term, index) => product(...node.terms.map((otherTerm, otherIndex) => (index === otherIndex ? getNumerator(term) : getDenominator(otherTerm))))))
+	return fraction(numerator, denominator)
+}
+
+export const combineSumFractions = defineRule({
+	name: 'combineSumFractions',
+	appliesTo: isSum,
+	transform: applyCombineSumFractions,
+	requires: [combineProductFractions],
+})

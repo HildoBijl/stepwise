@@ -3,7 +3,7 @@ import { type ExpressionNode, type Power, fraction, power } from '../../../../co
 import { isPower, isFraction } from '../../../structural'
 
 import { cancelFractionFactors } from '../cancellation'
-import { mergeFractionFactors } from '../combination'
+import { combineFractionFactors } from '../combination'
 import { defineRule } from '../ruleDefinition'
 
 function transform(node: Power): ExpressionNode {
@@ -14,5 +14,5 @@ export const expandPowersOfFractions = defineRule({
 	name: 'expandPowersOfFractions',
 	appliesTo: isPower,
 	transform,
-	after: [cancelFractionFactors, mergeFractionFactors],
+	after: [cancelFractionFactors, combineFractionFactors],
 })

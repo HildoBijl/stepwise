@@ -36,8 +36,8 @@ export default buildStepExercise({
 		const factor1 = variables.x
 		const factor2 = equation.left.terms[0].denominator
 		const factor = factor1.multiply(factor2)
-		const multiplied = equation.mapLeft(side => side.mapTerms(term => term.multiply(factor))).mapRight(side => side.multiply(factor)).cancel(['mergeFractionProducts'])
-		const expanded = multiplied.simplify(['expandProductsOfSums', 'expandMinusSums', 'mergeProductNumbers'])
+		const multiplied = equation.mapLeft(side => side.mapTerms(term => term.multiply(factor))).mapRight(side => side.multiply(factor)).cancel(['combineProductFractions'])
+		const expanded = multiplied.simplify(['expandProductsOfSums', 'expandMinusSums', 'combineNumbersInProducts'])
 		const merged = expanded.combine()
 		const shifted = merged.subtract(merged.left.terms[2]).subtract(merged.right.terms[0]).cancel()
 		const pulledOut = shifted.mapLeft(side => side.factorOut(variables.x).combine())

@@ -41,11 +41,11 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
-		const fraction1 = asExpression('((a(x+p)(x+q))/(b(x+r)(x+s)))').substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
-		const fraction2 = asExpression('((c(x+q)(x+s))/(d(x+p)(x+r)))').substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+		const fraction1 = asExpression('((a(x+p)(x+q))/(b(x+r)(x+s)))').substitute(variables).removeTrivial([], ['combineMinusSignsInFractions'])
+		const fraction2 = asExpression('((c(x+q)(x+s))/(d(x+p)(x+r)))').substitute(variables).removeTrivial([], ['combineMinusSignsInFractions'])
 		const baseExpression = fraction1.divide(fraction2)
-		const expression = (parameters.flip ? baseExpression.invert() : baseExpression.self()).removeTrivial([], ['mergeFractionMinuses'])
-		const singleFraction = expression.flatten(['mergeFractionProducts', 'flattenFractions'])
+		const expression = (parameters.flip ? baseExpression.invert() : baseExpression.self()).removeTrivial([], ['combineMinusSignsInFractions'])
+		const singleFraction = expression.flatten(['combineProductFractions', 'flattenFractions'])
 		const inBetween = singleFraction.cancel()
 		const ans = expression.combine()
 		return { ...parameters, variables, fraction1, fraction2, expression, singleFraction, inBetween, ans }

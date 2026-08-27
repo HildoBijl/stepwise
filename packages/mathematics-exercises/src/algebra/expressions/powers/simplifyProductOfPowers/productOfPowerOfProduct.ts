@@ -38,9 +38,9 @@ export default buildStepExercise({
 	getSolution(parameters) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const expression = asExpression('a*x^b*(c*x)^d').substitute(variables).removeTrivial()
-		const bracketsExpanded = expression.removeTrivial(['expandPowersOfProducts', 'mergePowerMinuses'])
-		const numbersSimplified = bracketsExpanded.removeTrivial(['mergeProductNumbers', 'reduceNumberPowers'])
-		const powersMerged = numbersSimplified.removeTrivial(['mergeProductFactors'])
+		const bracketsExpanded = expression.removeTrivial(['expandPowersOfProducts', 'combineMinusSignsInPowers'])
+		const numbersSimplified = bracketsExpanded.removeTrivial(['combineNumbersInProducts', 'evaluateNumericPowers'])
+		const powersMerged = numbersSimplified.removeTrivial(['combineLikeFactors'])
 		const ans = powersMerged.combine()
 		return { ...parameters, variables, expression, bracketsExpanded, numbersSimplified, powersMerged, ans }
 	},

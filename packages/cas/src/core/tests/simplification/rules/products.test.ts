@@ -13,20 +13,20 @@ describe('product simplification', () => {
 	})
 
 	test('merges product minuses', () => {
-		expectSimplifyToGive(product(negative(x), y), negative(product(x, y)), ['mergeProductMinuses'])
-		expectSimplifyToGive(product(negative(x), negative(y)), product(x, y), ['mergeProductMinuses'])
-		expectSimplifyToGive(product(negative(x), negative(y), negative(z)), negative(product(x, y, z)), ['mergeProductMinuses'])
+		expectSimplifyToGive(product(negative(x), y), negative(product(x, y)), ['combineMinusSignsInProducts'])
+		expectSimplifyToGive(product(negative(x), negative(y)), product(x, y), ['combineMinusSignsInProducts'])
+		expectSimplifyToGive(product(negative(x), negative(y), negative(z)), negative(product(x, y, z)), ['combineMinusSignsInProducts'])
 	})
 
 	test('merges product plus-minuses', () => {
-		expectSimplifyToGive(product(plusMinus(x), y), plusMinus(product(x, y)), ['mergeProductMinuses', 'mergeProductPlusMinuses'])
-		expectSimplifyToGive(product(plusMinus(x), plusMinus(y)), plusMinus(product(x, y)), ['mergeProductMinuses', 'mergeProductPlusMinuses'])
-		expectSimplifyToGive(product(plusMinus(x), y, plusMinus(z)), plusMinus(product(x, y, z)), ['mergeProductMinuses', 'mergeProductPlusMinuses'])
+		expectSimplifyToGive(product(plusMinus(x), y), plusMinus(product(x, y)), ['combineMinusSignsInProducts', 'combinePlusMinusSignsInProducts'])
+		expectSimplifyToGive(product(plusMinus(x), plusMinus(y)), plusMinus(product(x, y)), ['combineMinusSignsInProducts', 'combinePlusMinusSignsInProducts'])
+		expectSimplifyToGive(product(plusMinus(x), y, plusMinus(z)), plusMinus(product(x, y, z)), ['combineMinusSignsInProducts', 'combinePlusMinusSignsInProducts'])
 	})
 
 	test('removes times zero from products', () => {
-		expectSimplifyToGive(product(x, 0), 0, ['reduceProductsWithZero'])
-		expectSimplifyToGive(product(0, x, y), 0, ['reduceProductsWithZero'])
+		expectSimplifyToGive(product(x, 0), 0, ['simplifyZeroProducts'])
+		expectSimplifyToGive(product(0, x, y), 0, ['simplifyZeroProducts'])
 	})
 
 	test('removes times one from products', () => {
@@ -35,18 +35,18 @@ describe('product simplification', () => {
 	})
 
 	test('merges product numbers', () => {
-		expectSimplifyToGive(product(x, 3), product(3, x), ['mergeProductNumbers'])
-		expectSimplifyToGive(product(2, x, 3), product(6, x), ['mergeProductNumbers'])
-		expectSimplifyToGive(product(2, x, -3, 5), product(10, x, -3), ['mergeProductNumbers'])
-		expectSimplifyToGive(product(2, x, 0), product(0, x), ['mergeProductNumbers'])
-		expectSimplifyToGive(product(2, 3), product(6), ['mergeProductNumbers'])
+		expectSimplifyToGive(product(x, 3), product(3, x), ['combineNumbersInProducts'])
+		expectSimplifyToGive(product(2, x, 3), product(6, x), ['combineNumbersInProducts'])
+		expectSimplifyToGive(product(2, x, -3, 5), product(10, x, -3), ['combineNumbersInProducts'])
+		expectSimplifyToGive(product(2, x, 0), product(0, x), ['combineNumbersInProducts'])
+		expectSimplifyToGive(product(2, 3), product(6), ['combineNumbersInProducts'])
 	})
 
 	test('merges product factors', () => {
-		expectSimplifyToGive(product(x, x), power(x, sum(1, 1)), ['mergeProductFactors'])
-		expectSimplifyToGive(product(x, power(x, 2)), power(x, sum(1, 2)), ['mergeProductFactors'])
-		expectSimplifyToGive(product(x, power(x, 2), power(x, 3), x), power(x, sum(1, 2, 3, 1)), ['mergeProductFactors'])
-		expectSimplifyToGive(product(x, y, x), product(power(x, sum(1, 1)), y), ['mergeProductFactors'])
+		expectSimplifyToGive(product(x, x), power(x, sum(1, 1)), ['combineLikeFactors'])
+		expectSimplifyToGive(product(x, power(x, 2)), power(x, sum(1, 2)), ['combineLikeFactors'])
+		expectSimplifyToGive(product(x, power(x, 2), power(x, 3), x), power(x, sum(1, 2, 3, 1)), ['combineLikeFactors'])
+		expectSimplifyToGive(product(x, y, x), product(power(x, sum(1, 1)), y), ['combineLikeFactors'])
 	})
 
 	test('expands products of sums', () => {

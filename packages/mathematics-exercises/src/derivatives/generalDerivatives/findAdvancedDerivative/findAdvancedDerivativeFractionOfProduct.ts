@@ -30,7 +30,7 @@ export default buildStepExercise({
 		const fDerivative = f.differentiate().combine()
 		const gDerivative = g.differentiate().combine()
 		const derivativeRaw = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2))
-		const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
+		const derivative = derivativeRaw.normalize([], ['cancelPolynomialFactors', 'expandPowersOfSums']).format()
 		return { ...parameters, method, x, f, h, fDerivative, gDerivative, derivativeRaw, derivative }
 	},
 

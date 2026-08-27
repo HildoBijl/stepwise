@@ -22,7 +22,7 @@ export default buildStepExercise({
 			const c1 = randomInteger(-12, 12, { exclude: [0] })
 			const c2 = randomInteger(-12, 12, { exclude: [0] })
 			const c3 = randomInteger(-12, 12, { exclude: [0] })
-			const func = f1.multiplyLeft(c1).add(f2.multiplyLeft(c2)).add(f3.multiplyLeft(c3)).substitute('x', x).cancel(['mergeFractionProducts']) // Do not turn 10 * 10^x into 10^(x+1).
+			const func = f1.multiplyLeft(c1).add(f2.multiplyLeft(c2)).add(f3.multiplyLeft(c3)).substitute('x', x).cancel(['combineProductFractions']) // Do not turn 10 * 10^x into 10^(x+1).
 			if (func.isSum() && func.terms.length === 3) return { x, f: sample(functionSet), func }
 		}
 		throw new Error('Failed to generate a derivative containing three distinct terms after 100 attempts.')

@@ -18,10 +18,10 @@ describe('sum simplification', () => {
 	})
 
 	test('merges sum numbers', () => {
-		expectSimplifyToGive(sum(2, x, 3), sum(x, 5), ['mergeSumNumbers'])
-		expectSimplifyToGive(sum(2, x, -5), sum(x, -3), ['mergeSumNumbers'])
-		expectSimplifyToGive(sum(3, x, -3), sum(x, 0), ['mergeSumNumbers'])
-		expectSimplifyToGive(sum(2, 3), sum(5), ['mergeSumNumbers'])
+		expectSimplifyToGive(sum(2, x, 3), sum(x, 5), ['combineNumbersInSums'])
+		expectSimplifyToGive(sum(2, x, -5), sum(x, -3), ['combineNumbersInSums'])
+		expectSimplifyToGive(sum(3, x, -3), sum(x, 0), ['combineNumbersInSums'])
+		expectSimplifyToGive(sum(2, 3), sum(5), ['combineNumbersInSums'])
 	})
 
 	test('cancels sum terms', () => {
@@ -30,10 +30,10 @@ describe('sum simplification', () => {
 	})
 
 	test('groups sum terms', () => {
-		expectSimplifyToGive(sum(product(2, x), product(3, x)), product(sum(2, 3), x), ['groupSumTerms'])
-		expectSimplifyToGive(sum(product(2, x), y, product(3, x)), sum(product(sum(2, 3), x), y), ['groupSumTerms'])
-		expectSimplifyToGive(sum(product(2, x), y, product(-2, x)), sum(product(sum(2, -2), x), y), ['groupSumTerms'])
-		expectSimplifyToGive(sum(product(2, x, y), product(3, y, x)), product(sum(2, 3), product(x, y)), ['groupSumTerms'])
+		expectSimplifyToGive(sum(product(2, x), product(3, x)), product(sum(2, 3), x), ['combineLikeTerms'])
+		expectSimplifyToGive(sum(product(2, x), y, product(3, x)), sum(product(sum(2, 3), x), y), ['combineLikeTerms'])
+		expectSimplifyToGive(sum(product(2, x), y, product(-2, x)), sum(product(sum(2, -2), x), y), ['combineLikeTerms'])
+		expectSimplifyToGive(sum(product(2, x, y), product(3, y, x)), product(sum(2, 3), product(x, y)), ['combineLikeTerms'])
 	})
 
 	test('expands minus sums', () => {
@@ -49,18 +49,18 @@ describe('sum simplification', () => {
 	})
 
 	test('pulls out common sum numbers', () => {
-		expectSimplifyToGive(sum(product(6, x), product(9, y)), product(3, sum(product(2, x), product(3, y))), ['pullOutCommonSumNumbers'])
-		expectSimplifyToGive(sum(product(4, x), product(10, y), 6), product(2, sum(product(2, x), product(5, y), 3)), ['pullOutCommonSumNumbers'])
-		expectSimplifyToGive(sum(product(5, x), product(7, y)), sum(product(5, x), product(7, y)), ['pullOutCommonSumNumbers'])
+		expectSimplifyToGive(sum(product(6, x), product(9, y)), product(3, sum(product(2, x), product(3, y))), ['factorCommonNumericTerms'])
+		expectSimplifyToGive(sum(product(4, x), product(10, y), 6), product(2, sum(product(2, x), product(5, y), 3)), ['factorCommonNumericTerms'])
+		expectSimplifyToGive(sum(product(5, x), product(7, y)), sum(product(5, x), product(7, y)), ['factorCommonNumericTerms'])
 	})
 
 	test('pulls out common sum factors', () => {
-		expectSimplifyToGive(sum(product(x, y), product(x, z)), product(x, sum(y, z)), ['mergeProductFactors', 'expandMinusSums', 'cancelSumTerms', 'reducePowersWithZeroExponent', 'removeOnesFromProducts', 'removeOneExponentsFromPowers','pullOutCommonSumFactors', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
-		expectSimplifyToGive(sum(product(x, y, z), product(x, y)), product(x, y, sum(z, 1)), ['mergeProductFactors', 'expandMinusSums', 'cancelSumTerms', 'reducePowersWithZeroExponent', 'removeOnesFromProducts', 'removeOneExponentsFromPowers', 'pullOutCommonSumFactors', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
-		expectSimplifyToGive(sum(product(x, y), product(x, z), x), product(x, sum(y, z, 1)), ['mergeProductFactors', 'expandMinusSums', 'cancelSumTerms', 'reducePowersWithZeroExponent', 'removeOnesFromProducts', 'removeOneExponentsFromPowers', 'pullOutCommonSumFactors', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
-		expectSimplifyToGive(sum(product(x, y), product(z, y)), product(y, sum(x, z)), ['mergeProductFactors', 'expandMinusSums', 'cancelSumTerms', 'reducePowersWithZeroExponent', 'removeOnesFromProducts', 'removeOneExponentsFromPowers', 'pullOutCommonSumFactors', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
-		expectSimplifyToGive(sum(product(x, y), product(x, y)), product(x, y, sum(1, 1)), ['mergeProductFactors', 'expandMinusSums', 'cancelSumTerms', 'reducePowersWithZeroExponent', 'removeOnesFromProducts', 'removeOneExponentsFromPowers', 'pullOutCommonSumFactors', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
-		expectSimplifyToGive(sum(power(x, 4), power(x, sum(y, 2))), product(power(x, 2), sum(power(x, sum(4, -2)), power(x, y))), ['mergeProductFactors', 'expandMinusSums', 'cancelSumTerms', 'reducePowersWithZeroExponent', 'removeOnesFromProducts', 'removeOneExponentsFromPowers', 'pullOutCommonSumFactors', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
+		expectSimplifyToGive(sum(product(x, y), product(x, z)), product(x, sum(y, z)), ['combineLikeFactors', 'expandMinusSums', 'cancelSumTerms', 'simplifyZeroExponentPowers', 'removeOnesFromProducts', 'simplifyUnitExponentPowers','factorCommonFactors', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
+		expectSimplifyToGive(sum(product(x, y, z), product(x, y)), product(x, y, sum(z, 1)), ['combineLikeFactors', 'expandMinusSums', 'cancelSumTerms', 'simplifyZeroExponentPowers', 'removeOnesFromProducts', 'simplifyUnitExponentPowers', 'factorCommonFactors', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
+		expectSimplifyToGive(sum(product(x, y), product(x, z), x), product(x, sum(y, z, 1)), ['combineLikeFactors', 'expandMinusSums', 'cancelSumTerms', 'simplifyZeroExponentPowers', 'removeOnesFromProducts', 'simplifyUnitExponentPowers', 'factorCommonFactors', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
+		expectSimplifyToGive(sum(product(x, y), product(z, y)), product(y, sum(x, z)), ['combineLikeFactors', 'expandMinusSums', 'cancelSumTerms', 'simplifyZeroExponentPowers', 'removeOnesFromProducts', 'simplifyUnitExponentPowers', 'factorCommonFactors', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
+		expectSimplifyToGive(sum(product(x, y), product(x, y)), product(x, y, sum(1, 1)), ['combineLikeFactors', 'expandMinusSums', 'cancelSumTerms', 'simplifyZeroExponentPowers', 'removeOnesFromProducts', 'simplifyUnitExponentPowers', 'factorCommonFactors', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
+		expectSimplifyToGive(sum(power(x, 4), power(x, sum(y, 2))), product(power(x, 2), sum(power(x, sum(4, -2)), power(x, y))), ['combineLikeFactors', 'expandMinusSums', 'cancelSumTerms', 'simplifyZeroExponentPowers', 'removeOnesFromProducts', 'simplifyUnitExponentPowers', 'factorCommonFactors', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
 	})
 
 	test('sorts sums', () => {

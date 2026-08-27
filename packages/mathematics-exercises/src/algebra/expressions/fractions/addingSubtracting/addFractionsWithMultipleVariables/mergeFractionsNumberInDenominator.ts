@@ -38,8 +38,8 @@ export default buildStepExercise({
 		const expression = plus ? leftExpression.add(rightExpression) : leftExpression.subtract(rightExpression)
 		const lcmValue = lcm(a, b)
 		const denominator = asExpression(`${lcmValue}xy`).substitute(variables).flatten(['sortProducts'])
-		const leftAns = multiplyNumeratorAndDenominator(multiplyNumeratorAndDenominator(leftExpression, lcmValue / a), variables.y).removeTrivial(['mergeProductNumbers', 'sortProducts'])
-		const rightAns = multiplyNumeratorAndDenominator(multiplyNumeratorAndDenominator(rightExpression, lcmValue / b), variables.x).removeTrivial(['mergeProductNumbers', 'sortProducts'])
+		const leftAns = multiplyNumeratorAndDenominator(multiplyNumeratorAndDenominator(leftExpression, lcmValue / a), variables.y).removeTrivial(['combineNumbersInProducts', 'sortProducts'])
+		const rightAns = multiplyNumeratorAndDenominator(multiplyNumeratorAndDenominator(rightExpression, lcmValue / b), variables.x).removeTrivial(['combineNumbersInProducts', 'sortProducts'])
 		const ans = (plus ? leftAns.numerator.add(rightAns.numerator) : leftAns.numerator.subtract(rightAns.numerator)).divide(denominator)
 		return { ...parameters, variables, leftExpression, rightExpression, expression, lcmValue, denominator, leftAns, rightAns, ans }
 	},

@@ -12,8 +12,8 @@ describe('sign simplification', () => {
 	})
 
 	test('removes minus from zero', () => {
-		expectSimplifyToGive(negative(Integer.zero), Integer.zero, ['removeSignsFromZeros'])
-		expectSimplifyToGive(negative(Integer.one), negative(Integer.one), ['removeSignsFromZeros'])
+		expectSimplifyToGive(negative(Integer.zero), Integer.zero, ['removeSignsFromZero'])
+		expectSimplifyToGive(negative(Integer.one), negative(Integer.one), ['removeSignsFromZero'])
 	})
 
 	test('removes double plus-minus signs', () => {

@@ -31,9 +31,9 @@ export default buildStepExercise({
 	getSolution(parameters) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const sign = parameters.plus ? '+' : '-'
-		const expression = asExpression(`(ay${sign}bx)/(xyz)`).substitute(variables).removeTrivial(['mergeProductNumbers', 'sortProducts'])
-		const leftExpression = asExpression('(ay)/(xyz)').substitute(variables).removeTrivial(['mergeProductNumbers', 'sortProducts'])
-		const rightExpression = asExpression('(bx)/(xyz)').substitute(variables).removeTrivial(['mergeProductNumbers', 'sortProducts'])
+		const expression = asExpression(`(ay${sign}bx)/(xyz)`).substitute(variables).removeTrivial(['combineNumbersInProducts', 'sortProducts'])
+		const leftExpression = asExpression('(ay)/(xyz)').substitute(variables).removeTrivial(['combineNumbersInProducts', 'sortProducts'])
+		const rightExpression = asExpression('(bx)/(xyz)').substitute(variables).removeTrivial(['combineNumbersInProducts', 'sortProducts'])
 		const split = parameters.plus ? leftExpression.add(rightExpression) : leftExpression.subtract(rightExpression)
 		const leftAns = leftExpression.normalize()
 		const rightAns = rightExpression.normalize()

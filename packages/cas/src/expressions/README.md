@@ -152,7 +152,7 @@ exp.simplify(['flattenSums', 'flattenProducts'])
 
 This keeps on applying the given operations until nothing changes.
 
-Some simplification options have requirements: they need other options to be present too. For instance, to merge fraction sums like `1/2 + 1/3`, it is necessary to also merge fraction products. After all, what should otherwise be done with `1/2 + 1/5*5/3`? If the `simplify` function is given `mergeFractionSums` without getting `mergeFractionProducts` an error is thrown.
+Some simplification options have requirements: they need other options to be present too. For instance, to merge fraction sums like `1/2 + 1/3`, it is necessary to also merge fraction products. After all, what should otherwise be done with `1/2 + 1/5*5/3`? If the `simplify` function is given `combineSumFractions` without getting `combineProductFractions` an error is thrown.
 
 Other simplification options have conflicts: they may not be present together with other options. For instance, `splitFractions` which turns `(x+y)/2` into `x/2+y/2` may not be present together with `mergeFractions` which does the opposite. If both would be present, the simplification would be stuck in an infinite loop. To prevent this, an error is thrown when two confliction simplification options are both present.
 
@@ -178,7 +178,7 @@ Then there are two special-purpose presets that are often used for post-processi
 It often happens that a preset is almost what you want, but not quite. In that case, you can adapt it, for instance by adding options or removing them.
 
 ```
-exp.mergeNumbers(['sortSums', 'sortProducts'], ['mergeFractionNumbers']) // Do sort sums/products, but don't turn 16/10 into 8/5.
+exp.mergeNumbers(['sortSums', 'sortProducts'], ['combineNumbersInFractions']) // Do sort sums/products, but don't turn 16/10 into 8/5.
 ```
 
 
