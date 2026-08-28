@@ -1,6 +1,6 @@
 import { createSequelize } from './sequelize.ts'
 
-const sequelize = createSequelize(true)
+const sequelize = createSequelize({ admin: true })
 
 try {
 	await sequelize.authenticate()

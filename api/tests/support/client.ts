@@ -16,7 +16,7 @@ export const defaultConfig: ServerConfig = Object.freeze({
 	homepageUrl: 'http://step-wise.test',
 })
 
-const sequelize = createSequelize(true)
+const sequelize = createSequelize({ admin: true, database: 'testing' })
 const db = new Database(sequelize)
 
 class PubSubMock {

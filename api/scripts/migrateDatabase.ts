@@ -1,7 +1,7 @@
 import { createUmzug } from './migrations.ts'
 import { createSequelize } from './sequelize.ts'
 
-const sequelize = createSequelize(true)
+const sequelize = createSequelize({ admin: true })
 const umzug = createUmzug(sequelize)
 
 try {

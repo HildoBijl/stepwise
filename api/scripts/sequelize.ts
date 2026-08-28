@@ -1,9 +1,14 @@
 import 'dotenv/config'
 import { Sequelize } from 'sequelize'
 
-export function createSequelize(admin = false): Sequelize {
+interface CreateSequelizeOptions {
+	admin?: boolean
+	database?: string
+}
+
+export function createSequelize({ admin = false, database = process.env.POSTGRES_DB as string }: CreateSequelizeOptions = {}): Sequelize {
 	return new Sequelize(
-		process.env.POSTGRES_DB as string,
+		database,
 		(admin ? process.env.POSTGRES_ADMIN_USER : process.env.POSTGRES_APP_USER) as string,
 		(admin ? process.env.POSTGRES_ADMIN_PASSWORD : process.env.POSTGRES_APP_PASSWORD) as string,
 		{

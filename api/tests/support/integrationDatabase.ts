@@ -3,7 +3,7 @@ import { createSequelize } from '../../scripts/index.ts'
 
 import { clearDatabaseData } from './database.ts'
 
-const sequelize = createSequelize(true)
+const sequelize = createSequelize({ admin: true, database: 'testing' })
 
 export const integrationDatabase = new Database(sequelize)
 
