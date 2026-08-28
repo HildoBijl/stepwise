@@ -1,6 +1,9 @@
 {
 	"name": "step-wise",
 	"version": "1.0.0",
+	"engines": {
+		"node": ">=22.12.0"
+	},
 	"private": true,
 	"workspaces": [
 		"api",
