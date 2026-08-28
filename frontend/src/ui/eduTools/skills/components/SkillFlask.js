@@ -6,7 +6,7 @@ import { interpolateGrid } from '@step-wise/interpolation'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { skillTree } from '@step-wise/skill-tree'
 
-import { mix, shift, toCSS, useUUID } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { mix, shift, toCSS, useUUID } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { Translation, Check } from 'i18n'
 
 import { defaultSkillThresholds } from '../recommendation'

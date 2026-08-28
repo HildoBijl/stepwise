@@ -7,7 +7,7 @@ import { getLastAction } from '@step-wise/exercise-definition'
 import { toInputValue } from '@step-wise/input-interpretation'
 import { getLastRawInput, getCurrentStep } from '@step-wise/input-exercises'
 
-import { useLatest, useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useLatest, useConsistentValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useUserId, useIsAdmin, useActiveGroup, useSelfAndOtherMembers } from 'api'
 import { Translation, useTranslator, useGetTranslation } from 'i18n'
 import { getIcon } from 'ui/theme'

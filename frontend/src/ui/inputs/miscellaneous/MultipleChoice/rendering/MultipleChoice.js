@@ -2,7 +2,7 @@ import React from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
 
-import { useImmutableValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useImmutableValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
 import { Input, defaultInputOptions } from '../../../Input'
 

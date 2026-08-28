@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { mapValues, mergeDefaults } from '@step-wise/js-utils'
 import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from '@step-wise/geometry'
 
-import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useConsistentValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
 import { getBoundingRectangle, ensureScale, ensureMargin, useConsistentPoints } from './util'
 

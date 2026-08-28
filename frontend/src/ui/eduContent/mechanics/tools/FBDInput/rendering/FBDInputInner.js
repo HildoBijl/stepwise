@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { mergeDefaults } from '@step-wise/js-utils'
 import { reverseLoad } from '@step-wise/engineering-mechanics'
 
-import { useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useEventListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useInputData } from 'ui/inputs'
 
 import { DragLoad, InputLoads, LoadLabels } from '../components'

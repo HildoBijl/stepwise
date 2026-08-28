@@ -5,7 +5,7 @@ import { getCurrentState } from '@step-wise/exercise-definition'
 import { getSkill } from '@step-wise/skill-tree'
 import { getExercise } from '@step-wise/exercises'
 
-import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useConsistentValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useTranslator } from 'i18n'
 import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
 

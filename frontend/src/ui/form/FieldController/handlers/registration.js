@@ -1,4 +1,4 @@
-import { useStableCallback, getHTMLElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useStableCallback, getHTMLElement } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
 // The registration handlers arrange the registration and deregistration of fields to the FieldController.
 export function useRegistrationHandlers(controllerRef, fieldTrackerRef, tabOrderRef, setTabIndex, { activate, deactivate, refreshKeyboard }) {

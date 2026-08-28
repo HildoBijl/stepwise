@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 
 import { isPlainObject, preserveRefs } from '@step-wise/js-utils'
 
-import { useUpdater, useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useUpdater, useLatest } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
 import { FormContext } from './context'
 import { useSubscriptionHandlers, useReadHandlers, useWriteHandlers, useValidationHandlers } from './handlers'

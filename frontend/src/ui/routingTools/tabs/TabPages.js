@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import 'swiper/css'
 
-import { useConsistentValue, useResizeObserver, useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useConsistentValue, useResizeObserver, useUpdater } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { TranslationSection } from 'i18n'
 import { VisibleProvider } from 'ui/components'
 import { useRoute, insertParametersIntoPath } from 'ui/routingTools'

@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { ensureNumber, ensureInteger, isPlainObject, mapValues } from '@step-wise/js-utils'
 import { isTransformable, Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from '@step-wise/geometry'
 
-import { useConsistentValue, useEqualRefOnEquality } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useConsistentValue, useEqualRefOnEquality } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
 // Keep a point collection stable while accepting all Vector inputs supported by geometry.
 // Vector instances are compared through their coordinates instead of generic object equality.

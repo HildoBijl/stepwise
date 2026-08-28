@@ -3,7 +3,7 @@ import { useMemo, } from 'react'
 import { deduplicate } from '@step-wise/js-utils'
 import { ensureVector, Line, LineSegment } from '@step-wise/geometry'
 
-import { useEqualRefOnEquality } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useEqualRefOnEquality } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useTransformationSettings, applyTransformation } from 'ui/figures'
 
 import { useInputFI } from '../../../Input'

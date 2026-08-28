@@ -6,7 +6,7 @@ import { ArrowRight as Arrow } from '@mui/icons-material'
 
 import { last, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
-import { useStaggeredFunction, useResizeListener, useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useStaggeredFunction, useResizeListener, useLatest } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { websiteName } from 'settings'
 import { TranslationSection, useTextTranslator } from 'i18n'
 import { useRoute, usePaths } from 'ui/routingTools'

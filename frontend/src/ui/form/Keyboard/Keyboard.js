@@ -2,7 +2,7 @@ import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import { Box, useTheme, Paper, Container } from '@mui/material'
 import { Keyboard as KeyboardIcon } from '@mui/icons-material'
 
-import { usePrevious, useCurrentOrPrevious } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { usePrevious, useCurrentOrPrevious } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
 import { Arrow } from 'ui/components'
 

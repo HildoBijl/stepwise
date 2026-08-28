@@ -3,7 +3,7 @@ import React, { forwardRef, Fragment } from 'react'
 
 import { isObject, mapValues } from '@step-wise/js-utils'
 
-import { toCSS } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { toCSS } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
 import { themeColor, feedbackColors } from 'ui/theme'
 import { Group, components as drawingComponents } from 'ui/figures'

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Tooltip } from '@mui/material'
 
-import { usePrevious } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { usePrevious } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useActiveGroup, useOtherMembers } from 'api'
 import { TranslationFile, TranslationSection, Translation, WordList } from 'i18n'
 import { usePaths } from 'ui/routingTools'
