@@ -3,7 +3,7 @@ import { Line, LineType } from '@step-wise/geometry'
 import { LineSegment, LineSegmentType } from '@step-wise/geometry'
 import { Rectangle, RectangleType } from '@step-wise/geometry'
 
-import type { TypeCompareFunction } from '../types'
+import type { TypeCompareFunction } from '../types.ts'
 
 export function compareVector(inputValue: unknown, expectedValue: unknown): boolean {
 	if (!(expectedValue instanceof Vector) || !(inputValue instanceof Vector)) throw new Error(`Invalid Vector comparison: received parameters that were not Vectors.`)

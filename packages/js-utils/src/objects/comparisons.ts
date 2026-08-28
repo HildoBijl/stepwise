@@ -1,4 +1,4 @@
-import { isPlainObject } from './plainnessChecks'
+import { isPlainObject } from './plainnessChecks.ts'
 
 // Deeply compare primitives, arrays, plain objects, dates and regular expressions. Unsupported object types throw instead of producing unreliable results.
 export function deepEqual(a: unknown, b: unknown): boolean {

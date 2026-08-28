@@ -1,6 +1,6 @@
 import { ensureBoolean, ensureInteger, ensureNumber, ensureObject, mergeDefaults, randomNumber, roundTo } from '@step-wise/js-utils'
 
-import { PrecisionNumber } from './PrecisionNumber'
+import { PrecisionNumber } from './PrecisionNumber.ts'
 
 export type RandomPrecisionNumberOptions = {
 	min: number

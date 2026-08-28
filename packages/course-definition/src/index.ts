@@ -1,3 +1,3 @@
-export * from './types'
-export * from './Course'
-export * from './diagnosticsValidation'
+export * from './types.ts'
+export * from './Course.ts'
+export * from './diagnosticsValidation.ts'

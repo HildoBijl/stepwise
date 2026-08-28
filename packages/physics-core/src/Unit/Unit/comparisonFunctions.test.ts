@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { unitsCompatible, unitsEqual, unitsEquivalent } from './comparisonFunctions'
+import { unitsCompatible, unitsEqual, unitsEquivalent } from './comparisonFunctions.ts'
 
 describe('unit comparison functions', () => {
 	test('distinguishes written equality, scaled equivalence, and compatibility', () => {

@@ -1,8 +1,8 @@
-import { type Power, Integer } from '../../../../construction'
+import { type Power, Integer } from '../../../../construction/index.ts'
 
-import { isPower, isZero, isNumeric, isSingular, tryToEvaluateNumericNode } from '../../../structural'
+import { isPower, isZero, isNumeric, isSingular, tryToEvaluateNumericNode } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Power): Power | Integer {
 	if (!isZero(node.base) || isZero(node.exponent)) return node

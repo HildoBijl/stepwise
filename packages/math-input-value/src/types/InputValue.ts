@@ -1,5 +1,5 @@
-import type { InterpretationSettingsOptions, ExpressionSettingsOptions } from '../settings'
-import type { AccentName } from '../definitions/accents'
+import type { InterpretationSettingsOptions, ExpressionSettingsOptions } from '../settings/index.ts'
+import type { AccentName } from '../definitions/accents.ts'
 
 export type ExpressionValue = InputValuePart[]
 

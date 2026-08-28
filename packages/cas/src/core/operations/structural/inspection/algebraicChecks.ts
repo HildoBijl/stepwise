@@ -1,9 +1,9 @@
-import { type ExpressionNode } from '../../../construction'
+import { type ExpressionNode } from '../../../construction/index.ts'
 
-import { isFloatNode, isIntegerNode, isSignNode, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRootFunction, isLogarithmFunction, isAnyTrigonometricFunction } from './typeChecks'
+import { isFloatNode, isIntegerNode, isSignNode, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRootFunction, isLogarithmFunction, isAnyTrigonometricFunction } from './typeChecks.ts'
 
-import { someNode } from './traversal'
-import { isInteger } from './valueChecks'
+import { someNode } from './traversal.ts'
+import { isInteger } from './valueChecks.ts'
 
 // Check if an expression contains variables.
 export function containsVariables(node: ExpressionNode): boolean {

@@ -1,6 +1,6 @@
 import { ensureInteger } from '@step-wise/js-utils'
 
-import { getPrimeFactorization } from './primes'
+import { getPrimeFactorization } from './primes.ts'
 
 // Check if a number is a perfect power.
 export function isPerfectPower(number: number, exponent: number): boolean {

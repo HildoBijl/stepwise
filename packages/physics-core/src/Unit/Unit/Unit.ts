@@ -1,10 +1,10 @@
 import { ensureInteger, shallowEqual } from '@step-wise/js-utils'
 
-import { type UnitFactor, type UnitFactorStorageValue } from '../UnitFactor'
+import { type UnitFactor, type UnitFactorStorageValue } from '../UnitFactor/index.ts'
 
-import { type UnitFactorArray, type UnitStorageValue, type UnitInput, UnitType, splitUnitString, asUnitFactorArray } from './interpreting'
-import { type UnitSimplificationOptionsInput, type UnitTransformationData, resolveUnitSimplificationOptions, compareUnitFactors } from './simplification'
-import { type UnitEqualityOptionsInput, type UnitEqualityResult, compareUnitTransformationSize, resolveUnitEqualityOptions } from './comparison'
+import { type UnitFactorArray, type UnitStorageValue, type UnitInput, UnitType, splitUnitString, asUnitFactorArray } from './interpreting.ts'
+import { type UnitSimplificationOptionsInput, type UnitTransformationData, resolveUnitSimplificationOptions, compareUnitFactors } from './simplification.ts'
+import { type UnitEqualityOptionsInput, type UnitEqualityResult, compareUnitTransformationSize, resolveUnitEqualityOptions } from './comparison.ts'
 
 const unitColor = '#044488'
 

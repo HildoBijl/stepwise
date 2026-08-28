@@ -1,6 +1,6 @@
 import { type SkillSetup, type SkillSetupLike, ensureSetup, and } from '@step-wise/skill-setup'
 
-import type { StepExerciseSteps } from './types'
+import type { StepExerciseSteps } from './types.ts'
 
 export function createStepExerciseMetadata(steps: StepExerciseSteps): { steps: StepExerciseSteps, setup?: SkillSetup } {
 	ensureStepExerciseSteps(steps)

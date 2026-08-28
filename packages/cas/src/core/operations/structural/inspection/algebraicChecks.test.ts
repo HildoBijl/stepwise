@@ -1,6 +1,6 @@
-import { fraction, integer, log, plusMinus, power, root, sin, sum, variable } from '../../../construction'
+import { fraction, integer, log, plusMinus, power, root, sin, sum, variable } from '../../../construction/index.ts'
 
-import { containsFloat, containsLogarithm, containsMultiCharacterVariables, containsRoot, containsTrigonometricFunction, containsVariables, isNumeric, isPlural, isPolynomial, isRational, isSingular } from './algebraicChecks'
+import { containsFloat, containsLogarithm, containsMultiCharacterVariables, containsRoot, containsTrigonometricFunction, containsVariables, isNumeric, isPlural, isPolynomial, isRational, isSingular } from './algebraicChecks.ts'
 
 describe('algebraic checks', () => {
 	test('detects contained node families', () => {

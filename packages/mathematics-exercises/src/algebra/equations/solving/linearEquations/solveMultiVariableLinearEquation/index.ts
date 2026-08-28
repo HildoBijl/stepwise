@@ -1,8 +1,8 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import basic from './basic'
-import withBrackets from './withBrackets'
-import withFraction from './withFraction'
+import basic from './basic.ts'
+import withBrackets from './withBrackets.ts'
+import withFraction from './withFraction.ts'
 
 export default {
 	examples: { basic },

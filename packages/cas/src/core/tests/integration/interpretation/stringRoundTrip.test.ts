@@ -1,7 +1,7 @@
-import { type ExpressionNode, namedConstants, integer, negative, plusMinus, variable, sum, product, fraction, power, sqrt, root, ln, log, sin, parseExpressionNode } from '../../../construction'
-import { nodeToString, inferInterpretationSettingsOptions } from '../../../export'
+import { type ExpressionNode, namedConstants, integer, negative, plusMinus, variable, sum, product, fraction, power, sqrt, root, ln, log, sin, parseExpressionNode } from '../../../construction/index.ts'
+import { nodeToString, inferInterpretationSettingsOptions } from '../../../export/index.ts'
 
-import { expectNodeToEqual } from '../../testUtils'
+import { expectNodeToEqual } from '../../testUtils.ts'
 
 type ParserTestCase = {
 	str: string

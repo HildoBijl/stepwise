@@ -1,7 +1,7 @@
 import { isNumericInteger, ensureInteger, ensureNumericInteger, InterpretationError } from '@step-wise/js-utils'
 
-import type { InputValue, InputValueAdapter } from '../types'
-import { createInputValue } from '../support'
+import type { InputValue, InputValueAdapter } from '../types.ts'
+import { createInputValue } from '../support.ts'
 
 export const IntegerType = 'Integer'
 export type IntegerType = typeof IntegerType

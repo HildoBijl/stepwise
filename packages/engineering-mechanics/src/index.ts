@@ -1,2 +1,2 @@
-export * from './loads'
-export * from './namedLoads'
+export * from './loads/index.ts'
+export * from './namedLoads/index.ts'

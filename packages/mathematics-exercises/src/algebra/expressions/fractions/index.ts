@@ -1,2 +1,2 @@
-export * as multiplyingDividing from './multiplyingDividing'
-export * as addingSubtracting from './addingSubtracting'
+export * as multiplyingDividing from './multiplyingDividing/index.ts'
+export * as addingSubtracting from './addingSubtracting/index.ts'

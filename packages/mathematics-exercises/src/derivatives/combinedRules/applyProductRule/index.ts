@@ -1,7 +1,7 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import applyProductRuleTwoElementary from './applyProductRuleTwoElementary'
-import applyProductRuleElementaryAndBasic from './applyProductRuleElementaryAndBasic'
+import applyProductRuleTwoElementary from './applyProductRuleTwoElementary.ts'
+import applyProductRuleElementaryAndBasic from './applyProductRuleElementaryAndBasic.ts'
 
 export default {
 	examples: {},

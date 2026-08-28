@@ -1,8 +1,8 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { type MatrixArray as MatrixStorageValue } from './types'
-import { Matrix } from './Matrix'
-import { isMatrixArray } from './support'
+import { type MatrixArray as MatrixStorageValue } from './types.ts'
+import { Matrix } from './Matrix.ts'
+import { isMatrixArray } from './support.ts'
 
 export type SerializedMatrix = {
 	type: typeof Matrix.type

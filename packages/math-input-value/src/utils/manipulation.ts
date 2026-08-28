@@ -1,8 +1,8 @@
 import { last } from '@step-wise/js-utils'
 
-import { type ExpressionValue, type ExpressionTextCursor, type InputValuePart, isTextPart } from '../types'
+import { type ExpressionValue, type ExpressionTextCursor, type InputValuePart, isTextPart } from '../types/index.ts'
 
-import { getExpressionStartCursor, getExpressionEndCursor } from './cursors'
+import { getExpressionStartCursor, getExpressionEndCursor } from './cursors.ts'
 
 export function sliceExpressionValue<TAdditionalPart = never>(value: (InputValuePart | TAdditionalPart)[], left = getExpressionStartCursor(value), right = getExpressionEndCursor(value)): (InputValuePart | TAdditionalPart)[] {
 	const leftElement = getCursorTextPart(value, left, 'left')

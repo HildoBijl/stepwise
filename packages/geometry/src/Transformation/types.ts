@@ -1,8 +1,8 @@
-import type { VectorLike, VectorStorageValue } from '../Vector'
-import type { LineLike } from '../Line'
-import type { LineSegmentLike } from '../LineSegment'
-import type { RectangleLike } from '../Rectangle'
-import type { MatrixLike, MatrixStorageValue } from '../Matrix'
+import type { VectorLike, VectorStorageValue } from '../Vector/index.ts'
+import type { LineLike } from '../Line/index.ts'
+import type { LineSegmentLike } from '../LineSegment/index.ts'
+import type { RectangleLike } from '../Rectangle/index.ts'
+import type { MatrixLike, MatrixStorageValue } from '../Matrix/index.ts'
 
 export type TransformationStorageValue = {
 	matrix: MatrixStorageValue

@@ -1,4 +1,4 @@
-import { expressionChecks } from './checks'
+import { expressionChecks } from './checks.ts'
 
 describe('expressionChecks', () => {
 	test('checks expression properties', () => {

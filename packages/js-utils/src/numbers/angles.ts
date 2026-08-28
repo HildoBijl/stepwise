@@ -1,6 +1,6 @@
-import { ensureNumber } from './checks'
-import { approximatelyEqual } from './comparisons'
-import { mod } from './limiting'
+import { ensureNumber } from './checks.ts'
+import { approximatelyEqual } from './comparisons.ts'
+import { mod } from './limiting.ts'
 
 // Convert degrees to radians.
 export function degreesToRadians(deg: number): number {

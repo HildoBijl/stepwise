@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
 
-import { createForce } from '../loads'
+import { createForce } from '../loads/index.ts'
 
-import { isLoadName, isNamedLoad, isNamedPoint } from './checks'
-import { createLoadName, createNamedLoad, createNamedPoint } from './creation'
+import { isLoadName, isNamedLoad, isNamedPoint } from './checks.ts'
+import { createLoadName, createNamedLoad, createNamedPoint } from './creation.ts'
 
 describe('named-load creation and checks', () => {
 	it('creates canonical named points', () => {

@@ -1,7 +1,7 @@
-import { asExpression } from '../expressions'
+import { asExpression } from '../expressions/index.ts'
 
-import { asEquation } from './Equation'
-import { asEquationEqualityOptions, defaultEquationEqualityOptions, getEquationPreprocessor } from './equalityOptions'
+import { asEquation } from './Equation.ts'
+import { asEquationEqualityOptions, defaultEquationEqualityOptions, getEquationPreprocessor } from './equalityOptions.ts'
 
 describe('equation equality options', () => {
 	test('resolves defaults and overrides', () => {

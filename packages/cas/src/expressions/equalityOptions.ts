@@ -1,6 +1,6 @@
 import { mergeDefaults, identity } from '@step-wise/js-utils'
 
-import { type Expression } from './Expression'
+import { type Expression } from './Expression.ts'
 
 export type ExpressionPreprocessor = (expression: Expression) => Expression
 export type ExpressionComparison = (input: Expression, expected: Expression) => boolean

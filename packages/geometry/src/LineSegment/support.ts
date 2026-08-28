@@ -1,8 +1,8 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { isVectorLike } from '../Vector'
+import { isVectorLike } from '../Vector/index.ts'
 
-import type { LineSegmentInput } from './types'
+import type { LineSegmentInput } from './types.ts'
 
 export function isLineSegmentObject(value: unknown): value is LineSegmentInput {
 	if (!isPlainObject(value)) return false

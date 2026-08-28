@@ -5,9 +5,9 @@ import type { SkillLevelSet } from '@step-wise/skill-tracking'
 import { type ExerciseMode, resolveExerciseMetadata } from '@step-wise/exercise-definition'
 import { type ExerciseId, type ExerciseCollection, filterExerciseCollectionByMode, isExerciseCollection } from '@step-wise/exercise-bundling'
 
-import type { PreviousExercise } from './types'
-import { selectionThresholdFactor, successRateSpread, targetSuccessRate } from './settings'
-import { getExpectedExerciseSuccessRates } from './expectedSuccessRates'
+import type { PreviousExercise } from './types.ts'
+import { selectionThresholdFactor, successRateSpread, targetSuccessRate } from './settings.ts'
+import { getExpectedExerciseSuccessRates } from './expectedSuccessRates.ts'
 
 // Select an exercise intelligently based on available skill data.
 export async function selectSkillBasedExercise(exercises: ExerciseCollection, loadSkillLevelSet: (skillIds: SkillId[]) => Promise<SkillLevelSet>, previousExercises: PreviousExercise[] = []): Promise<ExerciseId> {

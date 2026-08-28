@@ -1,8 +1,8 @@
 import { type FractionInputValue, type LogarithmInputValue, type RootInputValue, type SquareRootInputValue, isEmptyExpressionValue } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, Fraction, Integer, Log, Root, Sqrt } from '../../nodes'
+import { type ExpressionNode, Fraction, Integer, Log, Root, Sqrt } from '../../nodes/index.ts'
 
-import type { InterpreterContext } from '../types'
+import type { InterpreterContext } from '../types.ts'
 
 // Interpret constructs whose arguments are stored entirely within the construct.
 export function interpretFraction(element: FractionInputValue, context: InterpreterContext): ExpressionNode {

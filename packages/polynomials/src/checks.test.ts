@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensurePolynomial, ensurePolynomialVariables } from './checks'
+import { ensurePolynomial, ensurePolynomialVariables } from './checks.ts'
 
 describe('ensurePolynomialVariables', () => {
 	it('accepts valid variable lists', () => {

@@ -1,7 +1,7 @@
 import { parseExpressionInputValue } from '@step-wise/math-input-value'
 
-import { Expression, asExpression } from './Expression'
-import { interpretExpressionInput, isExpressionInput } from './interpretation'
+import { Expression, asExpression } from './Expression.ts'
+import { interpretExpressionInput, isExpressionInput } from './interpretation.ts'
 
 describe('expression interpretation', () => {
 	test('recognizes supported inputs', () => {

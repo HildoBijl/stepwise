@@ -1,12 +1,12 @@
 import { getPrimeFactorization } from '@step-wise/math-tools'
 import { sum } from '@step-wise/js-utils'
 
-import { Integer, Product, Power } from '../../../../construction'
+import { Integer, Product, Power } from '../../../../construction/index.ts'
 
-import { isIntegerNode, isPower } from '../../../structural'
+import { isIntegerNode, isPower } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
-import { combineNumbersInProducts, evaluateNumericPowers } from '../numeric'
+import { defineRule } from '../ruleDefinition.ts'
+import { combineNumbersInProducts, evaluateNumericPowers } from '../numeric/index.ts'
 
 function transform(node: Integer): Integer | Product | Power {
 	// Check out trivial cases.

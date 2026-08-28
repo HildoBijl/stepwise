@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { gcd, lcm } from './divisors'
+import { gcd, lcm } from './divisors.ts'
 
 describe('gcd', () => {
 	it('calculates greatest common divisors', () => {

@@ -1,8 +1,8 @@
-import { type ExpressionNode } from '../../../construction'
+import { type ExpressionNode } from '../../../construction/index.ts'
 
-import { isFraction, isPower, isRootFunction, isZero } from '../../structural'
+import { isFraction, isPower, isRootFunction, isZero } from '../../structural/index.ts'
 
-import { type SimplificationContext, type SimplificationRule } from './types'
+import { type SimplificationContext, type SimplificationRule } from './types.ts'
 
 // Apply a set of rules to a single node. Don't iterate to children or similar. Also don't simplify nodes that are invalid (e.g. a fraction with a zero denominator).
 export function applySimplificationRules(node: ExpressionNode, context: SimplificationContext): ExpressionNode {

@@ -1,10 +1,10 @@
-import { UnitDefinition } from '../UnitDefinition'
-import { Prefix } from '../Prefix'
+import { UnitDefinition } from '../UnitDefinition/index.ts'
+import { Prefix } from '../Prefix/index.ts'
 
-import { Unit, asUnit } from './Unit'
-import { unitsEqual, unitsEquivalent, unitsCompatible } from './comparisonFunctions'
-import { interpretUnitInputValue } from './inputValue'
-import { deserializeUnit, serializeUnit } from './serialization'
+import { Unit, asUnit } from './Unit.ts'
+import { unitsEqual, unitsEquivalent, unitsCompatible } from './comparisonFunctions.ts'
+import { interpretUnitInputValue } from './inputValue.ts'
+import { deserializeUnit, serializeUnit } from './serialization.ts'
 
 describe('Unit', () => {
 	describe('construction', () => {

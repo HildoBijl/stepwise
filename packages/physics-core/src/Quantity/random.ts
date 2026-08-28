@@ -1,7 +1,7 @@
-import { type RandomExponentialPrecisionNumberOptions, type RandomExponentialPrecisionNumberOptionsInput, type RandomPrecisionNumberOptions, type RandomPrecisionNumberOptionsInput, getRandomExponentialPrecisionNumber, getRandomPrecisionNumber, resolveRandomExponentialPrecisionNumberOptions, resolveRandomPrecisionNumberOptions } from '../PrecisionNumber'
-import { type UnitInput, Unit, asUnit } from '../Unit'
+import { type RandomExponentialPrecisionNumberOptions, type RandomExponentialPrecisionNumberOptionsInput, type RandomPrecisionNumberOptions, type RandomPrecisionNumberOptionsInput, getRandomExponentialPrecisionNumber, getRandomPrecisionNumber, resolveRandomExponentialPrecisionNumberOptions, resolveRandomPrecisionNumberOptions } from '../PrecisionNumber/index.ts'
+import { type UnitInput, Unit, asUnit } from '../Unit/index.ts'
 
-import { Quantity } from './Quantity'
+import { Quantity } from './Quantity.ts'
 
 export type RandomQuantityOptions = RandomPrecisionNumberOptions & { unit: Unit }
 export type RandomQuantityOptionsInput = RandomPrecisionNumberOptionsInput & { unit: UnitInput }

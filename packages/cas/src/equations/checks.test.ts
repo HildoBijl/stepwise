@@ -1,4 +1,4 @@
-import { equationChecks } from './checks'
+import { equationChecks } from './checks.ts'
 
 describe('equationChecks', () => {
 	test('detects structures on either side', () => {

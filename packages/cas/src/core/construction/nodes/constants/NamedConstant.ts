@@ -1,6 +1,6 @@
 import { fromKeysAndValues, mapValues } from '@step-wise/js-utils'
 
-import { ConstantNode } from './ConstantNode'
+import { ConstantNode } from './ConstantNode.ts'
 
 // Define the named constants.
 const namedConstantDefinitions = [

@@ -1,6 +1,6 @@
 import type { ExpressionSettings } from '@step-wise/math-input-value'
 
-import type { ExpressionNode, Variable } from '../../../construction'
+import type { ExpressionNode, Variable } from '../../../construction/index.ts'
 
 export type DerivativeContext = {
 	variable: Variable

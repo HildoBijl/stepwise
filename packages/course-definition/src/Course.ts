@@ -1,9 +1,9 @@
 import type { SkillId, SkillSetup } from '@step-wise/skill-setup'
 import type { SkillTree } from '@step-wise/skill-definition'
 
-import type { CourseAnalysis, CourseDefinition, CourseDiagnostics, CourseResolution, CourseResolutionBlock } from './types'
-import { ensureCourseDefinition } from './dataValidation'
-import { analyzeCourse } from './analyzeCourse'
+import type { CourseAnalysis, CourseDefinition, CourseDiagnostics, CourseResolution, CourseResolutionBlock } from './types.ts'
+import { ensureCourseDefinition } from './dataValidation.ts'
+import { analyzeCourse } from './analyzeCourse.ts'
 
 export class Course {
 	readonly skillTree: SkillTree

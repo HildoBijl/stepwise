@@ -2,7 +2,7 @@ import { isPlainObject } from '@step-wise/js-utils'
 import type { InputValue } from '@step-wise/input-interpretation'
 import type { CheckInputData } from '@step-wise/input-exercises'
 
-import type { InputComparisonSetting, InputKey } from './types'
+import type { InputComparisonSetting, InputKey } from './types.ts'
 
 function getInputComparisons(data: CheckInputData): Record<string, InputComparisonSetting> | undefined {
 	const comparisons = data.metadata.comparisons

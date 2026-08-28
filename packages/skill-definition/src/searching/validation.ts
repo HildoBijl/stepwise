@@ -1,6 +1,6 @@
 import { type SkillSetup, type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 
-import type { SkillId, SkillTree } from '../creation'
+import type { SkillId, SkillTree } from '../creation/index.ts'
 
 export type EnsureSkillIdOptions = {
 	allowCaseInsensitiveMatch?: boolean

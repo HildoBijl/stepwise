@@ -1,6 +1,6 @@
 import { ensureBoolean, mergeDefaults } from '@step-wise/js-utils'
 
-import { type UnitFactor } from '../UnitFactor'
+import { type UnitFactor } from '../UnitFactor/index.ts'
 
 /*
  * Simplification targets: to what depth/form do we simplify units?

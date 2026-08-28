@@ -1,9 +1,9 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import sumInDenominator from './sumInDenominator'
-import sumInNumerator from './sumInNumerator'
-import sumsWithIntegers from './sumsWithIntegers'
-import sumsWithFractions from './sumsWithFractions'
+import sumInDenominator from './sumInDenominator.ts'
+import sumInNumerator from './sumInNumerator.ts'
+import sumsWithIntegers from './sumsWithIntegers.ts'
+import sumsWithFractions from './sumsWithFractions.ts'
 
 export default {
 	examples: { sumInDenominator, sumInNumerator },

@@ -1,7 +1,7 @@
 import { type BernsteinCoefficients } from '@step-wise/bernstein-polynomials'
 import { createSkillTree } from '@step-wise/skill-definition'
 
-import type { StoredSkillLevel } from './types'
+import type { StoredSkillLevel } from './types.ts'
 
 export const now = new Date('2026-01-01T12:00:00.000Z')
 export const twoMonthsAgo = new Date('2025-11-01T12:00:00.000Z')

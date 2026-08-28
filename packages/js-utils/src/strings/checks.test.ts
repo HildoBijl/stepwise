@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensureString, isLetter } from './checks'
+import { ensureString, isLetter } from './checks.ts'
 
 describe('string checks', () => {
 	it('ensures strings and optional non-emptiness', () => {

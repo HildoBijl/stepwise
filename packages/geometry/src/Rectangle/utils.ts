@@ -1,5 +1,5 @@
-import { type RectangleLike, Rectangle } from './Rectangle'
-import { isRectangleInput } from './support'
+import { type RectangleLike, Rectangle } from './Rectangle.ts'
+import { isRectangleInput } from './support.ts'
 
 export function isRectangleLike(value: unknown): value is RectangleLike {
 	return value instanceof Rectangle || isRectangleInput(value)

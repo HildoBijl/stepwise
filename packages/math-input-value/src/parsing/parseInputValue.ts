@@ -1,10 +1,10 @@
 import { removeWhitespace } from '@step-wise/js-utils'
 
-import { type InterpretationSettingsOptions, type InterpretationSettings, type ExpressionSettingsOptions, resolveInterpretationSettings } from '../settings'
-import type { ExpressionInputValue, EquationInputValue, ExpressionValue } from '../types'
-import { createExpressionInputValue, createEquationInputValue } from '../utils'
+import { type InterpretationSettingsOptions, type InterpretationSettings, type ExpressionSettingsOptions, resolveInterpretationSettings } from '../settings/index.ts'
+import type { ExpressionInputValue, EquationInputValue, ExpressionValue } from '../types/index.ts'
+import { createExpressionInputValue, createEquationInputValue } from '../utils/index.ts'
 
-import { parseFunctionsAndAccents, parseSubSups, parseFractions } from './steps'
+import { parseFunctionsAndAccents, parseSubSups, parseFractions } from './steps/index.ts'
 
 export function parseExpressionInputValue(source: string, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): ExpressionInputValue {
 	const settings = resolveInterpretationSettings(interpretationSettings)

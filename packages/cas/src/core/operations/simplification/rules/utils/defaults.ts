@@ -1,8 +1,8 @@
 import { partition } from '@step-wise/js-utils'
 
-import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, product, fraction } from '../../../../construction'
+import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, product, fraction } from '../../../../construction/index.ts'
 
-import { isSignNode, isSum, isProduct, isFraction, isPower, isNumeric, isOne, isRootFunction } from '../../../structural'
+import { isSignNode, isSum, isProduct, isFraction, isPower, isNumeric, isOne, isRootFunction } from '../../../structural/index.ts'
 
 // Get all the terms in a sum, or turn it into a list if not a sum.
 export function getSumTerms(node: ExpressionNode): readonly ExpressionNode[] {

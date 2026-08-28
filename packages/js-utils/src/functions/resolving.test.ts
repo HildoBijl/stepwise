@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { resolveFunctionValue, resolveFunctionValuesDeep } from './resolving'
+import { resolveFunctionValue, resolveFunctionValuesDeep } from './resolving.ts'
 
 describe('function value resolution', () => {
 	it('resolves a function with forwarded arguments', () => {

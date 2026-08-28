@@ -1,8 +1,8 @@
-import { ensureInteger, ensureNumber, randomInteger } from '../numbers'
+import { ensureInteger, ensureNumber, randomInteger } from '../numbers/index.ts'
 
-import { last } from './reading'
-import { count, cumulative } from './iteration'
-import { integerRange } from './creation'
+import { last } from './reading.ts'
+import { count, cumulative } from './iteration.ts'
+import { integerRange } from './creation.ts'
 
 export interface SampleOptions {
 	weights?: readonly number[]

@@ -1,13 +1,13 @@
 import { InterpretationError } from '@step-wise/js-utils'
 import { isTextPart } from '@step-wise/math-input-value'
 
-import { ExpressionNode } from '../../nodes'
+import { ExpressionNode } from '../../nodes/index.ts'
 
-import type { InterpretationPart, InterpreterContext } from '../types'
+import type { InterpretationPart, InterpreterContext } from '../types.ts'
 
-import { interpretAccent } from './interpretAccent'
-import { interpretFraction, interpretRoot, interpretSquareRoot } from './interpretConstruct'
-import { interpretSubSup } from './interpretSubSup'
+import { interpretAccent } from './interpretAccent.ts'
+import { interpretFraction, interpretRoot, interpretSquareRoot } from './interpretConstruct.ts'
+import { interpretSubSup } from './interpretSubSup.ts'
 
 // Interpret the remaining accents, SubSups and self-contained constructs.
 export function interpretElements(value: InterpretationPart[], context: InterpreterContext): ExpressionNode[] {

@@ -1,3 +1,3 @@
-export * from './arithmetic'
-export * from './plurals'
-export * from './replacing'
+export * from './arithmetic.ts'
+export * from './plurals.ts'
+export * from './replacing.ts'

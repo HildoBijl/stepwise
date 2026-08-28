@@ -1,6 +1,6 @@
 import { type AccentName } from '@step-wise/math-input-value'
 
-import { type NamedConstantSymbol } from '../../construction'
+import { type NamedConstantSymbol } from '../../construction/index.ts'
 
 // Constants
 export type IntegerStorageValue = { subtype: 'Integer', value: number }

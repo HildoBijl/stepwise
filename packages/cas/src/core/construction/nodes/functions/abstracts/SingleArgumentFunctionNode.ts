@@ -1,6 +1,6 @@
-import { ExpressionNode } from '../../ExpressionNode'
+import { ExpressionNode } from '../../ExpressionNode.ts'
 
-import { FunctionNode } from './FunctionNode'
+import { FunctionNode } from './FunctionNode.ts'
 
 export abstract class SingleArgumentFunctionNode extends FunctionNode {
 	static override readonly argumentNames: readonly string[] = ['argument']

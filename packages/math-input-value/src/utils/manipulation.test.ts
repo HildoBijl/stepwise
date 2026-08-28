@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import type { AccentInputValue, ExpressionValue } from '../types'
+import type { AccentInputValue, ExpressionValue } from '../types/index.ts'
 
-import { mergeAdjacentTextParts, sliceExpressionValue } from './manipulation'
+import { mergeAdjacentTextParts, sliceExpressionValue } from './manipulation.ts'
 
 const accent: AccentInputValue = { type: 'Accent', name: 'dot', value: 'x' }
 

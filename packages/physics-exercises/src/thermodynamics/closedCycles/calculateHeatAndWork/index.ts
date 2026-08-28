@@ -1,10 +1,10 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import calculateHeatAndWorkIsobaric from './calculateHeatAndWorkIsobaric'
-import calculateHeatAndWorkIsochoric from './calculateHeatAndWorkIsochoric'
-import calculateHeatAndWorkIsothermal from './calculateHeatAndWorkIsothermal'
-import calculateHeatAndWorkIsentropic from './calculateHeatAndWorkIsentropic'
-import calculateHeatAndWorkPolytropic from './calculateHeatAndWorkPolytropic'
+import calculateHeatAndWorkIsobaric from './calculateHeatAndWorkIsobaric.ts'
+import calculateHeatAndWorkIsochoric from './calculateHeatAndWorkIsochoric.ts'
+import calculateHeatAndWorkIsothermal from './calculateHeatAndWorkIsothermal.ts'
+import calculateHeatAndWorkIsentropic from './calculateHeatAndWorkIsentropic.ts'
+import calculateHeatAndWorkPolytropic from './calculateHeatAndWorkPolytropic.ts'
 
 export default {
 	examples: { calculateHeatAndWorkIsobaric },

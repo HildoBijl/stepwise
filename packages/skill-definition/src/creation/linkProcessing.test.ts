@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import { flattenRawSkillTree } from './flattening'
-import { normalizeSkillLinks, validateAndProcessLinks } from './linkProcessing'
-import type { RawSkillLink } from './types'
+import { flattenRawSkillTree } from './flattening.ts'
+import { normalizeSkillLinks, validateAndProcessLinks } from './linkProcessing.ts'
+import type { RawSkillLink } from './types.ts'
 
 describe('normalizeSkillLinks', () => {
 	it('handles omitted and empty link collections', () => {

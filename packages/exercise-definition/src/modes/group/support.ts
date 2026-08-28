@@ -1,6 +1,6 @@
-import type { ExerciseAction, ExerciseState } from '../../atomTypes'
+import type { ExerciseAction, ExerciseState } from '../../atomTypes.ts'
 
-import type { GroupExerciseHistory } from './types'
+import type { GroupExerciseHistory } from './types.ts'
 
 function ensureUserId(userId: string | undefined): string {
 	if (userId === undefined) throw new TypeError(`A userId is required when retrieving an action from a group exercise history.`)

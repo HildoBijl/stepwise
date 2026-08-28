@@ -1,1 +1,1 @@
-export { default as calculateForceOrMoment } from './calculateForceOrMoment'
+export { default as calculateForceOrMoment } from './calculateForceOrMoment/index.ts'

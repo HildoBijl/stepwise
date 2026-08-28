@@ -1,8 +1,8 @@
-import { sin } from '../../../construction'
-import { areNodesEqual } from '../../structural'
+import { sin } from '../../../construction/index.ts'
+import { areNodesEqual } from '../../structural/index.ts'
 
-import { convertExpressionToRadians } from './degrees'
-import { convertExpressionSettings } from './conversion'
+import { convertExpressionToRadians } from './degrees.ts'
+import { convertExpressionSettings } from './conversion.ts'
 
 describe('expression-setting conversion', () => {
 	test('returns the original node when angle units agree', () => {

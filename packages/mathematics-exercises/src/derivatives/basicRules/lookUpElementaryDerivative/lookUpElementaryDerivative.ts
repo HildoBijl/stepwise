@@ -3,7 +3,7 @@ import { expressionComparisons } from '@step-wise/cas'
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { getRandomElementaryFunction } from '../../tools'
+import { getRandomElementaryFunction } from '../../tools/index.ts'
 
 const variableSet = ['x', 'y', 't']
 const functionSet = ['f', 'g', 'h']

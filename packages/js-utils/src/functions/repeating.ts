@@ -1,5 +1,5 @@
-import { ensureInteger } from '../numbers'
-import { type NestedArray } from '../arrays'
+import { ensureInteger } from '../numbers/index.ts'
+import { type NestedArray } from '../arrays/index.ts'
 
 // Repeat the given function the given number of times and return the outcomes.
 export function repeat<T>(times: number, fn: (index: number) => T): T[] {

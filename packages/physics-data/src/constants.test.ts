@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { G, NA, R, c, e, electronMass, g, h, k, neutronMass, protonMass } from './constants'
+import { G, NA, R, c, e, electronMass, g, h, k, neutronMass, protonMass } from './constants.ts'
 
 describe('physical constants', () => {
 	it('provides the expected values and units', () => {

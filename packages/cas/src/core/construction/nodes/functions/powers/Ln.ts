@@ -1,7 +1,7 @@
-import { type ExpressionNode } from '../../ExpressionNode'
-import { namedConstants } from '../../constants'
+import { type ExpressionNode } from '../../ExpressionNode.ts'
+import { namedConstants } from '../../constants/index.ts'
 
-import { SingleArgumentFunctionNode } from '../abstracts'
+import { SingleArgumentFunctionNode } from '../abstracts/index.ts'
 
 export class Ln extends SingleArgumentFunctionNode {
 	readonly subtype = 'Ln'

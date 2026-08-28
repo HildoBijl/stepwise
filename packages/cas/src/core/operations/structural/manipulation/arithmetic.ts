@@ -1,6 +1,6 @@
-import { type ExpressionNode, type ExpressionNodeInput, asExpressionNode, Integer, negative, sum, product, fraction } from '../../../construction'
+import { type ExpressionNode, type ExpressionNodeInput, asExpressionNode, Integer, negative, sum, product, fraction } from '../../../construction/index.ts'
 
-import { isSignNode } from '../inspection'
+import { isSignNode } from '../inspection/index.ts'
 
 export const add = (...terms: ExpressionNodeInput[]) => sum(...terms)
 export const subtract = (minuend: ExpressionNodeInput = Integer.zero, subtrahend: ExpressionNodeInput = Integer.zero) => sum(minuend, negative(subtrahend))

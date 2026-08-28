@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getTemperatures } from './fridgeCycle'
+import { getTemperatures } from './fridgeCycle.ts'
 
 describe('getTemperatures', () => {
 	it('generates temperatures and temperature differences within their configured ranges', () => {

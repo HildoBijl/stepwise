@@ -1,12 +1,12 @@
 import { getLargestPerfectPowerDivisor } from '@step-wise/math-tools'
 
-import { type ExpressionNode, type RootFunction, integer, product, power } from '../../../../construction'
+import { type ExpressionNode, type RootFunction, integer, product, power } from '../../../../construction/index.ts'
 
-import { isRootFunction, isIntegerNode, isPower, isOne } from '../../../structural'
+import { isRootFunction, isIntegerNode, isPower, isOne } from '../../../structural/index.ts'
 
-import { combineFractionFactors, combineRootsInProducts, combineProductsWithRoots } from '../combination'
-import { defineRule } from '../ruleDefinition'
-import { getProductFactors } from '../utils'
+import { combineFractionFactors, combineRootsInProducts, combineProductsWithRoots } from '../combination/index.ts'
+import { defineRule } from '../ruleDefinition.ts'
+import { getProductFactors } from '../utils/index.ts'
 
 function transform(node: RootFunction): ExpressionNode {
 	if (!isIntegerNode(node.degree)) return node

@@ -1,14 +1,14 @@
-import { defineRuleRegistry } from '../ruleDefinition'
+import { defineRuleRegistry } from '../ruleDefinition.ts'
 
-import { expandMinusSums } from './expandMinusSums'
-import { splitFractions } from './splitFractions'
-import { expandPlusMinusSums } from './expandPlusMinusSums'
-import { expandProductsOfSums } from './expandProductsOfSums'
-import { expandPowers } from './expandPowers'
-import { expandPowersOfProducts } from './expandPowersOfProducts'
-import { expandPowersOfFractions } from './expandPowersOfFractions'
-import { expandPowersOfSums } from './expandPowersOfSums'
-import { expandRootsOfProducts } from './expandRootsOfProducts'
+import { expandMinusSums } from './expandMinusSums.ts'
+import { splitFractions } from './splitFractions.ts'
+import { expandPlusMinusSums } from './expandPlusMinusSums.ts'
+import { expandProductsOfSums } from './expandProductsOfSums.ts'
+import { expandPowers } from './expandPowers.ts'
+import { expandPowersOfProducts } from './expandPowersOfProducts.ts'
+import { expandPowersOfFractions } from './expandPowersOfFractions.ts'
+import { expandPowersOfSums } from './expandPowersOfSums.ts'
+import { expandRootsOfProducts } from './expandRootsOfProducts.ts'
 
 export const expansionRules = defineRuleRegistry(expandMinusSums, splitFractions, expandPlusMinusSums, expandProductsOfSums, expandPowers, expandPowersOfProducts, expandPowersOfFractions, expandPowersOfSums, expandRootsOfProducts)
 export { expandMinusSums, splitFractions, expandPlusMinusSums, expandProductsOfSums, expandPowers, expandPowersOfProducts, expandPowersOfFractions, expandPowersOfSums, expandRootsOfProducts }

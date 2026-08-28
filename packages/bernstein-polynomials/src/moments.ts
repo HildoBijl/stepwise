@@ -1,6 +1,6 @@
 import { ensureInteger, sum } from '@step-wise/js-utils'
 
-import { type BernsteinCoefficients, getBernsteinDegree } from './fundamentals'
+import { type BernsteinCoefficients, getBernsteinDegree } from './fundamentals.ts'
 
 // Get the expected value of x raised to a non-negative integer exponent.
 export function getBernsteinMoment(coefficients: BernsteinCoefficients, exponent: number): number {

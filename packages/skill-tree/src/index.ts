@@ -1,2 +1,2 @@
-export * from './skillTree'
-export * from './searching'
+export * from './skillTree.ts'
+export * from './searching.ts'

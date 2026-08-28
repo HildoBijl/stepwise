@@ -1,4 +1,4 @@
-import { type UnitLike, asUnit } from './Unit'
+import { type UnitLike, asUnit } from './Unit.ts'
 
 // Same written units, allowing only reordering/combining like 'm * s' = 's * m'.
 export function unitsEqual(a: UnitLike, b: UnitLike): boolean {

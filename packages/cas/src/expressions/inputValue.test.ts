@@ -1,7 +1,7 @@
-import { expectExpressionToEqual } from '../tests/support/wrapperAssertions'
+import { expectExpressionToEqual } from '../tests/support/wrapperAssertions.ts'
 
-import { asExpression } from './Expression'
-import { expressionToInputValue, inputValueToExpression } from './inputValue'
+import { asExpression } from './Expression.ts'
+import { expressionToInputValue, inputValueToExpression } from './inputValue.ts'
 
 describe('expression input-value conversion', () => {
 	test('round-trips representative expressions', () => {

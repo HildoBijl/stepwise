@@ -1,7 +1,7 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import analyseCoolingCycleWithEtai from './analyseCoolingCycleWithEtai'
-import analyseCoolingCycleWithT2 from './analyseCoolingCycleWithT2'
+import analyseCoolingCycleWithEtai from './analyseCoolingCycleWithEtai.ts'
+import analyseCoolingCycleWithT2 from './analyseCoolingCycleWithT2.ts'
 
 export default {
 	examples: { analyseCoolingCycleWithEtai },

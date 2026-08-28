@@ -1,4 +1,4 @@
-import { isObject } from './checks'
+import { isObject } from './checks.ts'
 
 /*
  * Plain objects

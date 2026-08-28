@@ -1,6 +1,6 @@
 import type { Vector, VectorLike } from '@step-wise/geometry'
 
-import type { Load, LoadInput } from '../loads'
+import type { Load, LoadInput } from '../loads/index.ts'
 
 /*
  * Points

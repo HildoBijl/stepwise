@@ -2,10 +2,10 @@ import { isPlainObject } from '@step-wise/js-utils'
 import type { BernsteinCoefficients } from '@step-wise/bernstein-polynomials'
 import type { Skill } from '@step-wise/skill-definition'
 
-import type { StoredSkillLevel, StoredSkillLevelUpdate } from './types'
-import { inferenceCacheDuration } from './settings'
-import { applySkillLevelDecay } from './decay'
-import { ensureSkillLevel, ensureStoredSkillLevelUpdate } from './utils'
+import type { StoredSkillLevel, StoredSkillLevelUpdate } from './types.ts'
+import { inferenceCacheDuration } from './settings.ts'
+import { applySkillLevelDecay } from './decay.ts'
+import { ensureSkillLevel, ensureStoredSkillLevelUpdate } from './utils.ts'
 
 // Types for the internal cache.
 export type SkillLevelCache = {

@@ -1,8 +1,8 @@
 import { IntegerType } from '@step-wise/input-interpretation'
 import { describe, expect, it } from 'vitest'
 
-import { compareInputValue } from './compareInputValue'
-import { makeCheckInputData } from './testUtils'
+import { compareInputValue } from './compareInputValue.ts'
+import { makeCheckInputData } from './testUtils.ts'
 
 describe('compareInputValue', () => {
 	it('uses built-in comparisons with the provided options', () => {

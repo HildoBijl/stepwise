@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest'
 
 import { Quantity, QuantityType } from '@step-wise/physics-core'
 
-import { IntegerType } from './adapters'
-import { toInputValue } from './toInputValue'
+import { IntegerType } from './adapters/index.ts'
+import { toInputValue } from './toInputValue.ts'
 
 describe('toInputValue', () => {
 	it('converts a domain value using the requested input type', () => {

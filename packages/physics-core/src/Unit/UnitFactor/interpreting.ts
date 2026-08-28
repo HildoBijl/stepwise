@@ -1,5 +1,5 @@
-import { type Prefix, prefixes } from '../Prefix'
-import { type UnitDefinition, findUnitDefinition, specialUnitSymbols } from '../UnitDefinition'
+import { type Prefix, prefixes } from '../Prefix/index.ts'
+import { type UnitDefinition, findUnitDefinition, specialUnitSymbols } from '../UnitDefinition/index.ts'
 
 export const UnitFactorType = 'UnitFactor'
 export type UnitFactorType = typeof UnitFactorType

@@ -1,8 +1,8 @@
 import { approximatelyEqual, compareNumberArrays, isArray } from '@step-wise/js-utils'
 
-import { type Polynomial, type PolynomialCoefficients, type PolynomialComparisonOptions } from './types'
-import { ensurePolynomial } from './checks'
-import { alignPolynomialVariables } from './restructuring'
+import { type Polynomial, type PolynomialCoefficients, type PolynomialComparisonOptions } from './types.ts'
+import { ensurePolynomial } from './checks.ts'
+import { alignPolynomialVariables } from './restructuring.ts'
 
 export function comparePolynomialCoefficients(coefficients1: PolynomialCoefficients, coefficients2: PolynomialCoefficients): boolean {
 	if (isArray(coefficients1)) return isArray(coefficients2) && compareNumberArrays(coefficients1, coefficients2)

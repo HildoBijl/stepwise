@@ -1,6 +1,6 @@
-import { Integer, namedConstants, variable, sum, product, power } from '../../../construction'
+import { Integer, namedConstants, variable, sum, product, power } from '../../../construction/index.ts'
 
-import { isConstantMultiple, isIntegerMultiple } from './multiples'
+import { isConstantMultiple, isIntegerMultiple } from './multiples.ts'
 
 const x = variable('x')
 const y = variable('y')

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import type { CourseDefinition } from './types'
-import { ensureCourseDefinition } from './dataValidation'
+import type { CourseDefinition } from './types.ts'
+import { ensureCourseDefinition } from './dataValidation.ts'
 
 describe('ensureCourseDefinition', () => {
 	it('validates and copies a course definition', () => {

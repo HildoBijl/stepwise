@@ -1,2 +1,2 @@
-export * from './expressionSettings'
-export * from './interpretationSettings'
+export * from './expressionSettings.ts'
+export * from './interpretationSettings.ts'

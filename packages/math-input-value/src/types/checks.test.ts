@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { isAccentInputValue, isConstructInputValue, isEquationInputValue, isExpressionInputValue, isExpressionValue, isInputValuePart, isTextPart } from './checks'
+import { isAccentInputValue, isConstructInputValue, isEquationInputValue, isExpressionInputValue, isExpressionValue, isInputValuePart, isTextPart } from './checks.ts'
 
 const constructs = [
 	{ type: 'Fraction', numerator: ['1'], denominator: ['2'] },

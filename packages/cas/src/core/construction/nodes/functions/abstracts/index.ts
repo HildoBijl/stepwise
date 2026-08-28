@@ -1,2 +1,2 @@
-export * from './FunctionNode'
-export * from './SingleArgumentFunctionNode'
+export * from './FunctionNode.ts'
+export * from './SingleArgumentFunctionNode.ts'

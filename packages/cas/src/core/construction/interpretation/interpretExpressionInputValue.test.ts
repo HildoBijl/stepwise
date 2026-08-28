@@ -1,9 +1,9 @@
 import type { ExpressionInputValue } from '@step-wise/math-input-value'
 
-import { fraction, sum } from '../creation'
-import { areNodesEqual } from '../../operations'
+import { fraction, sum } from '../creation/index.ts'
+import { areNodesEqual } from '../../operations/index.ts'
 
-import { interpretExpressionInputValue } from './interpretExpressionInputValue'
+import { interpretExpressionInputValue } from './interpretExpressionInputValue.ts'
 
 describe('interpretExpressionInputValue', () => {
 	test('interprets text and constructs together', () => {

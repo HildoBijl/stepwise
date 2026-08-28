@@ -1,10 +1,10 @@
 import { isPerfectPower } from '@step-wise/math-tools'
 
-import { type ExpressionNode, type RootFunction, type Power, integer, float, root } from '../../../../construction'
+import { type ExpressionNode, type RootFunction, type Power, integer, float, root } from '../../../../construction/index.ts'
 
-import { isPower, isRootFunction, isOne, isNumberNode, isFloat, isInteger, isIntegerNode, isFraction, evaluateNumericNode } from '../../../structural'
+import { isPower, isRootFunction, isOne, isNumberNode, isFloat, isInteger, isIntegerNode, isFraction, evaluateNumericNode } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Power | RootFunction): ExpressionNode {
 	// Get the radicand and degree, for both the Power and the Root case.

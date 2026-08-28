@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { hasInputExerciseProperties } from './guards'
+import { hasInputExerciseProperties } from './guards.ts'
 
 const inputExerciseProperties = {
 	metadata: {},

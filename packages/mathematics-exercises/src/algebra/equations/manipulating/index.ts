@@ -1,3 +1,3 @@
-export * as terms from './terms'
-export * as factors from './factors'
-export * as rational from './rational'
+export * as terms from './terms/index.ts'
+export * as factors from './factors/index.ts'
+export * as rational from './rational/index.ts'

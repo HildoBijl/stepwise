@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensurePlainObject, isEmptyObject, isPlainDataArray, isPlainDataObject, isPlainDataValue, isPlainObject } from './plainnessChecks'
+import { ensurePlainObject, isEmptyObject, isPlainDataArray, isPlainDataObject, isPlainDataValue, isPlainObject } from './plainnessChecks.ts'
 
 describe('plain object and data checks', () => {
 	it('recognizes plain and empty objects', () => {

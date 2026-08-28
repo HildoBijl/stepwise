@@ -1,4 +1,4 @@
-import { ensureInteger } from '../numbers'
+import { ensureInteger } from '../numbers/index.ts'
 
 // The English alphabet.
 export const alphabet = 'abcdefghijklmnopqrstuvwxyz'

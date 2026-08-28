@@ -1,7 +1,7 @@
 import { ensureInteger, ensureNumber, approximatelyEqual } from '@step-wise/js-utils'
 
-import type { CoordinateList, VectorInput, VectorStorageValue } from './types'
-import { isCoordinateList, isCoordinateObject, coordinatesFromObject } from './support'
+import type { CoordinateList, VectorInput, VectorStorageValue } from './types.ts'
+import { isCoordinateList, isCoordinateObject, coordinatesFromObject } from './support.ts'
 
 export const VectorType = 'Vector'
 export type VectorType = typeof VectorType

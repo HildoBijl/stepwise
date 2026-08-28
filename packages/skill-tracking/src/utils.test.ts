@@ -1,8 +1,8 @@
 import { skill } from '@step-wise/skill-setup'
 import { describe, expect, it } from 'vitest'
 
-import { ensureSkillLevel, ensureSkillObservation, ensureStoredSkillLevelUpdate, getInitialSkillLevel } from './utils'
-import { coefficientsToStoredSkillLevel, now } from './testUtils'
+import { ensureSkillLevel, ensureSkillObservation, ensureStoredSkillLevelUpdate, getInitialSkillLevel } from './utils.ts'
+import { coefficientsToStoredSkillLevel, now } from './testUtils.ts'
 
 describe('getInitialSkillLevel', () => {
 	it('returns a uniform stored skill level and copies the date', () => {

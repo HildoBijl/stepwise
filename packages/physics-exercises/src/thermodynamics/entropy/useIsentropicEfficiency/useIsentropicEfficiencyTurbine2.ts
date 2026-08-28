@@ -1,7 +1,7 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { getCycle } from '../../steam/rankineCycle/tools'
+import { getCycle } from '../../steam/rankineCycle/tools/index.ts'
 
 export default buildStepExercise({
 	metadata: {

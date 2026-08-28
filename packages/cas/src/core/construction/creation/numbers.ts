@@ -1,6 +1,6 @@
 import { isInteger } from '@step-wise/js-utils'
 
-import { type ExpressionNode, Integer, Float, type NamedConstant, getNamedConstant, Minus } from '../nodes'
+import { type ExpressionNode, Integer, Float, type NamedConstant, getNamedConstant, Minus } from '../nodes/index.ts'
 
 // Creation functions for numbers.
 export function integer(value: number): Integer | Minus {

@@ -1,6 +1,6 @@
-import { fraction, power, product, sqrt, sum, variable } from '../../construction'
+import { fraction, power, product, sqrt, sum, variable } from '../../construction/index.ts'
 
-import { nodeToTex } from './toTex'
+import { nodeToTex } from './toTex.ts'
 
 describe('nodeToTex', () => {
 	test('prints core mathematical constructs', () => {

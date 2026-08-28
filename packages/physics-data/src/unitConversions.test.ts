@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { Quantity } from '@step-wise/physics-core'
 
-import { barToPascalFactor, celsiusToKelvinOffset, cubicMetersToCubicCentimetersFactor, cubicMetersToLitersFactor, kilogramsToGramsFactor } from './unitConversions'
+import { barToPascalFactor, celsiusToKelvinOffset, cubicMetersToCubicCentimetersFactor, cubicMetersToLitersFactor, kilogramsToGramsFactor } from './unitConversions.ts'
 
 describe('unit conversions', () => {
 	it('provides exact conversion factors and offsets', () => {

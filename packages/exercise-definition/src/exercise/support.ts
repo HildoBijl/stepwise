@@ -1,6 +1,6 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import type { ExerciseParameters, ExerciseState } from '../atomTypes'
+import type { ExerciseParameters, ExerciseState } from '../atomTypes.ts'
 
 export function resolveExerciseParameters<TParameters extends Record<string, unknown> = ExerciseParameters>(generateParameters: ((example: boolean) => TParameters) | undefined, example: boolean): TParameters {
 	const parameters = generateParameters === undefined ? {} : generateParameters(example)

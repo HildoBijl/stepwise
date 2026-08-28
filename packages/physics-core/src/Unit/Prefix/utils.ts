@@ -1,5 +1,5 @@
-import { type Prefix } from './Prefix'
-import { prefixList, prefixes } from './prefixes'
+import { type Prefix } from './Prefix.ts'
+import { prefixList, prefixes } from './prefixes.ts'
 
 export function findPrefix(str?: string): Prefix | undefined {
 	if (!str) return undefined

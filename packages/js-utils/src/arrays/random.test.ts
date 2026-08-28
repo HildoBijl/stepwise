@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { randomIndices, randomSubset, sample, shuffle } from './random'
+import { randomIndices, randomSubset, sample, shuffle } from './random.ts'
 
 afterEach(() => vi.restoreAllMocks())
 

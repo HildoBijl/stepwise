@@ -1,4 +1,4 @@
-import { ensureDate } from './checks'
+import { ensureDate } from './checks.ts'
 
 export type FormatDateOptions = {
 	includeTime?: boolean

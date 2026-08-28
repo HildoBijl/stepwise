@@ -1,12 +1,12 @@
 import { ensureNumber } from '@step-wise/js-utils'
 import { type PolynomialCoefficients, oneMinusPolynomial, scalePolynomial } from '@step-wise/polynomials'
 
-import { type GenericSerializedSkillSetup, type SkillSetup, type SkillItemStorageValue, ensureSkillItemStorageValue, SkillItemSetup } from '../abstracts'
+import { type GenericSerializedSkillSetup, type SkillSetup, type SkillItemStorageValue, ensureSkillItemStorageValue, SkillItemSetup } from '../abstracts/index.ts'
 
-import { type SkillSetupLike, ensureSetup } from './Skill'
+import { type SkillSetupLike, ensureSetup } from './Skill.ts'
 
-import { And } from './And'
-import { Or } from './Or'
+import { And } from './And.ts'
+import { Or } from './Or.ts'
 
 export type PartStorageValue = SkillItemStorageValue & { part?: number }
 export type SerializedPart = GenericSerializedSkillSetup<PartStorageValue, 'Part'>

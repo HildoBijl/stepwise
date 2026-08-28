@@ -1,8 +1,8 @@
-import { type ExpressionNode, type Root, type Sqrt, Integer, negative, sum, product, fraction, power, sqrt, root, ln } from '../../../../construction'
+import { type ExpressionNode, type Root, type Sqrt, Integer, negative, sum, product, fraction, power, sqrt, root, ln } from '../../../../construction/index.ts'
 
-import { dependsOn } from '../../../structural'
+import { dependsOn } from '../../../structural/index.ts'
 
-import { type DerivativeContext } from '../types'
+import { type DerivativeContext } from '../types.ts'
 
 export function getSqrtDerivative(node: Sqrt, context: DerivativeContext): ExpressionNode {
 	return fraction(context.differentiate(node.radicand), product(2, sqrt(node.radicand)))

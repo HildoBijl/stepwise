@@ -1,10 +1,10 @@
 import { partition } from '@step-wise/js-utils'
 
-import { type ExpressionNode, type Product, type RootFunction, product } from '../../../../construction'
+import { type ExpressionNode, type Product, type RootFunction, product } from '../../../../construction/index.ts'
 
-import { isProduct, isRootFunction, areNodesEqual } from '../../../structural'
+import { isProduct, isRootFunction, areNodesEqual } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Product): ExpressionNode {
 	const [rootFactors, otherFactors] = partition(node.factors, isRootFunction)

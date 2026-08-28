@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { first, last, secondLast } from './reading'
+import { first, last, secondLast } from './reading.ts'
 
 describe('array reading', () => {
 	it('reads positions from non-empty arrays', () => {

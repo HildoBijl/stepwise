@@ -1,10 +1,10 @@
 import { ensureString, isPlainObject } from '@step-wise/js-utils'
 import { ensureVector } from '@step-wise/geometry'
 
-import { createLoad } from '../loads'
+import { createLoad } from '../loads/index.ts'
 
-import type { LoadName, NamedLoad, NamedLoadInput, NamedPoint, NamedPointInput } from './types'
-import { isLoadName, isNamedLoad, isNamedPoint } from './checks'
+import type { LoadName, NamedLoad, NamedLoadInput, NamedPoint, NamedPointInput } from './types.ts'
+import { isLoadName, isNamedLoad, isNamedPoint } from './checks.ts'
 
 export function createNamedPoint(point: NamedPointInput): NamedPoint {
 	if (!isPlainObject(point)) throw new TypeError(`Invalid named point: expected a plain object.`)

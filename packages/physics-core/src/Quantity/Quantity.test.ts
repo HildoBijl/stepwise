@@ -1,12 +1,12 @@
 import { describe, expect, test } from 'vitest'
 
-import { PrecisionNumber } from '../PrecisionNumber'
-import { Unit } from '../Unit'
+import { PrecisionNumber } from '../PrecisionNumber/index.ts'
+import { Unit } from '../Unit/index.ts'
 
-import { Quantity, asQuantity } from './Quantity'
-import { deserializeQuantity, serializeQuantity } from './serialization'
-import { quantityToInputValue, interpretQuantityInputValue, isQuantityInputValue } from './inputValue'
-import { getRandomExponentialQuantity, getRandomQuantity, resolveRandomExponentialQuantityOptions, resolveRandomQuantityOptions } from './random'
+import { Quantity, asQuantity } from './Quantity.ts'
+import { deserializeQuantity, serializeQuantity } from './serialization.ts'
+import { quantityToInputValue, interpretQuantityInputValue, isQuantityInputValue } from './inputValue.ts'
+import { getRandomExponentialQuantity, getRandomQuantity, resolveRandomExponentialQuantityOptions, resolveRandomQuantityOptions } from './random.ts'
 
 describe('Quantity', () => {
 	describe('construction', () => {

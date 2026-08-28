@@ -1,9 +1,9 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { type ExerciseMode, ensureExerciseMode, exerciseModes, exerciseReducerNameByMode } from '../modes'
+import { type ExerciseMode, ensureExerciseMode, exerciseModes, exerciseReducerNameByMode } from '../modes/index.ts'
 
-import type { Exercise, ExerciseSpec } from './types'
-import { isExerciseMetadata } from './metadata'
+import type { Exercise, ExerciseSpec } from './types.ts'
+import { isExerciseMetadata } from './metadata.ts'
 
 export function isExerciseSpec(obj: unknown): obj is ExerciseSpec<any, any> {
 	return isPlainObject(obj) && isExerciseMetadata(obj.metadata) && (obj.generateParameters === undefined || typeof obj.generateParameters === 'function') && (obj.getInitialState === undefined || typeof obj.getInitialState === 'function')

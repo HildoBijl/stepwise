@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { type Exercise } from '@step-wise/exercise-definition'
 
-import { filterExerciseCollectionByMode, isEmptyExerciseCollection, isExerciseCollection } from './exerciseCollection'
+import { filterExerciseCollectionByMode, isEmptyExerciseCollection, isExerciseCollection } from './exerciseCollection.ts'
 
 const exercise = {
 	metadata: {},

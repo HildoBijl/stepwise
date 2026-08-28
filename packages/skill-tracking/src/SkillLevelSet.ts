@@ -5,12 +5,12 @@ import { type BernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMome
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 import { type SkillId, type SkillTree, ensureSkillId, expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
 
-import type { StoredSkillLevel, StoredSkillLevelSet, SkillLevelData, SkillObservation, StoredSkillLevelUpdate, StoredSkillLevelUpdateSet } from './types'
-import { inferenceCacheDuration } from './settings'
-import { applySkillLevelDecay } from './decay'
-import { getSetupExpectedSuccessRate, inferSetupCoefficients, inferSkillCoefficients } from './inference'
-import { SkillLevel } from './SkillLevel'
-import { ensureStoredSkillLevelUpdate, ensureSkillObservation } from './utils'
+import type { StoredSkillLevel, StoredSkillLevelSet, SkillLevelData, SkillObservation, StoredSkillLevelUpdate, StoredSkillLevelUpdateSet } from './types.ts'
+import { inferenceCacheDuration } from './settings.ts'
+import { applySkillLevelDecay } from './decay.ts'
+import { getSetupExpectedSuccessRate, inferSetupCoefficients, inferSkillCoefficients } from './inference.ts'
+import { SkillLevel } from './SkillLevel.ts'
+import { ensureStoredSkillLevelUpdate, ensureSkillObservation } from './utils.ts'
 
 export class SkillLevelSet {
 	private skillLevels: Record<string, SkillLevel> = {}

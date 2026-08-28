@@ -1,4 +1,4 @@
-import { ensureInteger } from '../numbers'
+import { ensureInteger } from '../numbers/index.ts'
 
 // Find the earliest occurrence of any character at or after startIndex. Return -1 when none are found.
 export function indexOfAnyCharacter(value: string, characters: readonly string[], startIndex = 0): number {

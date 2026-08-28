@@ -1,8 +1,8 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { generateParameters, getSolution as getCycleParameters } from '../calculateClosedCycle/calculateClosedCycleSVSV'
-import { getSolution as getEnergyParameters } from '../createClosedCycleEnergyOverview/createClosedCycleEnergyOverviewSVSV'
+import { generateParameters, getSolution as getCycleParameters } from '../calculateClosedCycle/calculateClosedCycleSVSV.ts'
+import { getSolution as getEnergyParameters } from '../createClosedCycleEnergyOverview/createClosedCycleEnergyOverviewSVSV.ts'
 
 export default buildStepExercise({
 	metadata: {

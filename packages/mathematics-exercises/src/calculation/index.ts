@@ -1,1 +1,1 @@
-export * as powers from './powers'
+export * as powers from './powers/index.ts'

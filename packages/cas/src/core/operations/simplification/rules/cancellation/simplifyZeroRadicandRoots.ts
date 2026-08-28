@@ -1,8 +1,8 @@
-import { type ExpressionNode, type RootFunction, Integer } from '../../../../construction'
+import { type ExpressionNode, type RootFunction, Integer } from '../../../../construction/index.ts'
 
-import { isRootFunction, isZero, isNumeric, isSingular, tryToEvaluateNumericNode } from '../../../structural'
+import { isRootFunction, isZero, isNumeric, isSingular, tryToEvaluateNumericNode } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: RootFunction): ExpressionNode {
 	if (!isZero(node.radicand)) return node

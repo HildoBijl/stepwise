@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { defaultLoadComparisonOptions, freeBodyDiagramComparisonOptions, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions } from './comparisonOptions'
+import { defaultLoadComparisonOptions, freeBodyDiagramComparisonOptions, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions } from './comparisonOptions.ts'
 
 describe('load comparison options', () => {
 	it('resolves force and moment defaults and overrides', () => {

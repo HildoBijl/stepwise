@@ -1,11 +1,11 @@
 import { type InterpretationSettings, type InterpretationSettingsOptions, resolveInterpretationSettings } from '@step-wise/math-input-value'
 
-import type { ExpressionNode, ConstantNode, NamedConstant, SignNode, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, SingleArgumentFunctionNode } from '../../construction'
-import { isConstantNode, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations'
+import type { ExpressionNode, ConstantNode, NamedConstant, SignNode, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, SingleArgumentFunctionNode } from '../../construction/index.ts'
+import { isConstantNode, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations/index.ts'
 
-import { type TexDisplayOptions, type TexDisplayOptionsInput, resolveTexDisplayOptions } from './texDisplayOptions'
-import { bracketLevels, requiresBrackets } from './bracketSupport'
-import { requiresPlusBetweenNodesInTex, requiresTimesBetweenFactorsInTex } from './listSupport'
+import { type TexDisplayOptions, type TexDisplayOptionsInput, resolveTexDisplayOptions } from './texDisplayOptions.ts'
+import { bracketLevels, requiresBrackets } from './bracketSupport.ts'
+import { requiresPlusBetweenNodesInTex, requiresTimesBetweenFactorsInTex } from './listSupport.ts'
 
 // Set up the main nodeToTex function.
 export function nodeToTex(node: ExpressionNode, interpretationSettings?: InterpretationSettingsOptions, displayOptions?: TexDisplayOptionsInput) {

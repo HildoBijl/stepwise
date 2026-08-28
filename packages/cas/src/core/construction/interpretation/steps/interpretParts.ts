@@ -1,12 +1,12 @@
 import { InterpretationError } from '@step-wise/js-utils'
 import { isTextPart } from '@step-wise/math-input-value'
 
-import { ExpressionNode, Product } from '../../nodes'
+import { ExpressionNode, Product } from '../../nodes/index.ts'
 
-import type { InterpretationPart, InterpreterContext } from '../types'
+import type { InterpretationPart, InterpreterContext } from '../types.ts'
 
-import { interpretElements } from './interpretElements'
-import { interpretString } from './interpretString'
+import { interpretElements } from './interpretElements.ts'
+import { interpretString } from './interpretString.ts'
 
 // Interpret strings, functions and accents that remain after brackets/sums/products.
 export function interpretParts(parts: InterpretationPart[], context: InterpreterContext): ExpressionNode {

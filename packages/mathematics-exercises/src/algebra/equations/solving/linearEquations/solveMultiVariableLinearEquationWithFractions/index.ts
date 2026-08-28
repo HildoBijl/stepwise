@@ -1,8 +1,8 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import multipleBasicFractions from './multipleBasicFractions'
-import extraFractionInNumerator from './extraFractionInNumerator'
-import extraFractionInDenominator from './extraFractionInDenominator'
+import multipleBasicFractions from './multipleBasicFractions.ts'
+import extraFractionInNumerator from './extraFractionInNumerator.ts'
+import extraFractionInDenominator from './extraFractionInDenominator.ts'
 
 export default {
 	examples: { multipleBasicFractions },

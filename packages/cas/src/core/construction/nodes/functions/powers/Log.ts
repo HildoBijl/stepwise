@@ -1,8 +1,8 @@
-import { ExpressionNode } from '../../ExpressionNode'
+import { ExpressionNode } from '../../ExpressionNode.ts'
 
-import { FunctionNode } from '../abstracts'
+import { FunctionNode } from '../abstracts/index.ts'
 
-import { type Ln } from './Ln'
+import { type Ln } from './Ln.ts'
 
 export type LogarithmFunction = Log | Ln
 

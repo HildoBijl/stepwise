@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getPrimeByIndex, getPrimeFactorization, isPrime } from './primes'
+import { getPrimeByIndex, getPrimeFactorization, isPrime } from './primes.ts'
 
 describe('getPrimeByIndex', () => {
 	it('returns known primes by their zero-based index', () => {

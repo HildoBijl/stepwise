@@ -1,12 +1,12 @@
-import { type ExpressionNode, type Fraction, negative, sum, fraction } from '../../../../construction'
+import { type ExpressionNode, type Fraction, negative, sum, fraction } from '../../../../construction/index.ts'
 
-import { isFraction, isMinus, isSum } from '../../../structural'
+import { isFraction, isMinus, isSum } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
-import { removeDoubleNegatives, applyRemoveDoubleNegatives } from './removeDoubleNegatives'
+import { removeDoubleNegatives, applyRemoveDoubleNegatives } from './removeDoubleNegatives.ts'
 
-import { combineMinusSignsInFractions, applyCombineMinusSignsInFractions } from './combineMinusSignsInFractions'
+import { combineMinusSignsInFractions, applyCombineMinusSignsInFractions } from './combineMinusSignsInFractions.ts'
 
 function transform(node: Fraction): ExpressionNode {
 	const fixedNumerator = fixNegativeSum(node.numerator)

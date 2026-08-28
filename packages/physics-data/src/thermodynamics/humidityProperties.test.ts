@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
 import { Quantity } from '@step-wise/physics-core'
 
-import { maximumHumidityByTemperature } from './humidityProperties'
+import { maximumHumidityByTemperature } from './humidityProperties.ts'
 
 describe('maximumHumidityByTemperature', () => {
 	it('contains the expected table contract and reference values', () => {

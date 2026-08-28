@@ -1,4 +1,4 @@
-import { ensureInteger } from '../numbers'
+import { ensureInteger } from '../numbers/index.ts'
 
 // Make the first character of a string lowercase.
 export function lowerFirst(str: string): string {

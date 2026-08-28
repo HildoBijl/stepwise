@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensureArray, ensureNumberArray, ensureNumericArray, hasDuplicates, isArray, isEmptyArray, isNumberArray, isNumericArray } from './checks'
+import { ensureArray, ensureNumberArray, ensureNumericArray, hasDuplicates, isArray, isEmptyArray, isNumberArray, isNumericArray } from './checks.ts'
 
 describe('array checks', () => {
 	it('recognizes and ensures arrays', () => {

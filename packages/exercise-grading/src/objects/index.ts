@@ -1,18 +1,18 @@
 import { IntegerType, MultipleChoiceType } from '@step-wise/input-interpretation'
 
-import { compareInteger } from './Integer'
-import { compareMultipleChoice } from './MultipleChoice'
-import { physicsCompareFunctions } from './physics'
-import { casCompareFunctions } from './cas'
-import { geometryCompareFunctions } from './geometry'
-import { mechanicsCompareFunctions } from './mechanics'
+import { compareInteger } from './Integer.ts'
+import { compareMultipleChoice } from './MultipleChoice.ts'
+import { physicsCompareFunctions } from './physics.ts'
+import { casCompareFunctions } from './cas.ts'
+import { geometryCompareFunctions } from './geometry.ts'
+import { mechanicsCompareFunctions } from './mechanics.ts'
 
-export * from './Integer'
-export * from './MultipleChoice'
-export * from './physics'
-export * from './cas'
-export * from './geometry'
-export * from './mechanics'
+export * from './Integer.ts'
+export * from './MultipleChoice.ts'
+export * from './physics.ts'
+export * from './cas.ts'
+export * from './geometry.ts'
+export * from './mechanics.ts'
 
 export const compareFunctions = {
 	[IntegerType]: compareInteger,

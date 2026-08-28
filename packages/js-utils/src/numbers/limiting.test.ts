@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { clamp, isBetween, mod } from './limiting'
+import { clamp, isBetween, mod } from './limiting.ts'
 
 describe('number limiting', () => {
 	it('calculates a positive modulus', () => {

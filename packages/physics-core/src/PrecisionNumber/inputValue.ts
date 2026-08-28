@@ -1,7 +1,7 @@
 import { isPlainObject, InterpretationError, hasOnlyKeys } from '@step-wise/js-utils'
 
-import { PrecisionNumber } from './PrecisionNumber'
-import { countSignificantDigits } from './interpreting'
+import { PrecisionNumber } from './PrecisionNumber.ts'
+import { countSignificantDigits } from './interpreting.ts'
 
 export type PrecisionNumberInputValue = {
 	number?: string

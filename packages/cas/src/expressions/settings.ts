@@ -8,14 +8,14 @@ export { type ExpressionSettings, type ExpressionSettingsOptions, defaultExpress
 export { type ExpressionInputValue } from '@step-wise/math-input-value'
 
 // Simplification
-export { type SimplificationOption, type SimplificationOptions, type SimplificationOptionsInput, allSimplificationOptions } from '../core'
-export { type TraversalOptions, type OrderedTraversalOptions } from '../core'
-export { flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, format } from '../core'
+export { type SimplificationOption, type SimplificationOptions, type SimplificationOptionsInput, allSimplificationOptions } from '../core/index.ts'
+export { type TraversalOptions, type OrderedTraversalOptions } from '../core/index.ts'
+export { flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, format } from '../core/index.ts'
 
 // Printing
-export { type TexDisplayOptions, type TexDisplayOptionsInput, defaultTexDisplayOptions, resolveTexDisplayOptions as asTexDisplayOptions } from '../core'
+export { type TexDisplayOptions, type TexDisplayOptionsInput, defaultTexDisplayOptions, resolveTexDisplayOptions as asTexDisplayOptions } from '../core/index.ts'
 
 // Accents, constructs and text functions
 export { type AccentName, accentNames } from '@step-wise/math-input-value'
-export { type ConstructType, constructTypes } from '../core'
-export { type TextFunctionName, textFunctions } from '../core'
+export { type ConstructType, constructTypes } from '../core/index.ts'
+export { type TextFunctionName, textFunctions } from '../core/index.ts'

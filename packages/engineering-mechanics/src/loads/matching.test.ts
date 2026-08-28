@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { createForce, createMoment } from './creation'
-import { compareLoadLists, loadListsEqual } from './matching'
+import { createForce, createMoment } from './creation.ts'
+import { compareLoadLists, loadListsEqual } from './matching.ts'
 
 describe('load-list comparison', () => {
 	const force = createForce({ position: [0, 0], angle: 0 })

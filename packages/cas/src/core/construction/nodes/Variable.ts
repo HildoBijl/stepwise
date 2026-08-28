@@ -1,6 +1,6 @@
 import { type AccentName, accentNames } from '@step-wise/math-input-value'
 
-import { ExpressionNode } from './ExpressionNode'
+import { ExpressionNode } from './ExpressionNode.ts'
 
 export class Variable extends ExpressionNode {
 	readonly subtype = 'Variable'

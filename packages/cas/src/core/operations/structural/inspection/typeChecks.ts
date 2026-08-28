@@ -1,4 +1,4 @@
-import { type RootFunction, type LogarithmFunction, ExpressionNode, ConstantNode, SignNode, ListNode, FunctionNode, SingleArgumentFunctionNode, Integer, Float, NamedConstant, Minus, PlusMinus, Variable, Sum, Product, Fraction, Power, Root, Sqrt, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan, TrigonometricFunction, InverseTrigonometricFunction, AnyTrigonometricFunction } from '../../../construction'
+import { type RootFunction, type LogarithmFunction, ExpressionNode, ConstantNode, SignNode, ListNode, FunctionNode, SingleArgumentFunctionNode, Integer, Float, NamedConstant, Minus, PlusMinus, Variable, Sum, Product, Fraction, Power, Root, Sqrt, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan, TrigonometricFunction, InverseTrigonometricFunction, AnyTrigonometricFunction } from '../../../construction/index.ts'
 
 // Abstract types.
 export function isExpressionNode(value: unknown): value is ExpressionNode { return value instanceof ExpressionNode }

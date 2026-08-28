@@ -4,7 +4,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { Quantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
-import { generateParameters, getSolution as getCycleParametersRaw } from '../calculateOpenCycle/calculateOpenCyclespsp'
+import { generateParameters, getSolution as getCycleParametersRaw } from '../calculateOpenCycle/calculateOpenCyclespsp.ts'
 
 const { cv, cp } = gasProperties.air
 

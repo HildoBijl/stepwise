@@ -1,9 +1,9 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { isInterpretationSettingsOptions, isExpressionSettingsOptions } from '../settings'
-import { isAccentName } from '../definitions'
+import { isInterpretationSettingsOptions, isExpressionSettingsOptions } from '../settings/index.ts'
+import { isAccentName } from '../definitions/index.ts'
 
-import type { AccentInputValue, ConstructInputValue, EquationInputValue, ExpressionInputValue, ExpressionValue, InputValue, InputValuePart } from './InputValue'
+import type { AccentInputValue, ConstructInputValue, EquationInputValue, ExpressionInputValue, ExpressionValue, InputValue, InputValuePart } from './InputValue.ts'
 
 export function isExpressionInputValue(value: unknown): value is ExpressionInputValue {
 	return isMathInputValue(value) && value.type === 'Expression'

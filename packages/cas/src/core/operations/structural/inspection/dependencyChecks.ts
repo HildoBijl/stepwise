@@ -1,9 +1,9 @@
-import { type VariableInput, ExpressionNode, Variable, variableToString, asVariable } from '../../../construction'
+import { type VariableInput, ExpressionNode, Variable, variableToString, asVariable } from '../../../construction/index.ts'
 
-import { isVariable } from './typeChecks'
-import { areVariablesEqual } from './equality'
+import { isVariable } from './typeChecks.ts'
+import { areVariablesEqual } from './equality.ts'
 
-import { someNode, everyNode, forEachNode } from './traversal'
+import { someNode, everyNode, forEachNode } from './traversal.ts'
 
 // Get all variables occurring in an expression.
 export function collectVariables(node: ExpressionNode): Variable[] {

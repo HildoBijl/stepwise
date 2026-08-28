@@ -1,7 +1,7 @@
-import { ExpressionNode } from '../../ExpressionNode'
-import { Integer } from '../../constants'
+import { ExpressionNode } from '../../ExpressionNode.ts'
+import { Integer } from '../../constants/index.ts'
 
-import { SingleArgumentFunctionNode } from '../abstracts'
+import { SingleArgumentFunctionNode } from '../abstracts/index.ts'
 
 export class Sqrt extends SingleArgumentFunctionNode {
 	static override readonly argumentNames: readonly string[] = ['radicand']

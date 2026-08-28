@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { deduplicate, partition, removeUndefined } from './manipulation'
+import { deduplicate, partition, removeUndefined } from './manipulation.ts'
 
 describe('array manipulation', () => {
 	it('deduplicates while preserving first occurrences', () => {

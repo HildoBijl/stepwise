@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getLoadNameSubscript } from './formatting'
+import { getLoadNameSubscript } from './formatting.ts'
 
 describe('load-name formatting', () => {
 	it('combines point and suffix into a subscript', () => {

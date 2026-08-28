@@ -1,4 +1,4 @@
-import type { ExerciseAction, ExerciseState } from '../../atomTypes'
+import type { ExerciseAction, ExerciseState } from '../../atomTypes.ts'
 
 export type UserExerciseAction<TAction extends ExerciseAction = ExerciseAction> = {
 	userId: string

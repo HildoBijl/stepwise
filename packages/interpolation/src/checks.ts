@@ -1,6 +1,6 @@
 import { hasDuplicates, isNumber } from '@step-wise/js-utils'
 
-import type { NumberLike, InterpolationValue as InputValue, InterpolationAxis, InterpolationGrid, InterpolationTableDefinition } from './types'
+import type { NumberLike, InterpolationValue as InputValue, InterpolationAxis, InterpolationGrid, InterpolationTableDefinition } from './types.ts'
 
 // Check if a value is a number-like object.
 export function isNumberLike<T>(x: unknown): x is NumberLike<T> {

@@ -1,8 +1,8 @@
-import { type ExpressionNode, type Sum, sum } from '../../../../construction'
+import { type ExpressionNode, type Sum, sum } from '../../../../construction/index.ts'
 
-import { isSum, isMinus, areNodesEqual } from '../../../structural'
+import { isSum, isMinus, areNodesEqual } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Sum): ExpressionNode {
 	const skipped = node.terms.map(() => false)

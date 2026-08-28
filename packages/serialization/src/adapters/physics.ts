@@ -2,7 +2,7 @@ import { type PrecisionNumber as PrecisionNumberType, type SerializedPrecisionNu
 import { type Unit as UnitType, type SerializedUnit, serializeUnit, deserializeUnit } from '@step-wise/physics-core'
 import { type Quantity as QuantityType, type SerializedQuantity, serializeQuantity, deserializeQuantity } from '@step-wise/physics-core'
 
-import type { SerializationAdapter } from '../types'
+import type { SerializationAdapter } from '../types.ts'
 
 export const precisionNumberAdapter = {
 	serialize: serializePrecisionNumber,

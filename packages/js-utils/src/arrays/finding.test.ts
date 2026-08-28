@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { findIndexPath, findOptimum, findOptimumIndex, findValue, findWithValue, isIn } from './finding'
+import { findIndexPath, findOptimum, findOptimumIndex, findValue, findWithValue, isIn } from './finding.ts'
 
 describe('array finding', () => {
 	it('checks membership and finds mapped values', () => {

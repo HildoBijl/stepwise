@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { forEachCombination, repeat, repeatFromTo, repeatMultidimensional, repeatMultidimensionalFromTo } from './repeating'
+import { forEachCombination, repeat, repeatFromTo, repeatMultidimensional, repeatMultidimensionalFromTo } from './repeating.ts'
 
 describe('function repetition', () => {
 	it('repeats callbacks and values over ranges', () => {

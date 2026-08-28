@@ -1,6 +1,6 @@
 import { ensureBoolean, mergeDefaults } from '@step-wise/js-utils'
 
-import { type UnitTransformationData, type UnitSimplificationTarget, resolveUnitSimplificationOptions } from './simplification'
+import { type UnitTransformationData, type UnitSimplificationTarget, resolveUnitSimplificationOptions } from './simplification.ts'
 
 export type UnitEqualityOptions = {
 	target: UnitSimplificationTarget

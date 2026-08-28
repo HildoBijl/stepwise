@@ -1,4 +1,4 @@
-import { type NestedArray } from './finding'
+import { type NestedArray } from './finding.ts'
 
 // Flatten an array until it has no arrays left.
 export function flattenDeep<T>(array: NestedArray<T>): T[] {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { createInterpolationTable, ensureInterpolationTable } from './tableCreation'
+import { createInterpolationTable, ensureInterpolationTable } from './tableCreation.ts'
 
 describe('interpolation table creation', () => {
 	it('copies and deeply freezes the table structure', () => {

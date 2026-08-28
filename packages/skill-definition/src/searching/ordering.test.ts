@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import { createSkillTree } from '../creation'
+import { createSkillTree } from '../creation/index.ts'
 
-import { sortSkillIdsByTreeOrder } from './ordering'
+import { sortSkillIdsByTreeOrder } from './ordering.ts'
 
 const tree = createSkillTree({ Alpha: { name: 'Alpha' }, beta: { name: 'Beta' }, gamma: { name: 'Gamma' } })
 

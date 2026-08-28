@@ -1,7 +1,7 @@
-import { Unit } from '../Unit'
+import { Unit } from '../Unit/index.ts'
 
-import { type UnitDefinition } from './UnitDefinition'
-import { unitDefinitionList } from './unitDefinitions'
+import { type UnitDefinition } from './UnitDefinition.ts'
+import { unitDefinitionList } from './unitDefinitions.ts'
 
 describe('base-unit definitions', () => {
 	test('have unique string representations', () => {

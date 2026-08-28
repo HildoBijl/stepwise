@@ -4,7 +4,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { Quantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
-import { generateParameters, getSolution as getCycleParametersRaw } from '../calculateOpenCycle/calculateOpenCycleTsp'
+import { generateParameters, getSolution as getCycleParametersRaw } from '../calculateOpenCycle/calculateOpenCycleTsp.ts'
 
 const metadata = {
 	skill: 'createOpenCycleEnergyOverview',

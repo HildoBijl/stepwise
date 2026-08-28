@@ -1,7 +1,7 @@
 import { type BernsteinCoefficients, ensureBernsteinCoefficients, smoothBernsteinCoefficientsWithRetentionFactor } from '@step-wise/bernstein-polynomials'
 import { ensureBoolean, ensureInteger, ensureNumber, mergeDefaults } from '@step-wise/js-utils'
 
-import { timeDecayHalfLife, initialPracticeDecayTime, practiceCountHalfLife } from './settings'
+import { timeDecayHalfLife, initialPracticeDecayTime, practiceCountHalfLife } from './settings.ts'
 
 export type SkillLevelDecayOptions = {
 	elapsedTime?: number

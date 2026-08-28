@@ -1,8 +1,8 @@
 import { SkillSetup } from '@step-wise/skill-setup'
 import { deduplicate, ensureNumber, isPlainObject } from '@step-wise/js-utils'
 
-import { normalizeSkillLinks } from './linkProcessing'
-import type { SkillId, RawSkillDefinition, RawSkillTree, SkillTree } from './types'
+import { normalizeSkillLinks } from './linkProcessing.ts'
+import type { SkillId, RawSkillDefinition, RawSkillTree, SkillTree } from './types.ts'
 
 // Check if something is a container or a raw skill.
 function isRawSkillDefinition(value: unknown): value is RawSkillDefinition {

@@ -1,8 +1,8 @@
-import { type ExpressionNode, type Product, product } from '../../../../construction'
+import { type ExpressionNode, type Product, product } from '../../../../construction/index.ts'
 
-import { isProduct, isOne } from '../../../structural'
+import { isProduct, isOne } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Product): ExpressionNode {
 	const factors = node.factors.filter(factor => !isOne(factor))

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { roundTo, roundToDigits } from './rounding'
+import { roundTo, roundToDigits } from './rounding.ts'
 
 describe('number rounding', () => {
 	it('rounds to decimal positions', () => {

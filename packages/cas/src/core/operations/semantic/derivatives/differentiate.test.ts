@@ -1,7 +1,7 @@
-import { Integer, power, product, sum, variable } from '../../../construction'
-import { areNodesEqual } from '../../structural'
+import { Integer, power, product, sum, variable } from '../../../construction/index.ts'
+import { areNodesEqual } from '../../structural/index.ts'
 
-import { differentiate } from './differentiate'
+import { differentiate } from './differentiate.ts'
 
 describe('differentiate', () => {
 	test('dispatches derivative rules recursively', () => {

@@ -1,19 +1,19 @@
-import { type ExpressionNode } from '../../../../construction'
+import { type ExpressionNode } from '../../../../construction/index.ts'
 
-import { isConstantNode, isVariable, isSignNode, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLn, isLog, isSin, isCos, isTan, isArcsin, isArccos, isArctan } from '../../../structural'
+import { isConstantNode, isVariable, isSignNode, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLn, isLog, isSin, isCos, isTan, isArcsin, isArccos, isArctan } from '../../../structural/index.ts'
 
-import { type DerivativeContext } from '../types'
+import { type DerivativeContext } from '../types.ts'
 
-import { getConstantDerivative } from './constants'
-import { getSignDerivative } from './signs'
-import { getVariableDerivative } from './variables'
-import { getSumDerivative } from './sums'
-import { getProductDerivative } from './products'
-import { getFractionDerivative } from './fractions'
-import { getPowerDerivative } from './powers'
-import { getSqrtDerivative, getRootDerivative } from './roots'
-import { getLnDerivative, getLogDerivative } from './logarithms'
-import { getSinDerivative, getCosDerivative, getTanDerivative, getArcsinDerivative, getArccosDerivative, getArctanDerivative } from './trigonometry'
+import { getConstantDerivative } from './constants.ts'
+import { getSignDerivative } from './signs.ts'
+import { getVariableDerivative } from './variables.ts'
+import { getSumDerivative } from './sums.ts'
+import { getProductDerivative } from './products.ts'
+import { getFractionDerivative } from './fractions.ts'
+import { getPowerDerivative } from './powers.ts'
+import { getSqrtDerivative, getRootDerivative } from './roots.ts'
+import { getLnDerivative, getLogDerivative } from './logarithms.ts'
+import { getSinDerivative, getCosDerivative, getTanDerivative, getArcsinDerivative, getArccosDerivative, getArctanDerivative } from './trigonometry.ts'
 
 export function applyDerivativeRules(node: ExpressionNode, context: DerivativeContext): ExpressionNode {
 	// Fundamentals

@@ -1,7 +1,7 @@
 import { type LoadComparisonOptionsInput, isLoad, loadListsEqual, resolveLoadComparisonOptions, freeBodyDiagramComparisonOptions } from '@step-wise/engineering-mechanics'
 import { FreeBodyDiagramType } from '@step-wise/input-interpretation'
 
-import type { TypeCompareFunction } from '../types'
+import type { TypeCompareFunction } from '../types.ts'
 
 export function compareFBD(inputValue: unknown, expectedValue: unknown, options: LoadComparisonOptionsInput): boolean {
 	if (!Array.isArray(expectedValue)) throw new Error(`Invalid Free Body Diagram comparison: did not receive an array of loads as solution.`)

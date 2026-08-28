@@ -1,4 +1,4 @@
-import type { CheckInputData } from './types'
+import type { CheckInputData } from './types.ts'
 
 type PrimitiveInputType = 'number' | 'string' | 'boolean'
 type PrimitiveInputTypeMap = { number: number, string: string, boolean: boolean }

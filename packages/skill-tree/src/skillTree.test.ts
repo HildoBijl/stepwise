@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getSkill, skillTree } from './skillTree'
+import { getSkill, skillTree } from './skillTree.ts'
 
 describe('skillTree', () => {
 	it('exports the processed Step-Wise skill tree', () => {

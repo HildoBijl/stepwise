@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { polynomialToString } from './display'
+import { polynomialToString } from './display.ts'
 
 describe('polynomialToString', () => {
 	it.each([

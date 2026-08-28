@@ -4,7 +4,7 @@ import { asExpression } from '@step-wise/cas'
 import { Vector } from '@step-wise/geometry'
 import { PrecisionNumber } from '@step-wise/physics-core'
 
-import { deserializeData, serializeData } from './index'
+import { deserializeData, serializeData } from './index.ts'
 
 describe('serialization round trips', () => {
 	it('preserves nested data through serialization and JSON storage', () => {

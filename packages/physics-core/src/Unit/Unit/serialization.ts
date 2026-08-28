@@ -1,9 +1,9 @@
 import { hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
 
-import { ensureUnitFactorStorageValue } from '../UnitFactor'
+import { ensureUnitFactorStorageValue } from '../UnitFactor/index.ts'
 
-import { type UnitStorageValue, UnitType } from './interpreting'
-import { Unit } from './Unit'
+import { type UnitStorageValue, UnitType } from './interpreting.ts'
+import { Unit } from './Unit.ts'
 
 export type SerializedUnit = {
 	type: UnitType

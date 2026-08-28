@@ -1,7 +1,7 @@
-import { expectEquationToEqual } from '../tests/support/wrapperAssertions'
+import { expectEquationToEqual } from '../tests/support/wrapperAssertions.ts'
 
-import { asEquation } from './Equation'
-import { equationToInputValue, inputValueToEquation } from './inputValue'
+import { asEquation } from './Equation.ts'
+import { equationToInputValue, inputValueToEquation } from './inputValue.ts'
 
 describe('equation input-value conversion', () => {
 	test('round-trips representative equations', () => {

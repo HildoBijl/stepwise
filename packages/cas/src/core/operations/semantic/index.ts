@@ -1,3 +1,3 @@
-export * from './settings'
-export * from './comparisons'
-export * from './derivatives'
+export * from './settings/index.ts'
+export * from './comparisons/index.ts'
+export * from './derivatives/index.ts'

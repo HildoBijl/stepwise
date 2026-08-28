@@ -1,5 +1,5 @@
-import { asEquation } from './Equation'
-import { deserializeEquation, serializeEquation } from './serialization'
+import { asEquation } from './Equation.ts'
+import { deserializeEquation, serializeEquation } from './serialization.ts'
 
 describe('equation serialization', () => {
 	test('round-trips storage and wrapper settings', () => {

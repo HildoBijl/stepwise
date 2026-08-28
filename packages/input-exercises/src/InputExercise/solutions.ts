@@ -1,6 +1,6 @@
 import { pickKeys, isPlainObject } from '@step-wise/js-utils'
 
-import type { InputExerciseInput, InputExerciseParameters, InputExerciseSolution, SolutionDefinition } from './types'
+import type { InputExerciseInput, InputExerciseParameters, InputExerciseSolution, SolutionDefinition } from './types.ts'
 
 // Assemble a solution object from a getSolution function or object.
 export function resolveSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(getSolution: SolutionDefinition<TParameters, TSolution>, parameters: TParameters, input: InputExerciseInput = {}): TSolution {

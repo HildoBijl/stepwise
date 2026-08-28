@@ -1,9 +1,9 @@
 import { ensureInteger, ensureNumber, approximatelyEqual } from '@step-wise/js-utils'
 
-import { Vector, type VectorLike, ensureVector } from '../Vector'
+import { Vector, type VectorLike, ensureVector } from '../Vector/index.ts'
 
-import type { LineInput, LineStorageValue } from './types'
-import { isLineObject } from './support'
+import type { LineInput, LineStorageValue } from './types.ts'
+import { isLineObject } from './support.ts'
 
 export const LineType = 'Line'
 export type LineType = typeof LineType

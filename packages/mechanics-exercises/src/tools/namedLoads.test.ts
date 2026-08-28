@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { loadNameToVariable } from './namedLoads'
+import { loadNameToVariable } from './namedLoads.ts'
 
 describe('loadNameToVariable', () => {
 	it('converts load names with and without subscripts', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getBracketingIndices, interpolateGrid } from './gridInterpolation'
+import { getBracketingIndices, interpolateGrid } from './gridInterpolation.ts'
 
 const inputAxes = [[0, 1, 2], [0, 1, 2, 3]] as const
 const outputGrid = [[0, 2, 4], [3, 5, 7], [6, 8, 10], [9, 11, 13]] as const

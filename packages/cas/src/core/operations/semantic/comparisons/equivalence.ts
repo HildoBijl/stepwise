@@ -1,10 +1,10 @@
 import { hasOneToOneMatching } from '@step-wise/js-utils'
 import { type ExpressionSettingsOptions } from '@step-wise/math-input-value'
 
-import { type ExpressionNode } from '../../../construction'
+import { type ExpressionNode } from '../../../construction/index.ts'
 
-import { subtract, isZero, expandToSingulars } from '../../structural'
-import { simplify, normalize } from '../../simplification'
+import { subtract, isZero, expandToSingulars } from '../../structural/index.ts'
+import { simplify, normalize } from '../../simplification/index.ts'
 
 export function areEquivalent(a: ExpressionNode, b: ExpressionNode, settings: ExpressionSettingsOptions = {}): boolean {
 	const aSingulars = expandToSingulars(a)

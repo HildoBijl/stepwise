@@ -1,9 +1,9 @@
 import { isPlainObject } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 
-import { isLoad } from '../loads'
+import { isLoad } from '../loads/index.ts'
 
-import type { LoadName, NamedLoad, NamedPoint } from './types'
+import type { LoadName, NamedLoad, NamedPoint } from './types.ts'
 
 export function isNamedPoint(value: unknown): value is NamedPoint {
 	return isPlainObject(value) && typeof value.name === 'string' && value.name.length > 0 && value.position instanceof Vector && value.position.dimension === 2

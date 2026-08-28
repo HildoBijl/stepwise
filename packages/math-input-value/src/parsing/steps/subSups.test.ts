@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { defaultInterpretationSettings } from '../../settings'
+import { defaultInterpretationSettings } from '../../settings/index.ts'
 
-import { parseSubSups } from './subSups'
+import { parseSubSups } from './subSups.ts'
 
 const parse = (source: string) => [source]
 

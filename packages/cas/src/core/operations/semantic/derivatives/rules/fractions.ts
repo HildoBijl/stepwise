@@ -1,6 +1,6 @@
-import { type ExpressionNode, type Fraction, fraction, negative, product, power, sum } from '../../../../construction'
+import { type ExpressionNode, type Fraction, fraction, negative, product, power, sum } from '../../../../construction/index.ts'
 
-import { type DerivativeContext } from '../types'
+import { type DerivativeContext } from '../types.ts'
 
 export function getFractionDerivative(node: Fraction, context: DerivativeContext): ExpressionNode {
 	const numeratorDerivative = context.differentiate(node.numerator)

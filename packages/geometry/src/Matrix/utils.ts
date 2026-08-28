@@ -1,5 +1,5 @@
-import { isMatrixInput } from './support'
-import { type MatrixLike, Matrix } from './Matrix'
+import { isMatrixInput } from './support.ts'
+import { type MatrixLike, Matrix } from './Matrix.ts'
 
 // Check if the given value is something that can be interpreted as a Matrix.
 export function isMatrixLike(value: unknown): value is MatrixLike {

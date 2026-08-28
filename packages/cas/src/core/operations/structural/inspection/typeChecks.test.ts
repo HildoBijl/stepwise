@@ -1,6 +1,6 @@
-import { fraction, integer, ln, negative, plusMinus, power, product, root, sin, sqrt, sum, variable } from '../../../construction'
+import { fraction, integer, ln, negative, plusMinus, power, product, root, sin, sqrt, sum, variable } from '../../../construction/index.ts'
 
-import { isExpressionNode, isFraction, isFunctionNode, isIntegerNode, isListNode, isLogarithmFunction, isMinus, isPlusMinus, isPower, isProduct, isRootFunction, isSignNode, isSingleArgumentFunctionNode, isSum, isTrigonometricFunction, isVariable } from './typeChecks'
+import { isExpressionNode, isFraction, isFunctionNode, isIntegerNode, isListNode, isLogarithmFunction, isMinus, isPlusMinus, isPower, isProduct, isRootFunction, isSignNode, isSingleArgumentFunctionNode, isSum, isTrigonometricFunction, isVariable } from './typeChecks.ts'
 
 describe('expression-node type checks', () => {
 	test.each([

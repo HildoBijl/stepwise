@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { parseEquationInputValue, parseExpressionInputValue } from './parseInputValue'
+import { parseEquationInputValue, parseExpressionInputValue } from './parseInputValue.ts'
 
 const expression = (...value: unknown[]) => ({ type: 'Expression', value })
 

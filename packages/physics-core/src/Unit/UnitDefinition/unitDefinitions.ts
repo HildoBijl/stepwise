@@ -1,6 +1,6 @@
-import { prefixes } from '../Prefix'
+import { prefixes } from '../Prefix/index.ts'
 
-import { UnitDefinition } from './UnitDefinition'
+import { UnitDefinition } from './UnitDefinition.ts'
 
 export const unitDefinitionList = [
 	new UnitDefinition({ symbol: 'm', name: 'meter', plural: 'meters', order: 3, standard: true, base: true }),

@@ -1,6 +1,6 @@
 import { type AccentName, accentNames, isAccentName } from '@step-wise/math-input-value'
 
-import { Variable } from '../nodes'
+import { Variable } from '../nodes/index.ts'
 
 // Define variable patterns.
 const accentPattern = `(?:(?<accent>${accentNames.join('|')})\\((?<accentedSymbol>[^()_]+)\\))`

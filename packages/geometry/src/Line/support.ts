@@ -1,8 +1,8 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { isVectorLike } from '../Vector'
+import { isVectorLike } from '../Vector/index.ts'
 
-import type { LineInput } from './types'
+import type { LineInput } from './types.ts'
 
 export function isLineObject(value: unknown): value is LineInput {
 	return isPlainObject(value) && isVectorLike(value.start) && isVectorLike(value.direction)

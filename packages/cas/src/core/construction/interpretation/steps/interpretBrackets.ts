@@ -1,12 +1,12 @@
 import { InterpretationError, isLetter } from '@step-wise/js-utils'
 import { type InputValuePart, getExpressionEndCursor, getTopLevelBracketMatches, getExpressionStartCursor, sliceExpressionValue, isEmptyExpressionValue, isTextPart, shiftExpressionTextCursorRight } from '@step-wise/math-input-value'
 
-import { ExpressionNode } from '../../nodes'
+import { ExpressionNode } from '../../nodes/index.ts'
 
-import type { InterpretationPart, InterpreterContext } from '../types'
-import { type TextFunctionName, textFunctionComponents, isTextFunction, isTextFunctionInterpreted } from '../textFunctionComponents'
+import type { InterpretationPart, InterpreterContext } from '../types.ts'
+import { type TextFunctionName, textFunctionComponents, isTextFunction, isTextFunctionInterpreted } from '../textFunctionComponents.ts'
 
-import { interpretLogarithm } from './interpretConstruct'
+import { interpretLogarithm } from './interpretConstruct.ts'
 
 // Interpret brackets, including regular brackets, text functions like sin(...), and logarithms with an external argument.
 export function interpretBrackets(value: InputValuePart[], context: InterpreterContext): ExpressionNode {

@@ -1,3 +1,3 @@
-export * from './ListNode'
-export * from './Sum'
-export * from './Product'
+export * from './ListNode.ts'
+export * from './Sum.ts'
+export * from './Product.ts'

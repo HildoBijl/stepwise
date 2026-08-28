@@ -1,10 +1,10 @@
-import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, product, fraction } from '../../../../construction'
+import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, product, fraction } from '../../../../construction/index.ts'
 
-import { isFraction, isOne, isSignNode, isSum, areNodesEqual, stripSigns } from '../../../structural'
+import { isFraction, isOne, isSignNode, isSum, areNodesEqual, stripSigns } from '../../../structural/index.ts'
 
-import { removeDoubleNegatives, combineMinusSignsInProducts } from '../numeric'
-import { defineRule } from '../ruleDefinition'
-import { getProductFactors } from '../utils'
+import { removeDoubleNegatives, combineMinusSignsInProducts } from '../numeric/index.ts'
+import { defineRule } from '../ruleDefinition.ts'
+import { getProductFactors } from '../utils/index.ts'
 
 function transform(node: Fraction): ExpressionNode {
 	// Try to find common factors in the numerator and denominator as a whole.

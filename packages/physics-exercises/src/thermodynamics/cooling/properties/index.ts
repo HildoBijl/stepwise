@@ -1,2 +1,2 @@
-export { default as determineRefrigerantProcess } from './determineRefrigerantProcess'
-export { default as findFridgeTemperatures } from './findFridgeTemperatures'
+export { default as determineRefrigerantProcess } from './determineRefrigerantProcess/index.ts'
+export { default as findFridgeTemperatures } from './findFridgeTemperatures/index.ts'

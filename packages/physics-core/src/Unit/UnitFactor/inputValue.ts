@@ -1,6 +1,6 @@
 import { isPlainObject, hasOnlyKeys } from '@step-wise/js-utils'
 
-import { type UnitFactor } from './UnitFactor'
+import { type UnitFactor } from './UnitFactor.ts'
 
 export type UnitFactorInputValue = {
 	text: string

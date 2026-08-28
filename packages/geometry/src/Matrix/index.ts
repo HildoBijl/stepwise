@@ -1,4 +1,4 @@
-export * from './Matrix'
-export * from './utils'
-export { isMatrixArray } from './support'
-export * from './serialization'
+export * from './Matrix.ts'
+export * from './utils.ts'
+export { isMatrixArray } from './support.ts'
+export * from './serialization.ts'

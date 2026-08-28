@@ -1,1 +1,1 @@
-export { default as analyseGasTurbine } from './analyseGasTurbine'
+export { default as analyseGasTurbine } from './analyseGasTurbine/index.ts'

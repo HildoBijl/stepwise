@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { interpretInputData, interpretInputValue } from './interpret'
+import { interpretInputData, interpretInputValue } from './interpret.ts'
 
 describe('interpretInputValue', () => {
 	it('interprets a registered input value', () => {

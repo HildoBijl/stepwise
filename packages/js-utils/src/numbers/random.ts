@@ -1,4 +1,4 @@
-import { ensureInteger, ensureNumber, isInteger } from './checks'
+import { ensureInteger, ensureNumber, isInteger } from './checks.ts'
 
 export interface RandomIntegerOptions {
 	exclude?: readonly number[]

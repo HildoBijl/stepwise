@@ -1,8 +1,8 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import calculateOpenProcessStepWing from './calculateOpenProcessStepWing'
-import calculateOpenProcessStepCompressor from './calculateOpenProcessStepCompressor'
-import calculateOpenProcessStepGasTurbine from './calculateOpenProcessStepGasTurbine'
+import calculateOpenProcessStepWing from './calculateOpenProcessStepWing.ts'
+import calculateOpenProcessStepCompressor from './calculateOpenProcessStepCompressor.ts'
+import calculateOpenProcessStepGasTurbine from './calculateOpenProcessStepGasTurbine.ts'
 
 export default {
 	examples: { calculateOpenProcessStepWing },

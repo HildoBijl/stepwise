@@ -1,2 +1,2 @@
-export * from './equivalence'
-export * from './multiples'
+export * from './equivalence.ts'
+export * from './multiples.ts'

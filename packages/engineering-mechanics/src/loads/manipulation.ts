@@ -1,7 +1,7 @@
 import { approximatelyEqual } from '@step-wise/js-utils'
 
-import { type Force, type Load, type Moment, ForceType, MomentType } from './types'
-import { createForce, createMoment } from './creation'
+import { type Force, type Load, type Moment, ForceType, MomentType } from './types.ts'
+import { createForce, createMoment } from './creation.ts'
 
 export function reverseForce(force: Force): Force {
 	return createForce({

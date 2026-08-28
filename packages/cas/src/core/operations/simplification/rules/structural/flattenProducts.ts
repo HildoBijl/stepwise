@@ -1,8 +1,8 @@
-import { type ExpressionNode, type Product, product } from '../../../../construction'
+import { type ExpressionNode, type Product, product } from '../../../../construction/index.ts'
 
-import { isProduct } from '../../../structural'
+import { isProduct } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Product): ExpressionNode {
 	const factors = node.factors.flatMap(factor => isProduct(factor) ? factor.factors : [factor])

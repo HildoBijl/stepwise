@@ -1,7 +1,7 @@
 import { InterpretationError } from '@step-wise/js-utils'
 import { type AccentName, type AccentInputValue, isAccentName } from '@step-wise/math-input-value'
 
-import { ExpressionNode, Variable } from '../../nodes'
+import { ExpressionNode, Variable } from '../../nodes/index.ts'
 
 // Interpret accents like dot(x) or hat(x).
 export function interpretAccent(element: AccentInputValue): ExpressionNode {

@@ -1,4 +1,4 @@
-import { ensureExerciseAction, isExerciseAction } from './atomTypes'
+import { ensureExerciseAction, isExerciseAction } from './atomTypes.ts'
 
 describe('exercise action validation', () => {
 	it('accepts plain data objects with a string type', () => {

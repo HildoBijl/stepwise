@@ -1,7 +1,7 @@
 import { isNumber } from '@step-wise/js-utils'
 
-import type { NumberLike, InterpolationValue, InterpolationPair } from './types'
-import { isInterpolationValue, isNumberLike, isInterpolationFraction } from './checks'
+import type { NumberLike, InterpolationValue, InterpolationPair } from './types.ts'
+import { isInterpolationValue, isNumberLike, isInterpolationFraction } from './checks.ts'
 
 export function interpolateRange<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
 	input: InputType,

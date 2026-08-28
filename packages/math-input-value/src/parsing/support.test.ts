@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest'
 
-import type { ExpressionValue } from '../types'
+import type { ExpressionValue } from '../types/index.ts'
 
-import { findCursorAtBracketDepthZero, findEndOfExponent, findEndOfFactor, findClosingBracket, getTopLevelBracketMatches } from './support'
+import { findCursorAtBracketDepthZero, findEndOfExponent, findEndOfFactor, findClosingBracket, getTopLevelBracketMatches } from './support.ts'
 
 describe('bracket matching', () => {
 	test('finds top-level matching brackets while ignoring nested pairs', () => {

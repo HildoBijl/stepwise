@@ -1,10 +1,10 @@
 import { last, repeat, ensureInteger } from '@step-wise/js-utils'
 
-import { type ExpressionNode, type Variable, Integer, power, product, sum } from '../../../../construction'
+import { type ExpressionNode, type Variable, Integer, power, product, sum } from '../../../../construction/index.ts'
 
-import { subtract, multiply, divide, areVariablesEqual, collectVariables, isNumeric, isSingular, isZero, isPolynomial, isPower, isVariable, tryToEvaluateNumericNode } from '../../../structural'
+import { subtract, multiply, divide, areVariablesEqual, collectVariables, isNumeric, isSingular, isZero, isPolynomial, isPower, isVariable, tryToEvaluateNumericNode } from '../../../structural/index.ts'
 
-import { getSumTerms, getConstantAndVariablePart } from './defaults'
+import { getSumTerms, getConstantAndVariablePart } from './defaults.ts'
 
 type PolynomialGCDResult = { gcd: ExpressionNode, factors: [ExpressionNode, ExpressionNode] }
 type SimplifyPolynomial = (node: ExpressionNode) => ExpressionNode

@@ -1,3 +1,3 @@
-export * from './constants'
-export * from './unitConversions'
-export * from './thermodynamics'
+export * from './constants.ts'
+export * from './unitConversions.ts'
+export * from './thermodynamics/index.ts'

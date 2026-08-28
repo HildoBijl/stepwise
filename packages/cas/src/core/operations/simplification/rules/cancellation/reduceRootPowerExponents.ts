@@ -1,10 +1,10 @@
-import { type ExpressionNode, type Fraction, type RootFunction, fraction, power, root } from '../../../../construction'
+import { type ExpressionNode, type Fraction, type RootFunction, fraction, power, root } from '../../../../construction/index.ts'
 
-import { isRootFunction, isFraction, isPower } from '../../../structural'
+import { isRootFunction, isFraction, isPower } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
-import { applyCombineNumbersInFractions } from '../numeric'
-import { applyCombineFractionFactors } from '../utils'
+import { defineRule } from '../ruleDefinition.ts'
+import { applyCombineNumbersInFractions } from '../numeric/index.ts'
+import { applyCombineFractionFactors } from '../utils/index.ts'
 
 function transform(node: RootFunction): ExpressionNode {
 	if (!isPower(node.radicand)) return node

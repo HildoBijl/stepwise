@@ -1,6 +1,6 @@
-import type { SkillId, SkillTree } from '../creation'
+import type { SkillId, SkillTree } from '../creation/index.ts'
 
-import { ensureSkillIds } from './validation'
+import { ensureSkillIds } from './validation.ts'
 
 // Check if the given child skill is a prerequisite for the given parent skill.
 export function isSkillPrerequisiteOf(skillTree: SkillTree, prerequisiteId: SkillId, skillId: SkillId): boolean {

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import { createForce, createMoment } from '../loads'
+import { createForce, createMoment } from '../loads/index.ts'
 
-import { deriveLoadNames } from './nameDerivation'
+import { deriveLoadNames } from './nameDerivation.ts'
 
 describe('load-name derivation', () => {
 	it('names single forces and moments at named points', () => {

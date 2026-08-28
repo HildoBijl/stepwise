@@ -1,8 +1,8 @@
 import type { CheckInputData } from '@step-wise/input-exercises'
 
-import type { InputKey } from './types'
-import { compareInputValue } from './compareInputValue'
-import { resolveInputComparison } from './inputComparisons'
+import type { InputKey } from './types.ts'
+import { compareInputValue } from './compareInputValue.ts'
+import { resolveInputComparison } from './inputComparisons.ts'
 
 export function compareInputs<TData extends CheckInputData>(key: InputKey<TData>, data: TData): boolean
 export function compareInputs<TData extends CheckInputData>(keys: InputKey<TData>[], data: TData): boolean

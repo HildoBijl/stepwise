@@ -1,9 +1,9 @@
-import { Float, Integer, Product, Sum, Variable } from '../nodes'
+import { Float, Integer, Product, Sum, Variable } from '../nodes/index.ts'
 
-import { asExpressionNode } from './asExpressionNode'
-import { fraction, power } from './functions'
-import { product, sum } from './lists'
-import { number } from './numbers'
+import { asExpressionNode } from './asExpressionNode.ts'
+import { fraction, power } from './functions.ts'
+import { product, sum } from './lists.ts'
+import { number } from './numbers.ts'
 
 describe('expression-node creation', () => {
 	test('coerces primitive inputs', () => {

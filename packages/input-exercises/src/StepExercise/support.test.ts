@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getCurrentStep, getLastInputAtStep, getLastRawInputAtStep, hasPreviousInputAtStep } from './support'
+import { getCurrentStep, getLastInputAtStep, getLastRawInputAtStep, hasPreviousInputAtStep } from './support.ts'
 
 describe('step-exercise support', () => {
 	it('gets the current main problem or step', () => {

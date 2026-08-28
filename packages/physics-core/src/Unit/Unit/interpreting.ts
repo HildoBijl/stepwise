@@ -1,4 +1,4 @@
-import { type UnitFactorStorageValue, type UnitFactor, type UnitFactorLike, asUnitFactor, unitFactorPattern } from '../UnitFactor'
+import { type UnitFactorStorageValue, type UnitFactor, type UnitFactorLike, asUnitFactor, unitFactorPattern } from '../UnitFactor/index.ts'
 
 export const UnitType = 'Unit'
 export type UnitType = typeof UnitType

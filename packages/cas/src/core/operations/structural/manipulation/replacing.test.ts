@@ -1,8 +1,8 @@
-import { power, product, sum } from '../../../construction'
+import { power, product, sum } from '../../../construction/index.ts'
 
-import { areNodesEqual } from '../inspection'
+import { areNodesEqual } from '../inspection/index.ts'
 
-import { substitute } from './replacing'
+import { substitute } from './replacing.ts'
 
 describe('substitute', () => {
 	test('substitutes a variable recursively', () => {

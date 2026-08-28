@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import type { CheckInputData } from './types'
-import { getInput, getInputs } from './getInput'
+import type { CheckInputData } from './types.ts'
+import { getInput, getInputs } from './getInput.ts'
 
 class ExampleInput {
 	constructor(readonly value: number) {}

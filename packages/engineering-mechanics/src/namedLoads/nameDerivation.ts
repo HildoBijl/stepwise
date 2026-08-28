@@ -1,9 +1,9 @@
 import { ensureString, anglesEqual, normalizeAngle } from '@step-wise/js-utils'
 
-import { type Load, type LoadComparisonOptionsInput, loadsEqual, isForce, isLoadAtPoint, isMoment } from '../loads'
+import { type Load, type LoadComparisonOptionsInput, loadsEqual, isForce, isLoadAtPoint, isMoment } from '../loads/index.ts'
 
-import type { LoadName, NamedLoad, NamedPointInput } from './types'
-import { createLoadName, createNamedLoad, createNamedPoint } from './creation'
+import type { LoadName, NamedLoad, NamedPointInput } from './types.ts'
+import { createLoadName, createNamedLoad, createNamedPoint } from './creation.ts'
 
 export type LoadNamingOptions = {
 	forceSymbol?: string

@@ -1,7 +1,7 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import findBasicDerivativeTwoTerms from './findBasicDerivativeTwoTerms'
-import findBasicDerivativeThreeTerms from './findBasicDerivativeThreeTerms'
+import findBasicDerivativeTwoTerms from './findBasicDerivativeTwoTerms.ts'
+import findBasicDerivativeThreeTerms from './findBasicDerivativeThreeTerms.ts'
 
 export default {
 	examples: {},

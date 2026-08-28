@@ -1,3 +1,3 @@
-export * from './SkillSetup'
-export * from './SkillListSetup'
-export * from './SkillItemSetup'
+export * from './SkillSetup.ts'
+export * from './SkillListSetup.ts'
+export * from './SkillItemSetup.ts'

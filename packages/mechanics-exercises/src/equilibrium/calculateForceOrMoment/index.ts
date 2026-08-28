@@ -1,11 +1,11 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import calculateForceOrMomentUseDiagonalForces from './calculateForceOrMomentUseDiagonalForces'
-import calculateForceOrMomentUseHorizontalForces from './calculateForceOrMomentUseHorizontalForces'
-import calculateForceOrMomentUseMomentsWithMomentAsked from './calculateForceOrMomentUseMomentsWithMomentAsked'
-import calculateForceOrMomentUseMomentsWithMomentGiven from './calculateForceOrMomentUseMomentsWithMomentGiven'
-import calculateForceOrMomentUseMomentsWithOnlyForces from './calculateForceOrMomentUseMomentsWithOnlyForces'
-import calculateForceOrMomentUseVerticalForces from './calculateForceOrMomentUseVerticalForces'
+import calculateForceOrMomentUseDiagonalForces from './calculateForceOrMomentUseDiagonalForces.ts'
+import calculateForceOrMomentUseHorizontalForces from './calculateForceOrMomentUseHorizontalForces.ts'
+import calculateForceOrMomentUseMomentsWithMomentAsked from './calculateForceOrMomentUseMomentsWithMomentAsked.ts'
+import calculateForceOrMomentUseMomentsWithMomentGiven from './calculateForceOrMomentUseMomentsWithMomentGiven.ts'
+import calculateForceOrMomentUseMomentsWithOnlyForces from './calculateForceOrMomentUseMomentsWithOnlyForces.ts'
+import calculateForceOrMomentUseVerticalForces from './calculateForceOrMomentUseVerticalForces.ts'
 
 export default {
 	examples: {},

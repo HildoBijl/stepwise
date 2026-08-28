@@ -1,4 +1,4 @@
-import { type Variable } from '../../../../construction'
+import { type Variable } from '../../../../construction/index.ts'
 
 // Given two variables, check which should appear earlier when sorting sums/products.
 export function compareVariableNodes(a: Variable, b: Variable): number {

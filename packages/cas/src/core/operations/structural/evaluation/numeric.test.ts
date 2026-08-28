@@ -1,6 +1,6 @@
-import { fraction, ln, log, negative, number, plusMinus, power, product, root, sin, sqrt, sum } from '../../../construction'
+import { fraction, ln, log, negative, number, plusMinus, power, product, root, sin, sqrt, sum } from '../../../construction/index.ts'
 
-import { areNumbersEqual, evaluateNumericNode, tryToEvaluateNumericNode } from './numeric'
+import { areNumbersEqual, evaluateNumericNode, tryToEvaluateNumericNode } from './numeric.ts'
 
 describe('numeric evaluation', () => {
 	test('evaluates arithmetic expression trees', () => {

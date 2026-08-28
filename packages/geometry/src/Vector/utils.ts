@@ -1,5 +1,5 @@
-import { isVectorInput } from './support'
-import { type VectorLike, Vector } from './Vector'
+import { isVectorInput } from './support.ts'
+import { type VectorLike, Vector } from './Vector.ts'
 
 // Check if the given value is something that can be interpreted as a Vector.
 export function isVectorLike(value: unknown): value is VectorLike {

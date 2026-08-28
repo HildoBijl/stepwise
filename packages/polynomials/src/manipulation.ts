@@ -1,8 +1,8 @@
 import { ensureInteger, ensureNumber, getDimensions, getMatrixElement, isArray, isNumber, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, sum, union } from '@step-wise/js-utils'
 
-import { type Polynomial, type PolynomialCoefficients, type PolynomialVariables } from './types'
-import { ensurePolynomial, ensurePolynomialVariables } from './checks'
-import { alignPolynomialVariables } from './restructuring'
+import { type Polynomial, type PolynomialCoefficients, type PolynomialVariables } from './types.ts'
+import { ensurePolynomial, ensurePolynomialVariables } from './checks.ts'
+import { alignPolynomialVariables } from './restructuring.ts'
 
 function mapPolynomialCoefficients(polynomial: Polynomial, operation: (coefficients: PolynomialCoefficients) => PolynomialCoefficients): Polynomial {
 	return { ...polynomial, coefficients: operation(polynomial.coefficients) }

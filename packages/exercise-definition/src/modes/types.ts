@@ -1,8 +1,8 @@
-import type { ExerciseAction, ExerciseState, ExerciseParameters } from '../atomTypes'
+import type { ExerciseAction, ExerciseState, ExerciseParameters } from '../atomTypes.ts'
 
-import type { ExerciseMode } from './definitions'
-import type { SoloExerciseHistory } from './solo'
-import type { GroupExerciseHistory } from './group'
+import type { ExerciseMode } from './definitions.ts'
+import type { SoloExerciseHistory } from './solo/index.ts'
+import type { GroupExerciseHistory } from './group/index.ts'
 
 export type ExerciseHistoryByMode<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = {
 	solo: SoloExerciseHistory<TAction, TState>

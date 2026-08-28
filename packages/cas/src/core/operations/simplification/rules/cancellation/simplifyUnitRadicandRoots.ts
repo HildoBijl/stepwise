@@ -1,8 +1,8 @@
-import { type ExpressionNode, type RootFunction, Integer } from '../../../../construction'
+import { type ExpressionNode, type RootFunction, Integer } from '../../../../construction/index.ts'
 
-import { isRootFunction, isOne } from '../../../structural'
+import { isRootFunction, isOne } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: RootFunction): ExpressionNode {
 	return isOne(node.radicand) ? Integer.one : node

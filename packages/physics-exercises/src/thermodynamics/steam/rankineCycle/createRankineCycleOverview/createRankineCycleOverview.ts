@@ -3,7 +3,7 @@ import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-
 import { compareInputs } from '@step-wise/exercise-grading'
 import { saturatedSteamPropertiesByPressure, superheatedSteamProperties } from '@step-wise/physics-data'
 
-import { getCycle } from '../tools'
+import { getCycle } from '../tools/index.ts'
 
 export default buildStepExercise({
 	metadata: {

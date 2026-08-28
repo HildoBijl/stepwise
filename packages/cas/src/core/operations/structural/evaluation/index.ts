@@ -1,1 +1,1 @@
-export * from './numeric'
+export * from './numeric.ts'

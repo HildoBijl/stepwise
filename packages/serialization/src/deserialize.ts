@@ -1,7 +1,7 @@
 import { isPlainObject, mapValues } from '@step-wise/js-utils'
 
-import type { SerializedDomainObject } from './types'
-import { serializationAdapters } from './adapters'
+import type { SerializedDomainObject } from './types.ts'
+import { serializationAdapters } from './adapters/index.ts'
 
 export function deserializeDomainObject<TDomainValue = unknown, TSerialized extends SerializedDomainObject = SerializedDomainObject>(serializedValue: TSerialized): TDomainValue {
 	if (!isPlainObject(serializedValue) || typeof serializedValue.type !== 'string' || !Object.hasOwn(serializedValue, 'value')) throw new TypeError(`Invalid serialized domain object: expected an object with a type and value.`)

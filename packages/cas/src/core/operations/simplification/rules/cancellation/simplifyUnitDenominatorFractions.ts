@@ -1,7 +1,7 @@
-import { isFraction } from '../../../structural'
+import { isFraction } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
-import { simplifyUnitDenominatorFractions as transform } from '../utils/defaults'
+import { defineRule } from '../ruleDefinition.ts'
+import { simplifyUnitDenominatorFractions as transform } from '../utils/defaults.ts'
 
 export const simplifyUnitDenominatorFractions = defineRule({
 	name: 'simplifyUnitDenominatorFractions',

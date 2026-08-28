@@ -1,8 +1,8 @@
-import { arccos, arcsin, arctan, fraction, ln, log, negative, namedConstants, plusMinus, power, product, root, sin, sqrt, sum, tan, variable } from '../../construction'
-import { areNodesEqual } from '../../operations'
+import { arccos, arcsin, arctan, fraction, ln, log, negative, namedConstants, plusMinus, power, product, root, sin, sqrt, sum, tan, variable } from '../../construction/index.ts'
+import { areNodesEqual } from '../../operations/index.ts'
 
-import { storageValueToNode } from './fromStorageValue'
-import { nodeToStorageValue } from './toStorageValue'
+import { storageValueToNode } from './fromStorageValue.ts'
+import { nodeToStorageValue } from './toStorageValue.ts'
 
 describe('expression-node storage values', () => {
 	test.each([

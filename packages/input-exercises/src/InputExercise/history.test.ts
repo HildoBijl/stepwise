@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getLastInput, getLastRawInput, hasPreviousInput } from './history'
+import { getLastInput, getLastRawInput, hasPreviousInput } from './history.ts'
 
 describe('input-exercise history', () => {
 	const userId = 'user-1'

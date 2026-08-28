@@ -1,8 +1,8 @@
-import { type ExpressionNode, negative, plusMinus, product, sum, variable } from '../../../construction'
+import { type ExpressionNode, negative, plusMinus, product, sum, variable } from '../../../construction/index.ts'
 
-import { areNodesEqual } from '../inspection'
+import { areNodesEqual } from '../inspection/index.ts'
 
-import { expandToSingulars } from './plurals'
+import { expandToSingulars } from './plurals.ts'
 
 function expectEqualNodeLists(result: readonly ExpressionNode[], expected: readonly ExpressionNode[]) {
 	expect(result).toHaveLength(expected.length)

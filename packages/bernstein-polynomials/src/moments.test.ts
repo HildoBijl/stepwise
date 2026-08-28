@@ -1,8 +1,8 @@
 import { approximatelyEqual } from '@step-wise/js-utils'
 import { describe, expect, it } from 'vitest'
 
-import { getBernsteinExpectedValue, getBernsteinMoment, getBernsteinVariance } from './moments'
-import { reflectBernsteinCoefficients } from './fundamentals'
+import { getBernsteinExpectedValue, getBernsteinMoment, getBernsteinVariance } from './moments.ts'
+import { reflectBernsteinCoefficients } from './fundamentals.ts'
 
 describe('getBernsteinMoment', () => {
 	it('calculates known moments', () => {

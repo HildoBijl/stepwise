@@ -1,3 +1,3 @@
-export * from './InputValue'
-export * from './InputState'
-export * from './checks'
+export * from './InputValue.ts'
+export * from './InputState.ts'
+export * from './checks.ts'

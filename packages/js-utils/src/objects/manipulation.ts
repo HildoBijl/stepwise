@@ -1,6 +1,6 @@
-import { isPlainObject } from './plainnessChecks'
-import { deepEqual } from './comparisons'
-import { fromKeys } from './creation'
+import { isPlainObject } from './plainnessChecks.ts'
+import { deepEqual } from './comparisons.ts'
+import { fromKeys } from './creation.ts'
 
 // Apply a mapping function to a plain object (maps values) or array (maps elements).
 export function mapValues<T, U>(input: Record<string, T>, mapper: (value: T, key: string, result: Record<string, U>) => U | undefined): Record<string, U>

@@ -1,8 +1,8 @@
-import { type ExpressionNode, type Power, type RootFunction } from '../../../../construction'
+import { type ExpressionNode, type Power, type RootFunction } from '../../../../construction/index.ts'
 
-import { isPower, isRootFunction, areNodesEqual } from '../../../structural'
+import { isPower, isRootFunction, areNodesEqual } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: RootFunction | Power): ExpressionNode {
 	if (isRootFunction(node) && isPower(node.radicand) && areNodesEqual(node.radicand.exponent, node.degree)) return node.radicand.base

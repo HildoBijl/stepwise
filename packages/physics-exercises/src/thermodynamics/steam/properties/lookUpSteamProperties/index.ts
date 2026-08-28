@@ -1,8 +1,8 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import steamPropertiesAtTemperature from './steamPropertiesAtTemperature'
-import steamPropertiesAtPressure from './steamPropertiesAtPressure'
-import steamPropertiesSuperheated from './steamPropertiesSuperheated'
+import steamPropertiesAtTemperature from './steamPropertiesAtTemperature.ts'
+import steamPropertiesAtPressure from './steamPropertiesAtPressure.ts'
+import steamPropertiesSuperheated from './steamPropertiesSuperheated.ts'
 
 export default {
 	examples: { steamPropertiesAtTemperature },

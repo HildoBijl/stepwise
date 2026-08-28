@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { camelToKebab, insertAt, lowerFirst, removeAt, removeWhitespace, upperFirst } from './manipulation'
+import { camelToKebab, insertAt, lowerFirst, removeAt, removeWhitespace, upperFirst } from './manipulation.ts'
 
 describe('string manipulation', () => {
 	it('changes the first character case', () => {

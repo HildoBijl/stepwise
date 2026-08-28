@@ -1,8 +1,8 @@
 import { ensureInteger, isInteger, compareNumbers, roundToDigits, checkNumberEquality } from '@step-wise/js-utils'
 
-import { type PrecisionNumberStorageValue, type PrecisionNumberInput, PrecisionNumberType, precisionNumberInputToStorageValue, countSignificantDigits } from './interpreting'
-import { type PrecisionNumberEqualityOptionsInput, type PrecisionNumberEqualityResult, resolvePrecisionNumberEqualityOptions, applyMinimumAbsoluteTolerance } from './comparison'
-import { type TexDisplayOptionsInput, resolveTexDisplayOptions } from './texDisplayOptions'
+import { type PrecisionNumberStorageValue, type PrecisionNumberInput, PrecisionNumberType, precisionNumberInputToStorageValue, countSignificantDigits } from './interpreting.ts'
+import { type PrecisionNumberEqualityOptionsInput, type PrecisionNumberEqualityResult, resolvePrecisionNumberEqualityOptions, applyMinimumAbsoluteTolerance } from './comparison.ts'
+import { type TexDisplayOptionsInput, resolveTexDisplayOptions } from './texDisplayOptions.ts'
 
 export class PrecisionNumber {
 	readonly number: number

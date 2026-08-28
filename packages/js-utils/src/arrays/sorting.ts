@@ -1,4 +1,4 @@
-import { ensureNumberArray } from './checks'
+import { ensureNumberArray } from './checks.ts'
 
 export interface SortByOptions {
 	order?: 'ascending' | 'descending'

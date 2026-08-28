@@ -1,8 +1,8 @@
 import { first, last } from '@step-wise/js-utils'
 
-import { type ExpressionTextCursor, type InputValuePart, isTextPart } from '../types'
+import { type ExpressionTextCursor, type InputValuePart, isTextPart } from '../types/index.ts'
 
-import { createEmptyExpressionValue } from './fundamentals'
+import { createEmptyExpressionValue } from './fundamentals.ts'
 
 export function areExpressionTextCursorsEqual(a: ExpressionTextCursor, b: ExpressionTextCursor): boolean {
 	validateExpressionTextCursor(a)

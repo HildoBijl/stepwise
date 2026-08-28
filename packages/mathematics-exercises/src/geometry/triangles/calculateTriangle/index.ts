@@ -1,12 +1,12 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import calculateTriangleASAS from './calculateTriangleASAS'
-import calculateTriangleSSAA from './calculateTriangleSSAA'
-import calculateTriangleASSA from './calculateTriangleASSA'
-import calculateTriangleSASS from './calculateTriangleSASS'
-import calculateTriangleSSAS from './calculateTriangleSSAS'
-import calculateTriangleSASA from './calculateTriangleSASA'
-import calculateTriangleSSSA from './calculateTriangleSSSA'
+import calculateTriangleASAS from './calculateTriangleASAS.ts'
+import calculateTriangleSSAA from './calculateTriangleSSAA.ts'
+import calculateTriangleASSA from './calculateTriangleASSA.ts'
+import calculateTriangleSASS from './calculateTriangleSASS.ts'
+import calculateTriangleSSAS from './calculateTriangleSSAS.ts'
+import calculateTriangleSASA from './calculateTriangleSASA.ts'
+import calculateTriangleSSSA from './calculateTriangleSSSA.ts'
 
 export default {
 	examples: {},

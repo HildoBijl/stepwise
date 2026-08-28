@@ -1,2 +1,2 @@
-export * from './storage'
-export * from './printing'
+export * from './storage/index.ts'
+export * from './printing/index.ts'

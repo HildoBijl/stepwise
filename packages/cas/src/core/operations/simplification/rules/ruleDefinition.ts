@@ -1,6 +1,6 @@
-import { type ExpressionNode } from '../../../construction'
+import { type ExpressionNode } from '../../../construction/index.ts'
 
-import { type AnySimplificationRule, type MergedRegistries, type RegistryFromRules, type SimplificationRule, type SimplificationRuleRegistry } from './types'
+import { type AnySimplificationRule, type MergedRegistries, type RegistryFromRules, type SimplificationRule, type SimplificationRuleRegistry } from './types.ts'
 
 export function defineRule<const Name extends string, Node extends ExpressionNode>(rule: SimplificationRule<Name, Node>): SimplificationRule<Name, Node> {
 	return rule

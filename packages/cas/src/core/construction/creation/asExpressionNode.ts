@@ -1,7 +1,7 @@
-import { ExpressionNode } from '../nodes'
+import { ExpressionNode } from '../nodes/index.ts'
 
-import { number } from './numbers'
-import { parseVariable } from './variables'
+import { number } from './numbers.ts'
+import { parseVariable } from './variables.ts'
 
 export type ExpressionNodeInput = ExpressionNode | number | string
 

@@ -1,6 +1,6 @@
 import { type EquationInputValue, parseEquationInputValue } from '@step-wise/math-input-value'
 
-import { type Equation, asEquation } from './Equation'
+import { type Equation, asEquation } from './Equation.ts'
 
 export { type EquationInputValue } from '@step-wise/math-input-value'
 

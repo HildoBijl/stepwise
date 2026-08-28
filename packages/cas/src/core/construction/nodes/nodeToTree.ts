@@ -1,9 +1,9 @@
-import { ExpressionNode } from './ExpressionNode'
-import { ConstantNode, NamedConstant } from './constants'
-import { SignNode } from './signs'
-import { Variable } from './Variable'
-import { ListNode } from './lists'
-import { FunctionNode } from './functions'
+import { ExpressionNode } from './ExpressionNode.ts'
+import { ConstantNode, NamedConstant } from './constants/index.ts'
+import { SignNode } from './signs/index.ts'
+import { Variable } from './Variable.ts'
+import { ListNode } from './lists/index.ts'
+import { FunctionNode } from './functions/index.ts'
 
 export function nodeToTree(node: ExpressionNode) {
 	if (node instanceof ConstantNode) return constantToTree(node)

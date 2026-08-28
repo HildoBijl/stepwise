@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { asExpression } from '@step-wise/cas'
 
-import { selectExpressionParameters, selectRandomVariables } from './generationTools'
+import { selectExpressionParameters, selectRandomVariables } from './generationTools.ts'
 
 describe('selectRandomVariables', () => {
 	it('assigns distinct available variables to the requested names', () => {

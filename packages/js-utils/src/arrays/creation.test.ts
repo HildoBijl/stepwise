@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { arithmeticSequence, integerRange, rangeByStep, subdivideRange } from './creation'
+import { arithmeticSequence, integerRange, rangeByStep, subdivideRange } from './creation.ts'
 
 describe('array creation', () => {
 	it('creates inclusive integer ranges in both directions', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensureBernsteinCoefficients } from './checks'
+import { ensureBernsteinCoefficients } from './checks.ts'
 
 describe('ensureBernsteinCoefficients', () => {
 	it('accepts normalized non-negative coefficients and returns a copy', () => {

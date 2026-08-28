@@ -2,7 +2,7 @@ import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-
 import { compareInputs } from '@step-wise/exercise-grading'
 import { refrigerantDatasets, getSaturationPressure, getRefrigerantPropertiesFromPressureAndTemperature, getRefrigerantPropertiesFromPressureAndEnthalpy, getRefrigerantPropertiesFromPressureAndEntropy } from '@step-wise/physics-data'
 
-import { getBasicCycle } from '../tools'
+import { getBasicCycle } from '../tools/index.ts'
 
 export default buildStepExercise({
 	metadata: {

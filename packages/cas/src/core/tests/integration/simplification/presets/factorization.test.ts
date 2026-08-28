@@ -1,7 +1,7 @@
-import { number, variable, sum, product, power, sqrt } from '../../../../construction'
-import { simplify, factorize } from '../../../../operations'
+import { number, variable, sum, product, power, sqrt } from '../../../../construction/index.ts'
+import { simplify, factorize } from '../../../../operations/index.ts'
 
-import { expectNodeToEqual } from '../../../testUtils'
+import { expectNodeToEqual } from '../../../testUtils.ts'
 
 const x = variable('x')
 const y = variable('y')

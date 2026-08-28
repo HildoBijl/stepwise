@@ -1,9 +1,9 @@
-import { type ExpressionNode } from '../../construction'
+import { type ExpressionNode } from '../../construction/index.ts'
 
-import { defineRule, simplificationRules } from './rules'
-import { normalizationRequirementRules } from './rules/normalization'
-import { resolveSimplificationOptions, resolveSimplificationRules } from './simplificationOptions'
-import { resolveSimplificationStages } from './simplify'
+import { defineRule, simplificationRules } from './rules/index.ts'
+import { normalizationRequirementRules } from './rules/normalization/index.ts'
+import { resolveSimplificationOptions, resolveSimplificationRules } from './simplificationOptions/index.ts'
+import { resolveSimplificationStages } from './simplify.ts'
 
 const firstRule = defineRule({
 	name: 'firstRule',

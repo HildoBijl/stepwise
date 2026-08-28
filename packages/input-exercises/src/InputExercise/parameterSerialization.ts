@@ -1,7 +1,7 @@
 import { type PlainDataObject, isPlainDataObject } from '@step-wise/js-utils'
 import { deserializeData, serializeData } from '@step-wise/serialization'
 
-import type { InputExerciseParameters } from './types'
+import type { InputExerciseParameters } from './types.ts'
 
 // Serialize runtime parameters and ensure that the result is suitable for storage.
 export function serializeInputExerciseParameters(parameters: InputExerciseParameters): PlainDataObject {

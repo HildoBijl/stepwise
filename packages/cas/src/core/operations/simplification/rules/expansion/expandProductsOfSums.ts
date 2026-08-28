@@ -1,10 +1,10 @@
-import { type ExpressionNode, type Product, product, sum } from '../../../../construction'
+import { type ExpressionNode, type Product, product, sum } from '../../../../construction/index.ts'
 
-import { isProduct, isSum } from '../../../structural'
+import { isProduct, isSum } from '../../../structural/index.ts'
 
-import { cancelFractionFactors } from '../cancellation'
-import { combineFractionFactors } from '../combination'
-import { defineRule } from '../ruleDefinition'
+import { cancelFractionFactors } from '../cancellation/index.ts'
+import { combineFractionFactors } from '../combination/index.ts'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Product): ExpressionNode {
 	const index = node.factors.findIndex(isSum)

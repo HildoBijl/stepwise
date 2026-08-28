@@ -1,6 +1,6 @@
 import { type ExpressionSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode } from '../../../construction'
+import { type ExpressionNode } from '../../../construction/index.ts'
 
 export type SimplificationRule<Name extends string = string, Node extends ExpressionNode = ExpressionNode> = {
 	name: Name

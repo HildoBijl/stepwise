@@ -1,6 +1,6 @@
-import { ExpressionNode } from '../ExpressionNode'
+import { ExpressionNode } from '../ExpressionNode.ts'
 
-import { SingleArgumentFunctionNode } from './abstracts'
+import { SingleArgumentFunctionNode } from './abstracts/index.ts'
 
 // Trigonometric functions
 export class Sin extends SingleArgumentFunctionNode {

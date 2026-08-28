@@ -1,2 +1,2 @@
-export * as coolingCycles from './coolingCycles'
-export * as properties from './properties'
+export * as coolingCycles from './coolingCycles/index.ts'
+export * as properties from './properties/index.ts'

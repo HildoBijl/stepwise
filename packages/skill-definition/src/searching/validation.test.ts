@@ -1,9 +1,9 @@
 import { and } from '@step-wise/skill-setup'
 import { describe, expect, it } from 'vitest'
 
-import { createSkillTree } from '../creation'
+import { createSkillTree } from '../creation/index.ts'
 
-import { ensureSkillId, ensureSkillIds, ensureSkillSetup } from './validation'
+import { ensureSkillId, ensureSkillIds, ensureSkillSetup } from './validation.ts'
 
 const tree = createSkillTree({ Alpha: { name: 'Alpha' }, beta: { name: 'Beta' } })
 

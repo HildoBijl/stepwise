@@ -1,8 +1,8 @@
-import { ExpressionNode } from '../../ExpressionNode'
+import { ExpressionNode } from '../../ExpressionNode.ts'
 
-import { FunctionNode } from '../abstracts'
+import { FunctionNode } from '../abstracts/index.ts'
 
-import { type Sqrt } from './Sqrt'
+import { type Sqrt } from './Sqrt.ts'
 
 export type RootFunction = Root | Sqrt
 

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { PrecisionNumber } from '@step-wise/physics-core'
 
-import { serializeData, serializeDomainObject } from './serialize'
+import { serializeData, serializeDomainObject } from './serialize.ts'
 
 describe('serializeDomainObject', () => {
 	it('serializes a registered domain object', () => {

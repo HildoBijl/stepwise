@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { accentNames, isAccentName } from './accents'
+import { accentNames, isAccentName } from './accents.ts'
 
 describe('accent definitions', () => {
 	it('lists and recognizes all supported accents', () => {

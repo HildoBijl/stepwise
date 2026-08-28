@@ -1,7 +1,7 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import withoutBrackets from './withoutBrackets'
-import withBrackets from './withBrackets'
+import withoutBrackets from './withoutBrackets.ts'
+import withBrackets from './withBrackets.ts'
 
 export default {
 	examples: { withoutBrackets },

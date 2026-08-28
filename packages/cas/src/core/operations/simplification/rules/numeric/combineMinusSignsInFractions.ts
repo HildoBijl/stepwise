@@ -1,8 +1,8 @@
-import { type ExpressionNode, type Fraction, negative, fraction } from '../../../../construction'
+import { type ExpressionNode, type Fraction, negative, fraction } from '../../../../construction/index.ts'
 
-import { isFraction, isMinus } from '../../../structural'
+import { isFraction, isMinus } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 export function applyCombineMinusSignsInFractions(node: Fraction): ExpressionNode {
 	const numeratorIsNegative = isMinus(node.numerator)

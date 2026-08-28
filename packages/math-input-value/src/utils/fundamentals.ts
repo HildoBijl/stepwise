@@ -1,7 +1,7 @@
 import { first, isEmptyObject, omitDefaults } from '@step-wise/js-utils'
 
-import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, defaultInterpretationSettings, defaultExpressionSettings } from '../settings'
-import { type ExpressionInputValue, type EquationInputValue, type InputValue, type ExpressionValue, isExpressionValue } from '../types'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, defaultInterpretationSettings, defaultExpressionSettings } from '../settings/index.ts'
+import { type ExpressionInputValue, type EquationInputValue, type InputValue, type ExpressionValue, isExpressionValue } from '../types/index.ts'
 
 export function isEmptyExpressionValue(value: ExpressionValue): boolean {
 	if (value.length === 0) throw new Error(`Invalid expression InputValue: it can never be an empty array. There must always be at least one text part.`)

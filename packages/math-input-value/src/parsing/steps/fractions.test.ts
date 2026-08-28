@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { defaultInterpretationSettings } from '../../settings'
-import type { ExpressionValue } from '../../types'
+import { defaultInterpretationSettings } from '../../settings/index.ts'
+import type { ExpressionValue } from '../../types/index.ts'
 
-import { parseFractions } from './fractions'
+import { parseFractions } from './fractions.ts'
 
 const parse = (value: ExpressionValue) => value
 const fraction = (numerator: ExpressionValue, denominator: ExpressionValue) => ({ type: 'Fraction', alias: '/', numerator, denominator })

@@ -1,6 +1,6 @@
-import { Integer, Minus, namedConstants } from '../core'
+import { Integer, Minus, namedConstants } from '../core/index.ts'
 
-import { Expression } from './Expression'
+import { Expression } from './Expression.ts'
 
 export const expressionConstants = {
 	// Integer constants.

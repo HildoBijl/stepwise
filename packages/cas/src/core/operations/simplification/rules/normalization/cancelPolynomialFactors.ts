@@ -1,13 +1,13 @@
 
-import { type ExpressionNode, type Fraction, fraction, product } from '../../../../construction'
+import { type ExpressionNode, type Fraction, fraction, product } from '../../../../construction/index.ts'
 
-import { isFraction, isOne } from '../../../structural'
+import { isFraction, isOne } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
-import { type SimplificationContext, type SimplificationRules } from '../types'
-import { getPolynomialGCD, getProductFactors } from '../utils'
+import { defineRule } from '../ruleDefinition.ts'
+import { type SimplificationContext, type SimplificationRules } from '../types.ts'
+import { getPolynomialGCD, getProductFactors } from '../utils/index.ts'
 
-import { normalizationRequirementRules } from './normalizationRequirements'
+import { normalizationRequirementRules } from './normalizationRequirements.ts'
 
 let normalizationRequirementRuleSet: SimplificationRules | undefined
 

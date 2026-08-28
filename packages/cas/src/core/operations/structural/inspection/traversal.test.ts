@@ -1,7 +1,7 @@
-import { power, product, sum } from '../../../construction'
+import { power, product, sum } from '../../../construction/index.ts'
 
-import { countNodes, everyNode, findNode, forEachNode, getNodes, someChild, someNode } from './traversal'
-import { isPower, isProduct, isSum, isVariable } from './typeChecks'
+import { countNodes, everyNode, findNode, forEachNode, getNodes, someChild, someNode } from './traversal.ts'
+import { isPower, isProduct, isSum, isVariable } from './typeChecks.ts'
 
 const expression = sum('x', product('y', power('z', 2)))
 

@@ -1,1 +1,1 @@
-export * from './multipleChoice'
+export * from './multipleChoice.ts'

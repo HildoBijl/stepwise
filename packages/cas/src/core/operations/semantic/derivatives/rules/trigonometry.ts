@@ -1,6 +1,6 @@
-import { type ExpressionNode, type Sin, type Cos, type Tan, type Arcsin, type Arccos, type Arctan, Integer, namedConstants, negative, sum, product, fraction, power, sqrt, sin, cos } from '../../../../construction'
+import { type ExpressionNode, type Sin, type Cos, type Tan, type Arcsin, type Arccos, type Arctan, Integer, namedConstants, negative, sum, product, fraction, power, sqrt, sin, cos } from '../../../../construction/index.ts'
 
-import { type DerivativeContext } from '../types'
+import { type DerivativeContext } from '../types.ts'
 
 export function getSinDerivative(node: Sin, context: DerivativeContext): ExpressionNode {
 	return product(cos(node.argument), context.differentiate(node.argument), getTrigonometryDerivativeFactor(context))

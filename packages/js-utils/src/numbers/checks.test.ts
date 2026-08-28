@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensureInteger, ensureNumber, ensureNumeric, ensureNumericInteger, isInteger, isNumber, isNumeric, isNumericInteger } from './checks'
+import { ensureInteger, ensureNumber, ensureNumeric, ensureNumericInteger, isInteger, isNumber, isNumeric, isNumericInteger } from './checks.ts'
 
 describe('number checks', () => {
 	it('distinguishes numbers from numeric strings', () => {

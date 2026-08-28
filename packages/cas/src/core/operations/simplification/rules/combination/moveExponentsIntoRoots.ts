@@ -1,8 +1,8 @@
-import { type Power, type RootFunction, power } from '../../../../construction'
+import { type Power, type RootFunction, power } from '../../../../construction/index.ts'
 
-import { isPower, isRootFunction } from '../../../structural'
+import { isPower, isRootFunction } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Power): Power | RootFunction {
 	return isRootFunction(node.base) ? node.base.recreateWith(power(node.base.radicand, node.exponent)) : node

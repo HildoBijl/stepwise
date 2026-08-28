@@ -1,7 +1,7 @@
 import { indexOfAnyCharacter, InterpretationError } from '@step-wise/js-utils'
 
-import { type InterpretationSettings } from '../../settings'
-import type { ExpressionValue, InputValuePart, SubSupInputValue } from '../../types'
+import { type InterpretationSettings } from '../../settings/index.ts'
+import type { ExpressionValue, InputValuePart, SubSupInputValue } from '../../types/index.ts'
 
 // Turn underscores and power symbols in text parts into SubSup constructs. Existing constructs pass through unchanged.
 export function parseSubSups(value: ExpressionValue, settings: InterpretationSettings, parseExpressionString: (source: string, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {

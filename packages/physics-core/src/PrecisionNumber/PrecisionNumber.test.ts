@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest'
 
-import { PrecisionNumber, asPrecisionNumber } from './PrecisionNumber'
-import { deserializePrecisionNumber, serializePrecisionNumber } from './serialization'
-import { precisionNumberToInputValue, interpretPrecisionNumberInputValue, isPrecisionNumberInputValue } from './inputValue'
-import { getRandomExponentialPrecisionNumber, getRandomPrecisionNumber, resolveRandomExponentialPrecisionNumberOptions, resolveRandomPrecisionNumberOptions } from './random'
+import { PrecisionNumber, asPrecisionNumber } from './PrecisionNumber.ts'
+import { deserializePrecisionNumber, serializePrecisionNumber } from './serialization.ts'
+import { precisionNumberToInputValue, interpretPrecisionNumberInputValue, isPrecisionNumberInputValue } from './inputValue.ts'
+import { getRandomExponentialPrecisionNumber, getRandomPrecisionNumber, resolveRandomExponentialPrecisionNumberOptions, resolveRandomPrecisionNumberOptions } from './random.ts'
 
 describe('PrecisionNumber', () => {
 	describe('construction', () => {

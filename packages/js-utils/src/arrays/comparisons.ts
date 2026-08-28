@@ -1,7 +1,7 @@
-import { approximatelyEqual } from '../numbers'
-import { deepEqual } from '../objects'
+import { approximatelyEqual } from '../numbers/index.ts'
+import { deepEqual } from '../objects/index.ts'
 
-import { isArray } from './checks'
+import { isArray } from './checks.ts'
 
 // Check whether two arrays are shallow-equal (element-wise ===).
 export function shallowEqual<T>(a: readonly T[], b: readonly T[]): boolean {

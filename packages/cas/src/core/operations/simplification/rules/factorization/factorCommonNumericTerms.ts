@@ -1,13 +1,13 @@
 import { gcd } from '@step-wise/math-tools'
 
-import { type ExpressionNode, type Sum, integer, sum, product } from '../../../../construction'
+import { type ExpressionNode, type Sum, integer, sum, product } from '../../../../construction/index.ts'
 
-import { isSum, isIntegerNode } from '../../../structural'
+import { isSum, isIntegerNode } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
-import { getLeadingNumber, divideLeadingNumberBy } from '../utils'
+import { defineRule } from '../ruleDefinition.ts'
+import { getLeadingNumber, divideLeadingNumberBy } from '../utils/index.ts'
 
-import { expandProductsOfSums } from '../expansion'
+import { expandProductsOfSums } from '../expansion/index.ts'
 
 // If all leading numbers are integers, and their GCD is not one, then pull out an integer.
 function transform(node: Sum): ExpressionNode {

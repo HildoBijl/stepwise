@@ -2,7 +2,7 @@ import { partition } from '@step-wise/js-utils'
 import { type SkillSetup, ensureSetup } from '@step-wise/skill-setup'
 import { type SkillId, type SkillTree, isSkillPrerequisiteOf, sortSkillIdsByTreeOrder } from '@step-wise/skill-definition'
 
-import type { CourseAnalysis, CourseBlockDiagnostics, CourseDefinition, CourseResolutionBlock } from './types'
+import type { CourseAnalysis, CourseBlockDiagnostics, CourseDefinition, CourseResolutionBlock } from './types.ts'
 
 export function analyzeCourse(skillTree: SkillTree, definition: CourseDefinition): CourseAnalysis {
 	const { learningGoalIds: originalLearningGoalIds, startingPointIds: originalStartingPointIds } = definition

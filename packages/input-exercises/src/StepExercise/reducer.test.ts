@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { buildStepExercise } from './reducer'
-import { createStepExerciseMetadata } from './preprocessing'
-import type { StepExerciseSplitState, StepExerciseSteps } from './types'
+import { buildStepExercise } from './reducer.ts'
+import { createStepExerciseMetadata } from './preprocessing.ts'
+import type { StepExerciseSplitState, StepExerciseSteps } from './types.ts'
 
 const rawInput = (answer: number) => ({ answer: { type: 'Integer', value: `${answer}` } })
 

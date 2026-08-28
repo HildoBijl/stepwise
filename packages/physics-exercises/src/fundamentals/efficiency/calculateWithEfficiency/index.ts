@@ -1,7 +1,7 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import calculateWithEfficiencyGenerator from './calculateWithEfficiencyGenerator'
-import calculateWithEfficiencyBattery from './calculateWithEfficiencyBattery'
+import calculateWithEfficiencyGenerator from './calculateWithEfficiencyGenerator.ts'
+import calculateWithEfficiencyBattery from './calculateWithEfficiencyBattery.ts'
 
 export default {
 	examples: { calculateWithEfficiencyGenerator },

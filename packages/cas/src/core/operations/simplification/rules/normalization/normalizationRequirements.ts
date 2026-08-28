@@ -1,12 +1,12 @@
-import { structuralRules } from '../structural'
-import { numericRules } from '../numeric'
-import { cancellationRules } from '../cancellation'
-import { rewritingRules } from '../rewriting'
-import { combinationRules } from '../combination'
-import { expansionRules } from '../expansion'
+import { structuralRules } from '../structural/index.ts'
+import { numericRules } from '../numeric/index.ts'
+import { cancellationRules } from '../cancellation/index.ts'
+import { rewritingRules } from '../rewriting/index.ts'
+import { combinationRules } from '../combination/index.ts'
+import { expansionRules } from '../expansion/index.ts'
 
-import { sortSums } from './sortSums'
-import { sortProducts } from './sortProducts'
+import { sortSums } from './sortSums.ts'
+import { sortProducts } from './sortProducts.ts'
 
 const { flattenSums, flattenProducts } = structuralRules
 const { convertIntegerFloatsToIntegers, combineNumbersInSums, combineNumbersInProducts, combineNumbersInFractions, evaluateNumericPowers, evaluateNumericRoots, combineMinusSignsInProducts, removeSignsFromZero, removeDoubleNegatives, removeDoubleSigns, combinePlusMinusSignsInProducts, combineMinusSignsInFractions, combineMinusSignsInPowers, factorMinusSignsOutOfFractionSums } = numericRules

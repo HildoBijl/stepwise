@@ -1,1 +1,1 @@
-export * from './namedLoads'
+export * from './namedLoads.ts'

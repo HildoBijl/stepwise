@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { count, cumulative, product, sum } from './iteration'
+import { count, cumulative, product, sum } from './iteration.ts'
 
 describe('array iteration', () => {
 	it('calculates sums, products and cumulative sums', () => {

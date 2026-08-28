@@ -1,6 +1,6 @@
 import { ensureBoolean, ensureInteger, ensureNumber, ensureObject, ensureString, hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
 
-import { Prefix } from '../Prefix'
+import { Prefix } from '../Prefix/index.ts'
 
 export type UnitDefinitionInput = {
 	symbol: string

@@ -1,3 +1,3 @@
-export { default as summation } from './summation'
-export { default as multiplication } from './multiplication'
-export { default as summationAndMultiplication } from './summationAndMultiplication'
+export { default as summation } from './summation/index.ts'
+export { default as multiplication } from './multiplication/index.ts'
+export { default as summationAndMultiplication } from './summationAndMultiplication/index.ts'

@@ -1,3 +1,3 @@
-export * from './types'
-export * from './toStorageValue'
-export * from './fromStorageValue'
+export * from './types.ts'
+export * from './toStorageValue.ts'
+export * from './fromStorageValue.ts'

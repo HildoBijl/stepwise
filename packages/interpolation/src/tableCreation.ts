@@ -1,5 +1,5 @@
-import type { InterpolationValue, InterpolationGrid, InterpolationTable, InterpolationTableDefinition } from './types'
-import { isInterpolationTable } from './checks'
+import type { InterpolationValue, InterpolationGrid, InterpolationTable, InterpolationTableDefinition } from './types.ts'
+import { isInterpolationTable } from './checks.ts'
 
 export function createInterpolationTable<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(definition: InterpolationTableDefinition<InputType, OutputType>): InterpolationTable<InputType, OutputType> {
 	return ensureInterpolationTable<InputType, OutputType>(definition)

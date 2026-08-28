@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { skill } from '@step-wise/skill-setup'
 
-import { buildMonoExercise } from './reducer'
+import { buildMonoExercise } from './reducer.ts'
 
 const rawInput = (answer: number) => ({ answer: { type: 'Integer', value: `${answer}` } })
 

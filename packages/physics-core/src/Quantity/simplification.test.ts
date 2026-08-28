@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { defaultQuantitySimplificationOptions, resolveQuantitySimplificationOptions } from './simplification'
+import { defaultQuantitySimplificationOptions, resolveQuantitySimplificationOptions } from './simplification.ts'
 
 describe('resolveQuantitySimplificationOptions', () => {
 	test('applies all defaults', () => {

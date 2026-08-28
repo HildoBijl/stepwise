@@ -1,6 +1,6 @@
-import { type ExpressionNodeInput, asExpressionNode, negative, plusMinus, variable, sum, product, fraction, power } from '../../../construction'
+import { type ExpressionNodeInput, asExpressionNode, negative, plusMinus, variable, sum, product, fraction, power } from '../../../construction/index.ts'
 
-import { areEquivalent } from './equivalence'
+import { areEquivalent } from './equivalence.ts'
 
 const x = variable('x')
 const y = variable('y')

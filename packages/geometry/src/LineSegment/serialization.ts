@@ -1,9 +1,9 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { isCoordinateList } from '../Vector'
+import { isCoordinateList } from '../Vector/index.ts'
 
-import { type LineSegmentStorageValue } from './types'
-import { LineSegment } from './LineSegment'
+import { type LineSegmentStorageValue } from './types.ts'
+import { LineSegment } from './LineSegment.ts'
 
 export type SerializedLineSegment = {
 	type: typeof LineSegment.type

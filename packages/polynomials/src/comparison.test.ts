@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { comparePolynomials, comparePolynomialCoefficients } from './comparison'
+import { comparePolynomials, comparePolynomialCoefficients } from './comparison.ts'
 
 describe('comparePolynomialCoefficients', () => {
 	it('compares scalar and nested polynomial matrices', () => {

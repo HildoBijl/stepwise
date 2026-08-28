@@ -1,7 +1,7 @@
 import { ensureArray, ensureNumberArray, ensureString, hasDuplicates, sum } from '@step-wise/js-utils'
 import { ensureSetup } from '@step-wise/skill-setup'
 
-import type { CourseDefinition } from './types'
+import type { CourseDefinition } from './types.ts'
 
 export function ensureCourseDefinition(definition: CourseDefinition): CourseDefinition {
 	// Check the required arrays.

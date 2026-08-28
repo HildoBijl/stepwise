@@ -1,12 +1,12 @@
 import { sum as arraySum } from '@step-wise/js-utils'
 
-import { type ExpressionNode, type Sum, sum, product } from '../../../../construction'
+import { type ExpressionNode, type Sum, sum, product } from '../../../../construction/index.ts'
 
-import { isSum, areNodesEqual, isOne } from '../../../structural'
+import { isSum, areNodesEqual, isOne } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
-import { type SimplificationContext } from '../types'
-import { getConstantAndVariablePart } from '../utils'
+import { defineRule } from '../ruleDefinition.ts'
+import { type SimplificationContext } from '../types.ts'
+import { getConstantAndVariablePart } from '../utils/index.ts'
 
 function transform(node: Sum, context: SimplificationContext): ExpressionNode {
 	// Group the terms into groups.

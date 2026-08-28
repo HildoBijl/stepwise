@@ -1,4 +1,4 @@
-import { Prefix } from './Prefix'
+import { Prefix } from './Prefix.ts'
 
 export const prefixList = [
 	new Prefix({ symbol: 'y', name: 'yocto', exponent: -24 }),

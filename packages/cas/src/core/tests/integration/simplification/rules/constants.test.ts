@@ -1,6 +1,6 @@
-import { Integer, Float, product, power } from '../../../../construction'
+import { Integer, Float, product, power } from '../../../../construction/index.ts'
 
-import { expectSimplifyToGive } from '../../../testUtils'
+import { expectSimplifyToGive } from '../../../testUtils.ts'
 
 describe('constant simplification', () => {
 	test('turns floats into integers', () => {

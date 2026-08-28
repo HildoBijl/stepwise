@@ -2,7 +2,7 @@ import { describe, expect, expectTypeOf, it } from 'vitest'
 
 import { type Exercise } from '@step-wise/exercise-definition'
 
-import { withSameExamples } from './skillExerciseBundle'
+import { withSameExamples } from './skillExerciseBundle.ts'
 
 const exercise = {
 	metadata: {},

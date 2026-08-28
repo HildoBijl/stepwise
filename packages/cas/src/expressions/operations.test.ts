@@ -1,6 +1,6 @@
-import { expectExpressionToEqual } from '../tests/support/wrapperAssertions'
+import { expectExpressionToEqual } from '../tests/support/wrapperAssertions.ts'
 
-import { expressionOperations } from './operations'
+import { expressionOperations } from './operations.ts'
 
 describe('expressionOperations', () => {
 	test('multiplies the numerator and denominator of fractions', () => {

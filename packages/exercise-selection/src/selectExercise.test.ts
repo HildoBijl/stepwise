@@ -2,7 +2,7 @@ import type { Exercise } from '@step-wise/exercise-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { getSelectionProbabilities, selectRandomExercise, selectSkillBasedExercise } from './selectExercise'
+import { getSelectionProbabilities, selectRandomExercise, selectSkillBasedExercise } from './selectExercise.ts'
 
 const baseExercise = { metadata: {}, generateParameters: () => ({}), getInitialState: () => ({}) }
 const soloExercise = { ...baseExercise, processSoloAction: () => ({}) } satisfies Exercise

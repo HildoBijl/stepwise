@@ -1,3 +1,3 @@
-export * from './fundamentals'
-export * from './repeating'
-export * from './resolving'
+export * from './fundamentals.ts'
+export * from './repeating.ts'
+export * from './resolving.ts'

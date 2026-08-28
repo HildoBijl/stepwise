@@ -1,7 +1,7 @@
 import { count } from '@step-wise/js-utils'
 
-import { type TraversalOptions } from './settings'
-import { type VariableLike, type ExpressionLike, type ExpressionCheck, asExpression } from './Expression'
+import { type TraversalOptions } from './settings.ts'
+import { type VariableLike, type ExpressionLike, type ExpressionCheck, asExpression } from './Expression.ts'
 
 export const expressionChecks = {
 	// Property checks.

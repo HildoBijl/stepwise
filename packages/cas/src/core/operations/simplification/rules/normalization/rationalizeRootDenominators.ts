@@ -1,10 +1,10 @@
-import { type ExpressionNode, type Fraction, fraction, power, product } from '../../../../construction'
+import { type ExpressionNode, type Fraction, fraction, power, product } from '../../../../construction/index.ts'
 
-import { isFraction, isRootFunction, subtract } from '../../../structural'
+import { isFraction, isRootFunction, subtract } from '../../../structural/index.ts'
 
-import { combineFractionFactors } from '../combination'
-import { defineRule } from '../ruleDefinition'
-import { getProductFactors, getBaseAndExponent } from '../utils'
+import { combineFractionFactors } from '../combination/index.ts'
+import { defineRule } from '../ruleDefinition.ts'
+import { getProductFactors, getBaseAndExponent } from '../utils/index.ts'
 
 function transform(node: Fraction): ExpressionNode {
 	const multiplicationFactors: ExpressionNode[] = []

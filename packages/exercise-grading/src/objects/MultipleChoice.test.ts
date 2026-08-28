@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { compareMultipleChoice } from './MultipleChoice'
+import { compareMultipleChoice } from './MultipleChoice.ts'
 
 describe('compareMultipleChoice', () => {
 	it('compares scalar and order-independent list answers', () => {

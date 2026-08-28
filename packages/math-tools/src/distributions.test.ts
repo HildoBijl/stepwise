@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { normalPDF } from './distributions'
+import { normalPDF } from './distributions.ts'
 
 describe('normalPDF', () => {
 	it('returns known standard-normal densities', () => {

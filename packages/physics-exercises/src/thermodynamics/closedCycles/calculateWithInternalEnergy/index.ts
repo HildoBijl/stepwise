@@ -1,8 +1,8 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import calculateWithInternalEnergyEngine from './calculateWithInternalEnergyEngine'
-import calculateWithInternalEnergyBalloon from './calculateWithInternalEnergyBalloon'
-import calculateWithInternalEnergyTire from './calculateWithInternalEnergyTire'
+import calculateWithInternalEnergyEngine from './calculateWithInternalEnergyEngine.ts'
+import calculateWithInternalEnergyBalloon from './calculateWithInternalEnergyBalloon.ts'
+import calculateWithInternalEnergyTire from './calculateWithInternalEnergyTire.ts'
 
 export default {
 	examples: { calculateWithInternalEnergyEngine },

@@ -1,2 +1,2 @@
-export * from './simplificationOptions'
-export * from './simplify'
+export * from './simplificationOptions/index.ts'
+export * from './simplify.ts'

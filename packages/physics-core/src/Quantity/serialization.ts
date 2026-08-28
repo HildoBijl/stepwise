@@ -1,10 +1,10 @@
 import { hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
 
-import { deserializePrecisionNumber, PrecisionNumberType } from '../PrecisionNumber'
-import { deserializeUnit, UnitType } from '../Unit'
+import { deserializePrecisionNumber, PrecisionNumberType } from '../PrecisionNumber/index.ts'
+import { deserializeUnit, UnitType } from '../Unit/index.ts'
 
-import { type QuantityStorageValue, QuantityType } from './interpreting'
-import { Quantity } from './Quantity'
+import { type QuantityStorageValue, QuantityType } from './interpreting.ts'
+import { Quantity } from './Quantity.ts'
 
 export type SerializedQuantity = {
 	type: QuantityType

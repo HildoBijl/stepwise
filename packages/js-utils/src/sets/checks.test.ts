@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { isSet } from './checks'
+import { isSet } from './checks.ts'
 
 describe('set checks', () => {
 	it('recognizes Set instances only', () => {

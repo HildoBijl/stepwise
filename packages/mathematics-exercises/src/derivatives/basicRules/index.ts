@@ -1,2 +1,2 @@
-export { default as lookUpElementaryDerivative } from './lookUpElementaryDerivative'
-export { default as findBasicDerivative } from './findBasicDerivative'
+export { default as lookUpElementaryDerivative } from './lookUpElementaryDerivative/index.ts'
+export { default as findBasicDerivative } from './findBasicDerivative/index.ts'

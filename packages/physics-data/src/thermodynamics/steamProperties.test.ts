@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { interpolateTable, interpolateTableOutputs } from '@step-wise/interpolation'
 import { Quantity } from '@step-wise/physics-core'
 
-import { saturatedSteamPropertiesByPressure, saturatedSteamPropertiesByTemperature, superheatedSteamProperties } from './steamProperties'
+import { saturatedSteamPropertiesByPressure, saturatedSteamPropertiesByTemperature, superheatedSteamProperties } from './steamProperties.ts'
 
 describe('saturated steam properties', () => {
 	it('returns tabulated properties by temperature and pressure', () => {

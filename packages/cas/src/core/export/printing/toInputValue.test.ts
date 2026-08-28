@@ -1,6 +1,6 @@
-import { fraction, sum } from '../../construction'
+import { fraction, sum } from '../../construction/index.ts'
 
-import { nodeToInputValue } from './toInputValue'
+import { nodeToInputValue } from './toInputValue.ts'
 
 describe('nodeToInputValue', () => {
 	test('creates an expression input value with settings', () => {

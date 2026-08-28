@@ -1,11 +1,11 @@
-import { isVectorLike } from '../Vector'
-import { isLineLike } from '../Line'
-import { isLineSegmentLike } from '../LineSegment'
-import { isRectangleLike } from '../Rectangle'
+import { isVectorLike } from '../Vector/index.ts'
+import { isLineLike } from '../Line/index.ts'
+import { isLineSegmentLike } from '../LineSegment/index.ts'
+import { isRectangleLike } from '../Rectangle/index.ts'
 
-import type { TransformableLike } from './types'
-import { isTransformationInput } from './support'
-import { type TransformationLike, Transformation } from './Transformation'
+import type { TransformableLike } from './types.ts'
+import { isTransformationInput } from './support.ts'
+import { type TransformationLike, Transformation } from './Transformation.ts'
 
 export function isTransformationLike(value: unknown): value is TransformationLike {
 	return value instanceof Transformation || isTransformationInput(value)

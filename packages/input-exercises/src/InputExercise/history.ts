@@ -1,6 +1,6 @@
 import { interpretInputData } from '@step-wise/input-interpretation'
 
-import type { InputExerciseHistoryInstance, InputExerciseInput, InputExerciseRawInput } from './types'
+import type { InputExerciseHistoryInstance, InputExerciseInput, InputExerciseRawInput } from './types.ts'
 
 export type LastInputOptions = {
 	resolvedOnly?: boolean

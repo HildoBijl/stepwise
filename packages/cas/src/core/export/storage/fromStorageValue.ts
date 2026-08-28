@@ -1,8 +1,8 @@
 import { type AccentName } from '@step-wise/math-input-value'
 
-import { ExpressionNode, Integer, Float, NamedConstant, Minus, PlusMinus, Variable, Sum, Product, Power, Fraction, Sqrt, Root, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../construction'
+import { ExpressionNode, Integer, Float, NamedConstant, Minus, PlusMinus, Variable, Sum, Product, Power, Fraction, Sqrt, Root, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../construction/index.ts'
 
-import { ExpressionNodeStorageValue } from './types'
+import { ExpressionNodeStorageValue } from './types.ts'
 
 export function storageValueToNode(storageValue: ExpressionNodeStorageValue): ExpressionNode {
 	// Constants

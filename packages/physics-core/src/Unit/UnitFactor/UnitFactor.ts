@@ -1,10 +1,10 @@
 import { ensureInteger } from '@step-wise/js-utils'
 
-import { Prefix } from '../Prefix'
-import { type UnitDefinition } from '../UnitDefinition'
+import { Prefix } from '../Prefix/index.ts'
+import { type UnitDefinition } from '../UnitDefinition/index.ts'
 
-import { type UnitFactorInput, type UnitFactorStorageValue, UnitFactorType } from './interpreting'
-import { unitFactorInputToParameters } from './construction'
+import { type UnitFactorInput, type UnitFactorStorageValue, UnitFactorType } from './interpreting.ts'
+import { unitFactorInputToParameters } from './construction.ts'
 
 export type UnitFactorLike = UnitFactorInput | UnitFactor
 

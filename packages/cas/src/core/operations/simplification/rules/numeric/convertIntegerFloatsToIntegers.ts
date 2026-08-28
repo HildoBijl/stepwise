@@ -1,10 +1,10 @@
 import { approximatelyEqual } from '@step-wise/js-utils'
 
-import { Integer, Float } from '../../../../construction'
+import { Integer, Float } from '../../../../construction/index.ts'
 
-import { isFloatNode } from '../../../structural'
+import { isFloatNode } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Float): Integer | Float {
 	const rounded = Math.round(node.value)

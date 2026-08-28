@@ -1,4 +1,4 @@
-import type { InputExerciseMetadata, InputExerciseAction, InputExerciseAttemptState, InputExerciseParameters, CheckInputData, InputExercise, InputExerciseSpec, InputExerciseSolution } from '../InputExercise'
+import type { InputExerciseMetadata, InputExerciseAction, InputExerciseAttemptState, InputExerciseParameters, CheckInputData, InputExercise, InputExerciseSpec, InputExerciseSolution } from '../InputExercise/index.ts'
 
 export type MonoExerciseMetadata = InputExerciseMetadata
 

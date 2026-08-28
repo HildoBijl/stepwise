@@ -1,4 +1,4 @@
-import { ensureInteger, ensureNumber } from './checks'
+import { ensureInteger, ensureNumber } from './checks.ts'
 
 // Round a number to the given number of decimals.
 export function roundTo(x: number, decimals = 0): number {

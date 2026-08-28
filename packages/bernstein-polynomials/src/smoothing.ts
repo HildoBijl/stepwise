@@ -1,7 +1,7 @@
 import { ensureInteger, ensureNumber, sum, repeat } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 
-import { type BernsteinCoefficients, getBernsteinDegree, normalizeBernsteinCoefficients } from './fundamentals'
+import { type BernsteinCoefficients, getBernsteinDegree, normalizeBernsteinCoefficients } from './fundamentals.ts'
 
 // General coefficient settings.
 export const maxBernsteinDegreeBeforeSmoothing = 150 // If we encounter a higher-degree coefficient array than this, then we will always do smoothing to keep it manageable.

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getInterpolationFraction, interpolateRange } from './rangeInterpolation'
+import { getInterpolationFraction, interpolateRange } from './rangeInterpolation.ts'
 
 class TestNumber {
 	constructor(readonly number: number) {}

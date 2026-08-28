@@ -1,10 +1,10 @@
-import { type Sum, type Fraction, sum } from '../../../../construction'
+import { type Sum, type Fraction, sum } from '../../../../construction/index.ts'
 
-import { isSum, isMinus, isFraction, isNumeric } from '../../../structural'
+import { isSum, isMinus, isFraction, isNumeric } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
-import { combineSumFractions, applyCombineSumFractions } from './combineSumFractions'
+import { combineSumFractions, applyCombineSumFractions } from './combineSumFractions.ts'
 
 function transform(node: Sum): Sum | Fraction {
 	const numericTerms = node.terms.filter(term => isNumeric(term))

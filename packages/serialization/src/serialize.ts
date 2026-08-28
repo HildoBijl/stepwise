@@ -1,7 +1,7 @@
 import { isObject, isPlainObject, mapValues } from '@step-wise/js-utils'
 
-import type { SerializableDomainObject, SerializedDomainObject } from './types'
-import { serializationAdapters } from './adapters'
+import type { SerializableDomainObject, SerializedDomainObject } from './types.ts'
+import { serializationAdapters } from './adapters/index.ts'
 
 export type SerializedData = null | string | number | boolean | SerializedDomainObject | SerializedData[] | { [key: string]: SerializedData }
 

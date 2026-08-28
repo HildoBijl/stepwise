@@ -1,7 +1,7 @@
 import { skill } from '@step-wise/skill-setup'
 import { describe, expect, it } from 'vitest'
 
-import { createSkillTree } from './creation'
+import { createSkillTree } from './creation.ts'
 
 describe('createSkillTree', () => {
 	it('creates a complete skill tree from a nested raw definition', () => {

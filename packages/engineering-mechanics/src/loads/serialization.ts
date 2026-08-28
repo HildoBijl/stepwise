@@ -1,8 +1,8 @@
 import { hasOnlyKeys, isIn, isPlainObject, omitDefaults } from '@step-wise/js-utils'
 import { type VectorStorageValue, Vector, isCoordinateList } from '@step-wise/geometry'
 
-import { type ApplicationPointPosition, type Force, type Load, type Moment, loadApplicationPointPositions, ForceType, MomentType } from './types'
-import { createForce, createMoment } from './creation'
+import { type ApplicationPointPosition, type Force, type Load, type Moment, loadApplicationPointPositions, ForceType, MomentType } from './types.ts'
+import { createForce, createMoment } from './creation.ts'
 
 /*
  * Forces

@@ -1,1 +1,1 @@
-export * from './fridgeCycle'
+export * from './fridgeCycle.ts'

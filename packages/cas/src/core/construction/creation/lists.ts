@@ -1,8 +1,8 @@
 import { removeUndefined } from '@step-wise/js-utils'
 
-import { type ExpressionNode, Integer, Sum, Product } from '../nodes'
+import { type ExpressionNode, Integer, Sum, Product } from '../nodes/index.ts'
 
-import { type ExpressionNodeInput, asExpressionNode } from './asExpressionNode'
+import { type ExpressionNodeInput, asExpressionNode } from './asExpressionNode.ts'
 
 // Expression lists. Undefineds are removed from the list.
 export function sum(...terms: (ExpressionNodeInput | undefined)[]): ExpressionNode {

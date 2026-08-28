@@ -1,9 +1,9 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { isCoordinateList } from '../Vector'
+import { isCoordinateList } from '../Vector/index.ts'
 
-import { type RectangleStorageValue } from './types'
-import { Rectangle } from './Rectangle'
+import { type RectangleStorageValue } from './types.ts'
+import { Rectangle } from './Rectangle.ts'
 
 export type SerializedRectangle = {
 	type: typeof Rectangle.type

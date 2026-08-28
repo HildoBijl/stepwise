@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { cartesianProduct, flattenDeep } from './shaping'
+import { cartesianProduct, flattenDeep } from './shaping.ts'
 
 describe('array shaping', () => {
 	it('deeply flattens nested arrays', () => {

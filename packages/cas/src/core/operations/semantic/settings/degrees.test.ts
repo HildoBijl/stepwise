@@ -1,7 +1,7 @@
-import { arcsin, namedConstants, product, fraction, sin, sum } from '../../../construction'
-import { areNodesEqual } from '../../structural'
+import { arcsin, namedConstants, product, fraction, sin, sum } from '../../../construction/index.ts'
+import { areNodesEqual } from '../../structural/index.ts'
 
-import { convertExpressionToDegrees, convertExpressionToRadians } from './degrees'
+import { convertExpressionToDegrees, convertExpressionToRadians } from './degrees.ts'
 
 describe('angle-unit conversion', () => {
 	test('converts direct and nested trigonometric functions to radians', () => {

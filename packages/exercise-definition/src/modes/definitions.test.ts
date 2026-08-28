@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensureExerciseMode, exerciseModes, exerciseReducerNameByMode } from './definitions'
+import { ensureExerciseMode, exerciseModes, exerciseReducerNameByMode } from './definitions.ts'
 
 describe('ensureExerciseMode', () => {
 	it.each(exerciseModes)('returns the registered mode "%s"', mode => {

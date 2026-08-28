@@ -1,9 +1,9 @@
-import { type ExpressionNode, type Variable, Sum } from '../../../../construction'
+import { type ExpressionNode, type Variable, Sum } from '../../../../construction/index.ts'
 
-import { isSum, isSignNode, isVariable, isProduct, isPower, isNumeric, isSingular, isPolynomial, isRational, tryToEvaluateNumericNode, collectVariables, areVariablesEqual, dependsOn } from '../../../structural'
+import { isSum, isSignNode, isVariable, isProduct, isPower, isNumeric, isSingular, isPolynomial, isRational, tryToEvaluateNumericNode, collectVariables, areVariablesEqual, dependsOn } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
-import { compareVariableNodes } from '../utils'
+import { defineRule } from '../ruleDefinition.ts'
+import { compareVariableNodes } from '../utils/index.ts'
 
 function transform(node: Sum): Sum {
 	const terms = [...node.terms].sort(orderSumTerms)

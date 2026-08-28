@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { type Polynomial, comparePolynomials } from '@step-wise/polynomials'
 
-import { type SkillSetupLike, and, ensureSetup, or, part, pick, repeat, setupFactories, skill } from './index'
+import { type SkillSetupLike, and, ensureSetup, or, part, pick, repeat, setupFactories, skill } from './index.ts'
 
 function expectPolynomial(actual: Polynomial, expected: Polynomial): void {
 	expect(comparePolynomials(actual, expected, { allowVariableReordering: false })).toBe(true)

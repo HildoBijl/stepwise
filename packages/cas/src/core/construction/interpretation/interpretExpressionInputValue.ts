@@ -1,9 +1,9 @@
 import { type ExpressionInputValue, type InterpretationSettings, isExpressionInputValue, resolveInterpretationSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, Variable, isNamedConstantReferral, getNamedConstant } from '../nodes'
+import { type ExpressionNode, Variable, isNamedConstantReferral, getNamedConstant } from '../nodes/index.ts'
 
-import type { InterpreterContext } from './types'
-import { interpretBrackets, interpretProducts, interpretParts, interpretSums } from './steps'
+import type { InterpreterContext } from './types.ts'
+import { interpretBrackets, interpretProducts, interpretParts, interpretSums } from './steps/index.ts'
 
 // Turn an InputValue to an ExpressionNode. Interpreting functions successively call themselves.
 export function interpretExpressionInputValue(input: ExpressionInputValue): ExpressionNode {

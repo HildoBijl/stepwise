@@ -1,7 +1,7 @@
-import { asExpression } from '../expressions'
-import { expectEquationToEqual } from '../tests/support/wrapperAssertions'
+import { asExpression } from '../expressions/index.ts'
+import { expectEquationToEqual } from '../tests/support/wrapperAssertions.ts'
 
-import { Equation, asEquation } from './Equation'
+import { Equation, asEquation } from './Equation.ts'
 
 describe('Equation', () => {
 	test('coerces strings and constructs equations from expressions', () => {

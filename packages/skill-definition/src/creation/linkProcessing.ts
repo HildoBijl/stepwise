@@ -1,6 +1,6 @@
 import { deduplicate, ensureNumber, isPlainObject, sortBy } from '@step-wise/js-utils'
 
-import type { RawSkillLink, SkillId, SkillLink, SkillTree } from './types'
+import type { RawSkillLink, SkillId, SkillLink, SkillTree } from './types.ts'
 
 // Take a raw set of links and turn it into a processed SkillLink object.
 export function normalizeSkillLinks(links?: RawSkillLink | RawSkillLink[]): SkillLink[] {

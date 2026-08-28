@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { formatDate } from './formatting'
+import { formatDate } from './formatting.ts'
 
 describe('date formatting', () => {
 	it('formats local date and time components', () => {

@@ -11,12 +11,12 @@ import {
 	flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, format, // Simplification presets
 	convertExpressionSettings, areEquivalent, isConstantMultiple, isIntegerMultiple, differentiate, // Semantic operations
 	type TexDisplayOptionsInput, inferInterpretationSettingsOptions, nodeToString, nodeToTex, nodeToInputValue, nodeToStorageValue, storageValueToNode, // Printing
-} from '../core'
+} from '../core/index.ts'
 
-import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type ExpressionSettings, type ExpressionInputValue, resolveExpressionSettings } from './settings'
-import { type ExpressionEqualityOptionsInput, type ExpressionStructureComparisonOptions, asExpressionEqualityOptions } from './equalityOptions'
-import { type ExpressionInput } from './types'
-import { isExpressionInput, interpretExpressionInput } from './interpretation'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type ExpressionSettings, type ExpressionInputValue, resolveExpressionSettings } from './settings.ts'
+import { type ExpressionEqualityOptionsInput, type ExpressionStructureComparisonOptions, asExpressionEqualityOptions } from './equalityOptions.ts'
+import { type ExpressionInput } from './types.ts'
+import { isExpressionInput, interpretExpressionInput } from './interpretation.ts'
 
 // Define types used within the class.
 export type VariableLike = Expression | string

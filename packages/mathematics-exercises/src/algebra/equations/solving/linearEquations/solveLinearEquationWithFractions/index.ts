@@ -1,9 +1,9 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import oneFractionWithNumber from './oneFractionWithNumber'
-import oneFractionWithVariable from './oneFractionWithVariable'
-import twoFractionsWithNumber from './twoFractionsWithNumber'
-import twoFractionsWithVariable from './twoFractionsWithVariable'
+import oneFractionWithNumber from './oneFractionWithNumber.ts'
+import oneFractionWithVariable from './oneFractionWithVariable.ts'
+import twoFractionsWithNumber from './twoFractionsWithNumber.ts'
+import twoFractionsWithVariable from './twoFractionsWithVariable.ts'
 
 export default {
 	examples: { twoFractionsWithNumber },

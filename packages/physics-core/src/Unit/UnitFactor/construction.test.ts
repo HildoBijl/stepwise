@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest'
 
-import { Prefix } from '../Prefix'
-import { UnitDefinition } from '../UnitDefinition'
+import { Prefix } from '../Prefix/index.ts'
+import { UnitDefinition } from '../UnitDefinition/index.ts'
 
-import { ensureUnitFactorStorageValue, isUnitFactorParameters, unitFactorInputToParameters, unitFactorStorageValueToParameters } from './construction'
+import { ensureUnitFactorStorageValue, isUnitFactorParameters, unitFactorInputToParameters, unitFactorStorageValueToParameters } from './construction.ts'
 
 describe('UnitFactor construction', () => {
 	test('validates and resolves storage values', () => {

@@ -1,6 +1,6 @@
-import { namedConstants, product, variable } from '../../construction'
+import { namedConstants, product, variable } from '../../construction/index.ts'
 
-import { inferInterpretationSettingsOptions } from './inferInterpretationSettings'
+import { inferInterpretationSettingsOptions } from './inferInterpretationSettings.ts'
 
 describe('interpretation-setting inference', () => {
 	test('enables multi-character variables when needed', () => {

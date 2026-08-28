@@ -3,7 +3,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { Quantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
-import { getCycle } from '../tools'
+import { getCycle } from '../tools/index.ts'
 
 const { k, cp } = gasProperties.air
 

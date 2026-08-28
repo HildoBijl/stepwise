@@ -4,8 +4,8 @@ import {
 	type Quantity as QuantityDomainValue, type QuantityInputValue as QuantityInnerInputValue, QuantityType, interpretQuantityInputValue, quantityToInputValue,
 } from '@step-wise/physics-core'
 
-import type { InputValue, InputValueAdapter } from '../types'
-import { createInputValue } from '../support'
+import type { InputValue, InputValueAdapter } from '../types.ts'
+import { createInputValue } from '../support.ts'
 
 type PrecisionNumberInputValue = InputValue<PrecisionNumberType, PrecisionNumberInnerInputValue>
 export const precisionNumberInputValueAdapter = {

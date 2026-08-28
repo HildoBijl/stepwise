@@ -1,8 +1,8 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import calculateMissedWorkIsotherm from './calculateMissedWorkIsotherm'
-import calculateMissedWorkPiston from './calculateMissedWorkPiston'
-import calculateMissedWorkCompressor from './calculateMissedWorkCompressor'
+import calculateMissedWorkIsotherm from './calculateMissedWorkIsotherm.ts'
+import calculateMissedWorkPiston from './calculateMissedWorkPiston.ts'
+import calculateMissedWorkCompressor from './calculateMissedWorkCompressor.ts'
 
 export default {
 	examples: { calculateMissedWorkIsotherm },

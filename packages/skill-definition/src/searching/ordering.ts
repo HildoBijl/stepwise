@@ -1,8 +1,8 @@
 import { sortBy } from '@step-wise/js-utils'
 
-import type { SkillId, SkillTree } from '../creation'
+import type { SkillId, SkillTree } from '../creation/index.ts'
 
-import { ensureSkillIds } from './validation'
+import { ensureSkillIds } from './validation.ts'
 
 // Sort a given list of skill IDs by the order defined by the Skill Tree.
 export function sortSkillIdsByTreeOrder(skillTree: SkillTree, skillIds: readonly SkillId[]): SkillId[] {

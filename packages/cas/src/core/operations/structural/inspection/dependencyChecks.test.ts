@@ -1,6 +1,6 @@
-import { product, sum, variable } from '../../../construction'
+import { product, sum, variable } from '../../../construction/index.ts'
 
-import { collectVariables, collectVariableStrings, dependsOn, dependsOnAny, dependsOnlyOn } from './dependencyChecks'
+import { collectVariables, collectVariableStrings, dependsOn, dependsOnAny, dependsOnlyOn } from './dependencyChecks.ts'
 
 describe('variable dependencies', () => {
 	const expression = sum(product(variable('x', '1'), 'y'), variable('x', '1'))

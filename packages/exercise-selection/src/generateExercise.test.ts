@@ -2,7 +2,7 @@ import type { Exercise } from '@step-wise/exercise-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 import { describe, expect, it, vi } from 'vitest'
 
-import { generateRandomExerciseInstance, generateSkillBasedExerciseInstance } from './generateExercise'
+import { generateRandomExerciseInstance, generateSkillBasedExerciseInstance } from './generateExercise.ts'
 
 describe('generateRandomExerciseInstance', () => {
 	it('creates an instance from generated parameters and initial state', () => {

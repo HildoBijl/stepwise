@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensureSkillId, expandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, isSkillPrerequisiteOf } from './searching'
+import { ensureSkillId, expandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, isSkillPrerequisiteOf } from './searching.ts'
 
 describe('skill-tree searching', () => {
 	it('validates IDs against the Step-Wise skill tree', () => {

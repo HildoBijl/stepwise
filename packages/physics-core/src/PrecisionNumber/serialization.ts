@@ -1,7 +1,7 @@
 import { hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
 
-import { type PrecisionNumberStorageValue, PrecisionNumberType } from './interpreting'
-import { PrecisionNumber } from './PrecisionNumber'
+import { type PrecisionNumberStorageValue, PrecisionNumberType } from './interpreting.ts'
+import { PrecisionNumber } from './PrecisionNumber.ts'
 
 export type SerializedPrecisionNumber = {
 	type: PrecisionNumberType

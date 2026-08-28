@@ -1,8 +1,8 @@
-import { type Fraction, sum, fraction } from '../../../../construction'
+import { type Fraction, sum, fraction } from '../../../../construction/index.ts'
 
-import { isSum } from '../../../structural'
+import { isSum } from '../../../structural/index.ts'
 
-import { getCommonFactors, removeFactors } from './factors'
+import { getCommonFactors, removeFactors } from './factors.ts'
 
 export function applyCombineFractionFactors(node: Fraction): Fraction {
 	const wholeCommonFactors = getCommonFactors(node.numerator, node.denominator)

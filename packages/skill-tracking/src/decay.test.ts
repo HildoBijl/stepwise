@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { type SkillLevelDecayOptions, applySkillLevelDecay } from './decay'
+import { type SkillLevelDecayOptions, applySkillLevelDecay } from './decay.ts'
 
 describe('applySkillLevelDecay', () => {
 	it('leaves uniform coefficients unchanged', () => {

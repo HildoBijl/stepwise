@@ -1,4 +1,4 @@
-import type { ExerciseAction, ExerciseState } from '../../atomTypes'
+import type { ExerciseAction, ExerciseState } from '../../atomTypes.ts'
 
 export type SoloExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = {
 	action: TAction

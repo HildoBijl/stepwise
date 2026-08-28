@@ -1,7 +1,7 @@
 import { isExercise } from '@step-wise/exercise-definition'
 import { isPlainObject } from '@step-wise/js-utils'
 
-import type { SolutionDefinition } from './types'
+import type { SolutionDefinition } from './types.ts'
 
 function isSolutionDefinition(value: unknown): value is SolutionDefinition {
 	if (typeof value === 'function') return true

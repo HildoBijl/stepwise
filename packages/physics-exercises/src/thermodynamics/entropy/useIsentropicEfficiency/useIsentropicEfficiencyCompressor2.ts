@@ -2,7 +2,7 @@ import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-
 import { compareInputs } from '@step-wise/exercise-grading'
 import { gasProperties } from '@step-wise/physics-data'
 
-import { getCycle } from '../../gasTurbines/tools'
+import { getCycle } from '../../gasTurbines/tools/index.ts'
 
 const { k, cp } = gasProperties.air
 

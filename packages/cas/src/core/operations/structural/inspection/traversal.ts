@@ -1,6 +1,6 @@
 import { count } from '@step-wise/js-utils'
 
-import { ExpressionNode } from '../../../construction'
+import { ExpressionNode } from '../../../construction/index.ts'
 
 export type NodeAncestors = readonly ExpressionNode[]
 export type NodePredicate = (node: ExpressionNode, ancestors: NodeAncestors) => boolean

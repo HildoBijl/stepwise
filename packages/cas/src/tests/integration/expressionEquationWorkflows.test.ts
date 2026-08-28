@@ -1,4 +1,4 @@
-import { asEquation, deserializeEquation, equationToInputValue, inputValueToEquation, serializeEquation } from '../../equations'
+import { asEquation, deserializeEquation, equationToInputValue, inputValueToEquation, serializeEquation } from '../../equations/index.ts'
 
 describe('expression and equation workflows', () => {
 	test('parses, transforms, serializes, restores, and compares an equation', () => {

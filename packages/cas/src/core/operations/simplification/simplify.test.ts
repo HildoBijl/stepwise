@@ -1,7 +1,7 @@
-import { product, sum } from '../../construction'
-import { areNodesEqual } from '../structural'
+import { product, sum } from '../../construction/index.ts'
+import { areNodesEqual } from '../structural/index.ts'
 
-import { simplify } from './simplify'
+import { simplify } from './simplify.ts'
 
 describe('simplify', () => {
 	test('returns unchanged nodes when no rules are enabled', () => {

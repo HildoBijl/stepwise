@@ -1,8 +1,8 @@
-import { type ExpressionNode, type Power, integer, float, fraction, power } from '../../../../construction'
+import { type ExpressionNode, type Power, integer, float, fraction, power } from '../../../../construction/index.ts'
 
-import { isPower, isNumberNode, isOne, isInteger, isFloat, isFraction, evaluateNumericNode, tryToEvaluateNumericNode } from '../../../structural'
+import { isPower, isNumberNode, isOne, isInteger, isFloat, isFraction, evaluateNumericNode, tryToEvaluateNumericNode } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 export function applyReduceNumberPowers(node: Power): ExpressionNode {
 	if (!isInteger(node.base) && !isFloat(node.base)) return node

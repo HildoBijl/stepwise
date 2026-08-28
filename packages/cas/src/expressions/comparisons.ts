@@ -1,6 +1,6 @@
 import { approximatelyEqual } from '@step-wise/js-utils'
 
-import { type ExpressionLike, asExpression } from './Expression'
+import { type ExpressionLike, asExpression } from './Expression.ts'
 
 export const expressionComparisons = {
 	areExactlyEqual(input: ExpressionLike, expected: ExpressionLike): boolean {

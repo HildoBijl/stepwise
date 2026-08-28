@@ -1,5 +1,5 @@
-import type { InputValue } from './types'
-import { inputValueAdapters } from './adapters/registry'
+import type { InputValue } from './types.ts'
+import { inputValueAdapters } from './adapters/registry.ts'
 
 export function toInputValue<Input extends InputValue = InputValue, DomainValue = unknown>(value: DomainValue, type: string): Input {
 	if (typeof type !== 'string') throw new TypeError(`Invalid toInputValue call: expected a string type.`)

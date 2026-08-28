@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { resolveSolution } from './solutions'
+import { resolveSolution } from './solutions.ts'
 
 describe('resolveSolution', () => {
 	it('resolves a solution generator with the parameters', () => {

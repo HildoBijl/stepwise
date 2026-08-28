@@ -1,6 +1,6 @@
 import { type NestedValue, getDimensions, isNumber } from '@step-wise/js-utils'
 
-import { type Polynomial, type PolynomialVariables } from './types'
+import { type Polynomial, type PolynomialVariables } from './types.ts'
 
 export function ensurePolynomialVariables(value: unknown): PolynomialVariables {
 	if (!Array.isArray(value) || !value.every(variable => typeof variable === 'string')) throw new TypeError('Invalid polynomial variables: expected an array of strings.')

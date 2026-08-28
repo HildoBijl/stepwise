@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { sortBy } from './sorting'
+import { sortBy } from './sorting.ts'
 
 describe('array sorting', () => {
 	it('sorts values by corresponding numbers', () => {

@@ -1,6 +1,6 @@
 import { type Load, type SerializedLoad, serializeLoad, deserializeLoad } from '@step-wise/engineering-mechanics'
 
-import type { InputValueAdapter } from '../types'
+import type { InputValueAdapter } from '../types.ts'
 
 export const FreeBodyDiagramType = 'FreeBodyDiagram'
 export type FreeBodyDiagramType = typeof FreeBodyDiagramType

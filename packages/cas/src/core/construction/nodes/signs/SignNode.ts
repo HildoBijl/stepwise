@@ -1,4 +1,4 @@
-import { ExpressionNode } from '../ExpressionNode'
+import { ExpressionNode } from '../ExpressionNode.ts'
 
 export abstract class SignNode extends ExpressionNode {
 	readonly node: ExpressionNode

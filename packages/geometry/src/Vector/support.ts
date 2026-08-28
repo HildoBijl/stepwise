@@ -1,6 +1,6 @@
 import { isNumber, isPlainObject } from '@step-wise/js-utils'
 
-import { type CoordinateKey, type CoordinateList, type CoordinateObject, type VectorInput, coordinateKeys } from './types'
+import { type CoordinateKey, type CoordinateList, type CoordinateObject, type VectorInput, coordinateKeys } from './types.ts'
 
 // Check how many parameters a coordinate object has.
 export function getCoordinateObjectDimension(coordinates: Record<string, unknown>) {

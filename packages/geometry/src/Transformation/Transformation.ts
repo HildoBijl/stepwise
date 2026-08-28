@@ -1,13 +1,13 @@
 import { ensureInteger, ensureNumber } from '@step-wise/js-utils'
 
-import { type VectorLike, Vector, ensureVector, isVectorLike } from '../Vector'
-import { type LineLike, Line, ensureLine, isLineLike } from '../Line'
-import { type LineSegmentLike, LineSegment, ensureLineSegment, isLineSegmentLike } from '../LineSegment'
-import { type RectangleLike, Rectangle, ensureRectangle, isRectangleLike } from '../Rectangle'
-import { type MatrixLike, Matrix, ensureSquareMatrix } from '../Matrix'
+import { type VectorLike, Vector, ensureVector, isVectorLike } from '../Vector/index.ts'
+import { type LineLike, Line, ensureLine, isLineLike } from '../Line/index.ts'
+import { type LineSegmentLike, LineSegment, ensureLineSegment, isLineSegmentLike } from '../LineSegment/index.ts'
+import { type RectangleLike, Rectangle, ensureRectangle, isRectangleLike } from '../Rectangle/index.ts'
+import { type MatrixLike, Matrix, ensureSquareMatrix } from '../Matrix/index.ts'
 
-import type { TransformableLike, TransformationInput, TransformationStorageValue } from './types'
-import { isTransformationObject } from './support'
+import type { TransformableLike, TransformationInput, TransformationStorageValue } from './types.ts'
+import { isTransformationObject } from './support.ts'
 
 export const TransformationType = 'Transformation'
 export type TransformationType = typeof TransformationType

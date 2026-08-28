@@ -1,8 +1,8 @@
 import { isArray, isSet, union, difference } from '@step-wise/js-utils'
 
-import { simplificationRules, type SimplificationRules } from '../rules'
+import { simplificationRules, type SimplificationRules } from '../rules/index.ts'
 
-import { type SimplificationOption, type SimplificationOptions, type SimplificationOptionsInput } from './types'
+import { type SimplificationOption, type SimplificationOptions, type SimplificationOptionsInput } from './types.ts'
 
 export const allSimplificationOptions: ReadonlySet<SimplificationOption> = new Set(Object.keys(simplificationRules) as SimplificationOption[])
 

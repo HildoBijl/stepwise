@@ -1,7 +1,7 @@
 export {
 	type DecimalSeparator, type TexDisplayOptions, type TexDisplayOptionsInput, type PrecisionNumberStorageValue, type PrecisionNumberInput, type PrecisionNumberEqualityOptions, type PrecisionNumberEqualityOptionsInput, type PrecisionNumberEqualityResult, type SerializedPrecisionNumber, type PrecisionNumberInputValue, type RandomPrecisionNumberOptions, type RandomPrecisionNumberOptionsInput, type RandomExponentialPrecisionNumberOptions, type RandomExponentialPrecisionNumberOptionsInput, PrecisionNumberType,
 	defaultTexDisplayOptions, resolveTexDisplayOptions, defaultPrecisionNumberEqualityOptions, resolvePrecisionNumberEqualityOptions, validatePrecisionNumberEqualityOptions, adjustPrecisionNumberTolerances, PrecisionNumber, asPrecisionNumber, serializePrecisionNumber, deserializePrecisionNumber, isPrecisionNumberInputValue, interpretPrecisionNumberInputValue, precisionNumberToInputValue, defaultRandomPrecisionNumberOptions, defaultRandomExponentialPrecisionNumberOptions, resolveRandomPrecisionNumberOptions, resolveRandomExponentialPrecisionNumberOptions, getRandomPrecisionNumber, getRandomExponentialPrecisionNumber
-} from './PrecisionNumber'
+} from './PrecisionNumber/index.ts'
 
 export {
 	type PrefixInput, type UnitDefinitionInput, type UnitDefinitionToStandard, type UnitFactorStorageValue, type UnitFactorInput, type UnitFactorLike, type UnitFactorInputValue, type UnitFactorArrayStorageValue, type UnitFactorArrayInput, type UnitFactorArray, type UnitStorageValue, type UnitInput, type UnitSimplificationTarget, type UnitSimplificationOptions, type UnitSimplificationOptionsInput, type UnitTransformationData, type UnitEqualityOptions, type UnitEqualityOptionsInput, type UnitEqualityResult, type UnitLike, type SerializedUnit, type UnitInputValue,
@@ -9,9 +9,9 @@ export {
 	UnitDefinition, unitDefinitions, findUnitDefinition,
 	UnitFactorType, UnitFactor, asUnitFactor,
 	interpretPrefixAndUnitDefinitionString, UnitType, unitSimplificationTargets, defaultUnitSimplificationOptions, resolveUnitSimplificationOptions, defaultUnitEqualityOptions, resolveUnitEqualityOptions, Unit, asUnit, unitsEqual, unitsEquivalent, unitsCompatible, serializeUnit, deserializeUnit, isUnitInputValue, interpretUnitInputValue, unitToInputValue
-} from './Unit'
+} from './Unit/index.ts'
 
 export {
 	type QuantityStorageValue, type QuantityInput, type QuantitySimplificationOptions, type QuantitySimplificationOptionsInput, type QuantityEqualityOptions, type QuantityEqualityOptionsInput, type QuantityEqualityResult, type QuantityLike, type SerializedQuantity, type QuantityInputValue, type RandomQuantityOptions, type RandomQuantityOptionsInput, type RandomExponentialQuantityOptions, type RandomExponentialQuantityOptionsInput, QuantityType,
 	defaultQuantitySimplificationOptions, resolveQuantitySimplificationOptions, defaultQuantityEqualityOptions, resolveQuantityEqualityOptions, adjustQuantityTolerances, Quantity, asQuantity, serializeQuantity, deserializeQuantity, isQuantityInputValue, interpretQuantityInputValue, quantityToInputValue, resolveRandomQuantityOptions, resolveRandomExponentialQuantityOptions, getRandomQuantity, getRandomExponentialQuantity
-} from './Quantity'
+} from './Quantity/index.ts'

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { exerciseSupportsMode, isExercise, isExerciseSpec } from './guards'
+import { exerciseSupportsMode, isExercise, isExerciseSpec } from './guards.ts'
 
 const generateParameters = () => ({})
 const getInitialState = () => ({})

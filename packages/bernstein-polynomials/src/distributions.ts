@@ -1,7 +1,7 @@
 import { ensureInteger, ensureNumber, sum, cumulative } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 
-import { type BernsteinCoefficients, getBernsteinDegree } from './fundamentals'
+import { type BernsteinCoefficients, getBernsteinDegree } from './fundamentals.ts'
 
 export type BernsteinApproximationOptions = {
 	iterations?: number

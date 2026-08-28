@@ -1,6 +1,6 @@
-import { type ExpressionNode, type ConstantNode, Integer, integer, sum, product } from '../../../../construction'
+import { type ExpressionNode, type ConstantNode, Integer, integer, sum, product } from '../../../../construction/index.ts'
 
-import { isSignNode, isConstantNode, isSum, isProduct } from '../../../structural'
+import { isSignNode, isConstantNode, isSum, isProduct } from '../../../structural/index.ts'
 
 // Get the number that's at the front of the given expression.
 export function getLeadingNumber(node: ExpressionNode): ConstantNode {

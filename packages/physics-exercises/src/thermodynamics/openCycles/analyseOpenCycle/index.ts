@@ -1,8 +1,8 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import analyseOpenCyclespsp from './analyseOpenCyclespsp'
-import analyseOpenCycleNspsp from './analyseOpenCycleNspsp'
-import analyseOpenCycleTsp from './analyseOpenCycleTsp'
+import analyseOpenCyclespsp from './analyseOpenCyclespsp.ts'
+import analyseOpenCycleNspsp from './analyseOpenCycleNspsp.ts'
+import analyseOpenCycleTsp from './analyseOpenCycleTsp.ts'
 
 export default {
 	examples: { analyseOpenCyclespsp },

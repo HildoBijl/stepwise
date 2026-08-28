@@ -1,9 +1,9 @@
-import { type ExpressionNode, type Product, product } from '../../../../construction'
+import { type ExpressionNode, type Product, product } from '../../../../construction/index.ts'
 
-import { isProduct, isInteger, isFloat, isVariable, isPower, isSum, isNumeric, isSingular, someNode, tryToEvaluateNumericNode, collectVariables } from '../../../structural'
+import { isProduct, isInteger, isFloat, isVariable, isPower, isSum, isNumeric, isSingular, someNode, tryToEvaluateNumericNode, collectVariables } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
-import { compareVariableNodes } from '../utils'
+import { defineRule } from '../ruleDefinition.ts'
+import { compareVariableNodes } from '../utils/index.ts'
 
 function transform(node: Product): ExpressionNode {
 	const factors = [...node.factors].sort(orderProductFactors)

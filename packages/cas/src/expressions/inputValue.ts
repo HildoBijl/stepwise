@@ -1,6 +1,6 @@
 import { type ExpressionInputValue, parseExpressionInputValue } from '@step-wise/math-input-value'
 
-import { type Expression, asExpression } from './Expression'
+import { type Expression, asExpression } from './Expression.ts'
 
 export { type ExpressionInputValue } from '@step-wise/math-input-value'
 

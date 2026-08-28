@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import type { CourseDiagnostics } from './types'
-import { validateCourseDiagnostics } from './diagnosticsValidation'
+import type { CourseDiagnostics } from './types.ts'
+import { validateCourseDiagnostics } from './diagnosticsValidation.ts'
 
 const validDiagnostics: CourseDiagnostics = {
 	originalStartingPointIds: [],

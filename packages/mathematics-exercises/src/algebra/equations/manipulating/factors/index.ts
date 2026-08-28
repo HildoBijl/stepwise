@@ -1,1 +1,1 @@
-export { default as moveEquationFactor } from './moveEquationFactor'
+export { default as moveEquationFactor } from './moveEquationFactor/index.ts'

@@ -1,6 +1,6 @@
-import { type SignNode, Minus, PlusMinus } from '../nodes'
+import { type SignNode, Minus, PlusMinus } from '../nodes/index.ts'
 
-import { type ExpressionNodeInput, asExpressionNode } from './asExpressionNode'
+import { type ExpressionNodeInput, asExpressionNode } from './asExpressionNode.ts'
 
 // Constants.
 export const negative = (value: ExpressionNodeInput) => new Minus(asExpressionNode(value))

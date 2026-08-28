@@ -1,7 +1,7 @@
-import { areNodesEqual } from '../../operations'
-import { power, product, sum, variable } from '../creation'
+import { areNodesEqual } from '../../operations/index.ts'
+import { power, product, sum, variable } from '../creation/index.ts'
 
-import { nodeToTree } from './nodeToTree'
+import { nodeToTree } from './nodeToTree.ts'
 
 describe('expression nodes', () => {
 	test('exposes children in structural order', () => {

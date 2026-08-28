@@ -1,6 +1,6 @@
 import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, parseExpressionInputValue } from '@step-wise/math-input-value'
 
-import { interpretExpressionInputValue } from './interpretExpressionInputValue'
+import { interpretExpressionInputValue } from './interpretExpressionInputValue.ts'
 
 // Turn a string into an ExpressionNode.
 export function parseExpressionNode(input: string, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions) {

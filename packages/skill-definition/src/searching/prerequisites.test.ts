@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import { createSkillTree } from '../creation'
+import { createSkillTree } from '../creation/index.ts'
 
-import { getSkillIdsBetweenGoalsAndPriorKnowledge, expandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, isSkillPrerequisiteOf } from './prerequisites'
+import { getSkillIdsBetweenGoalsAndPriorKnowledge, expandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, isSkillPrerequisiteOf } from './prerequisites.ts'
 
 const tree = createSkillTree({
 	a: { name: 'A' },

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { flattenRawSkillTree } from './flattening'
-import { validateAndProcessPrerequisites } from './prerequisiteProcessing'
+import { flattenRawSkillTree } from './flattening.ts'
+import { validateAndProcessPrerequisites } from './prerequisiteProcessing.ts'
 
 describe('validateAndProcessPrerequisites', () => {
 	it('creates continuation IDs for chains and branches in tree order', () => {

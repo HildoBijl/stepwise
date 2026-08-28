@@ -1,4 +1,4 @@
-import { isPlainObject, mapValues, preserveRefs } from '../objects'
+import { isPlainObject, mapValues, preserveRefs } from '../objects/index.ts'
 
 // Evaluate the value when it is a function; otherwise return it unchanged.
 export function resolveFunctionValue<TArgs extends unknown[]>(value: unknown, ...args: TArgs): unknown {

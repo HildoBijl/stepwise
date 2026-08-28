@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { Quantity } from '@step-wise/physics-core'
 
-import { getRefrigerantPropertiesFromPressureAndEnthalpy, getRefrigerantPropertiesFromPressureAndEntropy, getRefrigerantPropertiesFromPressureAndTemperature, getSaturatedLiquidPropertiesFromTemperature, getSaturatedMixturePropertiesFromPressure, getSaturatedVaporPropertiesFromPressure, getSaturationPressure, getSaturationTemperature } from './refrigerantProperties'
+import { getRefrigerantPropertiesFromPressureAndEnthalpy, getRefrigerantPropertiesFromPressureAndEntropy, getRefrigerantPropertiesFromPressureAndTemperature, getSaturatedLiquidPropertiesFromTemperature, getSaturatedMixturePropertiesFromPressure, getSaturatedVaporPropertiesFromPressure, getSaturationPressure, getSaturationTemperature } from './refrigerantProperties.ts'
 import { refrigerantDatasets } from '.'
 
 const data = refrigerantDatasets.R134A

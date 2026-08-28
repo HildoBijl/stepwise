@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { ensureFunction, identity, noop } from './fundamentals'
+import { ensureFunction, identity, noop } from './fundamentals.ts'
 
 describe('function fundamentals', () => {
 	it('provides noop and identity helpers', () => {

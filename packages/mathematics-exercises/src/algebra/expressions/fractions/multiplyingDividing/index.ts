@@ -1,2 +1,2 @@
-export { default as simplifyFractionWithVariables } from './simplifyFractionWithVariables'
-export { default as simplifyFractionOfFractionsWithVariables } from './simplifyFractionOfFractionsWithVariables'
+export { default as simplifyFractionWithVariables } from './simplifyFractionWithVariables/index.ts'
+export { default as simplifyFractionOfFractionsWithVariables } from './simplifyFractionOfFractionsWithVariables/index.ts'

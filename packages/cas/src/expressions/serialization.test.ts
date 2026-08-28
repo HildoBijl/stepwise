@@ -1,5 +1,5 @@
-import { asExpression } from './Expression'
-import { deserializeExpression, serializeExpression } from './serialization'
+import { asExpression } from './Expression.ts'
+import { deserializeExpression, serializeExpression } from './serialization.ts'
 
 describe('expression serialization', () => {
 	test('round-trips storage and wrapper settings', () => {

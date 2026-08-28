@@ -1,4 +1,4 @@
-import type { SkillId, SkillTree } from './types'
+import type { SkillId, SkillTree } from './types.ts'
 
 // Validate prerequisites and set up the continuation IDs for each skill.
 export function validateAndProcessPrerequisites(skillTree: SkillTree): void {

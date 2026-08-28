@@ -1,7 +1,7 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import applyChainRuleTwoElementary from './applyChainRuleTwoElementary'
-import applyChainRuleElementaryAndBasic from './applyChainRuleElementaryAndBasic'
+import applyChainRuleTwoElementary from './applyChainRuleTwoElementary.ts'
+import applyChainRuleElementaryAndBasic from './applyChainRuleElementaryAndBasic.ts'
 
 export default {
 	examples: {},

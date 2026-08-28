@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { isInterpolationAxis, isInterpolationFraction, isInterpolationGrid, isInterpolationTable, isInterpolationValue, isNumberLike } from './checks'
-import { createInterpolationTable } from './tableCreation'
+import { isInterpolationAxis, isInterpolationFraction, isInterpolationGrid, isInterpolationTable, isInterpolationValue, isNumberLike } from './checks.ts'
+import { createInterpolationTable } from './tableCreation.ts'
 
 class TestNumber {
 	constructor(readonly number: number, readonly comparisonValue = number) {}

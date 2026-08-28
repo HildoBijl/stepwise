@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { defaultInterpretationSettings } from '../../settings'
-import type { ExpressionValue } from '../../types'
+import { defaultInterpretationSettings } from '../../settings/index.ts'
+import type { ExpressionValue } from '../../types/index.ts'
 
-import { parseFunctionsAndAccents } from './functionsAndAccents'
+import { parseFunctionsAndAccents } from './functionsAndAccents.ts'
 
 const parse = (value: ExpressionValue) => value
 

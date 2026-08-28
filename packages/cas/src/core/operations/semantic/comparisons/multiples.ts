@@ -1,9 +1,9 @@
 import { type ExpressionSettingsOptions } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, fraction } from '../../../construction'
+import { type ExpressionNode, fraction } from '../../../construction/index.ts'
 
-import { isInteger, isZero, isNumeric } from '../../structural'
-import { normalize, simplify } from '../../simplification'
+import { isInteger, isZero, isNumeric } from '../../structural/index.ts'
+import { normalize, simplify } from '../../simplification/index.ts'
 
 export function isConstantMultiple(a: ExpressionNode, b: ExpressionNode, settings: ExpressionSettingsOptions = {}): boolean {
 	const normalized = normalizePair(a, b, settings)

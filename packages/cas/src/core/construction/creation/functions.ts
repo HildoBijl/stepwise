@@ -1,6 +1,6 @@
-import { Fraction, Power, Root, Ln, Sqrt, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../nodes'
+import { Fraction, Power, Root, Ln, Sqrt, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../nodes/index.ts'
 
-import { type ExpressionNodeInput, asExpressionNode } from './asExpressionNode'
+import { type ExpressionNodeInput, asExpressionNode } from './asExpressionNode.ts'
 
 // Fundamental functions.
 export const fraction = (numerator: ExpressionNodeInput, denominator: ExpressionNodeInput) => new Fraction(asExpressionNode(numerator), asExpressionNode(denominator))

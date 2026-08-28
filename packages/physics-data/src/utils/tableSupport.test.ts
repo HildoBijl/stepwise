@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { Quantity } from '@step-wise/physics-core'
 
-import { createExactQuantities, createQuantityGrid } from './tableSupport'
+import { createExactQuantities, createQuantityGrid } from './tableSupport.ts'
 
 describe('createExactQuantities', () => {
 	it('creates exact quantities without changing the input', () => {

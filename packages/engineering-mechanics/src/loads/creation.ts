@@ -1,8 +1,8 @@
 import { ensureBoolean, ensureNumber, isIn, isPlainObject, normalizeAngle } from '@step-wise/js-utils'
 import { ensureVector } from '@step-wise/geometry'
 
-import { type Force, type ForceInput, type Load, type LoadInput, type Moment, type MomentInput, type ApplicationPointPosition, loadApplicationPointPositions, ForceType, MomentType } from './types'
-import { isForce, isMoment } from './checks'
+import { type Force, type ForceInput, type Load, type LoadInput, type Moment, type MomentInput, type ApplicationPointPosition, loadApplicationPointPositions, ForceType, MomentType } from './types.ts'
+import { isForce, isMoment } from './checks.ts'
 
 export function createForce(value: ForceInput): Force {
 	if (!isPlainObject(value)) throw new TypeError(`Invalid Force: expected a plain object.`)

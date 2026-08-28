@@ -1,7 +1,7 @@
-import { simplificationRules } from '../rules'
+import { simplificationRules } from '../rules/index.ts'
 
-import { type SimplificationOptions } from './types'
-import { ensureSimplificationOptionSet, isSimplificationOption } from './utils'
+import { type SimplificationOptions } from './types.ts'
+import { ensureSimplificationOptionSet, isSimplificationOption } from './utils.ts'
 
 export function validateSimplificationOptions(options: SimplificationOptions): SimplificationOptions {
 	ensureSimplificationOptionSet(options)

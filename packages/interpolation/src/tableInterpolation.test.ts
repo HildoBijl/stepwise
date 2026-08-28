@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { createInterpolationTable } from './tableCreation'
-import { interpolateTable, interpolateTableInput, interpolateTableOutputs } from './tableInterpolation'
+import { createInterpolationTable } from './tableCreation.ts'
+import { interpolateTable, interpolateTableInput, interpolateTableOutputs } from './tableInterpolation.ts'
 
 const singleInputTable = createInterpolationTable({ inputLabels: ['a'], inputAxes: [[0, 1, 2, 3]], outputLabels: ['x'], outputGrids: [[2, 4, 6, 8]] })
 const decreasingTable = createInterpolationTable({ inputLabels: ['a'], inputAxes: [[0, 1, 2, 3]], outputLabels: ['x'], outputGrids: [[8, 6, 4, 2]] })

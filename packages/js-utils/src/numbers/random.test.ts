@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { randomBoolean, randomInteger, randomNumber } from './random'
+import { randomBoolean, randomInteger, randomNumber } from './random.ts'
 
 afterEach(() => vi.restoreAllMocks())
 

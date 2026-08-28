@@ -1,7 +1,7 @@
 import { product, repeat } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 
-import { type BernsteinCoefficients, elevateBernsteinCoefficients, getBernsteinDegree, normalizeBernsteinCoefficients } from './fundamentals'
+import { type BernsteinCoefficients, elevateBernsteinCoefficients, getBernsteinDegree, normalizeBernsteinCoefficients } from './fundamentals.ts'
 
 // Multiply and normalize the PDFs represented by a list of coefficient arrays.
 export function multiplyBernsteinPDFs(...coefficientsList: BernsteinCoefficients[]): BernsteinCoefficients {

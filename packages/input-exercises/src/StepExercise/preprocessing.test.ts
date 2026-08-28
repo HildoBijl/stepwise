@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { skill } from '@step-wise/skill-setup'
 
-import { createStepExerciseMetadata } from './preprocessing'
+import { createStepExerciseMetadata } from './preprocessing.ts'
 
 describe('createStepExerciseMetadata', () => {
 	it('keeps the steps and combines their skills into one setup', () => {

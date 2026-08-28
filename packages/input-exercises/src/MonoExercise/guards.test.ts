@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { isMonoExercise } from './guards'
+import { isMonoExercise } from './guards.ts'
 
 const exercise = {
 	metadata: {},

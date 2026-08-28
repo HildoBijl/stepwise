@@ -1,6 +1,6 @@
 import { approximatelyEqual, ensureNumberArray, sum } from '@step-wise/js-utils'
 
-import { type BernsteinCoefficients } from './fundamentals'
+import { type BernsteinCoefficients } from './fundamentals.ts'
 
 export type EnsureBernsteinCoefficientsOptions = {
 	requireNormalized?: boolean

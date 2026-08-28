@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { defaultInterpretationSettings, isInterpretationSettingsOptions, resolveInterpretationSettings } from './interpretationSettings'
+import { defaultInterpretationSettings, isInterpretationSettingsOptions, resolveInterpretationSettings } from './interpretationSettings.ts'
 
 describe('interpretation settings', () => {
 	it('defines and resolves all defaults', () => {

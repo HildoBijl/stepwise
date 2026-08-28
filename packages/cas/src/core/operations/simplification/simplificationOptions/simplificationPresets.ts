@@ -1,9 +1,9 @@
 import { difference } from '@step-wise/js-utils'
 
-import { normalizationRequirementRules } from '../rules/normalization'
+import { normalizationRequirementRules } from '../rules/normalization/index.ts'
 
-import { type SimplificationOption } from './types'
-import { adjustSimplificationOptions, isSimplificationOption } from './utils'
+import { type SimplificationOption } from './types.ts'
+import { adjustSimplificationOptions, isSimplificationOption } from './utils.ts'
 
 export const flatten = new Set<SimplificationOption>([
 	// Excess brackets

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { and } from '@step-wise/skill-setup'
 import { type SkillTree, createSkillTree } from '@step-wise/skill-definition'
 
-import { analyzeCourse } from './analyzeCourse'
+import { analyzeCourse } from './analyzeCourse.ts'
 
 const skillTree = createSkillTree({
 	a: { name: 'A' },

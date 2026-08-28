@@ -1,2 +1,2 @@
-export * from './accents'
-export * from './constructs'
+export * from './accents.ts'
+export * from './constructs.ts'

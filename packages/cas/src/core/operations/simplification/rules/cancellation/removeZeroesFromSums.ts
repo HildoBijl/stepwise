@@ -1,8 +1,8 @@
-import { type ExpressionNode, type Sum, sum } from '../../../../construction'
+import { type ExpressionNode, type Sum, sum } from '../../../../construction/index.ts'
 
-import { isSum, isZero } from '../../../structural'
+import { isSum, isZero } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Sum): ExpressionNode {
 	const terms = node.terms.filter(term => !isZero(term))

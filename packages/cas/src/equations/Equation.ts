@@ -1,11 +1,11 @@
 import { approximatelyEqual, deepEqual, identity } from '@step-wise/js-utils'
 import { type ExpressionSettings, type EquationInputValue, resolveExpressionSettings, defaultExpressionSettings, createEquationInputValue, mergeAdjacentTextParts } from '@step-wise/math-input-value'
 
-import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type TexDisplayOptionsInput, type OrderedTraversalOptions, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type TexDisplayOptionsInput, type OrderedTraversalOptions, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions/index.ts'
 
-import { type EquationInput, type EquationStorageValue, type EquationSideName, type EquationSideCheck, type EquationSideTransform, type EquationSideFunction, type ExpressionInEquationCheck, type ExpressionInEquationTransform, type ExpressionInEquationFunction, equationSideNames } from './types'
-import { type EquationEqualityOptionsInput, type EquationStructureComparisonOptions, type EquationMultipleComparisonOptions, asEquationEqualityOptions } from './equalityOptions'
-import { isEquationInput, interpretEquationInput } from './interpretation'
+import { type EquationInput, type EquationStorageValue, type EquationSideName, type EquationSideCheck, type EquationSideTransform, type EquationSideFunction, type ExpressionInEquationCheck, type ExpressionInEquationTransform, type ExpressionInEquationFunction, equationSideNames } from './types.ts'
+import { type EquationEqualityOptionsInput, type EquationStructureComparisonOptions, type EquationMultipleComparisonOptions, asEquationEqualityOptions } from './equalityOptions.ts'
+import { isEquationInput, interpretEquationInput } from './interpretation.ts'
 
 // Add a type checker and interpreter.
 export type EquationLike = Equation | EquationInput

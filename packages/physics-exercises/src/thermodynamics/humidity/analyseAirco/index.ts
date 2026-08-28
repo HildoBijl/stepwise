@@ -1,8 +1,8 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import analyseAircoBasic from './analyseAircoBasic'
-import analyseAircoWaterDischarge from './analyseAircoWaterDischarge'
-import analyseAircoPower from './analyseAircoPower'
+import analyseAircoBasic from './analyseAircoBasic.ts'
+import analyseAircoWaterDischarge from './analyseAircoWaterDischarge.ts'
+import analyseAircoPower from './analyseAircoPower.ts'
 
 export default {
 	examples: { analyseAircoBasic },

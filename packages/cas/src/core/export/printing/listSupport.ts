@@ -1,7 +1,7 @@
 import { type InterpretationSettings } from '@step-wise/math-input-value'
 
-import { ExpressionNode } from '../../construction'
-import { isNumberNode, isVariable, isSignNode, isFraction, isFunctionNode, isPower } from '../../operations'
+import { ExpressionNode } from '../../construction/index.ts'
+import { isNumberNode, isVariable, isSignNode, isFraction, isFunctionNode, isPower } from '../../operations/index.ts'
 
 // Describe whether there should be a plus symbol between two nodes in a sum.
 export function requiresPlusBetweenNodes(nextNode: ExpressionNode, previousNode: ExpressionNode): boolean {

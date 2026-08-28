@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { fromKeys, fromKeysAndValues } from './creation'
+import { fromKeys, fromKeysAndValues } from './creation.ts'
 
 describe('object creation', () => {
 	it('creates values with mapper context and filters undefined by default', () => {

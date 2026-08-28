@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { defaultExpressionSettings, isExpressionSettingsOptions, resolveExpressionSettings } from './expressionSettings'
+import { defaultExpressionSettings, isExpressionSettingsOptions, resolveExpressionSettings } from './expressionSettings.ts'
 
 describe('expression settings', () => {
 	it('defines and resolves the defaults', () => {

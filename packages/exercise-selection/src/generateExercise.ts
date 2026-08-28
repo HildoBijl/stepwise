@@ -4,8 +4,8 @@ import type { SkillLevelSet } from '@step-wise/skill-tracking'
 import { type Exercise, type ExerciseMode, resolveExerciseParameters, resolveInitialState } from '@step-wise/exercise-definition'
 import { type ExerciseId, type ExerciseCollection } from '@step-wise/exercise-bundling'
 
-import type { ExerciseInstance, PreviousExercise } from './types'
-import { selectRandomExercise, selectSkillBasedExercise } from './selectExercise'
+import type { ExerciseInstance, PreviousExercise } from './types.ts'
+import { selectRandomExercise, selectSkillBasedExercise } from './selectExercise.ts'
 
 // Get a new exercise based on skill data.
 export async function generateSkillBasedExerciseInstance(exercises: ExerciseCollection, loadSkillLevelSet: (skillIds: SkillId[]) => Promise<SkillLevelSet>, previousExercises: PreviousExercise[] = []): Promise<ExerciseInstance> {

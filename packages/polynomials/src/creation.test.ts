@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { createConstantPolynomial, createPolynomial } from './creation'
+import { createConstantPolynomial, createPolynomial } from './creation.ts'
 
 describe('polynomial creation', () => {
 	it('creates validated polynomials', () => {

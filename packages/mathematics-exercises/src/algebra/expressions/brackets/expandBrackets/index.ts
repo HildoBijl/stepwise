@@ -1,9 +1,9 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import basicForm from './basicForm'
-import factorBehind from './factorBehind'
-import negativeFactor from './negativeFactor'
-import multipleTerms from './multipleTerms'
+import basicForm from './basicForm.ts'
+import factorBehind from './factorBehind.ts'
+import negativeFactor from './negativeFactor.ts'
+import multipleTerms from './multipleTerms.ts'
 
 export default {
 	examples: { basicForm },

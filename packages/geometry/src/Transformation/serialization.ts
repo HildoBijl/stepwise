@@ -1,10 +1,10 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { isMatrixArray } from '../Matrix'
-import { isCoordinateList } from '../Vector'
+import { isMatrixArray } from '../Matrix/index.ts'
+import { isCoordinateList } from '../Vector/index.ts'
 
-import { type TransformationStorageValue } from './types'
-import { Transformation } from './Transformation'
+import { type TransformationStorageValue } from './types.ts'
+import { Transformation } from './Transformation.ts'
 
 export type SerializedTransformation = {
 	type: typeof Transformation.type

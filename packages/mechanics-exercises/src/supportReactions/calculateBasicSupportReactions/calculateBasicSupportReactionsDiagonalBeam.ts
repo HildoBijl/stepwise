@@ -5,7 +5,7 @@ import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-
 import { compareInputs } from '@step-wise/exercise-grading'
 import { createForce, createMoment, freeBodyDiagramComparisonOptions } from '@step-wise/engineering-mechanics'
 
-import { getDynamicSolution, getInputDependency } from './common'
+import { getDynamicSolution, getInputDependency } from './common.ts'
 
 const metadata = {
 	skill: 'calculateBasicSupportReactions',

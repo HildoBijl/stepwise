@@ -1,8 +1,8 @@
-import { type SignNode, type Product, negative, product } from '../../../../construction'
+import { type SignNode, type Product, negative, product } from '../../../../construction/index.ts'
 
-import { isProduct, isMinus } from '../../../structural'
+import { isProduct, isMinus } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Product): Product | SignNode {
 	// Remove all minus signs from the factors. Count them.

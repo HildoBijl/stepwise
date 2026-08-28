@@ -1,9 +1,9 @@
 import { hasOneToOneMatching } from '@step-wise/js-utils'
 import type { CheckInputData } from '@step-wise/input-exercises'
 
-import type { InputKey } from './types'
-import { compareInputValue } from './compareInputValue'
-import { resolveInputComparison } from './inputComparisons'
+import type { InputKey } from './types.ts'
+import { compareInputValue } from './compareInputValue.ts'
+import { resolveInputComparison } from './inputComparisons.ts'
 
 export function compareInputList<TData extends CheckInputData>(keys: readonly InputKey<TData>[], data: TData): boolean {
 	const { rawInput, input, solution } = data

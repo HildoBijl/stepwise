@@ -1,4 +1,4 @@
-import { ensureNumber } from './checks'
+import { ensureNumber } from './checks.ts'
 
 // Extend the Javascript modulus function to guarantee a result between 0 (inclusive) and n (exclusive).
 export function mod(a: number, n: number): number {

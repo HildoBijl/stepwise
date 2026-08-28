@@ -1,7 +1,7 @@
 import { approximatelyEqual, compareNumberArrays, sum } from '@step-wise/js-utils'
 import { describe, expect, it } from 'vitest'
 
-import { multiplyBernsteinCoefficientsElementwise, multiplyBernsteinPDFs } from './multiplication'
+import { multiplyBernsteinCoefficientsElementwise, multiplyBernsteinPDFs } from './multiplication.ts'
 
 function expectValidCoefficients(coefficients: readonly number[]): void {
 	expect(coefficients.every(coefficient => coefficient >= 0)).toBe(true)

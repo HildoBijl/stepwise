@@ -1,8 +1,8 @@
 import { type OneToOneMatching, getOneToOneMatching, invertOneToOneMatching } from '@step-wise/js-utils'
 
-import type { Load } from './types'
-import type { LoadComparisonOptionsInput } from './comparisonOptions'
-import { loadsEqual } from './comparison'
+import type { Load } from './types.ts'
+import type { LoadComparisonOptionsInput } from './comparisonOptions.ts'
+import { loadsEqual } from './comparison.ts'
 
 export type LoadListComparisonReport = {
 	equal: boolean

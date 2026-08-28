@@ -1,7 +1,7 @@
-import { sum } from '../core'
+import { sum } from '../core/index.ts'
 
-import { Expression, asExpression } from './Expression'
-import { expressionComparisons } from './comparisons'
+import { Expression, asExpression } from './Expression.ts'
+import { expressionComparisons } from './comparisons.ts'
 
 describe('expressionComparisons', () => {
 	test('requires identical visible structure for exact equality', () => {

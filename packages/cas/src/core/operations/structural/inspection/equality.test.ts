@@ -1,6 +1,6 @@
-import { negative, power, product, sum, variable } from '../../../construction'
+import { negative, power, product, sum, variable } from '../../../construction/index.ts'
 
-import { areNodesEqual } from './equality'
+import { areNodesEqual } from './equality.ts'
 
 describe('structural node equality', () => {
 	test('compares all relevant node data', () => {

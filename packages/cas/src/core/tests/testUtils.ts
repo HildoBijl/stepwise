@@ -1,8 +1,8 @@
 import { type ExpressionSettingsOptions } from '@step-wise/math-input-value'
 
-import { type ExpressionNodeInput, asExpressionNode, nodeToTree } from '../construction'
-import { type SimplificationOptionsInput, areNodesEqual, simplify } from '../operations'
-import { nodeToString } from '../export'
+import { type ExpressionNodeInput, asExpressionNode, nodeToTree } from '../construction/index.ts'
+import { type SimplificationOptionsInput, areNodesEqual, simplify } from '../operations/index.ts'
+import { nodeToString } from '../export/index.ts'
 
 export function expectNodeToEqual(result: ExpressionNodeInput, expected: ExpressionNodeInput) {
 	const resultValue = asExpressionNode(result)

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { indexOfAnyCharacter } from './search'
+import { indexOfAnyCharacter } from './search.ts'
 
 describe('string searching', () => {
 	it('finds the earliest requested character', () => {

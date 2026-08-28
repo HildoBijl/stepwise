@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getByPath, setByPath } from './nesting'
+import { getByPath, setByPath } from './nesting.ts'
 
 describe('object nesting', () => {
 	it('reads nested values and stops at missing paths', () => {

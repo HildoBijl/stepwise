@@ -1,2 +1,2 @@
-export * as properties from './properties'
-export * as rankineCycle from './rankineCycle'
+export * as properties from './properties/index.ts'
+export * as rankineCycle from './rankineCycle/index.ts'

@@ -1,6 +1,6 @@
 import { ensureBoolean, mergeDefaults } from '@step-wise/js-utils'
 
-import { type UnitSimplificationOptions, type UnitSimplificationOptionsInput, defaultUnitSimplificationOptions, resolveUnitSimplificationOptions } from '../Unit'
+import { type UnitSimplificationOptions, type UnitSimplificationOptionsInput, defaultUnitSimplificationOptions, resolveUnitSimplificationOptions } from '../Unit/index.ts'
 
 export type QuantitySimplificationOptions = UnitSimplificationOptions & { simplifyPrecisionNumber: boolean }
 export type QuantitySimplificationOptionsInput = UnitSimplificationOptionsInput & { simplifyPrecisionNumber?: boolean }

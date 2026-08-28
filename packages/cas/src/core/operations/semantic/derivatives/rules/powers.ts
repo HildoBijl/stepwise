@@ -1,8 +1,8 @@
-import { type ExpressionNode, type Power, Integer, ln, power, product, sum } from '../../../../construction'
+import { type ExpressionNode, type Power, Integer, ln, power, product, sum } from '../../../../construction/index.ts'
 
-import { dependsOn } from '../../../structural'
+import { dependsOn } from '../../../structural/index.ts'
 
-import { type DerivativeContext } from '../types'
+import { type DerivativeContext } from '../types.ts'
 
 export function getPowerDerivative(node: Power, context: DerivativeContext): ExpressionNode {
 	return sum(

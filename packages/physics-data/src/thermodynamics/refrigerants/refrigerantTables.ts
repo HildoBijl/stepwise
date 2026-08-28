@@ -1,7 +1,7 @@
 import { type Quantity } from '@step-wise/physics-core'
 import { createInterpolationTable } from '@step-wise/interpolation'
 
-import { type QuantityInterpolationGrid, type QuantityInterpolationTable } from '../../utils'
+import { type QuantityInterpolationGrid, type QuantityInterpolationTable } from '../../utils/index.ts'
 
 export type CriticalPoint = { readonly pressure: Quantity, readonly temperature: Quantity, readonly enthalpy: Quantity, readonly entropy: Quantity }
 export type RefrigerantPressureTable = { readonly pressure: Quantity, readonly table: QuantityInterpolationTable }

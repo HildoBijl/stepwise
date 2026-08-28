@@ -1,1 +1,1 @@
-export * from './tableSupport'
+export * from './tableSupport.ts'

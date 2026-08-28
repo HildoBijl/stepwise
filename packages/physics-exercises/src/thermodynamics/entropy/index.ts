@@ -1,3 +1,3 @@
-export { default as calculateEntropyChange } from './calculateEntropyChange'
-export { default as calculateMissedWork } from './calculateMissedWork'
-export { default as useIsentropicEfficiency } from './useIsentropicEfficiency'
+export { default as calculateEntropyChange } from './calculateEntropyChange/index.ts'
+export { default as calculateMissedWork } from './calculateMissedWork/index.ts'
+export { default as useIsentropicEfficiency } from './useIsentropicEfficiency/index.ts'

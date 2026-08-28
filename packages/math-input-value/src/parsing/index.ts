@@ -1,2 +1,2 @@
-export * from './support'
-export * from './parseInputValue'
+export * from './support.ts'
+export * from './parseInputValue.ts'

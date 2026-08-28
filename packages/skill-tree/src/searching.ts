@@ -1,6 +1,6 @@
 import { type EnsureSkillIdOptions, type SkillId, ensureSkillId as agnosticEnsureSkillId, ensureSkillIds as agnosticEnsureSkillIds, expandSkillIdsWithDirectPrerequisites as agnosticExpandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks as agnosticExpandSkillIdsWithDirectPrerequisitesAndLinks, isSkillPrerequisiteOf as agnosticIsSkillPrerequisiteOf } from '@step-wise/skill-definition'
 
-import { skillTree } from './skillTree'
+import { skillTree } from './skillTree.ts'
 
 export type { EnsureSkillIdOptions, SkillId, SkillTree } from '@step-wise/skill-definition'
 

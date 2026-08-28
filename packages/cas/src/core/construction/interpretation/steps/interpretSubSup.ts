@@ -1,9 +1,9 @@
 import { InterpretationError, last } from '@step-wise/js-utils'
 import { type SubSupInputValue } from '@step-wise/math-input-value'
 
-import { ExpressionNode, Power, Variable } from '../../nodes'
+import { ExpressionNode, Power, Variable } from '../../nodes/index.ts'
 
-import type { InterpreterContext } from '../types'
+import type { InterpreterContext } from '../types.ts'
 
 // Incorporate subscript/superscript into the ALREADY EXISTING previous term.
 export function interpretSubSup(element: SubSupInputValue, result: ExpressionNode[], context: InterpreterContext) {

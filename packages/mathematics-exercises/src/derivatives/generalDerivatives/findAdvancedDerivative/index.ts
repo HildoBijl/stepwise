@@ -1,10 +1,10 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import findAdvancedDerivativeChainOfProduct from './findAdvancedDerivativeChainOfProduct'
-import findAdvancedDerivativeChainOfFraction from './findAdvancedDerivativeChainOfFraction'
-import findAdvancedDerivativeProductOfChain from './findAdvancedDerivativeProductOfChain'
-import findAdvancedDerivativeFractionOfProduct from './findAdvancedDerivativeFractionOfProduct'
-import findAdvancedDerivativeFractionOfChain from './findAdvancedDerivativeFractionOfChain'
+import findAdvancedDerivativeChainOfProduct from './findAdvancedDerivativeChainOfProduct.ts'
+import findAdvancedDerivativeChainOfFraction from './findAdvancedDerivativeChainOfFraction.ts'
+import findAdvancedDerivativeProductOfChain from './findAdvancedDerivativeProductOfChain.ts'
+import findAdvancedDerivativeFractionOfProduct from './findAdvancedDerivativeFractionOfProduct.ts'
+import findAdvancedDerivativeFractionOfChain from './findAdvancedDerivativeFractionOfChain.ts'
 
 export default {
 	examples: {},

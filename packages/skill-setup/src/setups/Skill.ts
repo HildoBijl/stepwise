@@ -1,6 +1,6 @@
 import { type PolynomialCoefficients } from '@step-wise/polynomials'
 
-import { type GenericSerializedSkillSetup, SkillSetup } from '../abstracts'
+import { type GenericSerializedSkillSetup, SkillSetup } from '../abstracts/index.ts'
 
 export type SkillId = string
 export type SkillStorageValue = SkillId

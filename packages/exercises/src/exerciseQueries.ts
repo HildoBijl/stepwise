@@ -4,7 +4,7 @@ import { type Exercise } from '@step-wise/exercise-definition'
 import { type ExerciseId, type ExerciseCollection, isExerciseCollection, isEmptyExerciseCollection } from '@step-wise/exercise-bundling'
 import { getSkill } from '@step-wise/skill-tree'
 
-import * as exerciseRegistry from './exerciseRegistry'
+import * as exerciseRegistry from './exerciseRegistry.ts'
 
 function getExerciseCollection(skillId: SkillId, collectionName: 'examples' | 'exercises'): ExerciseCollection | undefined {
 	const skill = getSkill(skillId)

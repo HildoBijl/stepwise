@@ -1,6 +1,6 @@
 import type { EquationInputValue } from '@step-wise/math-input-value'
 
-import type { ExpressionLike, Expression, ExpressionAncestors, ExpressionStorageValue, ExpressionSettingsOptions } from '../expressions'
+import type { ExpressionLike, Expression, ExpressionAncestors, ExpressionStorageValue, ExpressionSettingsOptions } from '../expressions/index.ts'
 
 // Equation attributes
 export const equationSideNames = ['left', 'right'] as const

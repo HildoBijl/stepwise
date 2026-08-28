@@ -1,4 +1,4 @@
-import { type ExerciseCollection } from './exerciseCollection'
+import { type ExerciseCollection } from './exerciseCollection.ts'
 
 // Specifications for the exercises of a skill.
 export type SkillExerciseBundle<T extends ExerciseCollection = ExerciseCollection> = {

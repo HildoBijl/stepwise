@@ -1,10 +1,10 @@
-import { type ExpressionNode, type Power, root, power } from '../../../../construction'
+import { type ExpressionNode, type Power, root, power } from '../../../../construction/index.ts'
 
-import { isPower, isFraction } from '../../../structural'
+import { isPower, isFraction } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
-import { rewriteRootsAsFractionalPowers } from './rewriteRootsAsFractionalPowers'
+import { rewriteRootsAsFractionalPowers } from './rewriteRootsAsFractionalPowers.ts'
 
 function transform(node: Power): ExpressionNode {
 	if (!isFraction(node.exponent)) return node

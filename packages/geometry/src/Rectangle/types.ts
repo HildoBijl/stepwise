@@ -1,4 +1,4 @@
-import type { VectorLike, VectorStorageValue } from '../Vector'
+import type { VectorLike, VectorStorageValue } from '../Vector/index.ts'
 
 export type RectangleInput = {
 	min?: VectorLike

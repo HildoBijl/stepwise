@@ -1,1 +1,1 @@
-export { default as enterInteger } from './enterInteger'
+export { default as enterInteger } from './enterInteger/index.ts'

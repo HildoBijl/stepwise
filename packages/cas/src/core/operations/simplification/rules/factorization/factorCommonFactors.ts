@@ -1,13 +1,13 @@
-import { type ExpressionNode, type Sum, product, sum } from '../../../../construction'
+import { type ExpressionNode, type Sum, product, sum } from '../../../../construction/index.ts'
 
-import { isSum } from '../../../structural'
+import { isSum } from '../../../structural/index.ts'
 
-import { flattenProducts, flattenSums } from '../structural'
-import { removeDoubleNegatives } from '../numeric'
-import { simplifyUnitExponentPowers, removeOnesFromProducts, simplifyZeroExponentPowers, cancelSumTerms } from '../cancellation'
-import { expandMinusSums, expandProductsOfSums } from '../expansion'
-import { defineRule } from '../ruleDefinition'
-import { getCommonFactors, removeFactors } from '../utils'
+import { flattenProducts, flattenSums } from '../structural/index.ts'
+import { removeDoubleNegatives } from '../numeric/index.ts'
+import { simplifyUnitExponentPowers, removeOnesFromProducts, simplifyZeroExponentPowers, cancelSumTerms } from '../cancellation/index.ts'
+import { expandMinusSums, expandProductsOfSums } from '../expansion/index.ts'
+import { defineRule } from '../ruleDefinition.ts'
+import { getCommonFactors, removeFactors } from '../utils/index.ts'
 
 function transform(node: Sum): ExpressionNode {
 	const commonFactors = getCommonFactors(...node.terms)

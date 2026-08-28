@@ -1,9 +1,9 @@
 import { ensureInteger, ensureNumber, approximatelyEqual, count } from '@step-wise/js-utils'
 
-import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector'
+import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector/index.ts'
 
-import type { MatrixArray, MatrixInput } from './types'
-import { isMatrixArray } from './support'
+import type { MatrixArray, MatrixInput } from './types.ts'
+import { isMatrixArray } from './support.ts'
 
 export const MatrixType = 'Matrix'
 export type MatrixType = typeof MatrixType

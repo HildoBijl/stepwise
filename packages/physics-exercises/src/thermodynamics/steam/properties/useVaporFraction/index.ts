@@ -1,7 +1,7 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import useVaporFractionWithEnthalpy from './useVaporFractionWithEnthalpy'
-import useVaporFractionWithEntropy from './useVaporFractionWithEntropy'
+import useVaporFractionWithEnthalpy from './useVaporFractionWithEnthalpy.ts'
+import useVaporFractionWithEntropy from './useVaporFractionWithEntropy.ts'
 
 export default {
 	examples: { useVaporFractionWithEnthalpy },

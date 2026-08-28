@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { filterProperties, mapValues, mergeDefaults, omitDefaults, omitKeys, pickFromDefaults, pickKeys, preserveRefs } from './manipulation'
+import { filterProperties, mapValues, mergeDefaults, omitDefaults, omitKeys, pickFromDefaults, pickKeys, preserveRefs } from './manipulation.ts'
 
 describe('object manipulation', () => {
 	it('maps arrays and objects with result context', () => {

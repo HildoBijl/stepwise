@@ -1,6 +1,6 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import drawFreeBodyDiagram1 from './drawFreeBodyDiagram1'
+import drawFreeBodyDiagram1 from './drawFreeBodyDiagram1.ts'
 
 export default {
 	examples: {},

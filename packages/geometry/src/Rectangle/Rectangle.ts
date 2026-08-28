@@ -1,11 +1,11 @@
 import { ensureNumber, approximatelyEqual, clamp, integerRange, findOptimumIndex, repeat } from '@step-wise/js-utils'
 
-import { type VectorLike, Vector, ensureVector } from '../Vector'
-import { type LineLike, ensureLine } from '../Line'
-import { type LineSegmentLike, LineSegment, ensureLineSegment } from '../LineSegment'
+import { type VectorLike, Vector, ensureVector } from '../Vector/index.ts'
+import { type LineLike, ensureLine } from '../Line/index.ts'
+import { type LineSegmentLike, LineSegment, ensureLineSegment } from '../LineSegment/index.ts'
 
-import type { RectangleInput, RectangleStorageValue } from './types'
-import { isRectangleObject, getMinAndMax } from './support'
+import type { RectangleInput, RectangleStorageValue } from './types.ts'
+import { isRectangleObject, getMinAndMax } from './support.ts'
 
 export const RectangleType = 'Rectangle'
 export type RectangleType = typeof RectangleType

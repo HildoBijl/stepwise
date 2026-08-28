@@ -1,7 +1,7 @@
 import { ensurePlainObject } from '@step-wise/js-utils'
 
-import { type SkillSetup } from './abstracts'
-import { type SerializedSkillSetup, setupConstructors, skill } from './setups'
+import { type SkillSetup } from './abstracts/index.ts'
+import { type SerializedSkillSetup, setupConstructors, skill } from './setups/index.ts'
 
 export function serializeSetup(setup: SkillSetup): SerializedSkillSetup {
 	return setup.serialize() as SerializedSkillSetup

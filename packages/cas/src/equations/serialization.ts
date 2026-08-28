@@ -1,9 +1,9 @@
 import { isEmptyObject, omitDefaults } from '@step-wise/js-utils'
 
-import { defaultExpressionSettings } from '../expressions'
+import { defaultExpressionSettings } from '../expressions/index.ts'
 
-import { type SerializedEquation } from './types'
-import { EquationType, Equation } from './Equation'
+import { type SerializedEquation } from './types.ts'
+import { EquationType, Equation } from './Equation.ts'
 
 export function serializeEquation(equation: Equation): SerializedEquation {
 	const serialized: SerializedEquation = { type: 'Equation', value: equation.toStorageValue() }

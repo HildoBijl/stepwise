@@ -4,8 +4,8 @@ import { type Exercise } from '@step-wise/exercise-definition'
 import { getByPath, isPlainObject } from '@step-wise/js-utils'
 import { skillTree } from '@step-wise/skill-tree'
 
-import * as exerciseRegistry from './exerciseRegistry'
-import { getAllExercises, getExamples, getExercise, getExercises, hasExamples, hasExercises } from './exerciseQueries'
+import * as exerciseRegistry from './exerciseRegistry.ts'
+import { getAllExercises, getExamples, getExercise, getExercises, hasExamples, hasExercises } from './exerciseQueries.ts'
 
 const skillsAndBundles = Object.values(skillTree).map(skill => ({
 	skill,
@@ -32,7 +32,7 @@ describe('exercise queries', () => {
 		vi.resetModules()
 		vi.doMock('./exerciseRegistry', () => ({ [registryExport]: {} }))
 		try {
-			const mockedQueries = await import('./exerciseQueries')
+			const mockedQueries = await import('./exerciseQueries.ts')
 			expect(mockedQueries.getExercises(skill.id)).toBeUndefined()
 			expect(mockedQueries.getExamples(skill.id)).toBeUndefined()
 			expect(mockedQueries.hasExercises(skill.id)).toBe(false)
@@ -77,7 +77,7 @@ describe('exercise queries', () => {
 
 		vi.resetModules()
 		vi.doMock('./exerciseRegistry', () => mockedRegistry)
-		const mockedQueries = await import('./exerciseQueries')
+		const mockedQueries = await import('./exerciseQueries.ts')
 		expect(() => mockedQueries.getAllExercises(populatedEntry.skill.id)).toThrow(/example and exercise "shared" use different definitions/)
 		vi.doUnmock('./exerciseRegistry')
 	})

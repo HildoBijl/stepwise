@@ -2,8 +2,8 @@ import { compareNumberArrays } from '@step-wise/js-utils'
 import { and, or, part, pick, repeat, skill } from '@step-wise/skill-setup'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { SkillLevelSet } from './SkillLevelSet'
-import { coefficientsToStoredSkillLevel, effectivelyInfinitePracticeCount, now, skillTree } from './testUtils'
+import { SkillLevelSet } from './SkillLevelSet.ts'
+import { coefficientsToStoredSkillLevel, effectivelyInfinitePracticeCount, now, skillTree } from './testUtils.ts'
 
 const createLevels = () => new SkillLevelSet(skillTree, {
 	a: coefficientsToStoredSkillLevel([1], now, effectivelyInfinitePracticeCount),

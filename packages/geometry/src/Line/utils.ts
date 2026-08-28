@@ -1,5 +1,5 @@
-import { isLineInput } from './support'
-import { type LineLike, Line } from './Line'
+import { isLineInput } from './support.ts'
+import { type LineLike, Line } from './Line.ts'
 
 export function isLineLike(value: unknown): value is LineLike {
 	return value instanceof Line || isLineInput(value)

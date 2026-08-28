@@ -1,1 +1,1 @@
-export * from './InterpretationError'
+export * from './InterpretationError.ts'

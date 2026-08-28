@@ -1,2 +1,2 @@
-export * from './creation'
-export * from './searching'
+export * from './creation/index.ts'
+export * from './searching/index.ts'

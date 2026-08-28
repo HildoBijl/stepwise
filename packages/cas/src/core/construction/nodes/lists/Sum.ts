@@ -1,6 +1,6 @@
-import { ExpressionNode } from '../ExpressionNode'
+import { ExpressionNode } from '../ExpressionNode.ts'
 
-import { ListNode } from './ListNode'
+import { ListNode } from './ListNode.ts'
 
 export class Sum extends ListNode {
 	readonly subtype = 'Sum'

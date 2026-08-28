@@ -1,7 +1,7 @@
-import { product, variable } from '../creation'
-import { areNodesEqual } from '../../operations'
+import { product, variable } from '../creation/index.ts'
+import { areNodesEqual } from '../../operations/index.ts'
 
-import { parseExpressionNode } from './parseExpressionNode'
+import { parseExpressionNode } from './parseExpressionNode.ts'
 
 describe('parseExpressionNode', () => {
 	test('uses the numeric token grammar consistently', () => {

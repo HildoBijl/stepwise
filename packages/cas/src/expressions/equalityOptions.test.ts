@@ -1,5 +1,5 @@
-import { asExpression } from './Expression'
-import { asExpressionEqualityOptions, defaultExpressionEqualityOptions } from './equalityOptions'
+import { asExpression } from './Expression.ts'
+import { asExpressionEqualityOptions, defaultExpressionEqualityOptions } from './equalityOptions.ts'
 
 describe('expression equality options', () => {
 	test('resolves defaults and overrides', () => {

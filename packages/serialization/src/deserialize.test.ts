@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { PrecisionNumber } from '@step-wise/physics-core'
 
-import { deserializeData, deserializeDomainObject } from './deserialize'
+import { deserializeData, deserializeDomainObject } from './deserialize.ts'
 
 describe('deserializeDomainObject', () => {
 	it('deserializes a registered domain object', () => {

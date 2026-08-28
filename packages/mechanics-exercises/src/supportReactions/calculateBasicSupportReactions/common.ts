@@ -1,7 +1,7 @@
 import { fromKeysAndValues } from '@step-wise/js-utils'
 import { reverseLoad } from '@step-wise/engineering-mechanics'
 
-import { getLoadDirectionIndices } from './support'
+import { getLoadDirectionIndices } from './support.ts'
 
 export function getInputDependency(input: any, solution: any): boolean[] {
 	return getLoadDirectionIndices(input.loads, solution.loads)

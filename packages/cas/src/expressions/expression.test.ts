@@ -1,9 +1,9 @@
 import { identity } from '@step-wise/js-utils'
 
-import { sum, variable } from '../core'
-import { expectExpressionToEqual } from '../tests/support/wrapperAssertions'
+import { sum, variable } from '../core/index.ts'
+import { expectExpressionToEqual } from '../tests/support/wrapperAssertions.ts'
 
-import { Expression, asExpression } from './Expression'
+import { Expression, asExpression } from './Expression.ts'
 
 describe('Expression', () => {
 	test('coerces strings and numbers', () => {

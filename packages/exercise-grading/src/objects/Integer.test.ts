@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { compareInteger } from './Integer'
+import { compareInteger } from './Integer.ts'
 
 describe('compareInteger', () => {
 	it('compares integers exactly or with tolerances', () => {

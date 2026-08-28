@@ -1,8 +1,8 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import massFlowTrickCompressor from './massFlowTrickCompressor'
-import massFlowTrickWater from './massFlowTrickWater'
-import massFlowTrickEngine from './massFlowTrickEngine'
+import massFlowTrickCompressor from './massFlowTrickCompressor.ts'
+import massFlowTrickWater from './massFlowTrickWater.ts'
+import massFlowTrickEngine from './massFlowTrickEngine.ts'
 
 export default {
 	examples: { massFlowTrickCompressor },

@@ -2,7 +2,7 @@ import { type PrecisionNumberEqualityOptionsInput, PrecisionNumber, PrecisionNum
 import { type UnitEqualityOptionsInput, Unit, UnitType } from '@step-wise/physics-core'
 import { type QuantityEqualityOptionsInput, Quantity, QuantityType } from '@step-wise/physics-core'
 
-import type { TypeCompareFunction } from '../types'
+import type { TypeCompareFunction } from '../types.ts'
 
 export function comparePrecisionNumber(inputValue: unknown, expectedValue: unknown, options: PrecisionNumberEqualityOptionsInput): boolean {
 	if (!(expectedValue instanceof PrecisionNumber) || !(inputValue instanceof PrecisionNumber)) throw new Error(`Invalid PrecisionNumber comparison: received parameters that were not PrecisionNumber instances.`)

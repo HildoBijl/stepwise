@@ -3,10 +3,10 @@ import { describe, expect, it } from 'vitest'
 import { interpolateTable } from '@step-wise/interpolation'
 import { Quantity } from '@step-wise/physics-core'
 
-import { createQuantityGrid } from '../../utils'
+import { createQuantityGrid } from '../../utils/index.ts'
 
-import * as R134A from './R134A'
-import { createRefrigerantPressureTable } from './refrigerantTables'
+import * as R134A from './R134A.ts'
+import { createRefrigerantPressureTable } from './refrigerantTables.ts'
 
 describe('createRefrigerantPressureTable', () => {
 	it('creates a frozen one-dimensional pressure table', () => {

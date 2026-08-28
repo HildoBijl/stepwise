@@ -1,7 +1,7 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import moveSingleTerm from './moveSingleTerm'
-import moveAllTerms from './moveAllTerms'
+import moveSingleTerm from './moveSingleTerm.ts'
+import moveAllTerms from './moveAllTerms.ts'
 
 export default {
 	examples: { moveSingleTerm },

@@ -1,11 +1,11 @@
 import { gcd } from '@step-wise/math-tools'
 
-import { type ExpressionNode, type Fraction, fraction } from '../../../../construction'
+import { type ExpressionNode, type Fraction, fraction } from '../../../../construction/index.ts'
 
-import { isFraction, isIntegerNode } from '../../../structural'
+import { isFraction, isIntegerNode } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
-import { getSumTerms, getLeadingNumber, divideLeadingNumberBy } from '../utils'
+import { defineRule } from '../ruleDefinition.ts'
+import { getSumTerms, getLeadingNumber, divideLeadingNumberBy } from '../utils/index.ts'
 
 export function applyCombineNumbersInFractions(node: Fraction): ExpressionNode {
 	const terms = [...getSumTerms(node.numerator), ...getSumTerms(node.denominator)]

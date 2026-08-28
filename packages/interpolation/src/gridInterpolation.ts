@@ -1,8 +1,8 @@
 import { isNumber } from '@step-wise/js-utils'
 
-import type { InterpolationValue, InterpolationAxis, InterpolationSeries, InterpolationGrid } from './types'
-import { compareInterpolationValues, doesGridMatchInputAxes, isInterpolationGrid, isInterpolationAxis, isInterpolationValue } from './checks'
-import { interpolateRange } from './rangeInterpolation'
+import type { InterpolationValue, InterpolationAxis, InterpolationSeries, InterpolationGrid } from './types.ts'
+import { compareInterpolationValues, doesGridMatchInputAxes, isInterpolationGrid, isInterpolationAxis, isInterpolationValue } from './checks.ts'
+import { interpolateRange } from './rangeInterpolation.ts'
 
 export function interpolateGrid<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
 	input: InputType,

@@ -1,4 +1,4 @@
-export { SkillSetup } from './abstracts'
+export { SkillSetup } from './abstracts/index.ts'
 export {
 	type SkillId,
 	type SkillSetupLike,
@@ -12,5 +12,5 @@ export {
 	repeat,
 	pick,
 	part,
-} from './setups'
-export * from './serialization'
+} from './setups/index.ts'
+export * from './serialization.ts'

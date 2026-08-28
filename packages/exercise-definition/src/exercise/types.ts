@@ -1,7 +1,7 @@
 import type { SkillId, SkillSetup, SkillSetupLike } from '@step-wise/skill-setup'
 
-import type { ExerciseAction, ExerciseState, ExerciseParameters } from '../atomTypes'
-import type { UserExerciseAction } from '../modes'
+import type { ExerciseAction, ExerciseState, ExerciseParameters } from '../atomTypes.ts'
+import type { UserExerciseAction } from '../modes/index.ts'
 
 export type ExerciseMetadata = {
 	skill?: SkillId,

@@ -1,7 +1,7 @@
 import { isArray } from '@step-wise/js-utils'
 
-import { type Polynomial, type PolynomialCoefficients, type PolynomialVariables } from './types'
-import { ensurePolynomial } from './checks'
+import { type Polynomial, type PolynomialCoefficients, type PolynomialVariables } from './types.ts'
+import { ensurePolynomial } from './checks.ts'
 
 export function polynomialToString(polynomial: Polynomial): string {
 	ensurePolynomial(polynomial)

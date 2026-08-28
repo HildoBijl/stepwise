@@ -1,8 +1,8 @@
-import { Sum } from '../../../../construction'
+import { Sum } from '../../../../construction/index.ts'
 
-import { isSum } from '../../../structural'
+import { isSum } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Sum): Sum {
 	const terms = node.terms.flatMap(term => isSum(term) ? term.terms : [term])

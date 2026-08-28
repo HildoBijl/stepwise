@@ -1,9 +1,9 @@
-import { type TexDisplayOptionsInput, PrecisionNumber } from '../PrecisionNumber'
-import { type UnitLike, Unit, asUnit, unitsEquivalent } from '../Unit'
+import { type TexDisplayOptionsInput, PrecisionNumber } from '../PrecisionNumber/index.ts'
+import { type UnitLike, Unit, asUnit, unitsEquivalent } from '../Unit/index.ts'
 
-import { type QuantityInput, type QuantityStorageValue, QuantityType, quantityInputToParameters } from './interpreting'
-import { type QuantitySimplificationOptionsInput, resolveQuantitySimplificationOptions } from './simplification'
-import { type QuantityEqualityOptionsInput, type QuantityEqualityResult, resolveQuantityEqualityOptions } from './comparison'
+import { type QuantityInput, type QuantityStorageValue, QuantityType, quantityInputToParameters } from './interpreting.ts'
+import { type QuantitySimplificationOptionsInput, resolveQuantitySimplificationOptions } from './simplification.ts'
+import { type QuantityEqualityOptionsInput, type QuantityEqualityResult, resolveQuantityEqualityOptions } from './comparison.ts'
 
 export type QuantityLike = Quantity | QuantityInput
 

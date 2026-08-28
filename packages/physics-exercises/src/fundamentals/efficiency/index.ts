@@ -1,2 +1,2 @@
-export { default as calculateWithCOP } from './calculateWithCOP'
-export { default as calculateWithEfficiency } from './calculateWithEfficiency'
+export { default as calculateWithCOP } from './calculateWithCOP/index.ts'
+export { default as calculateWithEfficiency } from './calculateWithEfficiency/index.ts'

@@ -1,11 +1,11 @@
-import { type ExpressionNode, type Fraction, fraction, negative, sum } from '../../../../construction'
+import { type ExpressionNode, type Fraction, fraction, negative, sum } from '../../../../construction/index.ts'
 
-import { isFraction, isMinus, isSum } from '../../../structural'
+import { isFraction, isMinus, isSum } from '../../../structural/index.ts'
 
-import { removeDoubleNegatives, applyRemoveDoubleNegatives, combineMinusSignsInProducts, applyCombineMinusSignsInFractions } from '../numeric'
-import { defineRule } from '../ruleDefinition'
+import { removeDoubleNegatives, applyRemoveDoubleNegatives, combineMinusSignsInProducts, applyCombineMinusSignsInFractions } from '../numeric/index.ts'
+import { defineRule } from '../ruleDefinition.ts'
 
-import { sortSums } from './sortSums'
+import { sortSums } from './sortSums.ts'
 
 function transform(node: Fraction): ExpressionNode {
 	const numerator = pullMinusOutOfSum(node.numerator)

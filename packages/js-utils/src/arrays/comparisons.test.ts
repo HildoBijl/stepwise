@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { compareNumberArrays, getOneToOneMatching, hasOneToOneMatching, invertOneToOneMatching, shallowEqual } from './comparisons'
+import { compareNumberArrays, getOneToOneMatching, hasOneToOneMatching, invertOneToOneMatching, shallowEqual } from './comparisons.ts'
 
 describe('array comparisons', () => {
 	it('compares shallow and nested numeric arrays', () => {

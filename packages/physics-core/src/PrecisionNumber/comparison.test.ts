@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { adjustPrecisionNumberTolerances, defaultPrecisionNumberEqualityOptions, resolvePrecisionNumberEqualityOptions } from './comparison'
+import { adjustPrecisionNumberTolerances, defaultPrecisionNumberEqualityOptions, resolvePrecisionNumberEqualityOptions } from './comparison.ts'
 
 describe('PrecisionNumber comparison options', () => {
 	test('resolves defaults and applies the minimum absolute tolerance', () => {

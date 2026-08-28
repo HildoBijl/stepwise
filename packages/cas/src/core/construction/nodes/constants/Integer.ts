@@ -1,6 +1,6 @@
 import { ensureInteger } from '@step-wise/js-utils'
 
-import { ConstantNode } from './ConstantNode'
+import { ConstantNode } from './ConstantNode.ts'
 
 export class Integer extends ConstantNode {
 	readonly subtype = 'Integer'

@@ -4,9 +4,9 @@ import { createSkillTree } from '@step-wise/skill-definition'
 import { and, or, part, pick, repeat, skill } from '@step-wise/skill-setup'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { SkillLevelSet } from './SkillLevelSet'
-import { defaultSkillLinkCorrelation } from './settings'
-import { coefficientsToStoredSkillLevel, effectivelyInfinitePracticeCount, now, skillTree, twoMonthsAgo } from './testUtils'
+import { SkillLevelSet } from './SkillLevelSet.ts'
+import { defaultSkillLinkCorrelation } from './settings.ts'
+import { coefficientsToStoredSkillLevel, effectivelyInfinitePracticeCount, now, skillTree, twoMonthsAgo } from './testUtils.ts'
 
 beforeEach(() => vi.useFakeTimers().setSystemTime(now))
 afterEach(() => vi.useRealTimers())

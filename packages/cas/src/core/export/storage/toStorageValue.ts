@@ -1,9 +1,9 @@
 import { fromKeys } from '@step-wise/js-utils'
 
-import type { ExpressionNode, ConstantNode, SignNode, Variable, ListNode, FunctionNode } from '../../construction'
-import { isConstantNode, isSignNode, isVariable, isListNode, isSum, isProduct, isFunctionNode, isIntegerNode, isFloatNode, isNamedConstant } from '../../operations'
+import type { ExpressionNode, ConstantNode, SignNode, Variable, ListNode, FunctionNode } from '../../construction/index.ts'
+import { isConstantNode, isSignNode, isVariable, isListNode, isSum, isProduct, isFunctionNode, isIntegerNode, isFloatNode, isNamedConstant } from '../../operations/index.ts'
 
-import type { ConstantNodeStorageValue, SignNodeStorageValue, VariableStorageValue, ListNodeStorageValue, FunctionNodeStorageValue, ExpressionNodeStorageValue } from './types'
+import type { ConstantNodeStorageValue, SignNodeStorageValue, VariableStorageValue, ListNodeStorageValue, FunctionNodeStorageValue, ExpressionNodeStorageValue } from './types.ts'
 
 export function nodeToStorageValue(node: ExpressionNode): ExpressionNodeStorageValue {
 	if (isConstantNode(node)) return constantToStorageValue(node)

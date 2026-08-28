@@ -1,4 +1,4 @@
-import { ensureInteger, ensureNumber } from '../numbers'
+import { ensureInteger, ensureNumber } from '../numbers/index.ts'
 
 // Create an array with numbers from start (inclusive) to end (inclusive). If only one parameter is given, it is treated as the end and start is 0.
 export function integerRange(end: number): number[]

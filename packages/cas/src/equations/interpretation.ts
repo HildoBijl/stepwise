@@ -1,9 +1,9 @@
 import { isPlainObject, InterpretationError } from '@step-wise/js-utils'
 import { type ExpressionInputValue, type EquationInputValue, type ExpressionTextCursor, shiftExpressionTextCursorRight, sliceExpressionValue, isEquationInputValue, isTextPart, parseEquationInputValue } from '@step-wise/math-input-value'
 
-import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, isExpressionLike, Expression, asExpression } from '../expressions'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, isExpressionLike, Expression, asExpression } from '../expressions/index.ts'
 
-import { type EquationObjectInput, type EquationInput } from './types'
+import { type EquationObjectInput, type EquationInput } from './types.ts'
 
 type EquationParts = { left: Expression, right: Expression, settings?: ExpressionSettingsOptions }
 

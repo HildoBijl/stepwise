@@ -1,12 +1,12 @@
 import { mergeDefaults } from '@step-wise/js-utils'
 import { type InterpretationSettings, type InterpretationSettingsOptions, defaultInterpretationSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, type ConstantNode, type SignNode, type Sum, type Product, type Fraction, type Power, type FunctionNode, variableToString } from '../../construction'
-import { isConstantNode, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
+import { type ExpressionNode, type ConstantNode, type SignNode, type Sum, type Product, type Fraction, type Power, type FunctionNode, variableToString } from '../../construction/index.ts'
+import { isConstantNode, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations/index.ts'
 
-import { bracketLevels, requiresBrackets } from './bracketSupport'
-import { requiresPlusBetweenNodes, requiresTimesBetweenFactors } from './listSupport'
-import { inferInterpretationSettingsOptions } from './inferInterpretationSettings'
+import { bracketLevels, requiresBrackets } from './bracketSupport.ts'
+import { requiresPlusBetweenNodes, requiresTimesBetweenFactors } from './listSupport.ts'
+import { inferInterpretationSettingsOptions } from './inferInterpretationSettings.ts'
 
 export function nodeToString(node: ExpressionNode, interpretationSettings: InterpretationSettingsOptions = inferInterpretationSettingsOptions(node)) {
 	const settings = mergeDefaults(interpretationSettings, defaultInterpretationSettings)

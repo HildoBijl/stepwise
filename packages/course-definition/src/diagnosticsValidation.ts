@@ -1,4 +1,4 @@
-import type { CourseBlockDiagnostics, CourseDiagnostics } from './types'
+import type { CourseBlockDiagnostics, CourseDiagnostics } from './types.ts'
 
 export function validateCourseDiagnostics(diagnostics: CourseDiagnostics): void {
 	validateCourseEndpoints(diagnostics)

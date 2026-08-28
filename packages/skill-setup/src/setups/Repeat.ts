@@ -1,9 +1,9 @@
 import { ensureInteger } from '@step-wise/js-utils'
 import { type PolynomialCoefficients, raisePolynomialToPower } from '@step-wise/polynomials'
 
-import { type GenericSerializedSkillSetup, type SkillItemStorageValue, ensureSkillItemStorageValue, SkillItemSetup, SkillSetup } from '../abstracts'
+import { type GenericSerializedSkillSetup, type SkillItemStorageValue, ensureSkillItemStorageValue, SkillItemSetup, SkillSetup } from '../abstracts/index.ts'
 
-import { type SkillSetupLike, ensureSetup } from './Skill'
+import { type SkillSetupLike, ensureSetup } from './Skill.ts'
 
 export type RepeatStorageValue = SkillItemStorageValue & { repeat: number }
 export type SerializedRepeat = GenericSerializedSkillSetup<RepeatStorageValue, 'Repeat'>

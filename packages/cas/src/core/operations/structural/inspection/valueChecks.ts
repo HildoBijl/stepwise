@@ -1,6 +1,6 @@
-import { ExpressionNode, SignNode, ConstantNode, Integer, Float } from '../../../construction'
+import { ExpressionNode, SignNode, ConstantNode, Integer, Float } from '../../../construction/index.ts'
 
-import { isIntegerNode, isFloatNode, isConstantNode, isMinus } from './typeChecks'
+import { isIntegerNode, isFloatNode, isConstantNode, isMinus } from './typeChecks.ts'
 
 type ConstantWithValue<Value extends number> = ConstantNode & { readonly value: Value }
 type SignWithNode<Node extends ExpressionNode> = SignNode & { readonly node: Node }

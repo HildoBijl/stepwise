@@ -1,9 +1,9 @@
 import { isInteger, ensureInteger, ensureString, isPlainObject, hasOnlyKeys } from '@step-wise/js-utils'
 
-import { Prefix, findPrefix } from '../Prefix'
-import { UnitDefinition, findUnitDefinition } from '../UnitDefinition'
+import { Prefix, findPrefix } from '../Prefix/index.ts'
+import { UnitDefinition, findUnitDefinition } from '../UnitDefinition/index.ts'
 
-import { type UnitFactorParameters, type UnitFactorStorageValue, type UnitFactorInput, parseUnitFactorString } from './interpreting'
+import { type UnitFactorParameters, type UnitFactorStorageValue, type UnitFactorInput, parseUnitFactorString } from './interpreting.ts'
 
 export function unitFactorStorageValueToParameters(value: UnitFactorStorageValue): UnitFactorParameters {
 	value = ensureUnitFactorStorageValue(value)

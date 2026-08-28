@@ -1,6 +1,6 @@
 import type { ExerciseAction, ExerciseMode, ExerciseState, UpdateSkills } from '@step-wise/exercise-definition'
 
-import type { InputExerciseAttemptState, InputExerciseParameters } from './InputExercise'
+import type { InputExerciseAttemptState, InputExerciseParameters } from './InputExercise/index.ts'
 
 type InputExerciseReducerGeneralInput<TState extends ExerciseState, TParameters extends InputExerciseParameters> = {
 	parameters: TParameters

@@ -1,2 +1,2 @@
-export { default as solveQuadraticEquation } from './solveQuadraticEquation'
-export { default as solveRewrittenQuadraticEquation } from './solveRewrittenQuadraticEquation'
+export { default as solveQuadraticEquation } from './solveQuadraticEquation/index.ts'
+export { default as solveRewrittenQuadraticEquation } from './solveRewrittenQuadraticEquation/index.ts'

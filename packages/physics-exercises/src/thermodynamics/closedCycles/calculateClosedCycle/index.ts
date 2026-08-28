@@ -1,9 +1,9 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import calculateClosedCycleVTp from './calculateClosedCycleVTp'
-import calculateClosedCycleTsV from './calculateClosedCycleTsV'
-import calculateClosedCycleSTST from './calculateClosedCycleSTST'
-import calculateClosedCycleSVSV from './calculateClosedCycleSVSV'
+import calculateClosedCycleVTp from './calculateClosedCycleVTp.ts'
+import calculateClosedCycleTsV from './calculateClosedCycleTsV.ts'
+import calculateClosedCycleSTST from './calculateClosedCycleSTST.ts'
+import calculateClosedCycleSVSV from './calculateClosedCycleSVSV.ts'
 
 export default {
 	examples: { calculateClosedCycleVTp },

@@ -2,7 +2,7 @@ import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-
 import { compareInputs } from '@step-wise/exercise-grading'
 import { Quantity } from '@step-wise/physics-core'
 
-import { generateParameters } from '../calculateWithSpecificQuantities/calculateWithSpecificQuantitiesBoiler'
+import { generateParameters } from '../calculateWithSpecificQuantities/calculateWithSpecificQuantitiesBoiler.ts'
 
 export default buildStepExercise({
 	metadata: {

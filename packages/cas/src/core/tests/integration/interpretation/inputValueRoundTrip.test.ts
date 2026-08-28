@@ -1,9 +1,9 @@
 import type { EquationInputValue, ExpressionInputValue, InputValuePart } from '@step-wise/math-input-value'
 
-import { fraction, interpretExpressionInputValue, log, power, root, sqrt, sum, variable } from '../../../construction'
-import { asEquation } from '../../../../equations'
+import { fraction, interpretExpressionInputValue, log, power, root, sqrt, sum, variable } from '../../../construction/index.ts'
+import { asEquation } from '../../../../equations/index.ts'
 
-import { expectNodeToEqual } from '../../testUtils'
+import { expectNodeToEqual } from '../../testUtils.ts'
 
 const expression = (...value: InputValuePart[]): ExpressionInputValue => ({ type: 'Expression', value })
 

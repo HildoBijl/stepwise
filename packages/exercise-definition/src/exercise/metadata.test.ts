@@ -1,8 +1,8 @@
 import { skill } from '@step-wise/skill-setup'
 import { describe, expect, it } from 'vitest'
 
-import type { ExerciseMetadata } from './types'
-import { isExerciseMetadata, resolveExerciseMetadata } from './metadata'
+import type { ExerciseMetadata } from './types.ts'
+import { isExerciseMetadata, resolveExerciseMetadata } from './metadata.ts'
 
 describe('resolveExerciseMetadata', () => {
 	it('applies defaults while preserving specialized metadata', () => {

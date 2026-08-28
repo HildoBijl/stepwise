@@ -1,8 +1,8 @@
-import { type Power, Integer } from '../../../../construction'
+import { type Power, Integer } from '../../../../construction/index.ts'
 
-import { isPower, isZero } from '../../../structural'
+import { isPower, isZero } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 // simplifyZeroExponentPowers.ts
 

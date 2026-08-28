@@ -4,7 +4,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties, maximumHumidityByTemperature } from '@step-wise/physics-data'
 
-import { getCycle } from '../tools'
+import { getCycle } from '../tools/index.ts'
 
 const { cp } = gasProperties.air
 

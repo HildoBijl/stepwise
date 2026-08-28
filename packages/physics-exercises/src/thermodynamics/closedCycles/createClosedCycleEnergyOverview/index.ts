@@ -1,9 +1,9 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import createClosedCycleEnergyOverviewVTp from './createClosedCycleEnergyOverviewVTp'
-import createClosedCycleEnergyOverviewTsV from './createClosedCycleEnergyOverviewTsV'
-import createClosedCycleEnergyOverviewSTST from './createClosedCycleEnergyOverviewSTST'
-import createClosedCycleEnergyOverviewSVSV from './createClosedCycleEnergyOverviewSVSV'
+import createClosedCycleEnergyOverviewVTp from './createClosedCycleEnergyOverviewVTp.ts'
+import createClosedCycleEnergyOverviewTsV from './createClosedCycleEnergyOverviewTsV.ts'
+import createClosedCycleEnergyOverviewSTST from './createClosedCycleEnergyOverviewSTST.ts'
+import createClosedCycleEnergyOverviewSVSV from './createClosedCycleEnergyOverviewSVSV.ts'
 
 export default {
 	examples: { createClosedCycleEnergyOverviewVTp },

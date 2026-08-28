@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import { ForceType, MomentType } from './types'
-import { isForce, isLoad, isMoment } from './checks'
-import { createForce, createLoad, createMoment } from './creation'
+import { ForceType, MomentType } from './types.ts'
+import { isForce, isLoad, isMoment } from './checks.ts'
+import { createForce, createLoad, createMoment } from './creation.ts'
 
 describe('load creation and checks', () => {
 	it('creates canonical forces with defaults and normalized angles', () => {

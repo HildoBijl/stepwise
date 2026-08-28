@@ -1,6 +1,6 @@
 import { ensureNumber } from '@step-wise/js-utils'
 
-import { ExpressionNode } from '../ExpressionNode'
+import { ExpressionNode } from '../ExpressionNode.ts'
 
 export abstract class ConstantNode extends ExpressionNode {
 	constructor(readonly value: number) {

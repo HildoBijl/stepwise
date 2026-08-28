@@ -1,5 +1,5 @@
-import { type PrecisionNumberInput, type PrecisionNumberStorageValue, PrecisionNumber, asPrecisionNumber, precisionNumberPattern } from '../PrecisionNumber'
-import { type UnitInput, type UnitStorageValue, Unit, asUnit, unitPattern } from '../Unit'
+import { type PrecisionNumberInput, type PrecisionNumberStorageValue, PrecisionNumber, asPrecisionNumber, precisionNumberPattern } from '../PrecisionNumber/index.ts'
+import { type UnitInput, type UnitStorageValue, Unit, asUnit, unitPattern } from '../Unit/index.ts'
 
 export const QuantityType = 'Quantity'
 export type QuantityType = typeof QuantityType

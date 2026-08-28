@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest'
 
-import { UnitFactor } from '../UnitFactor'
+import { UnitFactor } from '../UnitFactor/index.ts'
 
-import { compareUnitFactors, defaultUnitSimplificationOptions, resolveUnitSimplificationOptions } from './simplification'
+import { compareUnitFactors, defaultUnitSimplificationOptions, resolveUnitSimplificationOptions } from './simplification.ts'
 
 describe('unit simplification support', () => {
 	test('applies defaults and accepts each target', () => {

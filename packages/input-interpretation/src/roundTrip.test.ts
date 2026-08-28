@@ -4,7 +4,7 @@ import { ExpressionType, asExpression } from '@step-wise/cas'
 import { VectorType, Vector } from '@step-wise/geometry'
 import { QuantityType, Quantity } from '@step-wise/physics-core'
 
-import { IntegerType, MultipleChoiceType, interpretInputValue, toInputValue } from './index'
+import { IntegerType, MultipleChoiceType, interpretInputValue, toInputValue } from './index.ts'
 
 describe('input-value round trips', () => {
 	const cases = [

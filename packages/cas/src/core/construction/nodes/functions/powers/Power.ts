@@ -1,7 +1,7 @@
 
-import { ExpressionNode } from '../../ExpressionNode'
+import { ExpressionNode } from '../../ExpressionNode.ts'
 
-import { FunctionNode } from '../abstracts'
+import { FunctionNode } from '../abstracts/index.ts'
 
 export class Power extends FunctionNode {
 	static readonly argumentNames = ['base', 'exponent'] as const

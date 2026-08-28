@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getBernsteinCDF, getBernsteinPDF, getBernsteinPDFDerivative, getBernsteinPDFMaximum, getBernsteinQuantileFunction } from './distributions'
+import { getBernsteinCDF, getBernsteinPDF, getBernsteinPDFDerivative, getBernsteinPDFMaximum, getBernsteinQuantileFunction } from './distributions.ts'
 
 function integrate(functionToIntegrate: (x: number) => number, steps = 10000): number {
 	const stepSize = 1 / steps

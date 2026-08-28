@@ -1,9 +1,9 @@
 import { interpretInputData } from '@step-wise/input-interpretation'
 import { ensureInteger } from '@step-wise/js-utils'
 
-import type { InputExerciseHistoryInstance, InputExerciseInput, InputExerciseRawInput, LastInputOptions } from '../InputExercise'
+import type { InputExerciseHistoryInstance, InputExerciseInput, InputExerciseRawInput, LastInputOptions } from '../InputExercise/index.ts'
 
-import type { StepExerciseState } from './types'
+import type { StepExerciseState } from './types.ts'
 
 // Get the step which this problem is at.
 export function getCurrentStep(state: StepExerciseState | Record<string, never>): number {

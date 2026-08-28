@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { alphabet, getSpreadsheetColumnLabel } from './creation'
+import { alphabet, getSpreadsheetColumnLabel } from './creation.ts'
 
 describe('string creation', () => {
 	it('exports the lowercase English alphabet', () => expect(alphabet).toBe('abcdefghijklmnopqrstuvwxyz'))

@@ -1,8 +1,8 @@
 import { and } from '@step-wise/skill-setup'
 import { describe, expect, it } from 'vitest'
 
-import { flattenRawSkillTree } from './flattening'
-import type { RawSkillTree } from './types'
+import { flattenRawSkillTree } from './flattening.ts'
+import type { RawSkillTree } from './types.ts'
 
 describe('flattenRawSkillTree', () => {
 	it('flattens nested groups and derives paths and group skill IDs', () => {

@@ -1,8 +1,8 @@
 import { IntegerType } from '@step-wise/input-interpretation'
 import { describe, expect, it } from 'vitest'
 
-import { compareInputList, compareInputListEntry } from './compareInputList'
-import { makeCheckInputData } from './testUtils'
+import { compareInputList, compareInputListEntry } from './compareInputList.ts'
+import { makeCheckInputData } from './testUtils.ts'
 
 describe('compareInputList', () => {
 	it('matches values independently of their order', () => {

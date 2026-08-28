@@ -1,7 +1,7 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import calculateWithCOPRefrigerator from './calculateWithCOPRefrigerator'
-import calculateWithCOPHeatPump from './calculateWithCOPHeatPump'
+import calculateWithCOPRefrigerator from './calculateWithCOPRefrigerator.ts'
+import calculateWithCOPHeatPump from './calculateWithCOPHeatPump.ts'
 
 export default {
 	examples: { calculateWithCOPRefrigerator },

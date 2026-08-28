@@ -1,8 +1,8 @@
-import { type ExerciseAction, type ExerciseState } from '../atomTypes'
+import { type ExerciseAction, type ExerciseState } from '../atomTypes.ts'
 
-import { groupHistorySupport } from './group/support'
-import { soloHistorySupport } from './solo/support'
-import { type BaseExerciseInstance } from './types'
+import { groupHistorySupport } from './group/support.ts'
+import { soloHistorySupport } from './solo/support.ts'
+import { type BaseExerciseInstance } from './types.ts'
 
 export function getLastAction<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState>(instance: BaseExerciseInstance<TAction, TState>, userId?: string): TAction | undefined {
 	switch (instance.mode) {

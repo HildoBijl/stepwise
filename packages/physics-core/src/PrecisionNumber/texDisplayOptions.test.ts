@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { defaultTexDisplayOptions, resolveTexDisplayOptions } from './texDisplayOptions'
+import { defaultTexDisplayOptions, resolveTexDisplayOptions } from './texDisplayOptions.ts'
 
 describe('resolveTexDisplayOptions', () => {
 	test('applies defaults without sharing the default object', () => {

@@ -1,6 +1,6 @@
-import { fraction, negative, power, product, sum, variable } from '../../construction'
+import { fraction, negative, power, product, sum, variable } from '../../construction/index.ts'
 
-import { nodeToString } from './toString'
+import { nodeToString } from './toString.ts'
 
 describe('nodeToString', () => {
 	test('prints precedence and brackets unambiguously', () => {

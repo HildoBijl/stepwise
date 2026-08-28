@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { isStepExercise } from './guards'
+import { isStepExercise } from './guards.ts'
 
 const exercise = {
 	generateParameters: () => ({}),

@@ -1,6 +1,6 @@
-import { expressionComparisons } from '../expressions'
+import { expressionComparisons } from '../expressions/index.ts'
 
-import { type EquationLike, asEquation } from './Equation'
+import { type EquationLike, asEquation } from './Equation.ts'
 
 export const equationComparisons = {
 	areExactlyEqual(input: EquationLike, expected: EquationLike): boolean {

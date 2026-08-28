@@ -1,5 +1,5 @@
-import { isLineSegmentInput } from './support'
-import { type LineSegmentLike, LineSegment } from './LineSegment'
+import { isLineSegmentInput } from './support.ts'
+import { type LineSegmentLike, LineSegment } from './LineSegment.ts'
 
 export function isLineSegmentLike(value: unknown): value is LineSegmentLike {
 	return value instanceof LineSegment || isLineSegmentInput(value)

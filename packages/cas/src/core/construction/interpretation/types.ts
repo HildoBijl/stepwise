@@ -1,6 +1,6 @@
 import type { InputValuePart, InterpretationSettings } from '@step-wise/math-input-value'
 
-import type { ExpressionNode } from '../nodes'
+import type { ExpressionNode } from '../nodes/index.ts'
 
 export type InterpretationPart = InputValuePart | ExpressionNode
 

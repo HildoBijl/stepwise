@@ -1,9 +1,9 @@
 import { type ExpressionInputValue, isExpressionInputValue } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, interpretExpressionInputValue, parseExpressionNode, number } from '../core'
+import { type ExpressionNode, interpretExpressionInputValue, parseExpressionNode, number } from '../core/index.ts'
 
-import { type InterpretationSettingsOptions, type ExpressionSettingsOptions } from './settings'
-import { type ExpressionInput } from './types'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions } from './settings.ts'
+import { type ExpressionInput } from './types.ts'
 
 type ExpressionParts = { node: ExpressionNode, expressionSettings?: ExpressionSettingsOptions }
 

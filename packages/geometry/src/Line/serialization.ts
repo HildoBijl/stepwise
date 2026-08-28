@@ -1,9 +1,9 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { isCoordinateList } from '../Vector'
+import { isCoordinateList } from '../Vector/index.ts'
 
-import { type LineStorageValue } from './types'
-import { Line } from './Line'
+import { type LineStorageValue } from './types.ts'
+import { Line } from './Line.ts'
 
 export type SerializedLine = {
 	type: typeof Line.type

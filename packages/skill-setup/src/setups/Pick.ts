@@ -1,9 +1,9 @@
 import { ensureInteger, ensureNumberArray, forEachCombination, product } from '@step-wise/js-utils'
 import { type PolynomialCoefficients, type Polynomial, addPolynomials, multiplyPolynomials, scalePolynomial } from '@step-wise/polynomials'
 
-import { type GenericSerializedSkillSetup, type SkillSetup, type SkillListStorageValue, ensureSkillListStorageValue, SkillListSetup } from '../abstracts'
+import { type GenericSerializedSkillSetup, type SkillSetup, type SkillListStorageValue, ensureSkillListStorageValue, SkillListSetup } from '../abstracts/index.ts'
 
-import { type SkillSetupLike, ensureSetup } from './Skill'
+import { type SkillSetupLike, ensureSetup } from './Skill.ts'
 
 export type PickStorageValue = SkillListStorageValue & { number?: number, weights?: readonly number[] }
 export type SerializedPick = GenericSerializedSkillSetup<PickStorageValue, 'Pick'>

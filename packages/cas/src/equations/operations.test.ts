@@ -1,6 +1,6 @@
-import { expectEquationToEqual } from '../tests/support/wrapperAssertions'
+import { expectEquationToEqual } from '../tests/support/wrapperAssertions.ts'
 
-import { equationOperations } from './operations'
+import { equationOperations } from './operations.ts'
 
 describe('equationOperations', () => {
 	test('multiplies numerator and denominator on both sides', () => {

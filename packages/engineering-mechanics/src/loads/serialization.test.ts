@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { createForce, createMoment } from './creation'
-import { deserializeForce, deserializeLoad, deserializeMoment, serializeForce, serializeLoad, serializeMoment } from './serialization'
+import { createForce, createMoment } from './creation.ts'
+import { deserializeForce, deserializeLoad, deserializeMoment, serializeForce, serializeLoad, serializeMoment } from './serialization.ts'
 
 describe('load serialization', () => {
 	it('round-trips forces and moments', () => {

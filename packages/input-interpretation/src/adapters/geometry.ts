@@ -5,7 +5,7 @@ import {
 	type Rectangle, type SerializedRectangle, RectangleType, serializeRectangle, deserializeRectangle,
 } from '@step-wise/geometry'
 
-import type { InputValueAdapter } from '../types'
+import type { InputValueAdapter } from '../types.ts'
 
 export const vectorInputValueAdapter = {
 	interpret: deserializeVector,

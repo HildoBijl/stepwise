@@ -1,8 +1,8 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { type VectorStorageValue } from './types'
-import { Vector } from './Vector'
-import { isCoordinateList } from './support'
+import { type VectorStorageValue } from './types.ts'
+import { Vector } from './Vector.ts'
+import { isCoordinateList } from './support.ts'
 
 export type SerializedVector = {
 	type: typeof Vector.type

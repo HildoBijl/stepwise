@@ -1,6 +1,6 @@
 import { shallowEqual } from '@step-wise/js-utils'
 
-import { ExpressionNode } from '../../ExpressionNode'
+import { ExpressionNode } from '../../ExpressionNode.ts'
 
 export abstract class FunctionNode extends ExpressionNode {
 	static readonly argumentNames: readonly string[] = []

@@ -1,4 +1,4 @@
-import { isPlainObject } from './plainnessChecks'
+import { isPlainObject } from './plainnessChecks.ts'
 
 export type PropertyPath = readonly (string | number)[]
 

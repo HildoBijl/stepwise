@@ -5,6 +5,7 @@
     },
     "moduleResolution": "bundler",
     "module": "commonjs",
+    "rewriteRelativeImportExtensions": true,
     "target": "es2023",
     "strict": true,
     "esModuleInterop": true,

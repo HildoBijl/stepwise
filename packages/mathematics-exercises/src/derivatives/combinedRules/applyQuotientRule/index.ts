@@ -1,7 +1,7 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import applyQuotientRuleTwoElementary from './applyQuotientRuleTwoElementary'
-import applyQuotientRuleElementaryAndBasic from './applyQuotientRuleElementaryAndBasic'
+import applyQuotientRuleTwoElementary from './applyQuotientRuleTwoElementary.ts'
+import applyQuotientRuleElementaryAndBasic from './applyQuotientRuleElementaryAndBasic.ts'
 
 export default {
 	examples: {},

@@ -1,6 +1,6 @@
-import { type ExpressionNode, namedConstants, product, fraction, sin, cos, tan, arcsin, arccos, arctan } from '../../../construction'
+import { type ExpressionNode, namedConstants, product, fraction, sin, cos, tan, arcsin, arccos, arctan } from '../../../construction/index.ts'
 
-import { isSin, isCos, isTan, isArcsin, isArccos, isArctan, mapNodes } from '../../structural'
+import { isSin, isCos, isTan, isArcsin, isArccos, isArctan, mapNodes } from '../../structural/index.ts'
 
 export function convertExpressionToRadians(node: ExpressionNode): ExpressionNode {
 	return mapNodes(node, node => {

@@ -1,1 +1,1 @@
-export * from './applyDerivativeRules'
+export * from './applyDerivativeRules.ts'

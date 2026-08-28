@@ -2,7 +2,7 @@ import { sample } from '@step-wise/js-utils'
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { getTemperatures } from '../../coolingCycles/tools'
+import { getTemperatures } from '../../coolingCycles/tools/index.ts'
 
 export default buildMonoExercise({
 	metadata: {

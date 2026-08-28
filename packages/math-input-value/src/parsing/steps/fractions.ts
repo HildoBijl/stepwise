@@ -1,11 +1,11 @@
 import { first, last } from '@step-wise/js-utils'
 
-import { type InterpretationSettings } from '../../settings'
-import { constructDefinitions } from '../../definitions'
-import type { ExpressionValue, ExpressionTextCursor } from '../../types'
-import { getExpressionStartCursor, getExpressionEndCursor, sliceExpressionValue, shiftExpressionTextCursorRight } from '../../utils'
+import { type InterpretationSettings } from '../../settings/index.ts'
+import { constructDefinitions } from '../../definitions/index.ts'
+import type { ExpressionValue, ExpressionTextCursor } from '../../types/index.ts'
+import { getExpressionStartCursor, getExpressionEndCursor, sliceExpressionValue, shiftExpressionTextCursorRight } from '../../utils/index.ts'
 
-import { findEndOfFactor } from '../support'
+import { findEndOfFactor } from '../support.ts'
 
 // Turn slashes into fractions.
 export function parseFractions(value: ExpressionValue, settings: InterpretationSettings, parseExpressionValue: (value: ExpressionValue, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {

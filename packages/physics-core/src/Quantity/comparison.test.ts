@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { adjustQuantityTolerances, resolveQuantityEqualityOptions } from './comparison'
+import { adjustQuantityTolerances, resolveQuantityEqualityOptions } from './comparison.ts'
 
 describe('Quantity comparison options', () => {
 	test('resolves value and unit defaults independently', () => {

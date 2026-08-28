@@ -1,7 +1,7 @@
 import { parseEquationInputValue } from '@step-wise/math-input-value'
 
-import { asEquation } from './Equation'
-import { interpretEquationInput, isEquationInput } from './interpretation'
+import { asEquation } from './Equation.ts'
+import { interpretEquationInput, isEquationInput } from './interpretation.ts'
 
 describe('equation interpretation', () => {
 	test('recognizes supported inputs', () => {

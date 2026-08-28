@@ -1,9 +1,9 @@
 import { InterpretationError, indexOfAnyCharacter } from '@step-wise/js-utils'
 import { type ExpressionTextCursor, getExpressionEndCursor, getExpressionStartCursor, sliceExpressionValue, isTextPart, shiftExpressionTextCursorRight, areExpressionTextCursorsEqual } from '@step-wise/math-input-value'
 
-import { ExpressionNode, Minus, PlusMinus, Sum } from '../../nodes'
+import { ExpressionNode, Minus, PlusMinus, Sum } from '../../nodes/index.ts'
 
-import type { InterpretationPart, InterpreterContext } from '../types'
+import type { InterpretationPart, InterpreterContext } from '../types.ts'
 
 // Interpret pluses, minuses and plus-minuses in an expression with some already-interpreted ExpressionNodes but without brackets.
 export function interpretSums(value: InterpretationPart[], context: InterpreterContext): ExpressionNode {

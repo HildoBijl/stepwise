@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getDimensions, getMatrixElement } from './multidimensional'
+import { getDimensions, getMatrixElement } from './multidimensional.ts'
 
 const isNumber = (value: unknown): value is number => typeof value === 'number'
 

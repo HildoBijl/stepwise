@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { comparePolynomialCoefficients } from './comparison'
-import { negatePolynomial, addConstantToPolynomial, scalePolynomial, oneMinusPolynomial, addPolynomials, subtractPolynomials, multiplyPolynomials, raisePolynomialToPower, getPolynomialPowers } from './manipulation'
+import { comparePolynomialCoefficients } from './comparison.ts'
+import { negatePolynomial, addConstantToPolynomial, scalePolynomial, oneMinusPolynomial, addPolynomials, subtractPolynomials, multiplyPolynomials, raisePolynomialToPower, getPolynomialPowers } from './manipulation.ts'
 
 describe('Check mathematical functions:', () => {
 	describe('negatePolynomial', () => {

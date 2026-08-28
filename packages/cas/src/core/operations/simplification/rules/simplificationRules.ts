@@ -1,12 +1,12 @@
-import { mergeRuleRegistries } from './ruleDefinition'
-import { structuralRules } from './structural'
-import { numericRules } from './numeric'
-import { cancellationRules } from './cancellation'
-import { rewritingRules } from './rewriting'
-import { combinationRules } from './combination'
-import { expansionRules } from './expansion'
-import { factorizationRules } from './factorization'
-import { normalizationRules } from './normalization'
+import { mergeRuleRegistries } from './ruleDefinition.ts'
+import { structuralRules } from './structural/index.ts'
+import { numericRules } from './numeric/index.ts'
+import { cancellationRules } from './cancellation/index.ts'
+import { rewritingRules } from './rewriting/index.ts'
+import { combinationRules } from './combination/index.ts'
+import { expansionRules } from './expansion/index.ts'
+import { factorizationRules } from './factorization/index.ts'
+import { normalizationRules } from './normalization/index.ts'
 
 export const simplificationRules = mergeRuleRegistries(
 	structuralRules,

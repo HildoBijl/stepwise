@@ -1,7 +1,7 @@
-import { type ExpressionNodeInput, type VariableInput, Integer, namedConstants, asExpressionNode, negative, variable, sum, product, fraction, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan } from '../../../construction'
-import { differentiate } from '../../../operations'
+import { type ExpressionNodeInput, type VariableInput, Integer, namedConstants, asExpressionNode, negative, variable, sum, product, fraction, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan } from '../../../construction/index.ts'
+import { differentiate } from '../../../operations/index.ts'
 
-import { expectNodeToEqual } from '../../testUtils'
+import { expectNodeToEqual } from '../../testUtils.ts'
 
 const x = variable('x')
 const y = variable('y')

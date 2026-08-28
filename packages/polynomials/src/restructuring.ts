@@ -1,7 +1,7 @@
 import { ensureNumber, getDimensions, getMatrixElement, isNumber, product, repeat, repeatMultidimensional } from '@step-wise/js-utils'
 
-import { type Polynomial, type PolynomialValues, type PolynomialVariables } from './types'
-import { ensurePolynomial, ensurePolynomialVariables } from './checks'
+import { type Polynomial, type PolynomialValues, type PolynomialVariables } from './types.ts'
+import { ensurePolynomial, ensurePolynomialVariables } from './checks.ts'
 
 export function alignPolynomialVariables(polynomial: Polynomial, variables: PolynomialVariables): Polynomial {
 	ensurePolynomial(polynomial)

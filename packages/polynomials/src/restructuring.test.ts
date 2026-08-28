@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { comparePolynomialCoefficients } from './comparison'
-import { alignPolynomialVariables, evaluatePolynomial, substitutePolynomial, substitutePolynomialMoments } from './restructuring'
+import { comparePolynomialCoefficients } from './comparison.ts'
+import { alignPolynomialVariables, evaluatePolynomial, substitutePolynomial, substitutePolynomialMoments } from './restructuring.ts'
 
 describe('Check restructure/substitute functions:', () => {
 	describe('alignPolynomialVariables', () => {

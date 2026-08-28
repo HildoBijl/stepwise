@@ -2,7 +2,7 @@ import { interpolateRange, getInterpolationFraction, getBracketingIndices, inter
 import { approximatelyEqual } from '@step-wise/js-utils'
 import { Quantity } from '@step-wise/physics-core'
 
-import { type RefrigerantPressureTable, type RefrigerantDataset } from './refrigerantTables'
+import { type RefrigerantPressureTable, type RefrigerantDataset } from './refrigerantTables.ts'
 
 export type RefrigerantPhase = 'liquid' | 'mixture' | 'vapor'
 export type RefrigerantProperties = {

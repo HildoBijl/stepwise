@@ -2,7 +2,7 @@ import { and, skill } from '@step-wise/skill-setup'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 import { describe, expect, it, vi } from 'vitest'
 
-import { getExpectedExerciseSuccessRates } from './expectedSuccessRates'
+import { getExpectedExerciseSuccessRates } from './expectedSuccessRates.ts'
 
 describe('getExpectedExerciseSuccessRates', () => {
 	it('returns neutral rates without loading skill data when no skills are required', async () => {

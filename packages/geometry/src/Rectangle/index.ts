@@ -1,3 +1,3 @@
-export * from './Rectangle'
-export * from './utils'
-export * from './serialization'
+export * from './Rectangle.ts'
+export * from './utils.ts'
+export * from './serialization.ts'

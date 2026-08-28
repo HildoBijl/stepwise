@@ -1,6 +1,6 @@
-import { ExpressionNode } from '../ExpressionNode'
+import { ExpressionNode } from '../ExpressionNode.ts'
 
-import { SignNode } from './SignNode'
+import { SignNode } from './SignNode.ts'
 
 export class PlusMinus extends SignNode {
 	readonly subtype = 'PlusMinus'

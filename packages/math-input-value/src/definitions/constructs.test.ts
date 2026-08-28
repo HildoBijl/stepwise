@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { constructDefinitions, constructTypes, getConstructTypeByAlias, isConstructType, opensExternalBracketGroup } from './constructs'
+import { constructDefinitions, constructTypes, getConstructTypeByAlias, isConstructType, opensExternalBracketGroup } from './constructs.ts'
 
 describe('construct definitions', () => {
 	it('lists every construct definition', () => {

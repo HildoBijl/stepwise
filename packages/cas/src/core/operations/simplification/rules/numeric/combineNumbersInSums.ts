@@ -1,10 +1,10 @@
 import { sum as arraySum, partition } from '@step-wise/js-utils'
 
-import { type ExpressionNode, type Sum, integer, float, sum } from '../../../../construction'
+import { type ExpressionNode, type Sum, integer, float, sum } from '../../../../construction/index.ts'
 
-import { isSum, isConstant, isFloat, tryToEvaluateNumericNode } from '../../../structural'
+import { isSum, isConstant, isFloat, tryToEvaluateNumericNode } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Sum): ExpressionNode {
 	const [constants, nonConstants] = partition(node.terms, isConstant)

@@ -1,6 +1,6 @@
 import { shallowEqual } from '@step-wise/js-utils'
 
-import { ExpressionNode } from '../ExpressionNode'
+import { ExpressionNode } from '../ExpressionNode.ts'
 
 export abstract class ListNode extends ExpressionNode {
 	readonly nodes: readonly ExpressionNode[]

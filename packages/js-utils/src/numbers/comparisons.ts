@@ -1,6 +1,6 @@
-import { mergeDefaults } from '../objects'
+import { mergeDefaults } from '../objects/index.ts'
 
-import { ensureNumber } from './checks'
+import { ensureNumber } from './checks.ts'
 
 /*
  * Script-wise comparisons

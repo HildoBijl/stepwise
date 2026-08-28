@@ -1,6 +1,6 @@
 import { type InterpretationSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, Ln, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../nodes'
+import { type ExpressionNode, Ln, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../nodes/index.ts'
 
 export type TextFunctionConstructor = new (argument: ExpressionNode) => ExpressionNode
 

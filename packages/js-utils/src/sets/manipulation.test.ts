@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { difference, intersection, symmetricDifference, union } from './manipulation'
+import { difference, intersection, symmetricDifference, union } from './manipulation.ts'
 
 describe('set manipulation', () => {
 	const a = new Set([1, 2])

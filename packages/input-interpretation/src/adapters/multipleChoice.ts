@@ -1,7 +1,7 @@
 import { ensureInteger, hasDuplicates, isInteger, InterpretationError } from '@step-wise/js-utils'
 
-import type { InputValue, InputValueAdapter } from '../types'
-import { createInputValue } from '../support'
+import type { InputValue, InputValueAdapter } from '../types.ts'
+import { createInputValue } from '../support.ts'
 
 export const MultipleChoiceType = 'MultipleChoice'
 export type MultipleChoiceType = typeof MultipleChoiceType

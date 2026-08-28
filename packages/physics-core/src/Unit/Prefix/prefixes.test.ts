@@ -1,4 +1,4 @@
-import { prefixList } from './prefixes'
+import { prefixList } from './prefixes.ts'
 
 describe('prefix definitions', () => {
 	test('have unique string representations', () => {

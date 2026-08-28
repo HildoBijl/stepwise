@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { createForce, createMoment, reverseLoad } from '@step-wise/engineering-mechanics'
 
-import { getLoadDirectionIndices } from './support'
+import { getLoadDirectionIndices } from './support.ts'
 
 describe('getLoadDirectionIndices', () => {
 	const externalLoad = createForce({ position: [2, 0], angle: -Math.PI / 2 })

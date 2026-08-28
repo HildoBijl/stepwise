@@ -3,8 +3,8 @@ import { Vector } from '@step-wise/geometry'
 import { PrecisionNumber } from '@step-wise/physics-core'
 import { describe, expect, it } from 'vitest'
 
-import { compareInputs } from './compareInputs'
-import { makeCheckInputData } from './testUtils'
+import { compareInputs } from './compareInputs.ts'
+import { makeCheckInputData } from './testUtils.ts'
 
 describe('temporary domain comparison routing', () => {
 	it('routes CAS comparisons', () => {

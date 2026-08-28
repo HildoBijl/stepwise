@@ -1,9 +1,9 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import noSolutions from './noSolutions'
-import oneSolution from './oneSolution'
-import twoIntegerSolutions from './twoIntegerSolutions'
-import twoNonIntegerSolutions from './twoNonIntegerSolutions'
+import noSolutions from './noSolutions.ts'
+import oneSolution from './oneSolution.ts'
+import twoIntegerSolutions from './twoIntegerSolutions.ts'
+import twoNonIntegerSolutions from './twoNonIntegerSolutions.ts'
 
 export default {
 	examples: { oneSolution, twoIntegerSolutions },

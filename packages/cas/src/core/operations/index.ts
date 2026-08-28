@@ -1,3 +1,3 @@
-export * from './structural'
-export * from './simplification'
-export * from './semantic'
+export * from './structural/index.ts'
+export * from './simplification/index.ts'
+export * from './semantic/index.ts'

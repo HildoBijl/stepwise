@@ -1,4 +1,4 @@
-import { equationComparisons } from './comparisons'
+import { equationComparisons } from './comparisons.ts'
 
 describe('equationComparisons', () => {
 	test('distinguishes exact, ordered, and switched equality', () => {

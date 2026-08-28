@@ -1,8 +1,8 @@
 import { omitDefaults } from '@step-wise/js-utils'
 import { type InterpretationSettings, type InterpretationSettingsOptions, defaultInterpretationSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, namedConstants, variable } from '../../construction'
-import { someNode, isNamedConstant, areConstantsEqual, isVariable, areVariablesEqual, containsLogarithm, containsTrigonometricFunction, containsMultiCharacterVariables } from '../../operations'
+import { type ExpressionNode, namedConstants, variable } from '../../construction/index.ts'
+import { someNode, isNamedConstant, areConstantsEqual, isVariable, areVariablesEqual, containsLogarithm, containsTrigonometricFunction, containsMultiCharacterVariables } from '../../operations/index.ts'
 
 export function inferInterpretationSettings(node: ExpressionNode): InterpretationSettings {
 	return {

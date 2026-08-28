@@ -1,1 +1,1 @@
-export { default as determine2DAngles } from './determine2DAngles'
+export { default as determine2DAngles } from './determine2DAngles/index.ts'

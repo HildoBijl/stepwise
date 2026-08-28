@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { InterpretationError } from './InterpretationError'
+import { InterpretationError } from './InterpretationError.ts'
 
 describe('InterpretationError', () => {
 	it('carries its public error details', () => {

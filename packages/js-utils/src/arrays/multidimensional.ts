@@ -1,7 +1,7 @@
-import { type TypeGuard } from '../objects'
+import { type TypeGuard } from '../objects/index.ts'
 
-import { type NestedArray } from './finding'
-import { type ArrayReadingOptions } from './reading'
+import { type NestedArray } from './finding.ts'
+import { type ArrayReadingOptions } from './reading.ts'
 
 export type NestedValue<T> = T | NestedArray<T>
 

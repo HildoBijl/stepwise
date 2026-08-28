@@ -1,7 +1,7 @@
 import { isIn, isPlainObject } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 
-import { type Force, type Load, type Moment, loadApplicationPointPositions, ForceType, MomentType } from './types'
+import { type Force, type Load, type Moment, loadApplicationPointPositions, ForceType, MomentType } from './types.ts'
 
 export function isForce(value: unknown): value is Force {
 	if (!isPlainObject(value) || value.type !== ForceType) return false

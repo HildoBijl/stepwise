@@ -1,4 +1,4 @@
-import type { EquationInputValue, ExpressionInputValue } from './InputValue'
+import type { EquationInputValue, ExpressionInputValue } from './InputValue.ts'
 
 // Define cursors for the various construct types.
 export type TextPartCursor = number

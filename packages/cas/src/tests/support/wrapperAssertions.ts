@@ -1,5 +1,5 @@
-import { type ExpressionLike, asExpression } from '../../expressions'
-import { type EquationLike, asEquation } from '../../equations'
+import { type ExpressionLike, asExpression } from '../../expressions/index.ts'
+import { type EquationLike, asEquation } from '../../equations/index.ts'
 
 export function expectExpressionToEqual(result: ExpressionLike, expected: ExpressionLike) {
 	const resultValue = asExpression(result)

@@ -1,6 +1,6 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
-import calculateBasicSupportReactionsDiagonalBeam from './calculateBasicSupportReactionsDiagonalBeam'
-import calculateBasicSupportReactionsDiagonalSupport from './calculateBasicSupportReactionsDiagonalSupport'
-import calculateBasicSupportReactionsFixedWithDiagonalLoad from './calculateBasicSupportReactionsFixedWithDiagonalLoad'
-import calculateBasicSupportReactionsFixedWithElevatedLoad from './calculateBasicSupportReactionsFixedWithElevatedLoad'
+import calculateBasicSupportReactionsDiagonalBeam from './calculateBasicSupportReactionsDiagonalBeam.ts'
+import calculateBasicSupportReactionsDiagonalSupport from './calculateBasicSupportReactionsDiagonalSupport.ts'
+import calculateBasicSupportReactionsFixedWithDiagonalLoad from './calculateBasicSupportReactionsFixedWithDiagonalLoad.ts'
+import calculateBasicSupportReactionsFixedWithElevatedLoad from './calculateBasicSupportReactionsFixedWithElevatedLoad.ts'
 export default { examples: {}, exercises: { calculateBasicSupportReactionsDiagonalBeam, calculateBasicSupportReactionsDiagonalSupport, calculateBasicSupportReactionsFixedWithDiagonalLoad, calculateBasicSupportReactionsFixedWithElevatedLoad } } satisfies SkillExerciseBundle

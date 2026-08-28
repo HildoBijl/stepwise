@@ -1,8 +1,8 @@
 import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
-import linearInterpolationPopulation from './linearInterpolationPopulation'
-import linearInterpolationKettle from './linearInterpolationKettle'
-import linearInterpolationChild from './linearInterpolationChild'
+import linearInterpolationPopulation from './linearInterpolationPopulation.ts'
+import linearInterpolationKettle from './linearInterpolationKettle.ts'
+import linearInterpolationChild from './linearInterpolationChild.ts'
 
 export default {
 	examples: { linearInterpolationPopulation },

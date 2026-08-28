@@ -1,6 +1,6 @@
-import { ExpressionNode } from '../ExpressionNode'
+import { ExpressionNode } from '../ExpressionNode.ts'
 
-import { ListNode } from './ListNode'
+import { ListNode } from './ListNode.ts'
 
 export class Product extends ListNode {
 	readonly subtype = 'Product'

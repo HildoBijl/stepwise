@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { defaultDecimalSeparator, defaultLanguage, i18nLoadPath, languages } from './index'
+import { defaultDecimalSeparator, defaultLanguage, i18nLoadPath, languages } from './index.ts'
 
 describe('language settings', () => {
 	it('uses the first supported language as the default', () => {

@@ -1,6 +1,6 @@
 import { isNumber } from '@step-wise/js-utils'
 
-import type { MatrixArray, MatrixInput } from './types'
+import type { MatrixArray, MatrixInput } from './types.ts'
 
 // Check if the given value is a matrix row.
 export function isMatrixRow(value: unknown): value is number[] {

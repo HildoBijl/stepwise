@@ -1,6 +1,6 @@
 import { createInterpolationTable } from '@step-wise/interpolation'
 
-import { createExactQuantities, createQuantityGrid } from '../utils'
+import { createExactQuantities, createQuantityGrid } from '../utils/index.ts'
 
 const temperatureRange = createExactQuantities([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 255, 260, 265, 270, 275, 280, 285, 290, 295, 300, 305, 310, 315, 320, 325, 330, 335, 340, 345, 350, 355, 360, 365, 370], 'dC')
 const pressureRange = createExactQuantities([0.01, 0.02, 0.05, 0.1, 0.2, 0.4, 0.6, 0.8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 36, 40, 45, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210], 'bar')

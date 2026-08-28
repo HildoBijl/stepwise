@@ -1,2 +1,2 @@
-export * from './checks'
-export * from './manipulation'
+export * from './checks.ts'
+export * from './manipulation.ts'

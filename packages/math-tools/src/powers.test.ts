@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getLargestPerfectPowerDivisor, isPerfectPower, isPerfectSquare } from './powers'
+import { getLargestPerfectPowerDivisor, isPerfectPower, isPerfectSquare } from './powers.ts'
 
 describe('isPerfectPower', () => {
 	it('handles exponents zero and one', () => {

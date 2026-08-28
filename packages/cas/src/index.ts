@@ -1,2 +1,2 @@
-export * from './expressions'
-export * from './equations'
+export * from './expressions/index.ts'
+export * from './equations/index.ts'

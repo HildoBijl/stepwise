@@ -1,3 +1,3 @@
-export * from './LineSegment'
-export * from './utils'
-export * from './serialization'
+export * from './LineSegment.ts'
+export * from './utils.ts'
+export * from './serialization.ts'

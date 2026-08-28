@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { adjustNumberTolerances, approximatelyEqual, checkNumberEquality, compareNumbers, getAbsoluteDifference, getRelativeDifference, isMultipleOf, numbersEqual, resolveNumberEqualityOptions, validateNumberEqualityOptions } from './comparisons'
+import { adjustNumberTolerances, approximatelyEqual, checkNumberEquality, compareNumbers, getAbsoluteDifference, getRelativeDifference, isMultipleOf, numbersEqual, resolveNumberEqualityOptions, validateNumberEqualityOptions } from './comparisons.ts'
 
 describe('number comparisons', () => {
 	it('compares numbers approximately and directionally', () => {

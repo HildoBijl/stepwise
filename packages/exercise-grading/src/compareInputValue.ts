@@ -2,8 +2,8 @@ import { ensureBoolean } from '@step-wise/js-utils'
 
 import type { CheckInputData } from '@step-wise/input-exercises'
 
-import type { InputComparisonSetting } from './types'
-import { compareFunctions } from './objects'
+import type { InputComparisonSetting } from './types.ts'
+import { compareFunctions } from './objects/index.ts'
 
 type InputValueComparisonOptions = {
 	key: string

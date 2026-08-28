@@ -1,10 +1,10 @@
-import { type ExpressionNode, type Sum, type Fraction, negative, sum, product, fraction } from '../../../../construction'
+import { type ExpressionNode, type Sum, type Fraction, negative, sum, product, fraction } from '../../../../construction/index.ts'
 
-import { isSum, areNodesEqual, isMinus, isFraction } from '../../../structural'
+import { isSum, areNodesEqual, isMinus, isFraction } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
-import { combineProductFractions } from './combineProductFractions'
+import { combineProductFractions } from './combineProductFractions.ts'
 
 export function applyCombineSumFractions(node: Sum): Sum | Fraction {
 	// Handle basic cases: no existing fractions, or all fractions with equal denominators.

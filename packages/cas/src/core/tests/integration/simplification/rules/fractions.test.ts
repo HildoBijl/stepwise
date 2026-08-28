@@ -1,8 +1,8 @@
-import { negative, variable, sum, product, fraction, power } from '../../../../construction'
+import { negative, variable, sum, product, fraction, power } from '../../../../construction/index.ts'
 
-import { normalizationRequirements } from '../../../../operations'
+import { normalizationRequirements } from '../../../../operations/index.ts'
 
-import { expectSimplifyToGive } from '../../../testUtils'
+import { expectSimplifyToGive } from '../../../testUtils.ts'
 
 const x = variable('x')
 const y = variable('y')

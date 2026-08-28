@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { anglesEqual, degreesToRadians, normalizeAngle, radiansToDegrees } from './angles'
+import { anglesEqual, degreesToRadians, normalizeAngle, radiansToDegrees } from './angles.ts'
 
 describe('angle utilities', () => {
 	it('converts between degrees and radians', () => {

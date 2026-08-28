@@ -1,2 +1,2 @@
-export * as exercises from './exerciseRegistry'
-export * from './exerciseQueries'
+export * as exercises from './exerciseRegistry.ts'
+export * from './exerciseQueries.ts'

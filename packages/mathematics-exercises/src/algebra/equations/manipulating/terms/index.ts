@@ -1,1 +1,1 @@
-export { default as moveEquationTerm } from './moveEquationTerm'
+export { default as moveEquationTerm } from './moveEquationTerm/index.ts'

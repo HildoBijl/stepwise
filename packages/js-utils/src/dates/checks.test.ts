@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensureDate, isDate } from './checks'
+import { ensureDate, isDate } from './checks.ts'
 
 describe('date checks', () => {
 	it('recognizes only valid dates', () => {

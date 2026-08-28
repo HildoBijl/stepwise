@@ -1,8 +1,8 @@
 import { isEmptyObject, omitDefaults } from '@step-wise/js-utils'
 
-import { defaultExpressionSettings } from './settings'
-import { type SerializedExpression } from './types'
-import { ExpressionType, Expression } from './Expression'
+import { defaultExpressionSettings } from './settings.ts'
+import { type SerializedExpression } from './types.ts'
+import { ExpressionType, Expression } from './Expression.ts'
 
 export function serializeExpression(expression: Expression): SerializedExpression {
 	const serialized: SerializedExpression = { type: 'Expression', value: expression.toStorageValue() }

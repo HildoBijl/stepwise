@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { factorial, binomialCoefficient } from './combinatorics'
+import { factorial, binomialCoefficient } from './combinatorics.ts'
 
 describe('factorial', () => {
 	it('calculates known factorials', () => {

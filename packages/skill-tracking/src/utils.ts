@@ -2,7 +2,7 @@ import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 import { ensureBernsteinCoefficients } from '@step-wise/bernstein-polynomials'
 import { ensureBoolean, ensureDate, ensureInteger, ensurePlainObject } from '@step-wise/js-utils'
 
-import type { StoredSkillLevel, StoredSkillLevelUpdate, SkillObservation } from './types'
+import type { StoredSkillLevel, StoredSkillLevelUpdate, SkillObservation } from './types.ts'
 
 export function getInitialSkillLevel(date = new Date()): StoredSkillLevel {
 	const ensuredDate = ensureDate(date)

@@ -1,4 +1,4 @@
-import { type EnsureNumberOptions, isNumber, isNumeric, ensureNumber, ensureNumeric } from '../numbers'
+import { type EnsureNumberOptions, isNumber, isNumeric, ensureNumber, ensureNumeric } from '../numbers/index.ts'
 
 // Check if the given variable is an array.
 export function isArray(x: unknown): x is readonly unknown[] {

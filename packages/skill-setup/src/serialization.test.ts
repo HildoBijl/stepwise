@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { and, deserializeSetup, or, part, pick, repeat, serializeSetup, skill } from './index'
+import { and, deserializeSetup, or, part, pick, repeat, serializeSetup, skill } from './index.ts'
 
 describe('serialization', () => {
 	it.each([

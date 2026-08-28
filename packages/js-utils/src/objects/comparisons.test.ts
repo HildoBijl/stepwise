@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { deepEqual } from './comparisons'
+import { deepEqual } from './comparisons.ts'
 
 describe('deep object equality', () => {
 	it('compares primitives and supported object types', () => {

@@ -1,9 +1,9 @@
 import { Quantity } from '@step-wise/physics-core'
 import { createInterpolationTable } from '@step-wise/interpolation'
 
-import { createQuantityGrid, createExactQuantities } from '../../utils'
+import { createQuantityGrid, createExactQuantities } from '../../utils/index.ts'
 
-import { type CriticalPoint, type RefrigerantPressureTable, createRefrigerantPressureTable } from './refrigerantTables'
+import { type CriticalPoint, type RefrigerantPressureTable, createRefrigerantPressureTable } from './refrigerantTables.ts'
 
 /*
  * Critical point

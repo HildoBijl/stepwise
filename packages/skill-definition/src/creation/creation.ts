@@ -1,7 +1,7 @@
-import type { RawSkillTree, SkillTree } from './types'
-import { flattenRawSkillTree } from './flattening'
-import { validateAndProcessPrerequisites } from './prerequisiteProcessing'
-import { validateAndProcessLinks } from './linkProcessing'
+import type { RawSkillTree, SkillTree } from './types.ts'
+import { flattenRawSkillTree } from './flattening.ts'
+import { validateAndProcessPrerequisites } from './prerequisiteProcessing.ts'
+import { validateAndProcessLinks } from './linkProcessing.ts'
 
 export function createSkillTree(rawSkillTree: RawSkillTree): SkillTree {
 	const skillTree = flattenRawSkillTree(rawSkillTree)

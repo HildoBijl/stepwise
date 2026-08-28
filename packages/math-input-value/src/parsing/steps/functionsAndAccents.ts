@@ -1,11 +1,11 @@
 import { isLetter } from '@step-wise/js-utils'
 
-import { type InterpretationSettings } from '../../settings'
-import { accentNames, constructDefinitions, getConstructTypeByAlias } from '../../definitions'
-import { type ExpressionValue, type ExpressionTextCursor, isTextPart } from '../../types'
-import { getExpressionStartCursor, getExpressionEndCursor, sliceExpressionValue, shiftExpressionTextCursorLeft, shiftExpressionTextCursorRight, mergeAdjacentTextParts } from '../../utils'
+import { type InterpretationSettings } from '../../settings/index.ts'
+import { accentNames, constructDefinitions, getConstructTypeByAlias } from '../../definitions/index.ts'
+import { type ExpressionValue, type ExpressionTextCursor, isTextPart } from '../../types/index.ts'
+import { getExpressionStartCursor, getExpressionEndCursor, sliceExpressionValue, shiftExpressionTextCursorLeft, shiftExpressionTextCursorRight, mergeAdjacentTextParts } from '../../utils/index.ts'
 
-import { squareBrackets, getTopLevelBracketMatches, findCursorAtBracketDepthZero } from '../support'
+import { squareBrackets, getTopLevelBracketMatches, findCursorAtBracketDepthZero } from '../support.ts'
 
 // Turn occurrences of brackets (when relevant) into constructs, like roots, logarithms and accents.
 export function parseFunctionsAndAccents(value: ExpressionValue, settings: InterpretationSettings, parseExpressionValue: (value: ExpressionValue, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {

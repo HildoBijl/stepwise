@@ -1,1 +1,1 @@
-export * from './getRandomFunction'
+export * from './getRandomFunction.ts'

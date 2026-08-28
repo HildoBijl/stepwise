@@ -1,1 +1,1 @@
-export { default as rewriteNegativePower } from './rewriteNegativePower'
+export { default as rewriteNegativePower } from './rewriteNegativePower/index.ts'

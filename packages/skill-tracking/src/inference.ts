@@ -5,7 +5,7 @@ import { binomialCoefficient } from '@step-wise/math-tools'
 import type { SkillSetup } from '@step-wise/skill-setup'
 import type { Skill } from '@step-wise/skill-definition'
 
-import { defaultInferenceOrder, defaultSkillLinkCorrelation } from './settings'
+import { defaultInferenceOrder, defaultSkillLinkCorrelation } from './settings.ts'
 
 // Find the expected value of a set-up.
 export function getSetupExpectedSuccessRate(setup: SkillSetup, getCoefficients: (skillId: string) => BernsteinCoefficients): number {

@@ -1,7 +1,7 @@
-import { combineNumbersInSums } from '../rules/numeric'
-import { flattenSums } from '../rules/structural'
+import { combineNumbersInSums } from '../rules/numeric/index.ts'
+import { flattenSums } from '../rules/structural/index.ts'
 
-import { adjustSimplificationOptions, allSimplificationOptions, ensureSimplificationOptionSet, isSimplificationOption, resolveSimplificationOptions, resolveSimplificationRules } from './utils'
+import { adjustSimplificationOptions, allSimplificationOptions, ensureSimplificationOptionSet, isSimplificationOption, resolveSimplificationOptions, resolveSimplificationRules } from './utils.ts'
 
 describe('simplification option utilities', () => {
 	test('resolves arrays and preserves valid sets', () => {

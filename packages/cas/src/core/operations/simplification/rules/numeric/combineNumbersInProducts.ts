@@ -1,10 +1,10 @@
 import { first, product as arrayProduct, partition } from '@step-wise/js-utils'
 
-import { type ExpressionNode, type Product, integer, float, product } from '../../../../construction'
+import { type ExpressionNode, type Product, integer, float, product } from '../../../../construction/index.ts'
 
-import { isProduct, isNumberNode, isFloatNode } from '../../../structural'
+import { isProduct, isNumberNode, isFloatNode } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Product): ExpressionNode {
 	const [numberFactors, nonNumberFactors] = partition(node.factors, node => isNumberNode(node))

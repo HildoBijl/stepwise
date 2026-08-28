@@ -1,8 +1,8 @@
 import { type PolynomialCoefficients, multiplyPolynomials } from '@step-wise/polynomials'
 
-import { type SkillListStorageValue, type GenericSerializedSkillSetup, ensureSkillListStorageValue, SkillListSetup, SkillSetup } from '../abstracts'
+import { type SkillListStorageValue, type GenericSerializedSkillSetup, ensureSkillListStorageValue, SkillListSetup, SkillSetup } from '../abstracts/index.ts'
 
-import { type SkillSetupLike, ensureSetup } from './Skill'
+import { type SkillSetupLike, ensureSetup } from './Skill.ts'
 
 export type AndStorageValue = SkillListStorageValue
 export type SerializedAnd = GenericSerializedSkillSetup<AndStorageValue, 'And'>

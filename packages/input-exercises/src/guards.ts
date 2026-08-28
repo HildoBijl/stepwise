@@ -1,6 +1,6 @@
-import { isMonoExercise } from './MonoExercise'
-import { isStepExercise } from './StepExercise'
-import type { AnyInputExercise } from './types'
+import { isMonoExercise } from './MonoExercise/index.ts'
+import { isStepExercise } from './StepExercise/index.ts'
+import type { AnyInputExercise } from './types.ts'
 
 export function isInputExercise(value: unknown): value is AnyInputExercise {
 	return isMonoExercise(value) || isStepExercise(value)

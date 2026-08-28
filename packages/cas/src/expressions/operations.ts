@@ -1,4 +1,4 @@
-import { type Expression, type ExpressionLike, asExpression } from './Expression'
+import { type Expression, type ExpressionLike, asExpression } from './Expression.ts'
 
 export type MultiplyNumeratorAndDenominatorOptions = { putAtStart?: boolean }
 

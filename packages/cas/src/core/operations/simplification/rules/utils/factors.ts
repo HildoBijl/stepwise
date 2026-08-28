@@ -1,12 +1,12 @@
 import { partition } from '@step-wise/js-utils'
 
-import { type ExpressionNode, negative, recreateSignNode, sum, product, power } from '../../../../construction'
+import { type ExpressionNode, negative, recreateSignNode, sum, product, power } from '../../../../construction/index.ts'
 
-import { areNodesEqual, isMinus, isSignNode, isZero, isOne, isNumeric, isSingular, subtract, tryToEvaluateNumericNode } from '../../../structural'
+import { areNodesEqual, isMinus, isSignNode, isZero, isOne, isNumeric, isSingular, subtract, tryToEvaluateNumericNode } from '../../../structural/index.ts'
 
-import { getBaseAndExponent, getProductFactors } from '../utils'
+import { getBaseAndExponent, getProductFactors } from '../utils/index.ts'
 
-import { getSumTerms } from './defaults'
+import { getSumTerms } from './defaults.ts'
 
 export function getCommonFactors(...terms: readonly ExpressionNode[]): ExpressionNode[] {
 	let commonFactors = getProductFactors(terms[0]).filter(factor => !isOne(factor)).map(getBaseAndExponent)

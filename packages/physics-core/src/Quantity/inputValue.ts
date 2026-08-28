@@ -1,9 +1,9 @@
 import { isPlainObject, hasOnlyKeys } from '@step-wise/js-utils'
 
-import { type PrecisionNumberInputValue, isPrecisionNumberInputValue, interpretPrecisionNumberInputValue, precisionNumberToInputValue } from '../PrecisionNumber'
-import { type UnitInputValue, isUnitInputValue, interpretUnitInputValue, unitToInputValue } from '../Unit'
+import { type PrecisionNumberInputValue, isPrecisionNumberInputValue, interpretPrecisionNumberInputValue, precisionNumberToInputValue } from '../PrecisionNumber/index.ts'
+import { type UnitInputValue, isUnitInputValue, interpretUnitInputValue, unitToInputValue } from '../Unit/index.ts'
 
-import { Quantity } from './Quantity'
+import { Quantity } from './Quantity.ts'
 
 export type QuantityInputValue = {
 	value: PrecisionNumberInputValue

@@ -1,8 +1,8 @@
 import { fromKeys, hasDuplicates, isNumber, isPlainObject } from '@step-wise/js-utils'
 
-import type { InterpolationValue, InterpolationTable, TableInterpolationInput, TableInterpolationOutput, InterpolationAxis, InterpolationSeries } from './types'
-import { compareInterpolationValues, isNumberLike } from './checks'
-import { interpolateValidatedGrid } from './gridInterpolation'
+import type { InterpolationValue, InterpolationTable, TableInterpolationInput, TableInterpolationOutput, InterpolationAxis, InterpolationSeries } from './types.ts'
+import { compareInterpolationValues, isNumberLike } from './checks.ts'
+import { interpolateValidatedGrid } from './gridInterpolation.ts'
 
 // Find a single value in a table, either because the table only has one output, or because an output label is indicated.
 export function interpolateTable<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(

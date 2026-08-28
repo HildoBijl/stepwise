@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { gasProperties } from './gasProperties'
+import { gasProperties } from './gasProperties.ts'
 
 describe('gasProperties', () => {
 	it('contains all supported gases', () => {

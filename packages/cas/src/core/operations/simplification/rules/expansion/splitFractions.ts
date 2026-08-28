@@ -1,10 +1,10 @@
-import { type ExpressionNode, type Fraction, fraction, sum } from '../../../../construction'
+import { type ExpressionNode, type Fraction, fraction, sum } from '../../../../construction/index.ts'
 
-import { isFraction, isSum } from '../../../structural'
+import { isFraction, isSum } from '../../../structural/index.ts'
 
-import { cancelFractionFactors } from '../cancellation'
-import { combineSumFractions, combineFractionFactors } from '../combination'
-import { defineRule } from '../ruleDefinition'
+import { cancelFractionFactors } from '../cancellation/index.ts'
+import { combineSumFractions, combineFractionFactors } from '../combination/index.ts'
+import { defineRule } from '../ruleDefinition.ts'
 
 function transform(node: Fraction): ExpressionNode {
 	if (!isSum(node.numerator)) return node

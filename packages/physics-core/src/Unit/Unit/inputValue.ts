@@ -1,9 +1,9 @@
 import { isPlainObject, hasOnlyKeys, InterpretationError } from '@step-wise/js-utils'
 
-import { type UnitFactorStorageValue, type UnitFactorInputValue, interpretPrefixAndUnitDefinitionString, isUnitFactorInputValue, unitFactorToInputValue } from '../UnitFactor'
+import { type UnitFactorStorageValue, type UnitFactorInputValue, interpretPrefixAndUnitDefinitionString, isUnitFactorInputValue, unitFactorToInputValue } from '../UnitFactor/index.ts'
 
-import { type UnitStorageValue } from './interpreting'
-import { Unit } from './Unit'
+import { type UnitStorageValue } from './interpreting.ts'
+import { Unit } from './Unit.ts'
 
 export type UnitInputValue = {
 	numerator?: UnitFactorInputValue[]

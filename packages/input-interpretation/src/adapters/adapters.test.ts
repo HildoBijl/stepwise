@@ -5,14 +5,14 @@ import { createForce } from '@step-wise/engineering-mechanics'
 import { Line, LineSegment, Rectangle, Vector } from '@step-wise/geometry'
 import { PrecisionNumber, Quantity, Unit } from '@step-wise/physics-core'
 
-import type { InputValueAdapter } from '../types'
+import type { InputValueAdapter } from '../types.ts'
 
-import { equationInputValueAdapter, expressionInputValueAdapter } from './cas'
-import { lineInputValueAdapter, lineSegmentInputValueAdapter, rectangleInputValueAdapter, vectorInputValueAdapter } from './geometry'
-import { integerInputValueAdapter } from './integer'
-import { freeBodyDiagramInputValueAdapter } from './mechanics'
-import { multipleChoiceInputValueAdapter } from './multipleChoice'
-import { precisionNumberInputValueAdapter, quantityInputValueAdapter, unitInputValueAdapter } from './physics'
+import { equationInputValueAdapter, expressionInputValueAdapter } from './cas.ts'
+import { lineInputValueAdapter, lineSegmentInputValueAdapter, rectangleInputValueAdapter, vectorInputValueAdapter } from './geometry.ts'
+import { integerInputValueAdapter } from './integer.ts'
+import { freeBodyDiagramInputValueAdapter } from './mechanics.ts'
+import { multipleChoiceInputValueAdapter } from './multipleChoice.ts'
+import { precisionNumberInputValueAdapter, quantityInputValueAdapter, unitInputValueAdapter } from './physics.ts'
 
 describe('integer adapter', () => {
 	it.each([

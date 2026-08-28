@@ -1,4 +1,4 @@
-export * as elementaryEquations from './elementaryEquations'
-export * as linearEquations from './linearEquations'
-export * as quadraticEquations from './quadraticEquations'
-export * as systemsOfEquations from './systemsOfEquations'
+export * as elementaryEquations from './elementaryEquations/index.ts'
+export * as linearEquations from './linearEquations/index.ts'
+export * as quadraticEquations from './quadraticEquations/index.ts'
+export * as systemsOfEquations from './systemsOfEquations/index.ts'

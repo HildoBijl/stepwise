@@ -1,8 +1,8 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector'
+import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector/index.ts'
 
-import type { RectangleInput } from './types'
+import type { RectangleInput } from './types.ts'
 
 export function isRectangleObject(value: unknown): value is RectangleInput {
 	if (!isPlainObject(value)) return false

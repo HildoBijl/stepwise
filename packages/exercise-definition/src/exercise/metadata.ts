@@ -1,7 +1,7 @@
 import { SkillSetup } from '@step-wise/skill-setup'
 import { ensureInteger, ensureNumber, isPlainObject } from '@step-wise/js-utils'
 
-import type { ExerciseMetadata, ResolvedExerciseMetadata } from './types'
+import type { ExerciseMetadata, ResolvedExerciseMetadata } from './types.ts'
 
 export function isExerciseMetadata(value: unknown): value is ExerciseMetadata {
 	if (!isPlainObject(value)) return false

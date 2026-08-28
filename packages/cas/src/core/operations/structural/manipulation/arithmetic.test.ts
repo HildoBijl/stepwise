@@ -1,8 +1,8 @@
-import { fraction, negative, product, sum } from '../../../construction'
+import { fraction, negative, product, sum } from '../../../construction/index.ts'
 
-import { areNodesEqual } from '../inspection'
+import { areNodesEqual } from '../inspection/index.ts'
 
-import { add, divide, multiply, subtract } from './arithmetic'
+import { add, divide, multiply, subtract } from './arithmetic.ts'
 
 describe('structural arithmetic operations', () => {
 	test('creates sums, differences, products, and quotients', () => {

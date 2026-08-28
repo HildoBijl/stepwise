@@ -1,10 +1,10 @@
-import { type Sqrt, type Root, Integer, root } from '../../../../construction'
+import { type Sqrt, type Root, Integer, root } from '../../../../construction/index.ts'
 
-import { isSqrt } from '../../../structural'
+import { isSqrt } from '../../../structural/index.ts'
 
-import { defineRule } from '../ruleDefinition'
+import { defineRule } from '../ruleDefinition.ts'
 
-import { rewriteSquareRootsAsSqrts } from './rewriteSquareRootsAsSqrts'
+import { rewriteSquareRootsAsSqrts } from './rewriteSquareRootsAsSqrts.ts'
 
 function transform(node: Sqrt): Sqrt | Root {
 	return isSqrt(node) ? root(node.radicand, Integer.two) : node

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { createEmptyExpressionInputValue, createEmptyExpressionValue, createEquationInputValue, createExpressionInputValue, createExpressionInputValueFromText, isEmptyExpressionValue } from './fundamentals'
+import { createEmptyExpressionInputValue, createEmptyExpressionValue, createEquationInputValue, createExpressionInputValue, createExpressionInputValueFromText, isEmptyExpressionValue } from './fundamentals.ts'
 
 describe('expression-value fundamentals', () => {
 	it('creates canonical empty values', () => {

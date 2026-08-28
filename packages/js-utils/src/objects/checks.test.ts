@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensureBoolean, ensureObject, hasOnlyKeys, isBoolean, isObject } from './checks'
+import { ensureBoolean, ensureObject, hasOnlyKeys, isBoolean, isObject } from './checks.ts'
 
 describe('object checks', () => {
 	it('recognizes and ensures non-null objects', () => {

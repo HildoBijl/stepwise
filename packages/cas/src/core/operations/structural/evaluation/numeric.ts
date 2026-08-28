@@ -1,9 +1,9 @@
 import { approximatelyEqual } from '@step-wise/js-utils'
 import { type ExpressionSettingsOptions, type ExpressionSettings, resolveExpressionSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, variableToString } from '../../../construction'
+import { type ExpressionNode, variableToString } from '../../../construction/index.ts'
 
-import { isConstantNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isLn, isLog, isTrigonometricFunction, isInverseTrigonometricFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isSingular } from '../inspection'
+import { isConstantNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isLn, isLog, isTrigonometricFunction, isInverseTrigonometricFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isSingular } from '../inspection/index.ts'
 
 // Turn a numeric expression into a Javascript number. Throws on non-numeric elements.
 export function evaluateNumericNode(node: ExpressionNode, settings?: ExpressionSettingsOptions): number {

@@ -1,6 +1,6 @@
 import { ensureArray, ensurePlainObject, union } from '@step-wise/js-utils'
 
-import { type GenericSerializedSkillSetup, SkillSetup } from './SkillSetup'
+import { type GenericSerializedSkillSetup, SkillSetup } from './SkillSetup.ts'
 
 export type SkillListStorageValue<TChild = GenericSerializedSkillSetup> = { skills: readonly TChild[] }
 

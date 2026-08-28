@@ -1,11 +1,11 @@
 import { type ExpressionSettingsOptions, resolveExpressionSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, type VariableInput, asVariable } from '../../../construction'
+import { type ExpressionNode, type VariableInput, asVariable } from '../../../construction/index.ts'
 
-import { simplify, removeTrivial } from '../../simplification'
+import { simplify, removeTrivial } from '../../simplification/index.ts'
 
-import { type DerivativeContext } from './types'
-import { applyDerivativeRules } from './rules'
+import { type DerivativeContext } from './types.ts'
+import { applyDerivativeRules } from './rules/index.ts'
 
 export function differentiate(node: ExpressionNode, variable: VariableInput, settings?: ExpressionSettingsOptions): ExpressionNode {
 	// Set up the context.

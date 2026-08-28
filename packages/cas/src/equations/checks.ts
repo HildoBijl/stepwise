@@ -1,6 +1,6 @@
-import { type VariableLike, expressionChecks } from '../expressions'
+import { type VariableLike, expressionChecks } from '../expressions/index.ts'
 
-import { type EquationLike, asEquation } from './Equation'
+import { type EquationLike, asEquation } from './Equation.ts'
 
 export const equationChecks = {
 	hasSumWithinProduct(input: EquationLike): boolean { return asEquation(input).someSide(side => expressionChecks.hasSumWithinProduct(side)) },

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { isExerciseDone, isStateDone } from './support'
+import { isExerciseDone, isStateDone } from './support.ts'
 
 describe('isStateDone', () => {
 	it('returns true when done is true', () => {
