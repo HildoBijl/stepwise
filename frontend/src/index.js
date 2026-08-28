@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ApolloClient, InMemoryCache, createHttpLink, from, split } from '@apollo/client'
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client'
 import { getMainDefinition } from '@apollo/client/utilities'
+import { HttpLink } from '@apollo/client/link/http'
 import { RetryLink } from '@apollo/client/link/retry'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { createClient } from 'graphql-ws'
@@ -18,7 +19,7 @@ const wsLink = new GraphQLWsLink(createClient({
 }))
 
 // The HTTP link, for regular queries/mutations.
-const httpLink = createHttpLink({
+const httpLink = new HttpLink({
 	uri: graphqlAddress,
 	credentials: 'include',
 })
@@ -41,13 +42,13 @@ const retryLink = new RetryLink({
 
 // Apollo Client.
 const apolloClient = new ApolloClient({
-	link: split(
+	link: ApolloLink.split(
 		({ query }) => {
 			const definition = getMainDefinition(query)
 			return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
 		},
 		wsLink,
-		from([retryLink, httpLink]),
+		ApolloLink.from([retryLink, httpLink]),
 	),
 	cache: new InMemoryCache({
 		typePolicies: {
