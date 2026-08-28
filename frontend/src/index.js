@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ApolloClient, InMemoryCache, createHttpLink, split } from '@apollo/client'
+import { ApolloClient, InMemoryCache, createHttpLink, from, split } from '@apollo/client'
 import { getMainDefinition } from '@apollo/client/utilities'
+import { RetryLink } from '@apollo/client/link/retry'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { createClient } from 'graphql-ws'
 
@@ -22,18 +23,31 @@ const httpLink = createHttpLink({
 	credentials: 'include',
 })
 
+// Retry queries that fail while the API is starting or restarting. Mutations are deliberately excluded because retrying them could perform an action twice.
+const retryLink = new RetryLink({
+	delay: {
+		initial: 300,
+		max: 3000,
+		jitter: true,
+	},
+	attempts: {
+		max: Infinity,
+		retryIf: (error, operation) => {
+			const definition = getMainDefinition(operation.query)
+			return definition.kind === 'OperationDefinition' && definition.operation === 'query'
+		},
+	},
+})
+
 // Apollo Client.
 const apolloClient = new ApolloClient({
 	link: split(
 		({ query }) => {
 			const definition = getMainDefinition(query)
-			return (
-				definition.kind === 'OperationDefinition' &&
-				definition.operation === 'subscription'
-			)
+			return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
 		},
 		wsLink,
-		httpLink,
+		from([retryLink, httpLink]),
 	),
 	cache: new InMemoryCache({
 		typePolicies: {
