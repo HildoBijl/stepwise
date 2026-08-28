@@ -1,5 +1,5 @@
 import { randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
-import { asExpression } from '@step-wise/cas'
+import { asExpression, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
@@ -13,6 +13,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'determine2DAngles',
 		...createStepExerciseMetadata([undefined, undefined, undefined]),
+		comparisons: { Expression: expressionComparisons.haveEqualNumericValue },
 	},
 
 	generateParameters() {

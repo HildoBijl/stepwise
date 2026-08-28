@@ -9,7 +9,10 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'applySineCosineTangent',
 		...createStepExerciseMetadata([undefined, undefined, undefined]),
-		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.areEquivalent(input, correct) },
+		comparisons: {
+			Expression: expressionComparisons.haveEqualNumericValue,
+			Equation: equationComparisons.areEquivalent,
+		},
 	},
 
 	generateParameters() {
