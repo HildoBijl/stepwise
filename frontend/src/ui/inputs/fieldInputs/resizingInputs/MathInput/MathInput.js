@@ -1,13 +1,14 @@
 import React, { useRef, useCallback, useMemo } from 'react'
 
-import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionValue, deepEqual } from '@step-wise/js-utils'
-import { createEmptyExpressionValue, isEmptyExpressionValue } from '@step-wise/math-input-value'
+import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionValue, deepEqual, isEmptyObject } from '@step-wise/js-utils'
+import { createEmptyExpressionValue, isEmptyExpressionValue, defaultInterpretationSettings } from '@step-wise/math-input-value'
+import { defaultExpressionSettings } from '@step-wise/cas'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
 import { ResizingInput, defaultResizingInputOptions } from '../ResizingInput'
 
-import { defaultFieldSettings, defaultInterpretationExpressionSettings } from './inputSettings'
+import { defaultFieldSettings } from './inputSettings'
 import { mouseClickToCursor } from './support'
 import { expressionFunctions } from './types'
 import { MathInputInner, defaultMathInputInnerOptions } from './MathInputInner'
@@ -46,8 +47,7 @@ export function MathInput(options) {
 	options.keyboardSettings = useStableCallback(FI => resolveFunctionValue(keyboardSettings, FI, settings))
 
 	// Store the interpretation and expression settings in the SI to have them available upon interpretation.
-	const interpretationExpressionSettings = useMemo(() => omitDefaults(pickFromDefaults(settings, defaultInterpretationExpressionSettings), defaultInterpretationExpressionSettings), [settings])
-	options.initialSettings = interpretationExpressionSettings
+	options.initialProperties = useMemo(() => getMathInputValueSettings(settings), [settings])
 
 	// Also expand the keyPressToFI and the mouseClickToFI with data about the charElements.
 	options.keyPressToFI = useStableCallback((keyInfo, FI, contentsElement, cursorElement) => {
@@ -77,3 +77,12 @@ export function MathInput(options) {
 	</ResizingInput>
 }
 MathInput.translatableProps = ResizingInput.translatableProps
+
+export function getMathInputValueSettings(settings) {
+	const interpretationSettings = omitDefaults(pickFromDefaults(settings, defaultInterpretationSettings), defaultInterpretationSettings)
+	const expressionSettings = omitDefaults(pickFromDefaults(settings, defaultExpressionSettings), defaultExpressionSettings)
+	return {
+		...(isEmptyObject(interpretationSettings) ? {} : { interpretationSettings }),
+		...(isEmptyObject(expressionSettings) ? {} : { expressionSettings }),
+	}
+}

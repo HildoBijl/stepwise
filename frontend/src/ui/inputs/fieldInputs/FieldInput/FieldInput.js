@@ -28,15 +28,16 @@ export const defaultFieldInputOptions = {
 	type: undefined,
 	initialValue: undefined,
 	initialSettings: undefined,
+	initialProperties: undefined,
 }
 
 export const FieldInput = forwardRef((options, ref) => {
 	options = mergeDefaults(options, defaultFieldInputOptions)
-	const { type, initialValue, initialSettings, clean, functionalize, keyPressToFI, keyboardSettings } = options
+	const { type, initialValue, initialSettings, initialProperties, clean, functionalize, keyPressToFI, keyboardSettings } = options
 	ref = useEnsureRef(ref)
 	const cursorRef = useRef()
 
-	// Process certain functions, given the fact that FieldInput SIs always have the form { type, value, settings } and the FI is identically { type, value, settings, cursor }. (The settings parameter is not always used.) Descendent components (the input fields) then only have to worry about the value.
+	// Process fields whose SIs contain a type and value, optionally supplemented with settings or other type-specific properties. The corresponding FI additionally has a cursor. Descendent components then only have to worry about the value.
 	options.clean = FI => {
 		const result = { ...FI, value: clean ? clean(FI.value, FI.settings) : FI.value }
 		if (FI.settings && isEmptyObject(FI.settings))
@@ -47,9 +48,11 @@ export const FieldInput = forwardRef((options, ref) => {
 		const result = { ...SI, value: functionalize ? functionalize(SI.value, SI.settings) : SI.value }
 		if (initialSettings)
 			result.settings = initialSettings
+		if (initialProperties)
+			Object.assign(result, initialProperties)
 		return addCursor(result, options.getEndCursor(result.value))
 	}
-	options.initialSI = { type, value: initialValue }
+	options.initialSI = { type, value: initialValue, ...initialProperties }
 	if (initialSettings && !isEmptyObject(initialSettings))
 		options.initialSI.settings = initialSettings
 

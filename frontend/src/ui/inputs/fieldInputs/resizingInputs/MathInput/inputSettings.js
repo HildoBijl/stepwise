@@ -29,7 +29,6 @@ export const defaultInputSettings = {
 	equals: false, // Are equals signs allowed?
 }
 
-export const defaultInterpretationExpressionSettings = { ...defaultInterpretationSettings, ...defaultExpressionSettings }
 export const defaultFieldSettings = { ...defaultInputSettings, ...defaultInterpretationSettings, ...defaultExpressionSettings }
 
 // isFunctionAllowed takes a function name (like "log") and an InputSettings object, and checks if the function is allowed, given the settings.
