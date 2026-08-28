@@ -10,6 +10,7 @@
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
+			"development": "./src/index.ts",
 			"import": "./dist/index.js"
 		}
 	},
@@ -20,6 +21,7 @@
 	"imports": {
 		"#tools": {
 			"types": "./src/tools/index.ts",
+			"development": "./src/tools/index.ts",
 			"default": "./dist/tools/index.js"
 		}
 	},

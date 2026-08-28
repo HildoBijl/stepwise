@@ -10,6 +10,7 @@
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
+			"development": "./src/index.ts",
 			"import": "./dist/index.js"
 		}
 	},
@@ -20,6 +21,7 @@
 	"imports": {
 		"#generationTools": {
 			"types": "./src/generationTools.ts",
+			"development": "./src/generationTools.ts",
 			"default": "./dist/generationTools.js"
 		}
 	},

@@ -8,7 +8,7 @@
 	"type": "module",
 	"scripts": {
 		"start": "tsx scripts/startWebserver.ts",
-		"dev": "tsx watch --clear-screen=false scripts/startWebserver.ts",
+		"dev": "tsx watch --conditions=development --tsconfig tsconfig.dev.json --clear-screen=false scripts/startWebserver.ts",
 		"build": "npm run clean && tsc -p tsconfig.json",
 		"clean": "rimraf dist",
 		"typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tests/tsconfig.json",
