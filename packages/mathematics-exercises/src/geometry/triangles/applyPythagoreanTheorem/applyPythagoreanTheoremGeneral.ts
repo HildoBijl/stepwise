@@ -10,7 +10,10 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'applyPythagoreanTheorem',
 		...createStepExerciseMetadata([undefined, undefined, undefined]),
-		comparisons: { equation: equationComparisons.areEquivalent },
+		comparisons: {
+			Expression: expressionComparisons.haveEqualNumericValue,
+			Equation: equationComparisons.areEquivalent,
+		},
 	},
 
 	generateParameters() {
