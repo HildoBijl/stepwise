@@ -147,7 +147,7 @@ beforeAll(async () => {
 	})
 })
 
-// Teardown Jest
+// Teardown test resources.
 afterAll(async () => {
 	if (server) await server.stop()
 	await sequelize.close()
