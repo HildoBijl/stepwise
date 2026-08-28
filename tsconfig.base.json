@@ -3,8 +3,8 @@
     "paths": {
       "@step-wise/*": ["./packages/*/src"]
     },
-    "moduleResolution": "bundler",
-    "module": "commonjs",
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
     "rewriteRelativeImportExtensions": true,
     "target": "es2023",
     "strict": true,
