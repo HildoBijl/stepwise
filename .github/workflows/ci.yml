@@ -23,14 +23,20 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: 24
+          node-version: 22.12.0
           cache: npm
       - name: Install workspace dependencies
         run: npm ci --no-audit --no-fund
       - name: Build packages
         run: npm run build:packages
+      - name: Verify package ESM entry points
+        run: npm run verify:package-entry-points
+      - name: Verify package artifacts
+        run: npm run verify:package-artifacts
       - name: Type-check API
         run: npm run typecheck:api
+      - name: Build API output
+        run: npm run build --workspace=@step-wise/api
       - name: Run package tests
         run: npm run test:packages
       - name: Setup test environment
@@ -52,7 +58,7 @@ jobs:
             --build-arg VITE_GOOGLE_REDIRECT_ADDRESS="https://step-wise.com" \
             -t frontend-build:latest \
             -f frontend/Dockerfile .
-      - name: Build API
+      - name: Build API image
         run: docker build -t stepwisecom/api:latest -f api/Dockerfile .
       - name: Build gateway
         run: docker build -t stepwisecom/gateway:latest -f ops/gateway/Dockerfile .

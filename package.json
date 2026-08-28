@@ -29,6 +29,8 @@
 		"test:frontend": "npm test --workspace=@step-wise/frontend",
 		"test:frontend:watch": "npm run test:watch --workspace=@step-wise/frontend",
 		"typecheck:api": "npm run build:packages && npm run typecheck --workspace=@step-wise/api",
+		"verify:package-artifacts": "node scripts/verifyPackageArtifacts.mjs",
+		"verify:package-entry-points": "node scripts/verifyPackageEntryPoints.mjs",
 		"watch:packages": "npm run clean:packages && npm run watch:packages:incremental",
 		"watch:packages:incremental": "tsc -b tsconfig.json --watch"
 	},
