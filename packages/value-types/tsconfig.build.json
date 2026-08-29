@@ -1,0 +1,18 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"composite": true,
+		"outDir": "dist",
+		"declaration": true,
+		"declarationMap": true,
+		"rootDir": "src",
+		"tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+	},
+	"references": [
+		{ "path": "../js-utils/tsconfig.build.json" },
+		{ "path": "../input-interpretation/tsconfig.build.json" },
+		{ "path": "../serialization/tsconfig.build.json" },
+		{ "path": "../value-equality/tsconfig.build.json" }
+	],
+	"include": ["src"]
+}

@@ -84,3 +84,5 @@ The main public types are:
 
 - `ValueEqualityOptions`, the generic record shape for equality options.
 - `ValueEqualityAdapter<TValue, TOptions>`, the guards and strongly typed equality operation for one value type.
+- `AnyValueEqualityAdapter`, the same contract with concrete types erased for heterogeneous registries.
+- `ValueEqualityAdapters`, a registry of erased equality adapters keyed by value type.
