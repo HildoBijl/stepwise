@@ -80,7 +80,7 @@ const valueTypes = combineValueTypes(
 
 The helper returns a new registry and preserves the value-type definitions themselves. It throws when two registries contain the same type key, even if both keys reference the same definition. This prevents one domain integration from silently overriding another.
 
-Malformed registries, unknown capability names, and non-object adapters are also rejected.
+Malformed registries, unknown capability names, and incomplete adapters are also rejected. `isValueType` and `isValueTypes` expose the same validation as type guards. They delegate each supplied adapter to the guard owned by its capability package, so changes to an adapter contract remain defined in one place.
 
 
 ## Extracting adapter registries
@@ -88,14 +88,16 @@ Malformed registries, unknown capability names, and non-object adapters are also
 The receiving orchestration layer can derive the registry required by each capability package:
 
 ```ts
-import { extractInputValueAdapters, extractSerializationAdapters, extractValueEqualityAdapters } from '@step-wise/value-types'
+import { extractValueTypeAdapters } from '@step-wise/value-types'
 
-const inputValueAdapters = extractInputValueAdapters(valueTypes)
-const serializationAdapters = extractSerializationAdapters(valueTypes)
-const equalityAdapters = extractValueEqualityAdapters(valueTypes)
+const {
+	inputValueAdapters,
+	serializationAdapters,
+	equalityAdapters,
+} = extractValueTypeAdapters(valueTypes)
 ```
 
-Each helper includes only value types that provide the requested capability. Empty and partial value types are allowed.
+The combined helper validates the complete registry once and includes only value types that provide each requested capability. The individual `extractInputValueAdapters`, `extractSerializationAdapters`, and `extractValueEqualityAdapters` helpers remain available when only one capability is needed. Empty and partial value types are allowed.
 
 These helpers are intended for orchestration packages such as `input-exercises`. Domain packages should generally define adapters, while orchestration packages decide which adapters are active for a particular exercise.
 
@@ -113,5 +115,7 @@ The main public types are:
 
 - `ValueType`, an optional combination of input-value, serialization, and equality adapters for one discriminator.
 - `ValueTypes`, a registry of value types keyed by discriminator.
+- `ValueTypeAdapters`, the three extracted capability registries.
+- `isValueType` and `isValueTypes`, runtime guards for definitions and registries.
 
 The package also reuses the erased heterogeneous-registry types owned by each capability package. It does not weaken the strongly typed adapter definitions used when creating individual value types.

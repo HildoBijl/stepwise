@@ -10,5 +10,6 @@ export function makeCheckInputData(rawInput: Record<string, InputValue>, solutio
 		rawInput,
 		input: mapValues(rawInput, value => interpretInputValue(value)),
 		solution,
+		equalityAdapters: {},
 	}
 }

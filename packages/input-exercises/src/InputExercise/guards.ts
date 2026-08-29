@@ -1,5 +1,6 @@
-import { isExercise } from '@step-wise/exercise-definition'
 import { isPlainObject } from '@step-wise/js-utils'
+import { isExercise } from '@step-wise/exercise-definition'
+import { isValueTypes } from '@step-wise/value-types'
 
 import type { SolutionDefinition } from './types.ts'
 
@@ -14,6 +15,7 @@ function isSolutionDefinition(value: unknown): value is SolutionDefinition {
 export function hasInputExerciseProperties(value: unknown): value is Record<string, unknown> & { metadata: Record<string, unknown> } {
 	if (!isPlainObject(value) || !isExercise(value)) return false
 	const candidate = value as typeof value & Record<string, unknown>
+	if (candidate.valueTypes !== undefined && !isValueTypes(candidate.valueTypes)) return false
 	if (typeof candidate.checkInput !== 'function' || typeof candidate.processSoloAction !== 'function' || typeof candidate.processGroupActions !== 'function') return false
 	return candidate.getSolution === undefined || isSolutionDefinition(candidate.getSolution)
 }

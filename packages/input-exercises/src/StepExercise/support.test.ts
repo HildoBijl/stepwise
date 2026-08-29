@@ -19,7 +19,7 @@ describe('step-exercise support', () => {
 
 		expect(getLastRawInputAtStep(instance, 0)).toBeUndefined()
 		expect(getLastRawInputAtStep(instance, 1)).toBe(mainInput)
-		expect(getLastInputAtStep(instance, 1)).toEqual({ answer: 0 })
+		expect(getLastInputAtStep({}, instance, 1)).toEqual({ answer: 0 })
 		expect(hasPreviousInputAtStep(instance, 1)).toBe(true)
 	})
 

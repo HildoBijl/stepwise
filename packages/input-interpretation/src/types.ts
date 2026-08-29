@@ -1,3 +1,4 @@
+import { hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
 import type { PlainDataValue } from '@step-wise/js-utils'
 
 export type InputValue<TType extends string = string, TValue extends PlainDataValue = PlainDataValue> = { type: TType, value: TValue }
@@ -18,3 +19,6 @@ export type AnyInputValueAdapter = {
 }
 
 export type InputValueAdapters = Record<string, AnyInputValueAdapter>
+export function isInputValueAdapter(value: unknown): value is AnyInputValueAdapter {
+	return isPlainObject(value) && hasOnlyKeys(value, ['isInputValue', 'isDomainValue', 'interpret', 'toInputValue']) && typeof value.isInputValue === 'function' && typeof value.isDomainValue === 'function' && typeof value.interpret === 'function' && typeof value.toInputValue === 'function'
+}

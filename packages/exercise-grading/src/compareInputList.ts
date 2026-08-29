@@ -15,6 +15,8 @@ export function compareInputList<TData extends CheckInputData>(keys: readonly In
 		if (!(key in rawInput) || !(key in input)) throw new Error(`Invalid compareInputList call: did not find an input for key "${key}".`)
 		if (!(key in solution)) throw new Error(`Invalid compareInputList call: the solution did not contain a parameter with key "${key}".`)
 	}
+	const type = rawInput[keys[0]].type
+	if (!keys.every(key => rawInput[key].type === type)) throw new TypeError(`Invalid compareInputList call: all input values in a list comparison must have the same type.`)
 
 	// Check if a matching is present.
 	return hasOneToOneMatching(keys, keys, (inputKey, solutionKey) => compareInputListEntry(inputKey, solutionKey, data))
@@ -30,6 +32,7 @@ export function compareInputListEntry<TData extends CheckInputData>(inputKey: In
 
 	// Check for equality.
 	const type = rawInput[inputKey].type
+	if (solutionKey in rawInput && rawInput[solutionKey].type !== type) throw new TypeError(`Invalid compareInputListEntry call: both list entries must have the same type.`)
 	const inputValue = input[inputKey]
 	const expectedValue = solution[solutionKey]
 	const inputComparison = resolveInputComparison(solutionKey, type, data)

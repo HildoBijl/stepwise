@@ -1,6 +1,7 @@
-import type { InputValue } from '@step-wise/input-interpretation'
-import type { BaseExerciseInstanceByMode, Exercise, ExerciseMetadata, ExerciseMode, ExerciseState, GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
 import type { PlainDataObject } from '@step-wise/js-utils'
+import type { BaseExerciseInstanceByMode, Exercise, ExerciseMetadata, ExerciseMode, ExerciseState, GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
+import type { InputValue } from '@step-wise/input-interpretation'
+import type { ValueTypeAdapters, ValueTypes } from '@step-wise/value-types'
 
 /*
  * Fundamentals
@@ -55,6 +56,7 @@ export type SolutionDefinition<TParameters extends InputExerciseParameters = Inp
 // Input exercise spec: what authors define before a concrete exercise builder adds the mode-specific reducers.
 export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = {
 	metadata: TMetadata
+	valueTypes?: ValueTypes
 	generateParameters?: (example: boolean) => TParameters
 	getSolution?: SolutionDefinition<TParameters, TSolution>
 }
@@ -77,4 +79,5 @@ export type CheckInputData<TMetadata extends InputExerciseMetadata = InputExerci
 	rawInput: InputExerciseRawInput
 	input: InputExerciseInput
 	solution?: TSolution
+	equalityAdapters: ValueTypeAdapters['equalityAdapters']
 }

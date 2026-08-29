@@ -31,14 +31,14 @@ describe('input-exercise history', () => {
 		} as const
 
 		expect(getLastRawInput(soloInstance)).toBe(input)
-		expect(getLastInput(soloInstance)).toEqual({ answer: 4 })
+		expect(getLastInput({}, soloInstance)).toEqual({ answer: 4 })
 		expect(hasPreviousInput(soloInstance)).toBe(true)
 	})
 
 	it('returns undefined when a user has no previous input', () => {
 		const emptyInstance = { mode: 'solo', initialState: {}, history: [] } as const
 		expect(getLastRawInput(emptyInstance)).toBeUndefined()
-		expect(getLastInput(emptyInstance)).toBeUndefined()
+		expect(getLastInput({}, emptyInstance)).toBeUndefined()
 		expect(hasPreviousInput(emptyInstance)).toBe(false)
 	})
 

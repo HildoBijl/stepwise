@@ -12,6 +12,7 @@ function createCheckInputData<TParameters extends Record<string, unknown>, TSolu
 		rawInput: { [key]: { type: 'Integer' as const, value: String(value) } },
 		input: { [key]: value },
 		solution,
+		equalityAdapters: {},
 	}
 }
 

@@ -1,3 +1,5 @@
+import { hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
+
 export type ValueEqualityOptions = Record<string, unknown>
 
 export type ValueEqualityAdapter<TValue = unknown, TOptions extends ValueEqualityOptions = never> = {
@@ -14,3 +16,6 @@ export type AnyValueEqualityAdapter = {
 }
 
 export type ValueEqualityAdapters = Record<string, AnyValueEqualityAdapter>
+export function isValueEqualityAdapter(value: unknown): value is AnyValueEqualityAdapter {
+	return isPlainObject(value) && hasOnlyKeys(value, ['isValue', 'isOptions', 'areEqual']) && typeof value.isValue === 'function' && (value.isOptions === undefined || typeof value.isOptions === 'function') && typeof value.areEqual === 'function'
+}

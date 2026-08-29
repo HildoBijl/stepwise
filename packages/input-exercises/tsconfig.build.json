@@ -13,6 +13,7 @@
     { "path": "../input-interpretation/tsconfig.build.json" },
     { "path": "../serialization/tsconfig.build.json" },
     { "path": "../skill-setup/tsconfig.build.json" },
+    { "path": "../value-types/tsconfig.build.json" },
     { "path": "../js-utils/tsconfig.build.json" }
   ],
   "include": ["src"]

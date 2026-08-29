@@ -1,4 +1,4 @@
-import { IntegerType } from '@step-wise/input-interpretation'
+import { IntegerType, MultipleChoiceType } from '@step-wise/input-interpretation'
 import { describe, expect, it } from 'vitest'
 
 import { compareInputList, compareInputListEntry } from './compareInputList.ts'
@@ -21,6 +21,11 @@ describe('compareInputList', () => {
 		expect(compareInputListEntry('x', 'x', data)).toBe(false)
 	})
 
+	it('rejects list comparisons containing different input types', () => {
+		const data = makeCheckInputData({ x: { type: IntegerType, value: '1' }, y: { type: MultipleChoiceType, value: [1] } }, { x: 1, y: [1] })
+		expect(() => compareInputList(['x', 'y'], data)).toThrow(/same type/)
+		expect(() => compareInputListEntry('x', 'y', data)).toThrow(/same type/)
+	})
 	it('rejects empty lists and missing input or solution keys', () => {
 		const data = makeCheckInputData({ x: { type: IntegerType, value: '1' } }, { x: 1 })
 		expect(() => compareInputList([], data)).toThrow(RangeError)

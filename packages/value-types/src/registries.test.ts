@@ -6,7 +6,7 @@ import type { InputValueAdapter } from '@step-wise/input-interpretation'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
 
 import type { ValueTypes } from './types.ts'
-import { combineValueTypes, extractInputValueAdapters, extractSerializationAdapters, extractValueEqualityAdapters } from './registries.ts'
+import { combineValueTypes, extractValueTypeAdapters, extractInputValueAdapters, extractSerializationAdapters, extractValueEqualityAdapters } from './registries.ts'
 
 const ExampleType = 'Example'
 type ExampleInputValue = { type: typeof ExampleType, value: string }
@@ -58,6 +58,10 @@ describe('value-type registries', () => {
 		expect(extractInputValueAdapters(valueTypes)).toEqual({ [ExampleType]: inputValueAdapter, InputOnly: inputValueAdapter })
 		expect(extractSerializationAdapters(valueTypes)).toEqual({ [ExampleType]: serializationAdapter, SerializationOnly: serializationAdapter })
 		expect(extractValueEqualityAdapters(valueTypes)).toEqual({ [ExampleType]: equalityAdapter, EqualityOnly: equalityAdapter })
+		const combinedAdapters = extractValueTypeAdapters(valueTypes)
+		expect(combinedAdapters.inputValueAdapters).toEqual(extractInputValueAdapters(valueTypes))
+		expect(combinedAdapters.serializationAdapters).toEqual(extractSerializationAdapters(valueTypes))
+		expect(combinedAdapters.equalityAdapters).toEqual(extractValueEqualityAdapters(valueTypes))
 	})
 
 	it('combines disjoint registries without changing their value types', () => {
@@ -85,7 +89,7 @@ describe('value-type registries', () => {
 	it('rejects malformed registries and value-type definitions', () => {
 		expect(() => combineValueTypes(null as never)).toThrow(/plain object/)
 		expect(() => combineValueTypes({ Example: null } as never)).toThrow(/Invalid value type/)
-		expect(() => combineValueTypes({ Example: { unknown: equalityAdapter } } as never)).toThrow(/only adapters/)
-		expect(() => extractSerializationAdapters({ Example: { serialization: null } } as never)).toThrow(/plain object/)
+		expect(() => combineValueTypes({ Example: { unknown: equalityAdapter } } as never)).toThrow(/complete/)
+		expect(() => extractSerializationAdapters({ Example: { serialization: null } } as never)).toThrow(/complete/)
 	})
 })

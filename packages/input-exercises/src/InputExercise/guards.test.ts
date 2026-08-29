@@ -28,6 +28,7 @@ describe('hasInputExerciseProperties', () => {
 		{ ...inputExerciseProperties, processSoloAction: undefined },
 		{ ...inputExerciseProperties, processGroupActions: undefined },
 		{ ...inputExerciseProperties, getSolution: {} },
+		{ ...inputExerciseProperties, valueTypes: { Broken: { equality: {} } } },
 	])('rejects values missing valid input-exercise properties: %p', value => {
 		expect(hasInputExerciseProperties(value)).toBe(false)
 	})

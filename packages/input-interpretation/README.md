@@ -195,6 +195,7 @@ The main public types are:
 - `FreeBodyDiagramInputValue` describes a free-body-diagram input containing serialized loads.
 - `InputValueAdapter<TInputValue, TDomainValue>` describes the guards and conversions for one input type.
 - `InputValueAdapters` describes a registry keyed by input type.
+- `isInputValueAdapter` validates a complete erased adapter at runtime.
 - `isInputValueOfType` checks an exact `{ type, value }` envelope for simple custom input values.
 
 Because arbitrary nested input data cannot statically describe the precise domain values that `interpretInputData` will create, its return type is `unknown`. Consumers should narrow the result at an untrusted boundary or assert the expected form when interpreting input produced by their own application.

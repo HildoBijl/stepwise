@@ -94,6 +94,27 @@ checkInput: (data, step, substep) => {
 One input may solve one or more substeps if `checkInput` accepts that same input for them. Attempts are stored per step, not separately for every substep.
 
 
+## Custom value types
+
+An exercise can opt into domain-specific behavior through its optional `valueTypes` registry. Each value type may provide input interpretation, parameter serialization, equality, or any combination of those capabilities.
+
+```ts
+const exercise = buildMonoExercise({
+	metadata: { skill: 'algebra' },
+	valueTypes: mathematicsValueTypes,
+	generateParameters: () => ({ expression: createExpression() }),
+	checkInput: data => compareInputValue(
+		data.input.answer,
+		data.solution?.answer,
+		{ key: 'answer', type: 'Expression', data },
+	),
+})
+```
+
+The builders validate the registry and extract its adapters once. Serialization adapters handle generated and stored parameters, input-value adapters interpret every submitted input, and equality adapters are included in `CheckInputData` for grading. An omitted registry is equivalent to an empty one, so the fundamental integer and multiple-choice types continue to work without configuration.
+
+Use `combineValueTypes` from [@step-wise/value-types](https://www.npmjs.com/package/@step-wise/value-types) when an exercise needs more than one domain. Duplicate type names and incomplete adapters throw instead of being silently overwritten.
+
 ## Raw and interpreted input
 
 Input actions contain serializable raw input values. Before `checkInput` runs, the package interprets those values into their domain values. Its argument contains both forms:
@@ -184,14 +205,14 @@ Use the exported `resolveSolution(getSolution, parameters, input?)` helper when 
 The history helpers accept either solo or group exercise instances:
 
 - `getLastRawInput(instance, userId?, options?)` returns stored input values.
-- `getLastInput(instance, userId?, options?)` returns interpreted values.
+- `getLastInput(exercise, instance, userId?, options?)` returns interpreted values using the exercise's value types.
 - `hasPreviousInput(instance, userId?)` reports whether an input exists.
-- `getLastRawInputAtStep`, `getLastInputAtStep`, and `hasPreviousInputAtStep` provide the corresponding operations for one step.
+- `getLastRawInputAtStep`, `getLastInputAtStep(exercise, instance, step, userId?, options?)`, and `hasPreviousInputAtStep` provide the corresponding operations for one step.
 
 For group histories, `userId` is required. By default, lookups may return input from a pending group event. Pass `{ resolvedOnly: true }` to ignore pending actions:
 
 ```ts
-const input = getLastInput(instance, userId, { resolvedOnly: true })
+const input = getLastInput(exercise, instance, userId, { resolvedOnly: true })
 ```
 
 
@@ -218,7 +239,8 @@ The main author-facing types are:
 - `MonoExerciseSpec` and `MonoExercise` for single-stage exercises.
 - `StepExerciseSpec` and `StepExercise` for guided exercises.
 - `InputExerciseParameters`, `InputExerciseInput`, and `InputExerciseSolution` for exercise-specific data.
-- `CheckInputData` for the object supplied to `checkInput`.
+- `CheckInputData` for the object supplied to `checkInput`, including the active equality adapters.
+- `ValueTypes` for the optional domain capabilities attached to an exercise.
 - `SolutionDefinition` and `DynamicSolutionDefinition` for solution declarations.
 - `StepExerciseSteps`, `StepExerciseState`, and `StepExerciseMetadata` for step structures.
 - `InputExerciseAction` and `InputExerciseRawInput` for stored learner actions.

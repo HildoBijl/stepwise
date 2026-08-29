@@ -1,6 +1,7 @@
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 import { interpretInputData } from '@step-wise/input-interpretation'
 import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters } from '@step-wise/exercise-definition'
+import { type ValueTypeAdapters, extractValueTypeAdapters } from '@step-wise/value-types'
 
 import { type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseSolution, resolveSolution } from '../InputExercise/index.ts'
 import { deserializeInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
@@ -13,40 +14,41 @@ import { getCurrentStep } from './support.ts'
 // Build a StepExercise from its author-facing spec.
 export function buildStepExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>): StepExercise<TParameters, TSolution> {
 	ensureStepExerciseSteps(spec.metadata.steps)
+	const valueTypeAdapters = extractValueTypeAdapters(spec.valueTypes ?? {})
 	return {
 		...spec,
 		type: 'step',
-		generateParameters: example => serializeInputExerciseParameters(resolveExerciseParameters(spec.generateParameters, example)),
+		generateParameters: example => serializeInputExerciseParameters(resolveExerciseParameters(spec.generateParameters, example), valueTypeAdapters.serializationAdapters),
 		getInitialState: () => ({}),
-		processSoloAction: buildStepExerciseSoloReducer(spec),
-		processGroupActions: buildStepExerciseGroupReducer(spec),
+		processSoloAction: buildStepExerciseSoloReducer(spec, valueTypeAdapters),
+		processGroupActions: buildStepExerciseGroupReducer(spec, valueTypeAdapters),
 	}
 }
 
-function buildStepExerciseSoloReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>): SoloExerciseReducer<InputExerciseAction, StepExerciseState> {
+function buildStepExerciseSoloReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, valueTypeAdapters: ValueTypeAdapters): SoloExerciseReducer<InputExerciseAction, StepExerciseState> {
 	return input => {
-		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters) }
+		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters, valueTypeAdapters.serializationAdapters) }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
-		return reduceActions(spec, { ...runtimeInput, mode: 'solo', actions: [{ action: input.action }] })
+		return reduceActions(spec, { ...runtimeInput, mode: 'solo', actions: [{ action: input.action }] }, valueTypeAdapters)
 	}
 }
 
-function buildStepExerciseGroupReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>): GroupExerciseReducer<InputExerciseAction, StepExerciseState> {
+function buildStepExerciseGroupReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, valueTypeAdapters: ValueTypeAdapters): GroupExerciseReducer<InputExerciseAction, StepExerciseState> {
 	return input => {
 		if (input.actions.length === 0) throw new Error(`Cannot resolve a group exercise without actions.`)
-		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters), mode: 'group' as const }
+		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters, valueTypeAdapters.serializationAdapters), mode: 'group' as const }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
-		return reduceActions(spec, runtimeInput)
+		return reduceActions(spec, runtimeInput, valueTypeAdapters)
 	}
 }
 
 // Reduce a normalized set of solo or group actions.
-function reduceActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>): StepExerciseState {
-	return ('split' in input.state && input.state.split) ? reduceCurrentStep(spec, input) : reduceMainProblem(spec, input)
+function reduceActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueTypeAdapters: ValueTypeAdapters): StepExerciseState {
+	return ('split' in input.state && input.state.split) ? reduceCurrentStep(spec, input, valueTypeAdapters) : reduceMainProblem(spec, input, valueTypeAdapters)
 }
 
 // Reduce a set of actions for the main problem.
-function reduceMainProblem<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>): StepExerciseState {
+function reduceMainProblem<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueTypeAdapters: ValueTypeAdapters): StepExerciseState {
 	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const newState = addAttemptsToState(state, mode, getAttemptingUserIds(actions))
@@ -57,9 +59,9 @@ function reduceMainProblem<TParameters extends InputExerciseParameters = InputEx
 	// Check all input actions.
 	const correct = actions.map(userAction => {
 		if (userAction.action.type !== 'input') return false
-		const exerciseInput = interpretInputData(userAction.action.input) as InputExerciseInput
+		const exerciseInput = interpretInputData(userAction.action.input, valueTypeAdapters.inputValueAdapters) as InputExerciseInput
 		const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
-		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution }, 0, 0)
+		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution, equalityAdapters: valueTypeAdapters.equalityAdapters }, 0, 0)
 	})
 
 	// If any userAction is correct, or if all gave up, the exercise is done.
@@ -91,16 +93,16 @@ function reduceMainProblem<TParameters extends InputExerciseParameters = InputEx
 }
 
 // Reduce a set of actions for a step.
-function reduceCurrentStep<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>): StepExerciseState {
+function reduceCurrentStep<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueTypeAdapters: ValueTypeAdapters): StepExerciseState {
 	const { metadata } = spec
 	const { state } = input
 	const step = getCurrentStep(state)
 	const skill = metadata.steps[step - 1]
-	if (Array.isArray(skill)) return reduceStepWithSubsteps(spec, input)
-	return reduceStepWithoutSubsteps(spec, input)
+	if (Array.isArray(skill)) return reduceStepWithSubsteps(spec, input, valueTypeAdapters)
+	return reduceStepWithoutSubsteps(spec, input, valueTypeAdapters)
 }
 
-function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>): StepExerciseState {
+function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueTypeAdapters: ValueTypeAdapters): StepExerciseState {
 	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const step = getCurrentStep(state)
@@ -114,9 +116,9 @@ function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters =
 	// Check all input actions.
 	const correct = actions.map(userAction => {
 		if (userAction.action.type !== 'input') return false
-		const exerciseInput = interpretInputData(userAction.action.input) as InputExerciseInput
+		const exerciseInput = interpretInputData(userAction.action.input, valueTypeAdapters.inputValueAdapters) as InputExerciseInput
 		const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
-		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution }, step, 0)
+		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution, equalityAdapters: valueTypeAdapters.equalityAdapters }, step, 0)
 	})
 
 	// If any userAction is correct, or if all gave up, the step is done.
@@ -145,7 +147,7 @@ function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters =
 	return { ...state, [step]: newStepState }
 }
 
-function reduceStepWithSubsteps<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>): StepExerciseState {
+function reduceStepWithSubsteps<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueTypeAdapters: ValueTypeAdapters): StepExerciseState {
 	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const step = getCurrentStep(state)
@@ -167,9 +169,9 @@ function reduceStepWithSubsteps<TParameters extends InputExerciseParameters = In
 		// Check all input actions.
 		const correct = actions.map(userAction => {
 			if (userAction.action.type !== 'input') return false
-			const exerciseInput = interpretInputData(userAction.action.input) as InputExerciseInput
+			const exerciseInput = interpretInputData(userAction.action.input, valueTypeAdapters.inputValueAdapters) as InputExerciseInput
 			const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
-			return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution }, step, substep)
+			return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution, equalityAdapters: valueTypeAdapters.equalityAdapters }, step, substep)
 		})
 		const someCorrect = correct.some(isCorrect => isCorrect)
 		const isDone = someCorrect || allGaveUp
