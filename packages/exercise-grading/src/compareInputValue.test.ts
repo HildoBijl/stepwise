@@ -10,6 +10,11 @@ describe('compareInputValue', () => {
 		expect(compareInputValue(11, 10, { key: 'x', type: IntegerType, comparison: { absoluteTolerance: 1 }, data })).toBe(true)
 	})
 
+	it('rejects invalid options through the adapter', () => {
+		const data = makeCheckInputData({}, {})
+		expect(() => compareInputValue(1, 1, { key: 'x', type: IntegerType, comparison: { absoluteTolerance: -1 }, data })).toThrow(/equality options/)
+	})
+
 	it('uses custom comparisons', () => {
 		const data = makeCheckInputData({}, { x: 20 })
 		expect(compareInputValue(10, 20, { key: 'x', type: IntegerType, comparison: inputValue => inputValue === 10, data })).toBe(true)

@@ -1,6 +1,6 @@
-import { mergeDefaults } from '../objects/index.ts'
+import { hasOnlyKeys, isPlainObject, mergeDefaults } from '../objects/index.ts'
 
-import { ensureNumber } from './checks.ts'
+import { ensureNumber, isNumber } from './checks.ts'
 
 /*
  * Script-wise comparisons
@@ -47,6 +47,12 @@ export type NumberEqualityOptionsInput = Partial<NumberEqualityOptions>
 export const defaultNumberEqualityOptions: NumberEqualityOptions = {
 	absoluteTolerance: 0,
 	relativeTolerance: 0,
+}
+
+export function isNumberEqualityOptionsInput(value: unknown): value is NumberEqualityOptionsInput {
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['absoluteTolerance', 'relativeTolerance'])) return false
+	const { absoluteTolerance, relativeTolerance } = value
+	return (absoluteTolerance === undefined || (isNumber(absoluteTolerance) && absoluteTolerance >= 0)) && (relativeTolerance === undefined || (isNumber(relativeTolerance) && relativeTolerance >= 0))
 }
 
 export type NumberEqualityResult = {

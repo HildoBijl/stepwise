@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { adjustNumberTolerances, approximatelyEqual, checkNumberEquality, compareNumbers, getAbsoluteDifference, getRelativeDifference, isMultipleOf, numbersEqual, resolveNumberEqualityOptions, validateNumberEqualityOptions } from './comparisons.ts'
+import { adjustNumberTolerances, approximatelyEqual, checkNumberEquality, compareNumbers, getAbsoluteDifference, getRelativeDifference, isMultipleOf, isNumberEqualityOptionsInput, numbersEqual, resolveNumberEqualityOptions, validateNumberEqualityOptions } from './comparisons.ts'
 
 describe('number comparisons', () => {
 	it('compares numbers approximately and directionally', () => {
@@ -23,6 +23,18 @@ describe('number comparisons', () => {
 		expect(validateNumberEqualityOptions({ absoluteTolerance: 1, relativeTolerance: Infinity })).toEqual({ absoluteTolerance: 1, relativeTolerance: Infinity })
 		expect(() => validateNumberEqualityOptions({ absoluteTolerance: -1, relativeTolerance: 0 })).toThrow(RangeError)
 		expect(adjustNumberTolerances({ absoluteTolerance: 2, relativeTolerance: 0.1 }, 3)).toEqual({ absoluteTolerance: 6, relativeTolerance: 0.30000000000000004 })
+	})
+
+	it('recognizes number equality option inputs', () => {
+		expect(isNumberEqualityOptionsInput({})).toBe(true)
+		expect(isNumberEqualityOptionsInput({ absoluteTolerance: 1 })).toBe(true)
+		expect(isNumberEqualityOptionsInput({ relativeTolerance: Infinity })).toBe(true)
+		expect(isNumberEqualityOptionsInput(undefined)).toBe(false)
+		expect(isNumberEqualityOptionsInput(null)).toBe(false)
+		expect(isNumberEqualityOptionsInput({ absoluteTolerance: -1 })).toBe(false)
+		expect(isNumberEqualityOptionsInput({ relativeTolerance: Number.NaN })).toBe(false)
+		expect(isNumberEqualityOptionsInput({ absoluteTolerance: '1' })).toBe(false)
+		expect(isNumberEqualityOptionsInput({ extra: true })).toBe(false)
 	})
 
 	it('calculates differences and multiples', () => {
