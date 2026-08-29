@@ -15,7 +15,8 @@
     { "path": "../input-exercises/tsconfig.build.json" },
     { "path": "../input-interpretation/tsconfig.build.json" },
 	{ "path": "../js-utils/tsconfig.build.json" },
-	{ "path": "../physics-core/tsconfig.build.json" }
+	{ "path": "../physics-core/tsconfig.build.json" },
+	{ "path": "../value-equality/tsconfig.build.json" }
   ],
   "include": ["src"]
 }

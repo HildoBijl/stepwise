@@ -29,6 +29,7 @@
 		{ "path": "./packages/skill-setup/tsconfig.build.json" },
 		{ "path": "./packages/skill-tracking/tsconfig.build.json" },
 		{ "path": "./packages/skill-tree/tsconfig.build.json" },
+		{ "path": "./packages/value-equality/tsconfig.build.json" },
 		{ "path": "./packages/js-utils/tsconfig.build.json" }
 	]
 }

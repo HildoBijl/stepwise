@@ -1,6 +1,6 @@
 # @step-wise/exercise-grading
 
-Grade interpreted learner input against the solution of an input exercise. The package supplies comparison functions for individual fields, groups of fields, and order-independent lists.
+Grade interpreted learner input against the solution of an input exercise. The package supplies comparison functions for individual fields, groups of fields, and order-independent lists. Generic domain-value equality is delegated to [@step-wise/value-equality](https://www.npmjs.com/package/@step-wise/value-equality).
 
 This package is designed for the `checkInput` functions created with [@step-wise/input-exercises](https://www.npmjs.com/package/@step-wise/input-exercises). Input interpretation remains the responsibility of that package; exercise grading compares the resulting domain values.
 
@@ -126,7 +126,7 @@ The package currently includes comparisons for:
 - Vectors, lines, line segments, and rectangles from `@step-wise/geometry`.
 - Free-body diagrams from `@step-wise/engineering-mechanics`.
 
-Values are checked at runtime by their respective comparison functions. Invalid values and unsupported input types produce an error rather than an incorrect grading result.
+Values are checked at runtime by their respective equality adapters before their strongly typed equality operations run. Invalid values and unsupported input types produce an error rather than an incorrect grading result. The domain-specific adapters remain here temporarily while they are migrated to dedicated value-type integrations.
 
 
 ## TypeScript types
@@ -137,6 +137,6 @@ The main public types are:
 - `InputComparisonOptions` represents an options object supplied to a value-type comparison.
 - `InputComparisonFunction` is the signature of a custom comparison function defined by an exercise.
 - `InputComparisonSetting` is either an `InputComparisonOptions` object or an `InputComparisonFunction`.
-- `TypeCompareOptions` and `TypeCompareFunction` describe the comparison implementations registered for individual value types.
+- `TypeCompareOptions` and `TypeCompareFunction` are compatibility types for the temporary built-in registry. New domain integrations use `ValueEqualityAdapter` from `@step-wise/value-equality`.
 
 The generic key parameters of `compareInputs`, `compareInputList`, and `compareInputListEntry` stay aligned with the supplied `CheckInputData` type. Runtime validation remains responsible for detecting fields that are absent from a particular input or solution.

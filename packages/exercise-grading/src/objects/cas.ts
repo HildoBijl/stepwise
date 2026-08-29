@@ -1,19 +1,26 @@
 import { type ExpressionEqualityOptionsInput, Expression, ExpressionType } from '@step-wise/cas'
 import { type EquationEqualityOptionsInput, Equation, EquationType } from '@step-wise/cas'
+import type { ValueEqualityAdapter } from '@step-wise/value-equality'
 
-import type { TypeCompareFunction } from '../types.ts'
+import { isValueEqualityOptions } from './support.ts'
 
-export function compareExpression(inputValue: unknown, expectedValue: unknown, options: ExpressionEqualityOptionsInput): boolean {
-	if (!(expectedValue instanceof Expression) || !(inputValue instanceof Expression)) throw new Error(`Invalid Expression comparison: received parameters that were not Expressions.`)
+export function areExpressionsEqual(inputValue: Expression, expectedValue: Expression, options?: ExpressionEqualityOptionsInput): boolean {
 	return expectedValue.equals(inputValue, options)
 }
 
-export function compareEquation(inputValue: unknown, expectedValue: unknown, options: EquationEqualityOptionsInput): boolean {
-	if (!(expectedValue instanceof Equation) || !(inputValue instanceof Equation)) throw new Error(`Invalid Equation comparison: received parameters that were not Equations.`)
+export function areEquationsEqual(inputValue: Equation, expectedValue: Equation, options: EquationEqualityOptionsInput = {}): boolean {
 	return expectedValue.equals(inputValue, options)
 }
 
-export const casCompareFunctions = {
-	[ExpressionType]: compareExpression,
-	[EquationType]: compareEquation,
-} satisfies Record<string, TypeCompareFunction>
+export const casEqualityAdapters = {
+	[ExpressionType]: {
+		isValue: (value): value is Expression => value instanceof Expression,
+		isOptions: isValueEqualityOptions,
+		areEqual: areExpressionsEqual,
+	} satisfies ValueEqualityAdapter<Expression, ExpressionEqualityOptionsInput>,
+	[EquationType]: {
+		isValue: (value): value is Equation => value instanceof Equation,
+		isOptions: isValueEqualityOptions,
+		areEqual: areEquationsEqual,
+	} satisfies ValueEqualityAdapter<Equation, EquationEqualityOptionsInput>,
+}
