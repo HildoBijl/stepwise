@@ -1,4 +1,4 @@
-import { isIn, mergeDefaults } from '@step-wise/js-utils'
+import { hasOnlyKeys, isIn, isPlainObject, mergeDefaults } from '@step-wise/js-utils'
 
 // Define Force types.
 const forcePositionComparisons = ['equal', 'sameLine', 'ignore'] as const
@@ -16,6 +16,14 @@ export type ForceComparisonOptions = {
 }
 export type ForceComparisonOptionsInput = Partial<ForceComparisonOptions>
 
+export function isForceComparisonOptionsInput(value: unknown): value is ForceComparisonOptionsInput {
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['position', 'direction', 'applicationPointAt'])) return false
+	if (value.position !== undefined && !isIn(value.position, forcePositionComparisons)) return false
+	if (value.direction !== undefined && !isIn(value.direction, forceDirectionComparisons)) return false
+	if (value.applicationPointAt !== undefined && !isIn(value.applicationPointAt, forceApplicationComparisons)) return false
+	return value.position !== 'sameLine' || value.direction !== 'ignore'
+}
+
 // Define Moment types.
 const momentPositionComparisons = ['equal', 'ignore'] as const
 const momentDirectionComparisons = ['equal', 'ignore'] as const
@@ -32,6 +40,13 @@ export type MomentComparisonOptions = {
 }
 export type MomentComparisonOptionsInput = Partial<MomentComparisonOptions>
 
+export function isMomentComparisonOptionsInput(value: unknown): value is MomentComparisonOptionsInput {
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['position', 'direction', 'openingDirection'])) return false
+	return (value.position === undefined || isIn(value.position, momentPositionComparisons))
+		&& (value.direction === undefined || isIn(value.direction, momentDirectionComparisons))
+		&& (value.openingDirection === undefined || isIn(value.openingDirection, momentOpeningDirectionComparisons))
+}
+
 // Define Load types.
 export type LoadComparisonOptions = {
 	readonly force: ForceComparisonOptions
@@ -40,6 +55,12 @@ export type LoadComparisonOptions = {
 export type LoadComparisonOptionsInput = {
 	readonly force?: ForceComparisonOptionsInput
 	readonly moment?: MomentComparisonOptionsInput
+}
+
+export function isLoadComparisonOptionsInput(value: unknown): value is LoadComparisonOptionsInput {
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['force', 'moment'])) return false
+	return (value.force === undefined || isForceComparisonOptionsInput(value.force))
+		&& (value.moment === undefined || isMomentComparisonOptionsInput(value.moment))
 }
 
 // Set up defaults.

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { defaultLoadComparisonOptions, freeBodyDiagramComparisonOptions, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions } from './comparisonOptions.ts'
+import { defaultLoadComparisonOptions, freeBodyDiagramComparisonOptions, isForceComparisonOptionsInput, isLoadComparisonOptionsInput, isMomentComparisonOptionsInput, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions } from './comparisonOptions.ts'
 
 describe('load comparison options', () => {
 	it('resolves force and moment defaults and overrides', () => {
@@ -14,6 +14,19 @@ describe('load comparison options', () => {
 		const options = resolveLoadComparisonOptions({ force: { direction: 'parallel' }, moment: { position: 'ignore' } })
 		expect(options.force.direction).toBe('parallel')
 		expect(options.moment.position).toBe('ignore')
+	})
+
+	it('recognizes force, moment and load comparison option inputs', () => {
+		expect(isForceComparisonOptionsInput({ position: 'sameLine', direction: 'parallel' })).toBe(true)
+		expect(isForceComparisonOptionsInput({ position: 'sameLine', direction: 'ignore' })).toBe(false)
+		expect(isForceComparisonOptionsInput({ applicationPointAt: 'other' })).toBe(false)
+		expect(isMomentComparisonOptionsInput({ position: 'ignore', openingDirection: 'equal' })).toBe(true)
+		expect(isMomentComparisonOptionsInput({ direction: 'parallel' })).toBe(false)
+		expect(isLoadComparisonOptionsInput({ force: { direction: 'parallel' }, moment: { position: 'ignore' } })).toBe(true)
+		expect(isLoadComparisonOptionsInput({ force: { direction: 'other' } })).toBe(false)
+		expect(isLoadComparisonOptionsInput({ moment: null })).toBe(false)
+		expect(isLoadComparisonOptionsInput({ extra: true })).toBe(false)
+		expect(isLoadComparisonOptionsInput(undefined)).toBe(false)
 	})
 
 	it('returns frozen complete settings and presets', () => {

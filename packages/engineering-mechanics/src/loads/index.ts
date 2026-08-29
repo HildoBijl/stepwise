@@ -10,7 +10,7 @@ export { isLoadAtPoint } from './relationships.ts'
 export { decomposeForceIntoAxisComponents, reverseForce, reverseLoad, reverseMoment } from './manipulation.ts'
 
 export type { ForceApplicationComparison, ForceComparisonOptions, ForceComparisonOptionsInput, ForceDirectionComparison, ForcePositionComparison, LoadComparisonOptions, LoadComparisonOptionsInput, MomentComparisonOptions, MomentComparisonOptionsInput, MomentDirectionComparison, MomentOpeningDirectionComparison, MomentPositionComparison } from './comparisonOptions.ts'
-export { defaultLoadComparisonOptions, freeBodyDiagramComparisonOptions, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions } from './comparisonOptions.ts'
+export { defaultLoadComparisonOptions, freeBodyDiagramComparisonOptions, isForceComparisonOptionsInput, isLoadComparisonOptionsInput, isMomentComparisonOptionsInput, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions } from './comparisonOptions.ts'
 export type { LoadComparisonDifference, LoadComparisonReport } from './comparison.ts'
 export { compareForces, compareLoads, compareMoments, loadsEqual } from './comparison.ts'
 export type { LoadListComparisonReport } from './matching.ts'

@@ -1,8 +1,6 @@
-import { type Load, type LoadComparisonOptionsInput, isLoad, loadListsEqual, resolveLoadComparisonOptions, freeBodyDiagramComparisonOptions } from '@step-wise/engineering-mechanics'
+import { type Load, type LoadComparisonOptionsInput, isLoad, isLoadComparisonOptionsInput, loadListsEqual, resolveLoadComparisonOptions, freeBodyDiagramComparisonOptions } from '@step-wise/engineering-mechanics'
 import { FreeBodyDiagramType } from '@step-wise/input-interpretation'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
-
-import { isValueEqualityOptions } from './support.ts'
 
 type FreeBodyDiagram = Load[]
 
@@ -18,7 +16,7 @@ function isFreeBodyDiagram(value: unknown): value is FreeBodyDiagram {
 export const mechanicsEqualityAdapters = {
 	[FreeBodyDiagramType]: {
 		isValue: isFreeBodyDiagram,
-		isOptions: isValueEqualityOptions,
+		isOptions: isLoadComparisonOptionsInput,
 		areEqual: areFreeBodyDiagramsEqual,
 	} satisfies ValueEqualityAdapter<FreeBodyDiagram, LoadComparisonOptionsInput>,
 }
