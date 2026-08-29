@@ -1,6 +1,7 @@
 export * from './types.ts'
 export * from './checks.ts'
 export * from './creation.ts'
+export * from './conversion.ts'
 export * from './display.ts'
 export * from './restructuring.ts'
 export * from './comparison.ts'
