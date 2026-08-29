@@ -1,20 +1,26 @@
-import { type PrecisionNumber as PrecisionNumberType, type SerializedPrecisionNumber, serializePrecisionNumber, deserializePrecisionNumber } from '@step-wise/physics-core'
-import { type Unit as UnitType, type SerializedUnit, serializeUnit, deserializeUnit } from '@step-wise/physics-core'
-import { type Quantity as QuantityType, type SerializedQuantity, serializeQuantity, deserializeQuantity } from '@step-wise/physics-core'
+import { PrecisionNumber, type SerializedPrecisionNumber, isSerializedPrecisionNumber, serializePrecisionNumber, deserializePrecisionNumber } from '@step-wise/physics-core'
+import { Unit, type SerializedUnit, isSerializedUnit, serializeUnit, deserializeUnit } from '@step-wise/physics-core'
+import { Quantity, type SerializedQuantity, isSerializedQuantity, serializeQuantity, deserializeQuantity } from '@step-wise/physics-core'
 
 import type { SerializationAdapter } from '../types.ts'
 
 export const precisionNumberAdapter = {
+	isDomainValue: (value: unknown): value is PrecisionNumber => value instanceof PrecisionNumber,
+	isSerializedValue: isSerializedPrecisionNumber,
 	serialize: serializePrecisionNumber,
 	deserialize: deserializePrecisionNumber,
-} satisfies SerializationAdapter<PrecisionNumberType, SerializedPrecisionNumber>
+} satisfies SerializationAdapter<PrecisionNumber, SerializedPrecisionNumber>
 
 export const unitAdapter = {
+	isDomainValue: (value: unknown): value is Unit => value instanceof Unit,
+	isSerializedValue: isSerializedUnit,
 	serialize: serializeUnit,
 	deserialize: deserializeUnit,
-} satisfies SerializationAdapter<UnitType, SerializedUnit>
+} satisfies SerializationAdapter<Unit, SerializedUnit>
 
 export const quantityAdapter = {
+	isDomainValue: (value: unknown): value is Quantity => value instanceof Quantity,
+	isSerializedValue: isSerializedQuantity,
 	serialize: serializeQuantity,
 	deserialize: deserializeQuantity,
-} satisfies SerializationAdapter<QuantityType, SerializedQuantity>
+} satisfies SerializationAdapter<Quantity, SerializedQuantity>

@@ -1,14 +1,18 @@
-import { type Expression as ExpressionType, type SerializedExpression, serializeExpression, deserializeExpression } from '@step-wise/cas'
-import { type Equation as EquationType, type SerializedEquation, serializeEquation, deserializeEquation } from '@step-wise/cas'
+import { type SerializedExpression, isSerializedExpression, Expression, serializeExpression, deserializeExpression } from '@step-wise/cas'
+import { type SerializedEquation, isSerializedEquation, Equation, serializeEquation, deserializeEquation } from '@step-wise/cas'
 
 import type { SerializationAdapter } from '../types.ts'
 
 export const expressionAdapter = {
+	isDomainValue: (value: unknown): value is Expression => value instanceof Expression,
+	isSerializedValue: isSerializedExpression,
 	serialize: serializeExpression,
 	deserialize: deserializeExpression,
-} satisfies SerializationAdapter<ExpressionType, SerializedExpression>
+} satisfies SerializationAdapter<Expression, SerializedExpression>
 
 export const equationAdapter = {
+	isDomainValue: (value: unknown): value is Equation => value instanceof Equation,
+	isSerializedValue: isSerializedEquation,
 	serialize: serializeEquation,
 	deserialize: deserializeEquation,
-} satisfies SerializationAdapter<EquationType, SerializedEquation>
+} satisfies SerializationAdapter<Equation, SerializedEquation>

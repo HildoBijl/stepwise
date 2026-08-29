@@ -10,6 +10,16 @@ export type SerializedUnit = {
 	value: UnitStorageValue
 }
 
+export function isSerializedUnit(value: unknown): value is SerializedUnit {
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['type', 'value']) || value.type !== UnitType || !Object.hasOwn(value, 'value')) return false
+	try {
+		ensureUnitStorageValue(value.value)
+		return true
+	} catch {
+		return false
+	}
+}
+
 export function serializeUnit(unit: Unit): SerializedUnit {
 	return {
 		type: UnitType,
@@ -18,7 +28,7 @@ export function serializeUnit(unit: Unit): SerializedUnit {
 }
 
 export function deserializeUnit(serializedUnit: unknown): Unit {
-	if (!isPlainObject(serializedUnit) || !hasOnlyKeys(serializedUnit, ['type', 'value']) || serializedUnit.type !== UnitType || !Object.hasOwn(serializedUnit, 'value')) throw new TypeError(`Invalid serialized Unit: expected type "${UnitType}" and a value.`)
+	if (!isPlainObject(serializedUnit) || !hasOnlyKeys(serializedUnit, ['type', 'value']) || serializedUnit.type !== UnitType || !Object.hasOwn(serializedUnit, 'value')) throw new TypeError(`Invalid serialized Unit: expected its type and value.`)
 	return new Unit(ensureUnitStorageValue(serializedUnit.value))
 }
 

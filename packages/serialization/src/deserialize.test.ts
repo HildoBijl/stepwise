@@ -9,6 +9,10 @@ describe('deserializeDomainObject', () => {
 		expect(deserializeDomainObject({ type: 'PrecisionNumber', value: { number: 3.14, significantDigits: 4, power: 0 } })).toEqual(new PrecisionNumber('3.140'))
 	})
 
+	it('rejects serialized values that do not match their registered type', () => {
+		expect(() => deserializeDomainObject({ type: 'PrecisionNumber', value: {} })).toThrow(/does not match type/)
+	})
+
 	it('rejects malformed or unknown serialized domain objects', () => {
 		expect(() => deserializeDomainObject(null as never)).toThrow(/type and value/)
 		expect(() => deserializeDomainObject({ value: 3 } as never)).toThrow(/type and value/)

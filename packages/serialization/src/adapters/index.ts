@@ -1,3 +1,5 @@
+import type { AnySerializationAdapter, SerializationAdapters } from '../types.ts'
+
 import { EquationType, ExpressionType } from '@step-wise/cas'
 import { LineSegmentType, LineType, RectangleType, VectorType } from '@step-wise/geometry'
 import { PrecisionNumberType, QuantityType, UnitType } from '@step-wise/physics-core'
@@ -18,4 +20,8 @@ export const serializationAdapters = {
 	[PrecisionNumberType]: precisionNumberAdapter,
 	[UnitType]: unitAdapter,
 	[QuantityType]: quantityAdapter,
+} satisfies SerializationAdapters
+
+export function getSerializationAdapter(type: string): AnySerializationAdapter | undefined {
+	return Object.hasOwn(serializationAdapters, type) ? serializationAdapters[type as keyof typeof serializationAdapters] : undefined
 }

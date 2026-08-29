@@ -1,13 +1,15 @@
 import { isPlainObject, mapValues } from '@step-wise/js-utils'
 
-import type { SerializedDomainObject } from './types.ts'
-import { serializationAdapters } from './adapters/index.ts'
+import { getSerializationAdapter } from './adapters/index.ts'
 
-export function deserializeDomainObject<TDomainValue = unknown, TSerialized extends SerializedDomainObject = SerializedDomainObject>(serializedValue: TSerialized): TDomainValue {
+export function deserializeDomainObject<TDomainValue = unknown>(serializedValue: unknown): TDomainValue {
 	if (!isPlainObject(serializedValue) || typeof serializedValue.type !== 'string' || !Object.hasOwn(serializedValue, 'value')) throw new TypeError(`Invalid serialized domain object: expected an object with a type and value.`)
-	const adapter = serializationAdapters[serializedValue.type as keyof typeof serializationAdapters]
+	const adapter = getSerializationAdapter(serializedValue.type)
 	if (adapter === undefined) throw new TypeError(`Invalid serialized domain object: unknown type "${serializedValue.type}".`)
-	return adapter.deserialize(serializedValue as never) as TDomainValue
+	if (!adapter.isSerializedValue(serializedValue)) throw new TypeError(`Invalid serialized domain object: value does not match type "${serializedValue.type}".`)
+	const domainValue = adapter.deserialize(serializedValue as never)
+	if (!adapter.isDomainValue(domainValue)) throw new TypeError(`Invalid serialization adapter for type "${serializedValue.type}": returned an invalid domain value.`)
+	return domainValue as TDomainValue
 }
 
 export function deserializeData(value: unknown): unknown {
@@ -35,9 +37,9 @@ function deserializeValue(value: unknown, ancestors: WeakSet<object>): unknown {
 			}
 
 			// Handle serialized objects.
-			if (isPlainObject(value) && typeof value.type === 'string' && Object.hasOwn(serializationAdapters, value.type)) {
+			if (isPlainObject(value) && typeof value.type === 'string' && getSerializationAdapter(value.type) !== undefined) {
 				Object.values(value).forEach(item => ensureNoCircularReferences(item, ancestors)) // Check internally for circular references.
-				return deserializeDomainObject(value as SerializedDomainObject)
+				return deserializeDomainObject(value)
 			}
 
 			// Traverse into the array/object.

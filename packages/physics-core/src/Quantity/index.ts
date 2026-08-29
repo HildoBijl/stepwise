@@ -2,6 +2,6 @@ export { type QuantityStorageValue, type QuantityInput, QuantityType } from './i
 export { type QuantitySimplificationOptions, type QuantitySimplificationOptionsInput, defaultQuantitySimplificationOptions, resolveQuantitySimplificationOptions } from './simplification.ts'
 export { type QuantityEqualityOptions, type QuantityEqualityOptionsInput, type QuantityEqualityResult, defaultQuantityEqualityOptions, isQuantityEqualityOptionsInput, resolveQuantityEqualityOptions, adjustQuantityTolerances } from './comparison.ts'
 export { type QuantityLike, Quantity, asQuantity } from './Quantity.ts'
-export { type SerializedQuantity, serializeQuantity, deserializeQuantity } from './serialization.ts'
+export { type SerializedQuantity, isSerializedQuantity, serializeQuantity, deserializeQuantity } from './serialization.ts'
 export { type QuantityInputValue, isQuantityInputValue, interpretQuantityInputValue, quantityToInputValue } from './inputValue.ts'
 export { type RandomQuantityOptions, type RandomQuantityOptionsInput, type RandomExponentialQuantityOptions, type RandomExponentialQuantityOptionsInput, resolveRandomQuantityOptions, resolveRandomExponentialQuantityOptions, getRandomQuantity, getRandomExponentialQuantity } from './random.ts'

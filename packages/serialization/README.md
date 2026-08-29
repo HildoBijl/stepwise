@@ -120,6 +120,6 @@ The package exports the following types:
 - `SerializedData` represents the recursive JSON-safe result returned by `serializeData`.
 - `SerializableDomainObject` describes a domain object with a string `type` discriminator.
 - `SerializedDomainObject<Type, SerializedValue>` describes its plain `{ type, value }` storage representation.
-- `SerializationAdapter<TDomainValue, TSerialized>` describes the matching `serialize` and `deserialize` functions for one domain type.
+- `SerializationAdapter<TDomainValue, TSerialized>` describes the domain and serialized-value guards together with both conversion functions for one domain type.
 
 Because arbitrary nested serialized data cannot statically describe the precise domain types that `deserializeData` will restore, its return type is `unknown`. Consumers should narrow the result at an untrusted boundary or assert the expected type when loading data produced by their own application.

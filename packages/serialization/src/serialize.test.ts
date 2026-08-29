@@ -12,6 +12,11 @@ describe('serializeDomainObject', () => {
 		})
 	})
 
+	it('rejects domain objects that do not match their registered type', () => {
+		class FakePrecisionNumber { readonly type = 'PrecisionNumber' }
+		expect(() => serializeDomainObject(new FakePrecisionNumber())).toThrow(/does not match type/)
+	})
+
 	it('rejects invalid domain objects', () => {
 		class MissingType {}
 		class NonStringType { readonly type = 3 }
