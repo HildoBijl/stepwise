@@ -1,3 +1,5 @@
+import type { InputValueAdapters } from '../types.ts'
+
 import { IntegerType, integerInputValueAdapter } from './integer.ts'
 import { MultipleChoiceType, multipleChoiceInputValueAdapter } from './multipleChoice.ts'
 import { physicsInputValueAdapters } from './physics.ts'
@@ -12,4 +14,4 @@ export const inputValueAdapters = {
 	...casInputValueAdapters,
 	...geometryInputValueAdapters,
 	...mechanicsInputValueAdapters,
-}
+} satisfies InputValueAdapters

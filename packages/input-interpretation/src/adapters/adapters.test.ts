@@ -5,7 +5,7 @@ import { createForce } from '@step-wise/engineering-mechanics'
 import { Line, LineSegment, Rectangle, Vector } from '@step-wise/geometry'
 import { PrecisionNumber, Quantity, Unit } from '@step-wise/physics-core'
 
-import type { InputValueAdapter } from '../types.ts'
+import type { InputValue, InputValueAdapter } from '../types.ts'
 
 import { equationInputValueAdapter, expressionInputValueAdapter } from './cas.ts'
 import { lineInputValueAdapter, lineSegmentInputValueAdapter, rectangleInputValueAdapter, vectorInputValueAdapter } from './geometry.ts'
@@ -76,7 +76,7 @@ describe('domain adapters', () => {
 	})
 })
 
-function expectAdapterRoundTrip<TInputValue, TDomainValue>(adapter: InputValueAdapter<TInputValue, TDomainValue>, domainValue: TDomainValue): void {
+function expectAdapterRoundTrip<TInputValue extends InputValue, TDomainValue>(adapter: InputValueAdapter<TInputValue, TDomainValue>, domainValue: TDomainValue): void {
 	const inputValue = adapter.toInputValue(domainValue)
 	expect(adapter.interpret(inputValue)).toEqual(domainValue)
 }
