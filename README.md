@@ -1,53 +1,211 @@
 # Step-Wise
 
-This documentation is for developers. It explains the components Step-Wise consists of and how you can potentially contribute.
+Step-Wise is an open-source educational platform for learning mathematics, physics and engineering mechanics through interactive, automatically generated exercises. It organizes subject matter as a Skill Tree, recommends what a student should practise next, and tracks the student's progress as they work.
+
+Step-Wise is also a collection of JavaScript and TypeScript tools for teachers and developers building educational software with React. The workspace contains reusable packages for defining skills and exercises, interpreting mathematical input, grading answers, selecting exercises, tracking mastery, working with physical quantities, drawing geometry, and performing computer algebra.
+
+This repository contains the complete platform as well as the reusable packages. All code is open source and reusable packages are exported through npm.
 
 
-## Components
+## Repository structure
 
-The Step-Wise code-base is split up into four main directories.
+Step-Wise is an npm workspace with three main areas:
 
-- **[The back-end API](api/).** This GraphQL API is responsible for tracking all user data. Whenever a user attempts a sign-in or submits an exercise, a call is made to the server, which then deals with it appropriately.
-- **[The front-end app](frontend/).** This is the largest folder: everything you see on the screen while using the app is in this folder.
-- **[The shared directory](shared/).** Whenever both the API and the front-end require a certain piece of code, it's placed in the shared directory. Think of utility Javascript functions, [educational functions](shared/eduTools/) (like whether an exercise submission is correct), various [input data types](shared/inputTypes/), our [skill tracking algorithm](shared/skillTracking) and physical constants.
-- **[The ops folder](ops/).** This is used for all operational tasks, like releasing new versions of the app through continuous deployment, checking server logs and more.
+- [`frontend`](frontend/) is the React application students and teachers interact with. It uses Vite, Apollo Client, Material UI, and Vitest.
+- [`api`](api/) is the TypeScript GraphQL server. It handles authentication, courses, exercises, progress, and persistence in PostgreSQL.
+- [`packages`](packages/) contains the framework and domain packages shared by the frontend and API. Many of these packages can also be installed independently from npm and used in other educational applications.
 
-A few systems span more than just one directory. If you want to learn more about these systems, check out their individual documentation, ideally in the order in which they appear below.
+Operational configuration and release tooling live in [`ops`](ops/).
 
-- **[The skill tree.](shared/eduTools/skills/)** This is the foundation of Step-Wise. In Step-Wise all educational content is split up into skills to master. When a teacher sets a goal (e.g., an advanced skill) the app then automatically knows which skills (e.g., basic skills) the students should practice first. This readme file also discusses how to optimally select exercises to practice.
-- **[The exercise system.](shared/eduTools/exercises/)** Every skill has a multitude of exercises connected to it. Each exercise is randomly generated. This allows for a huge variety of exercises for the student to practice with.
-- **[The input system.](shared/inputTypes/)** Step-Wise uses a manually programmed system for inputs, allowing us to have very intuitive input fields as well as easy processing of the provided data. 
-- **[Skill tracking.](shared/skillTracking/)** For every skill, the app tracks/estimates the chance that a student will correctly apply this skill in an upcoming exercise. This always gives us up-to-date data on the student progress.
-- **[Course system and skill recommendation.](frontend/src/ui/eduTools/)** In most universities, subjects are grouped into a "course". Each course then has various "chapters". To accommodate this, Step-Wise also has a course system working in exactly the same way. Within courses, the Step-Wise system intelligently recommends students which skills to practice.
-- **[Computer Algebra System (CAS)](shared/CAS/)** To evaluate and check mathematical relations, Step-Wise has developed its own Javascript-based CAS.
+Some useful entry points into the package ecosystem are:
 
-When developing Step-Wise, we adhere to a few [principles](philosophy.md). These principles may help you understand some of the design decisions made in the app. 
+- [`@step-wise/skill-setup`](packages/skill-setup/) and [`@step-wise/skill-definition`](packages/skill-definition/) for defining, validating, and inspecting custom skill trees;
+- [`@step-wise/exercise-definition`](packages/exercise-definition/), [`@step-wise/input-exercises`](packages/input-exercises/), and [`@step-wise/exercise-grading`](packages/exercise-grading/) for developing generated exercises and checking submitted answers;
+- [`@step-wise/skill-tracking`](packages/skill-tracking/) and [`@step-wise/exercise-selection`](packages/exercise-selection/) for tracking student progress, recommending what to practise, and selecting exercises appropriate to a student's current level;
+- [`@step-wise/physics-core`](packages/physics-core/) and [`@step-wise/physics-data`](packages/physics-data/) for working with physical quantities, units, and related reference data;
+- [`@step-wise/math-input-value`](packages/math-input-value/) and [`@step-wise/cas`](packages/cas/) for intuitive mathematical input and for inspecting, transforming, evaluating, and comparing mathematical expressions and equations;
+- [`@step-wise/geometry`](packages/geometry/) and [`@step-wise/engineering-mechanics`](packages/engineering-mechanics/) for geometry, free-body diagrams, loads, and related engineering-mechanics concepts;
+- [`@step-wise/skill-tree`](packages/skill-tree/) for exploring and using the concrete skill tree that powers the Step-Wise platform.
+
+Each package has its own README with installation instructions, examples, and API details.
 
 
-## Setting up Step-Wise locally
+## Requirements
 
-If you want to do coding in the Step-Wise app, you first have to get the code running locally. To achieve that, follow the following steps.
+To work on the repository, install:
 
-- Make sure you have [Node](https://nodejs.org/en/download/) and the [Git CLI](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed on your computer.
-- Clone the directory to your local drive. Use `git clone https://github.com/HildoBijl/stepwise.git` in a terminal/command-prompt window.
-- For the front-end, perform the following steps.
-	- Find the `.env-template` file in the front-end folder and copy it as `.env`. This contains the environment settings for the front-end. The `.env-template` file should have the right data for your local development.
-	- For the front-end we use the [create-react-app](https://github.com/facebook/create-react-app) tool. To make sure all the dependencies are installed, run `npm install`. (This may take a few minutes. Of course if you prefer `yarn install` that is possible too.)
-	- Afterwards, use `npm start` to start up the development tool. This should (after a minute or so) open up a browser window with the local website running.
-- For the API, perform the following steps.
-	- Make sure you have a [PostgreSQL database](https://www.postgresql.org/download/) installed on your computer.
-	- Find the `.env-template` file in the API folder and copy it as `.env`. In this file, enter the database details for your local PostgreSQL installation.
-	- Take a new terminal/command-prompt window and run `npm install` to install dependencies.
-	- To start up the server, use `npm run dev`. This runs the server in development mode: it restarts the server on a file change.
+- [Git](https://git-scm.com/downloads);
+- [Node.js](https://nodejs.org/en/download) 24.12 or newer, including npm;
+- [PostgreSQL](https://www.postgresql.org/download/) when running the API or its integration tests.
 
-Afterwards you're good to go! Everything should be up and running. Did you run into any problems? Drop us a note at <info@step-wise.com> and we will update the above steps.
+PostgreSQL is not required when you only want to run the frontend without login and server-backed features.
+
+
+## Install the repository
+
+Clone the repository and install the exact dependency versions recorded in `package-lock.json`:
+
+```sh
+git clone https://github.com/HildoBijl/stepwise.git
+cd stepwise
+npm ci
+```
+
+Build all shared packages and the frontend:
+
+```sh
+npm run build
+```
+
+
+## Run only the frontend
+
+The frontend can run without the API. This is useful for browsing educational content and developing components or exercises that do not need user accounts.
+
+1. Copy [`frontend/.env-template`](frontend/.env-template) to `frontend/.env`. The template values are suitable for normal local development and do not need to be changed.
+
+   In PowerShell:
+
+   ```powershell
+   Copy-Item frontend/.env-template frontend/.env
+   ```
+
+   On macOS or Linux:
+
+   ```sh
+   cp frontend/.env-template frontend/.env
+   ```
+
+2. Start Vite from the repository root:
+
+   ```sh
+   npm run dev:frontend
+   ```
+
+Vite opens the application at <http://localhost:3000>. Without the API, login, courses, and persisted student progress are unavailable.
+
+
+## Run the complete application
+
+The complete local application consists of PostgreSQL, the API, and the frontend.
+
+### 1. Configure PostgreSQL
+
+Install and start PostgreSQL. Create a development database for the application. You may use the default `postgres` database from the template, but a dedicated database such as `stepwise` makes the local data and schema easier to manage.
+
+You can use the PostgreSQL command line:
+
+```sh
+createdb stepwise
+createdb testing
+```
+
+Alternatively, create both databases through pgAdmin by right-clicking **Databases**, choosing **Create → Database**, and entering `stepwise` and `testing` as their names.
+
+The `testing` database is disposable: the API integration tests drop and recreate its `public` schema. Never point the test configuration at a database containing valuable data.
+
+### 2. Configure the API
+
+Copy [`api/.env-template`](api/.env-template) to `api/.env`:
+
+```powershell
+Copy-Item api/.env-template api/.env
+```
+
+On macOS or Linux, use `cp api/.env-template api/.env` instead.
+
+Open `api/.env` and set at least:
+
+```dotenv
+POSTGRES_DB=stepwise
+POSTGRES_APP_PASSWORD=your-postgres-password
+POSTGRES_ADMIN_PASSWORD=your-postgres-password
+SESSION_SECRET=replace-this-with-a-random-secret-of-at-least-20-characters
+```
+
+Also update `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_APP_USER`, and `POSTGRES_ADMIN_USER` if they differ from the local defaults. For local development, the application and administrator accounts may be the same PostgreSQL account. The application reads the app credentials during normal operation and uses the administrator credentials for migrations and integration-test setup.
+
+Leave `POSTGRES_SSLCERT` empty for a normal local PostgreSQL installation. The remaining development defaults enable the local frontend, mock authentication, and an in-memory session store. Do not commit `.env` files or real credentials.
+
+See the [API configuration guide](api/README.md#configuration) for every supported setting, including SURFconext, Google Sign-In, Redis, CORS, cookies, and database SSL.
+
+### 3. Create the database schema
+
+From the repository root, apply all database migrations:
+
+```sh
+npm run -w @step-wise/api db:migrate -- up
+```
+
+This creates the required tables in the database selected by `POSTGRES_DB`. It does not create the database itself, which is why the previous PostgreSQL step is required.
+
+### 4. Start the API and frontend
+
+Start the complete development environment from the repository root:
+
+```sh
+npm run dev
+```
+
+This rebuilds the workspace packages and starts both development servers. The frontend opens at <http://localhost:3000>, while the GraphQL API and Apollo Sandbox are available at <http://localhost:4000/graphql>.
+
+Development uses mock authentication, so you can choose a local test identity and log in without production SURFconext credentials.
+
+After the initial package build, `npm run dev:fast` starts both servers without rebuilding every package first. You can also run them separately with `npm run dev:api` and `npm run dev:frontend`.
+
+
+## Verify the setup
+
+Run the complete test suite with:
+
+```sh
+npm test
+```
+
+This runs the package, API, and frontend Vitest suites. The API integration tests require the `testing` database and use the administrator credentials from `api/.env`.
+
+The suites can also be run separately:
+
+| Command | Purpose |
+| --- | --- |
+| `npm run test:packages` | Test the reusable workspace packages. |
+| `npm run test:api` | Test the API, including PostgreSQL integration tests. |
+| `npm run test:frontend` | Test the React frontend. |
+| `npm run test:packages:watch` | Run package tests in watch mode. |
+| `npm run test:frontend:watch` | Run frontend tests in watch mode. |
+
+For API-specific unit, integration, type-check, and migration commands, see the [API README](api/README.md).
+
+
+## Common development commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Rebuild packages and start the API and frontend. |
+| `npm run dev:fast` | Start both development servers without rebuilding packages. |
+| `npm run dev:api` | Start only the API in watch mode. |
+| `npm run dev:frontend` | Start only Vite and open the frontend. |
+| `npm run watch:packages` | Rebuild packages and continue compiling package changes. |
+| `npm run build` | Build all packages and the production frontend. |
+| `npm run build:packages` | Compile the workspace packages with TypeScript project references. |
+| `npm run rebuild:packages` | Remove and rebuild all generated package output. |
+| `npm run build:api` | Build the packages followed by the API. |
+| `npm run build:frontend` | Build the production frontend. |
+
+
+## How Step-Wise fits together
+
+Educational content is divided into small skills with explicit prerequisite relationships. A course groups those skills into a path for a particular class. The exercise registry connects each skill to generated examples and exercises. Submitted work is interpreted and graded using shared domain packages, while skill tracking estimates mastery and exercise selection determines useful next practice.
+
+The same architecture makes the educational tooling reusable outside the Step-Wise application. A custom platform can use only the packages it needs—for example, the CAS and math-input packages, the exercise-definition and grading packages, or the generic skill modelling tools—while providing its own React interface and server.
+
+The repository's [development philosophy](philosophy.md) explains the principles behind the platform and its educational design.
 
 
 ## Contributing
 
-Contributions are always welcome! These could range from minor bug fixes in exercises to completely new components for students to interact with.
+Contributions are welcome, from corrections to individual exercises through new reusable tools and platform features.
 
-Before you start programming your own extensions, it may be worth while to get in touch through <info@step-wise.com> to see if they match our [design philosophy](philosophy.md). It would be sad if your contributions didn't match our other plans.
+Before starting a large change, consider contacting <info@step-wise.com> to coordinate it with the project direction. For code changes, create a branch, add or update relevant tests, run the appropriate build and test commands, and open a pull request.
 
-Got your fix/update ready? Just send in a pull request! Hopefully your work will be merged into the main branch and deployed right away.
-
+Production deployment and server administration are documented separately in the [operations guide](ops/README.md).
