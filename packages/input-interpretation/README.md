@@ -104,6 +104,43 @@ The result uses display-oriented strings such as `'9.81'` and editable unit fact
 The type must be registered and must match the supplied domain value. Missing and unknown types throw an error.
 
 
+## Custom input types
+
+Pass an optional adapter registry to interpret or convert types that are not built into this package:
+
+```ts
+import { isString } from '@step-wise/js-utils'
+import {
+	type InputValue,
+	type InputValueAdapter,
+	isInputValueOfType,
+	interpretInputData,
+	interpretInputValue,
+	toInputValue,
+} from '@step-wise/input-interpretation'
+
+type LabelInputValue = InputValue<'Label', string>
+
+const labelAdapter = {
+	isInputValue: (value: unknown): value is LabelInputValue =>
+		isInputValueOfType(value, 'Label', isString),
+	isDomainValue: isString,
+	interpret: inputValue => inputValue.value.trim(),
+	toInputValue: label => ({ type: 'Label', value: label }),
+} satisfies InputValueAdapter<LabelInputValue, string>
+
+const inputValueAdapters = { Label: labelAdapter }
+
+interpretInputValue({ type: 'Label', value: ' answer ' }, inputValueAdapters) // 'answer'
+interpretInputData({ label: { type: 'Label', value: ' answer ' } }, inputValueAdapters)
+toInputValue('answer', 'Label', inputValueAdapters) // { type: 'Label', value: 'answer' }
+```
+
+Each adapter validates both directions: the public functions check incoming data before conversion and verify the adapter's output afterward. Custom registries fall back to the built-in adapters for types they do not contain.
+
+During the migration to domain-owned value types, a custom adapter currently takes precedence over a built-in adapter with the same type name. Treat type names as unique: registry composition will ultimately reject duplicate adapters rather than resolve them by precedence.
+
+
 ## Fundamental input types
 
 This package defines two fundamental input types directly.
@@ -156,6 +193,8 @@ The main public types are:
 - `MultipleChoiceSelection` is one option index or an array of option indexes.
 - `MultipleChoiceInputValue` describes an editable multiple-choice input.
 - `FreeBodyDiagramInputValue` describes a free-body-diagram input containing serialized loads.
-- `InputValueAdapter<TInputValue, TDomainValue>` describes the matching `interpret` and `toInputValue` functions for one input type.
+- `InputValueAdapter<TInputValue, TDomainValue>` describes the guards and conversions for one input type.
+- `InputValueAdapters` describes a registry keyed by input type.
+- `isInputValueOfType` checks an exact `{ type, value }` envelope for simple custom input values.
 
 Because arbitrary nested input data cannot statically describe the precise domain values that `interpretInputData` will create, its return type is `unknown`. Consumers should narrow the result at an untrusted boundary or assert the expected form when interpreting input produced by their own application.

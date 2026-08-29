@@ -1,12 +1,12 @@
 import { isPlainObject, mapValues } from '@step-wise/js-utils'
 
-import type { InputValue } from './types.ts'
-import { inputValueAdapters } from './adapters/registry.ts'
+import type { InputValueAdapters } from './types.ts'
+import { getInputValueAdapter } from './adapters/registry.ts'
 
-export function interpretInputValue<DomainValue = unknown>(inputValue: unknown): DomainValue {
+export function interpretInputValue<DomainValue = unknown>(inputValue: unknown, inputValueAdapters?: InputValueAdapters): DomainValue {
 	if (!isPlainObject(inputValue) || typeof inputValue.type !== 'string' || !Object.hasOwn(inputValue, 'value')) throw new Error(`Invalid input value: expected an object with a type and value.`)
 	ensureValidStructure(inputValue, new WeakSet())
-	const adapter = Object.hasOwn(inputValueAdapters, inputValue.type) ? inputValueAdapters[inputValue.type as keyof typeof inputValueAdapters] : undefined
+	const adapter = getInputValueAdapter(inputValue.type, inputValueAdapters)
 	if (adapter === undefined) throw new Error(`Invalid input value: unknown type "${inputValue.type}".`)
 	if (!adapter.isInputValue(inputValue)) throw new Error(`Invalid input value: value does not match type "${inputValue.type}".`)
 	const domainValue = adapter.interpret(inputValue as never)
@@ -14,11 +14,11 @@ export function interpretInputValue<DomainValue = unknown>(inputValue: unknown):
 	return domainValue as DomainValue
 }
 
-export function interpretInputData(value: unknown): unknown {
-	return interpretValue(value, new WeakSet())
+export function interpretInputData(value: unknown, inputValueAdapters?: InputValueAdapters): unknown {
+	return interpretValue(value, new WeakSet(), inputValueAdapters)
 }
 
-function interpretValue(value: unknown, ancestors: WeakSet<object>): unknown {
+function interpretValue(value: unknown, ancestors: WeakSet<object>, inputValueAdapters?: InputValueAdapters): unknown {
 	if (value === null || value === undefined || typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') return value
 	if (Array.isArray(value) || isPlainObject(value)) {
 		if (ancestors.has(value)) throw new Error(`Invalid interpretInputData call: cannot interpret circular data.`)
@@ -26,10 +26,10 @@ function interpretValue(value: unknown, ancestors: WeakSet<object>): unknown {
 		try {
 			if (Array.isArray(value)) {
 				ensureDenseArray(value)
-				return value.map(item => interpretValue(item, ancestors))
+				return value.map(item => interpretValue(item, ancestors, inputValueAdapters))
 			}
-			if (typeof value.type === 'string' && Object.hasOwn(inputValueAdapters, value.type)) return interpretInputValue(value as InputValue)
-			return mapValues(value, item => interpretValue(item, ancestors))
+			if (typeof value.type === 'string' && getInputValueAdapter(value.type, inputValueAdapters) !== undefined) return interpretInputValue(value, inputValueAdapters)
+			return mapValues(value, item => interpretValue(item, ancestors, inputValueAdapters))
 		} finally {
 			ancestors.delete(value)
 		}
