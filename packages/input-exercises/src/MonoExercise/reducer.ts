@@ -2,7 +2,7 @@ import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExercisePar
 import { interpretInputData } from '@step-wise/input-interpretation'
 import { type ValueTypeAdapters, extractValueTypeAdapters } from '@step-wise/value-types'
 
-import { type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseSolution, resolveSolution } from '../InputExercise/index.ts'
+import { type InputExerciseAction, type InputExerciseParameters, type InputExerciseSolution, resolveSolution } from '../InputExercise/index.ts'
 import { deserializeInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
 import { type InputExerciseReducerActionsInput, addAttemptsToState, hasAttempted } from '../reducerSupport.ts'
 
@@ -48,7 +48,7 @@ function reduceActions<TParameters extends InputExerciseParameters = InputExerci
 
 	const correct = actions.map(userAction => {
 		if (userAction.action.type !== 'input') return false
-		const exerciseInput = interpretInputData(userAction.action.input, valueTypeAdapters.inputValueAdapters) as InputExerciseInput
+		const exerciseInput = interpretInputData(userAction.action.input, valueTypeAdapters.inputValueAdapters)
 		const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
 		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution, equalityAdapters: valueTypeAdapters.equalityAdapters })
 	})
@@ -65,7 +65,8 @@ function reduceActions<TParameters extends InputExerciseParameters = InputExerci
 				}
 			})
 		}
-		return { ...newState, [someCorrect ? 'solved' : 'givenUp']: true, done: true } as MonoExerciseState
+		if (someCorrect) return { ...newState, solved: true, done: true }
+		return { ...newState, givenUp: true, done: true }
 	}
 
 	if (updateSkills !== undefined) {

@@ -20,7 +20,7 @@ export function ensureStepExerciseSteps(steps: StepExerciseSteps): StepExerciseS
 }
 
 function getSetupFromSteps(steps: StepExerciseSteps): SkillSetup | undefined {
-	steps = steps.flat().filter(step => !!step)
-	if (steps.length === 0) return undefined
-	return and(...steps.map(step => ensureSetup(step as SkillSetupLike)))
+	const definedSteps = steps.flat().filter(step => step !== undefined)
+	if (definedSteps.length === 0) return undefined
+	return and(...definedSteps.map(ensureSetup))
 }

@@ -34,20 +34,26 @@ export type InputExerciseHistoryInstance<TState extends ExerciseState = Exercise
 export type InputExerciseSolution = Record<string, unknown>
 export type SolutionGenerator<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (parameters: TParameters) => TSolution
 
-// A dynamic solution definition combines a static solution with fields derived from the input.
-export type StaticSolutionGenerator<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (parameters: TParameters) => Partial<TSolution>
+// An object definition either provides a complete static solution or combines static and input-dependent fields.
+export type StaticSolutionDefinition<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = {
+	getStaticSolution: SolutionGenerator<TParameters, TSolution>
+	dependentFields?: never
+	getInputDependency?: never
+	getDynamicSolution?: never
+}
+export type PartialSolutionGenerator<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (parameters: TParameters) => Partial<TSolution>
 export type InputDependency = unknown
 export type InputDependencyResolver<TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = (input: InputExerciseInput, staticSolution: Partial<TSolution>) => TInputDependency
 export type DynamicSolutionGenerator<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = (inputDependency: TInputDependency, staticSolution: Partial<TSolution>, parameters: TParameters) => Partial<TSolution>
 export type DynamicSolutionDefinition<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = {
-	getStaticSolution: StaticSolutionGenerator<TParameters, TSolution>
+	getStaticSolution: PartialSolutionGenerator<TParameters, TSolution>
 	dependentFields?: string[]
 	getInputDependency?: InputDependencyResolver<TSolution, TInputDependency>
-	getDynamicSolution?: DynamicSolutionGenerator<TParameters, TSolution, TInputDependency>
+	getDynamicSolution: DynamicSolutionGenerator<TParameters, TSolution, TInputDependency>
 }
 
-// A solution can be defined by either a generator function or a dynamic solution definition.
-export type SolutionDefinition<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = SolutionGenerator<TParameters, TSolution> | DynamicSolutionDefinition<TParameters, TSolution, TInputDependency>
+// A solution can be defined by a generator function or a static/dynamic object definition.
+export type SolutionDefinition<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = SolutionGenerator<TParameters, TSolution> | StaticSolutionDefinition<TParameters, TSolution> | DynamicSolutionDefinition<TParameters, TSolution, TInputDependency>
 
 /*
  * Full exercise definition

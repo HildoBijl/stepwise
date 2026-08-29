@@ -33,7 +33,7 @@ export function getLastRawInput(instance: InputExerciseHistoryInstance, userId?:
 // Get the last given input from the user and interpret all its values.
 export function getLastInput(exercise: { valueTypes?: ValueTypes }, instance: InputExerciseHistoryInstance, userId?: string, options: LastInputOptions = {}): InputExerciseInput | undefined {
 	const rawInput = getLastRawInput(instance, userId, options)
-	return rawInput === undefined ? undefined : interpretInputData(rawInput, extractInputValueAdapters(exercise.valueTypes ?? {})) as InputExerciseInput
+	return rawInput === undefined ? undefined : interpretInputData(rawInput, extractInputValueAdapters(exercise.valueTypes ?? {}))
 }
 
 // Check if a user has made a previous input at the given step.

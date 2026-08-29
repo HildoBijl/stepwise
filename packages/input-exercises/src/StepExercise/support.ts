@@ -37,7 +37,7 @@ export function getLastRawInputAtStep(instance: InputExerciseHistoryInstance<Ste
 // Get the last given input from the user at the given step and interpret all its values.
 export function getLastInputAtStep(exercise: { valueTypes?: ValueTypes }, instance: InputExerciseHistoryInstance<StepExerciseState>, step: number, userId?: string, options: LastInputOptions = {}): InputExerciseInput | undefined {
 	const rawInput = getLastRawInputAtStep(instance, step, userId, options)
-	return rawInput === undefined ? undefined : interpretInputData(rawInput, extractInputValueAdapters(exercise.valueTypes ?? {})) as InputExerciseInput
+	return rawInput === undefined ? undefined : interpretInputData(rawInput, extractInputValueAdapters(exercise.valueTypes ?? {}))
 }
 
 function getStateBeforeEvent(instance: InputExerciseHistoryInstance<StepExerciseState>, eventIndex: number): StepExerciseState {

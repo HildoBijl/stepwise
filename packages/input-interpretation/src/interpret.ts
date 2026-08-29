@@ -14,6 +14,8 @@ export function interpretInputValue<DomainValue = unknown>(inputValue: unknown, 
 	return domainValue as DomainValue
 }
 
+export function interpretInputData(value: Record<string, unknown>, inputValueAdapters?: InputValueAdapters): Record<string, unknown>
+export function interpretInputData(value: unknown, inputValueAdapters?: InputValueAdapters): unknown
 export function interpretInputData(value: unknown, inputValueAdapters?: InputValueAdapters): unknown {
 	return interpretValue(value, new WeakSet(), inputValueAdapters)
 }

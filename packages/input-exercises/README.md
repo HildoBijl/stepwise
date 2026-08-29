@@ -162,7 +162,7 @@ This keeps answer derivation separate from input checking and lets other consume
 
 ## Solutions that depend on the input
 
-Sometimes the appropriate solution depends on how the learner approached the problem. For example, a learner may choose which unknown to calculate, select a coordinate system, or enter an equivalent intermediate form. In that situation, `getSolution` can be an object:
+Sometimes the appropriate solution depends on how the learner approached the problem. For example, a learner may choose which unknown to calculate, select a coordinate system, or enter an equivalent intermediate form. In that situation, `getSolution` can be a dynamic object definition:
 
 ```ts
 getSolution: {
@@ -182,14 +182,16 @@ getSolution: {
 }
 ```
 
-The fields returned by `getDynamicSolution` are merged into the static solution. Dynamic fields take precedence if both objects contain the same key.
+The fields returned by `getDynamicSolution` are merged into the static solution and must jointly form the complete solution. Dynamic fields take precedence if both objects contain the same key.
+
+An object containing only `getStaticSolution` is also allowed, but that function must then return the complete solution. Input-dependency options are only valid when `getDynamicSolution` is present.
 
 The object form has four parts:
 
 - `getStaticSolution(parameters)` is required and computes everything independent of the learner's input.
 - `dependentFields` optionally selects the interpreted input fields relevant to the solution. (Default: all input fields.)
 - `getInputDependency(input, staticSolution)` optionally converts those fields into a smaller or more meaningful dependency. (Default: all values of dependent fields.)
-- `getDynamicSolution(inputDependency, staticSolution, parameters)` optionally computes the input-dependent solution fields.
+- `getDynamicSolution(inputDependency, staticSolution, parameters)` is required for a dynamic object definition and computes the input-dependent solution fields.
 
 The idea is that the input dependency is only recalculated when one of the dependent fields change, and the dynamic solution is only recalculated when the input dependency changes. This can save expensive computations.
 

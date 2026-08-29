@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 
 import { interpretInputData, interpretInputValue } from './interpret.ts'
 
@@ -36,6 +36,11 @@ describe('interpretInputValue', () => {
 })
 
 describe('interpretInputData', () => {
+	it('preserves an object root in its return type', () => {
+		const result = interpretInputData({ answer: { type: 'Integer', value: '3' } })
+		expectTypeOf(result).toEqualTypeOf<Record<string, unknown>>()
+	})
+
 	it('preserves basic values and recursively interprets input values', () => {
 		const data = {
 			values: [{ type: 'Integer', value: '3' }, { type: 'MultipleChoice', value: [2, 4] }],

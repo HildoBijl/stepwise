@@ -1,4 +1,5 @@
 import { IntegerType, MultipleChoiceType } from '@step-wise/input-interpretation'
+import type { ValueEqualityAdapters } from '@step-wise/value-equality'
 
 import { integerEquality } from './Integer.ts'
 import { multipleChoiceEquality } from './MultipleChoice.ts'
@@ -14,7 +15,7 @@ export * from './cas.ts'
 export * from './geometry.ts'
 export * from './mechanics.ts'
 
-export const equalityAdapters = {
+export const equalityAdapters: ValueEqualityAdapters = {
 	[IntegerType]: integerEquality,
 	[MultipleChoiceType]: multipleChoiceEquality,
 	...physicsEqualityAdapters,

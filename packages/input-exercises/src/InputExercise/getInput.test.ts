@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 
 import type { CheckInputData } from './types.ts'
 import { getInput, getInputs } from './getInput.ts'
@@ -20,7 +20,9 @@ describe('getInput', () => {
 	})
 
 	it('retrieves and types a class instance', () => {
-		expect(getInput('objectInput', data, ExampleInput)).toBe(objectInput)
+		const input = getInput('objectInput', data, ExampleInput)
+		expectTypeOf(input).toEqualTypeOf<ExampleInput>()
+		expect(input).toBe(objectInput)
 	})
 
 	it('rejects missing and incorrectly typed values', () => {
@@ -33,11 +35,15 @@ describe('getInput', () => {
 describe('getInputs', () => {
 	it('retrieves multiple values sharing one type', () => {
 		const input = { input: { left: 2, right: 5 } } as unknown as CheckInputData
-		expect(getInputs(['left', 'right'], input, 'number')).toEqual([2, 5])
+		const values = getInputs(['left', 'right'], input, 'number')
+		expectTypeOf(values).toEqualTypeOf<readonly [number, number]>()
+		expect(values).toEqual([2, 5])
 	})
 
 	it('retrieves values with different types', () => {
-		expect(getInputs(['count', 'label', 'objectInput'], data, ['number', 'string', ExampleInput])).toEqual([3, 'three', objectInput])
+		const values = getInputs(['count', 'label', 'objectInput'], data, ['number', 'string', ExampleInput])
+		expectTypeOf(values).toEqualTypeOf<readonly [number, string, ExampleInput]>()
+		expect(values).toEqual([3, 'three', objectInput])
 	})
 
 	it('rejects a different number of keys and types', () => {

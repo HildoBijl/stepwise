@@ -16,8 +16,9 @@ describe('hasInputExerciseProperties', () => {
 		expect(hasInputExerciseProperties(inputExerciseProperties)).toBe(true)
 	})
 
-	it('accepts function and dynamic solution definitions', () => {
+	it('accepts function, static object and dynamic solution definitions', () => {
 		expect(hasInputExerciseProperties({ ...inputExerciseProperties, getSolution: () => ({}) })).toBe(true)
+		expect(hasInputExerciseProperties({ ...inputExerciseProperties, getSolution: { getStaticSolution: () => ({}) } })).toBe(true)
 		expect(hasInputExerciseProperties({ ...inputExerciseProperties, getSolution: { getStaticSolution: () => ({}), dependentFields: ['answer'], getInputDependency: () => undefined, getDynamicSolution: () => ({}) } })).toBe(true)
 	})
 
@@ -28,6 +29,8 @@ describe('hasInputExerciseProperties', () => {
 		{ ...inputExerciseProperties, processSoloAction: undefined },
 		{ ...inputExerciseProperties, processGroupActions: undefined },
 		{ ...inputExerciseProperties, getSolution: {} },
+		{ ...inputExerciseProperties, getSolution: { getStaticSolution: () => ({}), dependentFields: ['answer'] } },
+		{ ...inputExerciseProperties, getSolution: { getStaticSolution: () => ({}), getInputDependency: () => undefined } },
 		{ ...inputExerciseProperties, valueTypes: { Broken: { equality: {} } } },
 	])('rejects values missing valid input-exercise properties: %p', value => {
 		expect(hasInputExerciseProperties(value)).toBe(false)

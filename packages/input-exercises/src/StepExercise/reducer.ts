@@ -3,7 +3,7 @@ import { interpretInputData } from '@step-wise/input-interpretation'
 import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters } from '@step-wise/exercise-definition'
 import { type ValueTypeAdapters, extractValueTypeAdapters } from '@step-wise/value-types'
 
-import { type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseSolution, resolveSolution } from '../InputExercise/index.ts'
+import { type InputExerciseAction, type InputExerciseParameters, type InputExerciseSolution, resolveSolution } from '../InputExercise/index.ts'
 import { deserializeInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
 import { type InputExerciseReducerActionsInput, addAttemptsToState, hasAttempted } from '../reducerSupport.ts'
 
@@ -59,7 +59,7 @@ function reduceMainProblem<TParameters extends InputExerciseParameters = InputEx
 	// Check all input actions.
 	const correct = actions.map(userAction => {
 		if (userAction.action.type !== 'input') return false
-		const exerciseInput = interpretInputData(userAction.action.input, valueTypeAdapters.inputValueAdapters) as InputExerciseInput
+		const exerciseInput = interpretInputData(userAction.action.input, valueTypeAdapters.inputValueAdapters)
 		const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
 		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution, equalityAdapters: valueTypeAdapters.equalityAdapters }, 0, 0)
 	})
@@ -99,14 +99,13 @@ function reduceCurrentStep<TParameters extends InputExerciseParameters = InputEx
 	const step = getCurrentStep(state)
 	const skill = metadata.steps[step - 1]
 	if (Array.isArray(skill)) return reduceStepWithSubsteps(spec, input, valueTypeAdapters)
-	return reduceStepWithoutSubsteps(spec, input, valueTypeAdapters)
+	return reduceStepWithoutSubsteps(spec, input, valueTypeAdapters, skill)
 }
 
-function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueTypeAdapters: ValueTypeAdapters): StepExerciseState {
+function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueTypeAdapters: ValueTypeAdapters, skill: SkillSetupLike | undefined): StepExerciseState {
 	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const step = getCurrentStep(state)
-	const skill = metadata.steps[step - 1] as SkillSetupLike
 	const stepState = getStepState(state, step)
 	const newStepState = addAttemptsToState(stepState, mode, getAttemptingUserIds(actions))
 
@@ -116,7 +115,7 @@ function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters =
 	// Check all input actions.
 	const correct = actions.map(userAction => {
 		if (userAction.action.type !== 'input') return false
-		const exerciseInput = interpretInputData(userAction.action.input, valueTypeAdapters.inputValueAdapters) as InputExerciseInput
+		const exerciseInput = interpretInputData(userAction.action.input, valueTypeAdapters.inputValueAdapters)
 		const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
 		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution, equalityAdapters: valueTypeAdapters.equalityAdapters }, step, 0)
 	})
@@ -169,7 +168,7 @@ function reduceStepWithSubsteps<TParameters extends InputExerciseParameters = In
 		// Check all input actions.
 		const correct = actions.map(userAction => {
 			if (userAction.action.type !== 'input') return false
-			const exerciseInput = interpretInputData(userAction.action.input, valueTypeAdapters.inputValueAdapters) as InputExerciseInput
+			const exerciseInput = interpretInputData(userAction.action.input, valueTypeAdapters.inputValueAdapters)
 			const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
 			return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution, equalityAdapters: valueTypeAdapters.equalityAdapters }, step, substep)
 		})
@@ -204,18 +203,22 @@ function reduceStepWithSubsteps<TParameters extends InputExerciseParameters = In
 	return { ...state, [step]: stepState }
 }
 
+function isStepExerciseSplitState(state: StepExerciseState): state is StepExerciseSplitState {
+	return 'split' in state && state.split === true
+}
+
 // Move state to the next step, or mark the full exercise done.
 function advanceToNextStep(state: StepExerciseState, numSteps: number): StepExerciseState {
-	const currentStep = getCurrentStep(state)
-	if (currentStep === numSteps) return { ...state, done: true } as StepExerciseState
-	const nextStep = currentStep + 1
-	return { ...state, split: true, step: nextStep, [nextStep]: {} }
+	if (!isStepExerciseSplitState(state)) throw new Error(`Invalid advanceToNextStep call: cannot advance a StepExercise that has not been split up yet.`)
+	if (state.step === numSteps) return { ...state, done: true }
+	const nextStep = state.step + 1
+	return { ...state, step: nextStep, [nextStep]: {} }
 }
 
 // Get a step within the state and ensure it's typed correctly.
 function getStepState(state: StepExerciseState, step: number): StepExerciseStepState {
-	if (!('split' in state)) throw new Error(`Invalid getStepState call: cannot get the state of a StepExercise that has not been split up yet.`)
-	return (state as StepExerciseSplitState)[`${step}`] ?? {}
+	if (!isStepExerciseSplitState(state)) throw new Error(`Invalid getStepState call: cannot get the state of a StepExercise that has not been split up yet.`)
+	return state[`${step}`] ?? {}
 }
 
 function getAttemptingUserIds(actions: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, InputExerciseParameters>['actions']): (string | undefined)[] {

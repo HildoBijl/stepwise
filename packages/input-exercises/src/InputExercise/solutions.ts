@@ -11,17 +11,16 @@ export function resolveSolution<TParameters extends InputExerciseParameters = In
 	if (!isPlainObject(getSolution)) throw new Error(`Invalid getSolution parameter: expected either a getSolution function or a getSolution object. Got a parameter of type ${typeof getSolution}.`)
 	const { getStaticSolution, getInputDependency, dependentFields, getDynamicSolution } = getSolution
 
-	// Get the static solution.
+	// Get the complete static solution when no dynamic generator is present.
 	if (typeof getStaticSolution !== 'function') throw new Error(`Invalid resolveSolution call: could not find a getStaticSolution function in the solution definition.`)
+	if (getDynamicSolution === undefined) return getStaticSolution(parameters)
+
+	// Get the input dependency and combine the static and dynamic parts of the solution.
 	const staticSolution = getStaticSolution(parameters)
-
-	// If there is no dynamic solution, we're done.
-	if (!getDynamicSolution) return staticSolution as TSolution
-
-	// Get the input dependency and use it to find the dynamic solution. Merge it with the static solution.
 	const filteredInput = dependentFields ? pickKeys(input, dependentFields) : input
 	const inputDependency = getInputDependency ? getInputDependency(filteredInput, staticSolution) : filteredInput
 	const dynamicSolution = getDynamicSolution(inputDependency, staticSolution, parameters)
 
+	// The definition contract requires both partial results to jointly form TSolution.
 	return { ...staticSolution, ...dynamicSolution } as TSolution
 }
