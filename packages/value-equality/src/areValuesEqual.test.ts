@@ -7,8 +7,7 @@ type ToleranceOptions = { tolerance?: number }
 
 const numberEquality: ValueEqualityAdapter<number, ToleranceOptions> = {
 	isValue: (value): value is number => typeof value === 'number' && Number.isFinite(value),
-	isOptions: (options): options is ToleranceOptions | undefined => {
-		if (options === undefined) return true
+	isOptions: (options): options is ToleranceOptions => {
 		if (typeof options !== 'object' || options === null || Array.isArray(options)) return false
 		const tolerance = (options as ToleranceOptions).tolerance
 		return tolerance === undefined || typeof tolerance === 'number'
@@ -29,10 +28,11 @@ describe('areValuesEqual', () => {
 		expect(equality.areEqual).toHaveBeenCalledWith(11, 10, { tolerance: 1 })
 	})
 
-	it('passes omitted equality options through as undefined', () => {
-		const equality = { ...numberEquality, areEqual: vi.fn(numberEquality.areEqual) }
+	it('passes omitted equality options through without running the options guard', () => {
+		const equality = { ...numberEquality, isOptions: vi.fn(numberEquality.isOptions), areEqual: vi.fn(numberEquality.areEqual) }
 
 		expect(areValuesEqual(equality, 10, 10)).toBe(true)
+		expect(equality.isOptions).not.toHaveBeenCalled()
 		expect(equality.areEqual).toHaveBeenCalledWith(10, 10, undefined)
 	})
 

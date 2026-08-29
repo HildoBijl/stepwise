@@ -10,6 +10,6 @@ export function areIntegersEqual(inputValue: number, expectedValue: number, opti
 
 export const integerEquality: ValueEqualityAdapter<number, NumberEqualityOptionsInput> = {
 	isValue: isInteger,
-	isOptions: (options): options is NumberEqualityOptionsInput | undefined => options === undefined || isNumberEqualityOptionsInput(options),
+	isOptions: isNumberEqualityOptionsInput,
 	areEqual: areIntegersEqual,
 }

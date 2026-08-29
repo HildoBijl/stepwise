@@ -27,12 +27,12 @@ function isToleranceOptions(value: unknown): value is ToleranceOptions {
 
 const numberEquality: ValueEqualityAdapter<number, ToleranceOptions> = {
 	isValue: (value): value is number => typeof value === 'number' && Number.isFinite(value),
-	isOptions: (options): options is ToleranceOptions | undefined => options === undefined || isToleranceOptions(options),
+	isOptions: isToleranceOptions,
 	areEqual: (inputValue, expectedValue, options) => Math.abs(inputValue - expectedValue) <= (options?.tolerance ?? 0),
 }
 ```
 
-Both values enter the package as `unknown`. Only after `isValue` accepts them does `areEqual` receive them as the adapter's domain type. `isOptions` similarly validates either supplied options or `undefined`.
+Both values enter the package as `unknown`. Only after `isValue` accepts them does `areEqual` receive them as the adapter's domain type. `isOptions` validates supplied options. It is not called when the options are omitted.
 
 
 ## Checking equality
