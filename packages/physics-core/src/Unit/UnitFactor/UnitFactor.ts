@@ -3,7 +3,8 @@ import { ensureInteger } from '@step-wise/js-utils'
 import { Prefix } from '../Prefix/index.ts'
 import { type UnitDefinition } from '../UnitDefinition/index.ts'
 
-import { type UnitFactorInput, type UnitFactorStorageValue, UnitFactorType } from './interpreting.ts'
+import { type UnitFactorInput, UnitFactorType } from './interpreting.ts'
+import type { UnitFactorStorageValue } from './serialization.ts'
 import { unitFactorInputToParameters } from './construction.ts'
 
 export type UnitFactorLike = UnitFactorInput | UnitFactor

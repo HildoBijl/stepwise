@@ -2,6 +2,6 @@ export { type DecimalSeparator, type TexDisplayOptions, type TexDisplayOptionsIn
 export { type PrecisionNumberStorageValue, type PrecisionNumberInput, PrecisionNumberType, precisionNumberPattern } from './interpreting.ts'
 export { type PrecisionNumberEqualityOptions, type PrecisionNumberEqualityOptionsInput, type PrecisionNumberEqualityResult, defaultPrecisionNumberEqualityOptions, isPrecisionNumberEqualityOptionsInput, resolvePrecisionNumberEqualityOptions, validatePrecisionNumberEqualityOptions, adjustPrecisionNumberTolerances } from './comparison.ts'
 export { PrecisionNumber, asPrecisionNumber } from './PrecisionNumber.ts'
-export { type SerializedPrecisionNumber, isSerializedPrecisionNumber, serializePrecisionNumber, deserializePrecisionNumber } from './serialization.ts'
+export { type SerializedPrecisionNumber, isPrecisionNumberStorageValue, isSerializedPrecisionNumber, serializePrecisionNumber, deserializePrecisionNumber } from './serialization.ts'
 export { type PrecisionNumberInputValue, isPrecisionNumberInputValue, interpretPrecisionNumberInputValue, precisionNumberToInputValue } from './inputValue.ts'
 export { type RandomPrecisionNumberOptions, type RandomPrecisionNumberOptionsInput, type RandomExponentialPrecisionNumberOptions, type RandomExponentialPrecisionNumberOptionsInput, defaultRandomPrecisionNumberOptions, defaultRandomExponentialPrecisionNumberOptions, resolveRandomPrecisionNumberOptions, resolveRandomExponentialPrecisionNumberOptions, getRandomPrecisionNumber, getRandomExponentialPrecisionNumber } from './random.ts'

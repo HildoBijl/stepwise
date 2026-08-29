@@ -3,7 +3,8 @@ import { isInteger, ensureInteger, ensureString, isPlainObject, hasOnlyKeys } fr
 import { Prefix, findPrefix } from '../Prefix/index.ts'
 import { UnitDefinition, findUnitDefinition } from '../UnitDefinition/index.ts'
 
-import { type UnitFactorParameters, type UnitFactorStorageValue, type UnitFactorInput, parseUnitFactorString } from './interpreting.ts'
+import { type UnitFactorParameters, type UnitFactorInput, parseUnitFactorString } from './interpreting.ts'
+import type { UnitFactorStorageValue } from './serialization.ts'
 
 export function unitFactorStorageValueToParameters(value: UnitFactorStorageValue): UnitFactorParameters {
 	value = ensureUnitFactorStorageValue(value)

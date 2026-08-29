@@ -1,7 +1,7 @@
 import { hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
 
-import { deserializePrecisionNumber, isSerializedPrecisionNumber, PrecisionNumberType } from '../PrecisionNumber/index.ts'
-import { deserializeUnit, isSerializedUnit, UnitType } from '../Unit/index.ts'
+import { isSerializedPrecisionNumber, PrecisionNumberType } from '../PrecisionNumber/index.ts'
+import { isSerializedUnit, UnitType } from '../Unit/index.ts'
 
 import { type QuantityStorageValue, QuantityType } from './interpreting.ts'
 import { Quantity } from './Quantity.ts'
@@ -25,11 +25,6 @@ export function serializeQuantity(quantity: Quantity): SerializedQuantity {
 }
 
 export function deserializeQuantity(serializedQuantity: unknown): Quantity {
-	if (!isPlainObject(serializedQuantity) || !hasOnlyKeys(serializedQuantity, ['type', 'value']) || serializedQuantity.type !== QuantityType || !Object.hasOwn(serializedQuantity, 'value')) throw new TypeError(`Invalid serialized Quantity: expected its type and value.`)
-	const value = serializedQuantity.value
-	if (!isPlainObject(value) || !hasOnlyKeys(value, ['value', 'unit']) || !Object.hasOwn(value, 'value') || !Object.hasOwn(value, 'unit')) throw new TypeError(`Invalid QuantityStorageValue: expected an object containing value and unit.`)
-	return new Quantity({
-		value: deserializePrecisionNumber({ type: PrecisionNumberType, value: value.value }),
-		unit: deserializeUnit({ type: UnitType, value: value.unit }),
-	})
+	if (!isSerializedQuantity(serializedQuantity)) throw new TypeError(`Invalid serialized Quantity.`)
+	return new Quantity(serializedQuantity.value)
 }

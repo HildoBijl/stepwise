@@ -61,7 +61,7 @@ describe('Quantity', () => {
 		})
 		test('rejects malformed serialized quantities', () => {
 			expect(() => deserializeQuantity({ type: 'PrecisionNumber', value: {} })).toThrow(/serialized Quantity/)
-			expect(() => deserializeQuantity({ type: 'Quantity', value: { value: { number: 1, significantDigits: 1 }, unit: { extra: true } } })).toThrow(/UnitStorageValue/)
+			expect(() => deserializeQuantity({ type: 'Quantity', value: { value: { number: 1, significantDigits: 1 }, unit: { extra: true } } })).toThrow(/serialized Quantity/)
 		})
 	})
 

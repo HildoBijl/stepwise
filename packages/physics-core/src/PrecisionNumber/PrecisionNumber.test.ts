@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 
 import { PrecisionNumber, asPrecisionNumber } from './PrecisionNumber.ts'
-import { deserializePrecisionNumber, serializePrecisionNumber } from './serialization.ts'
+import { deserializePrecisionNumber, isPrecisionNumberStorageValue, isSerializedPrecisionNumber, serializePrecisionNumber } from './serialization.ts'
 import { precisionNumberToInputValue, interpretPrecisionNumberInputValue, isPrecisionNumberInputValue } from './inputValue.ts'
 import { getRandomExponentialPrecisionNumber, getRandomPrecisionNumber, resolveRandomExponentialPrecisionNumberOptions, resolveRandomPrecisionNumberOptions } from './random.ts'
 
@@ -129,6 +129,28 @@ describe('PrecisionNumber', () => {
 		})
 	})
 
+	describe('storage-value checks', () => {
+		test.each([
+			{ number: 3.14, significantDigits: 3 },
+			{ number: 3.14, significantDigits: 'Infinity' },
+			{ number: 3.14, significantDigits: Infinity, power: -2 },
+		])('recognizes valid storage values', value => {
+			expect(isPrecisionNumberStorageValue(value)).toBe(true)
+		})
+
+		test.each([
+			{},
+			{ number: 3.14 },
+			{ number: Infinity, significantDigits: 3 },
+			{ number: 3.14, significantDigits: -1 },
+			{ number: 3.14, significantDigits: 1.5 },
+			{ number: 3.14, significantDigits: 3, power: Infinity },
+			{ number: 3.14, significantDigits: 3, extra: true },
+		])('rejects invalid storage values', value => {
+			expect(isPrecisionNumberStorageValue(value)).toBe(false)
+		})
+	})
+
 	describe('serialization', () => {
 		test('serializes and deserializes', () => {
 			const x = new PrecisionNumber('3.14 * 10^2')
@@ -137,6 +159,7 @@ describe('PrecisionNumber', () => {
 				type: 'PrecisionNumber',
 				value: { number: 314, significantDigits: 3, power: 2 },
 			})
+			expect(isSerializedPrecisionNumber(serialized)).toBe(true)
 			expect(deserializePrecisionNumber(serialized)).toEqual(x)
 			const exact = new PrecisionNumber(2)
 			const jsonValue = JSON.parse(JSON.stringify(serializePrecisionNumber(exact)))
@@ -145,7 +168,7 @@ describe('PrecisionNumber', () => {
 		})
 		test('rejects invalid serialized values', () => {
 			expect(() => deserializePrecisionNumber({ type: 'Unit', value: { number: 3, significantDigits: 1 } })).toThrow(/serialized PrecisionNumber/)
-			expect(() => deserializePrecisionNumber({ type: 'PrecisionNumber', value: { number: Infinity, significantDigits: 1 } })).toThrow(/finite/)
+			expect(() => deserializePrecisionNumber({ type: 'PrecisionNumber', value: { number: Infinity, significantDigits: 1 } })).toThrow(/serialized PrecisionNumber/)
 		})
 	})
 

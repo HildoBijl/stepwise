@@ -1,14 +1,10 @@
 import { type Prefix, prefixes } from '../Prefix/index.ts'
 import { type UnitDefinition, findUnitDefinition, specialUnitSymbols } from '../UnitDefinition/index.ts'
 
+import type { UnitFactorStorageValue } from './serialization.ts'
+
 export const UnitFactorType = 'UnitFactor'
 export type UnitFactorType = typeof UnitFactorType
-
-export type UnitFactorStorageValue = {
-	prefix?: string
-	unit: string
-	power?: number
-}
 
 export type UnitFactorParameters = {
 	prefix?: Prefix

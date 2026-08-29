@@ -3,5 +3,5 @@ export { type UnitSimplificationTarget, type UnitSimplificationOptions, type Uni
 export { type UnitEqualityOptions, type UnitEqualityOptionsInput, type UnitEqualityResult, defaultUnitEqualityOptions, isUnitEqualityOptionsInput, resolveUnitEqualityOptions } from './comparison.ts'
 export { type UnitLike, Unit, asUnit } from './Unit.ts'
 export { unitsEqual, unitsEquivalent, unitsCompatible } from './comparisonFunctions.ts'
-export { type SerializedUnit, isSerializedUnit, serializeUnit, deserializeUnit } from './serialization.ts'
+export { type SerializedUnit, isUnitStorageValue, isSerializedUnit, serializeUnit, deserializeUnit } from './serialization.ts'
 export { type UnitInputValue, isUnitInputValue, interpretUnitInputValue, unitToInputValue } from './inputValue.ts'

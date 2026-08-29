@@ -231,6 +231,8 @@ serializeQuantity(new Quantity('3.14 m'))
 
 Serialized values use the discriminators `PrecisionNumber`, `Unit` and `Quantity`. Deserialization is strict: unknown keys, missing required values, invalid numbers and malformed nested units are rejected.
 
+`isPrecisionNumberStorageValue` and `isUnitStorageValue` validate the corresponding unwrapped storage forms without throwing. The `isSerializedPrecisionNumber`, `isSerializedUnit` and `isSerializedQuantity` guards validate the corresponding complete discriminated objects.
+
 
 ## Errors and constraints
 

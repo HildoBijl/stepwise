@@ -1,10 +1,12 @@
+import { describe, expect, test } from 'vitest'
+
 import { UnitDefinition } from '../UnitDefinition/index.ts'
 import { Prefix } from '../Prefix/index.ts'
 
 import { Unit, asUnit } from './Unit.ts'
 import { unitsEqual, unitsEquivalent, unitsCompatible } from './comparisonFunctions.ts'
 import { interpretUnitInputValue } from './inputValue.ts'
-import { deserializeUnit, serializeUnit } from './serialization.ts'
+import { deserializeUnit, isSerializedUnit, isUnitStorageValue, serializeUnit } from './serialization.ts'
 
 describe('Unit', () => {
 	describe('construction', () => {
@@ -170,12 +172,16 @@ describe('Unit', () => {
 	describe('serialization', () => {
 		test('serializes and deserializes validated units', () => {
 			const unit = new Unit('kg * m / s^2')
-			expect(deserializeUnit(serializeUnit(unit))).toEqual(unit)
+			const serialized = serializeUnit(unit)
+			expect(isUnitStorageValue(serialized.value)).toBe(true)
+			expect(isUnitStorageValue({ numerator: new Array(1) })).toBe(false)
+			expect(isUnitStorageValue({ numerator: [{ unit: 'm', power: 0 }] })).toBe(false)
+			expect(isSerializedUnit(serialized)).toBe(true)
+			expect(deserializeUnit(serialized)).toEqual(unit)
 		})
 		test('rejects malformed serialized units', () => {
 			expect(() => deserializeUnit({ type: 'PrecisionNumber', value: {} })).toThrow(/serialized Unit/)
-			expect(() => deserializeUnit({ type: 'Unit', value: { numerator: [{ unit: 'm', extra: true }] } })).toThrow(/UnitFactorStorageValue/)
+			expect(() => deserializeUnit({ type: 'Unit', value: { numerator: [{ unit: 'm', extra: true }] } })).toThrow(/serialized Unit/)
 		})
 	})
 })
-import { describe, expect, test } from 'vitest'
