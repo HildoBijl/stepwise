@@ -25,47 +25,47 @@ describe('areValuesEqual', () => {
 	it('passes narrowed values and equality options to the adapter', () => {
 		const equality = { ...numberEquality, areEqual: vi.fn(numberEquality.areEqual) }
 
-		expect(areValuesEqual(11, 10, { equality, equalityOptions: { tolerance: 1 } })).toBe(true)
+		expect(areValuesEqual(equality, 11, 10, { tolerance: 1 })).toBe(true)
 		expect(equality.areEqual).toHaveBeenCalledWith(11, 10, { tolerance: 1 })
 	})
 
 	it('passes omitted equality options through as undefined', () => {
 		const equality = { ...numberEquality, areEqual: vi.fn(numberEquality.areEqual) }
 
-		expect(areValuesEqual(10, 10, { equality })).toBe(true)
+		expect(areValuesEqual(equality, 10, 10)).toBe(true)
 		expect(equality.areEqual).toHaveBeenCalledWith(10, 10, undefined)
 	})
 
 	it('supports adapters without options or an options guard', () => {
-		expect(areValuesEqual('answer', 'answer', { equality: stringEquality })).toBe(true)
-		expect(() => areValuesEqual('answer', 'answer', { equality: stringEquality, equalityOptions: {} } as never)).toThrow(/equality options/)
+		expect(areValuesEqual(stringEquality, 'answer', 'answer')).toBe(true)
+		expect(() => areValuesEqual(stringEquality, 'answer', 'answer', {} as never)).toThrow(/equality options/)
 	})
 
 	it('returns false equality results unchanged', () => {
-		expect(areValuesEqual(1, 2, { equality: numberEquality })).toBe(false)
+		expect(areValuesEqual(numberEquality, 1, 2)).toBe(false)
 	})
 
 	it('rejects input and expected values that do not match the adapter', () => {
-		expect(() => areValuesEqual('1', 1, { equality: numberEquality })).toThrow(/input value/)
-		expect(() => areValuesEqual(1, '1', { equality: numberEquality })).toThrow(/expected value/)
+		expect(() => areValuesEqual(numberEquality, '1', 1)).toThrow(/input value/)
+		expect(() => areValuesEqual(numberEquality, 1, '1')).toThrow(/expected value/)
 	})
 
 	it('rejects equality options that do not match the adapter', () => {
-		expect(() => areValuesEqual(1, 1, { equality: numberEquality, equalityOptions: { tolerance: 'one' } as never })).toThrow(/equality options/)
+		expect(() => areValuesEqual(numberEquality, 1, 1, { tolerance: 'one' } as never)).toThrow(/equality options/)
 	})
 
 	it('rejects malformed adapters', () => {
-		expect(() => areValuesEqual(1, 1, { equality: { isValue: numberEquality.isValue } as never })).toThrow(/equality adapter/)
+		expect(() => areValuesEqual({ isValue: numberEquality.isValue } as never, 1, 1)).toThrow(/equality adapter/)
 	})
 
 	it('rejects equality results that are not booleans', () => {
 		const equality = { ...numberEquality, areEqual: (() => 'yes') as never }
-		expect(() => areValuesEqual(1, 1, { equality })).toThrow(TypeError)
+		expect(() => areValuesEqual(equality, 1, 1)).toThrow(TypeError)
 	})
 
 	it('does not hide errors thrown by the equality operation', () => {
 		const error = new Error('Equality failed.')
 		const equality = { ...numberEquality, areEqual: () => { throw error } }
-		expect(() => areValuesEqual(1, 1, { equality })).toThrow(error)
+		expect(() => areValuesEqual(equality, 1, 1)).toThrow(error)
 	})
 })

@@ -37,18 +37,20 @@ Both values enter the package as `unknown`. Only after `isValue` accepts them do
 
 ## Checking equality
 
-Pass both values and the adapter to `areValuesEqual`:
+Pass the adapter followed by both values to `areValuesEqual`:
 
 ```ts
 import { areValuesEqual } from '@step-wise/value-equality'
 
-const equal = areValuesEqual(11, 10, {
-	equality: numberEquality,
-	equalityOptions: { tolerance: 1 },
-})
+const equal = areValuesEqual(
+	numberEquality,
+	11,
+	10,
+	{ tolerance: 1 },
+)
 ```
 
-When `equalityOptions` is omitted, the equality operation receives `undefined`. The adapter remains responsible for applying its own defaults.
+When the fourth argument is omitted, the equality operation receives `undefined`. The adapter remains responsible for applying its own defaults.
 
 `areValuesEqual` throws when either value, the options, or the adapter is invalid. An equality operation must return a boolean; any other result also causes a `TypeError`. Errors thrown by the adapter are not hidden.
 
@@ -82,4 +84,3 @@ The main public types are:
 
 - `ValueEqualityOptions`, the generic record shape for equality options.
 - `ValueEqualityAdapter<TValue, TOptions>`, the guards and strongly typed equality operation for one value type.
-- `AreValuesEqualOptions<TValue, TOptions>`, the options object accepted by `areValuesEqual`.

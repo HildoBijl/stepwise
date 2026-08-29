@@ -17,8 +17,5 @@ export function compareInputValue(inputValue: unknown, expectedValue: unknown, o
 	if (typeof comparison === 'function') return ensureBoolean(comparison(inputValue, expectedValue, data.solution, data))
 	const equality = equalityAdapters[type as keyof typeof equalityAdapters]
 	if (equality === undefined) throw new Error(`Invalid compareInputValue call: no equality adapter found for input type "${type}" at key "${key}".`)
-	return areValuesEqual(inputValue, expectedValue, {
-		equality: equality as ValueEqualityAdapter<unknown, ValueEqualityOptions>,
-		equalityOptions: comparison,
-	})
+	return areValuesEqual(equality as ValueEqualityAdapter<unknown, ValueEqualityOptions>, inputValue, expectedValue, comparison)
 }
