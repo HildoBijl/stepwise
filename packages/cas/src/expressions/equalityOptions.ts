@@ -1,4 +1,4 @@
-import { mergeDefaults, identity } from '@step-wise/js-utils'
+import { hasOnlyKeys, isPlainObject, mergeDefaults, identity } from '@step-wise/js-utils'
 
 import { type Expression } from './Expression.ts'
 
@@ -14,6 +14,12 @@ export type ExpressionStructureComparisonOptions = Pick<ExpressionEqualityOption
 export const defaultExpressionEqualityOptions = {
 	allowOrderChanges: true,
 	preprocess: identity,
+}
+
+export function isExpressionEqualityOptionsInput(value: unknown): value is ExpressionEqualityOptionsInput {
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['allowOrderChanges', 'preprocess'])) return false
+	return (value.allowOrderChanges === undefined || typeof value.allowOrderChanges === 'boolean')
+		&& (value.preprocess === undefined || typeof value.preprocess === 'function')
 }
 export function asExpressionEqualityOptions(options: ExpressionEqualityOptionsInput): ExpressionEqualityOptions {
 	return mergeDefaults(options, defaultExpressionEqualityOptions)

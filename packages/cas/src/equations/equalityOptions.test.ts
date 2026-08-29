@@ -1,13 +1,24 @@
 import { asExpression } from '../expressions/index.ts'
 
 import { asEquation } from './Equation.ts'
-import { asEquationEqualityOptions, defaultEquationEqualityOptions, getEquationPreprocessor } from './equalityOptions.ts'
+import { asEquationEqualityOptions, defaultEquationEqualityOptions, getEquationPreprocessor, isEquationEqualityOptionsInput } from './equalityOptions.ts'
 
 describe('equation equality options', () => {
 	test('resolves defaults and overrides', () => {
 		expect(asEquationEqualityOptions()).toEqual(defaultEquationEqualityOptions)
 		expect(asEquationEqualityOptions({ allowSideSwitch: false }).allowSideSwitch).toBe(false)
 		expect(asEquationEqualityOptions({ allowNegatingBothSides: true }).allowNegatingBothSides).toBe(true)
+	})
+
+	test('recognizes equation equality option inputs', () => {
+		expect(isEquationEqualityOptionsInput({})).toBe(true)
+		expect(isEquationEqualityOptionsInput({ allowSideSwitch: false, preprocess: equation => equation, compareLeft: () => true })).toBe(true)
+		expect(isEquationEqualityOptionsInput(undefined)).toBe(false)
+		expect(isEquationEqualityOptionsInput({ allowOrderChanges: 'yes' })).toBe(false)
+		expect(isEquationEqualityOptionsInput({ preprocessSide: true })).toBe(false)
+		expect(isEquationEqualityOptionsInput({ preprocessSide: side => side, preprocessLeft: side => side })).toBe(false)
+		expect(isEquationEqualityOptionsInput({ compareSide: () => true, compareRight: () => true })).toBe(false)
+		expect(isEquationEqualityOptionsInput({ extra: true })).toBe(false)
 	})
 
 	test('preprocesses the equation and individual sides', () => {
