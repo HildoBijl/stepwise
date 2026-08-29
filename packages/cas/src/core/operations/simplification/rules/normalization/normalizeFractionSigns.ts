@@ -1,6 +1,6 @@
 import { type ExpressionNode, type Fraction, fraction, negative, sum } from '../../../../construction'
 
-import { isFraction, isMinus, isSum } from '../../../structural'
+import { isFraction, isMinus, isNumeric, isSum } from '../../../structural'
 
 import { removeDoubleNegatives, applyRemoveDoubleNegatives, combineMinusSignsInProducts, applyCombineMinusSignsInFractions } from '../numeric'
 import { defineRule } from '../ruleDefinition'
@@ -14,7 +14,7 @@ function transform(node: Fraction): ExpressionNode {
 }
 
 function pullMinusOutOfSum(node: ExpressionNode): ExpressionNode {
-	return isSum(node) && isMinus(node.terms[0]) ? negative(sum(...node.terms.map(term => applyRemoveDoubleNegatives(negative(term))))) : node
+	return isSum(node) && !isNumeric(node) && isMinus(node.terms[0]) ? negative(sum(...node.terms.map(term => applyRemoveDoubleNegatives(negative(term))))) : node
 }
 
 const requirements = [combineMinusSignsInProducts, sortSums, removeDoubleNegatives] as const
