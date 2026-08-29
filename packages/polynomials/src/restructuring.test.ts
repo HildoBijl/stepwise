@@ -1,99 +1,96 @@
 import { describe, expect, it } from 'vitest'
 
-import { comparePolynomialCoefficients } from './comparison.ts'
+import type { PolynomialVariable } from './types.ts'
 import { alignPolynomialVariables, evaluatePolynomial, substitutePolynomial, substitutePolynomialMoments } from './restructuring.ts'
 
-describe('Check restructure/substitute functions:', () => {
-	describe('alignPolynomialVariables', () => {
-		it('works correctly on equally sized lists', () => {
-			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			const newList = ['b', 'a']
-			const applied = alignPolynomialVariables(expression, newList)
-			const result = [[2, 4], [3, 5]]
-			expect(comparePolynomialCoefficients(applied.coefficients, result)).toBe(true)
-			expect(applied.variables).toEqual(newList)
-		})
+const polynomial = {
+	terms: [
+		{ coefficient: 2, exponents: [0, 0] },
+		{ coefficient: 3, exponents: [0, 1] },
+		{ coefficient: 4, exponents: [1, 0] },
+		{ coefficient: 5, exponents: [1, 1] },
+	],
+	variables: ['a', 'b'],
+}
 
-		it('works correctly on unequally sized lists', () => {
-			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			const newList = ['c', 'b', 'a']
-			const applied = alignPolynomialVariables(expression, newList)
-			const result = [[[2, 4], [3, 5]]]
-			expect(comparePolynomialCoefficients(applied.coefficients, result)).toBe(true)
-			expect(applied.variables).toEqual(newList)
-		})
-
-		it('throws an error when existing variables are dropped', () => {
-			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			const newList = ['b', 'c']
-			expect(() => alignPolynomialVariables(expression, newList)).toThrow()
-		})
-
-		it('allows dropping of non-present variables', () => {
-			const expression = { coefficients: [[2, 3]], variables: ['a', 'b'] }
-			const newList = ['b', 'c']
-			expect(() => alignPolynomialVariables(expression, newList)).not.toThrow()
-		})
-
-		it('rejects duplicate destination variables', () => {
-			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			expect(() => alignPolynomialVariables(expression, ['a', 'a'])).toThrow(RangeError)
-		})
-
-		it('adds variables to a constant polynomial', () => {
-			expect(alignPolynomialVariables({ coefficients: 5, variables: [] }, ['x'])).toEqual({ coefficients: [5], variables: ['x'] })
+describe('alignPolynomialVariables', () => {
+	it('reorders variables and adds inactive variables', () => {
+		expect(alignPolynomialVariables(polynomial, ['c', 'b', 'a'])).toEqual({
+			terms: [
+				{ coefficient: 2, exponents: [0, 0, 0] },
+				{ coefficient: 4, exponents: [0, 0, 1] },
+				{ coefficient: 3, exponents: [0, 1, 0] },
+				{ coefficient: 5, exponents: [0, 1, 1] },
+			],
+			variables: ['c', 'b', 'a'],
 		})
 	})
 
-	describe('substitutePolynomial', () => {
-		it('works correctly when substituting part of the variables', () => {
-			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			const applied1 = substitutePolynomial(expression, { a: 3 })
-			expect(applied1.variables).toEqual(['b'])
-			expect(comparePolynomialCoefficients(applied1.coefficients, [14, 18])).toBe(true)
-			const applied2 = substitutePolynomial(expression, { b: 3 })
-			expect(applied2.variables).toEqual(['a'])
-			expect(comparePolynomialCoefficients(applied2.coefficients, [11, 19])).toBe(true)
-			const applied3 = substitutePolynomial(expression, { unused: 2, b: 3 })
-			expect(applied3.variables).toEqual(['a'])
-			expect(comparePolynomialCoefficients(applied3.coefficients, [11, 19])).toBe(true)
-		})
+	it('rejects dropping an active variable', () => {
+		expect(() => alignPolynomialVariables(polynomial, ['b', 'c'])).toThrow()
+	})
 
-		it('works correctly when substituting all variables', () => {
-			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			expect(substitutePolynomial(expression, { a: 3, b: 2 })).toEqual({ coefficients: 50, variables: [] })
-			expect(substitutePolynomial(expression, { b: 2, a: 3 })).toEqual({ coefficients: 50, variables: [] })
+	it('allows dropping an inactive variable', () => {
+		const withInactiveVariable = { terms: [{ coefficient: 2, exponents: [0, 1] }], variables: ['a', 'b'] }
+		expect(alignPolynomialVariables(withInactiveVariable, ['b'])).toEqual({ terms: [{ coefficient: 2, exponents: [1] }], variables: ['b'] })
+	})
+
+	it('rejects duplicate destination variables', () => {
+		expect(() => alignPolynomialVariables(polynomial, ['a', 'a'])).toThrow(RangeError)
+	})
+
+	it('adds variables to a constant polynomial', () => {
+		expect(alignPolynomialVariables({ terms: [{ coefficient: 5, exponents: [] }], variables: [] }, ['x'])).toEqual({ terms: [{ coefficient: 5, exponents: [0] }], variables: ['x'] })
+	})
+})
+
+describe('substitutePolynomial', () => {
+	it('substitutes part of the variables and combines resulting terms', () => {
+		expect(substitutePolynomial(polynomial, { a: 3 })).toEqual({
+			terms: [{ coefficient: 14, exponents: [0] }, { coefficient: 18, exponents: [1] }],
+			variables: ['b'],
+		})
+		expect(substitutePolynomial(polynomial, { unused: 2, b: 3 })).toEqual({
+			terms: [{ coefficient: 11, exponents: [0] }, { coefficient: 19, exponents: [1] }],
+			variables: ['a'],
 		})
 	})
 
-	describe('evaluatePolynomial', () => {
-		it('returns the value when all variables are provided', () => {
-			expect(evaluatePolynomial({ coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }, { a: 3, b: 2 })).toBe(50)
-		})
+	it('produces a constant polynomial when substituting all variables', () => {
+		expect(substitutePolynomial(polynomial, { a: 3, b: 2 })).toEqual({ terms: [{ coefficient: 50, exponents: [] }], variables: [] })
+	})
+})
 
-		it('rejects missing and non-finite values', () => {
-			const polynomial = { coefficients: [2, 3], variables: ['a'] }
-			expect(() => evaluatePolynomial(polynomial, {})).toThrow()
-			expect(() => evaluatePolynomial(polynomial, { a: Number.NaN })).toThrow()
-		})
+describe('evaluatePolynomial', () => {
+	it('returns the value when all variables are provided', () => {
+		expect(evaluatePolynomial(polynomial, { a: 3, b: 2 })).toBe(50)
+		expect(evaluatePolynomial({ terms: [], variables: ['x'] }, { x: 4 })).toBe(0)
 	})
 
-	describe('moment substitution', () => {
-		const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
+	it('rejects missing and non-finite values', () => {
+		expect(() => evaluatePolynomial(polynomial, { a: 3 })).toThrow()
+		expect(() => evaluatePolynomial(polynomial, { a: Number.NaN, b: 2 })).toThrow()
+	})
+})
 
-		it('uses variablesToSubstitute order for individual moments', () => {
-			const values: Record<string, number> = { b: 2, a: 3 }
-			const getIndividualMoment = (variable: string, exponent: number) => values[variable] ** exponent
-			expect(substitutePolynomialMoments(expression, getIndividualMoment, ['b', 'a'])).toEqual({ coefficients: 50, variables: [] })
-			expect(substitutePolynomialMoments(expression, getIndividualMoment, ['b'])).toEqual({ coefficients: [8, 14], variables: ['a'] })
+describe('substitutePolynomialMoments', () => {
+	it('uses the requested variables and caches moments', () => {
+		const values: Record<PolynomialVariable, number> = { b: 2, a: 3 }
+		const calls: string[] = []
+		const getMoment = (variable: PolynomialVariable, exponent: number) => {
+			calls.push(`${variable}:${exponent}`)
+			return values[variable] ** exponent
+		}
+		expect(substitutePolynomialMoments(polynomial, getMoment, ['b'])).toEqual({
+			terms: [{ coefficient: 8, exponents: [0] }, { coefficient: 14, exponents: [1] }],
+			variables: ['a'],
 		})
+		expect(new Set(calls)).toEqual(new Set(['b:0', 'b:1']))
+		expect(calls).toHaveLength(2)
+	})
 
-		it('rejects duplicate substitution variables', () => {
-			expect(() => substitutePolynomialMoments(expression, () => 1, ['a', 'a'])).toThrow(RangeError)
-		})
-
-		it('rejects invalid moments', () => {
-			expect(() => substitutePolynomialMoments(expression, () => Number.NaN, ['a'])).toThrow()
-		})
+	it('rejects duplicate variables and invalid moments', () => {
+		expect(() => substitutePolynomialMoments(polynomial, () => 1, ['a', 'a'])).toThrow(RangeError)
+		expect(() => substitutePolynomialMoments(polynomial, () => Number.NaN, ['a'])).toThrow()
 	})
 })

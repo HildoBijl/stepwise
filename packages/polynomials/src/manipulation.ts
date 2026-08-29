@@ -1,49 +1,31 @@
-import { ensureInteger, ensureNumber, getDimensions, getMatrixElement, isArray, isNumber, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, sum, union } from '@step-wise/js-utils'
+import { ensureInteger, ensureNumber, repeat, union } from '@step-wise/js-utils'
 
-import { type Polynomial, type PolynomialCoefficients, type PolynomialVariables } from './types.ts'
+import { type Polynomial, type PolynomialTerms, type PolynomialVariables } from './types.ts'
 import { ensurePolynomial, ensurePolynomialVariables } from './checks.ts'
+import { createPolynomial } from './creation.ts'
 import { alignPolynomialVariables } from './restructuring.ts'
 
-function mapPolynomialCoefficients(polynomial: Polynomial, operation: (coefficients: PolynomialCoefficients) => PolynomialCoefficients): Polynomial {
-	return { ...polynomial, coefficients: operation(polynomial.coefficients) }
-}
-
 export function negatePolynomial(polynomial: Polynomial): Polynomial {
-	ensurePolynomial(polynomial)
 	return scalePolynomial(polynomial, -1)
-}
-
-function addConstant(coefficients: PolynomialCoefficients, addition: number): PolynomialCoefficients {
-	if (!isArray(coefficients)) return coefficients + addition
-	return [addConstant(coefficients[0], addition), ...coefficients.slice(1)]
 }
 
 export function addConstantToPolynomial(polynomial: Polynomial, addition: number): Polynomial {
 	ensurePolynomial(polynomial)
 	const ensuredAddition = ensureNumber(addition)
-	return mapPolynomialCoefficients(polynomial, coefficients => addConstant(coefficients, ensuredAddition))
-}
-
-function scaleCoefficients(coefficients: PolynomialCoefficients, factor: number): PolynomialCoefficients {
-	if (!isArray(coefficients)) return coefficients * factor
-	return coefficients.map(child => scaleCoefficients(child, factor))
+	return createPolynomial([
+		...polynomial.terms,
+		{ coefficient: ensuredAddition, exponents: polynomial.variables.map(() => 0) },
+	], polynomial.variables)
 }
 
 export function scalePolynomial(polynomial: Polynomial, factor: number): Polynomial {
 	ensurePolynomial(polynomial)
 	const ensuredFactor = ensureNumber(factor)
-	return mapPolynomialCoefficients(polynomial, coefficients => scaleCoefficients(coefficients, ensuredFactor))
+	return createPolynomial(polynomial.terms.map(term => ({ coefficient: term.coefficient * ensuredFactor, exponents: term.exponents })), polynomial.variables)
 }
 
 export function oneMinusPolynomial(polynomial: Polynomial): Polynomial {
-	ensurePolynomial(polynomial)
 	return addConstantToPolynomial(negatePolynomial(polynomial), 1)
-}
-
-function addAlignedCoefficients(allCoefficients: readonly PolynomialCoefficients[]): PolynomialCoefficients {
-	const allDimensions = allCoefficients.map(coefficients => getDimensions(coefficients, isNumber))
-	const dimensions = repeat(allDimensions[0].length, index => Math.max(...allDimensions.map(item => item[index])))
-	return repeatMultidimensional(dimensions, (...indices) => sum(allCoefficients.map(coefficients => getMatrixElement(coefficients, indices, isNumber, { allowOutOfBounds: true }) ?? 0)))
 }
 
 export function addPolynomials(polynomials: readonly Polynomial[], variables?: PolynomialVariables): Polynomial {
@@ -51,33 +33,11 @@ export function addPolynomials(polynomials: readonly Polynomial[], variables?: P
 	polynomials.forEach(ensurePolynomial)
 	variables ??= [...union(...polynomials.map(polynomial => new Set(polynomial.variables)))]
 	ensurePolynomialVariables(variables)
-	return { coefficients: addAlignedCoefficients(polynomials.map(polynomial => alignPolynomialVariables(polynomial, variables).coefficients)), variables }
+	return createPolynomial(polynomials.flatMap(polynomial => alignPolynomialVariables(polynomial, variables).terms), variables)
 }
 
 export function subtractPolynomials(minuend: Polynomial, subtrahend: Polynomial, variables?: PolynomialVariables): Polynomial {
-	ensurePolynomial(minuend)
-	ensurePolynomial(subtrahend)
 	return addPolynomials([minuend, negatePolynomial(subtrahend)], variables)
-}
-
-function multiplyTwoAlignedCoefficients(coefficients1: PolynomialCoefficients, coefficients2: PolynomialCoefficients): PolynomialCoefficients {
-	const dimensions1 = getDimensions(coefficients1, isNumber)
-	const dimensions2 = getDimensions(coefficients2, isNumber)
-	if (dimensions1.length !== dimensions2.length) throw new Error(`Cannot multiply polynomial coefficients with depths ${dimensions1.length} and ${dimensions2.length}.`)
-	const dimensions = repeat(dimensions1.length, index => dimensions1[index] + dimensions2[index] - 1)
-	return repeatMultidimensional(dimensions, (...indices) => {
-		const ranges = repeat(dimensions.length, index => ({ min: Math.max(0, indices[index] - dimensions2[index] + 1), max: Math.min(indices[index], dimensions1[index] - 1) }))
-		let total = 0
-		repeatMultidimensionalFromTo(ranges.map(range => range.min), ranges.map(range => range.max), (...indices1) => {
-			const indices2 = repeat(dimensions.length, index => indices[index] - indices1[index])
-			total += getMatrixElement(coefficients1, indices1, isNumber) * getMatrixElement(coefficients2, indices2, isNumber)
-		})
-		return total
-	})
-}
-
-function multiplyAlignedCoefficients(allCoefficients: readonly PolynomialCoefficients[]): PolynomialCoefficients {
-	return allCoefficients.slice(1).reduce((result, coefficients) => multiplyTwoAlignedCoefficients(result, coefficients), allCoefficients[0])
 }
 
 export function multiplyPolynomials(polynomials: readonly Polynomial[], variables?: PolynomialVariables): Polynomial {
@@ -85,38 +45,39 @@ export function multiplyPolynomials(polynomials: readonly Polynomial[], variable
 	polynomials.forEach(ensurePolynomial)
 	variables ??= [...union(...polynomials.map(polynomial => new Set(polynomial.variables)))]
 	ensurePolynomialVariables(variables)
-	return { coefficients: multiplyAlignedCoefficients(polynomials.map(polynomial => alignPolynomialVariables(polynomial, variables).coefficients)), variables }
-}
-
-function coefficientsToPower(coefficients: PolynomialCoefficients, exponent: number): PolynomialCoefficients {
-	const ensuredExponent = ensureInteger(exponent, { nonNegative: true })
-	if (ensuredExponent === 1) return coefficients
-	const identity = repeatMultidimensional(getDimensions(coefficients, isNumber).map(() => 1), () => 1)
-	if (ensuredExponent === 0) return identity
-
-	let result = identity
-	let factor = coefficients
-	let remainingExponent = ensuredExponent
-	while (remainingExponent > 0) {
-		if (remainingExponent % 2 === 1) result = multiplyTwoAlignedCoefficients(result, factor)
-		remainingExponent = Math.floor(remainingExponent / 2)
-		if (remainingExponent > 0) factor = multiplyTwoAlignedCoefficients(factor, factor)
-	}
-	return result
+	const alignedPolynomials = polynomials.map(polynomial => alignPolynomialVariables(polynomial, variables))
+	const identity = createPolynomial([{ coefficient: 1, exponents: variables.map(() => 0) }], variables)
+	return alignedPolynomials.reduce(multiplyAlignedPolynomials, identity)
 }
 
 export function raisePolynomialToPower(polynomial: Polynomial, exponent: number): Polynomial {
 	ensurePolynomial(polynomial)
-	return mapPolynomialCoefficients(polynomial, coefficients => coefficientsToPower(coefficients, exponent))
+	let remainingExponent = ensureInteger(exponent, { nonNegative: true, safe: true })
+	let result = createPolynomial([{ coefficient: 1, exponents: polynomial.variables.map(() => 0) }], polynomial.variables)
+	let factor = polynomial
+	while (remainingExponent > 0) {
+		if (remainingExponent % 2 === 1) result = multiplyAlignedPolynomials(result, factor)
+		remainingExponent = Math.floor(remainingExponent / 2)
+		if (remainingExponent > 0) factor = multiplyAlignedPolynomials(factor, factor)
+	}
+	return result
 }
 
 export function getPolynomialPowers(polynomial: Polynomial, maxExponent: number): Polynomial[] {
 	ensurePolynomial(polynomial)
-	const ensuredMaxExponent = ensureInteger(maxExponent, { nonNegative: true })
-	let coefficients = polynomial.coefficients
+	const ensuredMaxExponent = ensureInteger(maxExponent, { nonNegative: true, safe: true })
+	const identity = createPolynomial([{ coefficient: 1, exponents: polynomial.variables.map(() => 0) }], polynomial.variables)
+	let power = identity
 	return repeat(ensuredMaxExponent + 1, exponent => {
-		if (exponent === 0) return { coefficients: coefficientsToPower(polynomial.coefficients, 0), variables: polynomial.variables }
-		if (exponent > 1) coefficients = multiplyTwoAlignedCoefficients(polynomial.coefficients, coefficients)
-		return { coefficients, variables: polynomial.variables }
+		if (exponent > 0) power = multiplyAlignedPolynomials(power, polynomial)
+		return power
 	})
+}
+
+function multiplyAlignedPolynomials(polynomial1: Polynomial, polynomial2: Polynomial): Polynomial {
+	const terms: PolynomialTerms = polynomial1.terms.flatMap(term1 => polynomial2.terms.map(term2 => ({
+		coefficient: term1.coefficient * term2.coefficient,
+		exponents: term1.exponents.map((exponent, index) => exponent + term2.exponents[index]),
+	})))
+	return createPolynomial(terms, polynomial1.variables)
 }

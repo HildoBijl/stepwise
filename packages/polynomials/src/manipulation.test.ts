@@ -1,123 +1,102 @@
 import { describe, expect, it } from 'vitest'
 
-import { comparePolynomialCoefficients } from './comparison.ts'
-import { negatePolynomial, addConstantToPolynomial, scalePolynomial, oneMinusPolynomial, addPolynomials, subtractPolynomials, multiplyPolynomials, raisePolynomialToPower, getPolynomialPowers } from './manipulation.ts'
+import { addConstantToPolynomial, addPolynomials, getPolynomialPowers, multiplyPolynomials, negatePolynomial, oneMinusPolynomial, raisePolynomialToPower, scalePolynomial, subtractPolynomials } from './manipulation.ts'
 
-describe('Check mathematical functions:', () => {
-	describe('negatePolynomial', () => {
-		it('works correctly', () => {
-			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			const applied = negatePolynomial(expression)
-			expect(comparePolynomialCoefficients(applied.coefficients, [[-2, -3], [-4, -5]])).toBe(true)
+const polynomial = {
+	terms: [
+		{ coefficient: 2, exponents: [0, 0] },
+		{ coefficient: 3, exponents: [0, 1] },
+		{ coefficient: 4, exponents: [1, 0] },
+		{ coefficient: 5, exponents: [1, 1] },
+	],
+	variables: ['a', 'b'],
+}
+
+describe('basic manipulation', () => {
+	it('negates, scales and adds constants', () => {
+		expect(negatePolynomial(polynomial).terms.map(term => term.coefficient)).toEqual([-2, -3, -4, -5])
+		expect(scalePolynomial(polynomial, 3).terms.map(term => term.coefficient)).toEqual([6, 9, 12, 15])
+		expect(addConstantToPolynomial(polynomial, 6).terms[0]).toEqual({ coefficient: 8, exponents: [0, 0] })
+	})
+
+	it('removes terms when scaling by zero', () => {
+		expect(scalePolynomial(polynomial, 0)).toEqual({ terms: [], variables: ['a', 'b'] })
+	})
+
+	it('calculates one minus a polynomial', () => {
+		expect(oneMinusPolynomial(polynomial).terms.map(term => term.coefficient)).toEqual([-1, -3, -4, -5])
+	})
+
+	it('rejects invalid numeric arguments', () => {
+		expect(() => addConstantToPolynomial(polynomial, Number.NaN)).toThrow()
+		expect(() => scalePolynomial(polynomial, Number.POSITIVE_INFINITY)).toThrow()
+	})
+})
+
+describe('addition and subtraction', () => {
+	it('rejects an empty polynomial list', () => {
+		expect(() => addPolynomials([])).toThrow(RangeError)
+	})
+
+	it('aligns variables and combines matching terms', () => {
+		const other = { terms: [{ coefficient: 6, exponents: [0] }, { coefficient: 7, exponents: [1] }], variables: ['a'] }
+		expect(addPolynomials([polynomial, other])).toEqual({
+			terms: [
+				{ coefficient: 8, exponents: [0, 0] },
+				{ coefficient: 3, exponents: [0, 1] },
+				{ coefficient: 11, exponents: [1, 0] },
+				{ coefficient: 5, exponents: [1, 1] },
+			],
+			variables: ['a', 'b'],
 		})
 	})
 
-	describe('addConstantToPolynomial', () => {
-		it('works correctly', () => {
-			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			const applied = addConstantToPolynomial(expression, 6)
-			expect(comparePolynomialCoefficients(applied.coefficients, [[8, 3], [4, 5]])).toBe(true)
+	it('subtracts polynomials with different variable sets', () => {
+		const result = subtractPolynomials(
+			{ terms: [{ coefficient: 2, exponents: [0] }, { coefficient: 3, exponents: [1] }], variables: ['a'] },
+			{ terms: [{ coefficient: 1, exponents: [0] }, { coefficient: 4, exponents: [1] }], variables: ['b'] },
+		)
+		expect(result).toEqual({
+			terms: [{ coefficient: 1, exponents: [0, 0] }, { coefficient: -4, exponents: [0, 1] }, { coefficient: 3, exponents: [1, 0] }],
+			variables: ['a', 'b'],
 		})
+	})
+})
 
-		it('works on a polynomial without variables', () => {
-			expect(addConstantToPolynomial({ coefficients: 2, variables: [] }, 3)).toEqual({ coefficients: 5, variables: [] })
-		})
+describe('multiplication and powers', () => {
+	it('rejects an empty polynomial list', () => {
+		expect(() => multiplyPolynomials([])).toThrow(RangeError)
+	})
 
-		it('rejects an invalid addition', () => {
-			expect(() => addConstantToPolynomial({ coefficients: 2, variables: [] }, Number.NaN)).toThrow()
+	it('multiplies sparse terms and combines matching products', () => {
+		const first = { terms: [{ coefficient: 2, exponents: [0] }, { coefficient: 3, exponents: [1] }], variables: ['x'] }
+		const second = { terms: [{ coefficient: 4, exponents: [0] }, { coefficient: 5, exponents: [1] }], variables: ['x'] }
+		expect(multiplyPolynomials([first, second])).toEqual({
+			terms: [{ coefficient: 8, exponents: [0] }, { coefficient: 22, exponents: [1] }, { coefficient: 15, exponents: [2] }],
+			variables: ['x'],
 		})
 	})
 
-	describe('scalePolynomial', () => {
-		it('works correctly', () => {
-			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			const applied = scalePolynomial(expression, 3)
-			expect(comparePolynomialCoefficients(applied.coefficients, [[6, 9], [12, 15]])).toBe(true)
-		})
-
-		it('works on a polynomial without variables', () => {
-			expect(scalePolynomial({ coefficients: 2, variables: [] }, 3)).toEqual({ coefficients: 6, variables: [] })
-		})
-
-		it('rejects an invalid factor', () => {
-			expect(() => scalePolynomial({ coefficients: 2, variables: [] }, Number.POSITIVE_INFINITY)).toThrow()
+	it('returns the identity for exponent zero and expands powers', () => {
+		const expression = { terms: [{ coefficient: 1, exponents: [0] }, { coefficient: 1, exponents: [1] }], variables: ['x'] }
+		expect(raisePolynomialToPower(expression, 0)).toEqual({ terms: [{ coefficient: 1, exponents: [0] }], variables: ['x'] })
+		expect(raisePolynomialToPower(expression, 3)).toEqual({
+			terms: [{ coefficient: 1, exponents: [0] }, { coefficient: 3, exponents: [1] }, { coefficient: 3, exponents: [2] }, { coefficient: 1, exponents: [3] }],
+			variables: ['x'],
 		})
 	})
 
-	describe('oneMinusPolynomial', () => {
-		it('works correctly', () => {
-			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			const applied = oneMinusPolynomial(expression)
-			expect(comparePolynomialCoefficients(applied.coefficients, [[-1, -3], [-4, -5]])).toBe(true)
-			expect(applied.variables).toEqual(expression.variables)
-		})
+	it('returns every power through the requested maximum', () => {
+		const expression = { terms: [{ coefficient: 1, exponents: [1] }], variables: ['x'] }
+		expect(getPolynomialPowers(expression, 3)).toEqual([
+			{ terms: [{ coefficient: 1, exponents: [0] }], variables: ['x'] },
+			{ terms: [{ coefficient: 1, exponents: [1] }], variables: ['x'] },
+			{ terms: [{ coefficient: 1, exponents: [2] }], variables: ['x'] },
+			{ terms: [{ coefficient: 1, exponents: [3] }], variables: ['x'] },
+		])
 	})
 
-	describe('addPolynomials', () => {
-		it('rejects an empty expression list', () => {
-			expect(() => addPolynomials([])).toThrow(RangeError)
-		})
-
-		it('works correctly', () => {
-			const expression1 = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			const expression2 = { coefficients: [6, 7], variables: ['a'] }
-
-			const applied = addPolynomials([expression1, expression2])
-			expect(comparePolynomialCoefficients(applied.coefficients, [[8, 3], [11, 5]])).toBe(true)
-		})
-	})
-
-	describe('multiplyPolynomials', () => {
-		it('rejects an empty expression list', () => {
-			expect(() => multiplyPolynomials([])).toThrow(RangeError)
-		})
-
-		it('works correctly', () => {
-			const expression1 = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			const expression2 = { coefficients: [6, 7], variables: ['a'] }
-
-			const applied = multiplyPolynomials([expression1, expression2])
-			expect(comparePolynomialCoefficients(applied.coefficients, [[12, 18], [38, 51], [28, 35]])).toBe(true)
-		})
-	})
-
-	describe('subtractPolynomials', () => {
-		it('subtracts polynomials with different variable sets', () => {
-			const result = subtractPolynomials({ coefficients: [2, 3], variables: ['a'] }, { coefficients: [1, 4], variables: ['b'] })
-			expect(result.variables).toEqual(['a', 'b'])
-			expect(comparePolynomialCoefficients(result.coefficients, [[1, -4], [3, 0]])).toBe(true)
-		})
-	})
-
-	describe('raisePolynomialToPower', () => {
-		it('returns the multiplicative identity for exponent zero', () => {
-			expect(raisePolynomialToPower({ coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }, 0)).toEqual({ coefficients: [[1]], variables: ['a', 'b'] })
-		})
-
-		it('works for a polynomial without variables', () => {
-			expect(raisePolynomialToPower({ coefficients: 2, variables: [] }, 3)).toEqual({ coefficients: 8, variables: [] })
-		})
-
-		it('works correctly for a single variable', () => {
-			const expression = { coefficients: [6, 7], variables: ['a'] }
-			const applied = raisePolynomialToPower(expression, 3)
-			expect(comparePolynomialCoefficients(applied.coefficients, [6 ** 3, 3 * 6 ** 2 * 7, 3 * 6 * 7 ** 2, 7 ** 3])).toBe(true)
-			expect(applied.variables).toEqual(expect.arrayContaining(expression.variables))
-		})
-		
-		it.each([-1, 1.5, Number.NaN])('rejects invalid exponent %s', exponent => {
-			expect(() => raisePolynomialToPower({ coefficients: [1, 1], variables: ['x'] }, exponent)).toThrow()
-		})
-	})
-
-	describe('getPolynomialPowers', () => {
-		it('returns every power through the requested maximum', () => {
-			expect(getPolynomialPowers({ coefficients: [1, 1], variables: ['x'] }, 3)).toEqual([
-				{ coefficients: [1], variables: ['x'] },
-				{ coefficients: [1, 1], variables: ['x'] },
-				{ coefficients: [1, 2, 1], variables: ['x'] },
-				{ coefficients: [1, 3, 3, 1], variables: ['x'] },
-			])
-		})
+	it.each([-1, 1.5, Number.NaN])('rejects invalid exponent %s', exponent => {
+		expect(() => raisePolynomialToPower({ terms: [{ coefficient: 1, exponents: [1] }], variables: ['x'] }, exponent)).toThrow()
 	})
 })
