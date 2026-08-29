@@ -10,6 +10,10 @@ export type SerializedLine = {
 	value: LineStorageValue
 }
 
+export function isSerializedLine(value: unknown): value is SerializedLine {
+	return isPlainObject(value) && Object.keys(value).length === 2 && value.type === Line.type && isPlainObject(value.value) && Object.keys(value.value).length === 2 && isCoordinateList(value.value.start) && isCoordinateList(value.value.direction)
+}
+
 export function serializeLine(line: Line): SerializedLine {
 	return {
 		type: Line.type,
@@ -18,6 +22,6 @@ export function serializeLine(line: Line): SerializedLine {
 }
 
 export function deserializeLine(serializedLine: unknown): Line {
-	if (!isPlainObject(serializedLine) || Object.keys(serializedLine).length !== 2 || serializedLine.type !== Line.type || !isPlainObject(serializedLine.value) || Object.keys(serializedLine.value).length !== 2 || !isCoordinateList(serializedLine.value.start) || !isCoordinateList(serializedLine.value.direction)) throw new Error(`Invalid serialized Line.`)
+	if (!isSerializedLine(serializedLine)) throw new Error(`Invalid serialized Line.`)
 	return Line.fromStorageValue(serializedLine.value as LineStorageValue)
 }

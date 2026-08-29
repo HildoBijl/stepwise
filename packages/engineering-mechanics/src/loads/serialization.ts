@@ -16,6 +16,10 @@ export type SerializedForce = {
 	relativeMagnitude?: number
 }
 
+export function isSerializedForce(value: unknown): value is SerializedForce {
+	return isPlainObject(value) && hasOnlyKeys(value, ['type', 'position', 'angle', 'applicationPointAt', 'relativeMagnitude']) && value.type === ForceType && isCoordinateList(value.position) && typeof value.angle === 'number' && (!Object.hasOwn(value, 'applicationPointAt') || isIn(value.applicationPointAt, loadApplicationPointPositions)) && (!Object.hasOwn(value, 'relativeMagnitude') || typeof value.relativeMagnitude === 'number')
+}
+
 export function serializeForce(force: Force): SerializedForce {
 	return {
 		type: ForceType,
@@ -26,7 +30,7 @@ export function serializeForce(force: Force): SerializedForce {
 }
 
 export function deserializeForce(force: unknown): Force {
-	if (!isPlainObject(force) || !hasOnlyKeys(force, ['type', 'position', 'angle', 'applicationPointAt', 'relativeMagnitude']) || force.type !== ForceType || !isCoordinateList(force.position) || typeof force.angle !== 'number' || (Object.hasOwn(force, 'applicationPointAt') && !isIn(force.applicationPointAt, loadApplicationPointPositions)) || (Object.hasOwn(force, 'relativeMagnitude') && typeof force.relativeMagnitude !== 'number')) throw new Error(`Invalid serialized Force.`)
+	if (!isSerializedForce(force)) throw new Error(`Invalid serialized Force.`)
 	return createForce({
 		position: Vector.fromStorageValue(force.position),
 		angle: force.angle,
@@ -46,6 +50,10 @@ export type SerializedMoment = {
 	openingDirection?: number
 }
 
+export function isSerializedMoment(value: unknown): value is SerializedMoment {
+	return isPlainObject(value) && hasOnlyKeys(value, ['type', 'position', 'clockwise', 'openingDirection']) && value.type === MomentType && isCoordinateList(value.position) && typeof value.clockwise === 'boolean' && (!Object.hasOwn(value, 'openingDirection') || typeof value.openingDirection === 'number')
+}
+
 export function serializeMoment(moment: Moment): SerializedMoment {
 	return {
 		type: MomentType,
@@ -56,7 +64,7 @@ export function serializeMoment(moment: Moment): SerializedMoment {
 }
 
 export function deserializeMoment(moment: unknown): Moment {
-	if (!isPlainObject(moment) || !hasOnlyKeys(moment, ['type', 'position', 'clockwise', 'openingDirection']) || moment.type !== MomentType || !isCoordinateList(moment.position) || typeof moment.clockwise !== 'boolean' || (Object.hasOwn(moment, 'openingDirection') && typeof moment.openingDirection !== 'number')) throw new Error(`Invalid serialized Moment.`)
+	if (!isSerializedMoment(moment)) throw new Error(`Invalid serialized Moment.`)
 	return createMoment({
 		position: Vector.fromStorageValue(moment.position),
 		clockwise: moment.clockwise,
@@ -69,6 +77,10 @@ export function deserializeMoment(moment: unknown): Moment {
  */
 
 export type SerializedLoad = SerializedForce | SerializedMoment
+
+export function isSerializedLoad(value: unknown): value is SerializedLoad {
+	return isSerializedForce(value) || isSerializedMoment(value)
+}
 
 export function serializeLoad(load: Load): SerializedLoad {
 	switch (load.type) {

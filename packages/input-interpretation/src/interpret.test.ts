@@ -16,6 +16,11 @@ describe('interpretInputValue', () => {
 		expect(() => interpretInputValue(value as never)).toThrow(/type and value/)
 	})
 
+	it('rejects values that do not match their registered input type', () => {
+		expect(() => interpretInputValue({ type: 'Integer', value: 3 })).toThrow(/does not match type/)
+		expect(() => interpretInputValue({ type: 'Integer', value: '3', extra: true })).toThrow(/does not match type/)
+	})
+
 	it('rejects unknown and inherited type names', () => {
 		expect(() => interpretInputValue({ type: 'Unknown', value: 3 })).toThrow(/unknown type/)
 		expect(() => interpretInputValue({ type: 'toString', value: 3 })).toThrow(/unknown type/)

@@ -144,6 +144,7 @@ roundToDigits(1234, 2) // 1200
 
 | Function | Behavior |
 | --- | --- |
+| `isString(value)` | Recognizes primitive string values. |
 | `ensureString(value, options?)` | Requires a string; `{ nonEmpty: true }` rejects the empty string. |
 | `isLetter(value)` | Recognizes exactly one Unicode letter. |
 | `indexOfAnyCharacter(value, characters, startIndex?)` | Finds the earliest requested single Unicode character at or after the start index, or returns `-1`. |

@@ -4,7 +4,7 @@ export type { ApplicationPointPosition, Force, ForceInput, Load, LoadInput, Load
 export { isForce, isLoad, isMoment } from './checks.ts'
 export { createForce, createLoad, createMoment } from './creation.ts'
 export type { SerializedForce, SerializedLoad, SerializedMoment } from './serialization.ts'
-export { deserializeForce, deserializeLoad, deserializeMoment, serializeForce, serializeLoad, serializeMoment } from './serialization.ts'
+export { deserializeForce, deserializeLoad, deserializeMoment, isSerializedForce, isSerializedLoad, isSerializedMoment, serializeForce, serializeLoad, serializeMoment } from './serialization.ts'
 
 export { isLoadAtPoint } from './relationships.ts'
 export { decomposeForceIntoAxisComponents, reverseForce, reverseLoad, reverseMoment } from './manipulation.ts'

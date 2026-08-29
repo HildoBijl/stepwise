@@ -1,7 +1,7 @@
 import { ensureInteger, hasDuplicates, isInteger, InterpretationError } from '@step-wise/js-utils'
 
 import type { InputValue, InputValueAdapter } from '../types.ts'
-import { createInputValue } from '../support.ts'
+import { createInputValue, isInputValueOfType } from '../support.ts'
 
 export const MultipleChoiceType = 'MultipleChoice'
 export type MultipleChoiceType = typeof MultipleChoiceType
@@ -20,6 +20,10 @@ function multipleChoiceToInputValue(value: MultipleChoiceSelection): MultipleCho
 	return createInputValue(MultipleChoiceType, validateOptions(value))
 }
 
+function isMultipleChoiceSelection(value: unknown): value is MultipleChoiceSelection {
+	return typeof value === 'number' || Array.isArray(value) && value.every(item => typeof item === 'number')
+}
+
 function validateOptions(values: unknown[]): number[] {
 	const options = values.map(validateOption)
 	if (hasDuplicates(options)) throw new InterpretationError(`Invalid multiple choice selection: duplicate options are not allowed.`, 'DuplicateOptions')
@@ -32,6 +36,8 @@ function validateOption(value: unknown): number {
 }
 
 export const multipleChoiceInputValueAdapter = {
+	isInputValue: (value: unknown): value is MultipleChoiceInputValue => isInputValueOfType(value, MultipleChoiceType, isMultipleChoiceSelection),
+	isDomainValue: isMultipleChoiceSelection,
 	interpret: interpretMultipleChoice,
 	toInputValue: multipleChoiceToInputValue,
 } satisfies InputValueAdapter<MultipleChoiceInputValue, MultipleChoiceSelection>

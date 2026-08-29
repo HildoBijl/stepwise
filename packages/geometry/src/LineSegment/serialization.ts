@@ -10,6 +10,10 @@ export type SerializedLineSegment = {
 	value: LineSegmentStorageValue
 }
 
+export function isSerializedLineSegment(value: unknown): value is SerializedLineSegment {
+	return isPlainObject(value) && Object.keys(value).length === 2 && value.type === LineSegment.type && isPlainObject(value.value) && Object.keys(value.value).length === 2 && isCoordinateList(value.value.start) && isCoordinateList(value.value.end)
+}
+
 export function serializeLineSegment(lineSegment: LineSegment): SerializedLineSegment {
 	return {
 		type: LineSegment.type,
@@ -18,6 +22,6 @@ export function serializeLineSegment(lineSegment: LineSegment): SerializedLineSe
 }
 
 export function deserializeLineSegment(serializedLineSegment: unknown): LineSegment {
-	if (!isPlainObject(serializedLineSegment) || Object.keys(serializedLineSegment).length !== 2 || serializedLineSegment.type !== LineSegment.type || !isPlainObject(serializedLineSegment.value) || Object.keys(serializedLineSegment.value).length !== 2 || !isCoordinateList(serializedLineSegment.value.start) || !isCoordinateList(serializedLineSegment.value.end)) throw new Error(`Invalid serialized LineSegment.`)
+	if (!isSerializedLineSegment(serializedLineSegment)) throw new Error(`Invalid serialized LineSegment.`)
 	return LineSegment.fromStorageValue(serializedLineSegment.value as LineSegmentStorageValue)
 }

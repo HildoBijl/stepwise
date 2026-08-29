@@ -1,7 +1,7 @@
-import { isNumericInteger, ensureInteger, ensureNumericInteger, InterpretationError } from '@step-wise/js-utils'
+import { isNumericInteger, ensureInteger, ensureNumericInteger, isString, InterpretationError } from '@step-wise/js-utils'
 
 import type { InputValue, InputValueAdapter } from '../types.ts'
-import { createInputValue } from '../support.ts'
+import { createInputValue, isInputValueOfType } from '../support.ts'
 
 export const IntegerType = 'Integer'
 export type IntegerType = typeof IntegerType
@@ -21,6 +21,8 @@ function integerToInputValue(integer: number): IntegerInputValue {
 }
 
 export const integerInputValueAdapter = {
+	isInputValue: (value: unknown): value is IntegerInputValue => isInputValueOfType(value, IntegerType, isString),
+	isDomainValue: (value: unknown): value is number => typeof value === 'number' && Number.isSafeInteger(value),
 	interpret: interpretInteger,
 	toInputValue: integerToInputValue,
 } satisfies InputValueAdapter<IntegerInputValue, number>

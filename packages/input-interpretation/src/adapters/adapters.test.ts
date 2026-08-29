@@ -77,6 +77,10 @@ describe('domain adapters', () => {
 })
 
 function expectAdapterRoundTrip<TInputValue extends InputValue, TDomainValue>(adapter: InputValueAdapter<TInputValue, TDomainValue>, domainValue: TDomainValue): void {
+	expect(adapter.isDomainValue(domainValue)).toBe(true)
+	expect(adapter.isDomainValue({})).toBe(false)
 	const inputValue = adapter.toInputValue(domainValue)
+	expect(adapter.isInputValue(inputValue)).toBe(true)
+	expect(adapter.isInputValue({})).toBe(false)
 	expect(adapter.interpret(inputValue)).toEqual(domainValue)
 }

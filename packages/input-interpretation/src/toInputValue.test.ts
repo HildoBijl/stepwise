@@ -23,6 +23,11 @@ describe('toInputValue', () => {
 		})
 	})
 
+	it('rejects domain values that do not match the requested type', () => {
+		expect(() => toInputValue('42', IntegerType)).toThrow(/does not match type/)
+		expect(() => toInputValue(42, QuantityType)).toThrow(/does not match type/)
+	})
+
 	it('rejects missing, unknown, and inherited type names', () => {
 		expect(() => toInputValue(3, undefined as never)).toThrow(/string type/)
 		expect(() => toInputValue(3, 'Unknown')).toThrow(/unknown type/)

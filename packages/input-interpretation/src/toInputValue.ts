@@ -1,9 +1,12 @@
 import type { InputValue } from './types.ts'
 import { inputValueAdapters } from './adapters/registry.ts'
 
-export function toInputValue<Input extends InputValue = InputValue, DomainValue = unknown>(value: DomainValue, type: string): Input {
+export function toInputValue<Input extends InputValue = InputValue>(value: unknown, type: string): Input {
 	if (typeof type !== 'string') throw new TypeError(`Invalid toInputValue call: expected a string type.`)
 	const adapter = Object.hasOwn(inputValueAdapters, type) ? inputValueAdapters[type as keyof typeof inputValueAdapters] : undefined
 	if (adapter === undefined) throw new Error(`Invalid toInputValue call: unknown type "${type}".`)
-	return adapter.toInputValue(value as never) as Input
+	if (!adapter.isDomainValue(value)) throw new Error(`Invalid toInputValue call: value does not match type "${type}".`)
+	const inputValue = adapter.toInputValue(value as never)
+	if (!adapter.isInputValue(inputValue)) throw new Error(`Invalid input value adapter for type "${type}": returned an invalid input value.`)
+	return inputValue as Input
 }

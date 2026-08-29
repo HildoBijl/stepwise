@@ -2,7 +2,7 @@ import { type EquationInputValue, parseEquationInputValue } from '@step-wise/mat
 
 import { type Equation, asEquation } from './Equation.ts'
 
-export { type EquationInputValue } from '@step-wise/math-input-value'
+export { type EquationInputValue, isEquationInputValue } from '@step-wise/math-input-value'
 
 export function inputValueToEquation(inputValue: EquationInputValue): Equation {
 	return asEquation(inputValue)

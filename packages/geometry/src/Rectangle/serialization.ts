@@ -10,6 +10,10 @@ export type SerializedRectangle = {
 	value: RectangleStorageValue
 }
 
+export function isSerializedRectangle(value: unknown): value is SerializedRectangle {
+	return isPlainObject(value) && Object.keys(value).length === 2 && value.type === Rectangle.type && isPlainObject(value.value) && Object.keys(value.value).length === 2 && isCoordinateList(value.value.min) && isCoordinateList(value.value.max)
+}
+
 export function serializeRectangle(rectangle: Rectangle): SerializedRectangle {
 	return {
 		type: Rectangle.type,
@@ -18,6 +22,6 @@ export function serializeRectangle(rectangle: Rectangle): SerializedRectangle {
 }
 
 export function deserializeRectangle(serializedRectangle: unknown): Rectangle {
-	if (!isPlainObject(serializedRectangle) || Object.keys(serializedRectangle).length !== 2 || serializedRectangle.type !== Rectangle.type || !isPlainObject(serializedRectangle.value) || Object.keys(serializedRectangle.value).length !== 2 || !isCoordinateList(serializedRectangle.value.min) || !isCoordinateList(serializedRectangle.value.max)) throw new Error(`Invalid serialized Rectangle.`)
+	if (!isSerializedRectangle(serializedRectangle)) throw new Error(`Invalid serialized Rectangle.`)
 	return Rectangle.fromStorageValue(serializedRectangle.value as RectangleStorageValue)
 }

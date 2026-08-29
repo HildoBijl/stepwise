@@ -1,8 +1,15 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensureString, isLetter } from './checks.ts'
+import { ensureString, isLetter, isString } from './checks.ts'
 
 describe('string checks', () => {
+	it('recognizes strings', () => {
+		expect(isString('')).toBe(true)
+		expect(isString('text')).toBe(true)
+		expect(isString(1)).toBe(false)
+		expect(isString(new String('text'))).toBe(false)
+	})
+
 	it('ensures strings and optional non-emptiness', () => {
 		expect(ensureString('')).toBe('')
 		expect(ensureString('text', { nonEmpty: true })).toBe('text')

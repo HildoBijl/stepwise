@@ -3,12 +3,15 @@ import { isPlainObject, mapValues } from '@step-wise/js-utils'
 import type { InputValue } from './types.ts'
 import { inputValueAdapters } from './adapters/registry.ts'
 
-export function interpretInputValue<DomainValue = unknown, Input extends InputValue = InputValue>(inputValue: Input): DomainValue {
+export function interpretInputValue<DomainValue = unknown>(inputValue: unknown): DomainValue {
 	if (!isPlainObject(inputValue) || typeof inputValue.type !== 'string' || !Object.hasOwn(inputValue, 'value')) throw new Error(`Invalid input value: expected an object with a type and value.`)
 	ensureValidStructure(inputValue, new WeakSet())
 	const adapter = Object.hasOwn(inputValueAdapters, inputValue.type) ? inputValueAdapters[inputValue.type as keyof typeof inputValueAdapters] : undefined
 	if (adapter === undefined) throw new Error(`Invalid input value: unknown type "${inputValue.type}".`)
-	return adapter.interpret(inputValue as never) as DomainValue
+	if (!adapter.isInputValue(inputValue)) throw new Error(`Invalid input value: value does not match type "${inputValue.type}".`)
+	const domainValue = adapter.interpret(inputValue as never)
+	if (!adapter.isDomainValue(domainValue)) throw new Error(`Invalid input value adapter for type "${inputValue.type}": returned an invalid domain value.`)
+	return domainValue as DomainValue
 }
 
 export function interpretInputData(value: unknown): unknown {
