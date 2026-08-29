@@ -24,4 +24,10 @@ describe('expressionComparisons', () => {
 		expect(expressionComparisons.areIntegerMultiples('6*x', '2*x')).toBe(true)
 		expect(expressionComparisons.areConstantMultiples('3*x', '2*x')).toBe(true)
 	})
+
+	test('compares unequal numeric trigonometric fractions without entering a simplification cycle', () => {
+		const cosineFraction = asExpression('2/cos(10)')
+		const sineFraction = asExpression('2/sin(10)')
+		expect(expressionComparisons.areEquivalent(cosineFraction, sineFraction)).toBe(false)
+	})
 })
