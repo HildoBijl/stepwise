@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "paths": {
-      "@step-wise/*": ["./packages/*/src"]
+      "@step-wise/*": ["./packages/*/src/index.ts"]
     },
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
