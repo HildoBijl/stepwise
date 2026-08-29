@@ -1,10 +1,13 @@
 import { asExpression } from './Expression.ts'
-import { deserializeExpression, serializeExpression } from './serialization.ts'
+import { deserializeExpression, isExpressionStorageValue, isSerializedExpression, serializeExpression } from './serialization.ts'
 
 describe('expression serialization', () => {
 	test('round-trips storage and wrapper settings', () => {
 		const expression = asExpression('sin(x)+1', undefined, { angleUnit: 'degrees' })
-		const restored = deserializeExpression(serializeExpression(expression))
+		const serialized = serializeExpression(expression)
+		expect(isExpressionStorageValue(serialized.value)).toBe(true)
+		expect(isSerializedExpression(serialized)).toBe(true)
+		const restored = deserializeExpression(serialized)
 		expect(restored.strictEqualStructure(expression)).toBe(true)
 		expect(restored.settings).toEqual(expression.settings)
 	})
@@ -14,8 +17,14 @@ describe('expression serialization', () => {
 		expect(serializeExpression(asExpression('sin(x)', undefined, { angleUnit: 'degrees' })).settings).toEqual({ angleUnit: 'degrees' })
 	})
 
-	test('rejects an incorrect outer type tag', () => {
-		const serialized = serializeExpression(asExpression('x'))
-		expect(() => deserializeExpression({ ...serialized, type: 'Equation' } as never)).toThrow('expected type "Expression"')
+	test.each([
+		{ type: 'Equation', value: { subtype: 'Variable', symbol: 'x' } },
+		{ type: 'Expression' },
+		{ type: 'Expression', value: { subtype: 'Variable', symbol: '' } },
+		{ type: 'Expression', value: { subtype: 'Variable', symbol: 'x' }, settings: { angleUnit: 'gradians' } },
+		{ type: 'Expression', value: { subtype: 'Variable', symbol: 'x' }, extra: true },
+	])('rejects an invalid serialized Expression', serialized => {
+		expect(isSerializedExpression(serialized)).toBe(false)
+		expect(() => deserializeExpression(serialized)).toThrow('Invalid serialized Expression')
 	})
 })
