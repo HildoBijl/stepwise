@@ -22,6 +22,7 @@ export const serializationAdapters = {
 	[QuantityType]: quantityAdapter,
 } satisfies SerializationAdapters
 
-export function getSerializationAdapter(type: string): AnySerializationAdapter | undefined {
+export function getSerializationAdapter(type: string, customSerializationAdapters?: SerializationAdapters): AnySerializationAdapter | undefined {
+	if (customSerializationAdapters !== undefined && Object.hasOwn(customSerializationAdapters, type)) return customSerializationAdapters[type]
 	return Object.hasOwn(serializationAdapters, type) ? serializationAdapters[type as keyof typeof serializationAdapters] : undefined
 }

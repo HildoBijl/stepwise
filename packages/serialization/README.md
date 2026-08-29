@@ -88,6 +88,53 @@ Values that cannot safely make a predictable JSON round trip are rejected. This 
 Repeated references are allowed when they are not circular. Serialization reproduces their data but does not preserve shared object identity.
 
 
+## Custom serialization adapters
+
+Pass a `SerializationAdapters` registry as the second argument to serialize or deserialize application-specific domain values. The same registry is used throughout nested arrays and objects:
+
+```ts
+import { hasOnlyKeys, isPlainObject, isString } from '@step-wise/js-utils'
+import { type SerializationAdapter, type SerializationAdapters, deserializeData, serializeData } from '@step-wise/serialization'
+
+const LabelType = 'Label'
+
+class Label {
+	readonly type = LabelType
+	constructor(readonly text: string) {}
+}
+
+type SerializedLabel = {
+	type: typeof LabelType
+	value: string
+}
+
+const labelAdapter = {
+	isDomainValue: (value: unknown): value is Label => value instanceof Label,
+	isSerializedValue: (value: unknown): value is SerializedLabel =>
+		isPlainObject(value) &&
+		hasOnlyKeys(value, ['type', 'value']) &&
+		value.type === LabelType &&
+		isString(value.value),
+	serialize: label => ({ type: LabelType, value: label.text }),
+	deserialize: value => new Label(value.value),
+} satisfies SerializationAdapter<Label, SerializedLabel>
+
+const serializationAdapters = {
+	[LabelType]: labelAdapter,
+} satisfies SerializationAdapters
+
+const serialized = serializeData(
+	{ labels: [new Label('Important')] },
+	serializationAdapters,
+)
+const restored = deserializeData(serialized, serializationAdapters)
+```
+
+The lower-level `serializeDomainObject` and `deserializeDomainObject` functions accept the registry in the same position. During the ValueTypes transition, an own custom adapter entry takes precedence over a built-in adapter with the same type. Inherited registry entries are ignored.
+
+Adapters are checked in both directions. Serialization throws if `serialize` returns a value rejected by `isSerializedValue`; deserialization throws if `deserialize` returns a value rejected by `isDomainValue`.
+
+
 ## Registered domain objects
 
 The package currently recognizes domain objects from:
@@ -121,5 +168,6 @@ The package exports the following types:
 - `SerializableDomainObject` describes a domain object with a string `type` discriminator.
 - `SerializedDomainObject<Type, SerializedValue>` describes its plain `{ type, value }` storage representation.
 - `SerializationAdapter<TDomainValue, TSerialized>` describes the domain and serialized-value guards together with both conversion functions for one domain type.
+- `SerializationAdapters` is a registry of adapters keyed by their domain type discriminator.
 
 Because arbitrary nested serialized data cannot statically describe the precise domain types that `deserializeData` will restore, its return type is `unknown`. Consumers should narrow the result at an untrusted boundary or assert the expected type when loading data produced by their own application.

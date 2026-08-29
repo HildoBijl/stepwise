@@ -1,10 +1,11 @@
 import { isPlainObject, mapValues } from '@step-wise/js-utils'
 
+import type { SerializationAdapters } from './types.ts'
 import { getSerializationAdapter } from './adapters/index.ts'
 
-export function deserializeDomainObject<TDomainValue = unknown>(serializedValue: unknown): TDomainValue {
+export function deserializeDomainObject<TDomainValue = unknown>(serializedValue: unknown, serializationAdapters?: SerializationAdapters): TDomainValue {
 	if (!isPlainObject(serializedValue) || typeof serializedValue.type !== 'string' || !Object.hasOwn(serializedValue, 'value')) throw new TypeError(`Invalid serialized domain object: expected an object with a type and value.`)
-	const adapter = getSerializationAdapter(serializedValue.type)
+	const adapter = getSerializationAdapter(serializedValue.type, serializationAdapters)
 	if (adapter === undefined) throw new TypeError(`Invalid serialized domain object: unknown type "${serializedValue.type}".`)
 	if (!adapter.isSerializedValue(serializedValue)) throw new TypeError(`Invalid serialized domain object: value does not match type "${serializedValue.type}".`)
 	const domainValue = adapter.deserialize(serializedValue as never)
@@ -12,11 +13,11 @@ export function deserializeDomainObject<TDomainValue = unknown>(serializedValue:
 	return domainValue as TDomainValue
 }
 
-export function deserializeData(value: unknown): unknown {
-	return deserializeValue(value, new WeakSet())
+export function deserializeData(value: unknown, serializationAdapters?: SerializationAdapters): unknown {
+	return deserializeValue(value, new WeakSet(), serializationAdapters)
 }
 
-function deserializeValue(value: unknown, ancestors: WeakSet<object>): unknown {
+function deserializeValue(value: unknown, ancestors: WeakSet<object>, serializationAdapters?: SerializationAdapters): unknown {
 	// Handle fundamental types.
 	if (value === null || typeof value === 'string' || typeof value === 'boolean') return value
 	if (typeof value === 'number') {
@@ -37,13 +38,13 @@ function deserializeValue(value: unknown, ancestors: WeakSet<object>): unknown {
 			}
 
 			// Handle serialized objects.
-			if (isPlainObject(value) && typeof value.type === 'string' && getSerializationAdapter(value.type) !== undefined) {
-				Object.values(value).forEach(item => ensureNoCircularReferences(item, ancestors)) // Check internally for circular references.
-				return deserializeDomainObject(value)
+			if (isPlainObject(value) && typeof value.type === 'string' && getSerializationAdapter(value.type, serializationAdapters) !== undefined) {
+				Object.values(value).forEach(item => ensureNoCircularReferences(item, ancestors))
+				return deserializeDomainObject(value, serializationAdapters)
 			}
 
 			// Traverse into the array/object.
-			return Array.isArray(value) ? value.map(item => deserializeValue(item, ancestors)) : mapValues(value, item => deserializeValue(item, ancestors))
+			return Array.isArray(value) ? value.map(item => deserializeValue(item, ancestors, serializationAdapters)) : mapValues(value, item => deserializeValue(item, ancestors, serializationAdapters))
 		} finally {
 			ancestors.delete(value)
 		}

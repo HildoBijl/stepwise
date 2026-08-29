@@ -1,15 +1,15 @@
 import { isObject, isPlainObject, mapValues } from '@step-wise/js-utils'
 
-import type { SerializedDomainObject } from './types.ts'
+import type { SerializationAdapters, SerializedDomainObject } from './types.ts'
 import { getSerializationAdapter } from './adapters/index.ts'
 
 export type SerializedData = null | string | number | boolean | SerializedDomainObject | SerializedData[] | { [key: string]: SerializedData }
 
-export function serializeDomainObject<TSerialized extends SerializedDomainObject = SerializedDomainObject>(domainValue: unknown): TSerialized {
+export function serializeDomainObject<TSerialized extends SerializedDomainObject = SerializedDomainObject>(domainValue: unknown, serializationAdapters?: SerializationAdapters): TSerialized {
 	if (!isObject(domainValue) || isPlainObject(domainValue)) throw new TypeError(`Invalid serializeDomainObject call: expected a non-plain object with a type.`)
 	const type = Reflect.get(domainValue, 'type')
 	if (typeof type !== 'string') throw new TypeError(`Invalid serializeDomainObject call: expected an object with a string type.`)
-	const adapter = getSerializationAdapter(type)
+	const adapter = getSerializationAdapter(type, serializationAdapters)
 	if (adapter === undefined) throw new TypeError(`Invalid serializeDomainObject call: unknown type "${type}".`)
 	if (!adapter.isDomainValue(domainValue)) throw new TypeError(`Invalid serializeDomainObject call: value does not match type "${type}".`)
 	const serializedValue = adapter.serialize(domainValue as never)
@@ -17,11 +17,11 @@ export function serializeDomainObject<TSerialized extends SerializedDomainObject
 	return serializedValue as TSerialized
 }
 
-export function serializeData(value: unknown): SerializedData {
-	return serializeValue(value, new WeakSet())
+export function serializeData(value: unknown, serializationAdapters?: SerializationAdapters): SerializedData {
+	return serializeValue(value, new WeakSet(), serializationAdapters)
 }
 
-function serializeValue(value: unknown, ancestors: WeakSet<object>): SerializedData {
+function serializeValue(value: unknown, ancestors: WeakSet<object>, serializationAdapters?: SerializationAdapters): SerializedData {
 	// Handle fundamental types.
 	if (value === null || typeof value === 'string' || typeof value === 'boolean') return value
 	if (typeof value === 'number') {
@@ -38,16 +38,16 @@ function serializeValue(value: unknown, ancestors: WeakSet<object>): SerializedD
 				for (let index = 0; index < value.length; index++) {
 					if (!Object.hasOwn(value, index)) throw new TypeError(`Invalid serializeData call: cannot serialize sparse arrays.`)
 				}
-				return value.map(item => serializeValue(item, ancestors))
+				return value.map(item => serializeValue(item, ancestors, serializationAdapters))
 			}
-			return mapValues(value, item => serializeValue(item, ancestors))
+			return mapValues(value, item => serializeValue(item, ancestors, serializationAdapters))
 		} finally {
 			ancestors.delete(value)
 		}
 	}
 
 	// Handle domain values.
-	if (isObject(value)) return serializeDomainObject(value)
+	if (isObject(value)) return serializeDomainObject(value, serializationAdapters)
 
 	// Should never happen.
 	throw new TypeError(`Invalid serializeData call: cannot serialize value of type "${typeof value}".`)
