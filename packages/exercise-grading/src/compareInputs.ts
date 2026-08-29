@@ -1,29 +1,12 @@
 import type { CheckInputData } from '@step-wise/input-exercises'
 
 import type { InputKey } from './types.ts'
-import { compareInputValue } from './compareInputValue.ts'
-import { resolveInputComparison } from './inputComparisons.ts'
+import { compareInputEntry } from './compareInputEntry.ts'
 
 export function compareInputs<TData extends CheckInputData>(key: InputKey<TData>, data: TData): boolean
 export function compareInputs<TData extends CheckInputData>(keys: InputKey<TData>[], data: TData): boolean
 export function compareInputs<TData extends CheckInputData>(keys: InputKey<TData> | InputKey<TData>[], data: TData): boolean {
-	const { rawInput, input, solution } = data
-
-	// Check the input.
-	if (solution === undefined) throw new Error(`Invalid compareInputs call: cannot compare values for an exercise that has no solution defined.`)
 	const keyList = Array.isArray(keys) ? keys : [keys]
 	if (keyList.length === 0) throw new RangeError(`Invalid compareInputs call: expected at least one key.`)
-	keyList.forEach(key => {
-		if (!(key in rawInput) || !(key in input)) throw new Error(`Invalid compareInputs call: did not find an input for key "${key}".`)
-		if (!(key in solution)) throw new Error(`Invalid compareInputs call: the solution did not contain a parameter with key "${key}".`)
-	})
-
-	// Check for equality.
-	return keyList.every(key => {
-		const type = rawInput[key].type
-		const inputValue = input[key]
-		const expectedValue = solution[key]
-		const inputComparison = resolveInputComparison(key, type, data)
-		return compareInputValue(inputValue, expectedValue, { key, type, comparison: inputComparison, data })
-	})
+	return keyList.map(key => compareInputEntry(key, key, data)).every(result => result)
 }

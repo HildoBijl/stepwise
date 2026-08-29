@@ -53,7 +53,7 @@ const exercise = buildMonoExercise({
 })
 ```
 
-A setting for a specific key takes precedence over a setting for its input type. When neither is present, the comparison for that type receives an empty options object and applies its defaults.
+A setting for a specific key takes precedence over a setting for its input type. When neither is present, the comparison for that type receives `undefined` and applies its defaults.
 
 The available options depend on the value type. For example, integers use the number-equality options from `@step-wise/js-utils`, while physical quantities use the equality options from `@step-wise/physics-core`.
 
@@ -97,23 +97,7 @@ checkInput: data => compareInputList(['root1', 'root2'], data)
 
 For example, inputs `{ root1: 3, root2: 2 }` match a solution `{ root1: 2, root2: 3 }`. Matching is one-to-one, so entering the same correct value twice cannot satisfy two different solution entries.
 
-`compareInputListEntry(inputKey, solutionKey, data)` performs one candidate comparison within such a list. It is useful when a consumer needs to construct its own matching or field-level feedback.
-
-
-## Direct value comparison
-
-Most exercise authors should use `compareInputs`. The lower-level `compareInputValue` function is available when the interpreted and expected values have already been selected:
-
-```ts
-const correct = compareInputValue(inputValue, expectedValue, {
-	key: 'answer',
-	type: 'Integer',
-	comparison: { absoluteTolerance: 1 },
-	data,
-})
-```
-
-The `key` is used for diagnostics, `type` selects the registered value comparison, and `data` supplies the surrounding exercise context. An unknown type throws an error.
+`compareInputEntry(inputKey, solutionKey, data)` performs one field-level comparison. Passing the same key twice compares an input with its corresponding solution field; passing different keys compares an input against another solution field, as used by list matching and field-level feedback.
 
 
 ## Supported value types
@@ -139,4 +123,4 @@ The main public types are:
 - `InputComparisonSetting` is either an `InputComparisonOptions` object or an `InputComparisonFunction`.
 - `TypeCompareOptions` and `TypeCompareFunction` are compatibility types for the temporary built-in registry. New domain integrations use `ValueEqualityAdapter` from `@step-wise/value-equality`.
 
-The generic key parameters of `compareInputs`, `compareInputList`, and `compareInputListEntry` stay aligned with the supplied `CheckInputData` type. Runtime validation remains responsible for detecting fields that are absent from a particular input or solution.
+The generic key parameters of `compareInputs`, `compareInputList`, and `compareInputEntry` stay aligned with the supplied `CheckInputData` type. Runtime validation remains responsible for detecting fields that are absent from a particular input or solution.

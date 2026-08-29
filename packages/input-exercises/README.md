@@ -103,11 +103,7 @@ const exercise = buildMonoExercise({
 	metadata: { skill: 'algebra' },
 	valueTypes: mathematicsValueTypes,
 	generateParameters: () => ({ expression: createExpression() }),
-	checkInput: data => compareInputValue(
-		data.input.answer,
-		data.solution?.answer,
-		{ key: 'answer', type: 'Expression', data },
-	),
+	checkInput: data => compareInputs('answer', data),
 })
 ```
 

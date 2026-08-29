@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import type { ValueEqualityAdapter } from './types.ts'
+import type { AnyValueEqualityAdapter, ValueEqualityAdapter } from './types.ts'
 import { areValuesEqual } from './areValuesEqual.ts'
 
 type ToleranceOptions = { tolerance?: number }
@@ -26,6 +26,12 @@ describe('areValuesEqual', () => {
 
 		expect(areValuesEqual(equality, 11, 10, { tolerance: 1 })).toBe(true)
 		expect(equality.areEqual).toHaveBeenCalledWith(11, 10, { tolerance: 1 })
+	})
+
+	it('accepts registry-erased adapters and validates their options at runtime', () => {
+		const equality: AnyValueEqualityAdapter = numberEquality
+		expect(areValuesEqual(equality, 11, 10, { tolerance: 1 })).toBe(true)
+		expect(() => areValuesEqual(equality, 11, 10, { tolerance: 'one' })).toThrow(/equality options/)
 	})
 
 	it('passes omitted equality options through without running the options guard', () => {

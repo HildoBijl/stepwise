@@ -27,6 +27,7 @@ describe('compareInputs', () => {
 	it('validates comparison metadata and custom comparison results', () => {
 		const rawInput = { x: { type: IntegerType, value: '1' } } as const
 		expect(() => compareInputs('x', { ...makeCheckInputData(rawInput, { x: 1 }), metadata: { comparisons: [] } } as never)).toThrow(TypeError)
+		expect(() => compareInputs('x', { ...makeCheckInputData(rawInput, { x: 1 }), metadata: { comparisons: { x: {}, unused: 1 } } } as never)).toThrow(TypeError)
 		expect(() => compareInputs('x', makeCheckInputData(rawInput, { x: 1 }, { x: (() => 'yes') as never }))).toThrow(TypeError)
 	})
 

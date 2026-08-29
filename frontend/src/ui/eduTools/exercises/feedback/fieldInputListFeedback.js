@@ -1,4 +1,4 @@
-import { compareInputListEntry } from '@step-wise/exercise-grading'
+import { compareInputEntry } from '@step-wise/exercise-grading'
 
 import { selectRandomCorrect, selectRandomIncorrect, selectRandomDuplicate } from 'ui/inputs'
 
@@ -10,7 +10,7 @@ export function getFieldInputListFeedback(exerciseData, parameterOptions, genera
 	parameterOptions = processParameterOptions(parameterOptions)
 
 	// Define the way in which the answers are compared.
-	const doValuesMatch = (inputParameter, solutionParameter) => compareInputListEntry(inputParameter, solutionParameter, exerciseData)
+	const doValuesMatch = (inputParameter, solutionParameter) => compareInputEntry(inputParameter, solutionParameter, exerciseData)
 
 	// Walk through the parameters and try to find each one a matching partner. Incorporate feedback based on what is found.
 	const feedback = {}

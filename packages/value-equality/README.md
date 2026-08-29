@@ -63,7 +63,7 @@ const stringEquality: ValueEqualityAdapter<string> = {
 }
 ```
 
-For such adapters, supplying equality options is both a TypeScript error and a runtime error. When an options type is specified, `isOptions` is required.
+For such adapters, supplying equality options is a runtime error. The public operation accepts unknown boundary data and validates it through the adapter. When an options type is specified, `isOptions` is required.
 
 
 ## Package scope

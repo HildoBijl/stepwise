@@ -4,16 +4,22 @@ import type { CheckInputData } from '@step-wise/input-exercises'
 
 import type { InputComparisonSetting, InputKey } from './types.ts'
 
+export function isInputComparisonSetting(value: unknown): value is InputComparisonSetting {
+	return typeof value === 'function' || isPlainObject(value)
+}
+
+function isInputComparisons(value: unknown): value is Record<string, InputComparisonSetting> {
+	return isPlainObject(value) && Object.values(value).every(isInputComparisonSetting)
+}
+
 function getInputComparisons(data: CheckInputData): Record<string, InputComparisonSetting> | undefined {
 	const comparisons = data.metadata.comparisons
 	if (comparisons === undefined) return undefined
-	if (!isPlainObject(comparisons)) throw new TypeError(`Invalid comparison settings: expected a plain object.`)
-	return comparisons as Record<string, InputComparisonSetting>
+	if (!isInputComparisons(comparisons)) throw new TypeError(`Invalid comparison settings: expected a plain object containing only functions or plain objects.`)
+	return comparisons
 }
 
 export function resolveInputComparison<TData extends CheckInputData>(key: InputKey<TData>, type: InputValue['type'], data: TData): InputComparisonSetting | undefined {
 	const comparisons = getInputComparisons(data)
-	const comparison = comparisons?.[key] ?? comparisons?.[type]
-	if (comparison !== undefined && typeof comparison !== 'function' && !isPlainObject(comparison)) throw new TypeError(`Invalid comparison setting for key "${key}": expected a function or plain object.`)
-	return comparison
+	return comparisons?.[key] ?? comparisons?.[type]
 }
