@@ -1,4 +1,4 @@
-import { type PolynomialCoefficients } from '@step-wise/polynomials'
+import { type Polynomial, createPolynomial } from '@step-wise/polynomials'
 
 import { type GenericSerializedSkillSetup, SkillSetup } from '../abstracts/index.ts'
 
@@ -36,8 +36,8 @@ export class Skill extends SkillSetup<SkillStorageValue> {
 		return new Set([this.skill])
 	}
 
-	override getPolynomialCoefficients(): PolynomialCoefficients {
-		return [0, 1] // x
+	override getPolynomial(): Polynomial {
+		return createPolynomial([{ coefficient: 1, exponents: [1] }], [this.skill])
 	}
 }
 

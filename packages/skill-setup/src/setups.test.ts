@@ -126,23 +126,32 @@ describe('string representation', () => {
 
 describe('polynomials', () => {
 	it('creates the polynomial for a single skill', () => {
-		expectPolynomial(skill('a').getPolynomial(), { coefficients: [0, 1], variables: ['a'] })
+		expectPolynomial(skill('a').getPolynomial(), { terms: [{ coefficient: 1, exponents: [1] }], variables: ['a'] })
 		expect(skill('a').getPolynomialString()).toBe('a')
 	})
 
 	it('creates And and Or polynomials', () => {
-		expectPolynomial(and('a', 'b').getPolynomial(), { coefficients: [[0, 0], [0, 1]], variables: ['a', 'b'] })
-		expectPolynomial(or('a', 'b').getPolynomial(), { coefficients: [[0, 1], [1, -1]], variables: ['a', 'b'] })
+		expectPolynomial(and('a', 'b').getPolynomial(), { terms: [{ coefficient: 1, exponents: [1, 1] }], variables: ['a', 'b'] })
+		expectPolynomial(or('a', 'b').getPolynomial(), {
+			terms: [{ coefficient: 1, exponents: [0, 1] }, { coefficient: 1, exponents: [1, 0] }, { coefficient: -1, exponents: [1, 1] }],
+			variables: ['a', 'b'],
+		})
 	})
 
 	it('creates a repeated-skill polynomial', () => {
-		expectPolynomial(repeat('a', 3).getPolynomial(), { coefficients: [0, 0, 0, 1], variables: ['a'] })
-		expectPolynomial(and('a', 'a').getPolynomial(), { coefficients: [0, 0, 1], variables: ['a'] })
+		expectPolynomial(repeat('a', 3).getPolynomial(), { terms: [{ coefficient: 1, exponents: [3] }], variables: ['a'] })
+		expectPolynomial(and('a', 'a').getPolynomial(), { terms: [{ coefficient: 1, exponents: [2] }], variables: ['a'] })
 	})
 
 	it('creates weighted Pick polynomials', () => {
-		expectPolynomial(pick(['a', 'b'], 1, [3, 1]).getPolynomial(), { coefficients: [[0, 1 / 4], [3 / 4, 0]], variables: ['a', 'b'] })
-		expectPolynomial(pick(['a', 'b', 'c'], 2, [1, 2, 3]).getPolynomial(), { coefficients: [[[0, 0], [0, 6 / 11]], [[0, 3 / 11], [2 / 11, 0]]], variables: ['a', 'b', 'c'] })
+		expectPolynomial(pick(['a', 'b'], 1, [3, 1]).getPolynomial(), {
+			terms: [{ coefficient: 1 / 4, exponents: [0, 1] }, { coefficient: 3 / 4, exponents: [1, 0] }],
+			variables: ['a', 'b'],
+		})
+		expectPolynomial(pick(['a', 'b', 'c'], 2, [1, 2, 3]).getPolynomial(), {
+			terms: [{ coefficient: 6 / 11, exponents: [0, 1, 1] }, { coefficient: 3 / 11, exponents: [1, 0, 1] }, { coefficient: 2 / 11, exponents: [1, 1, 0] }],
+			variables: ['a', 'b', 'c'],
+		})
 	})
 
 	it('makes selecting every setup areEquivalent to And', () => {
@@ -150,20 +159,29 @@ describe('polynomials', () => {
 	})
 
 	it('creates Part polynomials under And and Or', () => {
-		expectPolynomial(and('a', part('b', 3 / 4)).getPolynomial(), { coefficients: [[0, 0], [1 / 4, 3 / 4]], variables: ['a', 'b'] })
-		expectPolynomial(or('a', part('b', 3 / 4)).getPolynomial(), { coefficients: [[0, 3 / 4], [1, -3 / 4]], variables: ['a', 'b'] })
+		expectPolynomial(and('a', part('b', 3 / 4)).getPolynomial(), {
+			terms: [{ coefficient: 1 / 4, exponents: [1, 0] }, { coefficient: 3 / 4, exponents: [1, 1] }],
+			variables: ['a', 'b'],
+		})
+		expectPolynomial(or('a', part('b', 3 / 4)).getPolynomial(), {
+			terms: [{ coefficient: 3 / 4, exponents: [0, 1] }, { coefficient: 1, exponents: [1, 0] }, { coefficient: -3 / 4, exponents: [1, 1] }],
+			variables: ['a', 'b'],
+		})
 	})
 
 	it('handles Part probability boundaries under And and Or', () => {
-		expectPolynomial(and('a', part('b', 0)).getPolynomial(), { coefficients: [[0, 0], [1, 0]], variables: ['a', 'b'] })
+		expectPolynomial(and('a', part('b', 0)).getPolynomial(), { terms: [{ coefficient: 1, exponents: [1, 0] }], variables: ['a', 'b'] })
 		expectPolynomial(and('a', part('b', 1)).getPolynomial(), and('a', 'b').getPolynomial())
-		expectPolynomial(or('a', part('b', 0)).getPolynomial(), { coefficients: [[0, 0], [1, 0]], variables: ['a', 'b'] })
+		expectPolynomial(or('a', part('b', 0)).getPolynomial(), { terms: [{ coefficient: 1, exponents: [1, 0] }], variables: ['a', 'b'] })
 		expectPolynomial(or('a', part('b', 1)).getPolynomial(), or('a', 'b').getPolynomial())
 	})
 
 	it('creates a nested composite polynomial', () => {
 		const setup = and(or('a', 'b'), repeat('c', 2))
-		expectPolynomial(setup.getPolynomial(), { coefficients: [[[0, 0, 0], [0, 0, 1]], [[0, 0, 1], [0, 0, -1]]], variables: ['a', 'b', 'c'] })
+		expectPolynomial(setup.getPolynomial(), {
+			terms: [{ coefficient: 1, exponents: [0, 1, 2] }, { coefficient: 1, exponents: [1, 0, 2] }, { coefficient: -1, exponents: [1, 1, 2] }],
+			variables: ['a', 'b', 'c'],
+		})
 	})
 
 	it('rejects calculating an unparented Part polynomial', () => {
