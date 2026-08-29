@@ -1,7 +1,7 @@
-import { mergeDefaults } from '@step-wise/js-utils'
+import { hasOnlyKeys, isPlainObject, mergeDefaults } from '@step-wise/js-utils'
 
-import { type PrecisionNumberEqualityOptions, type PrecisionNumberEqualityOptionsInput, type PrecisionNumberEqualityResult, defaultPrecisionNumberEqualityOptions, resolvePrecisionNumberEqualityOptions, adjustPrecisionNumberTolerances } from '../PrecisionNumber/index.ts'
-import { type Unit, type UnitEqualityOptions, type UnitEqualityOptionsInput, type UnitEqualityResult, defaultUnitEqualityOptions, resolveUnitEqualityOptions } from '../Unit/index.ts'
+import { type PrecisionNumberEqualityOptions, type PrecisionNumberEqualityOptionsInput, type PrecisionNumberEqualityResult, defaultPrecisionNumberEqualityOptions, isPrecisionNumberEqualityOptionsInput, resolvePrecisionNumberEqualityOptions, adjustPrecisionNumberTolerances } from '../PrecisionNumber/index.ts'
+import { type Unit, type UnitEqualityOptions, type UnitEqualityOptionsInput, type UnitEqualityResult, defaultUnitEqualityOptions, isUnitEqualityOptionsInput, resolveUnitEqualityOptions } from '../Unit/index.ts'
 
 export type QuantityEqualityOptions = {
 	value: PrecisionNumberEqualityOptions
@@ -17,6 +17,12 @@ export const defaultQuantityEqualityOptions = {
 	value: defaultPrecisionNumberEqualityOptions,
 	unit: { ...defaultUnitEqualityOptions, checkSize: false }, // Don't check unit size, since this is now done through the value.
 } satisfies QuantityEqualityOptions
+
+export function isQuantityEqualityOptionsInput(value: unknown): value is QuantityEqualityOptionsInput {
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['value', 'unit'])) return false
+	return (value.value === undefined || isPrecisionNumberEqualityOptionsInput(value.value))
+		&& (value.unit === undefined || isUnitEqualityOptionsInput(value.unit))
+}
 
 export function resolveQuantityEqualityOptions(options: QuantityEqualityOptionsInput = {}, minimumAbsoluteTolerance: number): QuantityEqualityOptions {
 	const settings = mergeDefaults(options, defaultQuantityEqualityOptions)

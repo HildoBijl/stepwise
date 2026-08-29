@@ -1,6 +1,6 @@
-import { ensureBoolean, mergeDefaults } from '@step-wise/js-utils'
+import { ensureBoolean, hasOnlyKeys, isIn, isPlainObject, mergeDefaults } from '@step-wise/js-utils'
 
-import { type UnitTransformationData, type UnitSimplificationTarget, resolveUnitSimplificationOptions } from './simplification.ts'
+import { type UnitTransformationData, type UnitSimplificationTarget, unitSimplificationTargets, resolveUnitSimplificationOptions } from './simplification.ts'
 
 export type UnitEqualityOptions = {
 	target: UnitSimplificationTarget
@@ -16,6 +16,15 @@ export const defaultUnitEqualityOptions = {
 	sort: true,
 	checkSize: true,
 } satisfies UnitEqualityOptions
+
+export function isUnitEqualityOptionsInput(value: unknown): value is UnitEqualityOptionsInput {
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['target', 'combine', 'sort', 'checkSize'])) return false
+	const { target, combine, sort, checkSize } = value
+	return (target === undefined || isIn(target, unitSimplificationTargets))
+		&& (combine === undefined || typeof combine === 'boolean')
+		&& (sort === undefined || typeof sort === 'boolean')
+		&& (checkSize === undefined || typeof checkSize === 'boolean')
+}
 
 export function resolveUnitEqualityOptions(options: UnitEqualityOptionsInput = {}): UnitEqualityOptions {
 	const resolved = mergeDefaults(options, defaultUnitEqualityOptions)

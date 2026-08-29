@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { adjustPrecisionNumberTolerances, defaultPrecisionNumberEqualityOptions, resolvePrecisionNumberEqualityOptions } from './comparison.ts'
+import { adjustPrecisionNumberTolerances, defaultPrecisionNumberEqualityOptions, isPrecisionNumberEqualityOptionsInput, resolvePrecisionNumberEqualityOptions } from './comparison.ts'
 
 describe('PrecisionNumber comparison options', () => {
 	test('resolves defaults and applies the minimum absolute tolerance', () => {
@@ -14,6 +14,18 @@ describe('PrecisionNumber comparison options', () => {
 	test('adjusts numeric tolerances by a conversion factor', () => {
 		const result = adjustPrecisionNumberTolerances({ absoluteTolerance: 2 }, 1000, 0)
 		expect(result.absoluteTolerance).toBe(2000)
+	})
+
+	test('recognizes PrecisionNumber equality option inputs', () => {
+		expect(isPrecisionNumberEqualityOptionsInput({})).toBe(true)
+		expect(isPrecisionNumberEqualityOptionsInput({ absoluteTolerance: 1, significantDigitTolerance: 2, checkPower: true })).toBe(true)
+		expect(isPrecisionNumberEqualityOptionsInput({ significantDigitTolerance: Infinity })).toBe(true)
+		expect(isPrecisionNumberEqualityOptionsInput(undefined)).toBe(false)
+		expect(isPrecisionNumberEqualityOptionsInput({ significantDigitTolerance: -1 })).toBe(false)
+		expect(isPrecisionNumberEqualityOptionsInput({ significantDigitTolerance: 1.5 })).toBe(false)
+		expect(isPrecisionNumberEqualityOptionsInput({ checkPower: 'yes' })).toBe(false)
+		expect(isPrecisionNumberEqualityOptionsInput({ absoluteTolerance: -1 })).toBe(false)
+		expect(isPrecisionNumberEqualityOptionsInput({ extra: true })).toBe(false)
 	})
 
 	test('rejects invalid options and conversion factors', () => {

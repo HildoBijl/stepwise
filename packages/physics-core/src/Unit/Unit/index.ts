@@ -1,6 +1,6 @@
 export { type UnitFactorArrayStorageValue, type UnitFactorArrayInput, type UnitFactorArray, type UnitStorageValue, type UnitInput, UnitType, unitPattern } from './interpreting.ts'
 export { type UnitSimplificationTarget, type UnitSimplificationOptions, type UnitSimplificationOptionsInput, type UnitTransformationData, unitSimplificationTargets, defaultUnitSimplificationOptions, resolveUnitSimplificationOptions } from './simplification.ts'
-export { type UnitEqualityOptions, type UnitEqualityOptionsInput, type UnitEqualityResult, defaultUnitEqualityOptions, resolveUnitEqualityOptions } from './comparison.ts'
+export { type UnitEqualityOptions, type UnitEqualityOptionsInput, type UnitEqualityResult, defaultUnitEqualityOptions, isUnitEqualityOptionsInput, resolveUnitEqualityOptions } from './comparison.ts'
 export { type UnitLike, Unit, asUnit } from './Unit.ts'
 export { unitsEqual, unitsEquivalent, unitsCompatible } from './comparisonFunctions.ts'
 export { type SerializedUnit, serializeUnit, deserializeUnit } from './serialization.ts'

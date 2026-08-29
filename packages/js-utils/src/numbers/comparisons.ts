@@ -52,7 +52,8 @@ export const defaultNumberEqualityOptions: NumberEqualityOptions = {
 export function isNumberEqualityOptionsInput(value: unknown): value is NumberEqualityOptionsInput {
 	if (!isPlainObject(value) || !hasOnlyKeys(value, ['absoluteTolerance', 'relativeTolerance'])) return false
 	const { absoluteTolerance, relativeTolerance } = value
-	return (absoluteTolerance === undefined || (isNumber(absoluteTolerance) && absoluteTolerance >= 0)) && (relativeTolerance === undefined || (isNumber(relativeTolerance) && relativeTolerance >= 0))
+	return (absoluteTolerance === undefined || (isNumber(absoluteTolerance) && absoluteTolerance >= 0))
+		&& (relativeTolerance === undefined || (isNumber(relativeTolerance) && relativeTolerance >= 0))
 }
 
 export type NumberEqualityResult = {

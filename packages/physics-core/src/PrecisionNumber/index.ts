@@ -1,6 +1,6 @@
 export { type DecimalSeparator, type TexDisplayOptions, type TexDisplayOptionsInput, defaultTexDisplayOptions, resolveTexDisplayOptions } from './texDisplayOptions.ts'
 export { type PrecisionNumberStorageValue, type PrecisionNumberInput, PrecisionNumberType, precisionNumberPattern } from './interpreting.ts'
-export { type PrecisionNumberEqualityOptions, type PrecisionNumberEqualityOptionsInput, type PrecisionNumberEqualityResult, defaultPrecisionNumberEqualityOptions, resolvePrecisionNumberEqualityOptions, validatePrecisionNumberEqualityOptions, adjustPrecisionNumberTolerances } from './comparison.ts'
+export { type PrecisionNumberEqualityOptions, type PrecisionNumberEqualityOptionsInput, type PrecisionNumberEqualityResult, defaultPrecisionNumberEqualityOptions, isPrecisionNumberEqualityOptionsInput, resolvePrecisionNumberEqualityOptions, validatePrecisionNumberEqualityOptions, adjustPrecisionNumberTolerances } from './comparison.ts'
 export { PrecisionNumber, asPrecisionNumber } from './PrecisionNumber.ts'
 export { type SerializedPrecisionNumber, serializePrecisionNumber, deserializePrecisionNumber } from './serialization.ts'
 export { type PrecisionNumberInputValue, isPrecisionNumberInputValue, interpretPrecisionNumberInputValue, precisionNumberToInputValue } from './inputValue.ts'

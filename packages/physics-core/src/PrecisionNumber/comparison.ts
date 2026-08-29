@@ -1,4 +1,4 @@
-import { type NumberEqualityOptions, type NumberEqualityResult, mergeDefaults, pickFromDefaults, isInteger, ensureBoolean, ensureNumber, defaultNumberEqualityOptions, adjustNumberTolerances, validateNumberEqualityOptions } from '@step-wise/js-utils'
+import { type NumberEqualityOptions, type NumberEqualityResult, mergeDefaults, pickFromDefaults, hasOnlyKeys, isPlainObject, isInteger, isNumberEqualityOptionsInput, ensureBoolean, ensureNumber, defaultNumberEqualityOptions, adjustNumberTolerances, validateNumberEqualityOptions } from '@step-wise/js-utils'
 
 export type PrecisionNumberEqualityOptions = NumberEqualityOptions & {
 	significantDigitTolerance: number
@@ -10,6 +10,14 @@ export const defaultPrecisionNumberEqualityOptions: PrecisionNumberEqualityOptio
 	...defaultNumberEqualityOptions,
 	significantDigitTolerance: Infinity,
 	checkPower: false,
+}
+
+export function isPrecisionNumberEqualityOptionsInput(value: unknown): value is PrecisionNumberEqualityOptionsInput {
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['absoluteTolerance', 'relativeTolerance', 'significantDigitTolerance', 'checkPower'])) return false
+	const { absoluteTolerance, relativeTolerance, significantDigitTolerance, checkPower } = value
+	return isNumberEqualityOptionsInput({ absoluteTolerance, relativeTolerance })
+		&& (significantDigitTolerance === undefined || significantDigitTolerance === Infinity || (isInteger(significantDigitTolerance) && significantDigitTolerance >= 0))
+		&& (checkPower === undefined || typeof checkPower === 'boolean')
 }
 
 export type PrecisionNumberEqualityResult = {
