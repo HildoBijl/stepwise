@@ -1,0 +1,19 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"composite": true,
+		"outDir": "dist",
+		"declaration": true,
+		"declarationMap": true,
+		"rootDir": "src",
+		"tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+	},
+	"references": [
+		{ "path": "../physics-core/tsconfig.build.json" },
+		{ "path": "../serialization/tsconfig.build.json" },
+		{ "path": "../input-interpretation/tsconfig.build.json" },
+		{ "path": "../value-equality/tsconfig.build.json" },
+		{ "path": "../value-types/tsconfig.build.json" }
+	],
+	"include": ["src"]
+}
