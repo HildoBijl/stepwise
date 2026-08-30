@@ -1,10 +1,10 @@
-import { type QuantityEqualityOptionsInput, type QuantityInputValue as QuantityInnerInputValue, type SerializedQuantity, Quantity, QuantityType, interpretQuantityInputValue, isQuantityEqualityOptionsInput, isQuantityInputValue, isSerializedQuantity, quantityToInputValue, serializeQuantity } from '@step-wise/physics-core'
+import { type QuantityEqualityOptionsInput, type QuantityInputData, type SerializedQuantity, Quantity, QuantityType, interpretQuantityInputValue, isQuantityEqualityOptionsInput, isQuantityInputValue, isSerializedQuantity, quantityToInputValue, serializeQuantity } from '@step-wise/physics-core'
 import type { SerializationAdapter } from '@step-wise/serialization'
 import { type InputValue, type InputValueAdapter, createInputValue, isInputValueOfType } from '@step-wise/input-interpretation'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
 import type { ValueType } from '@step-wise/value-types'
 
-export type QuantityInputValue = InputValue<QuantityType, QuantityInnerInputValue>
+export type QuantityInputValue = InputValue<QuantityType, QuantityInputData>
 
 export const quantityInputValueAdapter = {
 	isInputValue: (value: unknown): value is QuantityInputValue => isInputValueOfType(value, QuantityType, isQuantityInputValue),

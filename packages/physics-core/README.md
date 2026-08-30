@@ -207,9 +207,9 @@ getRandomQuantity({ min: 2, max: 5, decimals: 1, unit: 'm' })
 
 The package provides editable input-value types and conversions for integration with input fields:
 
-- `PrecisionNumberInputValue` stores the displayed number and optional power as strings.
-- `UnitInputValue` stores numerator and denominator arrays of editable unit factors.
-- `QuantityInputValue` combines these under `{ value, unit? }`.
+- `PrecisionNumberInputData` stores the displayed number and optional power as strings.
+- `UnitInputData` stores numerator and denominator arrays of editable unit factors.
+- `QuantityInputData` combines these under `{ value, unit? }`.
 
 For each domain type, `is...InputValue` validates an unknown value, `interpret...InputValue` creates the domain object, and `...ToInputValue` converts a domain object back to its editable representation. Type guards return `false` for malformed data; interpretation functions throw when syntactically valid-looking input cannot be interpreted.
 

@@ -1,10 +1,10 @@
-import { type PrecisionNumberEqualityOptionsInput, type PrecisionNumberInputValue as PrecisionNumberInnerInputValue, type SerializedPrecisionNumber, PrecisionNumber, PrecisionNumberType, interpretPrecisionNumberInputValue, isPrecisionNumberEqualityOptionsInput, isPrecisionNumberInputValue, isSerializedPrecisionNumber, precisionNumberToInputValue, serializePrecisionNumber } from '@step-wise/physics-core'
+import { type PrecisionNumberEqualityOptionsInput, type PrecisionNumberInputData, type SerializedPrecisionNumber, PrecisionNumber, PrecisionNumberType, interpretPrecisionNumberInputValue, isPrecisionNumberEqualityOptionsInput, isPrecisionNumberInputValue, isSerializedPrecisionNumber, precisionNumberToInputValue, serializePrecisionNumber } from '@step-wise/physics-core'
 import type { SerializationAdapter } from '@step-wise/serialization'
 import { type InputValue, type InputValueAdapter, createInputValue, isInputValueOfType } from '@step-wise/input-interpretation'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
 import type { ValueType } from '@step-wise/value-types'
 
-export type PrecisionNumberInputValue = InputValue<PrecisionNumberType, PrecisionNumberInnerInputValue>
+export type PrecisionNumberInputValue = InputValue<PrecisionNumberType, PrecisionNumberInputData>
 
 export const precisionNumberInputValueAdapter = {
 	isInputValue: (value: unknown): value is PrecisionNumberInputValue => isInputValueOfType(value, PrecisionNumberType, isPrecisionNumberInputValue),

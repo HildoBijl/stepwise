@@ -3,23 +3,23 @@ import { isPlainObject, InterpretationError, hasOnlyKeys } from '@step-wise/js-u
 import { PrecisionNumber } from './PrecisionNumber.ts'
 import { countSignificantDigits } from './interpreting.ts'
 
-export type PrecisionNumberInputValue = {
+export type PrecisionNumberInputData = {
 	number?: string
 	power?: string
 }
 
-export function isPrecisionNumberInputValue(value: unknown): value is PrecisionNumberInputValue {
+export function isPrecisionNumberInputValue(value: unknown): value is PrecisionNumberInputData {
 	if (!isPlainObject(value) || !hasOnlyKeys(value, ['number', 'power'])) return false
-	const { number, power } = value as PrecisionNumberInputValue
+	const { number, power } = value as PrecisionNumberInputData
 	return (number === undefined || typeof number === 'string') && (power === undefined || typeof power === 'string')
 }
 
-export function interpretPrecisionNumberInputValue(value: PrecisionNumberInputValue): PrecisionNumber {
+export function interpretPrecisionNumberInputValue(value: PrecisionNumberInputData): PrecisionNumber {
 	const storageValue = inputValueToStorageValue(value)
 	return new PrecisionNumber(storageValue)
 }
 
-function inputValueToStorageValue(value: PrecisionNumberInputValue) {
+function inputValueToStorageValue(value: PrecisionNumberInputData) {
 	// Validate the input.
 	let { number, power } = value
 	if (number === '' || number === undefined) throw new InterpretationError('Could not interpret an empty string into a number.', 'Empty')
@@ -38,7 +38,7 @@ function inputValueToStorageValue(value: PrecisionNumberInputValue) {
 	}
 }
 
-export function precisionNumberToInputValue(precisionNumber: PrecisionNumber): PrecisionNumberInputValue {
+export function precisionNumberToInputValue(precisionNumber: PrecisionNumber): PrecisionNumberInputData {
 	const power = precisionNumber.getDisplayPower()
 	return {
 		number: precisionNumber.getDisplayNumber(power),

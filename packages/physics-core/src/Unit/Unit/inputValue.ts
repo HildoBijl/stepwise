@@ -5,7 +5,7 @@ import { type UnitFactorStorageValue, type UnitFactorInputValue, interpretPrefix
 import { type UnitStorageValue } from './interpreting.ts'
 import { Unit } from './Unit.ts'
 
-export type UnitInputValue = {
+export type UnitInputData = {
 	numerator?: UnitFactorInputValue[]
 	denominator?: UnitFactorInputValue[]
 }
@@ -18,9 +18,9 @@ export function isUnitFactorArrayInputValue(value: unknown): value is UnitFactor
 	return Array.isArray(value) && value.every(isUnitFactorInputValue)
 }
 
-export function isUnitInputValue(value: unknown): value is UnitInputValue {
+export function isUnitInputValue(value: unknown): value is UnitInputData {
 	if (!isPlainObject(value) || !hasOnlyKeys(value, ['numerator', 'denominator'])) return false
-	const { numerator, denominator } = value as UnitInputValue
+	const { numerator, denominator } = value as UnitInputData
 	return (numerator === undefined || isUnitFactorArrayInputValue(numerator)) && (denominator === undefined || isUnitFactorArrayInputValue(denominator))
 }
 
@@ -28,11 +28,11 @@ export function isUnitInputValue(value: unknown): value is UnitInputValue {
  * Interpretation
  */
 
-export function interpretUnitInputValue(value: UnitInputValue): Unit {
+export function interpretUnitInputValue(value: UnitInputData): Unit {
 	return new Unit(inputValueToStorageValue(value))
 }
 
-function inputValueToStorageValue(value: UnitInputValue): UnitStorageValue {
+function inputValueToStorageValue(value: UnitInputData): UnitStorageValue {
 	return {
 		...(value.numerator === undefined || value.numerator.length === 0 ? {} : { numerator: unitFactorArrayInputValueToStorageValue(value.numerator) }),
 		...(value.denominator === undefined || value.denominator.length === 0 ? {} : { denominator: unitFactorArrayInputValueToStorageValue(value.denominator) }),
@@ -71,7 +71,7 @@ function unitFactorInputValueToStorageValue(element: UnitFactorInputValue): Unit
  * To input value
  */
 
-export function unitToInputValue(unit: Unit): UnitInputValue {
+export function unitToInputValue(unit: Unit): UnitInputData {
 	return {
 		...(unit.numerator.length === 0 ? {} : { numerator: unit.numerator.map(unitFactorToInputValue) }),
 		...(unit.denominator.length === 0 ? {} : { denominator: unit.denominator.map(unitFactorToInputValue) }),

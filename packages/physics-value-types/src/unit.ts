@@ -1,10 +1,10 @@
-import { type SerializedUnit, type UnitEqualityOptionsInput, type UnitInputValue as UnitInnerInputValue, Unit, UnitType, interpretUnitInputValue, isSerializedUnit, isUnitEqualityOptionsInput, isUnitInputValue, serializeUnit, unitToInputValue } from '@step-wise/physics-core'
+import { type SerializedUnit, type UnitEqualityOptionsInput, type UnitInputData, Unit, UnitType, interpretUnitInputValue, isSerializedUnit, isUnitEqualityOptionsInput, isUnitInputValue, serializeUnit, unitToInputValue } from '@step-wise/physics-core'
 import type { SerializationAdapter } from '@step-wise/serialization'
 import { type InputValue, type InputValueAdapter, createInputValue, isInputValueOfType } from '@step-wise/input-interpretation'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
 import type { ValueType } from '@step-wise/value-types'
 
-export type UnitInputValue = InputValue<UnitType, UnitInnerInputValue>
+export type UnitInputValue = InputValue<UnitType, UnitInputData>
 
 export const unitInputValueAdapter = {
 	isInputValue: (value: unknown): value is UnitInputValue => isInputValueOfType(value, UnitType, isUnitInputValue),
