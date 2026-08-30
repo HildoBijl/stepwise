@@ -1,7 +1,6 @@
-import type { AnyInputValueAdapter, InputValueAdapters } from '@step-wise/input-interpretation'
 import type { AnySerializationAdapter, SerializationAdapters } from '@step-wise/serialization'
+import type { AnyInputValueAdapter, InputValueAdapters } from '@step-wise/input-interpretation'
 import type { AnyValueEqualityAdapter, ValueEqualityAdapters } from '@step-wise/value-equality'
-
 export type ValueType<
 	TInputValueAdapter extends AnyInputValueAdapter = AnyInputValueAdapter,
 	TSerializationAdapter extends AnySerializationAdapter = AnySerializationAdapter,

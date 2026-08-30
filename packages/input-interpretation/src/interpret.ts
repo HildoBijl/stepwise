@@ -1,7 +1,7 @@
 import { isPlainObject, mapValues } from '@step-wise/js-utils'
 
 import type { InputValueAdapters } from './types.ts'
-import { getInputValueAdapter } from './adapters/registry.ts'
+import { getInputValueAdapter } from './adapters.ts'
 
 export function interpretInputValue<DomainValue = unknown>(inputValue: unknown, inputValueAdapters?: InputValueAdapters): DomainValue {
 	if (!isPlainObject(inputValue) || typeof inputValue.type !== 'string' || !Object.hasOwn(inputValue, 'value')) throw new Error(`Invalid input value: expected an object with a type and value.`)

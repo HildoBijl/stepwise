@@ -1,5 +1,5 @@
 import type { InputValue, InputValueAdapters } from './types.ts'
-import { getInputValueAdapter } from './adapters/registry.ts'
+import { getInputValueAdapter } from './adapters.ts'
 
 export function toInputValue<Input extends InputValue = InputValue>(value: unknown, type: string, inputValueAdapters?: InputValueAdapters): Input {
 	if (typeof type !== 'string') throw new TypeError(`Invalid toInputValue call: expected a string type.`)

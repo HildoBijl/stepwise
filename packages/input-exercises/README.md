@@ -107,7 +107,7 @@ const exercise = buildMonoExercise({
 })
 ```
 
-The builders validate the registry and extract its adapters once. Serialization adapters handle generated and stored parameters, input-value adapters interpret every submitted input, and equality adapters are included in `CheckInputData` for grading. An omitted registry is equivalent to an empty one, so the fundamental integer and multiple-choice types continue to work without configuration.
+The builders combine the supplied registry with the fundamental Integer and MultipleChoice value types, validate the result, store that resolved registry on the exercise, and extract its adapters once. Serialization adapters handle generated and stored parameters, input-value adapters interpret every submitted input, and equality adapters are included in `CheckInputData` for grading. An omitted registry therefore still provides Integer and MultipleChoice interpretation and equality without exercise-level configuration.
 
 Use `combineValueTypes` from [@step-wise/value-types](https://www.npmjs.com/package/@step-wise/value-types) when an exercise needs more than one domain. Duplicate type names and incomplete adapters throw instead of being silently overwritten.
 

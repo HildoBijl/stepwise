@@ -1,16 +1,15 @@
 import { describe, expect, it } from 'vitest'
 
 import { hasOnlyKeys, isPlainObject, isString } from '@step-wise/js-utils'
-import type { InputValueAdapter } from '@step-wise/input-interpretation'
 import type { SerializationAdapter } from '@step-wise/serialization'
+import type { InputValueAdapter } from '@step-wise/input-interpretation'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
-import type { ValueTypes } from '@step-wise/value-types'
+import { type ValueTypes, fundamentalValueTypes } from '@step-wise/value-types'
 
 import { getLastInput } from './InputExercise/history.ts'
 import { buildMonoExercise } from './MonoExercise/reducer.ts'
 import { buildStepExercise } from './StepExercise/reducer.ts'
 import { createStepExerciseMetadata } from './StepExercise/preprocessing.ts'
-
 const CustomType = 'CustomValue'
 type CustomInputValue = { type: typeof CustomType, value: string }
 type SerializedCustomValue = { type: typeof CustomType, value: string }
@@ -91,7 +90,9 @@ describe('input-exercise value types', () => {
 	})
 
 	it('rejects incomplete supplied adapters while allowing omitted value types', () => {
-		expect(() => buildMonoExercise({ metadata: {}, checkInput: () => false })).not.toThrow()
+		const exercise = buildMonoExercise({ metadata: {}, checkInput: () => false })
+		expect(exercise.valueTypes?.Integer).toBe(fundamentalValueTypes.Integer)
+		expect(exercise.valueTypes?.MultipleChoice).toBe(fundamentalValueTypes.MultipleChoice)
 		expect(() => buildMonoExercise({ metadata: {}, valueTypes: { Broken: { serialization: { serialize: () => ({}) } } } as never, checkInput: () => false })).toThrow(/complete/)
 	})
 })

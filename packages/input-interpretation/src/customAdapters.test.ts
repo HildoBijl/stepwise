@@ -2,10 +2,8 @@ import { describe, expect, it } from 'vitest'
 
 import { isString } from '@step-wise/js-utils'
 
-import type { InputValue, InputValueAdapter, InputValueAdapters } from './types.ts'
-import { IntegerType } from './adapters/index.ts'
 import { isInputValueOfType, interpretInputData, interpretInputValue, toInputValue } from './index.ts'
-
+import type { InputValue, InputValueAdapter, InputValueAdapters } from './types.ts'
 const CustomType = 'Custom'
 type CustomInputValue = InputValue<typeof CustomType, string>
 
@@ -28,24 +26,11 @@ describe('custom input-value adapters', () => {
 		expect(toInputValue(new CustomValue('value'), CustomType, customInputValueAdapters)).toEqual({ type: CustomType, value: 'value' })
 	})
 
-	it('uses custom adapters recursively while retaining built-in fallbacks', () => {
-		expect(interpretInputData({ custom: { type: CustomType, value: 'value' }, integer: { type: IntegerType, value: '3' } }, customInputValueAdapters)).toEqual({
-			custom: new CustomValue('value'),
-			integer: 3,
+	it('uses custom adapters recursively', () => {
+		expect(interpretInputData({ first: { type: CustomType, value: 'one' }, nested: { second: { type: CustomType, value: 'two' } } }, customInputValueAdapters)).toEqual({
+			first: new CustomValue('one'),
+			nested: { second: new CustomValue('two') },
 		})
-	})
-
-	it('rejects custom adapters that duplicate built-in types', () => {
-		const integerOverride = {
-			isInputValue: (value: unknown): value is InputValue<typeof IntegerType, string> => isInputValueOfType(value, IntegerType, isString),
-			isDomainValue: isString,
-			interpret: inputValue => `custom:${inputValue.value}`,
-			toInputValue: value => ({ type: IntegerType, value }),
-		} satisfies InputValueAdapter<InputValue<typeof IntegerType, string>, string>
-		const inputValueAdapters = { [IntegerType]: integerOverride }
-
-		expect(() => interpretInputValue({ type: IntegerType, value: '3' }, inputValueAdapters)).toThrow(/Duplicate input-value adapter/)
-		expect(() => toInputValue('3', IntegerType, inputValueAdapters)).toThrow(/Duplicate input-value adapter/)
 	})
 
 	it('ignores inherited registry entries', () => {

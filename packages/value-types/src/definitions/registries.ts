@@ -5,7 +5,6 @@ import type { ValueEqualityAdapters } from '@step-wise/value-equality'
 
 import { isValueType } from './checks.ts'
 import type { ValueType, ValueTypeAdapters, ValueTypes } from './types.ts'
-
 export function combineValueTypes(...registries: readonly ValueTypes[]): ValueTypes {
 	const combined: ValueTypes = Object.create(null)
 	for (const registry of registries) {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { areMultipleChoiceSelectionsEqual } from './MultipleChoice.ts'
+import { areMultipleChoiceSelectionsEqual } from './equality.ts'
 
 describe('areMultipleChoiceSelectionsEqual', () => {
 	it('compares scalar and order-independent list answers', () => {

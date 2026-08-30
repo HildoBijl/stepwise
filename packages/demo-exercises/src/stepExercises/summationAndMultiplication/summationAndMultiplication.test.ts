@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import type { InputExerciseSolution, StepExerciseMetadata } from '@step-wise/input-exercises'
+import { IntegerType, integerEqualityAdapter } from '@step-wise/value-types'
 
 import summationAndMultiplication1 from './summationAndMultiplication1.ts'
 import summationAndMultiplication2 from './summationAndMultiplication2.ts'
@@ -9,10 +10,10 @@ function createCheckInputData<TParameters extends Record<string, unknown>, TSolu
 	return {
 		metadata,
 		parameters,
-		rawInput: { [key]: { type: 'Integer' as const, value: String(value) } },
+		rawInput: { [key]: { type: IntegerType, value: String(value) } },
 		input: { [key]: value },
 		solution,
-		equalityAdapters: {},
+		equalityAdapters: { [IntegerType]: integerEqualityAdapter },
 	}
 }
 

@@ -1,6 +1,6 @@
 # @step-wise/value-types
 
-Combine the independent adapters that let application-specific values participate in input interpretation, serialization, and equality checks. The package contains only adapter composition infrastructure; domain-specific value types live in separate integration packages or private exercise tooling.
+Combine the independent adapters that let application-specific values participate in input interpretation, serialization, and equality checks. It contains the shared adapter definitions and registry utilities, together with the fundamental Integer and MultipleChoice value types. Other domain-specific value types live in separate integration packages or private exercise tooling.
 
 
 ## Installation
@@ -9,6 +9,18 @@ Combine the independent adapters that let application-specific values participat
 npm install @step-wise/value-types
 ```
 
+
+## Fundamental value types
+
+`fundamentalValueTypes` contains the Integer and MultipleChoice definitions used by input exercises by default. Each combines its input-value and equality adapters under one discriminator:
+
+```ts
+import { IntegerType, MultipleChoiceType, fundamentalValueTypes } from '@step-wise/value-types'
+```
+
+The package also exports the individual `integerValueType` and `multipleChoiceValueType`, their input-value types, and their adapter implementations. `resolveValueTypes(customValueTypes)` adds both fundamentals to an exercise registry, rejects conflicting definitions, and is idempotent for an already resolved registry.
+
+Multiple-choice generation belongs to the MultipleChoice domain without becoming an adapter capability. `generateMultipleChoiceMapping` and its options type are exported here and re-exported by `@step-wise/input-exercises` for convenience.
 
 ## Defining a value type
 
@@ -61,7 +73,7 @@ const mathematicsValueTypes = {
 
 The registry key is authoritative. The current adapter contracts do not carry a separate type discriminator themselves, so `value-types` cannot independently verify that an adapter was placed under the intended key.
 
-No domain-specific value types are built into this package.
+Only the fundamental Integer and MultipleChoice value types are built into this package. Engine-specific integrations remain external.
 
 
 ## Combining registries
@@ -104,9 +116,9 @@ These helpers are intended for orchestration packages such as `input-exercises`.
 
 ## Dependency direction
 
-`value-types` directly depends only on the three capability packages and generic JavaScript utilities. It does not define or directly import the CAS, physics engine, geometry tools, mechanics engine, exercise grading, or input exercises.
+`value-types` directly depends only on the three capability packages and generic JavaScript utilities. It does not import the CAS, physics engine, geometry tools, mechanics engine, exercise grading, or input exercises.
 
-During the migration, the capability packages still contain built-in domain adapters and therefore retain temporary transitive domain dependencies. Once those adapters move into domain integration packages, an exercise bundle will import only the integrations whose value types it actually uses.
+Input interpretation and equality remain generic registry consumers; they do not import `value-types` back. The `input-exercises` orchestration layer adds `fundamentalValueTypes` to every exercise and passes the extracted adapters downward. This prevents dependency cycles while keeping the fundamental implementations centralized.
 
 
 ## TypeScript types

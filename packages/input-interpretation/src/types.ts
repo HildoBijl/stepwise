@@ -1,6 +1,4 @@
-import { hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
-import type { PlainDataValue } from '@step-wise/js-utils'
-
+import { type PlainDataValue, hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
 export type InputValue<TType extends string = string, TValue extends PlainDataValue = PlainDataValue> = { type: TType, value: TValue }
 
 export type InputValueAdapter<TInputValue extends InputValue, TDomainValue> = {

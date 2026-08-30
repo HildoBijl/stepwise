@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { integerInputValueAdapter } from './integer.ts'
-import { multipleChoiceInputValueAdapter } from './multipleChoice.ts'
+import { integerInputValueAdapter } from './integer/inputValue.ts'
+import { multipleChoiceInputValueAdapter } from './multipleChoice/inputValue.ts'
 
 describe('integer adapter', () => {
 	it.each([['0', 0], ['42', 42], ['-7', -7], [' 3 ', 3]])('interprets "%s"', (value, expected) => {

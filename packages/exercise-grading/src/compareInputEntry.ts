@@ -3,7 +3,6 @@ import { type AnyValueEqualityAdapter, areValuesEqual } from '@step-wise/value-e
 import type { CheckInputData } from '@step-wise/input-exercises'
 
 import { resolveInputComparison } from './inputComparisons.ts'
-import { equalityAdapters } from './objects/index.ts'
 import type { InputKey } from './types.ts'
 
 export function compareInputEntry<TData extends CheckInputData>(inputKey: InputKey<TData>, solutionKey: InputKey<TData>, data: TData): boolean {
@@ -25,9 +24,7 @@ export function compareInputEntry<TData extends CheckInputData>(inputKey: InputK
 }
 
 function getEqualityAdapter(type: string, data: CheckInputData): AnyValueEqualityAdapter {
-	const hasCustomAdapter = Object.hasOwn(data.equalityAdapters, type)
-	if (hasCustomAdapter && Object.hasOwn(equalityAdapters, type)) throw new Error(`Duplicate equality adapter for input type "${type}".`)
-	const adapter: AnyValueEqualityAdapter | undefined = hasCustomAdapter ? data.equalityAdapters[type] : equalityAdapters[type]
+	const adapter: AnyValueEqualityAdapter | undefined = Object.hasOwn(data.equalityAdapters, type) ? data.equalityAdapters[type] : undefined
 	if (adapter === undefined) throw new Error(`Invalid compareInputEntry call: no equality adapter found for input type "${type}".`)
 	return adapter
 }

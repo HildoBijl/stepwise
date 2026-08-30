@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { areIntegersEqual } from './Integer.ts'
+import { areIntegersEqual } from './equality.ts'
 
 describe('areIntegersEqual', () => {
 	it('compares integers exactly or with tolerances', () => {

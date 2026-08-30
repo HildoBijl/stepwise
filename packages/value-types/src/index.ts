@@ -1,3 +1,2 @@
-export * from './types.ts'
-export * from './checks.ts'
-export * from './registries.ts'
+export * from './definitions/index.ts'
+export * from './fundamentalTypes/index.ts'

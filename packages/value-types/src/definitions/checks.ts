@@ -4,7 +4,6 @@ import { isInputValueAdapter } from '@step-wise/input-interpretation'
 import { isValueEqualityAdapter } from '@step-wise/value-equality'
 
 import type { ValueType, ValueTypes } from './types.ts'
-
 export function isValueType(value: unknown): value is ValueType {
 	return isPlainObject(value) && hasOnlyKeys(value, ['inputValue', 'serialization', 'equality'])
 		&& (value.serialization === undefined || isSerializationAdapter(value.serialization))

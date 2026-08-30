@@ -32,6 +32,7 @@
 		"@step-wise/js-utils": "1.0.0"
 	},
 	"devDependencies": {
+		"@step-wise/value-types": "1.0.0",
 		"vitest": "^3.0.0"
 	}
 }

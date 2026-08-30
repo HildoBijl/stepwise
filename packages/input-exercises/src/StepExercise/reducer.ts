@@ -1,7 +1,7 @@
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 import { interpretInputData } from '@step-wise/input-interpretation'
 import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters } from '@step-wise/exercise-definition'
-import { type ValueTypeAdapters, extractValueTypeAdapters } from '@step-wise/value-types'
+import { type ValueTypeAdapters, extractValueTypeAdapters, resolveValueTypes } from '@step-wise/value-types'
 
 import { type InputExerciseAction, type InputExerciseParameters, type InputExerciseSolution, resolveSolution } from '../InputExercise/index.ts'
 import { deserializeInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
@@ -14,9 +14,11 @@ import { getCurrentStep } from './support.ts'
 // Build a StepExercise from its author-facing spec.
 export function buildStepExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>): StepExercise<TParameters, TSolution> {
 	ensureStepExerciseSteps(spec.metadata.steps)
-	const valueTypeAdapters = extractValueTypeAdapters(spec.valueTypes ?? {})
+	const valueTypes = resolveValueTypes(spec.valueTypes)
+	const valueTypeAdapters = extractValueTypeAdapters(valueTypes)
 	return {
 		...spec,
+		valueTypes,
 		type: 'step',
 		generateParameters: example => serializeInputExerciseParameters(resolveExerciseParameters(spec.generateParameters, example), valueTypeAdapters.serializationAdapters),
 		getInitialState: () => ({}),

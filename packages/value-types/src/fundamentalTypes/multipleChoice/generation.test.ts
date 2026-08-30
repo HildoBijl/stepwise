@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { generateMultipleChoiceMapping } from './multipleChoice.ts'
+import { generateMultipleChoiceMapping } from './generation.ts'
 
 describe('generateMultipleChoiceMapping', () => {
 	it('returns every choice in order by default', () => {

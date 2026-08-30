@@ -1,10 +1,10 @@
-import type { ValueTypes } from '@step-wise/value-types'
 import { describe, expect, it } from 'vitest'
-import { PrecisionNumberType, QuantityType, UnitType, physicsValueTypes, precisionNumberValueType, quantityValueType, unitValueType } from '@step-wise/physics-value-types'
+
+import { type ValueTypes, IntegerType, MultipleChoiceType, fundamentalValueTypes } from '@step-wise/value-types'
+import { PrecisionNumberType, QuantityType, UnitType, precisionNumberValueType, quantityValueType, unitValueType } from '@step-wise/physics-value-types'
 import { isInputExercise } from '@step-wise/input-exercises'
 
 import { exercises } from './index.ts'
-
 describe('physics exercise value types', () => {
 	it('provides physics value types to every exercise', () => {
 		const physicsExercises = collectExercises(exercises)
@@ -17,8 +17,11 @@ describe('physics exercise value types', () => {
 		}
 	})
 
-	it('reuses the shared registry when no additional value types are supplied', () => {
-		for (const exercise of collectExercises(exercises)) expect(exercise.valueTypes).toBe(physicsValueTypes)
+	it('adds the fundamental value types to the shared physics registry', () => {
+		for (const exercise of collectExercises(exercises)) {
+			expect(exercise.valueTypes?.[IntegerType]).toBe(fundamentalValueTypes[IntegerType])
+			expect(exercise.valueTypes?.[MultipleChoiceType]).toBe(fundamentalValueTypes[MultipleChoiceType])
+		}
 	})
 })
 

@@ -12,22 +12,11 @@ npm install @step-wise/input-interpretation
 ```
 
 
-## Fundamental input types
+## Adapter registries
 
-The package directly supports integers and multiple-choice selections:
+This package does not hard-code input domains. Every recognized input type is supplied through an adapter registry, keeping input interpretation independent of exercise orchestration and domain engines.
 
-```ts
-import { IntegerType, MultipleChoiceType, interpretInputValue, toInputValue } from '@step-wise/input-interpretation'
-
-interpretInputValue({ type: IntegerType, value: '-42' }) // -42
-toInputValue(-42, IntegerType) // { type: 'Integer', value: '-42' }
-interpretInputValue({ type: MultipleChoiceType, value: [2, 4] }) // [2, 4]
-```
-
-Integers must be safe JavaScript integers. A multiple-choice selection is either one non-negative safe-integer option index or an array of unique indexes.
-
-Domain-specific types are supplied through adapter registries. This keeps input interpretation independent of mathematics, physics, geometry, and other engines.
-
+The fundamental Integer and MultipleChoice adapters are defined by [@step-wise/value-types](https://www.npmjs.com/package/@step-wise/value-types). `@step-wise/input-exercises` includes them automatically and passes the resulting registry into this package. Direct callers can extract and pass the adapters themselves.
 
 ## Custom input types
 
@@ -59,7 +48,7 @@ interpretInputValue({ type: 'Label', value: ' answer ' }, adapters) // 'answer'
 toInputValue('answer', 'Label', adapters) // { type: 'Label', value: 'answer' }
 ```
 
-Public conversion functions validate input before calling a typed conversion and validate the adapter's output afterward. Adapter names must be unique: attempting to replace the built-in `Integer` or `MultipleChoice` adapter throws.
+Public conversion functions validate input before calling a typed conversion and validate the adapter's output afterward. Registry composition and duplicate-name validation are handled by `@step-wise/value-types`.
 
 Domain packages commonly bundle these registries through [@step-wise/value-types](https://www.npmjs.com/package/@step-wise/value-types).
 
@@ -78,7 +67,6 @@ Because arbitrary nested input data cannot statically describe the domain values
 The main public types are:
 
 - `InputValue<TType, TValue>` for a plain `{ type, value }` input representation.
-- `IntegerInputValue` and `MultipleChoiceInputValue` for the fundamental inputs.
 - `InputValueAdapter<TInputValue, TDomainValue>` for one input type's guards and conversions.
 - `InputValueAdapters` for a registry keyed by input type.
 - `isInputValueAdapter` for runtime adapter validation.

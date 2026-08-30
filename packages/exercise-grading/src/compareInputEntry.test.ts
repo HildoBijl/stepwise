@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { IntegerType } from '@step-wise/input-interpretation'
+import { IntegerType } from '@step-wise/value-types'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
 
 import { compareInputEntry } from './compareInputEntry.ts'
@@ -22,7 +22,7 @@ describe('compareInputEntry', () => {
 		expect(compareInputEntry('x', 'x', data)).toBe(true)
 	})
 
-	it('uses custom equality adapters and rejects built-in collisions', () => {
+	it('uses supplied equality adapters', () => {
 		const customEquality = {
 			isValue: (value: unknown): value is string => typeof value === 'string',
 			areEqual: (inputValue, expectedValue) => inputValue.toLowerCase() === expectedValue.toLowerCase(),
@@ -40,7 +40,7 @@ describe('compareInputEntry', () => {
 		expect(compareInputEntry('x', 'x', customData)).toBe(true)
 
 		const overrideData = { ...makeCheckInputData({ x: { type: IntegerType, value: '1' } }, { x: 1 }), equalityAdapters: { [IntegerType]: integerOverride } }
-		expect(() => compareInputEntry('x', 'x', overrideData)).toThrow(/Duplicate equality adapter/)
+		expect(compareInputEntry('x', 'x', overrideData)).toBe(false)
 	})
 
 	it('rejects non-boolean custom results and unknown input types', () => {
