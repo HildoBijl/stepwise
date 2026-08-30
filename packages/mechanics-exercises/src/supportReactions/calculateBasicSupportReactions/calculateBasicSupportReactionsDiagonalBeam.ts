@@ -1,9 +1,10 @@
 import { randomBoolean } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { createForce, createMoment, freeBodyDiagramComparisonOptions } from '@step-wise/engineering-mechanics'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding/freeBodyDiagramPhysics'
 
 import { getDynamicSolution, getInputDependency } from './common.ts'
 

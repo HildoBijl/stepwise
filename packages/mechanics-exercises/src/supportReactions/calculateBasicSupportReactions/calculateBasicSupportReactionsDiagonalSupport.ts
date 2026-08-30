@@ -1,9 +1,10 @@
 import { degreesToRadians, fromKeysAndValues, randomInteger } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { getRandomQuantity } from '@step-wise/physics-core'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { createForce, freeBodyDiagramComparisonOptions, reverseLoad } from '@step-wise/engineering-mechanics'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding/freeBodyDiagramPhysics'
 
 import { getInputDependency } from './common.ts'
 

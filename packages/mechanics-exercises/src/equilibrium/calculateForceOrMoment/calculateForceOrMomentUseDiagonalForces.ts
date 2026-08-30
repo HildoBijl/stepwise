@@ -1,9 +1,10 @@
 import { randomBoolean, randomInteger, integerRange } from '@step-wise/js-utils'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity } from '@step-wise/physics-core'
 import { Vector } from '@step-wise/geometry'
 import { type Load, type NamedLoad, createForce, deriveLoadNames } from '@step-wise/engineering-mechanics'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding/vectorPhysics'
 
 export default buildStepExercise({
 	metadata: {

@@ -1,8 +1,9 @@
 import { randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { type Load, freeBodyDiagramComparisonOptions, compareLoadLists, createForce, createMoment, loadsEqual, isLoad } from '@step-wise/engineering-mechanics'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding/freeBodyDiagram'
 
 export default buildStepExercise({
 	metadata: {

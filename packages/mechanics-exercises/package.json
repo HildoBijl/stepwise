@@ -19,15 +19,30 @@
 		"README.md"
 	],
 	"imports": {
+		"#exerciseBuilding": {
+			"types": "./src/tools/exerciseBuilding/index.ts",
+			"development": "./src/tools/exerciseBuilding/index.ts",
+			"default": "./dist/tools/exerciseBuilding/index.js"
+		},
+		"#exerciseBuilding/*": {
+			"types": "./src/tools/exerciseBuilding/*.ts",
+			"development": "./src/tools/exerciseBuilding/*.ts",
+			"default": "./dist/tools/exerciseBuilding/*.js"
+		},
 		"#tools": {
 			"types": "./src/tools/index.ts",
 			"development": "./src/tools/index.ts",
 			"default": "./dist/tools/index.js"
 		},
 		"#valueTypes": {
-			"types": "./src/valueTypes/index.ts",
-			"development": "./src/valueTypes/index.ts",
-			"default": "./dist/valueTypes/index.js"
+			"types": "./src/tools/valueTypes/index.ts",
+			"development": "./src/tools/valueTypes/index.ts",
+			"default": "./dist/tools/valueTypes/index.js"
+		},
+		"#valueTypes/*": {
+			"types": "./src/tools/valueTypes/*.ts",
+			"development": "./src/tools/valueTypes/*.ts",
+			"default": "./dist/tools/valueTypes/*.js"
 		}
 	},
 	"scripts": {

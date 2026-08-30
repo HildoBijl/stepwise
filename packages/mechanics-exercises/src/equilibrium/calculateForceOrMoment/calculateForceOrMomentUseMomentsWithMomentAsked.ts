@@ -1,9 +1,10 @@
 import { degreesToRadians, randomBoolean, randomInteger, integerRange, isMultipleOf } from '@step-wise/js-utils'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { Vector } from '@step-wise/geometry'
 import { type Load, createForce, createMoment, deriveLoadNames, decomposeForceIntoAxisComponents, isForce } from '@step-wise/engineering-mechanics'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding/vectorPhysics'
 
 export default buildStepExercise({
 	metadata: {

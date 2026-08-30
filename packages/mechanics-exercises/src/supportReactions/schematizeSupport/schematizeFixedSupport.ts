@@ -1,8 +1,9 @@
 import { degreesToRadians, anglesEqual, randomInteger } from '@step-wise/js-utils'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { Vector } from '@step-wise/geometry'
 import { createForce, createMoment, isForce, isMoment } from '@step-wise/engineering-mechanics'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding/freeBodyDiagram'
 
 export default buildStepExercise({
 	metadata: {
