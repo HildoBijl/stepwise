@@ -1,8 +1,8 @@
 import { sample, randomInteger, count } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionChecks, expressionComparisons } from '@step-wise/cas'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
 import { selectExpressionParameters } from '#generationTools'
 
 const { areEquivalent, areEqualExceptOrder } = expressionComparisons

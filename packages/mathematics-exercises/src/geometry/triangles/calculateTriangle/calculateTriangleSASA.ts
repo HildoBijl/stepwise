@@ -1,7 +1,8 @@
 import { approximatelyEqual, sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { type Expression, asExpression, asEquation } from '@step-wise/cas'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
 
 const sideVariableSet = ['x', 'y', 'z']
 const angleVariableSet = ['α', 'β', 'γ']

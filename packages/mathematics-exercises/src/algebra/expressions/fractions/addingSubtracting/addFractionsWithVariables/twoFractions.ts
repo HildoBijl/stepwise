@@ -1,8 +1,8 @@
 import { sample, randomInteger, randomBoolean, repeat, randomIndices } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionComparisons, expressionChecks, expressionOperations } from '@step-wise/cas'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
 import { selectExpressionParameters } from '#generationTools'
 
 const { hasFractionWithinFraction } = expressionChecks

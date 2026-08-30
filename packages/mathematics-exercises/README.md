@@ -36,6 +36,6 @@ Application code should normally retrieve exercise definitions by skill ID throu
 
 ## Adding an exercise
 
-Place the definition under its corresponding skill directory and export its bundle through the surrounding index files. The registry path must match the skill's `groupPath` followed by its skill ID.
+Place the definition under its corresponding skill directory and export its bundle through the surrounding index files. Import `buildMonoExercise`, `buildStepExercise` and `createStepExerciseMetadata` from the private `#exerciseBuilding` module; its builders provide every mathematics exercise with the shared Expression and Equation value types. The registry path must match the skill's `groupPath` followed by its skill ID.
 
 The central tests in `@step-wise/exercises` validate the registry and generate parameters, initial states and optional solutions for every exported mathematics exercise.

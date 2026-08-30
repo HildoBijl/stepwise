@@ -2,9 +2,9 @@ import { sample, randomInteger, repeat, fromKeysAndValues } from '@step-wise/js-
 import { binomialCoefficient } from '@step-wise/math-tools'
 import { repeat as skillRepeat } from '@step-wise/skill-setup'
 import { asExpression, expressionComparisons } from '@step-wise/cas'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
 import { selectExpressionParameters } from '#generationTools'
 
 const { areEqualExceptOrder } = expressionComparisons

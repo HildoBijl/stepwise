@@ -2,9 +2,9 @@ import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { gcd } from '@step-wise/math-tools'
 import { and } from '@step-wise/skill-setup'
 import { type Equation, type Expression, asEquation, expressionComparisons, equationChecks, equationComparisons } from '@step-wise/cas'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
 import { selectExpressionParameters } from '#generationTools'
 
 const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks

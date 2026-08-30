@@ -1,7 +1,8 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionChecks, expressionComparisons } from '@step-wise/cas'
-import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
+
+import { buildMonoExercise } from '#exerciseBuilding'
 
 // 1/a^b => a^(-b)
 export default buildMonoExercise({

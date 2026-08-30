@@ -1,8 +1,9 @@
 import { epsilon, degreesToRadians, sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { and } from '@step-wise/skill-setup'
 import { type Equation, asExpression, asEquation, equationComparisons } from '@step-wise/cas'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
 
 const variableSet = ['α', 'β', 'γ']
 

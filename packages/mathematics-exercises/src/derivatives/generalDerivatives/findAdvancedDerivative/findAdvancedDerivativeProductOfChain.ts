@@ -1,7 +1,8 @@
 import { sample } from '@step-wise/js-utils'
 import { expressionComparisons } from '@step-wise/cas'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
 
 import { getRandomElementaryFunctions } from '../../tools/index.ts'
 

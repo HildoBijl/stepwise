@@ -15,7 +15,9 @@
     { "path": "../exercise-grading/tsconfig.build.json" },
     { "path": "../input-exercises/tsconfig.build.json" },
     { "path": "../skill-setup/tsconfig.build.json" },
-    { "path": "../js-utils/tsconfig.build.json" }
+    { "path": "../js-utils/tsconfig.build.json" },
+    { "path": "../value-types/tsconfig.build.json" },
+    { "path": "../mathematics-value-types/tsconfig.build.json" }
   ],
   "include": ["src"]
 }
