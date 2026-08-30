@@ -5,9 +5,9 @@ import type { SerializationAdapter } from '@step-wise/serialization'
 import type { InputValueAdapter } from '@step-wise/input-interpretation'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
 
-import { fundamentalValueTypes, resolveValueTypes } from '../fundamentalTypes/index.ts'
 import { combineValueTypes, extractValueTypeAdapters, extractInputValueAdapters, extractSerializationAdapters, extractValueEqualityAdapters } from './registries.ts'
 import type { ValueTypes } from './types.ts'
+
 const ExampleType = 'Example'
 type ExampleInputValue = { type: typeof ExampleType, value: string }
 type SerializedExample = { type: typeof ExampleType, value: string }
@@ -84,14 +84,6 @@ describe('value-type registries', () => {
 	it('rejects duplicate type keys, including identical definitions', () => {
 		const valueTypes = { [ExampleType]: completeValueType } satisfies ValueTypes
 		expect(() => combineValueTypes(valueTypes, valueTypes)).toThrow(/duplicate type "Example"/)
-	})
-
-	it('adds fundamental value types once and rejects conflicting definitions', () => {
-		const resolved = resolveValueTypes({ [ExampleType]: completeValueType })
-		expect(resolved.Integer).toBe(fundamentalValueTypes.Integer)
-		expect(resolved.MultipleChoice).toBe(fundamentalValueTypes.MultipleChoice)
-		expect(resolveValueTypes(resolved)).toBe(resolved)
-		expect(() => resolveValueTypes({ Integer: completeValueType })).toThrow(/duplicate type "Integer"/)
 	})
 
 	it('rejects malformed registries and value-type definitions', () => {

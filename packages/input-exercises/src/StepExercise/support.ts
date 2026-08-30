@@ -1,6 +1,7 @@
 import { ensureInteger } from '@step-wise/js-utils'
 import { interpretInputData } from '@step-wise/input-interpretation'
-import { type ValueTypes, extractInputValueAdapters, resolveValueTypes } from '@step-wise/value-types'
+import { type ValueTypes, extractInputValueAdapters } from '@step-wise/value-types'
+
 import type { InputExerciseHistoryInstance, InputExerciseInput, InputExerciseRawInput, LastInputOptions } from '../InputExercise/index.ts'
 
 import type { StepExerciseState } from './types.ts'
@@ -34,9 +35,9 @@ export function getLastRawInputAtStep(instance: InputExerciseHistoryInstance<Ste
 }
 
 // Get the last given input from the user at the given step and interpret all its values.
-export function getLastInputAtStep(exercise: { valueTypes?: ValueTypes }, instance: InputExerciseHistoryInstance<StepExerciseState>, step: number, userId?: string, options: LastInputOptions = {}): InputExerciseInput | undefined {
+export function getLastInputAtStep(exercise: { valueTypes: ValueTypes }, instance: InputExerciseHistoryInstance<StepExerciseState>, step: number, userId?: string, options: LastInputOptions = {}): InputExerciseInput | undefined {
 	const rawInput = getLastRawInputAtStep(instance, step, userId, options)
-	return rawInput === undefined ? undefined : interpretInputData(rawInput, extractInputValueAdapters(resolveValueTypes(exercise.valueTypes)))
+	return rawInput === undefined ? undefined : interpretInputData(rawInput, extractInputValueAdapters(exercise.valueTypes))
 }
 
 function getStateBeforeEvent(instance: InputExerciseHistoryInstance<StepExerciseState>, eventIndex: number): StepExerciseState {

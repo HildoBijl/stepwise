@@ -1,6 +1,6 @@
 import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters } from '@step-wise/exercise-definition'
 import { interpretInputData } from '@step-wise/input-interpretation'
-import { type ValueTypeAdapters, extractValueTypeAdapters, resolveValueTypes } from '@step-wise/value-types'
+import { type ValueTypeAdapters, combineValueTypes, extractValueTypeAdapters, fundamentalValueTypes } from '@step-wise/value-types'
 
 import { type InputExerciseAction, type InputExerciseParameters, type InputExerciseSolution, resolveSolution } from '../InputExercise/index.ts'
 import { deserializeInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
@@ -10,7 +10,7 @@ import type { MonoExerciseState, MonoExercise, MonoExerciseSpec } from './types.
 
 // Build a MonoExercise from its author-facing spec.
 export function buildMonoExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>): MonoExercise<TParameters, TSolution> {
-	const valueTypes = resolveValueTypes(spec.valueTypes)
+	const valueTypes = combineValueTypes(fundamentalValueTypes, spec.valueTypes ?? {})
 	const valueTypeAdapters = extractValueTypeAdapters(valueTypes)
 	return {
 		...spec,

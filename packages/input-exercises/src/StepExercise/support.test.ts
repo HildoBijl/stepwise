@@ -1,8 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
+import { fundamentalValueTypes } from '@step-wise/value-types'
+
 import { getCurrentStep, getLastInputAtStep, getLastRawInputAtStep, hasPreviousInputAtStep } from './support.ts'
 
 describe('step-exercise support', () => {
+	const exercise = { valueTypes: fundamentalValueTypes }
 	it('gets the current main problem or step', () => {
 		expect(getCurrentStep({})).toBe(0)
 		expect(getCurrentStep({ split: true, step: 2, 1: {}, 2: {} })).toBe(2)
@@ -19,7 +22,7 @@ describe('step-exercise support', () => {
 
 		expect(getLastRawInputAtStep(instance, 0)).toBeUndefined()
 		expect(getLastRawInputAtStep(instance, 1)).toBe(mainInput)
-		expect(getLastInputAtStep({}, instance, 1)).toEqual({ answer: 0 })
+		expect(getLastInputAtStep(exercise, instance, 1)).toEqual({ answer: 0 })
 		expect(hasPreviousInputAtStep(instance, 1)).toBe(true)
 	})
 

@@ -18,7 +18,7 @@ npm install @step-wise/value-types
 import { IntegerType, MultipleChoiceType, fundamentalValueTypes } from '@step-wise/value-types'
 ```
 
-The package also exports the individual `integerValueType` and `multipleChoiceValueType`, their input-value types, and their adapter implementations. `resolveValueTypes(customValueTypes)` adds both fundamentals to an exercise registry, rejects conflicting definitions, and is idempotent for an already resolved registry.
+The package also exports the individual `integerValueType` and `multipleChoiceValueType`, their input-value types, and their adapter implementations. Input-exercise builders combine these definitions with the registry supplied by an exercise; duplicate type names are rejected at that boundary.
 
 Multiple-choice generation belongs to the MultipleChoice domain without becoming an adapter capability. `generateMultipleChoiceMapping` and its options type are exported here and re-exported by `@step-wise/input-exercises` for convenience.
 

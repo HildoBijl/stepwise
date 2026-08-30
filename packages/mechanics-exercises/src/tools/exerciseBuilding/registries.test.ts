@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { type ValueTypes, resolveValueTypes } from '@step-wise/value-types'
+import { type ValueTypes, combineValueTypes, fundamentalValueTypes } from '@step-wise/value-types'
 import { isInputExercise } from '@step-wise/input-exercises'
 
 import { freeBodyDiagramValueTypes, freeBodyDiagramWithPhysicsValueTypes, vectorWithPhysicsValueTypes } from '#mechanicsValueTypes/index'
@@ -32,6 +32,6 @@ function collectExercises(value: unknown, exercises: { valueTypes?: ValueTypes }
 
 function matchesResolvedRegistry(valueTypes: ValueTypes | undefined, customValueTypes: ValueTypes): boolean {
 	if (valueTypes === undefined) return false
-	const expected = resolveValueTypes(customValueTypes)
+	const expected = combineValueTypes(fundamentalValueTypes, customValueTypes)
 	return Object.keys(valueTypes).length === Object.keys(expected).length && Object.entries(expected).every(([type, valueType]) => valueTypes[type] === valueType)
 }

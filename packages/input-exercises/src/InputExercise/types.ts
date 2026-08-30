@@ -68,7 +68,8 @@ export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParamete
 }
 
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized parameters.
-export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution>, 'generateParameters'> & {
+export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution>, 'generateParameters' | 'valueTypes'> & {
+	valueTypes: ValueTypes
 	generateParameters: (example: boolean) => PlainDataObject
 	getInitialState: (parameters: PlainDataObject) => TState
 	processSoloAction: SoloExerciseReducer<TAction, TState>

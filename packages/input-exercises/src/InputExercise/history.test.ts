@@ -1,8 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
+import { fundamentalValueTypes } from '@step-wise/value-types'
+
 import { getLastInput, getLastRawInput, hasPreviousInput } from './history.ts'
 
 describe('input-exercise history', () => {
+	const exercise = { valueTypes: fundamentalValueTypes }
 	const userId = 'user-1'
 	const resolvedInput = { answer: { type: 'Text', value: 'resolved' } }
 	const pendingInput = { answer: { type: 'Text', value: 'pending' } }
@@ -31,14 +34,14 @@ describe('input-exercise history', () => {
 		} as const
 
 		expect(getLastRawInput(soloInstance)).toBe(input)
-		expect(getLastInput({}, soloInstance)).toEqual({ answer: 4 })
+		expect(getLastInput(exercise, soloInstance)).toEqual({ answer: 4 })
 		expect(hasPreviousInput(soloInstance)).toBe(true)
 	})
 
 	it('returns undefined when a user has no previous input', () => {
 		const emptyInstance = { mode: 'solo', initialState: {}, history: [] } as const
 		expect(getLastRawInput(emptyInstance)).toBeUndefined()
-		expect(getLastInput({}, emptyInstance)).toBeUndefined()
+		expect(getLastInput(exercise, emptyInstance)).toBeUndefined()
 		expect(hasPreviousInput(emptyInstance)).toBe(false)
 	})
 
