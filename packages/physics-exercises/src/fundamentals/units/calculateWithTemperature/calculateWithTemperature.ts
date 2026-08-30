@@ -1,7 +1,8 @@
 import { randomInteger } from '@step-wise/js-utils'
-import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity } from '@step-wise/physics-core'
+
+import { buildMonoExercise } from '#exerciseBuilding'
 
 // Type 0: from K to °C.
 // Type 1: from K to SI (so K: which it already is in).

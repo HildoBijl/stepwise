@@ -17,7 +17,9 @@
     { "path": "../physics-core/tsconfig.build.json" },
     { "path": "../physics-data/tsconfig.build.json" },
     { "path": "../skill-setup/tsconfig.build.json" },
-    { "path": "../js-utils/tsconfig.build.json" }
+    { "path": "../js-utils/tsconfig.build.json" },
+    { "path": "../value-types/tsconfig.build.json" },
+    { "path": "../physics-value-types/tsconfig.build.json" }
   ],
   "include": ["src"]
 }

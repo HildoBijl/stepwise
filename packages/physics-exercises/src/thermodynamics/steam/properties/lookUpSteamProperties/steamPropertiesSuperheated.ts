@@ -1,8 +1,9 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { interpolateTable } from '@step-wise/interpolation'
-import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { superheatedSteamProperties } from '@step-wise/physics-data'
+
+import { buildMonoExercise } from '#exerciseBuilding'
 
 export default buildMonoExercise({
 	metadata: {

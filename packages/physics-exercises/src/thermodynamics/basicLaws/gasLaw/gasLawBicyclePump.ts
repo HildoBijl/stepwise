@@ -1,7 +1,8 @@
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomPrecisionNumber, Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
 
 const { Rs } = gasProperties.air
 

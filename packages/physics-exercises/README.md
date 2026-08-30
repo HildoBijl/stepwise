@@ -35,7 +35,7 @@ Nested paths mirror the corresponding skill groups. A skill-level entry is a `Sk
 
 ## Adding an exercise
 
-Define an exercise under the directory belonging to its skill, add it to that skill's bundle, and export the bundle through the surrounding index files. The resulting registry path must match the skill's `groupPath` followed by its skill ID.
+Define an exercise under the directory belonging to its skill, add it to that skill's bundle, and export the bundle through the surrounding index files. Import `buildMonoExercise`, `buildStepExercise`, `createStepExerciseMetadata`, and related exercise-building utilities from the private `#exerciseBuilding` module; its builders provide every physics exercise with the shared PrecisionNumber, Unit, and Quantity value types. The resulting registry path must match the skill's `groupPath` followed by its skill ID.
 
 Every exercise must connect to its containing skill through `metadata.skill` or `metadata.setup`. IDs shared by the examples and regular exercises collections must refer to the same exercise definition.
 

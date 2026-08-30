@@ -1,8 +1,9 @@
 import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties, maximumHumidityByTemperature } from '@step-wise/physics-data'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
 
 import { getCycle } from '../tools/index.ts'
 

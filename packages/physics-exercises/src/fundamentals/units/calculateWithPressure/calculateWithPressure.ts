@@ -1,7 +1,8 @@
 import { randomInteger } from '@step-wise/js-utils'
-import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomExponentialQuantity } from '@step-wise/physics-core'
+
+import { buildMonoExercise } from '#exerciseBuilding'
 
 // Type 0: from Pa to bar.
 // Type 1: from Pa to SI (so Pa: which it already is in).

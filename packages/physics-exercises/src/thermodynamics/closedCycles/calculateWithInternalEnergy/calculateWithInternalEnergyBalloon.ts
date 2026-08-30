@@ -1,8 +1,9 @@
 import { randomNumber } from '@step-wise/js-utils'
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
 
 const { k } = gasProperties.helium
 

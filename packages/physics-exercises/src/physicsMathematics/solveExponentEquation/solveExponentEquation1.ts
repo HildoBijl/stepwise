@@ -1,6 +1,7 @@
-import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomPrecisionNumber, getRandomExponentialPrecisionNumber } from '@step-wise/physics-core'
+
+import { buildMonoExercise } from '#exerciseBuilding'
 
 // a/x^p = b/c^p (=fraction)
 

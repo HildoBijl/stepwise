@@ -1,7 +1,8 @@
 import { randomNumber } from '@step-wise/js-utils'
-import { buildStepExercise, createStepExerciseMetadata, getInput } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { Quantity, getRandomPrecisionNumber, getRandomQuantity } from '@step-wise/physics-core'
+
+import { buildStepExercise, createStepExerciseMetadata, getInput } from '#exerciseBuilding'
 
 export default buildStepExercise({
 	metadata: {

@@ -1,6 +1,7 @@
-import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
+
+import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
 
 export default buildStepExercise({
 	metadata: {

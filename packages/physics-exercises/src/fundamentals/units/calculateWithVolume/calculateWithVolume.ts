@@ -1,7 +1,8 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
-import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomExponentialQuantity } from '@step-wise/physics-core'
+
+import { buildMonoExercise } from '#exerciseBuilding'
 
 // Type 0: from (c/d/.)m^3 to liter.
 // Type 1: from (c/d/.)m^3 to SI (so m^3: which it may already be in).

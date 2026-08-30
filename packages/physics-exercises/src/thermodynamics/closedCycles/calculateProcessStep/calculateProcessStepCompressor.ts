@@ -1,8 +1,9 @@
 import { sample } from '@step-wise/js-utils'
-import { buildStepExercise, createStepExerciseMetadata, getInput } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
+
+import { buildStepExercise, createStepExerciseMetadata, getInput } from '#exerciseBuilding'
 
 const gases = ['methane', 'helium', 'hydrogen'] as const
 

@@ -1,6 +1,7 @@
-import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity } from '@step-wise/physics-core'
+
+import { buildMonoExercise } from '#exerciseBuilding'
 
 export function generateParameters() {
 	const q = getRandomQuantity({ min: 150, max: 250, unit: 'kJ/kg' })

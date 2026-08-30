@@ -1,9 +1,10 @@
 import { first, last } from '@step-wise/js-utils'
 import { interpolateTable } from '@step-wise/interpolation'
-import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity } from '@step-wise/physics-core'
 import { maximumHumidityByTemperature } from '@step-wise/physics-data'
+
+import { buildMonoExercise } from '#exerciseBuilding'
 
 export default buildMonoExercise({
 	metadata: {
