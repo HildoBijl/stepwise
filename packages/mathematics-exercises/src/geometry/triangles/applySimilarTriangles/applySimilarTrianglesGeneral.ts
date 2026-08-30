@@ -2,7 +2,7 @@ import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/j
 import { type Equation, asExpression, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
+import { buildStepExercise, createStepExerciseMetadata } from '#mathematicsExerciseBuilding'
 import { selectRandomVariables } from '#generationTools'
 
 const sampleTriangles = [[1, 1, 'sqrt(2)'], [1, 'sqrt(3)', 2], [1, 2, 'sqrt(5)'], [3, 4, 5], [5, 12, 13]]

@@ -2,7 +2,7 @@ import { sample } from '@step-wise/js-utils'
 import { Unit } from '@step-wise/physics-core'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildMonoExercise } from '#exerciseBuilding'
+import { buildMonoExercise } from '#physicsExerciseBuilding'
 
 export default buildMonoExercise({
 	metadata: {

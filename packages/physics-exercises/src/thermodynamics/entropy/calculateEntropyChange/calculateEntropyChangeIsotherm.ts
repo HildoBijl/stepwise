@@ -1,7 +1,7 @@
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity } from '@step-wise/physics-core'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
+import { buildStepExercise, createStepExerciseMetadata } from '#physicsExerciseBuilding'
 
 const metadata = {
 	skill: 'calculateEntropyChange',

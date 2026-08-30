@@ -2,7 +2,7 @@ import { sample } from '@step-wise/js-utils'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { gasProperties } from '@step-wise/physics-data'
 
-import { buildMonoExercise } from '#exerciseBuilding'
+import { buildMonoExercise } from '#physicsExerciseBuilding'
 
 const media = ['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'] as const
 

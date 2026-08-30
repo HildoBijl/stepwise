@@ -1,4 +1,4 @@
-import { freeBodyDiagramWithPhysicsValueTypes } from '#valueTypes/combinations'
+import { freeBodyDiagramWithPhysicsValueTypes } from '#mechanicsValueTypes/combinations'
 
 import { createExerciseBuilders } from './support.ts'
 

@@ -2,7 +2,7 @@ import { sample, randomInteger, randomBoolean, randomIndices } from '@step-wise/
 import { asEquation, expressionComparisons } from '@step-wise/cas'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
+import { buildStepExercise, createStepExerciseMetadata } from '#mathematicsExerciseBuilding'
 import { selectExpressionParameters } from '#generationTools'
 
 const { areEqualExceptOrder, areEquivalent } = expressionComparisons

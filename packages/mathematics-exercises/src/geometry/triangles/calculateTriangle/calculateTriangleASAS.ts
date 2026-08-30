@@ -2,7 +2,7 @@ import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/j
 import { type Equation, asExpression, asEquation, equationComparisons } from '@step-wise/cas'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
+import { buildStepExercise, createStepExerciseMetadata } from '#mathematicsExerciseBuilding'
 
 const variableSet = ['x', 'y', 'z']
 

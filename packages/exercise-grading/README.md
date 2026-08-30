@@ -55,7 +55,7 @@ const exercise = buildMonoExercise({
 
 A setting for a specific key takes precedence over a setting for its input type. When neither is present, the comparison for that type receives `undefined` and applies its defaults.
 
-The available options depend on the value type. For example, integers use the number-equality options from `@step-wise/js-utils`, while physical quantities use the equality options from `@step-wise/physics-core`.
+The available options depend on the selected equality adapter. Integers use the number-equality options from `@step-wise/js-utils`; domain-owned adapters define and validate their own options.
 
 
 ## Custom comparison functions
@@ -102,16 +102,9 @@ For example, inputs `{ root1: 3, root2: 2 }` match a solution `{ root1: 2, root2
 
 ## Supported value types
 
-The package currently includes comparisons for:
+The package directly supplies equality adapters for integers and multiple-choice values. Domain-specific equality adapters are passed through `CheckInputData`, normally after [@step-wise/input-exercises](https://www.npmjs.com/package/@step-wise/input-exercises) extracts them from the exercise's ValueTypes.
 
-- Integers and multiple-choice values from `@step-wise/input-interpretation`.
-- Precision numbers, units, and `Quantity` values from `@step-wise/physics-core`.
-- Expressions and equations from `@step-wise/cas`.
-- Vectors, lines, line segments, and rectangles from `@step-wise/geometry`.
-- Free-body diagrams from `@step-wise/engineering-mechanics`.
-
-Values are checked at runtime by their respective equality adapters before their strongly typed equality operations run. Invalid values and unsupported input types produce an error rather than an incorrect grading result. The domain-specific adapters remain here temporarily while they are migrated to dedicated value-type integrations.
-
+This keeps grading independent of mathematics, physics, geometry, and mechanics engines. Values and options are validated by the selected adapter before its strongly typed equality operation runs. Missing adapters, invalid values, and duplicate registrations for the fundamental type names throw instead of producing an incorrect grade.
 
 ## TypeScript types
 
@@ -121,6 +114,6 @@ The main public types are:
 - `InputComparisonOptions` represents an options object supplied to a value-type comparison.
 - `InputComparisonFunction` is the signature of a custom comparison function defined by an exercise.
 - `InputComparisonSetting` is either an `InputComparisonOptions` object or an `InputComparisonFunction`.
-- `TypeCompareOptions` and `TypeCompareFunction` are compatibility types for the temporary built-in registry. New domain integrations use `ValueEqualityAdapter` from `@step-wise/value-equality`.
+- Domain integrations use `ValueEqualityAdapter` from `@step-wise/value-equality`; their registries are carried in `CheckInputData`.
 
 The generic key parameters of `compareInputs`, `compareInputList`, and `compareInputEntry` stay aligned with the supplied `CheckInputData` type. Runtime validation remains responsible for detecting fields that are absent from a particular input or solution.

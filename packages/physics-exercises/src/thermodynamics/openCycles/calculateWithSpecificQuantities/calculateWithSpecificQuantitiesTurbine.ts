@@ -1,7 +1,7 @@
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity } from '@step-wise/physics-core'
 
-import { buildMonoExercise } from '#exerciseBuilding'
+import { buildMonoExercise } from '#physicsExerciseBuilding'
 
 export default buildMonoExercise({
 	metadata: {

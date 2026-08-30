@@ -1,6 +1,6 @@
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
+import { buildStepExercise, createStepExerciseMetadata } from '#physicsExerciseBuilding'
 
 import { generateParameters, getSolution as getCycleParameters } from '../calculateClosedCycle/calculateClosedCycleSVSV.ts'
 import { getSolution as getEnergyParameters } from '../createClosedCycleEnergyOverview/createClosedCycleEnergyOverviewSVSV.ts'

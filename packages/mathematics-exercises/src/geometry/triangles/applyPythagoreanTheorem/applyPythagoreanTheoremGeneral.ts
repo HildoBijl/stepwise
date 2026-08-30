@@ -2,7 +2,7 @@ import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/j
 import { asExpression, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
+import { buildStepExercise, createStepExerciseMetadata } from '#mathematicsExerciseBuilding'
 
 const pythagoreanTriplets = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [7, 24, 25], [8, 15, 17], [9, 12, 15], [10, 24, 26]]
 const variableSet = ['x', 'y', 'z']

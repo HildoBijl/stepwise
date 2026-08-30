@@ -35,7 +35,7 @@ describe('custom input-value adapters', () => {
 		})
 	})
 
-	it('temporarily gives custom adapters precedence over built-in adapters', () => {
+	it('rejects custom adapters that duplicate built-in types', () => {
 		const integerOverride = {
 			isInputValue: (value: unknown): value is InputValue<typeof IntegerType, string> => isInputValueOfType(value, IntegerType, isString),
 			isDomainValue: isString,
@@ -44,8 +44,8 @@ describe('custom input-value adapters', () => {
 		} satisfies InputValueAdapter<InputValue<typeof IntegerType, string>, string>
 		const inputValueAdapters = { [IntegerType]: integerOverride }
 
-		expect(interpretInputValue({ type: IntegerType, value: '3' }, inputValueAdapters)).toBe('custom:3')
-		expect(toInputValue('3', IntegerType, inputValueAdapters)).toEqual({ type: IntegerType, value: '3' })
+		expect(() => interpretInputValue({ type: IntegerType, value: '3' }, inputValueAdapters)).toThrow(/Duplicate input-value adapter/)
+		expect(() => toInputValue('3', IntegerType, inputValueAdapters)).toThrow(/Duplicate input-value adapter/)
 	})
 
 	it('ignores inherited registry entries', () => {

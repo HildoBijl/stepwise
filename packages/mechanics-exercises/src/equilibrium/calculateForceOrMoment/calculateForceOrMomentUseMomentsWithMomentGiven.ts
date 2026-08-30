@@ -4,7 +4,7 @@ import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { Vector } from '@step-wise/geometry'
 import { type Load, createForce, createMoment, deriveLoadNames, decomposeForceIntoAxisComponents, isForce } from '@step-wise/engineering-mechanics'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding/vectorPhysics'
+import { buildStepExercise, createStepExerciseMetadata } from '#mechanicsExerciseBuilding/vectorPhysics'
 
 export default buildStepExercise({
 	metadata: {

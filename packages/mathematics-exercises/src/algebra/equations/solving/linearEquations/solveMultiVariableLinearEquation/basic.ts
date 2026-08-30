@@ -2,7 +2,7 @@ import { sample, randomInteger } from '@step-wise/js-utils'
 import { type Equation, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
+import { buildStepExercise, createStepExerciseMetadata } from '#mathematicsExerciseBuilding'
 import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 // ax + by = cxy + dz.

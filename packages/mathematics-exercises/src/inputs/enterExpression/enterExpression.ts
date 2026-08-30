@@ -2,7 +2,7 @@ import { sample, randomInteger } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionComparisons } from '@step-wise/cas'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildMonoExercise } from '#exerciseBuilding'
+import { buildMonoExercise } from '#mathematicsExerciseBuilding'
 import { selectRandomVariables } from '#generationTools'
 
 const availableVariableSets = [

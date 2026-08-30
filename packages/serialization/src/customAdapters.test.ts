@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
 import { hasOnlyKeys, isPlainObject, isString } from '@step-wise/js-utils'
-import { PrecisionNumber, PrecisionNumberType } from '@step-wise/physics-core'
 
 import type { SerializationAdapter, SerializationAdapters } from './types.ts'
 import { deserializeData, deserializeDomainObject } from './deserialize.ts'
@@ -39,26 +38,6 @@ describe('custom serialization adapters', () => {
 		expect(deserializeData(serialized, customAdapters)).toEqual(data)
 	})
 
-	it('uses an own custom adapter before a built-in adapter with the same type', () => {
-		class CustomPrecisionNumber {
-			readonly type = PrecisionNumberType
-			constructor(readonly label: string) {}
-		}
-		type SerializedCustomPrecisionNumber = { type: typeof PrecisionNumberType, value: string }
-		const adapter = {
-			isDomainValue: (value: unknown): value is CustomPrecisionNumber => value instanceof CustomPrecisionNumber,
-			isSerializedValue: (value: unknown): value is SerializedCustomPrecisionNumber => isPlainObject(value) && hasOnlyKeys(value, ['type', 'value']) && value.type === PrecisionNumberType && isString(value.value),
-			serialize: (value: CustomPrecisionNumber): SerializedCustomPrecisionNumber => ({ type: PrecisionNumberType, value: value.label }),
-			deserialize: (value: SerializedCustomPrecisionNumber): CustomPrecisionNumber => new CustomPrecisionNumber(value.value),
-		} satisfies SerializationAdapter<CustomPrecisionNumber, SerializedCustomPrecisionNumber>
-		const adapters = { [PrecisionNumberType]: adapter } satisfies SerializationAdapters
-
-		const value = new CustomPrecisionNumber('custom')
-		const serialized = serializeDomainObject(value, adapters)
-		expect(serialized).toEqual({ type: PrecisionNumberType, value: 'custom' })
-		expect(deserializeDomainObject(serialized, adapters)).toEqual(value)
-		expect(() => serializeDomainObject(new PrecisionNumber(3), adapters)).toThrow(/does not match type/)
-	})
 
 	it('ignores inherited custom adapter entries', () => {
 		const inheritedAdapters = Object.create(customAdapters) as SerializationAdapters

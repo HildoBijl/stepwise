@@ -19,7 +19,7 @@
 		"README.md"
 	],
 	"imports": {
-		"#exerciseBuilding": {
+		"#physicsExerciseBuilding": {
 			"types": "./src/exerciseBuilding.ts",
 			"development": "./src/exerciseBuilding.ts",
 			"default": "./dist/exerciseBuilding.js"

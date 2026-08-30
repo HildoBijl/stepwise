@@ -1,7 +1,7 @@
 import { compareInputs } from '@step-wise/exercise-grading'
 import { gasProperties } from '@step-wise/physics-data'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
+import { buildStepExercise, createStepExerciseMetadata } from '#physicsExerciseBuilding'
 
 import { getCycle } from '../../gasTurbines/tools/index.ts'
 

@@ -33,7 +33,7 @@ export function ExerciseButtons(props) {
 function SingleUserExerciseButtons({ stepwise = false }) {
 	const translate = useTranslator(translationPath)
 	const { isAllInputEqual, getAllInputSI, setAllInputSI, getFieldIds } = useFormData()
-	const { instance, state, history, submitting, example, inspection } = useExerciseData()
+	const { instance, state, history, submitting, example, inspection, valueTypeAdapters } = useExerciseData()
 	const solution = useSolution(false)
 	const inTestContext = useTestContext()
 	const isAdmin = useIsAdmin()
@@ -101,7 +101,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 				return oldInput[key]
 			const type = oldInput[key]?.type
 			if (typeof type !== 'string') throw new TypeError(`Cannot insert the solution for input field "${key}": expected the field to have a string type.`)
-			let currNewInput = toInputValue(solution[key], type)
+			let currNewInput = toInputValue(solution[key], type, valueTypeAdapters.inputValueAdapters)
 			if (isPlainObject(currNewInput))
 				currNewInput = { ...oldInput[key], ...currNewInput } // Keep other parameters like input field settings for expressions.
 			return currNewInput

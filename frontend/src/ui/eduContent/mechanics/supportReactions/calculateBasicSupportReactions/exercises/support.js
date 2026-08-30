@@ -2,7 +2,7 @@ import { freeBodyDiagramComparisonOptions, deriveLoadNames, loadsEqual } from '@
 import { loadNameToVariable } from '@step-wise/mechanics-exercises'
 
 export function getNamedLoads(loads, solution) {
-	loads = loads ?? []
+	loads = Array.isArray(loads) ? loads : []
 	const namedPoints = Object.entries(solution.points).map(([name, position]) => ({ name, position }))
 	const predefined = [{ load: solution.externalLoad, name: solution.loadNameDefinitions[0] }]
 	return deriveLoadNames(loads, namedPoints, predefined, { predefinedLoadComparison: freeBodyDiagramComparisonOptions })

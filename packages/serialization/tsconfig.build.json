@@ -9,9 +9,6 @@
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "references": [
-    { "path": "../cas/tsconfig.build.json" },
-    { "path": "../geometry/tsconfig.build.json" },
-    { "path": "../physics-core/tsconfig.build.json" },
     { "path": "../js-utils/tsconfig.build.json" }
   ],
   "include": ["src"]

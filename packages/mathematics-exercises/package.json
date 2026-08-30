@@ -19,15 +19,15 @@
 		"README.md"
 	],
 	"imports": {
-		"#exerciseBuilding": {
-			"types": "./src/exerciseBuilding.ts",
-			"development": "./src/exerciseBuilding.ts",
-			"default": "./dist/exerciseBuilding.js"
-		},
 		"#generationTools": {
 			"types": "./src/generationTools.ts",
 			"development": "./src/generationTools.ts",
 			"default": "./dist/generationTools.js"
+		},
+		"#mathematicsExerciseBuilding": {
+			"types": "./src/exerciseBuilding.ts",
+			"development": "./src/exerciseBuilding.ts",
+			"default": "./dist/exerciseBuilding.js"
 		}
 	},
 	"scripts": {

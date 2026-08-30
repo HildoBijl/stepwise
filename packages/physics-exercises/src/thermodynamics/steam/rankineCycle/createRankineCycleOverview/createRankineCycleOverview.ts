@@ -2,7 +2,7 @@ import { interpolateTableOutputs } from '@step-wise/interpolation'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { saturatedSteamPropertiesByPressure, superheatedSteamProperties } from '@step-wise/physics-data'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
+import { buildStepExercise, createStepExerciseMetadata } from '#physicsExerciseBuilding'
 
 import { getCycle } from '../tools/index.ts'
 

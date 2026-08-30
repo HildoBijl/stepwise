@@ -1,7 +1,7 @@
 import { sample } from '@step-wise/js-utils'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildMonoExercise } from '#exerciseBuilding'
+import { buildMonoExercise } from '#physicsExerciseBuilding'
 
 import { getTemperatures } from '../../coolingCycles/tools/index.ts'
 

@@ -2,7 +2,7 @@ import { sample } from '@step-wise/js-utils'
 import { expressionComparisons } from '@step-wise/cas'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildMonoExercise } from '#exerciseBuilding'
+import { buildMonoExercise } from '#mathematicsExerciseBuilding'
 
 import { getRandomElementaryFunction } from '../../tools/index.ts'
 

@@ -2,7 +2,7 @@ import { randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { asExpression, expressionComparisons } from '@step-wise/cas'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
+import { buildStepExercise, createStepExerciseMetadata } from '#mathematicsExerciseBuilding'
 import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 const variableSet = ['α', 'β', 'γ', 'δ']

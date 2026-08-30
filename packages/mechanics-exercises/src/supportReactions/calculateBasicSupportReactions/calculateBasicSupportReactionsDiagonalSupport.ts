@@ -4,7 +4,7 @@ import { getRandomQuantity } from '@step-wise/physics-core'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { createForce, freeBodyDiagramComparisonOptions, reverseLoad } from '@step-wise/engineering-mechanics'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding/freeBodyDiagramPhysics'
+import { buildStepExercise, createStepExerciseMetadata } from '#mechanicsExerciseBuilding/freeBodyDiagramPhysics'
 
 import { getInputDependency } from './common.ts'
 

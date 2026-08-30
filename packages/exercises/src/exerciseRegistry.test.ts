@@ -1,12 +1,13 @@
 import { describe, expect, it, test } from 'vitest'
 
+import { isObject, isPlainObject } from '@step-wise/js-utils'
+import type { Skill } from '@step-wise/skill-definition'
 import { isExercise } from '@step-wise/exercise-definition'
 import { isExerciseCollection } from '@step-wise/exercise-bundling'
-import { isInputExercise, resolveSolution } from '@step-wise/input-exercises'
 import { deserializeData } from '@step-wise/serialization'
-import type { Skill } from '@step-wise/skill-definition'
+import { extractSerializationAdapters } from '@step-wise/value-types'
+import { isInputExercise, resolveSolution } from '@step-wise/input-exercises'
 import { skillTree } from '@step-wise/skill-tree'
-import { isObject, isPlainObject } from '@step-wise/js-utils'
 
 import * as exerciseRegistry from './exerciseRegistry.ts'
 
@@ -79,7 +80,7 @@ describe('exercise registry', () => {
 								expect(isPlainObject(initialState)).toBe(true)
 
 								if (isInputExercise(exercise) && exercise.getSolution !== undefined) {
-									const parameters = deserializeData(storedParameters)
+									const parameters = deserializeData(storedParameters, extractSerializationAdapters(exercise.valueTypes ?? {}))
 									expect(isPlainObject(parameters)).toBe(true)
 									if (!isPlainObject(parameters)) return
 									const solution = resolveSolution(exercise.getSolution, parameters)

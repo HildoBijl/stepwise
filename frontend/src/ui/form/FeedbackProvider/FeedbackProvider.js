@@ -50,8 +50,9 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 
 		// If there is a getFeedback function, call it with the given data, input, previous feedback and previous input. Make sure all input (which is given as SI) is in FO. Then process and store the resulting feedback.
 		if (getFeedback) {
-			const inputFO = interpretInputData(input)
-			const previousInputFO = interpretInputData(previousInput)
+			const inputValueAdapters = exerciseDataRef.current.valueTypeAdapters?.inputValueAdapters
+			const inputFO = interpretInputData(input, inputValueAdapters)
+			const previousInputFO = interpretInputData(previousInput, inputValueAdapters)
 			let result = getFeedback({
 				...pickKeys(exerciseDataRef.current, ['history', 'state', 'metadata', 'shared', 'solution', 'parameters', 'example']),
 				input: inputFO,

@@ -1,7 +1,7 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildMonoExercise, generateMultipleChoiceMapping } from '#exerciseBuilding'
+import { buildMonoExercise, generateMultipleChoiceMapping } from '#physicsExerciseBuilding'
 
 export default buildMonoExercise({
 	metadata: {

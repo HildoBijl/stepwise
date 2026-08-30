@@ -2,7 +2,7 @@ import { randomInteger } from '@step-wise/js-utils'
 import { getRandomExponentialPrecisionNumber } from '@step-wise/physics-core'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildMonoExercise } from '#exerciseBuilding'
+import { buildMonoExercise } from '#physicsExerciseBuilding'
 
 function generateParameters(example: boolean) {
 	for (let attempt = 0; attempt < 100; attempt++) {

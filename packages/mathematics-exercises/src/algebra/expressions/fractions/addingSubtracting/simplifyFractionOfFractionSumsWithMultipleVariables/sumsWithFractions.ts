@@ -3,7 +3,7 @@ import { gcd } from '@step-wise/math-tools'
 import { type Expression, asExpression, expressionComparisons, expressionChecks, expressionOperations } from '@step-wise/cas'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
+import { buildStepExercise, createStepExerciseMetadata } from '#mathematicsExerciseBuilding'
 import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 const { areEquivalent } = expressionComparisons

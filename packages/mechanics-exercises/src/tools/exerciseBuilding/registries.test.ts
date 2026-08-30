@@ -2,7 +2,7 @@ import type { ValueTypes } from '@step-wise/value-types'
 import { describe, expect, it } from 'vitest'
 import { isInputExercise } from '@step-wise/input-exercises'
 
-import { freeBodyDiagramValueTypes, freeBodyDiagramWithPhysicsValueTypes, vectorWithPhysicsValueTypes } from '#valueTypes'
+import { freeBodyDiagramValueTypes, freeBodyDiagramWithPhysicsValueTypes, vectorWithPhysicsValueTypes } from '#mechanicsValueTypes/index'
 
 import { exercises } from '../../index.ts'
 

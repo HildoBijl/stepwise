@@ -3,7 +3,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { type Quantity, getRandomQuantity, getRandomExponentialQuantity } from '@step-wise/physics-core'
 import { type RefrigerantPhase, refrigerantDatasets, getRefrigerantPropertiesFromPressureAndTemperature, getRefrigerantPropertiesFromPressureAndEnthalpy, getSaturatedMixturePropertiesFromTemperature, getSaturatedMixturePropertiesFromPressure } from '@step-wise/physics-data'
 
-import { buildMonoExercise } from '#exerciseBuilding'
+import { buildMonoExercise } from '#physicsExerciseBuilding'
 
 type DetermineRefrigerantProcessIsobaricParameters = {
 	refrigerant: string

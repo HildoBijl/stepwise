@@ -1,7 +1,7 @@
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomPrecisionNumber, getRandomExponentialPrecisionNumber } from '@step-wise/physics-core'
 
-import { buildMonoExercise } from '#exerciseBuilding'
+import { buildMonoExercise } from '#physicsExerciseBuilding'
 
 // a + b*x^p = c
 

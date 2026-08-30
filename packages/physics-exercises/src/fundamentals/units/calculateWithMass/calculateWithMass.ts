@@ -2,7 +2,7 @@ import { sample, randomInteger } from '@step-wise/js-utils'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomExponentialQuantity } from '@step-wise/physics-core'
 
-import { buildMonoExercise } from '#exerciseBuilding'
+import { buildMonoExercise } from '#physicsExerciseBuilding'
 
 // Type 0: from (mu/m/./M)g to kg.
 // Type 1: from (mu/m/./M)g to SI (so kg: which it may already be in).

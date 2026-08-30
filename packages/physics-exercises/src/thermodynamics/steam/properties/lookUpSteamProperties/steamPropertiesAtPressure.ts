@@ -3,7 +3,7 @@ import { interpolateTable } from '@step-wise/interpolation'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { saturatedSteamPropertiesByPressure } from '@step-wise/physics-data'
 
-import { buildMonoExercise } from '#exerciseBuilding'
+import { buildMonoExercise } from '#physicsExerciseBuilding'
 
 export default buildMonoExercise({
 	metadata: {

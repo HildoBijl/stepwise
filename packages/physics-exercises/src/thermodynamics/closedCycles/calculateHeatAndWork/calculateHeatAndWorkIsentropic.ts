@@ -3,7 +3,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#exerciseBuilding'
+import { buildStepExercise, createStepExerciseMetadata } from '#physicsExerciseBuilding'
 
 const { k } = gasProperties.air
 

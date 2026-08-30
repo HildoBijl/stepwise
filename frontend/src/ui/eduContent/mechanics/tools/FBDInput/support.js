@@ -1,19 +1,20 @@
 import { mod, omitKeys } from '@step-wise/js-utils'
-import { FreeBodyDiagramType, interpretInputValue, toInputValue } from '@step-wise/input-interpretation'
-import { createForce, createMoment, loadListsEqual, isLoad } from '@step-wise/engineering-mechanics'
+import { createForce, createMoment, deserializeLoad, isLoad, loadListsEqual, serializeLoad } from '@step-wise/engineering-mechanics'
 
 import { doesLoadTouchRectangle, getScaleFactor } from './selection'
 
+export const FreeBodyDiagramType = 'FreeBodyDiagram'
+
 export function clean(FI) {
-	return toInputValue(FI.map(load => omitKeys(load, ['selected', 'hovering'])), FreeBodyDiagramType)
+	return { type: FreeBodyDiagramType, value: FI.map(load => serializeLoad(omitKeys(load, ['selected', 'hovering']))) }
 }
 
 export function functionalize(SI) {
-	return interpretInputValue(SI).map(load => ({ ...load, selected: false }))
+	return SI.value.map(load => ({ ...deserializeLoad(load), selected: false }))
 }
 
 export function equals(a, b) {
-	return loadListsEqual(interpretInputValue(a), interpretInputValue(b))
+	return loadListsEqual(a.value.map(deserializeLoad), b.value.map(deserializeLoad))
 }
 
 export function applySnapping(FI) {

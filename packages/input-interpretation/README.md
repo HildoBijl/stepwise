@@ -12,101 +12,26 @@ npm install @step-wise/input-interpretation
 ```
 
 
-## Interpreting one input value
+## Fundamental input types
 
-Use `interpretInputValue` when the value is known to be exactly one registered input value:
-
-```ts
-import { interpretInputValue } from '@step-wise/input-interpretation'
-
-const quantity = interpretInputValue({
-	type: 'Quantity',
-	value: {
-		value: { number: '9.81' },
-		unit: {
-			numerator: [{ text: 'm' }],
-			denominator: [{ text: 's', power: '2' }],
-		},
-	},
-})
-```
-
-The result is the corresponding domain value, in this case a `Quantity` representing `9.81 m/s^2`.
-
-The function requires a plain object with a string `type` and an own `value` property. Unknown types and malformed values throw an error.
-
-
-## Interpreting nested input data
-
-Use `interpretInputData` for a complete input structure. It recursively processes arrays and plain objects and interprets any registered input values it encounters:
+The package directly supports integers and multiple-choice selections:
 
 ```ts
-import type { Quantity } from '@step-wise/physics-core'
+import { IntegerType, MultipleChoiceType, interpretInputValue, toInputValue } from '@step-wise/input-interpretation'
 
-import { interpretInputData } from '@step-wise/input-interpretation'
-
-const input = {
-	acceleration: {
-		type: 'Quantity',
-		value: {
-			value: { number: '9.81' },
-			unit: {
-				numerator: [{ text: 'm' }],
-				denominator: [{ text: 's', power: '2' }],
-			},
-		},
-	},
-	choice: { type: 'MultipleChoice', value: 2 },
-}
-
-const interpreted = interpretInputData(input) as {
-	acceleration: Quantity
-	choice: number
-}
+interpretInputValue({ type: IntegerType, value: '-42' }) // -42
+toInputValue(-42, IntegerType) // { type: 'Integer', value: '-42' }
+interpretInputValue({ type: MultipleChoiceType, value: [2, 4] }) // [2, 4]
 ```
 
-An object with an unknown `type` remains an ordinary plain object, while its nested contents are still processed. An object with a recognized `type` commits to that interpretation. Malformed input for a recognized type therefore throws instead of silently remaining plain data.
+Integers must be safe JavaScript integers. A multiple-choice selection is either one non-negative safe-integer option index or an array of unique indexes.
 
-Sparse arrays, circular structures, unsupported class instances, functions, symbols, and bigints are rejected. Repeated references are allowed when they are not circular, although shared object identity is not preserved.
-
-
-## Converting a domain value to input
-
-Use `toInputValue` to create an editable input representation. The target type is required because primitive values do not carry enough information to determine which input field they belong to:
-
-```ts
-import { Quantity, QuantityType } from '@step-wise/physics-core'
-import { toInputValue } from '@step-wise/input-interpretation'
-
-const inputValue = toInputValue(
-	new Quantity('9.81 m/s^2'),
-	QuantityType,
-)
-```
-
-This produces:
-
-```ts
-{
-	type: 'Quantity',
-	value: {
-		value: { number: '9.81' },
-		unit: {
-			numerator: [{ text: 'm' }],
-			denominator: [{ text: 's', power: '2' }],
-		},
-	},
-}
-```
-
-The result uses display-oriented strings such as `'9.81'` and editable unit factors such as `{ text: 'm' }`. This is intentionally different from a serialized `Quantity`, whose representation is designed for general domain-object storage.
-
-The type must be registered and must match the supplied domain value. Missing and unknown types throw an error.
+Domain-specific types are supplied through adapter registries. This keeps input interpretation independent of mathematics, physics, geometry, and other engines.
 
 
 ## Custom input types
 
-Pass an optional adapter registry to interpret or convert types that are not built into this package:
+Pass an adapter registry as the second argument:
 
 ```ts
 import { isString } from '@step-wise/js-utils'
@@ -114,7 +39,6 @@ import {
 	type InputValue,
 	type InputValueAdapter,
 	isInputValueOfType,
-	interpretInputData,
 	interpretInputValue,
 	toInputValue,
 } from '@step-wise/input-interpretation'
@@ -129,73 +53,33 @@ const labelAdapter = {
 	toInputValue: label => ({ type: 'Label', value: label }),
 } satisfies InputValueAdapter<LabelInputValue, string>
 
-const inputValueAdapters = { Label: labelAdapter }
+const adapters = { Label: labelAdapter }
 
-interpretInputValue({ type: 'Label', value: ' answer ' }, inputValueAdapters) // 'answer'
-interpretInputData({ label: { type: 'Label', value: ' answer ' } }, inputValueAdapters)
-toInputValue('answer', 'Label', inputValueAdapters) // { type: 'Label', value: 'answer' }
+interpretInputValue({ type: 'Label', value: ' answer ' }, adapters) // 'answer'
+toInputValue('answer', 'Label', adapters) // { type: 'Label', value: 'answer' }
 ```
 
-Each adapter validates both directions: the public functions check incoming data before conversion and verify the adapter's output afterward. Custom registries fall back to the built-in adapters for types they do not contain.
+Public conversion functions validate input before calling a typed conversion and validate the adapter's output afterward. Adapter names must be unique: attempting to replace the built-in `Integer` or `MultipleChoice` adapter throws.
 
-During the migration to domain-owned value types, a custom adapter currently takes precedence over a built-in adapter with the same type name. Treat type names as unique: registry composition will ultimately reject duplicate adapters rather than resolve them by precedence.
-
-
-## Fundamental input types
-
-This package defines two fundamental input types directly.
-
-### Integers
-
-Integer input uses a string so partially entered text can be represented before interpretation:
-
-```ts
-import { IntegerType, interpretInputValue, toInputValue } from '@step-wise/input-interpretation'
-
-interpretInputValue({ type: IntegerType, value: '-42' }) // -42
-toInputValue(-42, IntegerType) // { type: 'Integer', value: '-42' }
-```
-
-Interpreted and converted integers must be safe JavaScript integers. Empty input, a lone minus sign, decimals, non-string input values, and unsafe integers are rejected.
-
-### Multiple choice
-
-A multiple-choice selection is either one non-negative option index or an array of unique indexes:
-
-```ts
-import { MultipleChoiceType, interpretInputValue } from '@step-wise/input-interpretation'
-
-interpretInputValue({ type: MultipleChoiceType, value: 2 }) // 2
-interpretInputValue({ type: MultipleChoiceType, value: [2, 4] }) // [2, 4]
-```
-
-An empty array represents no selection. Negative, fractional, unsafe, non-number, and duplicate options are rejected.
+Domain packages commonly bundle these registries through [@step-wise/value-types](https://www.npmjs.com/package/@step-wise/value-types).
 
 
-## Registered domain inputs
+## Interpreting nested input data
 
-The package currently includes input adapters for:
+`interpretInputData(value, adapters)` recursively processes arrays and plain objects. Registered input values are interpreted; objects with unknown type names remain ordinary data while their contents are processed.
 
-- [@step-wise/cas](https://www.npmjs.com/package/@step-wise/cas): expressions and equations.
-- [@step-wise/geometry](https://www.npmjs.com/package/@step-wise/geometry): vectors, lines, line segments, and rectangles.
-- [@step-wise/physics-core](https://www.npmjs.com/package/@step-wise/physics-core): precision numbers, units, and quantities.
-- [@step-wise/engineering-mechanics](https://www.npmjs.com/package/@step-wise/engineering-mechanics): free-body diagrams.
+A malformed value for a recognized type throws. Sparse arrays, circular structures, unsupported class instances, functions, symbols, and bigints are rejected. Repeated non-circular references are allowed, although shared identity is not preserved.
 
-Import domain-owned type constants and input types directly from their respective packages. This package re-exports only the integer, multiple-choice, and free-body-diagram types that it currently defines itself.
+Because arbitrary nested input data cannot statically describe the domain values that will be created, `interpretInputData` returns `unknown`. Narrow untrusted data or assert the expected shape when reading input produced by your own application.
 
 
 ## TypeScript types
 
 The main public types are:
 
-- `InputValue<TType, TValue>` describes a plain `{ type, value }` input representation.
-- `IntegerInputValue` describes an editable integer input.
-- `MultipleChoiceSelection` is one option index or an array of option indexes.
-- `MultipleChoiceInputValue` describes an editable multiple-choice input.
-- `FreeBodyDiagramInputValue` describes a free-body-diagram input containing serialized loads.
-- `InputValueAdapter<TInputValue, TDomainValue>` describes the guards and conversions for one input type.
-- `InputValueAdapters` describes a registry keyed by input type.
-- `isInputValueAdapter` validates a complete erased adapter at runtime.
-- `isInputValueOfType` checks an exact `{ type, value }` envelope for simple custom input values.
-
-Because arbitrary nested input data cannot statically describe the precise domain values that `interpretInputData` will create, its return type is `unknown`. Consumers should narrow the result at an untrusted boundary or assert the expected form when interpreting input produced by their own application.
+- `InputValue<TType, TValue>` for a plain `{ type, value }` input representation.
+- `IntegerInputValue` and `MultipleChoiceInputValue` for the fundamental inputs.
+- `InputValueAdapter<TInputValue, TDomainValue>` for one input type's guards and conversions.
+- `InputValueAdapters` for a registry keyed by input type.
+- `isInputValueAdapter` for runtime adapter validation.
+- `isInputValueOfType` for checking an exact simple input-value envelope.

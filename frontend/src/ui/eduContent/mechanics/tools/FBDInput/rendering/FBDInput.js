@@ -2,11 +2,10 @@ import React, { forwardRef } from 'react'
 import clsx from 'clsx'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
-import { FreeBodyDiagramType } from '@step-wise/input-interpretation'
 
 import { DrawingInput, defaultDrawingInputOptions } from 'ui/inputs'
 
-import { clean, functionalize, equals, applySnapping, selectAll, deselectAll, startDrag, getEndDragFunction, getEndSelectFunction, applyDeletion, showDeleteButton } from '../support'
+import { FreeBodyDiagramType, clean, functionalize, equals, applySnapping, selectAll, deselectAll, startDrag, getEndDragFunction, getEndSelectFunction, applyDeletion, showDeleteButton } from '../support'
 import * as validation from '../validation'
 
 import FBDInputInner, { defaultFBDInputInnerOptions } from './FBDInputInner'

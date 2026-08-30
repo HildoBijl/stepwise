@@ -25,7 +25,9 @@ export function compareInputEntry<TData extends CheckInputData>(inputKey: InputK
 }
 
 function getEqualityAdapter(type: string, data: CheckInputData): AnyValueEqualityAdapter {
-	const adapter: AnyValueEqualityAdapter | undefined = Object.hasOwn(data.equalityAdapters, type) ? data.equalityAdapters[type] : equalityAdapters[type]
+	const hasCustomAdapter = Object.hasOwn(data.equalityAdapters, type)
+	if (hasCustomAdapter && Object.hasOwn(equalityAdapters, type)) throw new Error(`Duplicate equality adapter for input type "${type}".`)
+	const adapter: AnyValueEqualityAdapter | undefined = hasCustomAdapter ? data.equalityAdapters[type] : equalityAdapters[type]
 	if (adapter === undefined) throw new Error(`Invalid compareInputEntry call: no equality adapter found for input type "${type}".`)
 	return adapter
 }

@@ -2,7 +2,7 @@ import { sample } from '@step-wise/js-utils'
 import { c, g, R, e, k, G } from '@step-wise/physics-data'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { buildMonoExercise } from '#exerciseBuilding'
+import { buildMonoExercise } from '#physicsExerciseBuilding'
 
 const constants = { c, g, R, e, k, G }
 type ConstantName = keyof typeof constants
