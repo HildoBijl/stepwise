@@ -16,7 +16,13 @@
     { "path": "../geometry/tsconfig.build.json" },
     { "path": "../input-exercises/tsconfig.build.json" },
     { "path": "../physics-core/tsconfig.build.json" },
-    { "path": "../js-utils/tsconfig.build.json" }
+    { "path": "../js-utils/tsconfig.build.json" },
+    { "path": "../mathematics-value-types/tsconfig.build.json" },
+    { "path": "../physics-value-types/tsconfig.build.json" },
+    { "path": "../serialization/tsconfig.build.json" },
+    { "path": "../input-interpretation/tsconfig.build.json" },
+    { "path": "../value-equality/tsconfig.build.json" },
+    { "path": "../value-types/tsconfig.build.json" }
 	],
 	"include": ["src"]
 }

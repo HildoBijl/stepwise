@@ -37,6 +37,21 @@ loadNameToVariable({ symbol: 'F', point: 'A', suffix: 'x' }).toString()
 // 'F_(Ax)'
 ```
 
+## Exercise value types
+
+Mechanics exercise definitions use the private `#valueTypes` import to select only the domain adapters they need:
+
+```ts
+import { mechanicsValueTypes } from '#valueTypes'
+```
+
+Three ready-made registries are available:
+
+- `mechanicsValueTypes` supports free-body-diagram input and equality, plus Vector serialization for load parameters.
+- `mechanicsWithPhysicsValueTypes` additionally supports PrecisionNumber, Unit and Quantity values.
+- `mechanicsWithPhysicsAndMathematicsValueTypes` also supports Expression and Equation values.
+
+The same private module exports the individual value types, adapters, and their discriminator constants (`FreeBodyDiagramType`, `VectorType`, `PrecisionNumberType`, `UnitType`, `QuantityType`, `ExpressionType`, and `EquationType`) for exercises that need a custom combination. Use `combineValueTypes` to assemble such a registry; duplicate discriminators are rejected.
 
 ## Adding an exercise
 
