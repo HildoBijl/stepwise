@@ -1,5 +1,5 @@
 import { ensureInteger, ensureNumberArray, forEachCombination, product } from '@step-wise/js-utils'
-import { type PolynomialCoefficients, type Polynomial, addPolynomials, multiplyPolynomials, scalePolynomial } from '@step-wise/polynomials'
+import { type Polynomial, addPolynomials, multiplyPolynomials, scalePolynomial } from '@step-wise/polynomials'
 
 import { type GenericSerializedSkillSetup, type SkillSetup, type SkillListStorageValue, ensureSkillListStorageValue, SkillListSetup } from '../abstracts/index.ts'
 
@@ -45,7 +45,7 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 		return `${this.type.toLowerCase()}([${this.skills.map(skill => skill.toString()).join(', ')}]${showNumber ? `, ${this.number}` : ''}${showWeights ? `, [${this.weights.join(', ')}]` : ''})`
 	}
 
-	override getPolynomialCoefficients(): PolynomialCoefficients {
+	override getPolynomial(): Polynomial {
 		const skillList = this.getSkillList()
 		const expressions: Polynomial[] = []
 		let sumOfWeights = 0
@@ -56,7 +56,7 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 			sumOfWeights += weight
 			expressions.push(scalePolynomial(multiplyPolynomials(option.map(index => this.skills[index].getPolynomial(this)), skillList), weight))
 		})
-		return scalePolynomial(addPolynomials(expressions, skillList), 1 / sumOfWeights).coefficients
+		return scalePolynomial(addPolynomials(expressions, skillList), 1 / sumOfWeights)
 	}
 }
 

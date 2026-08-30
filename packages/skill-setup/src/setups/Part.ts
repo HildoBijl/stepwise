@@ -1,5 +1,5 @@
 import { ensureNumber } from '@step-wise/js-utils'
-import { type PolynomialCoefficients, oneMinusPolynomial, scalePolynomial } from '@step-wise/polynomials'
+import { type Polynomial, oneMinusPolynomial, scalePolynomial } from '@step-wise/polynomials'
 
 import { type GenericSerializedSkillSetup, type SkillSetup, type SkillItemStorageValue, ensureSkillItemStorageValue, SkillItemSetup } from '../abstracts/index.ts'
 
@@ -37,11 +37,11 @@ export class Part extends SkillItemSetup<PartStorageValue> {
 		return this.part === 0 || (this.part === 1 && this.skill.isDeterministic())
 	}
 
-	override getPolynomialCoefficients(parent?: SkillSetup): PolynomialCoefficients {
+	override getPolynomial(parent?: SkillSetup): Polynomial {
 		const expression = this.skill.getPolynomial(this)
-		if (parent instanceof And) return oneMinusPolynomial(scalePolynomial(oneMinusPolynomial(expression), this.part)).coefficients
-		if (parent instanceof Or) return scalePolynomial(expression, this.part).coefficients
-		throw new Error(`Invalid polynomial request: cannot determine the polynomial coefficients of a Part set-up with parent type "${parent?.type ?? 'none'}". An "And" or "Or" parent is required.`)
+		if (parent instanceof And) return oneMinusPolynomial(scalePolynomial(oneMinusPolynomial(expression), this.part))
+		if (parent instanceof Or) return scalePolynomial(expression, this.part)
+		throw new Error(`Invalid polynomial request: cannot determine the polynomial of a Part set-up with parent type "${parent?.type ?? 'none'}". An "And" or "Or" parent is required.`)
 	}
 }
 

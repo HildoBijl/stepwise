@@ -1,4 +1,4 @@
-import { type Polynomial, type PolynomialCoefficients, polynomialToString } from '@step-wise/polynomials'
+import { type Polynomial, polynomialToString } from '@step-wise/polynomials'
 
 export type GenericSerializedSkillSetup<TStorageValue = unknown, TType extends string = string> = { type: TType, value: TStorageValue }
 
@@ -33,19 +33,11 @@ export abstract class SkillSetup<TStorageValue = unknown> {
 
 	// Polynomial functions.
 
-	// Get the polynomial coefficients related to this set-up.
-	abstract getPolynomialCoefficients(parent?: SkillSetup): PolynomialCoefficients
+	// Get the polynomial related to this set-up.
+	abstract getPolynomial(parent?: SkillSetup): Polynomial
 
 	// Get the polynomial related to this set-up in string form.
 	getPolynomialString(): string {
 		return polynomialToString(this.getPolynomial())
-	}
-
-	// Get the polynomial coefficients and their variables.
-	getPolynomial(parent?: SkillSetup): Polynomial {
-		return {
-			coefficients: this.getPolynomialCoefficients(parent),
-			variables: this.getSkillList(),
-		}
 	}
 }

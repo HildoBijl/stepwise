@@ -130,8 +130,7 @@ Every factory returns a `SkillSetup` with the following public methods:
 - `getSkillSet()` returns the same identifiers as a `Set`.
 - `isDeterministic()` reports whether the required structure contains randomness.
 - `toString()` returns a readable expression using the public factory syntax.
-- `getPolynomial()` returns `{ coefficients, variables }` for calculating the combined success probability. See the [@step-wise/polynomials](https://www.npmjs.com/package/@step-wise/polynomials) package for further polynomial functions.
-- `getPolynomialCoefficients()` returns only the coefficient structure.
+- `getPolynomial()` returns a sparse `{ terms, variables }` polynomial for calculating the combined success probability. See the [@step-wise/polynomials](https://www.npmjs.com/package/@step-wise/polynomials) package for further polynomial functions.
 - `getPolynomialString()` returns a readable form of the probability polynomial.
 - `serialize()` returns the setup's plain-data representation.
 
@@ -145,15 +144,12 @@ setup.getPolynomialString()
 
 setup.getPolynomial()
 // {
-//   coefficients: [
-//     [0, 0, 0],
-//     [0, 0, 1],
-//   ],
+//   terms: [{ coefficient: 1, exponents: [1, 2] }],
 //   variables: ['addition', 'multiplication'],
 // }
 ```
 
-The coefficient axes follow the order in `variables`; an index along an axis is the exponent of that variable. Consumers that need to evaluate or manipulate the result can use `@step-wise/polynomials`.
+Each exponent follows the corresponding entry in `variables`. Only nonzero terms are stored. Consumers that need to evaluate or manipulate the result can use `@step-wise/polynomials`.
 
 
 ## Serialization
