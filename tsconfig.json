@@ -17,6 +17,7 @@
 		{ "path": "./packages/interpolation/tsconfig.build.json" },
 		{ "path": "./packages/math-input-value/tsconfig.build.json" },
 		{ "path": "./packages/math-tools/tsconfig.build.json" },
+		{ "path": "./packages/mathematics-value-types/tsconfig.build.json" },
 		{ "path": "./packages/mathematics-exercises/tsconfig.build.json" },
 		{ "path": "./packages/mechanics-exercises/tsconfig.build.json" },
 		{ "path": "./packages/physics-core/tsconfig.build.json" },
