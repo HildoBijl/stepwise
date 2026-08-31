@@ -21,34 +21,43 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	const [loading, setLoading] = useState(true)
 	const ExerciseLocal = useRef(null)
 	const ExerciseShared = useRef({})
+	const loadedExerciseIdentity = useRef(null)
 
-	// Whenever the exercise ID changes, reload the component.
-	const reload = () => {
+	// Whenever the requested exercise changes, load its front-end component and shared definition. Ignore a result when another exercise was requested in the meantime.
+	useEffect(() => {
+		let active = true
 		const skill = getSkill(skillId)
 		setLoading(true)
 		const loadExercise = exerciseModules[`/src/ui/eduContent/${skill.groupPath.join('/')}/${skill.id}/exercises/${exerciseId}.js`]
 		Promise.all([
 			loadExercise ? loadExercise() : Promise.reject(new Error(`No front-end exercise module found for exercise "${exerciseId}" in skill "${skillId}".`)),
 		]).then(importedModules => {
+			if (!active) return
 			const [localModule] = importedModules
 			ExerciseLocal.current = localModule.default
 			ExerciseShared.current = getExercise(skillId, exerciseId)
+			loadedExerciseIdentity.current = { skillId, exerciseId }
 			setLoading(false)
 		}).catch((error) => {
+			if (!active) return
 			console.error('Exercise failed to load.')
 			console.error(error) // ToDo later: properly process errors.
 			throw error
 		})
-	}
-	useEffect(reload, [setLoading, skillId, exerciseId])
+		return () => { active = false }
+	}, [skillId, exerciseId])
+
+	// React renders once before the loading effect runs. Only use the cached modules when they belong to the currently requested exercise.
+	const loadedIdentity = loadedExerciseIdentity.current
+	const exerciseLoaded = !loading && loadedIdentity?.skillId === skillId && loadedIdentity.exerciseId === exerciseId
 
 	// Assemble stored parameters as domain values once the shared exercise has loaded.
-	const parametersFO = useMemo(() => loading ? undefined : ExerciseShared.current.valueOperations.deserializeParameters(parameters), [loading, parameters, exerciseId])
+	const parametersFO = useMemo(() => exerciseLoaded ? ExerciseShared.current.valueOperations.deserializeParameters(parameters) : undefined, [exerciseLoaded, parameters, exerciseId])
 
 	// Ensure that the state has a consistent reference.
 	const state = useConsistentValue(inspection ? (exercise.history[historyIndex]?.state ?? exercise.initialState) : getCurrentState(instance))
 
-	if (loading)
+	if (!exerciseLoaded)
 		return <LoadingNote text={translate('Loading exercise component...', 'loadingNotes.loadingExerciseComponent', 'eduTools/pages/skillPage')} />
 
 	// Set up data for the exercise and put it in a context around the exercise.
