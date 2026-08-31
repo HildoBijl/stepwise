@@ -82,9 +82,34 @@ const rawSkillTree: RawSkillTree = {
 | `setup` | No | A setup from `@step-wise/skill-setup`. Every referenced skill is also added as a prerequisite. |
 | `prerequisites` | No | Direct prerequisite skill IDs. Defaults to an empty list. |
 | `links` | No | One link or a list of link definitions. Defaults to no links. |
-| `thresholds` | No | Legacy per-skill mastery overrides, currently supporting `pass`. |
+| `thresholds` | No | Partial per-skill threshold options. Omitted values are resolved from the package defaults. |
 
 Explicit and setup-derived prerequisites are combined and deduplicated in first-occurrence order.
+
+### Threshold options
+
+Every threshold is a success probability between zero and one. Raw definitions may provide any subset of the options:
+
+```ts
+const rawSkillTree: RawSkillTree = {
+	advancedSkill: {
+		name: 'Advanced skill',
+		thresholds: {
+			mastery: 0.6,
+			recap: 0.5,
+		},
+	},
+}
+```
+
+| Option | Behavior |
+| --- | --- |
+| `mastery` | The regular threshold at which the skill is considered mastered. Defaults to `0.55`. |
+| `recap` | The regular threshold below which mastered material should be recapped. Defaults to 90% of `mastery`. |
+| `priorKnowledgeMastery` | The mastery threshold when treating the skill as prior knowledge. Defaults to `mastery`. |
+| `priorKnowledgeRecap` | The recap threshold when treating the skill as prior knowledge. Defaults to 80% of `priorKnowledgeMastery`. |
+
+Recap thresholds cannot exceed their corresponding mastery thresholds. The processed skill always contains all four values in `thresholds`, regardless of how many were supplied in the raw definition. The exported `defaultSkillThresholdOptions` contains the fully resolved defaults, while `resolveSkillThresholdOptions` resolves and validates a standalone `SkillThresholdOptionsInput`.
 
 
 ## Links
@@ -132,7 +157,7 @@ Each processed `Skill` contains:
 | `continuationIds` | Skills that directly name this skill as a prerequisite. |
 | `links` | Canonical `SkillLink` relationships, each containing `skillIds` and an optional `correlation`. |
 | `linkedSkillIds` | Deduplicated IDs occurring across the skill's links. |
-| `thresholds` | Original optional threshold overrides. |
+| `thresholds` | Fully resolved `SkillThresholdOptions`, including all four thresholds. |
 
 Creation rejects malformed entries, empty IDs or names, exact and case-insensitive ID collisions, unknown references, prerequisite cycles and inconsistent links. The error identifies the relevant skill or relationship where possible.
 
@@ -186,4 +211,4 @@ Validates the supplied IDs, then returns a new array sorted by their order in th
 
 ## TypeScript
 
-The package includes TypeScript declarations. Its principal exported types are `SkillId`, `RawSkillDefinition`, `RawSkillTree`, `RawSkillLink`, `Skill`, `SkillTree`, `SkillLink` and `SkillThresholdOverrides`.
+The package includes TypeScript declarations. Its principal exported types are `SkillId`, `RawSkillDefinition`, `RawSkillTree`, `RawSkillLink`, `Skill`, `SkillTree`, `SkillLink`, `SkillThresholdOptions` and `SkillThresholdOptionsInput`.

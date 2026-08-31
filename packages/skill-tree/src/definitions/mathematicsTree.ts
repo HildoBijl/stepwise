@@ -271,7 +271,7 @@ export const mathematicsTree: RawSkillTree = {
 			determine2DDistances: {
 				name: 'Determine 2D distances',
 				setup: and('determine2DAngles', repeat(pick(['applyPythagoreanTheorem', 'applySineCosineTangent', 'applySimilarTriangles']), 2)),
-				thresholds: { pass: 0.35 },
+				thresholds: { mastery: 0.35 },
 			},
 		},
 		areasAndVolumes: {
