@@ -1,6 +1,7 @@
 {
 	"name": "@step-wise/mechanics-exercises",
 	"version": "1.0.0",
+	"private": true,
 	"engines": {
 		"node": ">=24.12.0"
 	},
