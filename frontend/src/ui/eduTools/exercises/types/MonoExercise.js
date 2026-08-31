@@ -48,7 +48,7 @@ function MonoExerciseInner({ Problem, Solution }) {
 
 	// Render the exercise.
 	return <>
-		<ProblemContainer example={example} refresh={example && startNewExercise}>
+		<ProblemContainer activeProblem={true} problemStep={0} example={example} refresh={example && startNewExercise}>
 			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!state.done}>
 				<VerticalAdjuster>
 					<TranslationSection entry="problem">
@@ -59,7 +59,7 @@ function MonoExerciseInner({ Problem, Solution }) {
 			<MainFeedback display={showMainFeedback} />
 			<ExerciseButtons />
 		</ProblemContainer>
-		<SolutionContainer display={!!showSolution} initialExpand={initialExpandSolution}>
+		<SolutionContainer problemStep={0} display={!!showSolution} initialExpand={initialExpandSolution}>
 			<TranslationSection entry="solution">
 				<Solution {...parameters} {...solution} translate={addSection(translate, 'solution')} />
 			</TranslationSection>

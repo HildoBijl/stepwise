@@ -240,8 +240,6 @@ export function useBoundingClientRect(element) {
 	useResizeObserver(window?.document?.body, updateElementPosition) // Window/body resize.
 	useResizeObserver(element, updateElementPosition) // Element resize.
 	useEventListener('scroll', updateElementPosition) // Window scrolling.
-	useEventListener('swipe', updateElementPosition) // Swiper swiping.
-	useEventListener('swipeEnd', updateElementPosition) // Swiper swiping.
 
 	// On a first run the rect may not be known yet. Calculate it directly.
 	if (element && !rect) {

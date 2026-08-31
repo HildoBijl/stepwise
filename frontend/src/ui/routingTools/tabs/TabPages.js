@@ -1,21 +1,19 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
-import 'swiper/css'
 
-import { useConsistentValue, useResizeObserver, useUpdater } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useConsistentValue, useUpdater } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { TranslationSection } from 'i18n'
 import { VisibleProvider } from 'ui/components'
 import { useRoute, insertParametersIntoPath } from 'ui/routingTools'
 
 import { getOrderedTabs, useTab } from './util'
-import { useTabs, useTabContext } from './TabProvider'
+import { useTabs } from './TabProvider'
 
 export function TabPages({ pages, initialPage, updateUrl = true }) {
 	const urlTab = useTab()
 	const tabs = useConsistentValue(getOrderedTabs(pages))
 	const tabContext = useTabs(tabs, urlTab || initialPage)
-	const { tab: contextTab, tabIndex, setTab, setTabIndex } = tabContext
+	const { tab: contextTab, tabIndex, setTab } = tabContext
 
 	// When the tab mentioned in the URL changes, and when it's something unequal to the context tab, adjust the context tab. (But only when it exists.)
 	useUpdater(() => {
@@ -35,73 +33,18 @@ export function TabPages({ pages, initialPage, updateUrl = true }) {
 		}
 	}, [contextTab])
 
-	// If the tab context is not ready, do not display the Swiper yet. This prevents unwanted tab swipes on start-up.
+	// If the tab context is not ready, do not display the pages yet. This prevents the wrong page from briefly appearing on start-up.
 	if (tabIndex === undefined)
 		return null
 
-	return <Swiper
-		initialSlide={tabIndex}
-		onSlideChange={swiper => setTabIndex(swiper.activeIndex)} // On a smartphone touch slide, also update the upper tab bar.
-		simulateTouch={false} // Only slide on touch, not on mouse events.
-		touchStartPreventDefault={false} // Allow a touch event to hit an input field.
-		autoHeight={true} // Adapt the height to the active page.
-		spaceBetween={40} // Add some margin between pages.
-		noSwipingSelector={'.slider.active, .field, .input, .drawingInput'} // Prevent swiping on these elements.
-	>
-		<TabPagesEffect />
-		{tabs.map(id => <SwiperSlide key={id}>
-			<SwipePageWrapper id={id}>
+	// Keep all pages mounted so switching tabs preserves their local state, but only display and activate the selected page.
+	return <>
+		{tabs.map(id => <div key={id} hidden={contextTab !== id}>
+			<VisibleProvider visible={contextTab === id}>
 				<TranslationSection entry={id === 'example' ? 'practice' : id}>{/* The example page puts its translations in the practice section too, since they're also exercises. */}
 					{pages[id]}
 				</TranslationSection>
-			</SwipePageWrapper>
-		</SwiperSlide>)}
-	</Swiper>
-}
-
-// The TabPagesEffect uses a React Effect to make sure that, when the tab bar has a tab pressed, that the swiper also slides to the corresponding page.
-function TabPagesEffect() {
-	const tabContext = useTabContext()
-	const swiper = useSwiper() // Possible because we are inside the Swiper.
-
-	// Make sure the swiper swipes to the page indicated by the Tab context.
-	const { tabIndex } = tabContext
-	useEffect(() => {
-		if (tabIndex !== undefined)
-			swiper.slideTo(tabIndex)
-	}, [swiper, tabIndex])
-
-	return null
-}
-
-// The PageWrapper is wrapped around every swiper page. It checks for resizes and ensures that the swiper updates on a resize. It does not always do this well on its own.
-function SwipePageWrapper({ children, id }) {
-	const swiper = useSwiper()
-	const swipePageRef = useRef()
-	const { tab } = useTabContext()
-
-	// On a resize of the child, update the swiper properties.
-	useResizeObserver(swipePageRef, () => {
-		swiper.update()
-		swiper.updateAutoHeight(0)
-	})
-
-	// On a swipe move, throw a swipe event, so other components (for instance useBoundingClientRect) know about it.
-	useEffect(() => {
-		const onTransitionStart = () => dispatchEvent(new Event('swipeStart'))
-		const onSetTranslate = () => dispatchEvent(new Event('swipe'))
-		const onTransitionEnd = () => dispatchEvent(new Event('swipeEnd'))
-		swiper.on('transitionStart', onTransitionStart)
-		swiper.on('setTranslate', onSetTranslate)
-		swiper.on('transitionEnd', onTransitionEnd)
-		return () => {
-			swiper.off('transitionStart', onTransitionStart)
-			swiper.off('setTranslate', onSetTranslate)
-			swiper.off('transitionEnd', onTransitionEnd)
-		}
-	}, [swiper])
-
-	// Wrap the page in a provider indicating whether it's visible. This is then used by for instance input fields to determine whether they should react to anything.
-	const visible = tab === id
-	return <VisibleProvider visible={visible}><div ref={swipePageRef}>{children}</div></VisibleProvider>
+			</VisibleProvider>
+		</div>)}
+	</>
 }
