@@ -15,7 +15,7 @@ export default buildStepExercise({
 		skill: 'findAdvancedDerivative',
 		...createStepExerciseMetadata([undefined, undefined, ['applyChainRule', 'lookUpElementaryDerivative'], undefined]),
 		weight: 3,
-		comparisons: { method: {}, Expression: areEquivalent },
+		comparisons: { Expression: areEquivalent },
 	},
 
 	generateParameters() {

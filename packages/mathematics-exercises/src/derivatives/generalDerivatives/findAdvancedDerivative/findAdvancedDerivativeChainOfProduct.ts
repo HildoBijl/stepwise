@@ -13,7 +13,7 @@ export default buildStepExercise({
 		skill: 'findAdvancedDerivative',
 		...createStepExerciseMetadata([undefined, undefined, ['applyProductRule', 'lookUpElementaryDerivative'], undefined]),
 		weight: 3,
-		comparisons: { method: {}, Expression: expressionComparisons.areEquivalent },
+		comparisons: { Expression: expressionComparisons.areEquivalent },
 	},
 
 	generateParameters() {

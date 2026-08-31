@@ -19,7 +19,7 @@ export default buildStepExercise({
 		weight: 3,
 		...createStepExerciseMetadata(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, and('simplifyFraction', 'simplifyRoot')]),
 		comparisons: {
-			a: {}, b: {}, c: {}, solutionFull: areEquivalent, D: {}, numSolutions: {},
+			solutionFull: areEquivalent,
 			// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
 			ans1: (input: Expression, correct: Expression) => areEqualExceptOrder(input, correct) || areEqualExceptOrder(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
 			ans2: (input: Expression, correct: Expression) => areEqualExceptOrder(input, correct) || areEqualExceptOrder(input, correct.combine(['splitFractions'], ['combineSumFractions'])),
