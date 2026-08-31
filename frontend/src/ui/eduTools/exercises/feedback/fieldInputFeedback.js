@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { findWithValue, isPlainObject, mergeDefaults, deepEqual, mapValues, numbersEqual, checkNumberEquality } from '@step-wise/js-utils'
+import { isPlainObject, mergeDefaults, deepEqual, mapValues, numbersEqual, checkNumberEquality } from '@step-wise/js-utils'
 import { Expression, Equation } from '@step-wise/cas'
 import { PrecisionNumber, Unit, Quantity, adjustPrecisionNumberTolerances, adjustQuantityTolerances } from '@step-wise/physics-core'
 import { compareInputs as gradingCompare } from '@step-wise/exercise-grading'
@@ -147,8 +147,10 @@ export function getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, 
 
 	// Find the first feedback check to return something truthy and return the resulting value.
 	const { solution } = exerciseData
-	const result = findWithValue(feedbackChecks, (check) => check(currInput, currSolution, solution, correct, exerciseData))
-	return result && result.value
+	for (const check of feedbackChecks) {
+		const result = check(currInput, currSolution, solution, correct, exerciseData)
+		if (result) return result
+	}
 }
 
 // getNumberComparisonFeedback takes two numbers: an input answer and a solution answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }.
