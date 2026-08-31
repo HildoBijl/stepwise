@@ -59,7 +59,7 @@ function MonoExerciseInner({ Problem, Solution }) {
 			<MainFeedback display={showMainFeedback} />
 			<ExerciseButtons />
 		</ProblemContainer>
-		<SolutionContainer display={!!showSolution} initialExpand={initialExpandSolution}>
+		<SolutionContainer problemStep={0} display={!!showSolution} initialExpand={initialExpandSolution}>
 			<TranslationSection entry="solution">
 				<Solution {...parameters} {...solution} translate={addSection(translate, 'solution')} />
 			</TranslationSection>

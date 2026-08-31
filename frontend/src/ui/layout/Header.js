@@ -14,7 +14,7 @@ export function Header({ Indicator }) {
 
 	return (
 		<TranslationFile path="navigation">
-			<AppBar position="sticky">
+			<AppBar data-scroll-header position="sticky">
 				<Container maxWidth={theme.appWidth}>
 					<Toolbar disableGutters sx={{ p: 0 }}>
 						<Menu titleCollapsed={titleCollapsed} sx={{ mr: 2 }} />

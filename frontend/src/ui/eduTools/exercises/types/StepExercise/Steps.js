@@ -60,7 +60,7 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 			<MainFeedback display={showMainFeedback} step={step} />
 			{step === exerciseStep && (!stepState.done || example) ? <ExerciseButtons stepwise={true} /> : null}
 		</ProblemContainer>
-		<SolutionContainer display={showSolution} initialExpand={initialSolutionExpand}>
+		<SolutionContainer problemStep={step} display={showSolution} initialExpand={initialSolutionExpand}>
 			<TranslationSection entry={`step${step}.solution`}>
 				<Solution {...parameters} {...solution} translate={addSection(translate, `step${step}.solution`)} />
 			</TranslationSection>

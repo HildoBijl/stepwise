@@ -5,10 +5,15 @@ import { ArrowRight, Refresh } from '@mui/icons-material'
 import { notSelectable } from 'ui/theme'
 import { Button } from 'ui/components'
 
-export function ContentsContainer({ children, display = true, text, onClick, initialExpand = true, canToggle, color, Icon = ArrowRight, rotateIcon, refresh, activeProblem, problemStep }) {
+export function ContentsContainer({ children, display = true, text, onClick, initialExpand = true, canToggle, color, Icon = ArrowRight, rotateIcon, refresh, activeProblem, problemStep, solutionStep, onExpand }) {
 	// Allow for toggles, if desired.
 	let [expand, setExpand] = useState()
-	const toggle = () => setExpand(!expand)
+	const toggle = () => {
+		const nextExpand = !expand
+		setExpand(nextExpand)
+		if (nextExpand)
+			onExpand?.()
+	}
 	expand = expand === undefined ? initialExpand : expand
 
 	// Check what to do when clicked on.
@@ -18,7 +23,7 @@ export function ContentsContainer({ children, display = true, text, onClick, ini
 
 	return <Collapse in={display}>
 		{!display ? null :
-			<Box data-active-exercise-problem={activeProblem || undefined} data-exercise-problem-step={problemStep} sx={{ margin: '0 0 0.5em 0' }}>
+			<Box data-active-exercise-problem={activeProblem || undefined} data-exercise-problem-step={activeProblem === undefined ? undefined : problemStep} data-exercise-solution-step={solutionStep} sx={{ margin: '0 0 0.5em 0' }}>
 				<Box onClick={onClick} sx={theme => ({
 					alignItems: 'center',
 					color: getColor(color, theme),

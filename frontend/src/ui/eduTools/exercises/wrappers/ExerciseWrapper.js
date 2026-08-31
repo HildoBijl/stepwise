@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
 import { getCurrentStep, getLastRawInput } from '@step-wise/input-exercises'
@@ -13,6 +13,15 @@ import { useFormSubmitAction } from '../util'
 
 import { SolutionProvider, useSolution } from './SolutionProvider'
 
+const ExerciseScrollingContext = createContext()
+
+export function useExerciseScrolling() {
+	const scrollToExercisePart = useContext(ExerciseScrollingContext)
+	if (!scrollToExercisePart)
+		throw new Error('Cannot scroll an exercise part outside an ExerciseWrapper.')
+	return scrollToExercisePart
+}
+
 // ExerciseWrapper wraps an exercise in a Form and getFeedback function, providing support functionalities to exercises.
 export function ExerciseWrapper({ getFeedback, children }) {
 	const submit = useFormSubmitAction()
@@ -23,22 +32,42 @@ export function ExerciseWrapper({ getFeedback, children }) {
 	const { history, inspection, historyIndex } = exerciseData
 	const initialInput = inspection ? history[historyIndex]?.action?.input : getLastRawInput(exerciseData, userId)
 	const exerciseRef = useRef()
+	const scrollToExercisePart = useExercisePartScrolling(exerciseRef)
 	const visible = useVisible()
 	const currentStep = exerciseData.shared.type === 'step' ? getCurrentStep(exerciseData.state) : 0
 	useScrollToActiveProblem(exerciseRef, visible, currentStep, !!exerciseData.state.done)
 
 	// Render all the components that we wrap exercises in.
 	return <div ref={exerciseRef}>
-		<Form submit={submit} initialInput={initialInput} interpretInput={exerciseData.valueOperations.interpretInput}>
-			<TranslationWrapper>
-				<SolutionProvider>
-					<FeedbackWrapper getFeedback={getFeedback}>
-						{children}
-					</FeedbackWrapper>
-				</SolutionProvider>
-			</TranslationWrapper>
-		</Form>
+		<ExerciseScrollingContext.Provider value={scrollToExercisePart}>
+			<Form submit={submit} initialInput={initialInput} interpretInput={exerciseData.valueOperations.interpretInput}>
+				<TranslationWrapper>
+					<SolutionProvider>
+						<FeedbackWrapper getFeedback={getFeedback}>
+							{children}
+						</FeedbackWrapper>
+					</SolutionProvider>
+				</TranslationWrapper>
+			</Form>
+		</ExerciseScrollingContext.Provider>
 	</div>
+}
+
+function useExercisePartScrolling(exerciseRef) {
+	const theme = useTheme()
+	const animationCleanup = useRef()
+	useEffect(() => () => animationCleanup.current?.(), [])
+
+	return useCallback((step, { part = 'problem' } = {}) => {
+		animationCleanup.current?.()
+		const animationFrame = requestAnimationFrame(() => {
+			const exercisePart = exerciseRef.current?.querySelector(`[data-exercise-${part}-step="${step}"]`)
+			animationCleanup.current = exercisePart
+				? scrollDownToExercisePart(exercisePart, theme.transitions.duration.standard + 25)
+				: undefined
+		})
+		animationCleanup.current = () => cancelAnimationFrame(animationFrame)
+	}, [exerciseRef, theme.transitions.duration.standard])
 }
 
 // When an exercise appears, show its active problem. When it advances, only catch up to the completed problem if needed.
@@ -72,13 +101,13 @@ function useScrollToActiveProblem(exerciseRef, visible, currentStep, exerciseDon
 		if (!scrollTarget)
 			return undefined
 		if (completedStep !== undefined)
-			return scrollDownToProblem(scrollTarget, scrollDuration)
+			return scrollDownToExercisePart(scrollTarget, scrollDuration)
 
 		let secondFrame
 		const firstFrame = requestAnimationFrame(() => {
 			secondFrame = requestAnimationFrame(() => {
 				if (scrollTarget.isConnected)
-					scrollTarget.scrollIntoView({ block: 'start' })
+					window.scrollTo({ top: getProblemScrollPosition(scrollTarget) })
 			})
 		})
 		return () => {
@@ -89,8 +118,8 @@ function useScrollToActiveProblem(exerciseRef, visible, currentStep, exerciseDon
 }
 
 // Smoothly follow a completed problem while the next problem expands and creates more scrolling space.
-function scrollDownToProblem(problem, duration) {
-	if (!problem.isConnected || problem.getBoundingClientRect().top <= 0)
+function scrollDownToExercisePart(problem, duration) {
+	if (!problem.isConnected || problem.getBoundingClientRect().top <= getProblemScrollOffset())
 		return undefined
 
 	const initialScrollPosition = window.scrollY
@@ -102,13 +131,22 @@ function scrollDownToProblem(problem, duration) {
 
 		const progress = Math.min((currentTime - startTime) / duration, 1)
 		const easedProgress = 1 - ((1 - progress) ** 3)
-		const targetScrollPosition = window.scrollY + problem.getBoundingClientRect().top
+		const targetScrollPosition = getProblemScrollPosition(problem)
 		window.scrollTo({ top: initialScrollPosition + ((targetScrollPosition - initialScrollPosition) * easedProgress) })
 		if (progress < 1)
 			animationFrame = requestAnimationFrame(updateScrollPosition)
 	}
 	animationFrame = requestAnimationFrame(updateScrollPosition)
 	return () => cancelAnimationFrame(animationFrame)
+}
+
+function getProblemScrollPosition(problem) {
+	return window.scrollY + problem.getBoundingClientRect().top - getProblemScrollOffset()
+}
+
+function getProblemScrollOffset() {
+	const headerBottom = document.querySelector('[data-scroll-header]')?.getBoundingClientRect().bottom ?? 0
+	return headerBottom + 8
 }
 
 function FeedbackWrapper({ getFeedback, children }) {
