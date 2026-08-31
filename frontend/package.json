@@ -35,12 +35,12 @@
 		"@step-wise/physics-core": "1.0.0",
 		"@step-wise/physics-data": "1.0.0",
 		"@step-wise/serialization": "1.0.0",
-		"@step-wise/value-types": "1.0.0",
 		"@step-wise/settings": "1.0.0",
 		"@step-wise/skill-definition": "1.0.0",
 		"@step-wise/skill-setup": "1.0.0",
 		"@step-wise/skill-tracking": "1.0.0",
 		"@step-wise/skill-tree": "1.0.0",
+		"@step-wise/value-types": "1.0.0",
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^14.4.3",
 		"clsx": "^1.1.1",
@@ -55,7 +55,6 @@
 		"react-router-dom": "^6.4.1",
 		"rxjs": "^7.8.2",
 		"sass": "^1.101.0",
-		"swiper": "^14.1.0",
 		"uuid": "^14.0.1"
 	},
 	"scripts": {
