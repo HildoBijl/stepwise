@@ -128,7 +128,7 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 					skillIds={block.contentSkillIds}
 					active={activeBlock === index}
 					toggleActive={() => toggleActiveBlock(index)}
-					name={translate(block.name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
+					name={translate(course.blocks[index].name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
 					number={index + 1}
 					isPriorKnowledge={false}
 					analysis={analysis}
