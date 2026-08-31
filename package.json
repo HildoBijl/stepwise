@@ -29,8 +29,10 @@
 		"test:frontend": "npm test --workspace=@step-wise/frontend",
 		"test:frontend:watch": "npm run test:watch --workspace=@step-wise/frontend",
 		"typecheck:api": "npm run build:packages && npm run typecheck --workspace=@step-wise/api",
-		"verify:package-artifacts": "node scripts/verifyPackageArtifacts.mjs",
+		"stage:package-publications": "node scripts/stagePackagePublications.mjs",
+		"prepare:package-publications": "npm run build:packages && npm run verify:package-artifacts",
 		"verify:package-entry-points": "node scripts/verifyPackageEntryPoints.mjs",
+		"verify:package-artifacts": "npm run stage:package-publications && node scripts/verifyPackageArtifacts.mjs",
 		"watch:packages": "npm run clean:packages && npm run watch:packages:incremental",
 		"watch:packages:incremental": "tsc -b tsconfig.json --watch"
 	},

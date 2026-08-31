@@ -209,3 +209,5 @@ Contributions are welcome, from corrections to individual exercises through new 
 Before starting a large change, consider contacting <info@step-wise.com> to coordinate it with the project direction. For code changes, create a branch, add or update relevant tests, run the appropriate build and test commands, and open a pull request.
 
 Production deployment and server administration are documented separately in the [operations guide](ops/README.md).
+
+The manual npm release procedure is documented in [PUBLISHING.md](PUBLISHING.md).
