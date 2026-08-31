@@ -4,7 +4,7 @@ import { interpretInputData } from '@step-wise/input-interpretation'
 import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
 // The read handlers allow the extraction of parameters from the Form.
-export function useReadHandlers(input, { getFieldData, getFieldIds }) {
+export function useReadHandlers(input, { getFieldData, getFieldIds }, interpretInput = interpretInputData) {
 	const inputRef = useLatest(input)
 
 	// getInputFI takes a field ID or an array of field IDs and gives the FI value of the given field. If the field value has not been registered yet, it tries to derive it regardless.
@@ -62,7 +62,7 @@ export function useReadHandlers(input, { getFieldData, getFieldIds }) {
 			try {
 				delete fieldData.FO // Make sure there is no FO in case interpretation fails.
 				delete fieldData.error // Remove a potential previous error.
-				fieldData.FO = interpretInputData(SI)
+				fieldData.FO = interpretInput(SI)
 				fieldData.recentFO = true
 			} catch (error) {
 				fieldData.error = error

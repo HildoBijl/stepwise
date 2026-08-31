@@ -44,7 +44,7 @@ export default buildMonoExercise({
 })
 ```
 
-`mathematicsValueTypes` contains both Expression and Equation. Input exercises extract and pass its adapters to input interpretation, serialization, and equality checking.
+`mathematicsValueTypes` contains both Expression and Equation. Input-exercise builders capture its adapters behind the built exercise's parameter deserialization, input interpretation, input-value conversion, and equality operations.
 
 
 ## Using one value type

@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
+import { type ValueEqualityAdapter, areValuesEqual } from '@step-wise/value-equality'
 import { IntegerType } from '@step-wise/value-types'
-import type { ValueEqualityAdapter } from '@step-wise/value-equality'
 
 import { compareInputEntry } from './compareInputEntry.ts'
 import { makeCheckInputData } from './testUtils.ts'
 
 describe('compareInputEntry', () => {
-	it('uses built-in comparisons with the provided options', () => {
+	it('uses equality comparisons with the provided options', () => {
 		const data = makeCheckInputData({ x: { type: IntegerType, value: '11' } }, { x: 10 }, { x: { absoluteTolerance: 1 } })
 		expect(compareInputEntry('x', 'x', data)).toBe(true)
 	})
@@ -22,7 +22,7 @@ describe('compareInputEntry', () => {
 		expect(compareInputEntry('x', 'x', data)).toBe(true)
 	})
 
-	it('uses supplied equality adapters', () => {
+	it('uses the supplied equality operation', () => {
 		const customEquality = {
 			isValue: (value: unknown): value is string => typeof value === 'string',
 			areEqual: (inputValue, expectedValue) => inputValue.toLowerCase() === expectedValue.toLowerCase(),
@@ -35,11 +35,17 @@ describe('compareInputEntry', () => {
 		const customData = {
 			metadata: {}, parameters: {},
 			rawInput: { x: { type: 'Custom', value: 'VALUE' } }, input: { x: 'VALUE' }, solution: { x: 'value' },
-			equalityAdapters: { Custom: customEquality },
+			areValuesEqual: (type: string, inputValue: unknown, expectedValue: unknown, options?: unknown) => {
+				if (type !== 'Custom') throw new Error(`Unknown value type: ${type}`)
+				return areValuesEqual(customEquality, inputValue, expectedValue, options)
+			},
 		}
 		expect(compareInputEntry('x', 'x', customData)).toBe(true)
 
-		const overrideData = { ...makeCheckInputData({ x: { type: IntegerType, value: '1' } }, { x: 1 }), equalityAdapters: { [IntegerType]: integerOverride } }
+		const overrideData = {
+			...makeCheckInputData({ x: { type: IntegerType, value: '1' } }, { x: 1 }),
+			areValuesEqual: (_type: string, inputValue: unknown, expectedValue: unknown, options?: unknown) => areValuesEqual(integerOverride, inputValue, expectedValue, options),
+		}
 		expect(compareInputEntry('x', 'x', overrideData)).toBe(false)
 	})
 
@@ -48,7 +54,8 @@ describe('compareInputEntry', () => {
 		expect(() => compareInputEntry('x', 'x', invalidComparison)).toThrow(TypeError)
 		const unknownData = {
 			metadata: {}, parameters: {},
-			rawInput: { x: { type: 'Unknown', value: 1 } }, input: { x: 1 }, solution: { x: 1 }, equalityAdapters: {},
+			rawInput: { x: { type: 'Unknown', value: 1 } }, input: { x: 1 }, solution: { x: 1 },
+			areValuesEqual: (type: string) => { throw new Error(`Unknown value type: ${type}`) },
 		}
 		expect(() => compareInputEntry('x', 'x', unknownData)).toThrow(/Unknown/)
 	})

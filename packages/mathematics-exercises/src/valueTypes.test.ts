@@ -1,30 +1,31 @@
 import { describe, expect, it } from 'vitest'
 
-import { type ValueTypes, IntegerType, MultipleChoiceType, fundamentalValueTypes } from '@step-wise/value-types'
-import { ExpressionType, EquationType, expressionValueType, equationValueType } from '@step-wise/mathematics-value-types'
-import { isInputExercise } from '@step-wise/input-exercises'
+import { asEquation, asExpression } from '@step-wise/cas'
+import { type AnyInputExercise, isInputExercise } from '@step-wise/input-exercises'
+import { EquationType, ExpressionType } from '@step-wise/mathematics-value-types'
+import { IntegerType, MultipleChoiceType } from '@step-wise/value-types'
 
 import { exercises } from './index.ts'
-describe('mathematics exercise value types', () => {
-	it('provides mathematics value types to every exercise', () => {
+
+describe('mathematics exercise value operations', () => {
+	it('provides mathematics and fundamental operations to every exercise', () => {
 		const mathematicsExercises = collectExercises(exercises)
+		const expression = asExpression('x+1')
+		const equation = asEquation('x=1')
 
 		expect(mathematicsExercises.length).toBeGreaterThan(0)
 		for (const exercise of mathematicsExercises) {
-			expect(exercise.valueTypes?.[ExpressionType]).toBe(expressionValueType)
-			expect(exercise.valueTypes?.[EquationType]).toBe(equationValueType)
-		}
-	})
-
-	it('adds the fundamental value types to the shared mathematics registry', () => {
-		for (const exercise of collectExercises(exercises)) {
-			expect(exercise.valueTypes?.[IntegerType]).toBe(fundamentalValueTypes[IntegerType])
-			expect(exercise.valueTypes?.[MultipleChoiceType]).toBe(fundamentalValueTypes[MultipleChoiceType])
+			const { valueOperations } = exercise
+			expect(valueOperations.toInputValue(expression, ExpressionType).type).toBe(ExpressionType)
+			expect(valueOperations.toInputValue(equation, EquationType).type).toBe(EquationType)
+			expect(valueOperations.areValuesEqual(ExpressionType, expression, expression)).toBe(true)
+			expect(valueOperations.interpretInput({ answer: { type: IntegerType, value: '2' } })).toEqual({ answer: 2 })
+			expect(valueOperations.toInputValue([1], MultipleChoiceType)).toEqual({ type: MultipleChoiceType, value: [1] })
 		}
 	})
 })
 
-function collectExercises(value: unknown, exercises: { valueTypes?: ValueTypes }[] = [], seen = new WeakSet<object>()): { valueTypes?: ValueTypes }[] {
+function collectExercises(value: unknown, exercises: AnyInputExercise[] = [], seen = new WeakSet<object>()): AnyInputExercise[] {
 	if (isInputExercise(value)) {
 		exercises.push(value)
 		return exercises

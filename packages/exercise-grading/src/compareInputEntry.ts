@@ -1,5 +1,4 @@
 import { ensureBoolean } from '@step-wise/js-utils'
-import { type AnyValueEqualityAdapter, areValuesEqual } from '@step-wise/value-equality'
 import type { CheckInputData } from '@step-wise/input-exercises'
 
 import { resolveInputComparison } from './inputComparisons.ts'
@@ -20,11 +19,5 @@ export function compareInputEntry<TData extends CheckInputData>(inputKey: InputK
 	const expectedValue = solution[solutionKey]
 	const comparison = resolveInputComparison(solutionKey, type, data)
 	if (typeof comparison === 'function') return ensureBoolean(comparison(inputValue, expectedValue, solution, data))
-	return areValuesEqual(getEqualityAdapter(type, data), inputValue, expectedValue, comparison)
-}
-
-function getEqualityAdapter(type: string, data: CheckInputData): AnyValueEqualityAdapter {
-	const adapter: AnyValueEqualityAdapter | undefined = Object.hasOwn(data.equalityAdapters, type) ? data.equalityAdapters[type] : undefined
-	if (adapter === undefined) throw new Error(`Invalid compareInputEntry call: no equality adapter found for input type "${type}".`)
-	return adapter
+	return data.areValuesEqual(type, inputValue, expectedValue, comparison)
 }

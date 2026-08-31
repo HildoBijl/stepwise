@@ -16,7 +16,7 @@ npm install @step-wise/input-interpretation
 
 This package does not hard-code input domains. Every recognized input type is supplied through an adapter registry, keeping input interpretation independent of exercise orchestration and domain engines.
 
-The fundamental Integer and MultipleChoice adapters are defined by [@step-wise/value-types](https://www.npmjs.com/package/@step-wise/value-types). `@step-wise/input-exercises` includes them automatically and passes the resulting registry into this package. Direct callers can extract and pass the adapters themselves.
+The fundamental Integer and MultipleChoice adapters are defined by [@step-wise/value-types](https://www.npmjs.com/package/@step-wise/value-types). `@step-wise/input-exercises` includes them automatically and captures the resulting registry behind each built exercise's `interpretInput` operation. Direct callers can still extract and pass adapters themselves.
 
 ## Custom input types
 

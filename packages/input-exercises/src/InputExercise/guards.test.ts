@@ -9,6 +9,7 @@ const inputExerciseProperties = {
 	processSoloAction: () => ({}),
 	processGroupActions: () => ({}),
 	checkInput: () => true,
+	valueOperations: { deserializeParameters: () => ({}), interpretInput: () => ({}), toInputValue: () => ({ type: 'Integer', value: '0' }), areValuesEqual: () => true },
 }
 
 describe('hasInputExerciseProperties', () => {
@@ -31,7 +32,8 @@ describe('hasInputExerciseProperties', () => {
 		{ ...inputExerciseProperties, getSolution: {} },
 		{ ...inputExerciseProperties, getSolution: { getStaticSolution: () => ({}), dependentFields: ['answer'] } },
 		{ ...inputExerciseProperties, getSolution: { getStaticSolution: () => ({}), getInputDependency: () => undefined } },
-		{ ...inputExerciseProperties, valueTypes: { Broken: { equality: {} } } },
+		{ ...inputExerciseProperties, valueOperations: undefined },
+		{ ...inputExerciseProperties, valueOperations: { ...inputExerciseProperties.valueOperations, interpretInput: undefined } },
 	])('rejects values missing valid input-exercise properties: %p', value => {
 		expect(hasInputExerciseProperties(value)).toBe(false)
 	})

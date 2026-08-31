@@ -1,47 +1,45 @@
 import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters } from '@step-wise/exercise-definition'
-import { interpretInputData } from '@step-wise/input-interpretation'
-import { type ValueTypeAdapters, combineValueTypes, extractValueTypeAdapters, fundamentalValueTypes } from '@step-wise/value-types'
 
-import { type InputExerciseAction, type InputExerciseParameters, type InputExerciseSolution, resolveSolution } from '../InputExercise/index.ts'
-import { deserializeInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
+import { type InputExerciseAction, type InputExerciseParameters, type InputExerciseSolution, type ValueOperations, resolveSolution } from '../InputExercise/index.ts'
+import { createValueInfrastructure } from '../InputExercise/valueOperations.ts'
 import { type InputExerciseReducerActionsInput, addAttemptsToState, hasAttempted } from '../reducerSupport.ts'
 
 import type { MonoExerciseState, MonoExercise, MonoExerciseSpec } from './types.ts'
 
 // Build a MonoExercise from its author-facing spec.
 export function buildMonoExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>): MonoExercise<TParameters, TSolution> {
-	const valueTypes = combineValueTypes(fundamentalValueTypes, spec.valueTypes ?? {})
-	const valueTypeAdapters = extractValueTypeAdapters(valueTypes)
+	const { valueTypes, ...definition } = spec
+	const { valueOperations, serializeParameters } = createValueInfrastructure(valueTypes)
 	return {
-		...spec,
-		valueTypes,
+		...definition,
+		valueOperations,
 		type: 'mono',
-		generateParameters: example => serializeInputExerciseParameters(resolveExerciseParameters(spec.generateParameters, example), valueTypeAdapters.serializationAdapters),
+		generateParameters: example => serializeParameters(resolveExerciseParameters(spec.generateParameters, example)),
 		getInitialState: () => ({}),
-		processSoloAction: buildMonoExerciseSoloReducer(spec, valueTypeAdapters),
-		processGroupActions: buildMonoExerciseGroupReducer(spec, valueTypeAdapters),
+		processSoloAction: buildMonoExerciseSoloReducer(spec, valueOperations),
+		processGroupActions: buildMonoExerciseGroupReducer(spec, valueOperations),
 	}
 }
 
-function buildMonoExerciseSoloReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, valueTypeAdapters: ValueTypeAdapters): SoloExerciseReducer<InputExerciseAction, MonoExerciseState> {
+function buildMonoExerciseSoloReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, valueOperations: ValueOperations): SoloExerciseReducer<InputExerciseAction, MonoExerciseState> {
 	return input => {
-		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters, valueTypeAdapters.serializationAdapters) }
+		const runtimeInput = { ...input, parameters: valueOperations.deserializeParameters<TParameters>(input.parameters) }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
-		return reduceActions(spec, { ...runtimeInput, mode: 'solo', actions: [{ action: input.action }] }, valueTypeAdapters)
+		return reduceActions(spec, { ...runtimeInput, mode: 'solo', actions: [{ action: input.action }] }, valueOperations)
 	}
 }
 
-function buildMonoExerciseGroupReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, valueTypeAdapters: ValueTypeAdapters): GroupExerciseReducer<InputExerciseAction, MonoExerciseState> {
+function buildMonoExerciseGroupReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, valueOperations: ValueOperations): GroupExerciseReducer<InputExerciseAction, MonoExerciseState> {
 	return input => {
 		if (input.actions.length === 0) throw new Error(`Cannot resolve a group exercise without actions.`)
-		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters, valueTypeAdapters.serializationAdapters), mode: 'group' as const }
+		const runtimeInput = { ...input, parameters: valueOperations.deserializeParameters<TParameters>(input.parameters), mode: 'group' as const }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
-		return reduceActions(spec, runtimeInput, valueTypeAdapters)
+		return reduceActions(spec, runtimeInput, valueOperations)
 	}
 }
 
 // Reduce a normalized set of solo or group actions.
-function reduceActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, MonoExerciseState, TParameters>, valueTypeAdapters: ValueTypeAdapters): MonoExerciseState {
+function reduceActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, MonoExerciseState, TParameters>, valueOperations: ValueOperations): MonoExerciseState {
 	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const newState = addAttemptsToState(state, mode, actions.filter(userAction => userAction.action.type === 'input').map(userAction => userAction.userId))
@@ -50,9 +48,9 @@ function reduceActions<TParameters extends InputExerciseParameters = InputExerci
 
 	const correct = actions.map(userAction => {
 		if (userAction.action.type !== 'input') return false
-		const exerciseInput = interpretInputData(userAction.action.input, valueTypeAdapters.inputValueAdapters)
+		const exerciseInput = valueOperations.interpretInput(userAction.action.input)
 		const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
-		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution, equalityAdapters: valueTypeAdapters.equalityAdapters })
+		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution, areValuesEqual: valueOperations.areValuesEqual })
 	})
 
 	const someCorrect = correct.some(isCorrect => isCorrect)

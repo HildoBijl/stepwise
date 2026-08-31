@@ -4,7 +4,6 @@ import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 
 import { last, fromKeys, isPlainObject, repeat } from '@step-wise/js-utils'
 import { getLastAction } from '@step-wise/exercise-definition'
-import { toInputValue } from '@step-wise/input-interpretation'
 import { getLastRawInput, getCurrentStep } from '@step-wise/input-exercises'
 
 import { useLatest, useConsistentValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
@@ -33,7 +32,7 @@ export function ExerciseButtons(props) {
 function SingleUserExerciseButtons({ stepwise = false }) {
 	const translate = useTranslator(translationPath)
 	const { isAllInputEqual, getAllInputSI, setAllInputSI, getFieldIds } = useFormData()
-	const { instance, state, history, submitting, example, inspection, valueTypeAdapters } = useExerciseData()
+	const { instance, state, history, submitting, example, inspection, valueOperations } = useExerciseData()
 	const solution = useSolution(false)
 	const inTestContext = useTestContext()
 	const isAdmin = useIsAdmin()
@@ -101,7 +100,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 				return oldInput[key]
 			const type = oldInput[key]?.type
 			if (typeof type !== 'string') throw new TypeError(`Cannot insert the solution for input field "${key}": expected the field to have a string type.`)
-			let currNewInput = toInputValue(solution[key], type, valueTypeAdapters.inputValueAdapters)
+			let currNewInput = valueOperations.toInputValue(solution[key], type)
 			if (isPlainObject(currNewInput))
 				currNewInput = { ...oldInput[key], ...currNewInput } // Keep other parameters like input field settings for expressions.
 			return currNewInput

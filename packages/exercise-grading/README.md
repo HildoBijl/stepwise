@@ -102,9 +102,9 @@ For example, inputs `{ root1: 3, root2: 2 }` match a solution `{ root1: 2, root2
 
 ## Supported value types
 
-The package directly supplies equality adapters for integers and multiple-choice values. Domain-specific equality adapters are passed through `CheckInputData`, normally after [@step-wise/input-exercises](https://www.npmjs.com/package/@step-wise/input-exercises) extracts them from the exercise's ValueTypes.
+The package receives an exercise-bound `areValuesEqual` operation through `CheckInputData`. [@step-wise/input-exercises](https://www.npmjs.com/package/@step-wise/input-exercises) creates that operation from the exercise specification's ValueTypes, including the fundamental Integer and MultipleChoice definitions, while keeping the underlying adapter registry private.
 
-This keeps grading independent of mathematics, physics, geometry, and mechanics engines. Values and options are validated by the selected adapter before its strongly typed equality operation runs. Missing adapters and invalid values throw instead of producing an incorrect grade. Duplicate type registrations are rejected earlier while composing the exercise value-type registry.
+This keeps grading independent of mathematics, physics, geometry, and mechanics engines. The captured operation validates values and options through the selected adapter before its strongly typed equality operation runs. Missing adapters and invalid values throw instead of producing an incorrect grade. Duplicate type registrations are rejected earlier while composing the exercise value-type registry.
 
 ## TypeScript types
 

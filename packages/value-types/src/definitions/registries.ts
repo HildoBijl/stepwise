@@ -1,7 +1,7 @@
 import { isPlainObject } from '@step-wise/js-utils'
 import type { SerializationAdapters } from '@step-wise/serialization'
 import type { InputValueAdapters } from '@step-wise/input-interpretation'
-import type { ValueEqualityAdapters } from '@step-wise/value-equality'
+import { type ValueEqualityAdapters, areValuesEqual } from '@step-wise/value-equality'
 
 import { isValueType } from './checks.ts'
 import type { ValueType, ValueTypeAdapters, ValueTypes } from './types.ts'
@@ -42,6 +42,14 @@ export function extractInputValueAdapters(valueTypes: ValueTypes): InputValueAda
 
 export function extractValueEqualityAdapters(valueTypes: ValueTypes): ValueEqualityAdapters {
 	return extractAdapters(valueTypes, 'equality')
+}
+
+export function createAreValuesEqual(equalityAdapters: ValueEqualityAdapters) {
+	return (type: string, inputValue: unknown, expectedValue: unknown, options?: unknown): boolean => {
+		const adapter = Object.hasOwn(equalityAdapters, type) ? equalityAdapters[type] : undefined
+		if (adapter === undefined) throw new Error(`Cannot compare values: no equality adapter found for type "${type}".`)
+		return areValuesEqual(adapter, inputValue, expectedValue, options)
+	}
 }
 
 function extractAdapters<TKey extends keyof ValueType>(valueTypes: ValueTypes, key: TKey): Record<string, NonNullable<ValueType[TKey]>> {

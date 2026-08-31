@@ -1,7 +1,7 @@
 import type { PlainDataObject } from '@step-wise/js-utils'
 import type { BaseExerciseInstanceByMode, Exercise, ExerciseMetadata, ExerciseMode, ExerciseState, GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
 import type { InputValue } from '@step-wise/input-interpretation'
-import type { ValueTypeAdapters, ValueTypes } from '@step-wise/value-types'
+import type { ValueTypes } from '@step-wise/value-types'
 
 /*
  * Fundamentals
@@ -67,9 +67,17 @@ export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParamete
 	getSolution?: SolutionDefinition<TParameters, TSolution>
 }
 
+// Operations for handling different value types in the exercise.
+export type ValueOperations = {
+	deserializeParameters: <TParameters extends InputExerciseParameters = InputExerciseParameters>(parameters: PlainDataObject) => TParameters
+	interpretInput: (input: InputExerciseRawInput) => InputExerciseInput
+	toInputValue: (value: unknown, type: string) => InputValue
+	areValuesEqual: (type: string, inputValue: unknown, expectedValue: unknown, options?: unknown) => boolean
+}
+
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized parameters.
 export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution>, 'generateParameters' | 'valueTypes'> & {
-	valueTypes: ValueTypes
+	valueOperations: ValueOperations
 	generateParameters: (example: boolean) => PlainDataObject
 	getInitialState: (parameters: PlainDataObject) => TState
 	processSoloAction: SoloExerciseReducer<TAction, TState>
@@ -86,5 +94,5 @@ export type CheckInputData<TMetadata extends InputExerciseMetadata = InputExerci
 	rawInput: InputExerciseRawInput
 	input: InputExerciseInput
 	solution?: TSolution
-	equalityAdapters: ValueTypeAdapters['equalityAdapters']
+	areValuesEqual: ValueOperations['areValuesEqual']
 }

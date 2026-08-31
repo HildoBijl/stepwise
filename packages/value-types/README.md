@@ -118,7 +118,7 @@ These helpers are intended for orchestration packages such as `input-exercises`.
 
 `value-types` directly depends only on the three capability packages and generic JavaScript utilities. It does not import the CAS, physics engine, geometry tools, mechanics engine, exercise grading, or input exercises.
 
-Input interpretation and equality remain generic registry consumers; they do not import `value-types` back. The `input-exercises` orchestration layer adds `fundamentalValueTypes` to every exercise and passes the extracted adapters downward. This prevents dependency cycles while keeping the fundamental implementations centralized.
+Input interpretation and equality remain generic registry consumers; they do not import `value-types` back. The `input-exercises` orchestration layer adds `fundamentalValueTypes`, captures the extracted adapters privately, and exposes only exercise-bound value operations to consumers. This prevents dependency cycles while keeping the fundamental implementations centralized.
 
 
 ## TypeScript types

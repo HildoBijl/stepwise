@@ -1,10 +1,8 @@
 import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
-import { deserializeData } from '@step-wise/serialization'
 import { getCurrentState } from '@step-wise/exercise-definition'
 import { getSkill } from '@step-wise/skill-tree'
 import { getExercise } from '@step-wise/exercises'
-import { extractValueTypeAdapters } from '@step-wise/value-types'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useTranslator } from 'i18n'
@@ -44,9 +42,8 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	}
 	useEffect(reload, [setLoading, skillId, exerciseId])
 
-	// Extract the exercise-specific adapters and assemble the parameters as functional objects.
-	const valueTypeAdapters = useMemo(() => extractValueTypeAdapters(ExerciseShared.current.valueTypes ?? {}), [loading, exerciseId])
-	const parametersFO = useMemo(() => loading ? parameters : deserializeData(parameters, valueTypeAdapters.serializationAdapters), [loading, parameters, valueTypeAdapters])
+	// Assemble stored parameters as domain values once the shared exercise has loaded.
+	const parametersFO = useMemo(() => loading ? undefined : ExerciseShared.current.valueOperations.deserializeParameters(parameters), [loading, parameters, exerciseId])
 
 	// Ensure that the state has a consistent reference.
 	const state = useConsistentValue(inspection ? (exercise.history[historyIndex]?.state ?? exercise.initialState) : getCurrentState(instance))
@@ -60,7 +57,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 		skillId,
 		exerciseId,
 		parameters: parametersFO,
-		valueTypeAdapters,
+		valueOperations: ExerciseShared.current.valueOperations,
 		example,
 		inspection,
 		historyIndex,

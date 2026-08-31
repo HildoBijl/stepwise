@@ -12,4 +12,4 @@ export type MonoExerciseCheckInput<TParameters extends InputExerciseParameters =
 export type MonoExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExerciseSpec<MonoExerciseMetadata, TParameters, TSolution> & { checkInput: MonoExerciseCheckInput<TParameters, TSolution> }
 
 // Runtime exercise after the mode-specific reducers are added.
-export type MonoExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExercise<MonoExerciseMetadata, InputExerciseAction, MonoExerciseState, TParameters, TSolution> & Omit<MonoExerciseSpec<TParameters, TSolution>, 'generateParameters'> & { type: 'mono' }
+export type MonoExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExercise<MonoExerciseMetadata, InputExerciseAction, MonoExerciseState, TParameters, TSolution> & Omit<MonoExerciseSpec<TParameters, TSolution>, 'generateParameters' | 'valueTypes'> & { type: 'mono' }

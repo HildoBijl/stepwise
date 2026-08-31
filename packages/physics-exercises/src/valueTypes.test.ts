@@ -1,31 +1,33 @@
 import { describe, expect, it } from 'vitest'
 
-import { type ValueTypes, IntegerType, MultipleChoiceType, fundamentalValueTypes } from '@step-wise/value-types'
-import { PrecisionNumberType, QuantityType, UnitType, precisionNumberValueType, quantityValueType, unitValueType } from '@step-wise/physics-value-types'
-import { isInputExercise } from '@step-wise/input-exercises'
+import { type AnyInputExercise, isInputExercise } from '@step-wise/input-exercises'
+import { PrecisionNumber, Quantity, Unit } from '@step-wise/physics-core'
+import { PrecisionNumberType, QuantityType, UnitType } from '@step-wise/physics-value-types'
+import { IntegerType, MultipleChoiceType } from '@step-wise/value-types'
 
 import { exercises } from './index.ts'
-describe('physics exercise value types', () => {
-	it('provides physics value types to every exercise', () => {
+
+describe('physics exercise value operations', () => {
+	it('provides physics and fundamental operations to every exercise', () => {
 		const physicsExercises = collectExercises(exercises)
+		const precisionNumber = new PrecisionNumber('3.14')
+		const unit = new Unit('m/s')
+		const quantity = new Quantity('2 m')
 
 		expect(physicsExercises.length).toBeGreaterThan(0)
 		for (const exercise of physicsExercises) {
-			expect(exercise.valueTypes?.[PrecisionNumberType]).toBe(precisionNumberValueType)
-			expect(exercise.valueTypes?.[UnitType]).toBe(unitValueType)
-			expect(exercise.valueTypes?.[QuantityType]).toBe(quantityValueType)
-		}
-	})
-
-	it('adds the fundamental value types to the shared physics registry', () => {
-		for (const exercise of collectExercises(exercises)) {
-			expect(exercise.valueTypes?.[IntegerType]).toBe(fundamentalValueTypes[IntegerType])
-			expect(exercise.valueTypes?.[MultipleChoiceType]).toBe(fundamentalValueTypes[MultipleChoiceType])
+			const { valueOperations } = exercise
+			expect(valueOperations.toInputValue(precisionNumber, PrecisionNumberType).type).toBe(PrecisionNumberType)
+			expect(valueOperations.toInputValue(unit, UnitType).type).toBe(UnitType)
+			expect(valueOperations.toInputValue(quantity, QuantityType).type).toBe(QuantityType)
+			expect(valueOperations.areValuesEqual(QuantityType, quantity, quantity)).toBe(true)
+			expect(valueOperations.interpretInput({ answer: { type: IntegerType, value: '2' } })).toEqual({ answer: 2 })
+			expect(valueOperations.toInputValue([1], MultipleChoiceType)).toEqual({ type: MultipleChoiceType, value: [1] })
 		}
 	})
 })
 
-function collectExercises(value: unknown, exercises: { valueTypes?: ValueTypes }[] = [], seen = new WeakSet<object>()): { valueTypes?: ValueTypes }[] {
+function collectExercises(value: unknown, exercises: AnyInputExercise[] = [], seen = new WeakSet<object>()): AnyInputExercise[] {
 	if (isInputExercise(value)) {
 		exercises.push(value)
 		return exercises

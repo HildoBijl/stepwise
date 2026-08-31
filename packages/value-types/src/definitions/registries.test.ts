@@ -5,7 +5,7 @@ import type { SerializationAdapter } from '@step-wise/serialization'
 import type { InputValueAdapter } from '@step-wise/input-interpretation'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
 
-import { combineValueTypes, extractValueTypeAdapters, extractInputValueAdapters, extractSerializationAdapters, extractValueEqualityAdapters } from './registries.ts'
+import { combineValueTypes, createAreValuesEqual, extractValueTypeAdapters, extractInputValueAdapters, extractSerializationAdapters, extractValueEqualityAdapters } from './registries.ts'
 import type { ValueTypes } from './types.ts'
 
 const ExampleType = 'Example'
@@ -79,6 +79,13 @@ describe('value-type registries', () => {
 		expect(combineValueTypes({}, valueTypes)).toEqual(valueTypes)
 		expect(extractInputValueAdapters(valueTypes)).toEqual({})
 		expect(extractValueEqualityAdapters(valueTypes)).toEqual({ EqualityOnly: equalityAdapter })
+	})
+
+	it('creates a type-keyed equality operation', () => {
+		const areValuesEqual = createAreValuesEqual({ [ExampleType]: equalityAdapter })
+		expect(areValuesEqual(ExampleType, new Example('a'), new Example('a'))).toBe(true)
+		expect(areValuesEqual(ExampleType, new Example('a'), new Example('b'))).toBe(false)
+		expect(() => areValuesEqual('Unknown', new Example('a'), new Example('a'))).toThrow(/no equality adapter found/)
 	})
 
 	it('rejects duplicate type keys, including identical definitions', () => {

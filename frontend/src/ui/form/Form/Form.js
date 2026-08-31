@@ -7,7 +7,7 @@ import { useUpdater, useLatest } from 'util/index' // Unit test import issue: us
 import { FormContext } from './context'
 import { useSubscriptionHandlers, useReadHandlers, useWriteHandlers, useValidationHandlers } from './handlers'
 
-export function Form({ children, initialInput, submit }) {
+export function Form({ children, initialInput, submit, interpretInput }) {
 	// Define states.
 	const [input, setInput] = useState({})
 	const [validation, setValidation] = useState({ result: {}, input: {} })
@@ -18,7 +18,7 @@ export function Form({ children, initialInput, submit }) {
 
 	// Define handler functions.
 	const subscriptionHandlers = useSubscriptionHandlers(initialInput, setInput, fieldsRef)
-	const readHandlers = useReadHandlers(input, subscriptionHandlers)
+	const readHandlers = useReadHandlers(input, subscriptionHandlers, interpretInput)
 	const writeHandlers = useWriteHandlers(setInput, subscriptionHandlers)
 	const validationHandlers = useValidationHandlers(validation, setValidation, { ...subscriptionHandlers, ...readHandlers })
 

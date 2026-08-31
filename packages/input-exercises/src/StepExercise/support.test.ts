@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
-import { fundamentalValueTypes } from '@step-wise/value-types'
+import { createValueInfrastructure } from '../InputExercise/valueOperations.ts'
 
 import { getCurrentStep, getLastInputAtStep, getLastRawInputAtStep, hasPreviousInputAtStep } from './support.ts'
 
 describe('step-exercise support', () => {
-	const exercise = { valueTypes: fundamentalValueTypes }
+	const exercise = { valueOperations: createValueInfrastructure().valueOperations }
 	it('gets the current main problem or step', () => {
 		expect(getCurrentStep({})).toBe(0)
 		expect(getCurrentStep({ split: true, step: 2, 1: {}, 2: {} })).toBe(2)

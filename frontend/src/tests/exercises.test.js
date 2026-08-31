@@ -6,9 +6,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import { noop } from '@step-wise/js-utils'
 import { skillTree } from '@step-wise/skill-tree'
 import { resolveSolution } from '@step-wise/input-exercises'
-import { deserializeData } from '@step-wise/serialization'
 import { getAllExercises } from '@step-wise/exercises'
-import { extractValueTypeAdapters } from '@step-wise/value-types'
 
 import { I18nProvider, TranslationFile, TranslationSection } from 'i18n'
 import { ModalManager } from 'ui/components'
@@ -50,14 +48,13 @@ describe('Check all exercises:', () => {
 
 						// Emulate the ExerciseContainer.
 						const storedParameters = shared.generateParameters()
-						const valueTypeAdapters = extractValueTypeAdapters(shared.valueTypes ?? {})
-						const parameters = deserializeData(storedParameters, valueTypeAdapters.serializationAdapters)
+						const parameters = shared.valueOperations.deserializeParameters(storedParameters)
 						const initialState = shared.getInitialState(storedParameters)
 						const exerciseData = {
 							exerciseId,
 							mode: 'solo',
 							parameters,
-							valueTypeAdapters,
+							valueOperations: shared.valueOperations,
 							history: [],
 							instance: { mode: 'solo', parameters: storedParameters, initialState, history: [] },
 							state: initialState,

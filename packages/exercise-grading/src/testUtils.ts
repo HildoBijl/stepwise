@@ -1,6 +1,6 @@
 import { mapValues } from '@step-wise/js-utils'
 import { type InputValue, interpretInputValue } from '@step-wise/input-interpretation'
-import { extractInputValueAdapters, extractValueEqualityAdapters, fundamentalValueTypes } from '@step-wise/value-types'
+import { createAreValuesEqual, extractInputValueAdapters, extractValueEqualityAdapters, fundamentalValueTypes } from '@step-wise/value-types'
 
 import type { InputComparisonSetting } from './types.ts'
 
@@ -14,6 +14,6 @@ export function makeCheckInputData(rawInput: Record<string, InputValue>, solutio
 		rawInput,
 		input: mapValues(rawInput, value => interpretInputValue(value, inputValueAdapters)),
 		solution,
-		equalityAdapters,
+		areValuesEqual: createAreValuesEqual(equalityAdapters),
 	}
 }

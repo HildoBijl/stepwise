@@ -22,7 +22,7 @@ export function ExerciseWrapper({ getFeedback, children }) {
 	const initialInput = inspection ? history[historyIndex]?.action?.input : getLastRawInput(exerciseData, userId)
 
 	// Render all the components that we wrap exercises in.
-	return <Form submit={submit} initialInput={initialInput}>
+	return <Form submit={submit} initialInput={initialInput} interpretInput={exerciseData.valueOperations.interpretInput}>
 		<TranslationWrapper>
 			<SolutionProvider>
 				<FeedbackWrapper getFeedback={getFeedback}>

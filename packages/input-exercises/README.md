@@ -107,7 +107,7 @@ const exercise = buildMonoExercise({
 })
 ```
 
-The builders combine the supplied registry with the fundamental Integer and MultipleChoice value types, validate the result, store that resolved registry on the exercise, and extract its adapters once. Serialization adapters handle generated and stored parameters, input-value adapters interpret every submitted input, and equality adapters are included in `CheckInputData` for grading. An omitted registry therefore still provides Integer and MultipleChoice interpretation and equality without exercise-level configuration.
+The builders combine the supplied registry with the fundamental Integer and MultipleChoice value types, validate it, and capture its adapters privately. The built exercise exposes `valueOperations` with `deserializeParameters`, `interpretInput`, `toInputValue`, and `areValuesEqual`; consumers never need the registry or its adapters. Generated parameters and submitted actions use the same captured operations internally. An omitted registry therefore still provides Integer and MultipleChoice interpretation and equality without exercise-level configuration.
 
 Use `combineValueTypes` from [@step-wise/value-types](https://www.npmjs.com/package/@step-wise/value-types) when an exercise needs more than one domain. Duplicate type names and incomplete adapters throw instead of being silently overwritten.
 
@@ -237,8 +237,8 @@ The main author-facing types are:
 - `MonoExerciseSpec` and `MonoExercise` for single-stage exercises.
 - `StepExerciseSpec` and `StepExercise` for guided exercises.
 - `InputExerciseParameters`, `InputExerciseInput`, and `InputExerciseSolution` for exercise-specific data.
-- `CheckInputData` for the object supplied to `checkInput`, including the active equality adapters.
-- `ValueTypes` for the optional domain capabilities attached to an exercise.
+- `CheckInputData` for the object supplied to `checkInput`, including the exercise-bound `areValuesEqual` operation.
+- `ValueTypes` for optional domain capabilities on an exercise specification, and `ValueOperations` for the operations exposed by a built exercise.
 - `SolutionDefinition` and `DynamicSolutionDefinition` for solution declarations.
 - `StepExerciseSteps`, `StepExerciseState`, and `StepExerciseMetadata` for step structures.
 - `InputExerciseAction` and `InputExerciseRawInput` for stored learner actions.

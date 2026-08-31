@@ -8,6 +8,7 @@ const exercise = {
 	processSoloAction: () => ({}),
 	processGroupActions: () => ({}),
 	checkInput: () => true,
+	valueOperations: { deserializeParameters: () => ({}), interpretInput: () => ({}), toInputValue: () => ({ type: 'Integer', value: '0' }), areValuesEqual: () => true },
 }
 
 describe('isStepExercise', () => {

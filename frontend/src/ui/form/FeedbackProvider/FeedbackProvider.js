@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
 import { isPlainObject, mapValues, pickKeys, deepEqual } from '@step-wise/js-utils'
-import { interpretInputData } from '@step-wise/input-interpretation'
 
 import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useTranslator, addSection } from 'i18n'
@@ -50,9 +49,9 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 
 		// If there is a getFeedback function, call it with the given data, input, previous feedback and previous input. Make sure all input (which is given as SI) is in FO. Then process and store the resulting feedback.
 		if (getFeedback) {
-			const inputValueAdapters = exerciseDataRef.current.valueTypeAdapters?.inputValueAdapters
-			const inputFO = interpretInputData(input, inputValueAdapters)
-			const previousInputFO = interpretInputData(previousInput, inputValueAdapters)
+			const { interpretInput, areValuesEqual } = exerciseDataRef.current.valueOperations
+			const inputFO = interpretInput(input)
+			const previousInputFO = interpretInput(previousInput)
 			let result = getFeedback({
 				...pickKeys(exerciseDataRef.current, ['history', 'state', 'metadata', 'shared', 'solution', 'parameters', 'example']),
 				input: inputFO,
@@ -60,6 +59,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 				previousFeedback: previousResult,
 				previousInput: previousInputFO,
 				previousRawInput: previousInput,
+				areValuesEqual,
 				translate, translateCrossExercise,
 			})
 			if (!result || !isPlainObject(result))

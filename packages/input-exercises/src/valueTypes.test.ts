@@ -4,7 +4,7 @@ import { hasOnlyKeys, isPlainObject, isString } from '@step-wise/js-utils'
 import type { SerializationAdapter } from '@step-wise/serialization'
 import type { InputValueAdapter } from '@step-wise/input-interpretation'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
-import { type ValueTypes, fundamentalValueTypes } from '@step-wise/value-types'
+import { IntegerType, MultipleChoiceType, type ValueTypes } from '@step-wise/value-types'
 
 import { getLastInput } from './InputExercise/history.ts'
 import { buildMonoExercise } from './MonoExercise/reducer.ts'
@@ -59,11 +59,11 @@ describe('input-exercise value types', () => {
 			valueTypes,
 			generateParameters: () => ({ answer: new CustomValue('correct') }),
 			getSolution: parameters => ({ answer: parameters.answer }),
-			checkInput: ({ parameters, input, solution, equalityAdapters }) => {
+			checkInput: ({ parameters, input, solution, areValuesEqual }) => {
 				expect(parameters.answer).toBeInstanceOf(CustomValue)
 				expect(input.answer).toBeInstanceOf(CustomValue)
-				expect(equalityAdapters[CustomType]).toBe(equalityAdapter)
-				return equalityAdapter.areEqual(input.answer as CustomValue, solution!.answer)
+				expect(areValuesEqual(CustomType, input.answer, solution!.answer)).toBe(true)
+				return true
 			},
 		})
 		const parameters = exercise.generateParameters(false)
@@ -77,7 +77,7 @@ describe('input-exercise value types', () => {
 			metadata: createStepExerciseMetadata(['custom-step']),
 			valueTypes,
 			generateParameters: () => ({ answer: new CustomValue('correct') }),
-			checkInput: ({ parameters, input, equalityAdapters }) => parameters.answer instanceof CustomValue && input.answer instanceof CustomValue && equalityAdapters[CustomType] === equalityAdapter,
+			checkInput: ({ parameters, input, areValuesEqual }) => parameters.answer instanceof CustomValue && input.answer instanceof CustomValue && areValuesEqual(CustomType, input.answer, parameters.answer),
 		})
 		const parameters = exercise.generateParameters(false)
 		expect(exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput('correct') } })).toMatchObject({ solved: true, done: true })
@@ -91,8 +91,8 @@ describe('input-exercise value types', () => {
 
 	it('rejects incomplete supplied adapters while allowing omitted value types', () => {
 		const exercise = buildMonoExercise({ metadata: {}, checkInput: () => false })
-		expect(exercise.valueTypes?.Integer).toBe(fundamentalValueTypes.Integer)
-		expect(exercise.valueTypes?.MultipleChoice).toBe(fundamentalValueTypes.MultipleChoice)
+		expect(exercise.valueOperations.interpretInput({ answer: { type: IntegerType, value: '2' } })).toEqual({ answer: 2 })
+		expect(exercise.valueOperations.toInputValue([1], MultipleChoiceType)).toEqual({ type: MultipleChoiceType, value: [1] })
 		expect(() => buildMonoExercise({ metadata: {}, valueTypes: { Broken: { serialization: { serialize: () => ({}) } } } as never, checkInput: () => false })).toThrow(/complete/)
 	})
 })

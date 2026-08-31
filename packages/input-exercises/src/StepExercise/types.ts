@@ -23,4 +23,4 @@ export type StepExerciseCheckInput<TParameters extends InputExerciseParameters =
 export type StepExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExerciseSpec<StepExerciseMetadata, TParameters, TSolution> & { checkInput: StepExerciseCheckInput<TParameters, TSolution> }
 
 // Runtime exercise after the mode-specific reducers are added.
-export type StepExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExercise<StepExerciseMetadata, InputExerciseAction, StepExerciseState, TParameters, TSolution> & Omit<StepExerciseSpec<TParameters, TSolution>, 'generateParameters'> & { type: 'step' }
+export type StepExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExercise<StepExerciseMetadata, InputExerciseAction, StepExerciseState, TParameters, TSolution> & Omit<StepExerciseSpec<TParameters, TSolution>, 'generateParameters' | 'valueTypes'> & { type: 'step' }
