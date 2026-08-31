@@ -5,7 +5,7 @@ import { ArrowRight, Refresh } from '@mui/icons-material'
 import { notSelectable } from 'ui/theme'
 import { Button } from 'ui/components'
 
-export function ContentsContainer({ children, display = true, text, onClick, initialExpand = true, canToggle, color, Icon = ArrowRight, rotateIcon, refresh }) {
+export function ContentsContainer({ children, display = true, text, onClick, initialExpand = true, canToggle, color, Icon = ArrowRight, rotateIcon, refresh, activeProblem, problemStep }) {
 	// Allow for toggles, if desired.
 	let [expand, setExpand] = useState()
 	const toggle = () => setExpand(!expand)
@@ -18,7 +18,7 @@ export function ContentsContainer({ children, display = true, text, onClick, ini
 
 	return <Collapse in={display}>
 		{!display ? null :
-			<Box sx={{ margin: '0 0 0.5em 0' }}>
+			<Box data-active-exercise-problem={activeProblem || undefined} data-exercise-problem-step={problemStep} sx={{ margin: '0 0 0.5em 0' }}>
 				<Box onClick={onClick} sx={theme => ({
 					alignItems: 'center',
 					color: getColor(color, theme),

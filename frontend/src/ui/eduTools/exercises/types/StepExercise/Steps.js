@@ -49,7 +49,7 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 	const initialSolutionExpand = !!(forceDisplay || inspection || (stepState.done && !stepState.solved))
 
 	return <>
-		<ProblemContainer display={!!display} step={step}>
+		<ProblemContainer activeProblem={step === exerciseStep} problemStep={step} display={!!display} step={step}>
 			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!doneWithStep}>
 				<VerticalAdjuster>
 					<TranslationSection entry={`step${step}.problem`}>
