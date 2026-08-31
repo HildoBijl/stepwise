@@ -1,6 +1,6 @@
 {
 	"name": "@step-wise/mathematics-value-types",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"engines": {
 		"node": ">=24.12.0"
 	},
@@ -25,11 +25,11 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@step-wise/cas": "1.0.0",
-		"@step-wise/input-interpretation": "1.0.0",
-		"@step-wise/serialization": "1.0.0",
-		"@step-wise/value-equality": "1.0.0",
-		"@step-wise/value-types": "1.0.0"
+		"@step-wise/cas": "^0.1.0",
+		"@step-wise/input-interpretation": "^0.1.0",
+		"@step-wise/serialization": "^0.1.0",
+		"@step-wise/value-equality": "^0.1.0",
+		"@step-wise/value-types": "^0.1.0"
 	},
 	"devDependencies": {
 		"vitest": "^3.0.0"
