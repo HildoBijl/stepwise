@@ -1,6 +1,20 @@
 {
 	"name": "@step-wise/math-input-value",
 	"version": "0.1.0",
+	"description": "Represent editable mathematical input using text and structured visual constructs.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HildoBijl/stepwise.git",
+		"directory": "packages/math-input-value"
+	},
+	"bugs": {
+		"url": "https://github.com/HildoBijl/stepwise/issues"
+	},
+	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/math-input-value#readme",
+	"publishConfig": {
+		"access": "public"
+	},
 	"engines": {
 		"node": ">=24.12.0"
 	},

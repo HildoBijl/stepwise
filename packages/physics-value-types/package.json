@@ -1,6 +1,20 @@
 {
 	"name": "@step-wise/physics-value-types",
 	"version": "0.1.0",
+	"description": "Adapters connecting Step-Wise physical values to interpretation, serialization, and equality.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HildoBijl/stepwise.git",
+		"directory": "packages/physics-value-types"
+	},
+	"bugs": {
+		"url": "https://github.com/HildoBijl/stepwise/issues"
+	},
+	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/physics-value-types#readme",
+	"publishConfig": {
+		"access": "public"
+	},
 	"engines": {
 		"node": ">=24.12.0"
 	},

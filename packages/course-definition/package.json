@@ -1,6 +1,20 @@
 {
 	"name": "@step-wise/course-definition",
 	"version": "0.1.0",
+	"description": "Resolve and validate course definitions against configurable skill trees.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HildoBijl/stepwise.git",
+		"directory": "packages/course-definition"
+	},
+	"bugs": {
+		"url": "https://github.com/HildoBijl/stepwise/issues"
+	},
+	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/course-definition#readme",
+	"publishConfig": {
+		"access": "public"
+	},
 	"engines": {
 		"node": ">=24.12.0"
 	},

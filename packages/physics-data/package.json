@@ -1,6 +1,20 @@
 {
 	"name": "@step-wise/physics-data",
 	"version": "0.1.0",
+	"description": "Precision-aware physical constants, unit conversions, and thermodynamic property data.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HildoBijl/stepwise.git",
+		"directory": "packages/physics-data"
+	},
+	"bugs": {
+		"url": "https://github.com/HildoBijl/stepwise/issues"
+	},
+	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/physics-data#readme",
+	"publishConfig": {
+		"access": "public"
+	},
 	"engines": {
 		"node": ">=24.12.0"
 	},

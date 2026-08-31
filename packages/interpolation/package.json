@@ -1,6 +1,20 @@
 {
 	"name": "@step-wise/interpolation",
 	"version": "0.1.0",
+	"description": "Linear interpolation for ranges, multidimensional grids, and reusable labeled tables.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HildoBijl/stepwise.git",
+		"directory": "packages/interpolation"
+	},
+	"bugs": {
+		"url": "https://github.com/HildoBijl/stepwise/issues"
+	},
+	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/interpolation#readme",
+	"publishConfig": {
+		"access": "public"
+	},
 	"engines": {
 		"node": ">=24.12.0"
 	},

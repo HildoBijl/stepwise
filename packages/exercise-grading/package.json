@@ -1,6 +1,20 @@
 {
 	"name": "@step-wise/exercise-grading",
 	"version": "0.1.0",
+	"description": "Grade interpreted learner input against generated exercise solutions.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HildoBijl/stepwise.git",
+		"directory": "packages/exercise-grading"
+	},
+	"bugs": {
+		"url": "https://github.com/HildoBijl/stepwise/issues"
+	},
+	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/exercise-grading#readme",
+	"publishConfig": {
+		"access": "public"
+	},
 	"engines": {
 		"node": ">=24.12.0"
 	},

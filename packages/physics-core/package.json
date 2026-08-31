@@ -1,6 +1,20 @@
 {
 	"name": "@step-wise/physics-core",
 	"version": "0.1.0",
+	"description": "Precision-aware numbers, physical units, and quantities for scientific applications.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HildoBijl/stepwise.git",
+		"directory": "packages/physics-core"
+	},
+	"bugs": {
+		"url": "https://github.com/HildoBijl/stepwise/issues"
+	},
+	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/physics-core#readme",
+	"publishConfig": {
+		"access": "public"
+	},
 	"engines": {
 		"node": ">=24.12.0"
 	},

@@ -1,6 +1,20 @@
 {
 	"name": "@step-wise/exercise-selection",
 	"version": "0.1.0",
+	"description": "Select suitable exercises from collections using random or skill-based strategies.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HildoBijl/stepwise.git",
+		"directory": "packages/exercise-selection"
+	},
+	"bugs": {
+		"url": "https://github.com/HildoBijl/stepwise/issues"
+	},
+	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/exercise-selection#readme",
+	"publishConfig": {
+		"access": "public"
+	},
 	"engines": {
 		"node": ">=24.12.0"
 	},
