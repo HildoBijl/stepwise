@@ -11,7 +11,7 @@ export function isMatrixRow(value: unknown): value is number[] {
 export function isMatrixArray(value: unknown): value is MatrixArray {
 	if (!Array.isArray(value) || value.length === 0) return false
 	if (!value.every(isMatrixRow)) return false
-	
+
 	const rowLength = value[0].length
 	if (rowLength === 0) return false
 	return value.every(row => row.length === rowLength)

@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { prefixList } from './prefixes.ts'
 
 describe('prefix definitions', () => {
@@ -6,4 +8,3 @@ describe('prefix definitions', () => {
 		expect(new Set(representations).size).toBe(representations.length)
 	})
 })
-import { describe, expect, test } from 'vitest'

@@ -5,7 +5,7 @@ import { type ExpressionNode, nodeToTree } from '../../construction/index.ts'
 import { mapNodes } from '../structural/index.ts'
 
 import { type SimplificationOptionsInput, resolveSimplificationOptions, resolveSimplificationRules, validateSimplificationOptions } from './simplificationOptions/index.ts'
-import { applySimplificationRules, type AnySimplificationRule, type SimplificationContext, type SimplificationRules } from './rules/index.ts'
+import { type AnySimplificationRule, type SimplificationContext, type SimplificationRules, applySimplificationRules } from './rules/index.ts'
 
 // Take some form of simplification option input, process/check it, and apply it to the node and its children.
 export function simplify(node: ExpressionNode, settings?: ExpressionSettingsOptions, options?: SimplificationOptionsInput): ExpressionNode {

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { extractValueTypeAdapters } from '@step-wise/value-types'
 
 import { FreeBodyDiagramType } from './freeBodyDiagram.ts'

@@ -93,7 +93,7 @@ function getPolynomialGCDFromCoefficients(a: ExpressionNode[], b: ExpressionNode
 		if (a.length < b.length) [a, b] = [b, a]
 	}
 
-	// Algorithm finished. 
+	// Algorithm finished.
 	if (a.length === 0) return []
 	const leadingCoefficient = last(a)
 	return simplifyCoefficients(divideCoefficients(a, leadingCoefficient), simplify)

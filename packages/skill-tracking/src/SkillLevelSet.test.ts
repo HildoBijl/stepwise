@@ -1,6 +1,7 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { compareNumberArrays } from '@step-wise/js-utils'
 import { createSkillTree } from '@step-wise/skill-definition'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { SkillLevelSet } from './SkillLevelSet.ts'
 import { coefficientsToStoredSkillLevel, now, skillTree } from './testUtils.ts'

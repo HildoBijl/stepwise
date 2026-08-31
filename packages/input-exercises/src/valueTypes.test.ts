@@ -4,7 +4,7 @@ import { hasOnlyKeys, isPlainObject, isString } from '@step-wise/js-utils'
 import type { SerializationAdapter } from '@step-wise/serialization'
 import type { InputValueAdapter } from '@step-wise/input-interpretation'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
-import { IntegerType, MultipleChoiceType, type ValueTypes } from '@step-wise/value-types'
+import { type ValueTypes, IntegerType, MultipleChoiceType } from '@step-wise/value-types'
 
 import { getLastInput } from './InputExercise/history.ts'
 import { buildMonoExercise } from './MonoExercise/reducer.ts'

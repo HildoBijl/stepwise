@@ -1,5 +1,6 @@
-import { IntegerType } from '@step-wise/value-types'
 import { describe, expect, it, vi } from 'vitest'
+
+import { IntegerType } from '@step-wise/value-types'
 
 import { compareInputs } from './compareInputs.ts'
 import { makeCheckInputData } from './testUtils.ts'

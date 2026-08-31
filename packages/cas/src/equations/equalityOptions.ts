@@ -1,6 +1,7 @@
 import { hasOnlyKeys, isPlainObject, mergeDefaults, identity } from '@step-wise/js-utils'
 
 import { type ExpressionPreprocessor, type ExpressionComparison } from '../expressions/index.ts'
+
 import { type Equation } from './Equation.ts'
 
 export type EquationPreprocessor = (equation: Equation) => Equation

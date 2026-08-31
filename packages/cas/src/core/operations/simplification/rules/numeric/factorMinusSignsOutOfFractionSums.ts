@@ -5,7 +5,6 @@ import { isFraction, isMinus, isSum } from '../../../structural/index.ts'
 import { defineRule } from '../ruleDefinition.ts'
 
 import { removeDoubleNegatives, applyRemoveDoubleNegatives } from './removeDoubleNegatives.ts'
-
 import { combineMinusSignsInFractions, applyCombineMinusSignsInFractions } from './combineMinusSignsInFractions.ts'
 
 function transform(node: Fraction): ExpressionNode {

@@ -41,6 +41,8 @@ console.log(mainTranslations) // /locales/en/main.json
 **Number settings**
 
 - `defaultDecimalSeparator`: the site-wide decimal separator.
+
+
 ## Behavioral constraints
 
 Supported languages are a compile-time contract: adding a language requires a code change, matching locale files, and a deployment.

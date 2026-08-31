@@ -4,7 +4,6 @@ import { type Polynomial, oneMinusPolynomial, scalePolynomial } from '@step-wise
 import { type GenericSerializedSkillSetup, type SkillSetup, type SkillItemStorageValue, ensureSkillItemStorageValue, SkillItemSetup } from '../abstracts/index.ts'
 
 import { type SkillSetupLike, ensureSetup } from './Skill.ts'
-
 import { And } from './And.ts'
 import { Or } from './Or.ts'
 

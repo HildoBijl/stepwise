@@ -39,7 +39,7 @@ function getStaticSolution(parameters: any) {
 		{ symbol: 'F', point: 'A', suffix: 'y' },
 		{ symbol: 'F', point: 'C' },
 	]
-	
+
 	const FCy = P.multiply(l1.number / l.number)
 	const FC = FCy.divide(Math.cos(angleRad))
 	const FCx = FCy.multiply(Math.tan(angleRad))

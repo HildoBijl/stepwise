@@ -7,7 +7,7 @@ export abstract class ConstantNode extends ExpressionNode {
 		super()
 		ensureNumber(value, { nonNegative: true, allowInfinity: true })
 	}
-	
+
 	recreateWith(value: number): ConstantNode {
 		return new (this.constructor as new (value:number) => ConstantNode)(value)
 	}

@@ -1,5 +1,4 @@
 import { negative, variable, sum, product, fraction, power } from '../../../../construction/index.ts'
-
 import { normalizationRequirements } from '../../../../operations/index.ts'
 
 import { expectSimplifyToGive } from '../../../testUtils.ts'

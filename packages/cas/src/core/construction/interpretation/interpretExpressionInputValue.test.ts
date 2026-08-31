@@ -1,7 +1,8 @@
 import type { ExpressionInputValue } from '@step-wise/math-input-value'
 
-import { fraction, sum } from '../creation/index.ts'
 import { areNodesEqual } from '../../operations/index.ts'
+
+import { fraction, sum } from '../creation/index.ts'
 
 import { interpretExpressionInputValue } from './interpretExpressionInputValue.ts'
 

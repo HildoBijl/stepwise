@@ -1,5 +1,6 @@
-import { and } from '@step-wise/skill-setup'
 import { describe, expect, it } from 'vitest'
+
+import { and } from '@step-wise/skill-setup'
 
 import { flattenRawSkillTree } from './flattening.ts'
 import type { RawSkillTree } from './types.ts'

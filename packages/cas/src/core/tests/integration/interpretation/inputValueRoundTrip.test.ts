@@ -1,7 +1,8 @@
 import type { EquationInputValue, ExpressionInputValue, InputValuePart } from '@step-wise/math-input-value'
 
-import { fraction, interpretExpressionInputValue, log, power, root, sqrt, sum, variable } from '../../../construction/index.ts'
 import { asEquation } from '../../../../equations/index.ts'
+
+import { fraction, interpretExpressionInputValue, log, power, root, sqrt, sum, variable } from '../../../construction/index.ts'
 
 import { expectNodeToEqual } from '../../testUtils.ts'
 

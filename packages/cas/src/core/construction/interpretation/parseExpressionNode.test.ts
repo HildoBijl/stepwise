@@ -1,5 +1,6 @@
-import { product, variable } from '../creation/index.ts'
 import { areNodesEqual } from '../../operations/index.ts'
+
+import { product, variable } from '../creation/index.ts'
 
 import { parseExpressionNode } from './parseExpressionNode.ts'
 

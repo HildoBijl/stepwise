@@ -63,7 +63,7 @@ export const physicsTree: RawSkillTree = {
 				links: { skillIds: ['specificGasConstant', 'specificHeatRatio'], correlation: 0.5 },
 			},
 		},
-		
+
 		basicLaws: {
 			gasLaw: {
 				name: 'Apply the gas law',

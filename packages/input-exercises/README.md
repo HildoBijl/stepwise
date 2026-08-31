@@ -111,6 +111,7 @@ The builders combine the supplied registry with the fundamental Integer and Mult
 
 Use `combineValueTypes` from [@step-wise/value-types](https://www.npmjs.com/package/@step-wise/value-types) when an exercise needs more than one domain. Duplicate type names and incomplete adapters throw instead of being silently overwritten.
 
+
 ## Raw and interpreted input
 
 Input actions contain serializable raw input values. Before `checkInput` runs, the package interprets those values into their domain values. Its argument contains both forms:

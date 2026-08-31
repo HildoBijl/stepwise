@@ -1,5 +1,6 @@
-import { IntegerType, MultipleChoiceType } from '@step-wise/value-types'
 import { describe, expect, it } from 'vitest'
+
+import { IntegerType, MultipleChoiceType } from '@step-wise/value-types'
 
 import { compareInputEntry } from './compareInputEntry.ts'
 import { compareInputList } from './compareInputList.ts'

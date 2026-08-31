@@ -8,7 +8,7 @@ export default buildMonoExercise({
 		skill: 'calculateWithSpecificQuantities',
 		comparisons: { Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
-	
+
 	generateParameters() {
 		const wt = getRandomQuantity({ min: 600, max: 1200, unit: 'kJ/kg', decimals: -1 }).setDecimals(0)
 		const m = getRandomQuantity({ min: 2, max: 10, unit: 'Mg', significantDigits: 2 })

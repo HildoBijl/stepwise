@@ -1,5 +1,6 @@
-import { approximatelyEqual, compareNumberArrays } from '@step-wise/js-utils'
 import { describe, expect, it } from 'vitest'
+
+import { approximatelyEqual, compareNumberArrays } from '@step-wise/js-utils'
 
 import { elevateBernsteinCoefficients, getBernsteinDegree, normalizeBernsteinCoefficients, reflectBernsteinCoefficients } from './fundamentals.ts'
 import { getBernsteinPDF } from './distributions.ts'

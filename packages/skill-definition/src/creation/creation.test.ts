@@ -1,5 +1,6 @@
-import { skill } from '@step-wise/skill-setup'
 import { describe, expect, it } from 'vitest'
+
+import { skill } from '@step-wise/skill-setup'
 
 import { createSkillTree } from './creation.ts'
 

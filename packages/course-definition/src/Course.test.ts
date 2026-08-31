@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { createSkillTree } from '@step-wise/skill-definition'
 
 import { Course } from './Course.ts'

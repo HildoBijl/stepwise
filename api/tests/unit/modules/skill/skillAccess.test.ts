@@ -1,3 +1,5 @@
+import type { SkillId } from '@step-wise/skill-definition'
+
 import { ForbiddenError } from '../../../../src/errors.ts'
 import { loadVisibleSkills } from '../../../../src/modules/skill/skillAccess.ts'
 import type { UserSkillRecord } from '../../../../src/modules/skill/index.ts'
@@ -77,4 +79,3 @@ describe('skill access', () => {
 		await expect(loadVisibleSkills('target-id', ['one'] as SkillId[], context)).rejects.toBe(error)
 	})
 })
-import type { SkillId } from '@step-wise/skill-definition'

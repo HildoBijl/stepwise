@@ -1,5 +1,6 @@
 # Database migrations
 
+
 ## Setup a new migration
 
 1. Create a new `.ts` file prefixed with the next consecutive number, e.g. `019_my-next-migration.ts`.
@@ -8,6 +9,7 @@
    `up` is the procedure for applying the migration, `down` is for reverting it.
 3. Adjust the database models in the respective feature modules and all dependent code to reflect the structural changes.
    Keep in mind that the models are an independent representation of the database structure, they don’t adjust automatically.
+
 
 ## Testing
 
@@ -27,6 +29,7 @@ fc before.sql after.sql // For Windows.
 (You also need to pass your database credentials to `pg_dump`.)
 
 When the `diff` of `fc` command produces empty output, it means that the structure is exactly the same as before. Do remember to remove the dumps instead of committing them.
+
 
 ## Applying in production
 

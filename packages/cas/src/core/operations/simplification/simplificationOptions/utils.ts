@@ -1,6 +1,6 @@
 import { isArray, isSet, union, difference } from '@step-wise/js-utils'
 
-import { simplificationRules, type SimplificationRules } from '../rules/index.ts'
+import { type SimplificationRules, simplificationRules } from '../rules/index.ts'
 
 import { type SimplificationOption, type SimplificationOptions, type SimplificationOptionsInput } from './types.ts'
 

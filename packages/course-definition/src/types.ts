@@ -13,7 +13,7 @@ export type CourseResolution = {
 	readonly startingPointIds: readonly SkillId[]
 	readonly contentSkillIds: readonly SkillId[]
 	readonly allSkillIds: readonly SkillId[]
-	
+
 	readonly learningGoalIds: readonly SkillId[]
 	readonly learningGoalWeights: readonly number[]
 

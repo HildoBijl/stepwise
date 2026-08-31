@@ -1,6 +1,7 @@
+import { afterEach, describe, expect, it, vi } from 'vitest'
+
 import type { Exercise } from '@step-wise/exercise-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
-import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { getSelectionProbabilities, selectRandomExercise, selectSkillBasedExercise } from './selectExercise.ts'
 

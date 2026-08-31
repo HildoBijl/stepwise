@@ -1,5 +1,5 @@
-import { Vector, type VectorLike, ensureVector } from '../Vector/index.ts'
-import { Line, type LineLike, ensureLine } from '../Line/index.ts'
+import { type VectorLike, Vector, ensureVector } from '../Vector/index.ts'
+import { type LineLike, Line, ensureLine } from '../Line/index.ts'
 
 import type { LineSegmentInput, LineSegmentStorageValue } from './types.ts'
 import { isLineSegmentObject } from './support.ts'
