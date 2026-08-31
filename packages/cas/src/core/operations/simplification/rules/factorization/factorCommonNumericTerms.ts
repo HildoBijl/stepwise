@@ -6,7 +6,6 @@ import { isSum, isIntegerNode } from '../../../structural/index.ts'
 
 import { defineRule } from '../ruleDefinition.ts'
 import { getLeadingNumber, divideLeadingNumberBy } from '../utils/index.ts'
-
 import { expandProductsOfSums } from '../expansion/index.ts'
 
 // If all leading numbers are integers, and their GCD is not one, then pull out an integer.

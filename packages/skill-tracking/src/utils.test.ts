@@ -1,5 +1,6 @@
-import { skill } from '@step-wise/skill-setup'
 import { describe, expect, it } from 'vitest'
+
+import { skill } from '@step-wise/skill-setup'
 
 import { ensureSkillLevel, ensureSkillObservation, ensureStoredSkillLevelUpdate, getInitialSkillLevel } from './utils.ts'
 import { coefficientsToStoredSkillLevel, now } from './testUtils.ts'

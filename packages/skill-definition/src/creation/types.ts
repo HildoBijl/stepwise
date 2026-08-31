@@ -3,14 +3,20 @@ import type { SkillId, SkillSetup } from '@step-wise/skill-setup'
 export type { SkillId } from '@step-wise/skill-setup'
 
 // Raw skills.
-export type SkillThresholdOverrides = { pass?: number } // Threshold legacy
+export type SkillThresholdOptions = {
+	mastery: number
+	recap: number
+	priorKnowledgeMastery: number
+	priorKnowledgeRecap: number
+}
+export type SkillThresholdOptionsInput = Partial<SkillThresholdOptions>
 export type RawSkillLink = string | string[] | { skillId?: SkillId | SkillId[]; skillIds?: SkillId[]; correlation?: number }
 export type RawSkillDefinition = {
 	name: string
 	setup?: SkillSetup<unknown>
 	prerequisites?: SkillId[]
 	links?: RawSkillLink | RawSkillLink[]
-	thresholds?: SkillThresholdOverrides
+	thresholds?: SkillThresholdOptionsInput
 }
 export type RawSkillTree = { [key: string]: RawSkillDefinition | RawSkillTree }
 
@@ -26,7 +32,7 @@ export type Skill = {
 	continuationIds: SkillId[]
 	links: SkillLink[]
 	linkedSkillIds: SkillId[]
-	thresholds?: SkillThresholdOverrides
+	thresholds: SkillThresholdOptions
 }
 
 // Skill containers.

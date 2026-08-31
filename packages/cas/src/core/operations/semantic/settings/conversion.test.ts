@@ -1,4 +1,5 @@
 import { sin } from '../../../construction/index.ts'
+
 import { areNodesEqual } from '../../structural/index.ts'
 
 import { convertExpressionToRadians } from './degrees.ts'

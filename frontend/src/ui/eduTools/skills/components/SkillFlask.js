@@ -1,15 +1,13 @@
 import React from 'react'
 import { Tooltip, Box } from '@mui/material'
 
-import { mergeDefaults, resolveFunctionValuesDeep, integerRange, clamp, repeat } from '@step-wise/js-utils'
+import { resolveFunctionValuesDeep, integerRange, clamp, repeat } from '@step-wise/js-utils'
 import { interpolateGrid } from '@step-wise/interpolation'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { skillTree } from '@step-wise/skill-tree'
 
 import { mix, shift, toCSS, useUUID } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { Translation, Check } from 'i18n'
-
-import { defaultSkillThresholds } from '../recommendation'
 
 // Define general settings.
 const vb = 100 // Viewbox size.
@@ -32,8 +30,8 @@ export function SkillFlask(props) {
 	const id = useUUID()
 
 	// If a skillId is given, calculate and display the target.
-	const thresholds = skillId ? mergeDefaults(skillTree[skillId].thresholds || {}, defaultSkillThresholds) : undefined
-	const target = thresholds && thresholds.pass * (isPriorKnowledge ? thresholds.pkFactor : 1)
+	const thresholds = skillId ? skillTree[skillId].thresholds : undefined
+	const target = thresholds && (isPriorKnowledge ? thresholds.priorKnowledgeMastery : thresholds.mastery)
 
 	// Calculate style elements and pass them to the useStyles function.
 	const part = getBernsteinExpectedValue(coef)

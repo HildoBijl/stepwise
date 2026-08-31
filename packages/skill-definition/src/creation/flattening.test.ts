@@ -1,5 +1,6 @@
-import { and } from '@step-wise/skill-setup'
 import { describe, expect, it } from 'vitest'
+
+import { and } from '@step-wise/skill-setup'
 
 import { flattenRawSkillTree } from './flattening.ts'
 import type { RawSkillTree } from './types.ts'
@@ -22,10 +23,11 @@ describe('flattenRawSkillTree', () => {
 
 	it('combines and deduplicates explicit and setup-derived prerequisites', () => {
 		const setup = and('a', 'b')
-		const tree = flattenRawSkillTree({ a: { name: 'A' }, b: { name: 'B' }, c: { name: 'C', prerequisites: ['a'], setup, thresholds: { pass: 0.7 } } })
+		const tree = flattenRawSkillTree({ a: { name: 'A' }, b: { name: 'B' }, c: { name: 'C', prerequisites: ['a'], setup, thresholds: { mastery: 0.7 } } })
 		expect(tree.c.prerequisiteIds).toEqual(['a', 'b'])
 		expect(tree.c.setup).toBe(setup)
-		expect(tree.c.thresholds).toEqual({ pass: 0.7 })
+		expect(tree.c.thresholds).toMatchObject({ mastery: 0.7, recap: 0.63, priorKnowledgeMastery: 0.7 })
+		expect(tree.c.thresholds.priorKnowledgeRecap).toBeCloseTo(0.56)
 		expect(tree.c).toMatchObject({ continuationIds: [], linkedSkillIds: [] })
 	})
 
@@ -72,15 +74,15 @@ describe('flattenRawSkillTree', () => {
 	it('validates raw skill properties', () => {
 		expect(() => flattenRawSkillTree({ a: { name: 'A', prerequisites: 'b' } } as unknown as RawSkillTree)).toThrow(/prerequisites.*array/)
 		expect(() => flattenRawSkillTree({ a: { name: 'A', setup: {} } } as unknown as RawSkillTree)).toThrow(/setup.*SkillSetup/)
-		expect(() => flattenRawSkillTree({ a: { name: 'A', thresholds: 0.5 } } as unknown as RawSkillTree)).toThrow(/thresholds.*plain object/)
+		expect(() => flattenRawSkillTree({ a: { name: 'A', thresholds: 0.5 } } as unknown as RawSkillTree)).toThrow(/threshold.*plain object/)
 	})
 
-	it.each([NaN, -0.1, 1.1, Infinity, '0.5'])('rejects an invalid pass threshold: %s', pass => {
-		expect(() => flattenRawSkillTree({ a: { name: 'A', thresholds: { pass } } } as unknown as RawSkillTree)).toThrow()
+	it.each([NaN, -0.1, 1.1, Infinity, '0.5'])('rejects an invalid mastery threshold: %s', mastery => {
+		expect(() => flattenRawSkillTree({ a: { name: 'A', thresholds: { mastery } } } as unknown as RawSkillTree)).toThrow()
 	})
 
-	it.each([0, 0.5, 1])('accepts a pass threshold on the inclusive unit interval: %s', pass => {
-		expect(flattenRawSkillTree({ a: { name: 'A', thresholds: { pass } } }).a.thresholds).toEqual({ pass })
+	it.each([0, 0.5, 1])('accepts a mastery threshold on the inclusive unit interval: %s', mastery => {
+		expect(flattenRawSkillTree({ a: { name: 'A', thresholds: { mastery } } }).a.thresholds.mastery).toBe(mastery)
 	})
 
 	it('rejects malformed group entries with their path', () => {

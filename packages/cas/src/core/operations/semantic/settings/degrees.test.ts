@@ -1,4 +1,5 @@
 import { arcsin, namedConstants, product, fraction, sin, sum } from '../../../construction/index.ts'
+
 import { areNodesEqual } from '../../structural/index.ts'
 
 import { convertExpressionToDegrees, convertExpressionToRadians } from './degrees.ts'

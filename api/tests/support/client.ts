@@ -24,9 +24,7 @@ class PubSubMock {
 	eventPayloads: Record<string, unknown[]> = {}
 
 	async publish(eventId: string, payload?: unknown): Promise<void> {
-		if (this.eventCount[eventId] === undefined) {
-			this.eventCount[eventId] = 0
-		}
+		if (this.eventCount[eventId] === undefined) this.eventCount[eventId] = 0
 		this.eventCount[eventId] += 1
 		this.eventPayloads[eventId] = [...(this.eventPayloads[eventId] ?? []), payload]
 	}

@@ -38,7 +38,7 @@ function getStaticSolution(parameters: any) {
 		{ symbol: 'F', point: 'A', suffix: 'y' },
 		{ symbol: 'M', point: 'A' },
 	]
-	
+
 	const Px = P.multiply(Math.cos(angleRad))
 	const Py = P.multiply(Math.sin(angleRad))
 	const FAx = Px

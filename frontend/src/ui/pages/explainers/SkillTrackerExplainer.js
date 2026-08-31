@@ -5,11 +5,12 @@ import { Check, Clear, Replay } from '@mui/icons-material'
 import { fromKeys, mapValues } from '@step-wise/js-utils'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum, multiplyBernsteinPDFs } from '@step-wise/bernstein-polynomials'
 import { and, repeat, skill } from '@step-wise/skill-setup'
+import { defaultSkillThresholdOptions } from '@step-wise/skill-definition'
 import { applySkillLevelDecay } from '@step-wise/skill-tracking'
 import { getSelectionProbabilities } from '@step-wise/exercise-selection'
 
 import { Par, Head, Button, M } from 'ui/components'
-import { defaultSkillThresholds, SkillFlask } from 'ui/eduTools'
+import { SkillFlask } from 'ui/eduTools'
 
 const labelsWithoutLast = ['A', 'B']
 const lastLabel = 'X'
@@ -69,7 +70,7 @@ export function SkillTrackerExplainer() {
 		<Head>Basisvaardigheden en vervolgvaardigheden</Head>
 		<Par>Vaak zijn vaardigheden gelinkt. Na een basisvaardigheid <M>A</M> (bijvoorbeeld optellen) en een basisvaardigheid <M>B</M> (bijvoorbeeld vermenigvuldigen) kun je oefenen met een vervolgvaardigheid <M>X</M> waarbij je zowel <M>A</M> als <M>B</M> nodig hebt (bijvoorbeeld samengestelde sommen). In dit geval kunnen we je kansen voor <M>X</M> inschatten aan de hand van hoe goed je <M>A</M> en <M>B</M> kan.</Par>
 		<MultiSkillTrial showButtonsForX={false} />
-		<Par>De richtlijn is: als je een score van minimaal {Math.round(defaultSkillThresholds.pass * 100)}% hebt voor alle basisvaardigheden (<M>A</M>, <M>B</M>, enzovoort) dan "beheers" je de vaardigheid en mag je door naar de vervolgvaardigheid (<M>X</M>). Als je score later echter weer onder de grofweg {Math.round(defaultSkillThresholds.pass * defaultSkillThresholds.recapFactor * 100)}% duikt, dan word je teruggestuurd.</Par>
+		<Par>De richtlijn is: als je een score van minimaal {Math.round(defaultSkillThresholdOptions.mastery * 100)}% hebt voor alle basisvaardigheden (<M>A</M>, <M>B</M>, enzovoort) dan "beheers" je de vaardigheid en mag je door naar de vervolgvaardigheid (<M>X</M>). Als je score later echter weer onder de grofweg {Math.round(defaultSkillThresholdOptions.recap * 100)}% duikt, dan word je teruggestuurd.</Par>
 
 		<Head>Vervolgvaardigheden oefenen</Head>
 		<Par>Als je een vervolgvaardigheid <M>X</M> uitvoert, dan voer je indirect ook de basisvaardigheden <M>A</M> en <M>B</M> uit. Dit betekent dat we ook daar je score updaten. Als je <M>X</M> goed doet, dan doe je <M>A</M> en <M>B</M> ook goed, en rekenen we dit mee. Als <M>X</M> fout gaat, dan is het echter nog onbekend of dat komt omdat moeite hebt met <M>A</M> of <M>B</M>. Via kansberekening schatten wij zo nauwkeurig mogelijk in waar het knelpunt precies ligt.</Par>
@@ -213,7 +214,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		const smoothedCoefficientSet = mapValues(newCoefficientSet, (coef, label) => applySkillLevelDecay(coef, { applyPracticeEffect: true, practiceCount: newNumsPracticed[label] }))
 		setPass(pass => labels.map((label, i) => {
 			const EV = getBernsteinExpectedValue(smoothedCoefficientSet[label])
-			return (pass[i] && EV >= defaultSkillThresholds.pass * defaultSkillThresholds.recapFactor) || (!pass[i] && EV >= defaultSkillThresholds.pass) // Apply hysteresis.
+			return (pass[i] && EV >= defaultSkillThresholdOptions.recap) || (!pass[i] && EV >= defaultSkillThresholdOptions.mastery) // Apply hysteresis.
 		}))
 	}
 	const reset = () => {

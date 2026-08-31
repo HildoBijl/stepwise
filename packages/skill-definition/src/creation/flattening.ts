@@ -1,7 +1,8 @@
 import { SkillSetup } from '@step-wise/skill-setup'
-import { deduplicate, ensureNumber, isPlainObject } from '@step-wise/js-utils'
+import { deduplicate, isPlainObject } from '@step-wise/js-utils'
 
 import { normalizeSkillLinks } from './linkProcessing.ts'
+import { resolveSkillThresholdOptions } from './thresholdOptions.ts'
 import type { SkillId, RawSkillDefinition, RawSkillTree, SkillTree } from './types.ts'
 
 // Check if something is a container or a raw skill.
@@ -27,14 +28,6 @@ function validateRawSkillDefinition(value: RawSkillDefinition, skillId: SkillId,
 	if (value.setup !== undefined) {
 		if (!(value.setup instanceof SkillSetup)) throw new TypeError(`Invalid setup for skill "${skillId}": expected a SkillSetup instance.`)
 		value.setup.getSkillList().forEach(setupSkillId => ensureValidSkillId(setupSkillId, `setup skill ID for skill "${skillId}"`))
-	}
-
-	if (value.thresholds !== undefined) {
-		if (!isPlainObject(value.thresholds)) throw new TypeError(`Invalid thresholds for skill "${skillId}": expected a plain object.`)
-		if (value.thresholds.pass !== undefined) {
-			const pass = ensureNumber(value.thresholds.pass)
-			if (pass < 0 || pass > 1) throw new RangeError(`Invalid pass threshold "${pass}" for skill "${skillId}": expected a value between 0 and 1.`)
-		}
 	}
 }
 
@@ -71,7 +64,7 @@ export function flattenRawSkillTree(rawSkillTree: RawSkillTree): SkillTree {
 						return link
 					}),
 					linkedSkillIds: [],
-					thresholds: value.thresholds,
+					thresholds: resolveSkillThresholdOptions(value.thresholds),
 				}
 			} else walk(value, [...path, key])
 		}

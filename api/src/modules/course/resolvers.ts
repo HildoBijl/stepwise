@@ -115,7 +115,7 @@ export const courseResolvers = {
 			await course.destroy()
 			return true
 		},
-		
+
 		subscribeToCourse: async (_source: unknown, { courseId }: { courseId: string }, { db, ensureLoggedIn, userId }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
 			const course = await getCourseById(db, courseId, { userId })

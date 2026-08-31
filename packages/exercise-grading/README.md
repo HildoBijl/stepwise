@@ -106,6 +106,7 @@ The package receives an exercise-bound `areValuesEqual` operation through `Check
 
 This keeps grading independent of mathematics, physics, geometry, and mechanics engines. The captured operation validates values and options through the selected adapter before its strongly typed equality operation runs. Missing adapters and invalid values throw instead of producing an incorrect grade. Duplicate type registrations are rejected earlier while composing the exercise value-type registry.
 
+
 ## TypeScript types
 
 The main public types are:

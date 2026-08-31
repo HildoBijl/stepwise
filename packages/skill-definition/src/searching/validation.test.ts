@@ -1,5 +1,6 @@
-import { and } from '@step-wise/skill-setup'
 import { describe, expect, it } from 'vitest'
+
+import { and } from '@step-wise/skill-setup'
 
 import { createSkillTree } from '../creation/index.ts'
 

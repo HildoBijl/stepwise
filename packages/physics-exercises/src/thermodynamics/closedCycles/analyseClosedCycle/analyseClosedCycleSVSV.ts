@@ -14,7 +14,7 @@ export default buildStepExercise({
 			eta: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
 		},
 	},
-	
+
 	generateParameters,
 
 	getSolution(parameters) {

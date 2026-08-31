@@ -1,8 +1,9 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { getBernsteinExpectedValue } from '@step-wise/bernstein-polynomials'
 import { approximatelyEqual, compareNumberArrays } from '@step-wise/js-utils'
 import { createSkillTree } from '@step-wise/skill-definition'
 import { and, or, part, pick, repeat, skill } from '@step-wise/skill-setup'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { SkillLevelSet } from './SkillLevelSet.ts'
 import { defaultSkillLinkCorrelation } from './settings.ts'

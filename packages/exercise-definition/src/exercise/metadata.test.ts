@@ -1,5 +1,6 @@
-import { skill } from '@step-wise/skill-setup'
 import { describe, expect, it } from 'vitest'
+
+import { skill } from '@step-wise/skill-setup'
 
 import type { ExerciseMetadata } from './types.ts'
 import { isExerciseMetadata, resolveExerciseMetadata } from './metadata.ts'

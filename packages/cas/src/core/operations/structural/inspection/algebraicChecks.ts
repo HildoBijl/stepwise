@@ -1,7 +1,6 @@
 import { type ExpressionNode } from '../../../construction/index.ts'
 
 import { isFloatNode, isIntegerNode, isSignNode, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRootFunction, isLogarithmFunction, isAnyTrigonometricFunction } from './typeChecks.ts'
-
 import { someNode } from './traversal.ts'
 import { isInteger } from './valueChecks.ts'
 

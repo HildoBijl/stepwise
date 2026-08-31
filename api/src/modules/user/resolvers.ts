@@ -35,7 +35,7 @@ const userResolvers = {
 			return getAllUsers(db)
 		},
 	},
-	
+
 	Mutation: {
 		setLanguage: async (_source: unknown, { language }: { language: string }, { ensureLoggedIn, user }: UserContext) => {
 			ensureLoggedIn()

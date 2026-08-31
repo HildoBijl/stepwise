@@ -1,6 +1,6 @@
 import { ensureInteger, ensureNumber, approximatelyEqual } from '@step-wise/js-utils'
 
-import { Vector, type VectorLike, ensureVector } from '../Vector/index.ts'
+import { type VectorLike, Vector, ensureVector } from '../Vector/index.ts'
 
 import type { LineInput, LineStorageValue } from './types.ts'
 import { isLineObject } from './support.ts'

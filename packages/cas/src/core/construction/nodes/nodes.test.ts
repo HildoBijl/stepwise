@@ -1,4 +1,5 @@
 import { areNodesEqual } from '../../operations/index.ts'
+
 import { power, product, sum, variable } from '../creation/index.ts'
 
 import { nodeToTree } from './nodeToTree.ts'

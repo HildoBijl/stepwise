@@ -63,7 +63,7 @@ export const physicsTree: RawSkillTree = {
 				links: { skillIds: ['specificGasConstant', 'specificHeatRatio'], correlation: 0.5 },
 			},
 		},
-		
+
 		basicLaws: {
 			gasLaw: {
 				name: 'Apply the gas law',
@@ -86,7 +86,7 @@ export const physicsTree: RawSkillTree = {
 			calculateClosedCycle: {
 				name: 'Calculate a closed cycle',
 				setup: repeat('calculateProcessStep', 3),
-				thresholds: { pass: 0.5 },
+				thresholds: { mastery: 0.5 },
 			},
 			calculateHeatAndWork: {
 				name: 'Calculate heat and work',
@@ -99,12 +99,12 @@ export const physicsTree: RawSkillTree = {
 			createClosedCycleEnergyOverview: {
 				name: 'Create a closed-cycle energy overview',
 				setup: and(repeat('calculateHeatAndWork', 2), or('calculateHeatAndWork', 'calculateWithInternalEnergy')),
-				thresholds: { pass: 0.5 },
+				thresholds: { mastery: 0.5 },
 			},
 			analyseClosedCycle: {
 				name: 'Analyse a closed cycle',
 				setup: and('calculateClosedCycle', 'createClosedCycleEnergyOverview', pick(['calculateWithEfficiency', 'calculateWithCOP'])),
-				thresholds: { pass: 0.4 },
+				thresholds: { mastery: 0.4 },
 			},
 		},
 
@@ -124,7 +124,7 @@ export const physicsTree: RawSkillTree = {
 				name: 'Calculate an open cycle',
 				setup: repeat('calculateOpenProcessStep', 3),
 				links: { skillId: 'calculateClosedCycle', correlation: 0.6 },
-				thresholds: { pass: 0.5 },
+				thresholds: { mastery: 0.5 },
 			},
 			calculateSpecificHeatAndMechanicalWork: {
 				name: 'Calculate specific heat and mechanical work',
@@ -140,13 +140,13 @@ export const physicsTree: RawSkillTree = {
 				name: 'Create an open cycle energy overview',
 				setup: and(repeat('calculateSpecificHeatAndMechanicalWork', 2), 'calculateWithEnthalpy'),
 				links: { skillId: 'createClosedCycleEnergyOverview', correlation: 0.4 },
-				thresholds: { pass: 0.5 },
+				thresholds: { mastery: 0.5 },
 			},
 			analyseOpenCycle: {
 				name: 'Analyse an open cycle',
 				setup: and('calculateOpenCycle', 'createOpenCycleEnergyOverview', pick(['calculateWithEfficiency', 'calculateWithCOP']), 'massFlowTrick'),
 				links: { skillId: 'analyseClosedCycle', correlation: 0.5 },
-				thresholds: { pass: 0.4 },
+				thresholds: { mastery: 0.4 },
 			},
 		},
 
@@ -158,7 +158,7 @@ export const physicsTree: RawSkillTree = {
 			calculateMissedWork: {
 				name: 'Calculate the missed work',
 				setup: and('calculateEntropyChange', 'solveLinearEquation'),
-				thresholds: { pass: 0.5 },
+				thresholds: { mastery: 0.5 },
 			},
 			useIsentropicEfficiency: {
 				name: 'Use the isentropic efficiency',
@@ -170,7 +170,7 @@ export const physicsTree: RawSkillTree = {
 			analyseGasTurbine: {
 				name: 'Analyse gas turbines',
 				setup: and('calculateOpenCycle', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'massFlowTrick'),
-				thresholds: { pass: 0.4 },
+				thresholds: { mastery: 0.4 },
 			},
 		},
 
@@ -188,12 +188,12 @@ export const physicsTree: RawSkillTree = {
 				createRankineCycleOverview: {
 					name: 'Create a Rankine cycle overview',
 					setup: and(repeat('lookUpSteamProperties', 2), 'recognizeProcessTypes', 'useVaporFraction'),
-					thresholds: { pass: 0.5 },
+					thresholds: { mastery: 0.5 },
 				},
 				analyseRankineCycle: {
 					name: 'Analyse a Rankine cycle',
 					setup: and('createRankineCycleOverview', 'useIsentropicEfficiency', part('useVaporFraction', 1 / 2), 'calculateWithEfficiency', 'massFlowTrick'),
-					thresholds: { pass: 0.4 },
+					thresholds: { mastery: 0.4 },
 				},
 			},
 		},
@@ -211,12 +211,12 @@ export const physicsTree: RawSkillTree = {
 				createCoolingCycleOverview: {
 					name: 'Create a cooling cycle overview',
 					setup: and('findFridgeTemperatures', repeat('determineRefrigerantProcess', 3)),
-					thresholds: { pass: 0.5 },
+					thresholds: { mastery: 0.5 },
 				},
 				analyseCoolingCycle: {
 					name: 'Analyse a cooling cycle',
 					setup: and('createCoolingCycleOverview', 'useIsentropicEfficiency', 'calculateWithCOP', 'massFlowTrick'),
-					thresholds: { pass: 0.4 },
+					thresholds: { mastery: 0.4 },
 				},
 			},
 		},

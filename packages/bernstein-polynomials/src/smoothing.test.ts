@@ -1,5 +1,6 @@
-import { approximatelyEqual, compareNumberArrays, sum } from '@step-wise/js-utils'
 import { describe, expect, it } from 'vitest'
+
+import { approximatelyEqual, compareNumberArrays, sum } from '@step-wise/js-utils'
 
 import { maxBernsteinDegreeBeforeSmoothing, maxBernsteinSmoothingDegree, smoothBernsteinCoefficientsToDegree, smoothBernsteinCoefficientsWithRetentionFactor } from './smoothing.ts'
 

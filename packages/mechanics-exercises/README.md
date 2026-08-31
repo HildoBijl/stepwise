@@ -52,6 +52,7 @@ The private `#valueTypes` module exposes atomic `freeBodyDiagramValueTypes` and 
 
 Use `combineValueTypes` to assemble an unusual combination; duplicate discriminators are rejected.
 
+
 ## Adding an exercise
 
 Place the definition under its corresponding skill directory and export its bundle through the surrounding index files. The registry path must match the skill's `groupPath` followed by its skill ID.

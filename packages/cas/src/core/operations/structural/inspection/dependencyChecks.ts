@@ -2,7 +2,6 @@ import { type VariableInput, ExpressionNode, Variable, variableToString, asVaria
 
 import { isVariable } from './typeChecks.ts'
 import { areVariablesEqual } from './equality.ts'
-
 import { someNode, everyNode, forEachNode } from './traversal.ts'
 
 // Get all variables occurring in an expression.

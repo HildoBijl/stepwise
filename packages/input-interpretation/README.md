@@ -18,6 +18,7 @@ This package does not hard-code input domains. Every recognized input type is su
 
 The fundamental Integer and MultipleChoice adapters are defined by [@step-wise/value-types](https://www.npmjs.com/package/@step-wise/value-types). `@step-wise/input-exercises` includes them automatically and captures the resulting registry behind each built exercise's `interpretInput` operation. Direct callers can still extract and pass adapters themselves.
 
+
 ## Custom input types
 
 Pass an adapter registry as the second argument:

@@ -44,7 +44,7 @@ export class Rectangle {
 			}
 
 			// Make sure we have a Rectangle object.
-			if (!isRectangleObject(value)) throw new Error(`Invalid Rectangle value: expected an object with "min", "max" and/or "size" points (two out of the three) but received something of type "${typeof value}".`);
+			if (!isRectangleObject(value)) throw new Error(`Invalid Rectangle value: expected an object with "min", "max" and/or "size" points (two out of the three) but received something of type "${typeof value}".`)
 
 			// Look at the various cases of what is provided.
 			const hasMin = value.min !== undefined
@@ -61,7 +61,7 @@ export class Rectangle {
 				this._min = this._max.subtract(size)
 			} else {
 				this._min = ensureVector(value.min)
-				this._max = ensureVector(value.max, { dimension: this._min.dimension });
+				this._max = ensureVector(value.max, { dimension: this._min.dimension })
 			}
 			[this._min, this._max] = getMinAndMax(this._min, this._max)
 

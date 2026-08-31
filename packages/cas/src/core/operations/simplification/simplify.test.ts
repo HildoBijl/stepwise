@@ -1,4 +1,5 @@
 import { product, sum } from '../../construction/index.ts'
+
 import { areNodesEqual } from '../structural/index.ts'
 
 import { simplify } from './simplify.ts'
