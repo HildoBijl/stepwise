@@ -80,7 +80,6 @@ function useScrollToActiveProblem(exerciseRef, visible, currentStep, exerciseDon
 
 	useEffect(() => {
 		if (!visible) {
-			wasVisible.current = false
 			previousStep.current = currentStep
 			wasDone.current = exerciseDone
 			return undefined

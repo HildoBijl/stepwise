@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useLayoutEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { useConsistentValue, useUpdater } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
@@ -9,11 +9,36 @@ import { useRoute, insertParametersIntoPath } from 'ui/routingTools'
 import { getOrderedTabs, useTab } from './util'
 import { useTabs } from './TabProvider'
 
+function useTabScrollPositions(tab) {
+	const scrollPositions = useRef({})
+	const activeTab = useRef()
+	const previousTab = useRef()
+
+	useEffect(() => {
+		const storeScrollPosition = () => {
+			if (activeTab.current)
+				scrollPositions.current[activeTab.current] = window.scrollY
+		}
+		window.addEventListener('scroll', storeScrollPosition, { passive: true })
+		return () => window.removeEventListener('scroll', storeScrollPosition)
+	}, [])
+
+	useLayoutEffect(() => {
+		if (!tab || previousTab.current === tab)
+			return
+
+		activeTab.current = tab
+		previousTab.current = tab
+		window.scrollTo({ top: scrollPositions.current[tab] ?? 0 })
+	}, [tab])
+}
+
 export function TabPages({ pages, initialPage, updateUrl = true }) {
 	const urlTab = useTab()
 	const tabs = useConsistentValue(getOrderedTabs(pages))
 	const tabContext = useTabs(tabs, urlTab || initialPage)
 	const { tab: contextTab, tabIndex, setTab } = tabContext
+	useTabScrollPositions(contextTab)
 
 	// When the tab mentioned in the URL changes, and when it's something unequal to the context tab, adjust the context tab. (But only when it exists.)
 	useUpdater(() => {
