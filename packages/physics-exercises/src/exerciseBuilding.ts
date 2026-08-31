@@ -1,8 +1,8 @@
 import type { ValueTypes } from '@step-wise/value-types'
 import type { InputExerciseParameters, InputExerciseSolution, MonoExercise, MonoExerciseSpec, StepExercise, StepExerciseSpec } from '@step-wise/input-exercises'
-import { combineValueTypes } from '@step-wise/value-types'
+import { combineValueTypes, generateMultipleChoiceMapping } from '@step-wise/value-types'
 import { physicsValueTypes } from '@step-wise/physics-value-types'
-import { buildMonoExercise as buildBaseMonoExercise, buildStepExercise as buildBaseStepExercise, createStepExerciseMetadata, generateMultipleChoiceMapping, getInput } from '@step-wise/input-exercises'
+import { buildMonoExercise as buildBaseMonoExercise, buildStepExercise as buildBaseStepExercise, createStepExerciseMetadata, getInput } from '@step-wise/input-exercises'
 
 export function buildMonoExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>): MonoExercise<TParameters, TSolution> {
 	return buildBaseMonoExercise({ ...spec, valueTypes: addPhysicsValueTypes(spec.valueTypes) })

@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react'
 
-import { generateMultipleChoiceMapping } from '@step-wise/input-exercises'
+import { generateMultipleChoiceMapping } from '@step-wise/value-types'
 
 import { useLatest } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 

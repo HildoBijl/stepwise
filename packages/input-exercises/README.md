@@ -214,22 +214,6 @@ const input = getLastInput(exercise, instance, userId, { resolvedOnly: true })
 ```
 
 
-## Multiple-choice mappings
-
-When generating the parameters of input exercises, the multiple choice mapper is useful to have. `generateMultipleChoiceMapping` selects and optionally shuffles indexes from a larger choice collection:
-
-```ts
-const mapping = generateMultipleChoiceMapping({
-	numChoices: 6,
-	pick: 4,
-	include: 2,
-	randomOrder: true,
-})
-```
-
-The result contains four unique indexes and always includes index `2`. `pick` defaults to all choices, `include` defaults to none, and `randomOrder` defaults to `false`. Storing this mapping in the exercise parameters, and later on feeding it to a `MultipleChoiceInput` field, will set up an input field which has consistent options.
-
-
 ## TypeScript types
 
 The main author-facing types are:
@@ -242,6 +226,5 @@ The main author-facing types are:
 - `SolutionDefinition` and `DynamicSolutionDefinition` for solution declarations.
 - `StepExerciseSteps`, `StepExerciseState`, and `StepExerciseMetadata` for step structures.
 - `InputExerciseAction` and `InputExerciseRawInput` for stored learner actions.
-- `MultipleChoiceMappingOptions` for multiple-choice generation.
 
 Prefer supplying concrete parameter and solution types to the builders. This gives `generateParameters`, `getSolution`, and `checkInput` a shared inferred contract.

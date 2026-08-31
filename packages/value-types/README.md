@@ -20,7 +20,26 @@ import { IntegerType, MultipleChoiceType, fundamentalValueTypes } from '@step-wi
 
 The package also exports the individual `integerValueType` and `multipleChoiceValueType`, their input-value types, and their adapter implementations. Input-exercise builders combine these definitions with the registry supplied by an exercise; duplicate type names are rejected at that boundary.
 
-Multiple-choice generation belongs to the MultipleChoice domain without becoming an adapter capability. `generateMultipleChoiceMapping` and its options type are exported here and re-exported by `@step-wise/input-exercises` for convenience.
+
+## Multiple-choice mappings
+
+Use `generateMultipleChoiceMapping` to select and optionally shuffle indexes from a larger collection of choices:
+
+```ts
+import { generateMultipleChoiceMapping } from '@step-wise/value-types'
+
+const mapping = generateMultipleChoiceMapping({
+	numChoices: 6,
+	pick: 4,
+	include: 2,
+	randomOrder: true,
+})
+```
+
+The result contains four unique indexes and always includes index `2`. `pick` defaults to all choices, `include` defaults to no required choices, and `randomOrder` defaults to `false`.
+
+Store the resulting mapping in the exercise parameters and pass it to a `MultipleChoiceInput` field. This keeps the displayed selection and order of choices stable for the generated exercise. The corresponding `MultipleChoiceMappingOptions` type is also exported.
+
 
 ## Defining a value type
 
