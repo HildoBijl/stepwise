@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback, useMemo, useEffect, useLayoutEffect, createContext, useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { Breadcrumbs } from '@mui/material'
 import { ArrowRight as Arrow } from '@mui/icons-material'
 
