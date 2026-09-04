@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import KaTeX from 'katex'
+import 'katex/dist/katex.min.css'
 import { Box } from '@mui/material'
 import clsx from 'clsx'
 

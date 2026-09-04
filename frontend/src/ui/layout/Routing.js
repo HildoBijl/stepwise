@@ -12,7 +12,7 @@ export function Routing() {
 	const paths = useMemo(() => getPaths(routes), [routes])
 	return (
 		<RoutesContext.Provider value={{ routes, paths }}>
-			<Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+			<Router>
 				<Routes>
 					{renderRoutes(routes)}
 					<Route path="*" />
