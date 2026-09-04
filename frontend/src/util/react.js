@@ -333,7 +333,7 @@ export function useStaggeredFunction(func) {
 			timeoutRef.current = setTimeout(() => {
 				func(...args)
 				timeoutRef.current = undefined
-			}, [timeoutRef])
+			})
 		}
 	}, [funcRef, timeoutRef])
 }
