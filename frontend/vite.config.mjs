@@ -63,6 +63,11 @@ export default defineConfig({
 			...workspacePackages.flatMap(({ imports }) => imports),
 		]),
 	},
+	optimizeDeps: {
+		rolldownOptions: {
+			plugins: [frontendJavaScriptAsJsx],
+		},
+	},
 	server: {
 		port: 3000,
 		strictPort: true,
