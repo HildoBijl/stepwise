@@ -24,7 +24,6 @@
 		"watch": "tsc -b tsconfig.build.json --watch"
 	},
 	"dependencies": {
-		"@step-wise/geometry": "^0.1.0",
-		"@step-wise/js-utils": "^0.1.0"
+		"@step-wise/geometry": "^0.1.0"
 	}
 }
