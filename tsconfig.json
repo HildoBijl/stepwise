@@ -3,6 +3,7 @@
 	"references": [
 		{ "path": "./packages/bernstein-polynomials/tsconfig.build.json" },
 		{ "path": "./packages/cas/tsconfig.build.json" },
+		{ "path": "./packages/course-analysis/tsconfig.build.json" },
 		{ "path": "./packages/course-definition/tsconfig.build.json" },
 		{ "path": "./packages/demo-exercises/tsconfig.build.json" },
 		{ "path": "./packages/engineering-mechanics/tsconfig.build.json" },
