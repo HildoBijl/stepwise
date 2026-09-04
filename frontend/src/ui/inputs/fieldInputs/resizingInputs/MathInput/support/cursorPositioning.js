@@ -1,4 +1,4 @@
-import { getCoordinatesOf } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { getCoordinatesOf } from '@step-wise/browser-utils'
 
 import { maxCursorHeight, emptyElementCursorHeight } from '../settings'
 

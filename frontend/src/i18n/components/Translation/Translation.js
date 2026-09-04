@@ -1,4 +1,4 @@
-import { isLocalhost } from 'util'
+import { isLocalhost } from '@step-wise/browser-utils'
 
 import { applyNoTranslation, elementToString, applyTranslation } from '../../transformation'
 import { parseTagTree } from '../../tagTrees'

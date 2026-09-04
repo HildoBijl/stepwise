@@ -1,6 +1,5 @@
 import { isNumeric, isLetter, first, last } from '@step-wise/js-utils'
-
-import { getClickSide } from 'util'
+import { getClickSide } from '@step-wise/browser-utils'
 
 import { type as unitFactorType, initialValue as initialUnitFactorValue, isEmpty as isUnitFactorEmpty, getStartCursor as getUnitFactorStartCursor, getEndCursor as getUnitFactorEndCursor, isCursorAtStart as isCursorAtUnitFactorStart, isCursorAtEnd as isCursorAtUnitFactorEnd, isValid as isUnitFactorValid, clean as cleanUnitFactor, functionalize as functionalizeUnitFactor, keyPressToFI as unitFactorKeyPressToFI, mouseClickToCursor as unitFactorMouseClickToCursor, processUnitFactor } from '../UnitFactor'
 

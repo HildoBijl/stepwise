@@ -1,4 +1,6 @@
-import { useStableCallback, useEventListener, ensureHTMLElement } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { ensureHTMLElement } from '@step-wise/browser-utils'
+
+import { useStableCallback, useEventListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
 // The event handlers will deal with events like key presses, mouse presses and such.
 export function useEventHandlers(fieldTrackerRef, keyboardRef, tabbingOnRef, { activate, blur, incrementTabIndex, decrementTabIndex, getActiveFieldId }) {

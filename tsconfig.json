@@ -2,6 +2,7 @@
 	"files": [],
 	"references": [
 		{ "path": "./packages/bernstein-polynomials/tsconfig.build.json" },
+		{ "path": "./packages/browser-utils/tsconfig.build.json" },
 		{ "path": "./packages/cas/tsconfig.build.json" },
 		{ "path": "./packages/course-definition/tsconfig.build.json" },
 		{ "path": "./packages/demo-exercises/tsconfig.build.json" },

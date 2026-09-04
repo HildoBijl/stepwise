@@ -13,6 +13,7 @@
 		"@react-hook/resize-observer": "^1.2.6",
 		"@react-hook/size": "^2.1.2",
 		"@step-wise/bernstein-polynomials": "^0.1.0",
+		"@step-wise/browser-utils": "^0.1.0",
 		"@step-wise/cas": "^0.1.0",
 		"@step-wise/course-definition": "^0.1.0",
 		"@step-wise/engineering-mechanics": "^0.1.0",

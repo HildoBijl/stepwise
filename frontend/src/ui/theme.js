@@ -1,7 +1,7 @@
 import { createTheme, useTheme, alpha } from '@mui/material'
 import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@mui/icons-material'
 
-import { toHex, toCSS } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { toCSS, toHex } from '@step-wise/browser-utils'
 
 const themeColor = [0.05, 0.5, 0.26, 1] // #0d8042
 const secondaryColor = [0.26, 0.16, 0.08, 1] // #422814

@@ -1,6 +1,7 @@
 import { integerRange, sortBy, mergeDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
+import { getEventPosition, getUtilKeys } from '@step-wise/browser-utils'
 
-import { getEventPosition, getUtilKeys, useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useTransformationSettings } from 'ui/figures'
 import { useInputData } from '../../../Input'
 

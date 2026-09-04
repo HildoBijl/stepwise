@@ -1,4 +1,6 @@
-import { useStableCallback, getHTMLElement } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { getHTMLElement } from '@step-wise/browser-utils'
+
+import { useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
 // The registration handlers arrange the registration and deregistration of fields to the FieldController.
 export function useRegistrationHandlers(controllerRef, fieldTrackerRef, tabOrderRef, setTabIndex, { activate, deactivate, refreshKeyboard }) {

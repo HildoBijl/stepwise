@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from 'react'
 
 import { mergeDefaults } from '@step-wise/js-utils'
+import { ensureHTMLElement } from '@step-wise/browser-utils'
 
-import { ensureHTMLElement } from 'util'
 import { useVisible } from 'ui/components'
 
 import { useFieldControllerContext } from '../provider'

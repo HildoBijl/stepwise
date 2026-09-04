@@ -1,6 +1,5 @@
 import { findOptimum, findOptimumIndex, findIndexPath } from '@step-wise/js-utils'
-
-import { getCoordinatesOf } from 'util'
+import { getCoordinatesOf } from '@step-wise/browser-utils'
 
 import { getFIFuncs } from '../types'
 

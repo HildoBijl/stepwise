@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Box, alpha } from '@mui/material'
 
 import { clamp } from '@step-wise/js-utils'
+import { getCoordinatesOf, getEventPosition } from '@step-wise/browser-utils'
 
-import { getCoordinatesOf, getEventPosition, useEventListener, useForceUpdate, useDimension, useResizeListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useEventListener, useForceUpdate, useDimension, useResizeListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { notSelectable } from 'ui/theme'
 
 export default function HorizontalSlider({ children, sliderInside = false, padding = 0 }) {

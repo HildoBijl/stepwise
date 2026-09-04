@@ -2,8 +2,7 @@
 import React, { forwardRef, Fragment } from 'react'
 
 import { isObject, mapValues } from '@step-wise/js-utils'
-
-import { toCSS } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { toCSS } from '@step-wise/browser-utils'
 
 import { themeColor, feedbackColors } from 'ui/theme'
 import { Group, components as drawingComponents } from 'ui/figures'
