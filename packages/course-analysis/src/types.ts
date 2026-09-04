@@ -5,4 +5,4 @@ export const freePracticeRecommendation = 'StepWiseFreePracticeMode' as const
 export type PracticeRecommendation = SkillId | typeof freePracticeRecommendation
 export type HasExercises = (skillId: SkillId) => boolean
 
-export const defaultHasExercises: HasExercises = () => true
+export const allSkillsHaveExercises: HasExercises = () => true

@@ -2,16 +2,16 @@ import { findOptimum, fromKeys, fromKeysAndValues } from '@step-wise/js-utils'
 import { expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
 import { SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
 
-import { getAnalysis } from './courseAnalysis'
+import { analyzeCourseProgress } from './courseAnalysis'
 
-export function processStudent(student, course) {
+export function processStudentForCourse(student, course) {
 	const { skillTree } = course
 	const skills = student.skills.filter(skill => !!skillTree[skill.skillId])
 	const storedSkillLevels = fromKeysAndValues(skills.map(skill => skill.skillId), skills.map(skill => ensureSkillLevel(skill)))
 	const requiredSkillIds = expandSkillIdsWithDirectPrerequisitesAndLinks(skillTree, course.allSkillIds)
 	const completeSkillLevels = fromKeys(requiredSkillIds, skillId => storedSkillLevels[skillId] ?? getInitialSkillLevel())
 	const skillLevelSet = new SkillLevelSet(skillTree, completeSkillLevels)
-	const analysis = getAnalysis(course, skillLevelSet)
+	const analysis = analyzeCourseProgress(course, skillLevelSet)
 	if (!analysis) throw new Error('Invalid student analysis: the constructed skill level set did not contain all data required by the course.')
 
 	const activityPerSkill = skills.filter(skill => course.allSkillIds.includes(skill.skillId)).map(skill => new Date(skill.updatedAt))

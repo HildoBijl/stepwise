@@ -6,7 +6,7 @@ import { skillTree } from '@step-wise/skill-tree'
 
 import { useSkillLevels, useCourseQuery, courseRecordToCourseData } from 'api'
 
-import { getAnalysis } from '../../courses'
+import { analyzeCourseProgress } from '../../courses'
 
 const CourseContext = createContext(null)
 export function CourseProvider({ children }) {
@@ -26,7 +26,7 @@ function CourseProviderInner({ course, children }) {
 	const overview = useMemo(() => new Course(skillTree, courseRecordToCourseData(course)), [course])
 	const skillsData = useSkillLevels(overview.allSkillIds)
 	const skillsDataLoaded = overview.allSkillIds.every(skillId => !!skillsData[skillId])
-	const analysis = getAnalysis(overview, skillsData)
+	const analysis = analyzeCourseProgress(overview, skillsData)
 	return <CourseContext.Provider value={{ course, overview, skillsData, skillsDataLoaded, analysis }}>{children}</CourseContext.Provider>
 }
 

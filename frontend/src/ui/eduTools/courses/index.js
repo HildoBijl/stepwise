@@ -1,4 +1,4 @@
 export * from './courseAnalysis'
-export * from './processStudent'
+export * from './processCourseStudent'
 export * from './CoursesPage'
 export * from './AddCoursePage'

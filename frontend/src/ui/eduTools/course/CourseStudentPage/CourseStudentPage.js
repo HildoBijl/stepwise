@@ -12,7 +12,7 @@ import { Head, Par, TimeAgo, LoadingIndicator, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
 import { SkillFlask } from '../../skills'
-import { processStudent } from '../../courses'
+import { processStudentForCourse } from '../../courses'
 
 import { getExerciseOutcome } from '../util'
 import { useCourseData, CenteredProgressIndicator } from '../components'
@@ -35,7 +35,7 @@ export function CourseStudentPage() {
 
 export function CourseStudentPageForStudent({ course, overview, student }) {
 	// Process the given data.
-	const processedStudent = useMemo(() => processStudent(student, overview), [student, overview])
+	const processedStudent = useMemo(() => processStudentForCourse(student, overview), [student, overview])
 
 	// Render the various page parts.
 	return <TranslationFile path={translationPath}>

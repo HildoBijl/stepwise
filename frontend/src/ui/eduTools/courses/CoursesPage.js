@@ -9,7 +9,7 @@ import { useSkillLevels, useMyCoursesQuery, courseRecordToCourseData } from 'api
 import { Translation, TranslationFile } from 'i18n'
 import { Head, LoadingIndicator, ErrorNote } from 'ui/components'
 
-import { getAnalysis } from './courseAnalysis'
+import { analyzeCourseProgress } from './courseAnalysis'
 import { StudentTile, TeacherTile, AddCourseTile } from './Tile'
 
 const translationPath = 'eduTools/pages/coursesPage'
@@ -82,7 +82,7 @@ function StudentCourseList({ courses, showAddButton }) {
 	const skillLevelSnapshot = skillLevelSet.getSnapshot()
 	const analyses = useMemo(() => {
 		void skillLevelSnapshot // The snapshot is the invalidation token for the mutable skillLevelSet.
-		return courseOverviews.map(overview => getAnalysis(overview, skillLevelSet))
+		return courseOverviews.map(overview => analyzeCourseProgress(overview, skillLevelSet))
 	}, [courseOverviews, skillLevelSet, skillLevelSnapshot])
 
 	// Render all the tiles with corresponding data.
@@ -93,7 +93,7 @@ function StudentCourseList({ courses, showAddButton }) {
 					key={course.id}
 					course={course}
 					skillsTotal={courseOverviews[index].contentSkillIds.length}
-					skillsDone={analyses[index] ? count(courseOverviews[index].contentSkillIds, (skillId) => analyses[index].practiceNeeded[skillId] === 0) : '0'}
+					skillsDone={analyses[index] ? count(courseOverviews[index].contentSkillIds, (skillId) => analyses[index].practiceNeeds[skillId] === 0) : '0'}
 					recommendation={analyses[index]?.recommendation}
 				/>)}
 				{showAddButton && <AddCourseTile />}

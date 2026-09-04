@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Box, Tooltip, useTheme, alpha } from '@mui/material'
 import { Check, Info } from '@mui/icons-material'
 
-import { isPracticeNeeded } from '@step-wise/course-analysis'
+import { getPracticeNeed } from '@step-wise/course-analysis'
 import { skillTree } from '@step-wise/skill-tree'
 import { hasExercises } from '@step-wise/exercises'
 
@@ -43,12 +43,12 @@ export function SkillList({ courseCode, skillIds, display = true, landscape, isP
 			skillId={skillId}
 			isPriorKnowledge={isPriorKnowledge}
 			recommend={skillId === analysis?.recommendation}
-			practiceNeeded={analysis && analysis.practiceNeeded[skillId]}
+			practiceNeed={analysis && analysis.practiceNeeds[skillId]}
 		/>)}
 	</Box>
 }
 
-function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, practiceNeeded = 2, sx = {} }) {
+function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, practiceNeed = 2, sx = {} }) {
 	const theme = useTheme()
 	const translate = useTranslator()
 	const paths = usePaths()
@@ -84,8 +84,8 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 	const skill = skillTree[skillId]
 	if (!hasExercises(skillId)) {
 		noExercisesText = translate('This skill has no exercises yet. They are probably coming soon.', 'noExercises')
-	} else if (practiceNeeded === 0) {
-		if (isPracticeNeeded(skillLevelSet, skillId, { skillThresholds: skill.thresholds, priorKnowledge: isPriorKnowledge }) === 0)
+	} else if (practiceNeed === 0) {
+		if (getPracticeNeed(skillLevelSet, skillId, { skillThresholds: skill.thresholds, priorKnowledge: isPriorKnowledge }) === 0)
 			masteryText = translate('You have sufficiently mastered this skill.', 'sufficientMastery')
 		else
 			masteryText = translate('You have mastered a follow-up skill, so we mark this one as sufficient as well.', 'followUpMastery')
@@ -100,7 +100,7 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 			<Box sx={iconContainerStyle}>
 				<Info sx={theme => ({ color: theme.palette.info.main })} />
 			</Box>
-		</Tooltip> : (practiceNeeded === 0 ? <Tooltip title={masteryText} arrow>
+		</Tooltip> : (practiceNeed === 0 ? <Tooltip title={masteryText} arrow>
 			<Box sx={iconContainerStyle}>
 				<Check sx={theme => ({ color: theme.palette.success.main })} />
 			</Box>

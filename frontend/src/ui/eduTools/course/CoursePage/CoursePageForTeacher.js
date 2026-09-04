@@ -11,7 +11,7 @@ import { notSelectable } from 'ui/theme'
 import { Par, Info, TimeAgo } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
-import { processStudent } from '../../courses'
+import { processStudentForCourse } from '../../courses'
 
 import { useCourseData, CenteredProgressIndicator } from '../components'
 
@@ -99,7 +99,7 @@ function StudentOverview({ course, overview, students }) {
 	], [course, overview, translate])
 
 	// Process the student data and potentially filter out inactive students.
-	let processedStudents = useMemo(() => students.map(student => processStudent(student, overview)), [students, overview])
+	let processedStudents = useMemo(() => students.map(student => processStudentForCourse(student, overview)), [students, overview])
 	const inactiveStudentThreshold = 2 * 30 * 24 * 60 * 60 * 1000 // 2 months
 	const isStudentInactive = student => student.lastActive === undefined || new Date() - student.lastActive > inactiveStudentThreshold
 	const areInactiveStudents = processedStudents.some(isStudentInactive)

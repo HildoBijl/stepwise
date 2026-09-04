@@ -13,7 +13,7 @@ import { usePaths } from 'ui/routingTools'
 import { NotificationBar, useModalContext } from 'ui/components'
 
 import { useSkillId } from '../../skills'
-import { getSkillAdvice } from '../../courses'
+import { getSkillPracticeAdvice } from '../../courses'
 
 import { useCourseData } from './CourseProvider'
 
@@ -178,9 +178,9 @@ function useSkillModal() {
 	}, [previousSkillsDataLoaded, adviceType, previousAdviceType, skillId, previousSkillId, setShowModal])
 }
 
-// useSkillAdvice returns an object { type: 0/1/2, recommendation: 'someSkillId' } that is used to determine whether the user should be sent to another skill. The types match with isPracticeNeeded: 0 means "all fine", 1 means "OK, but could be better" and 2 means "wrong". The recommendation is based on the current skillId: it's not always the course recommendation. For instance, if a prerequisite of the given skill is good to practice, it recommends that one.
+// useSkillAdvice returns an object { type: 0/1/2, recommendation: 'someSkillId' } that is used to determine whether the user should be sent to another skill. The types match with getPracticeNeed: 0 means "all fine", 1 means "OK, but could be better" and 2 means "wrong". The recommendation is based on the current skillId: it's not always the course recommendation. For instance, if a prerequisite of the given skill is good to practice, it recommends that one.
 export function useSkillAdvice() {
 	const { overview, analysis } = useCourseData()
 	const skillId = useSkillId()
-	return getSkillAdvice(overview, analysis, skillId)
+	return getSkillPracticeAdvice(overview, analysis, skillId)
 }

@@ -1,10 +1,10 @@
-import { getAnalysis as getCourseAnalysis, getSkillAdvice as getCourseSkillAdvice } from '@step-wise/course-analysis'
+import { analyzeCourseProgress as analyzeGenericCourseProgress, getSkillPracticeAdvice as getGenericSkillPracticeAdvice } from '@step-wise/course-analysis'
 import { hasExercises } from '@step-wise/exercises'
 
-export function getAnalysis(course, skillLevelSet) {
-	return getCourseAnalysis(course, skillLevelSet, hasExercises)
+export function analyzeCourseProgress(course, skillLevelSet) {
+	return analyzeGenericCourseProgress(course, skillLevelSet, hasExercises)
 }
 
-export function getSkillAdvice(course, analysis, skillId) {
-	return getCourseSkillAdvice(course, analysis, skillId, hasExercises)
+export function getSkillPracticeAdvice(course, analysis, skillId) {
+	return getGenericSkillPracticeAdvice(course, analysis, skillId, hasExercises)
 }

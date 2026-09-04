@@ -1,4 +1,4 @@
 export * from './types.ts'
-export * from './practice.ts'
-export * from './courseAnalysis.ts'
-export * from './skillAdvice.ts'
+export * from './practiceNeeds.ts'
+export * from './courseProgress.ts'
+export * from './skillPracticeAdvice.ts'
