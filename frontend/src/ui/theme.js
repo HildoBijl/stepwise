@@ -1,8 +1,7 @@
-import { useMemo } from 'react'
 import { createTheme, useTheme, alpha } from '@mui/material'
 import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@mui/icons-material'
 
-import { toHex, toCSS, useFontFaceObserver } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { toHex, toCSS } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
 const themeColor = [0.05, 0.5, 0.26, 1] // #0d8042
 const secondaryColor = [0.26, 0.16, 0.08, 1] // #422814
@@ -152,12 +151,3 @@ export function getHexColor(color) {
 	return toHex(colors[color])
 }
 
-export function useFontsLoaded(includeMaths = true) {
-	const theme = useTheme()
-	const fontFamily = theme.typography.fontFamily
-	const firstFontFamily = useMemo(() => fontFamily.split('"').find(str => str.length > 0), [fontFamily])
-	const fonts = [{ family: firstFontFamily }]
-	if (includeMaths)
-		fonts.push({ family: 'KaTeX_Math' })
-	return useFontFaceObserver(fonts)
-}

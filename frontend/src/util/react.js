@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom'
 import usePrevious from '@react-hook/previous'
 import useSize from '@react-hook/size'
 import useResizeObserver from '@react-hook/resize-observer'
-import FontFaceObserver from 'fontfaceobserver'
 
 import { preserveRefs } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
@@ -307,21 +306,6 @@ export function ensureHTMLElement(obj) {
 	if (!result)
 		throw new Error(`Invalid HTML Element: could not find an HTML element in the given object. Its type was "${typeof obj}".`)
 	return result
-}
-
-// useFontFaceObserver checks whether the given font-faces are loaded. This is a copy of the NPM-package use-font-face-observer, which is bugged due to including an outdated version of Javascript in its dev-dependencies. 
-export function useFontFaceObserver(fontFaces, options = {}) {
-	const { testString, timeout } = options
-
-	const [isResolved, setIsResolved] = useState(false)
-	const fontFacesString = JSON.stringify(fontFaces)
-
-	useEffect(() => {
-		const promises = JSON.parse(fontFacesString).map(({ family, weight, style, stretch }) => new FontFaceObserver(family, { weight, style, stretch }).load(testString, timeout))
-		Promise.all(promises).then(() => setIsResolved(true))
-	}, [fontFacesString, testString, timeout])
-
-	return isResolved
 }
 
 // useStaggeredFunction turns a function into a staggered function. First of all, when calling the function, it's not called directly, but on a zero-timeout. Second of all, if it is called multiple times before being executed, it's only executed once.
