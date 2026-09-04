@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { readFileSync, readdirSync } from 'node:fs'
 
 import react from '@vitejs/plugin-react'
-import { defineConfig, transformWithEsbuild } from 'vite'
+import { defineConfig, transformWithOxc } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 const sourceDirectories = ['api', 'i18n', 'tests', 'ui', 'util']
@@ -28,7 +28,7 @@ const frontendJavaScriptAsJsx = {
 	async transform(code, id) {
 		if (!/frontend\/src\/.*\.js$/.test(id.replaceAll('\\', '/')))
 			return null
-		return transformWithEsbuild(code, id, { loader: 'jsx', jsx: 'automatic' })
+		return transformWithOxc(code, id, { lang: 'jsx', jsx: { runtime: 'automatic' } })
 	},
 }
 
@@ -61,11 +61,6 @@ export default defineConfig({
 			...workspacePackages.map(({ name, source }) => [name, source]),
 			...workspacePackages.flatMap(({ imports }) => imports),
 		]),
-	},
-	optimizeDeps: {
-		esbuildOptions: {
-			loader: { '.js': 'jsx' },
-		},
 	},
 	server: {
 		port: 3000,
