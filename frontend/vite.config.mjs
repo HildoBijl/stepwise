@@ -25,6 +25,7 @@ const workspacePackages = readdirSync(packagesDirectory, { withFileTypes: true }
 
 const frontendJavaScriptAsJsx = {
 	name: 'frontend-javascript-as-jsx',
+	enforce: 'pre',
 	async transform(code, id) {
 		if (!/frontend\/src\/.*\.js$/.test(id.replaceAll('\\', '/')))
 			return null
