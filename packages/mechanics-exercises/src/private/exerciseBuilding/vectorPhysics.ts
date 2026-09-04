@@ -1,4 +1,4 @@
-import { vectorWithPhysicsValueTypes } from '#mechanicsValueTypes/combinations'
+import { vectorWithPhysicsValueTypes } from '#mechanicsValueTypes'
 
 import { createExerciseBuilders } from './support.ts'
 

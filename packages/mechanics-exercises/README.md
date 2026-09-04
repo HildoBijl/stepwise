@@ -48,9 +48,11 @@ Mechanics exercise definitions select their adapters through private exercise-bu
 
 Each entry point exposes the usual builder names and applies its registry before the exercise reducers capture their adapters. The general `#exerciseBuilding` entry point exports `createExerciseBuilders` for future combinations.
 
-The private `#valueTypes` module exposes atomic `freeBodyDiagramValueTypes` and `vectorValueTypes` registries, the physics and mathematics subject registries, and useful existing combinations. Subpath imports such as `#valueTypes/physicsValueTypes` load only the selected internal module. The respective modules also reexport their discriminator constants.
+The private `#mechanicsValueTypes` module exposes atomic `freeBodyDiagramValueTypes` and `vectorValueTypes` registries, the physics and mathematics subject registries, and useful existing combinations. The respective modules also reexport their discriminator constants.
 
 Use `combineValueTypes` to assemble an unusual combination; duplicate discriminators are rejected.
+
+General package tools are collected behind the exact `#mechanicsTools` private import. The public package entry point reexports the tools intended for consumers.
 
 
 ## Adding an exercise
