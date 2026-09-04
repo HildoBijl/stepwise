@@ -11,10 +11,11 @@ export function Option({ checked, activate, deactivate, toggle, Element, feedbac
 	const handleChange = (evt, check) => check ? activate() : deactivate()
 
 	return <>
-		<Box boxShadow={1} onClick={toggle} sx={theme => ({
+		<Box onClick={toggle} sx={theme => ({
 			alignItems: 'center',
 			background: !feedbackType || feedbackType === 'normal' ? alpha(theme.palette.info.main, 0.1) : alpha(feedbackColor, 0.1),
 			borderRadius: '0.5rem',
+			boxShadow: 1,
 			color: feedbackColor || 'inherit',
 			cursor: readOnly ? 'auto' : 'pointer',
 			display: 'flex',

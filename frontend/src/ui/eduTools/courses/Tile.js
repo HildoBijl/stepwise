@@ -20,6 +20,7 @@ const getTileStyle = preventHoverStyle => (theme => ({
 	alignItems: 'stretch',
 	background: alpha(theme.palette.primary.main, 0.03),
 	borderRadius: '0.5rem',
+	boxShadow: 1,
 	cursor: 'pointer',
 	display: 'flex',
 	flexFlow: 'column nowrap',
@@ -38,7 +39,7 @@ export function Tile({ course, preventHoverStyle, children }) {
 
 	const organization = getOrganization(course.organization)
 	return <Link to={paths.course({ courseCode: course.code })} style={{ textDecoration: 'none', ...notSelectable }}>
-		<Box boxShadow={1} sx={getTileStyle(preventHoverStyle)}>
+		<Box sx={getTileStyle(preventHoverStyle)}>
 			<Box component="img" src={organization.logo} alt={`Logo ${organization.name}`} sx={{
 				objectFit: 'contain',
 				opacity: 0.05,
@@ -155,7 +156,7 @@ export function AddCourseTile() {
 	const translate = useTranslator()
 	const paths = usePaths()
 	return <Link to={paths.addCourse()} style={{ textDecoration: 'none', ...notSelectable }}>
-		<Box boxShadow={1} sx={getTileStyle(false)}>
+		<Box sx={getTileStyle(false)}>
 			<Box sx={{ fontWeight: 100, fontSize: '5rem', margin: '-0.4rem 0 -1.4rem', textAlign: 'center', width: '100%' }}>+</Box>
 			<Box sx={{ fontWeight: 500, textAlign: 'center', width: '100%' }}>{translate('Add course', 'addCourse')}</Box>
 		</Box>

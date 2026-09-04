@@ -130,7 +130,7 @@ function StudentOverview({ course, overview, students }) {
 					hideFooter
 					disableColumnMenu
 					disableColumnResize
-					disableSelectionOnClick disableRowSelectionOnClick
+					disableRowSelectionOnClick
 					onRowClick={row => navigate(paths.courseStudent({ courseCode: course.code, studentId: row.id }))}
 					sx={{
 						backgroundColor: 'background.paper',

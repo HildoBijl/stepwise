@@ -13,8 +13,9 @@ export function Block({ landscape, courseCode, skillIds, active, toggleActive, n
 	const numCompleted = analysis ? count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0) : 0
 
 	return (
-		<Box boxShadow={1} sx={{
+		<Box sx={{
 			borderRadius: '0.5rem',
+			boxShadow: 1,
 			marginBottom: '0.6rem',
 			overflow: 'hidden',
 		}}>

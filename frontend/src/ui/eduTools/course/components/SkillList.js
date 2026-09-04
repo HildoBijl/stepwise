@@ -24,17 +24,18 @@ export function SkillList({ courseCode, skillIds, display = true, landscape, isP
 	const skillListStyle = {
 		overflow: 'hidden',
 		borderRadius: landscape ? '0.5rem' : undefined,
+		boxShadow: landscape ? 1 : 0,
 		...notSelectable,
 	}
 
 	// If there are no skills, add a note that skills will be added in the future.
 	if (skillIds.length === 0) {
-		return <Box boxShadow={landscape ? 1 : 0} sx={{ ...skillListStyle, ...sx }}>
+		return <Box sx={{ ...skillListStyle, ...sx }}>
 			<SkillItem />
 		</Box>
 	}
 
-	return <Box boxShadow={landscape ? 1 : 0} sx={{ ...skillListStyle, ...sx }}>
+	return <Box sx={{ ...skillListStyle, ...sx }}>
 		{skillIds.map((skillId) => <SkillItem
 			key={skillId}
 			courseCode={courseCode}

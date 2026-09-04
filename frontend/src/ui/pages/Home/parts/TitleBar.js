@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Grid } from '@mui/material'
+import { Box, Container, Grid, Stack } from '@mui/material'
 
 import { websiteName, websiteNameAddendum } from 'settings'
 import { useTextTranslator } from 'i18n'
@@ -20,8 +20,8 @@ export function TitleBar() {
 				</Rectangle>
 			</Grid>
 			<Grid size={8}>
-				<Grid container direction="column">
-					<Grid sx={theme => ({
+				<Stack>
+					<Box sx={theme => ({
 						color: theme.palette.primary.contrastText,
 						fontSize: 'min(9vw,116px)',
 						fontWeight: '300',
@@ -35,15 +35,15 @@ export function TitleBar() {
 						},
 					})}>
 						{websiteNameTranslation}
-					</Grid>
-					<Grid sx={theme => ({
+					</Box>
+					<Box sx={theme => ({
 						color: theme.palette.secondary.main,
 						fontSize: 'min(3.5vw,45px)',
 						fontWeight: '300',
 					})}>
 						{websiteNameAddendumTranslation}
-					</Grid>
-				</Grid>
+					</Box>
+				</Stack>
 			</Grid>
 		</Grid>
 	</Container>

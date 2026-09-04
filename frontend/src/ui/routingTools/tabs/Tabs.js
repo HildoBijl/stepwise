@@ -33,7 +33,7 @@ export function Tabs() {
 		onChange={(event, newValue) => setTabIndex(newValue)}
 		variant="fullWidth"
 		textColor="inherit"
-		TabIndicatorProps={{ style: { backgroundColor: theme.palette.background.main } }} // Color of the active tab indicator line.
+		slotProps={{ indicator: { style: { backgroundColor: theme.palette.background.main } } }} // Color of the active tab indicator line.
 	>
 		{tabs.map((tab, index) => <MuiTab key={index} label={<TabLabel {...{ tab, showLabel, showIcon }} />} sx={{ minWidth: '0' }} />)}
 	</MuiTabs>
