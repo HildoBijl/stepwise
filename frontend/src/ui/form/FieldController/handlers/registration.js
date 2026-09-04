@@ -1,4 +1,4 @@
-import { getHTMLElement } from '@step-wise/browser-utils'
+import { resolveHTMLElement } from '@step-wise/browser-utils'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
@@ -46,7 +46,7 @@ function getTabOrder(controller, fields) {
 		const field = fields[id]
 		if (!field.useTabbing)
 			return
-		const number = tags.indexOf(getHTMLElement(field.element))
+		const number = tags.indexOf(resolveHTMLElement(field.element))
 		if (number !== -1)
 			elementNumbers.push({ id, number, manualIndex: field.manualIndex })
 	})

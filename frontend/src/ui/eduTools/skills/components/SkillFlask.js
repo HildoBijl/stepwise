@@ -5,7 +5,7 @@ import { resolveFunctionValuesDeep, integerRange, clamp, repeat } from '@step-wi
 import { interpolateGrid } from '@step-wise/interpolation'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { skillTree } from '@step-wise/skill-tree'
-import { mix, shift, toCSS } from '@step-wise/browser-utils'
+import { colorToCss, mixColors, shiftColorBrightness } from '@step-wise/browser-utils'
 
 import { useUUID } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { Translation, Check } from 'i18n'
@@ -37,7 +37,7 @@ export function SkillFlask(props) {
 	// Calculate style elements and pass them to the useStyles function.
 	const part = getBernsteinExpectedValue(coef)
 	const fading = coefToFading(coef)
-	const color = mix(partToColor(part), fadeColor, fading) // Dull the color in case of uncertainty.
+	const color = mixColors(partToColor(part), fadeColor, fading) // Dull the color in case of uncertainty.
 
 	// Render the flask.
 	const flask = <Box component="svg" className={className} viewBox={`0 0 ${vb} ${vb}`} sx={theme => ({
@@ -49,7 +49,7 @@ export function SkillFlask(props) {
 			: 'drop-shadow(-1px 4px 3px rgba(0, 0, 0, 0.7))',
 		'& .targetLine': {
 			opacity: 0,
-			stroke: toCSS(shift(color, -0.4)),
+			stroke: colorToCss(shiftColorBrightness(color, -0.4)),
 			strokeWidth: 2,
 			transition: theme => `opacity ${theme.transitions.duration.standard}ms`,
 		},
@@ -60,12 +60,12 @@ export function SkillFlask(props) {
 	})}>
 		<defs>
 			<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
-				<stop offset="0%" style={{ stopColor: toCSS(shift(color, 1)) }} />
-				<stop offset="100%" style={{ stopColor: toCSS(shift(color, 0.4)) }} />
+				<stop offset="0%" style={{ stopColor: colorToCss(shiftColorBrightness(color, 1)) }} />
+				<stop offset="100%" style={{ stopColor: colorToCss(shiftColorBrightness(color, 0.4)) }} />
 			</radialGradient>
 			<radialGradient id={`flaskForeground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
-				<stop offset="0%" style={{ stopColor: toCSS(shift(color, 0.4 + 0.5 * fading)) }} />
-				<stop offset="100%" style={{ stopColor: toCSS(shift(color, -0.8 + 1.0 * fading)) }} />
+				<stop offset="0%" style={{ stopColor: colorToCss(shiftColorBrightness(color, 0.4 + 0.5 * fading)) }} />
+				<stop offset="100%" style={{ stopColor: colorToCss(shiftColorBrightness(color, -0.8 + 1.0 * fading)) }} />
 			</radialGradient>
 			<clipPath id={`flaskFill${id}`}>
 				<Box component="rect" sx={theme => ({

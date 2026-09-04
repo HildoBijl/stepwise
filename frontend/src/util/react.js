@@ -6,7 +6,7 @@ import useResizeObserver from '@react-hook/resize-observer'
 
 import { preserveRefs } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-import { getEventPosition, getLocalStorageValue, getUtilKeys, setLocalStorageValue } from '@step-wise/browser-utils'
+import { getEventClientPosition, getModifierKeyState, readLocalStorageValue, writeLocalStorageValue } from '@step-wise/browser-utils'
 
 // Re-export various useful hooks from other packages.
 export { usePrevious, useSize, useResizeObserver }
@@ -194,11 +194,11 @@ export function useMouseData() {
 	const [data, setData] = useState({})
 
 	// Track the position of the mouse.
-	const storeData = (event) => setData({ position: getEventPosition(event), keys: getUtilKeys(event) })
+	const storeData = (event) => setData({ position: getEventClientPosition(event), keys: getModifierKeyState(event) })
 	useEventListener(['mousemove', 'touchstart', 'touchmove'], storeData)
 
 	// Track additional key-down/up for the utility keys.
-	const processKeyPress = (event) => setData(data => ({ ...data, keys: getUtilKeys(event) }))
+	const processKeyPress = (event) => setData(data => ({ ...data, keys: getModifierKeyState(event) }))
 	useEventListener(['keydown', 'keyup'], processKeyPress)
 
 	// Return the known data.
@@ -360,20 +360,20 @@ export function useAnimation(animationFunc) {
 // useLocalStorageState is like useState, but it reads and writes its data from localStorage. It gets a localStorage key and an initialValue.
 export function useLocalStorageState(key, initialState) {
 	// Initialize the value with the localStorage value or the initialValue as fallback.
-	const [state, setState] = useState(() => getLocalStorageValue(key) ?? initialState)
+	const [state, setState] = useState(() => readLocalStorageValue(key) ?? initialState)
 
 	// Set up a setter function. 
 	const setLocalStorageState = useCallback((newState) => {
 		setState(previousState => {
 			if (typeof newState === 'function')
 				newState = newState(previousState)
-			setLocalStorageValue(key, newState)
+			writeLocalStorageValue(key, newState)
 			return preserveRefs(newState, previousState)
 		})
 	}, [key, setState])
 
 	// Listen to updates from elsewhere and apply them.
-	useEventListener('storage', () => setLocalStorageState(getLocalStorageValue(key)))
+	useEventListener('storage', () => setLocalStorageState(readLocalStorageValue(key)))
 
 	// Return the pair as usual.
 	return [state, setLocalStorageState]

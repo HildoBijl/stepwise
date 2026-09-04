@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Box, alpha } from '@mui/material'
 
 import { clamp } from '@step-wise/js-utils'
-import { getCoordinatesOf, getEventPosition } from '@step-wise/browser-utils'
+import { getClientPosition, getEventClientPosition } from '@step-wise/browser-utils'
 
 import { useEventListener, useForceUpdate, useDimension, useResizeListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { notSelectable } from 'ui/theme'
@@ -28,10 +28,10 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 	const contentsPart = containerWidth / contentsWidth
 
 	// Set up generic support functions.
-	const getClickPosition = (evt) => getEventPosition(evt).x
+	const getClickPosition = (evt) => getEventClientPosition(evt).x
 	const getClickPart = (evt) => {
 		const clickPosition = getClickPosition(evt)
-		const containerPosition = getCoordinatesOf(outerRef.current).x
+		const containerPosition = getClientPosition(outerRef.current).x
 		return (clickPosition - containerPosition) / containerWidth
 	}
 

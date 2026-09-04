@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { mergeDefaults } from '@step-wise/js-utils'
-import { getUtilKeys } from '@step-wise/browser-utils'
+import { getModifierKeyState } from '@step-wise/browser-utils'
 
 import { useEventListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 
@@ -41,7 +41,7 @@ export function useDeletionKeyDownHandler(applyDeletion) {
 		// On a delete remove all selected loads.
 		if (applyDeletion && (event.key === 'Delete' || event.key === 'Backspace')) {
 			event.preventDefault()
-			return setFI(FI => applyDeletion(FI, getUtilKeys(event)))
+			return setFI(FI => applyDeletion(FI, getModifierKeyState(event)))
 		}
 	}
 }

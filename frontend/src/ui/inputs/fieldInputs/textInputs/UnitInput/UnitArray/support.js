@@ -1,5 +1,5 @@
 import { isNumeric, isLetter, first, last } from '@step-wise/js-utils'
-import { getClickSide } from '@step-wise/browser-utils'
+import { getHorizontalClickSide } from '@step-wise/browser-utils'
 
 import { type as unitFactorType, initialValue as initialUnitFactorValue, isEmpty as isUnitFactorEmpty, getStartCursor as getUnitFactorStartCursor, getEndCursor as getUnitFactorEndCursor, isCursorAtStart as isCursorAtUnitFactorStart, isCursorAtEnd as isCursorAtUnitFactorEnd, isValid as isUnitFactorValid, clean as cleanUnitFactor, functionalize as functionalizeUnitFactor, keyPressToFI as unitFactorKeyPressToFI, mouseClickToCursor as unitFactorMouseClickToCursor, processUnitFactor } from '../UnitFactor'
 
@@ -136,7 +136,7 @@ export function mouseClickToCursor(evt, FI, unitArrayElement) {
 
 	// If we clicked on whitespace around the unit array, put the cursor on the start/end.
 	if (evt.target === unitArrayElement)
-		return getClickSide(evt) === 0 ? getStartCursor(value, cursor) : getEndCursor(value, cursor)
+		return getHorizontalClickSide(evt) === 0 ? getStartCursor(value, cursor) : getEndCursor(value, cursor)
 
 	// If we clicked on a unit factor, pass on the call.
 	const unitFactorElements = [...unitArrayElement.getElementsByClassName('unitFactor')]
@@ -151,7 +151,7 @@ export function mouseClickToCursor(evt, FI, unitArrayElement) {
 	const timesElements = [...unitArrayElement.getElementsByClassName('times')]
 	const timesIndex = timesElements.findIndex(timesElement => timesElement.contains(evt.target))
 	if (timesIndex !== -1) {
-		const side = getClickSide(evt)
+		const side = getHorizontalClickSide(evt)
 		const part = timesIndex + side
 		const unitFactor = value[part]
 		return {

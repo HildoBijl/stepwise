@@ -1,5 +1,5 @@
 import { integerRange, sortBy, mergeDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
-import { getEventPosition, getUtilKeys } from '@step-wise/browser-utils'
+import { getEventClientPosition, getModifierKeyState } from '@step-wise/browser-utils'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useTransformationSettings } from 'ui/figures'
@@ -113,7 +113,7 @@ const emptySnapMousePositionResponse = { position: undefined, snappedPosition: u
 function useEventSnapper(snapper) {
 	const drawingRef = useDrawingRef()
 	return useStableCallback((event) => ({
-		...snapper(drawingRef.current.getDrawingCoordinates(getEventPosition(event))),
-		keys: getUtilKeys(event),
+		...snapper(drawingRef.current.getDrawingCoordinates(getEventClientPosition(event))),
+		keys: getModifierKeyState(event),
 	}))
 }

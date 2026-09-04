@@ -1,4 +1,4 @@
-import { getCoordinatesOf } from '@step-wise/browser-utils'
+import { getClientPosition } from '@step-wise/browser-utils'
 
 import { maxCursorHeight, emptyElementCursorHeight } from '../settings'
 
@@ -59,7 +59,7 @@ export function getCursorPropertiesFromElements(leftElement, rightElement, conta
 }
 
 function getCharRectangle(charElement, container) {
-	const { x, y } = getCoordinatesOf(charElement, container)
+	const { x, y } = getClientPosition(charElement, container)
 	const height = charElement.offsetHeight
 	const width = charElement.offsetWidth
 
