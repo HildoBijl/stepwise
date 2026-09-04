@@ -1,5 +1,5 @@
 import crypto from 'node:crypto'
-import { Client as OpenIdClient, Issuer } from 'openid-client'
+import { type Configuration, authorizationCodeGrant, buildAuthorizationUrl, discovery, fetchUserInfo } from 'openid-client'
 
 import { type SurfConextCallbackParams, type SurfConextClient, type SurfConextIdentity, type SurfConextIdentityProvider, type SurfConextIdentityProviderHints, isSurfConextIdentity } from './types.ts'
 
@@ -13,8 +13,8 @@ export class Client implements SurfConextClient {
 	private readonly _clientId: string
 	private readonly _secret: string
 	private readonly _identityProviderHints: SurfConextIdentityProviderHints
-	private _maybeClient: OpenIdClient | null = null
-	private _clientExpiresAt = new Date()
+	private _maybeConfiguration: Configuration | null = null
+	private _configurationExpiresAt = new Date()
 
 	constructor(issuerUrl: string, redirectUrl: string, clientId: string, secret: string, identityProviderHints: SurfConextIdentityProviderHints) {
 		this._issuerUrl = issuerUrl
@@ -26,12 +26,14 @@ export class Client implements SurfConextClient {
 
 	async authorizationUrl(sessionId: string, identityProvider?: SurfConextIdentityProvider): Promise<string | null> {
 		try {
-			const client = await this._instance()
-			return client?.authorizationUrl({
+			const configuration = await this._configuration()
+			if (!configuration) return null
+			return buildAuthorizationUrl(configuration, {
+				redirect_uri: this._redirectUrl,
 				scope: 'openid',
 				state: hash(sessionId),
 				...(identityProvider ? { login_hint: this._identityProviderHints[identityProvider] } : {}),
-			}) ?? null
+			}).href
 		} catch (error) {
 			console.error(error)
 			return null
@@ -42,34 +44,40 @@ export class Client implements SurfConextClient {
 		if (typeof params.state !== 'string' || typeof params.code !== 'string') return null
 
 		try {
-			const client = await this._instance()
-			if (!client) return null
-			const tokenSet = await client.callback(this._redirectUrl, { state: params.state, code: params.code }, { state: hash(sessionId) })
-			const userInfo = await client.userinfo(tokenSet)
+			const configuration = await this._configuration()
+			if (!configuration) return null
+			const callbackUrl = new URL(this._redirectUrl)
+			callbackUrl.searchParams.set('state', params.state)
+			callbackUrl.searchParams.set('code', params.code)
+			const tokens = await authorizationCodeGrant(configuration, callbackUrl, {
+				expectedState: hash(sessionId),
+				idTokenExpected: true,
+			})
+			const subject = tokens.claims()?.sub
+			if (typeof tokens.access_token !== 'string' || typeof subject !== 'string') return null
+			const userInfo = await fetchUserInfo(configuration, tokens.access_token, subject)
 			return isSurfConextIdentity(userInfo) ? userInfo : null
 		} catch {
 			return null
 		}
 	}
 
-	private async _instance(): Promise<OpenIdClient | null> {
-		if (!this._maybeClient || this._clientExpiresAt < new Date()) {
+	private async _configuration(): Promise<Configuration | null> {
+		if (!this._maybeConfiguration || this._configurationExpiresAt < new Date()) {
 			try {
-				const issuer = await Issuer.discover(this._issuerUrl)
-				this._maybeClient = new issuer.Client({
-					client_id: this._clientId,
+				this._maybeConfiguration = await discovery(new URL(this._issuerUrl), this._clientId, {
 					client_secret: this._secret,
 					redirect_uris: [this._redirectUrl],
 					response_types: ['code'],
 				})
 				const expiresAt = new Date()
 				expiresAt.setDate(expiresAt.getDate() + 1)
-				this._clientExpiresAt = expiresAt
+				this._configurationExpiresAt = expiresAt
 			} catch (error) {
 				console.error(error)
 				return null
 			}
 		}
-		return this._maybeClient
+		return this._maybeConfiguration
 	}
 }
