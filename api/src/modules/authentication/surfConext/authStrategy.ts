@@ -1,6 +1,6 @@
 import type { UserRecord } from '../../user/models.ts'
 
-import type { SurfConextAuthDatabase, SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } from './types.ts'
+import type { SurfConextAuthDatabase, SurfConextCallbackParams, SurfConextClient, SurfConextIdentity, SurfConextIdentityProvider } from './types.ts'
 
 interface AuthenticationRequest {
 	query: SurfConextCallbackParams
@@ -10,8 +10,8 @@ interface AuthenticationRequest {
 export class AuthStrategy {
 	constructor(private readonly _db: SurfConextAuthDatabase, private readonly _surfConextClient: SurfConextClient) { }
 
-	async initiate(sessionId: string): Promise<string | null> {
-		return this._surfConextClient.authorizationUrl(sessionId)
+	async initiate(sessionId: string, identityProvider?: SurfConextIdentityProvider): Promise<string | null> {
+		return this._surfConextClient.authorizationUrl(sessionId, identityProvider)
 	}
 
 	async authenticateAndSync(req: AuthenticationRequest): Promise<UserRecord | null> {

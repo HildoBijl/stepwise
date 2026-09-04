@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser'
 import express, { type Request, type RequestHandler, type Router } from 'express'
 
 import { type GoogleAuthDatabase, type GoogleClient, AuthStrategy as GoogleAuthStrategy } from './google/index.ts'
-import { type SurfConextAuthDatabase, type SurfConextClient, AuthStrategy as SurfConextAuthStrategy } from './surfConext/index.ts'
+import { type SurfConextAuthDatabase, type SurfConextClient, type SurfConextIdentityProvider, AuthStrategy as SurfConextAuthStrategy } from './surfConext/index.ts'
 
 const INVALID_AUTHENTICATION = 'INVALID_AUTHENTICATION'
 const INTERNAL_ERROR = 'INTERNAL_ERROR'
@@ -35,19 +35,22 @@ export function createAuthRouter(config: AuthConfig, db: AuthenticationDatabase,
 
 	const surfConext = new SurfConextAuthStrategy(db, clients.surfConextClient)
 	router.get('/surfconext/login', createLoginHandler(request => surfConext.authenticateAndSync(request)))
-	router.get('/surfconext/initiate', async (request, response) => {
+	const createSurfConextInitiateHandler = (identityProvider?: SurfConextIdentityProvider): RequestHandler => async (request, response) => {
 		try {
 			await regenerateSession(request)
 			request.session.initiated = new Date()
 			request.session.redirect = getValidRedirect(request.query.redirect)
-			const providerUrl = await surfConext.initiate(request.session.id)
+			const providerUrl = await surfConext.initiate(request.session.id, identityProvider)
 			if (!providerUrl) throw new Error('SurfConext did not provide an authorization URL.')
 			response.redirect(providerUrl)
 		} catch (error) {
 			console.error(error)
 			response.redirect(`${config.homepageUrl}?error=${INTERNAL_ERROR}`)
 		}
-	})
+	}
+	router.get('/surfconext/initiate/hu', createSurfConextInitiateHandler('hu'))
+	router.get('/surfconext/initiate/eduid', createSurfConextInitiateHandler('eduid'))
+	router.get('/surfconext/initiate', createSurfConextInitiateHandler())
 
 	const google = new GoogleAuthStrategy(db, clients.googleClient)
 	router.post('/google/login', createLoginHandler(request => google.authenticateAndSync(request)))

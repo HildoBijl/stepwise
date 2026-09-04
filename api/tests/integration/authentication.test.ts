@@ -281,6 +281,12 @@ describe('Authentication: Google', () => {
 })
 
 describe('Authentication: Redirects', () => {
+	it.each(['hu', 'eduid'] as const)('supports direct %s initiation', async identityProvider => {
+		const client = await createClient()
+
+		await expect(client.initiate(undefined, identityProvider)).resolves.toEqual(SurfConext.directoryPath)
+	})
+
 	it('redirects users after successful login', async () => {
 		const client = await createClient()
 		const customRedirectPath = '/my/custom/redirect/route'

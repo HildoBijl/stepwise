@@ -10,5 +10,9 @@ export function createSurfConextClient(): SurfConext.Client {
 		process.env.SURFCONEXT_REDIRECT_URL as string,
 		process.env.SURFCONEXT_CLIENT_ID as string,
 		process.env.SURFCONEXT_SECRET as string,
+		{
+			hu: process.env.SURFCONEXT_HU_IDP as string,
+			eduid: process.env.SURFCONEXT_EDUID_IDP as string,
+		},
 	)
 }
