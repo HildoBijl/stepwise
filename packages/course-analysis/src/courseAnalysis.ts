@@ -11,11 +11,12 @@ export type CourseProgressAnalysis = {
 
 export function getAnalysis(course: Course, skillLevelSet: SkillLevelSet, hasExercises: HasExercises = defaultHasExercises): CourseProgressAnalysis | undefined {
 	const practiceNeeded = getPracticeNeeded(course, skillLevelSet)
-	if (course.allSkillIds.some(skillId => practiceNeeded[skillId] === undefined)) return undefined
+	if (!practiceNeeded) return undefined
 
-	let recommendation = course.priorKnowledgeIds.find(skillId => practiceNeeded[skillId] === 2 && hasExercises(skillId))
-	if (!recommendation) recommendation = course.contentSkillIds.find(skillId => practiceNeeded[skillId] === 2 && hasExercises(skillId))
-	if (!recommendation) recommendation = course.contentSkillIds.find(skillId => practiceNeeded[skillId] === 1 && hasExercises(skillId))
+	let recommendation =
+		course.priorKnowledgeIds.find(skillId => practiceNeeded[skillId] === 2 && hasExercises(skillId)) ??
+		course.contentSkillIds.find(skillId => practiceNeeded[skillId] === 2 && hasExercises(skillId)) ??
+		course.contentSkillIds.find(skillId => practiceNeeded[skillId] === 1 && hasExercises(skillId)) ?? freePracticeRecommendation
 
-	return { practiceNeeded, recommendation: recommendation ?? freePracticeRecommendation }
+	return { practiceNeeded, recommendation }
 }
