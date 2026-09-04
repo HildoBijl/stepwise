@@ -40,13 +40,13 @@ loadNameToVariable({ symbol: 'F', point: 'A', suffix: 'x' }).toString()
 
 ## Exercise value types
 
-Mechanics exercise definitions select their adapters through private exercise-building entry points. Current exercises use:
+Mechanics exercise definitions select their adapters through the private `#mechanicsExerciseBuilding` module. Its `mechanicsExerciseBuilders` object provides three configured builder sets:
 
-- `#exerciseBuilding/freeBodyDiagram` for FreeBodyDiagram input and equality.
-- `#exerciseBuilding/freeBodyDiagramPhysics` when the diagram exercise also uses PrecisionNumber, Unit or Quantity values.
-- `#exerciseBuilding/vectorPhysics` when Vector parameters and physics values are needed without FreeBodyDiagram input.
+- `freeBodyDiagram` for FreeBodyDiagram input and equality.
+- `freeBodyDiagramPhysics` when the diagram exercise also uses PrecisionNumber, Unit or Quantity values.
+- `vectorPhysics` when Vector parameters and physics values are needed without FreeBodyDiagram input.
 
-Each entry point exposes the usual builder names and applies its registry before the exercise reducers capture their adapters. The general `#exerciseBuilding` entry point exports `createExerciseBuilders` for future combinations.
+Each builder set exposes the usual builder names and applies its registry before the exercise reducers capture their adapters. The module also exports `createExerciseBuilders` for future combinations.
 
 The private `#mechanicsValueTypes` module exposes atomic `freeBodyDiagramValueTypes` and `vectorValueTypes` registries, the physics and mathematics subject registries, and useful existing combinations. The respective modules also reexport their discriminator constants.
 

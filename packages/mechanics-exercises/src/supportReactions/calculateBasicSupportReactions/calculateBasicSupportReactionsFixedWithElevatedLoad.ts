@@ -3,9 +3,11 @@ import { getRandomQuantity, Quantity } from '@step-wise/physics-core'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { createForce, createMoment, freeBodyDiagramComparisonOptions } from '@step-wise/engineering-mechanics'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#mechanicsExerciseBuilding/freeBodyDiagramPhysics'
+import { mechanicsExerciseBuilders, createStepExerciseMetadata } from '#mechanicsExerciseBuilding'
 
 import { getDynamicSolution, getInputDependency } from './common.ts'
+
+const { buildStepExercise } = mechanicsExerciseBuilders.freeBodyDiagramPhysics
 
 const metadata = {
 	skill: 'calculateBasicSupportReactions',
