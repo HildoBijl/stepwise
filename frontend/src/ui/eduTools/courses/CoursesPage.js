@@ -9,7 +9,7 @@ import { useSkillLevels, useMyCoursesQuery, courseRecordToCourseData } from 'api
 import { Translation, TranslationFile } from 'i18n'
 import { Head, LoadingIndicator, ErrorNote } from 'ui/components'
 
-import { getAnalysis } from './util'
+import { getAnalysis } from './courseAnalysis'
 import { StudentTile, TeacherTile, AddCourseTile } from './Tile'
 
 const translationPath = 'eduTools/pages/coursesPage'

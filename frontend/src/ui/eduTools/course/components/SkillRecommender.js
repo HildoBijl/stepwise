@@ -2,14 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Box, Button, darken } from '@mui/material'
 
+import { freePracticeRecommendation } from '@step-wise/course-analysis'
 import { skillTree } from '@step-wise/skill-tree'
 
 import { useGetTranslation } from 'i18n'
 import { linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
 import { QuickPractice } from 'ui/components'
-
-import { strFreePractice } from '../../courses'
 
 export function SkillRecommender({ courseCode, recommendation }) {
 	const getTranslation = useGetTranslation()
@@ -21,7 +20,7 @@ export function SkillRecommender({ courseCode, recommendation }) {
 
 	// Determine what to show on the button.
 	let link, message
-	if (recommendation === strFreePractice) {
+	if (recommendation === freePracticeRecommendation) {
 		link = paths.freePractice({ courseCode })
 		message = getTranslation('freePracticeRecommendation', 'eduTools/pages/coursesPage')
 	} else {

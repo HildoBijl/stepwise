@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Box, Button } from '@mui/material'
 import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArrow, VerticalAlignBottom as DownArrow } from '@mui/icons-material'
 
+import { freePracticeRecommendation } from '@step-wise/course-analysis'
 import { skillTree } from '@step-wise/skill-tree'
 
 import { TranslationFile, Translation, useTranslator } from 'i18n'
@@ -12,7 +13,7 @@ import { usePaths } from 'ui/routingTools'
 import { NotificationBar, useModalContext } from 'ui/components'
 
 import { useSkillId } from '../../skills'
-import { getSkillAdvice, strFreePractice } from '../../courses'
+import { getSkillAdvice } from '../../courses'
 
 import { useCourseData } from './CourseProvider'
 
@@ -40,7 +41,7 @@ function SkillNotification() {
 	if (skillId && !overview.allSkillIds.includes(skillId)) {
 		if (recommendation === undefined)
 			return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.noRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>.</Translation></NotificationBar>
-		if (recommendation === strFreePractice)
+		if (recommendation === freePracticeRecommendation)
 			return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.freePracticeRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>. If you want to practice for this course, it's best to use the <Link to={paths.freePractice({ courseCode })}>free practice mode</Link>.</Translation></NotificationBar>
 		const recommendedSkill = skillTree[analysis.recommendation]
 		return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.skillRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>. If you want to practice for this course, it's best to work on <Link to={paths.courseSkill({ courseCode, skillId: recommendedSkill.id })}>{{ skill: translate(recommendedSkill.name, `${recommendedSkill.groupPath.join('.')}.${recommendedSkill.id}`, 'eduContent/skillNames') }}</Link>.</Translation></NotificationBar>
@@ -56,7 +57,7 @@ function SkillNotification() {
 			return null
 
 		case 0: // This skill is already mastered. Show a recommendation.
-			if (recommendation === strFreePractice)
+			if (recommendation === freePracticeRecommendation)
 				return <NotificationBar type="info"><Translation entry="notifications.alreadyMastered.freePracticeRecommendation">You have already sufficiently mastered this skill! It is more effective for the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link> to use the <Link to={paths.freePractice({ courseCode })}>free practice mode</Link>.</Translation></NotificationBar>
 			const skill = skillTree[recommendation]
 			return <NotificationBar type="info"><Translation entry="notifications.alreadyMastered.skillRecommendation">You have already sufficiently mastered this skill! It is more effective for the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link> if you practice <Link to={paths.courseSkill({ courseCode, skillId: recommendation })}>{{ skill: translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames') }}</Link>.</Translation></NotificationBar>
@@ -127,14 +128,14 @@ function useSkillModal() {
 	// Set up handlers.
 	const goToRecommendation = () => {
 		closeModal()
-		navigate(recommendation === strFreePractice ? paths.freePractice({ courseCode }) : paths.courseSkill({ courseCode, skillId: recommendation }))
+		navigate(recommendation === freePracticeRecommendation ? paths.freePractice({ courseCode }) : paths.courseSkill({ courseCode, skillId: recommendation }))
 	}
 
 	// Determine the contents to show in the modal. (If there is no recommendation, don't do anything yet. We don't have all data yet.)
 	let contents = <div />
 	if (skillsDataLoaded) {
 		if (adviceType === 0) {
-			const message = recommendation === strFreePractice ?
+			const message = recommendation === freePracticeRecommendation ?
 				<Translation entry="modals.mastery.toFreePracticeMode">You just mastered <Link to={paths.courseSkill({ courseCode, skillId })} onClick={closeModal}>{{ passedSkill: translate(skillTree[skillId].name, `${skillTree[skillId].groupPath.join('.')}.${skillId}`, 'eduContent/skillNames') }}</Link>, and with that all skills of <Link to={paths.course({ courseCode })} onClick={closeModal}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>! We recommend you to practice with a mixed assortment of exercises in the <Link to={paths.freePractice({ courseCode })} onClick={closeModal}>free practice mode</Link>.</Translation> :
 				<Translation entry="modals.mastery.nextSkill">You just mastered <Link to={paths.courseSkill({ courseCode, skillId })} onClick={closeModal}>{{ passedSkill: translate(skillTree[skillId].name, `${skillTree[skillId].groupPath.join('.')}.${skillId}`, 'eduContent/skillNames') }}</Link>! You can carry on with the next skill: <Link to={paths.courseSkill({ courseCode, skillId: recommendation })} onClick={closeModal}>{{ nextSkill: translate(skillTree[recommendation].name, `${skillTree[recommendation].groupPath.join('.')}.${recommendation}`, 'eduContent/skillNames') }}</Link>.</Translation>
 			contents = (

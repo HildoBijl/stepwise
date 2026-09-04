@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Box, Tooltip, useTheme, alpha } from '@mui/material'
 import { Check, Info } from '@mui/icons-material'
 
+import { isPracticeNeeded } from '@step-wise/course-analysis'
 import { skillTree } from '@step-wise/skill-tree'
 import { hasExercises } from '@step-wise/exercises'
 
@@ -12,7 +13,7 @@ import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
 import { QuickPractice } from 'ui/components/icons'
 
-import { isPracticeNeeded, SkillFlask } from '../../skills'
+import { SkillFlask } from '../../skills'
 
 export function SkillList({ courseCode, skillIds, display = true, landscape, isPriorKnowledge, analysis, sx = {} }) {
 

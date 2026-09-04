@@ -1,18 +1,8 @@
 import { findOptimum, fromKeys, fromKeysAndValues } from '@step-wise/js-utils'
 import { expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
 import { SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
-import { freePracticeRecommendation, getAnalysis as getCourseAnalysis, getSkillAdvice as getCourseSkillAdvice } from '@step-wise/course-analysis'
-import { hasExercises } from '@step-wise/exercises'
 
-export const strFreePractice = freePracticeRecommendation
-
-export function getAnalysis(course, skillLevelSet) {
-	return getCourseAnalysis(course, skillLevelSet, hasExercises)
-}
-
-export function getSkillAdvice(course, analysis, skillId) {
-	return getCourseSkillAdvice(course, analysis, skillId, hasExercises)
-}
+import { getAnalysis } from './courseAnalysis'
 
 export function processStudent(student, course) {
 	const { skillTree } = course
