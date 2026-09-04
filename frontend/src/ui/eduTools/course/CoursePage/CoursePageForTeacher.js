@@ -112,8 +112,8 @@ function StudentOverview({ course, overview, students }) {
 			id: student.id,
 			name: student.name,
 			lastActive: student.lastActive && (new Date() - student.lastActive),
-			all: student.numCompleted,
-			...fromKeysAndValues(blocks.map((_, index) => `block${index}`), blocks.map((block, index) => student.numCompletedPerBlock[index])),
+			all: student.analysis.numCompleted,
+			...fromKeysAndValues(blocks.map((_, index) => `block${index}`), blocks.map((block, index) => student.analysis.numCompletedPerBlock[index])),
 		}
 	}), [processedStudents, blocks])
 

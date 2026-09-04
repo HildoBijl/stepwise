@@ -120,7 +120,7 @@ function ProgressOverview({ processedStudent, course, overview }) {
 							{translate(course.blocks[index].name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
 						</TableCell>
 						<TableCell align="center">
-							<CenteredProgressIndicator size={50} total={block.contentSkillIds.length} done={processedStudent.numCompletedPerBlock[index]} />
+							<CenteredProgressIndicator size={50} total={block.contentSkillIds.length} done={processedStudent.analysis.numCompletedPerBlock[index]} />
 						</TableCell>
 						{repeat(numSkillColumns, index => <TableCell key={index} align="center" onClick={() => navigate(paths.courseStudentSkill({ courseCode: course.code, studentId: processedStudent.id, skillId: block.contentSkillIds[index] }))} sx={{ verticalAlign: 'top', cursor: 'pointer', '&:hover': { backgroundColor: theme => theme.palette.action.hover } }}>
 							<SkillIndicator skillId={block.contentSkillIds[index]} student={processedStudent} overview={overview} />
