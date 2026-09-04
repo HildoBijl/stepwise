@@ -1,10 +1,16 @@
 import type { SkillId, SkillThresholdOptions, SkillTree } from '@step-wise/skill-definition'
+import type { Course } from '@step-wise/course-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 
 export type PracticeNeeded = 0 | 1 | 2
 export type PracticeNeededMap = Partial<Record<SkillId, PracticeNeeded>>
 
-export function isPracticeNeeded(skillLevelSet: SkillLevelSet, skillId: SkillId, priorKnowledge = false, skillThresholds: SkillThresholdOptions): PracticeNeeded | undefined {
+export type PracticeNeededOptions = {
+	skillThresholds: SkillThresholdOptions
+	priorKnowledge?: boolean
+}
+
+export function isPracticeNeeded(skillLevelSet: SkillLevelSet, skillId: SkillId, { skillThresholds, priorKnowledge = false }: PracticeNeededOptions): PracticeNeeded | undefined {
 	if (!skillLevelSet.hasRequiredDataFor(skillId)) return undefined
 
 	const mastery = priorKnowledge ? skillThresholds.priorKnowledgeMastery : skillThresholds.mastery
@@ -17,9 +23,9 @@ export function isPracticeNeeded(skillLevelSet: SkillLevelSet, skillId: SkillId,
 	return 2
 }
 
-export function getPracticeNeeded(skillTree: SkillTree, course: { learningGoalIds: readonly SkillId[], priorKnowledgeIds: readonly SkillId[] }, skillLevelSet: SkillLevelSet): PracticeNeededMap {
+export function getPracticeNeeded(course: Course, skillLevelSet: SkillLevelSet): PracticeNeededMap {
 	const result: PracticeNeededMap = {}
-	course.learningGoalIds.forEach(goalId => checkPracticeNeeded(skillTree, goalId, skillLevelSet, course.priorKnowledgeIds, result))
+	course.learningGoalIds.forEach(goalId => checkPracticeNeeded(course.skillTree, goalId, skillLevelSet, course.priorKnowledgeIds, result))
 	return result
 }
 
@@ -28,7 +34,7 @@ function checkPracticeNeeded(skillTree: SkillTree, skillId: SkillId, skillLevelS
 	if (!skill) throw new Error(`Invalid skill: could not find "${skillId}" when processing course data.`)
 
 	const isPriorKnowledge = priorKnowledge.includes(skillId)
-	let practiceNeeded = isPracticeNeeded(skillLevelSet, skillId, isPriorKnowledge, skill.thresholds)
+	let practiceNeeded = isPracticeNeeded(skillLevelSet, skillId, { skillThresholds: skill.thresholds, priorKnowledge: isPriorKnowledge })
 	if (bestParent !== undefined && practiceNeeded !== undefined) practiceNeeded = Math.min(bestParent, practiceNeeded) as PracticeNeeded
 
 	if (result[skillId] !== undefined && practiceNeeded !== undefined && result[skillId] <= practiceNeeded) return

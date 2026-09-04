@@ -3,7 +3,7 @@ import { type SkillId, expandSkillIdsWithDirectPrerequisitesAndLinks } from '@st
 import type { Course } from '@step-wise/course-definition'
 import { type SkillLevelData, SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
 
-import type { CourseAnalysisContext } from './types.ts'
+import { type HasExercises, defaultHasExercises } from './types.ts'
 import { type CourseProgressAnalysis, getAnalysis } from './courseAnalysis.ts'
 
 export type StudentSkillData = SkillLevelData & {
@@ -23,14 +23,15 @@ export type ProcessedStudent<TStudent extends StudentData> = Omit<TStudent, 'ski
 	lastActive: Date | undefined
 }
 
-export function processStudent<TStudent extends StudentData>({ skillTree, hasExercises }: CourseAnalysisContext, student: TStudent, course: Course): ProcessedStudent<TStudent> {
+export function processStudent<TStudent extends StudentData>(student: TStudent, course: Course, hasExercises: HasExercises = defaultHasExercises): ProcessedStudent<TStudent> {
+	const { skillTree } = course
 	const existingSkills = student.skills.filter(skill => !!skillTree[skill.skillId])
 	const skillsAsObject = fromKeysAndValues(existingSkills.map(skill => skill.skillId), existingSkills.map(skill => ensureSkillLevel(skill)))
 
 	const allSkillIds = expandSkillIdsWithDirectPrerequisitesAndLinks(skillTree, course.allSkillIds)
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
 	const skillLevelSet = new SkillLevelSet(skillTree, skills)
-	const analysis = getAnalysis({ skillTree, hasExercises }, course, skillLevelSet)
+	const analysis = getAnalysis(course, skillLevelSet, hasExercises)
 	if (!analysis) throw new Error('Invalid student analysis: the constructed skill level set did not contain all data required by the course.')
 
 	const getNumCompleted = (skillIds: readonly SkillId[]) => count(skillIds, skillId => analysis.practiceNeeded[skillId] === 0)
