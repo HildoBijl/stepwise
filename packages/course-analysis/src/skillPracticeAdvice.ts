@@ -4,40 +4,51 @@ import type { Course } from '@step-wise/course-definition'
 
 import { type HasExercises, type PracticeRecommendation, allSkillsHaveExercises, freePracticeRecommendation } from './types.ts'
 import type { CourseProgressAnalysis } from './courseProgress.ts'
-import type { PracticeNeed, PracticeNeeds } from './practiceNeeds.ts'
+import type { PracticeNeeds } from './practiceNeeds.ts'
 
+export type SkillPracticeAdviceType = 'goBack' | 'stay' | 'moveOnward' | 'notInCourse'
 export type SkillPracticeAdvice = {
-	type?: PracticeNeed
-	recommendation?: PracticeRecommendation
+	type: SkillPracticeAdviceType
+	recommendation: PracticeRecommendation
 }
 
-export function getSkillPracticeAdvice(course: Course, analysis: CourseProgressAnalysis | undefined, skillId?: SkillId, hasExercises: HasExercises = allSkillsHaveExercises): SkillPracticeAdvice {
-	if (!analysis) return {}
-	if (!skillId) {
-		const recommendation = course.allSkillIds.find(id => analysis.practiceNeeds[id] === 2 && hasExercises(id))
-		return recommendation ? { type: 2, recommendation } : { type: 1, recommendation: freePracticeRecommendation }
+export function getSkillPracticeAdvice(course: Course, analysis: CourseProgressAnalysis | undefined, skillId?: SkillId, hasExercises: HasExercises = allSkillsHaveExercises): SkillPracticeAdvice | undefined {
+	if (!analysis) return undefined
+
+	// Without a current skill, the student is using free practice. Only recommend leaving it for a skill that requires practice.
+	if (skillId === undefined) {
+		const { recommendation } = analysis
+		if (recommendation === freePracticeRecommendation) return { type: 'stay', recommendation }
+		const practiceNeed = analysis.practiceNeeds[recommendation]
+		if (practiceNeed === undefined) throw new Error('Invalid course analysis: the recommended skill does not have a practice need.')
+		return practiceNeed === 2 ? { type: 'goBack', recommendation } : { type: 'stay', recommendation: freePracticeRecommendation }
 	}
 
+	// A skill outside the analyzed course cannot receive local advice, so fall back to the course recommendation.
+	if (analysis.practiceNeeds[skillId] === undefined) {
+		const { recommendation } = analysis
+		return { type: 'notInCourse', recommendation }
+	}
+
+	// The student is currently practicing a skill that is part of the course. Give advice based on the practice need for that skill.
 	switch (analysis.practiceNeeds[skillId]) {
-		case undefined:
-			return { recommendation: analysis.recommendation }
 		case 0:
-			return { type: 0, recommendation: findContinuationToPractice(course.skillTree, hasExercises, skillId, course.allSkillIds, analysis.practiceNeeds) || analysis.recommendation }
+			return { type: 'moveOnward', recommendation: findContinuationToPractice(course.skillTree, hasExercises, skillId, course.allSkillIds, analysis.practiceNeeds) ?? analysis.recommendation }
 		case 1:
-			return { type: 1 }
+			return { type: 'stay', recommendation: skillId }
 		case 2: {
 			const recommendation = findPrerequisiteToPractice(course.skillTree, hasExercises, skillId, course.allSkillIds, analysis.practiceNeeds)
-			return recommendation === skillId ? { type: 1 } : { type: 2, recommendation }
+			return recommendation === skillId ? { type: 'stay', recommendation } : { type: 'goBack', recommendation }
 		}
 		default:
 			throw new Error('Invalid practice need: a practice need was given that was not among the available options.')
 	}
 }
 
-function findPrerequisiteToPractice(skillTree: Course['skillTree'], hasExercises: HasExercises, skillId: SkillId, courseSkillIds: readonly SkillId[], practiceNeeds: PracticeNeeds, includeOptionalPractice = false): SkillId {
-	const recommendation = courseSkillIds.find(prerequisiteId => skillTree[skillId].prerequisiteIds.includes(prerequisiteId) && (practiceNeeds[prerequisiteId] === 2 || (includeOptionalPractice && practiceNeeds[prerequisiteId] === 1)) && hasExercises(prerequisiteId))
+function findPrerequisiteToPractice(skillTree: Course['skillTree'], hasExercises: HasExercises, skillId: SkillId, courseSkillIds: readonly SkillId[], practiceNeeds: PracticeNeeds, includeRecommendedPractice = false): SkillId {
+	const recommendation = courseSkillIds.find(prerequisiteId => skillTree[skillId].prerequisiteIds.includes(prerequisiteId) && (practiceNeeds[prerequisiteId] === 2 || (includeRecommendedPractice && practiceNeeds[prerequisiteId] === 1)) && hasExercises(prerequisiteId))
 	if (!recommendation) return skillId
-	return findPrerequisiteToPractice(skillTree, hasExercises, recommendation, courseSkillIds, practiceNeeds, includeOptionalPractice)
+	return findPrerequisiteToPractice(skillTree, hasExercises, recommendation, courseSkillIds, practiceNeeds, includeRecommendedPractice)
 }
 
 function findContinuationToPractice(skillTree: Course['skillTree'], hasExercises: HasExercises, skillId: SkillId, courseSkillIds: readonly SkillId[], practiceNeeds: PracticeNeeds): SkillId | undefined {

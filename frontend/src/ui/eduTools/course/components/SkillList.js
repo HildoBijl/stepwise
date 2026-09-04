@@ -85,7 +85,7 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 	if (!hasExercises(skillId)) {
 		noExercisesText = translate('This skill has no exercises yet. They are probably coming soon.', 'noExercises')
 	} else if (practiceNeed === 0) {
-		if (getPracticeNeed(skillLevelSet, skillId, { skillThresholds: skill.thresholds, priorKnowledge: isPriorKnowledge }) === 0)
+		if (getPracticeNeed(skillId, skillLevelSet, { skillThresholds: skill.thresholds, priorKnowledge: isPriorKnowledge }) === 0)
 			masteryText = translate('You have sufficiently mastered this skill.', 'sufficientMastery')
 		else
 			masteryText = translate('You have mastered a follow-up skill, so we mark this one as sufficient as well.', 'followUpMastery')

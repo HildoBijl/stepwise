@@ -27,45 +27,36 @@ export function SkillAdvice() {
 // SkillNotification shows the notification bar at the top of the screen recommending users to go to a different skill within the course.
 function SkillNotification() {
 	const translate = useTranslator()
-	const { type: adviceType, recommendation } = useSkillAdvice()
+	const skillAdvice = useSkillAdvice()
 	const paths = usePaths()
-	const { course, overview, analysis } = useCourseData()
+	const { course } = useCourseData()
 	const courseCode = course?.code
 	const skillId = useSkillId()
 
-	// If the course has not loaded, no recommendation is given.
-	if (!course)
-		return null
+	// If the course or its analysis has not loaded, no recommendation is given.
+	if (!course || !skillAdvice) return null
+	const { type: adviceType, recommendation } = skillAdvice
 
 	// First check if the skill is part of the course.
-	if (skillId && !overview.allSkillIds.includes(skillId)) {
-		if (recommendation === undefined)
-			return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.noRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>.</Translation></NotificationBar>
+	if (adviceType === 'notInCourse') {
 		if (recommendation === freePracticeRecommendation)
 			return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.freePracticeRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>. If you want to practice for this course, it's best to use the <Link to={paths.freePractice({ courseCode })}>free practice mode</Link>.</Translation></NotificationBar>
-		const recommendedSkill = skillTree[analysis.recommendation]
+		const recommendedSkill = skillTree[recommendation]
 		return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.skillRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>. If you want to practice for this course, it's best to work on <Link to={paths.courseSkill({ courseCode, skillId: recommendedSkill.id })}>{{ skill: translate(recommendedSkill.name, `${recommendedSkill.groupPath.join('.')}.${recommendedSkill.id}`, 'eduContent/skillNames') }}</Link>.</Translation></NotificationBar>
 	}
 
-	// If there is no recommendation, some data is still loading/missing.
-	if (!recommendation)
-		return null
-
 	// Based on the advice received, generate a notification.
 	switch (adviceType) {
-		case undefined: // This skill is not part of the course.
-			return null
-
-		case 0: // This skill is already mastered. Show a recommendation.
+		case 'moveOnward': // This skill is already mastered. Show a recommendation.
 			if (recommendation === freePracticeRecommendation)
 				return <NotificationBar type="info"><Translation entry="notifications.alreadyMastered.freePracticeRecommendation">You have already sufficiently mastered this skill! It is more effective for the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link> to use the <Link to={paths.freePractice({ courseCode })}>free practice mode</Link>.</Translation></NotificationBar>
 			const skill = skillTree[recommendation]
 			return <NotificationBar type="info"><Translation entry="notifications.alreadyMastered.skillRecommendation">You have already sufficiently mastered this skill! It is more effective for the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link> if you practice <Link to={paths.courseSkill({ courseCode, skillId: recommendation })}>{{ skill: translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames') }}</Link>.</Translation></NotificationBar>
 
-		case 1: // This skill is reasonable to practice. Don't show a warning.
+		case 'stay': // This skill is reasonable to practice. Don't show a warning.
 			return null
 
-		case 2: // This skill is not mastered. Find a prior skill that requires practice. If there is none, this is a good skill to practice.
+		case 'goBack': // This skill is not mastered. Find a prior skill that requires practice. If there is none, this is a good skill to practice.
 			const recommendedSkill = skillTree[recommendation]
 			if (skillId === undefined)
 				return <NotificationBar type="warning"><Translation entry="notifications.notMastered.onFreePracticeMode">You're not ready yet for free practice on the final level of the course. It is wiser to first practice <Link to={paths.courseSkill({ courseCode, skillId: recommendation })}>{{ skill: translate(recommendedSkill.name, `${recommendedSkill.groupPath.join('.')}.${recommendedSkill.id}`, 'eduContent/skillNames') }}</Link>.</Translation></NotificationBar>
@@ -123,7 +114,7 @@ function useSkillModal() {
 	const courseCode = course?.code
 	const skillId = useSkillId()
 	const { useModal, closeModal } = useModalContext()
-	const { type: adviceType, recommendation } = useSkillAdvice()
+	const { type: adviceType, recommendation } = useSkillAdvice() ?? {}
 
 	// Set up handlers.
 	const goToRecommendation = () => {
@@ -134,7 +125,7 @@ function useSkillModal() {
 	// Determine the contents to show in the modal. (If there is no recommendation, don't do anything yet. We don't have all data yet.)
 	let contents = <div />
 	if (skillsDataLoaded) {
-		if (adviceType === 0) {
+		if (adviceType === 'moveOnward') {
 			const message = recommendation === freePracticeRecommendation ?
 				<Translation entry="modals.mastery.toFreePracticeMode">You just mastered <Link to={paths.courseSkill({ courseCode, skillId })} onClick={closeModal}>{{ passedSkill: translate(skillTree[skillId].name, `${skillTree[skillId].groupPath.join('.')}.${skillId}`, 'eduContent/skillNames') }}</Link>, and with that all skills of <Link to={paths.course({ courseCode })} onClick={closeModal}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>! We recommend you to practice with a mixed assortment of exercises in the <Link to={paths.freePractice({ courseCode })} onClick={closeModal}>free practice mode</Link>.</Translation> :
 				<Translation entry="modals.mastery.nextSkill">You just mastered <Link to={paths.courseSkill({ courseCode, skillId })} onClick={closeModal}>{{ passedSkill: translate(skillTree[skillId].name, `${skillTree[skillId].groupPath.join('.')}.${skillId}`, 'eduContent/skillNames') }}</Link>! You can carry on with the next skill: <Link to={paths.courseSkill({ courseCode, skillId: recommendation })} onClick={closeModal}>{{ nextSkill: translate(skillTree[recommendation].name, `${skillTree[recommendation].groupPath.join('.')}.${recommendation}`, 'eduContent/skillNames') }}</Link>.</Translation>
@@ -150,7 +141,7 @@ function useSkillModal() {
 				</Box>
 			)
 		}
-		if (adviceType === 2) {
+		if (adviceType === 'goBack') {
 			const skill = skillTree[recommendation]
 			contents = (
 				<Box sx={modalStyle}>
@@ -173,12 +164,12 @@ function useSkillModal() {
 	const previousSkillId = usePrevious(skillId)
 	const previousSkillsDataLoaded = usePrevious(skillsDataLoaded)
 	useEffect(() => {
-		if (previousSkillsDataLoaded && previousSkillId === skillId && previousAdviceType === 1 && (adviceType === 0 || adviceType === 2))
+		if (previousSkillsDataLoaded && previousSkillId === skillId && previousAdviceType === 'stay' && (adviceType === 'moveOnward' || adviceType === 'goBack'))
 			setShowModal(true)
 	}, [previousSkillsDataLoaded, adviceType, previousAdviceType, skillId, previousSkillId, setShowModal])
 }
 
-// useSkillAdvice returns an object { type: 0/1/2, recommendation: 'someSkillId' } that is used to determine whether the user should be sent to another skill. The types match with getPracticeNeed: 0 means "all fine", 1 means "OK, but could be better" and 2 means "wrong". The recommendation is based on the current skillId: it's not always the course recommendation. For instance, if a prerequisite of the given skill is good to practice, it recommends that one.
+// useSkillAdvice returns an advice type and recommendation that determine whether the user should stay, move onward or go back to a prerequisite. The recommendation is based on the current skillId: it is not always the course recommendation. For instance, if a prerequisite of the given skill is good to practice, it recommends that one.
 export function useSkillAdvice() {
 	const { overview, analysis } = useCourseData()
 	const skillId = useSkillId()

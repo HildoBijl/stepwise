@@ -21,6 +21,7 @@ export function analyzeCourseProgress(course: Course, skillLevelSet: SkillLevelS
 		course.priorKnowledgeIds.find(skillId => practiceNeeds[skillId] === 2 && hasExercises(skillId)) ??
 		course.contentSkillIds.find(skillId => practiceNeeds[skillId] === 2 && hasExercises(skillId)) ??
 		course.contentSkillIds.find(skillId => practiceNeeds[skillId] === 1 && hasExercises(skillId)) ?? freePracticeRecommendation
+
 	const getNumCompleted = (skillIds: readonly SkillId[]) => count(skillIds, skillId => practiceNeeds[skillId] === 0)
 	const numCompleted = getNumCompleted(course.contentSkillIds)
 	const numCompletedPerBlock = (course.blocks ?? []).map(block => getNumCompleted(block.contentSkillIds))

@@ -10,7 +10,7 @@ export type PracticeNeedOptions = {
 	priorKnowledge?: boolean
 }
 
-export function getPracticeNeed(skillLevelSet: SkillLevelSet, skillId: SkillId, options: PracticeNeedOptions): PracticeNeed | undefined {
+export function getPracticeNeed(skillId: SkillId, skillLevelSet: SkillLevelSet, options: PracticeNeedOptions): PracticeNeed | undefined {
 	if (!skillLevelSet.hasRequiredDataFor(skillId)) return undefined
 	return calculatePracticeNeed(skillLevelSet, skillId, options)
 }
