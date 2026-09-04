@@ -5,8 +5,8 @@ import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 import { last, fromKeys, isPlainObject, repeat } from '@step-wise/js-utils'
 import { getLastAction } from '@step-wise/exercise-definition'
 import { getLastRawInput, getCurrentStep } from '@step-wise/input-exercises'
+import { useLatest, useConsistentValue } from '@step-wise/react-utils'
 
-import { useLatest, useConsistentValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useUserId, useIsAdmin, useActiveGroup, useSelfAndOtherMembers } from 'api'
 import { Translation, useTranslator, useGetTranslation } from 'i18n'
 import { getIcon } from 'ui/theme'

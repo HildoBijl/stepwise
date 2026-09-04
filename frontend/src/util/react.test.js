@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
-import { useEventListener } from './react'
+import { useEventListener } from '@step-wise/react-utils'
 
 describe('useEventListener', () => {
 	it('compares DOM elements by identity when the target changes', () => {

@@ -2,8 +2,7 @@ import React, { useCallback } from 'react'
 
 import { mergeDefaults, deepEqual, noop } from '@step-wise/js-utils'
 import { deserializeData, serializeData } from '@step-wise/serialization'
-
-import { useUpdater } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useUpdater } from '@step-wise/react-utils'
 
 import { useFormData } from '../provider'
 

@@ -2,8 +2,8 @@ import { useCallback, useEffect } from 'react'
 
 import { clamp } from '@step-wise/js-utils'
 import { getClientPosition } from '@step-wise/browser-utils'
+import { useEventListener } from '@step-wise/react-utils'
 
-import { useEventListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useSubmitCall } from 'ui/form'
 
 import { useInputData } from '../../Input'

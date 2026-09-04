@@ -2,8 +2,7 @@ import { useState } from 'react'
 
 import { mergeDefaults } from '@step-wise/js-utils'
 import { getModifierKeyState } from '@step-wise/browser-utils'
-
-import { useEventListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useEventListener } from '@step-wise/react-utils'
 
 import { useInputData } from '../../../Input'
 

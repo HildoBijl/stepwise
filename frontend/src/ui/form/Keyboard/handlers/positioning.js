@@ -1,6 +1,6 @@
 import { useRef, useLayoutEffect, useCallback } from 'react'
 
-import { useResizeListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useResizeListener } from '@step-wise/react-utils'
 
 // useKeyboardPositioning manages the raising and lowering of the keyboard, setting its vertical position.
 export function useKeyboardPositioning(tab, barRef, tabsRef, keyboardRef, fillerRef, active, open) {

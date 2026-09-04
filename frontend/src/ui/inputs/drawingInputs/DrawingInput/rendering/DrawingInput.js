@@ -1,8 +1,7 @@
 import React, { forwardRef, useState } from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
-
-import { useEnsureRef } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useEnsureRef } from '@step-wise/react-utils'
 
 import { Input, defaultInputOptions } from '../../../Input'
 

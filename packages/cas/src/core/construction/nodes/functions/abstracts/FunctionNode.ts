@@ -1,4 +1,4 @@
-import { shallowEqual } from '@step-wise/js-utils'
+import { shallowEqualArrays } from '@step-wise/js-utils'
 
 import { ExpressionNode } from '../../ExpressionNode.ts'
 
@@ -22,7 +22,7 @@ export abstract class FunctionNode extends ExpressionNode {
 
 	override recreateWithChildren(children: readonly ExpressionNode[]): ExpressionNode {
 		this.validateChildren(children, this.argumentNames.length)
-		if (shallowEqual(children, this.children)) return this
+		if (shallowEqualArrays(children, this.children)) return this
 		return new (this.constructor as new (...args: ExpressionNode[]) => ExpressionNode)(...children)
 	}
 }

@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useMemo } from 'react'
 
 import { isPlainObject } from '@step-wise/js-utils'
+import { useConsistentValue } from '@step-wise/react-utils'
 
-import { useConsistentValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useInputObject } from 'ui/form'
 
 import { useExerciseData } from '../containers'

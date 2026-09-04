@@ -1,7 +1,6 @@
 import { pickKeys, preserveRefs, fromKeys } from '@step-wise/js-utils'
 import { interpretInputData } from '@step-wise/input-interpretation'
-
-import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useLatest, useStableCallback } from '@step-wise/react-utils'
 
 // The read handlers allow the extraction of parameters from the Form.
 export function useReadHandlers(input, { getFieldData, getFieldIds }, interpretInput = interpretInputData) {

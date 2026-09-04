@@ -1,6 +1,5 @@
 import { resolveFunctionValuesDeep } from '@step-wise/js-utils'
-
-import { useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useStableCallback } from '@step-wise/react-utils'
 
 // The write handlers allow the adjusting of Form parameters.
 export function useWriteHandlers(setInput, { getFieldData }) {

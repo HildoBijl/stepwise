@@ -7,8 +7,8 @@ import React, { useRef, forwardRef, useImperativeHandle, useId } from 'react'
 import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
 import { getEventClientPosition } from '@step-wise/browser-utils'
+import { useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from '@step-wise/react-utils'
 
-import { useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { notSelectable } from 'ui/theme'
 
 import { Figure, defaultFigureOptions } from '../Figure'

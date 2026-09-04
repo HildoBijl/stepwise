@@ -3,8 +3,7 @@ import { useState, useCallback } from 'react'
 import { getByPath, isObject } from '@step-wise/js-utils'
 import { defaultLanguage } from '@step-wise/settings'
 import { isLocalhost } from '@step-wise/browser-utils'
-
-import { useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useStableCallback } from '@step-wise/react-utils'
 
 import { entryAsArray } from '../util'
 import { useI18nData, useLanguage, useLanguageFiles } from '../context'

@@ -2,8 +2,8 @@ import { useMemo, } from 'react'
 
 import { deduplicate } from '@step-wise/js-utils'
 import { ensureVector, Line, LineSegment } from '@step-wise/geometry'
+import { useEqualRefOnEquality } from '@step-wise/react-utils'
 
-import { useEqualRefOnEquality } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useTransformationSettings, applyTransformation } from 'ui/figures'
 
 import { useInputFI } from '../../../Input'

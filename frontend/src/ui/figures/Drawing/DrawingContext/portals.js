@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 
-import { Portal } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { Portal } from '@step-wise/react-utils'
 
 import { useDrawingData } from './context'
 

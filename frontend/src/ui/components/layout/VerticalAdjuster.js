@@ -5,8 +5,9 @@
 */
 
 import React, { useLayoutEffect, useRef, useState } from 'react'
-import useResizeObserver from '@react-hook/resize-observer'
 import { useTheme, Box } from '@mui/material'
+
+import { useResizeObserver } from '@step-wise/react-utils'
 
 import { useVisible } from '../contexts/visible'
 

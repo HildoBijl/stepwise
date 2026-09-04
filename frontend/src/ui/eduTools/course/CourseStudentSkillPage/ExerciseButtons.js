@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { Box, Typography, Button, alpha } from '@mui/material'
 
-import { useDimension } from 'util'
+import { useDimension } from '@step-wise/react-utils'
+
 import { Translation } from 'i18n'
 
 

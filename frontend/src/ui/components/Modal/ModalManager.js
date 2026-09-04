@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useRef } from 'react'
 import { Modal, Box, useTheme } from '@mui/material'
 
-import { usePrevious } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { usePrevious } from '@step-wise/react-utils'
+
 import { centered } from 'ui/theme'
 
 const ModalContext = createContext(null)

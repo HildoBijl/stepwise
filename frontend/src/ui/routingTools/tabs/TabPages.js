@@ -1,7 +1,8 @@
 import React, { useEffect, useLayoutEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { useConsistentValue, useUpdater } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useConsistentValue, useUpdater } from '@step-wise/react-utils'
+
 import { TranslationSection } from 'i18n'
 import { VisibleProvider } from 'ui/components'
 import { useRoute, insertParametersIntoPath } from 'ui/routingTools'

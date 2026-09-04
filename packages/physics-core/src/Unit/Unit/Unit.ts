@@ -1,4 +1,4 @@
-import { ensureInteger, shallowEqual } from '@step-wise/js-utils'
+import { ensureInteger, shallowEqualArrays } from '@step-wise/js-utils'
 
 import { type UnitFactor, type UnitFactorStorageValue } from '../UnitFactor/index.ts'
 
@@ -176,7 +176,7 @@ export class Unit {
 		const sortUnitFactors = (unitFactors: UnitFactor[]): UnitFactor[] => [...unitFactors].sort(compareUnitFactors)
 		const numerator = sortUnitFactors(this.numerator)
 		const denominator = sortUnitFactors(this.denominator)
-		return (shallowEqual(numerator, this.numerator) && shallowEqual(denominator, this.denominator)) ? this : new Unit({ numerator: numerator, denominator: denominator })
+		return (shallowEqualArrays(numerator, this.numerator) && shallowEqualArrays(denominator, this.denominator)) ? this : new Unit({ numerator: numerator, denominator: denominator })
 	}
 
 	// Remove all prefixes.

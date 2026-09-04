@@ -6,8 +6,8 @@ import { interpolateGrid } from '@step-wise/interpolation'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { skillTree } from '@step-wise/skill-tree'
 import { colorToCss, mixColors, shiftColorBrightness } from '@step-wise/browser-utils'
+import { useUUID } from '@step-wise/react-utils'
 
-import { useUUID } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { Translation, Check } from 'i18n'
 
 // Define general settings.

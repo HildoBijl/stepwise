@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { Tabs as MuiTabs, Tab as MuiTab, useTheme } from '@mui/material'
 
-import { useDimension, useResizeListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useDimension, useResizeListener } from '@step-wise/react-utils'
 
 import { useTabContext } from './TabProvider'
 import { TabLabel } from './TabLabel'

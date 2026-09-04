@@ -3,8 +3,7 @@ import React, { forwardRef } from 'react'
 
 import { mergeDefaults, pickFromDefaults, omitKeys } from '@step-wise/js-utils'
 import { ensureVector, ensureVectorArray } from '@step-wise/geometry'
-
-import { ensureReactElement } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { ensureReactElement } from '@step-wise/react-utils'
 
 import { useGraphicalVector } from '../../DrawingContext'
 

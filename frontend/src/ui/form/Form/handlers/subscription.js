@@ -1,4 +1,4 @@
-import { useLatest, useMountedRef, useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useLatest, useMountedRef, useStableCallback } from '@step-wise/react-utils'
 
 // The subscription handlers track which input fields exist, allows new input fields to subscribe (while providing the right information) and allows dismounting input fields to unsubscribe.
 export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {

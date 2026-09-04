@@ -3,8 +3,7 @@ import { Box } from '@mui/material'
 import clsx from 'clsx'
 
 import { resolveFunctionValuesDeep } from '@step-wise/js-utils'
-
-import { useSize } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useSize } from '@step-wise/react-utils'
 
 import { useButtonClickFunction } from './util'
 import { KeyButton } from './KeyButton'

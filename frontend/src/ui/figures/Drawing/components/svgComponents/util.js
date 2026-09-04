@@ -1,7 +1,6 @@
 import { mod, first, last, repeat, filterProperties } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-
-import { useEnsureRef, useEventListeners } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useEnsureRef, useEventListeners } from '@step-wise/react-utils'
 
 // Define event handlers that objects can use.
 export const defaultEventHandlers = {}

@@ -4,8 +4,8 @@ import { Box, Paper, Tooltip, FormGroup, FormControlLabel, Switch } from '@mui/m
 import { DataGrid } from '@mui/x-data-grid'
 
 import { fromKeysAndValues } from '@step-wise/js-utils'
+import { useLocalStorageState } from '@step-wise/react-utils'
 
-import { useLocalStorageState } from 'util'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
 import { notSelectable } from 'ui/theme'
 import { Par, Info, TimeAgo } from 'ui/components'

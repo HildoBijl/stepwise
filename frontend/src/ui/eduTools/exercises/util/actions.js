@@ -2,8 +2,8 @@ import { useCallback } from 'react'
 
 import { count } from '@step-wise/js-utils'
 import { getLastAction } from '@step-wise/exercise-definition'
+import { useLatest } from '@step-wise/react-utils'
 
-import { useLatest } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useUserId, useActiveGroup } from 'api'
 import { useSubmitCall } from 'ui/form'
 

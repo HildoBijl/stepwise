@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
 import { isPlainObject, mapValues, pickKeys, deepEqual } from '@step-wise/js-utils'
+import { useLatest, useStableCallback } from '@step-wise/react-utils'
 
-import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useTranslator, addSection } from 'i18n'
 
 import { useFormData } from '../Form'

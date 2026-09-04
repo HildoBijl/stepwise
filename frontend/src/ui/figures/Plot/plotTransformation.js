@@ -2,8 +2,7 @@ import { useMemo } from 'react'
 
 import { ensureBoolean, omitKeys, pickFromDefaults, mergeDefaults, first, last } from '@step-wise/js-utils'
 import { Vector, Rectangle, Transformation } from '@step-wise/geometry'
-
-import { useConsistentValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useConsistentValue } from '@step-wise/react-utils'
 
 import { getBoundingRectangle, ensureScale, useConsistentPoints } from '../Drawing/transformation/util'
 import { useBoundsBasedTransformationSettings, defaultBoundsBasedTransformationOptions } from '../Drawing'

@@ -3,8 +3,7 @@ import React, { useRef, useCallback, useMemo } from 'react'
 import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionValue, deepEqual, isEmptyObject } from '@step-wise/js-utils'
 import { createEmptyExpressionValue, isEmptyExpressionValue, defaultInterpretationSettings } from '@step-wise/math-input-value'
 import { defaultExpressionSettings } from '@step-wise/cas'
-
-import { useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useStableCallback } from '@step-wise/react-utils'
 
 import { ResizingInput, defaultResizingInputOptions } from '../ResizingInput'
 

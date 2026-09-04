@@ -3,8 +3,8 @@ import React, { useState, useCallback, useMemo, useEffect, createContext, useCon
 import { fromKeysAndValues, fromKeys } from '@step-wise/js-utils'
 import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
 import { expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
+import { useConsistentValue, useConstant } from '@step-wise/react-utils'
 
-import { useConsistentValue, useConstant } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useUser } from 'api'
 
 import { useSkillsQuery } from './queries'

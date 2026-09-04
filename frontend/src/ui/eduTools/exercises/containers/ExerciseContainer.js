@@ -3,8 +3,8 @@ import React, { useState, createContext, useContext, useEffect, useRef, useMemo 
 import { getCurrentState } from '@step-wise/exercise-definition'
 import { getSkill } from '@step-wise/skill-tree'
 import { getExercise } from '@step-wise/exercises'
+import { useConsistentValue } from '@step-wise/react-utils'
 
-import { useConsistentValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useTranslator } from 'i18n'
 import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
 

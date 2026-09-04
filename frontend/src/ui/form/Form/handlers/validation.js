@@ -1,4 +1,4 @@
-import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useLatest, useStableCallback } from '@step-wise/react-utils'
 
 import { useFieldControllerContext } from '../../FieldController'
 

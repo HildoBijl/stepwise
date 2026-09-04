@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback } from 'react'
 
-import { useLatest } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useLatest } from '@step-wise/react-utils'
 
 import { Keyboard } from '../Keyboard'
 
