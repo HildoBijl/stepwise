@@ -1,7 +1,15 @@
-import type { Course } from '@step-wise/course-definition'
+import { findValue } from '@step-wise/js-utils'
 import type { SkillId } from '@step-wise/skill-definition'
+import type { Course } from '@step-wise/course-definition'
 
-import { type CourseAnalysisContext, type CourseProgressAnalysis, type PracticeNeededMap, type SkillAdvice, freePracticeRecommendation } from './types.ts'
+import { type CourseAnalysisContext, type PracticeRecommendation, freePracticeRecommendation } from './types.ts'
+import type { CourseProgressAnalysis } from './courseAnalysis.ts'
+import type { PracticeNeeded, PracticeNeededMap } from './practice.ts'
+
+export type SkillAdvice = {
+	type?: PracticeNeeded
+	recommendation?: PracticeRecommendation
+}
 
 export function getSkillAdvice({ skillTree, hasExercises }: CourseAnalysisContext, course: Course, analysis: CourseProgressAnalysis | undefined, skillId?: SkillId): SkillAdvice {
 	if (!analysis) return {}
@@ -35,6 +43,6 @@ function findPriorSkillToPractice(skillTree: CourseAnalysisContext['skillTree'],
 function findNextSkillToPractice(skillTree: CourseAnalysisContext['skillTree'], hasExercises: CourseAnalysisContext['hasExercises'], skillId: SkillId, courseSkills: readonly SkillId[], practiceNeeded: PracticeNeededMap): SkillId | undefined {
 	const continuations = courseSkills.filter(continuationId => skillTree[skillId].continuationIds.includes(continuationId))
 	const recommendation = continuations.find(continuationId => (practiceNeeded[continuationId] === 1 || practiceNeeded[continuationId] === 2) && hasExercises(continuationId))
-	if (!recommendation) return continuations.find(continuationId => findNextSkillToPractice(skillTree, hasExercises, continuationId, courseSkills, practiceNeeded))
+	if (!recommendation) return findValue(continuations, continuationId => findNextSkillToPractice(skillTree, hasExercises, continuationId, courseSkills, practiceNeeded))
 	return findPriorSkillToPractice(skillTree, hasExercises, recommendation, courseSkills, practiceNeeded, true)
 }

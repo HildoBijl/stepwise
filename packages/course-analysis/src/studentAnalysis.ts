@@ -1,10 +1,27 @@
 import { count, findOptimum, fromKeys, fromKeysAndValues } from '@step-wise/js-utils'
-import type { Course } from '@step-wise/course-definition'
 import { type SkillId, expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
-import { SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
+import type { Course } from '@step-wise/course-definition'
+import { type SkillLevelData, SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
 
-import type { CourseAnalysisContext, ProcessedStudent, StudentData } from './types.ts'
-import { getAnalysis } from './courseAnalysis.ts'
+import type { CourseAnalysisContext } from './types.ts'
+import { type CourseProgressAnalysis, getAnalysis } from './courseAnalysis.ts'
+
+export type StudentSkillData = SkillLevelData & {
+	updatedAt: Date | string
+}
+
+export type StudentData = {
+	skills: StudentSkillData[]
+}
+
+export type ProcessedStudent<TStudent extends StudentData> = Omit<TStudent, 'skills'> & {
+	skills: TStudent['skills']
+	skillLevelSet: SkillLevelSet
+	analysis: CourseProgressAnalysis
+	numCompleted: number
+	numCompletedPerBlock: number[]
+	lastActive: Date | undefined
+}
 
 export function processStudent<TStudent extends StudentData>({ skillTree, hasExercises }: CourseAnalysisContext, student: TStudent, course: Course): ProcessedStudent<TStudent> {
 	const existingSkills = student.skills.filter(skill => !!skillTree[skill.skillId])

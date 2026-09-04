@@ -1,7 +1,8 @@
 import type { SkillId, SkillThresholdOptions, SkillTree } from '@step-wise/skill-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 
-import type { PracticeNeeded, PracticeNeededMap } from './types.ts'
+export type PracticeNeeded = 0 | 1 | 2
+export type PracticeNeededMap = Partial<Record<SkillId, PracticeNeeded>>
 
 export function isPracticeNeeded(skillLevelSet: SkillLevelSet, skillId: SkillId, priorKnowledge = false, skillThresholds: SkillThresholdOptions): PracticeNeeded | undefined {
 	if (!skillLevelSet.hasRequiredDataFor(skillId)) return undefined
