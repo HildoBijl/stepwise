@@ -71,7 +71,7 @@ The application and administrator credentials may be identical during local deve
 
 ### Authentication and sessions
 
-SURFconext production authentication uses `SURFCONEXT_ISSUER_URL`, `SURFCONEXT_REDIRECT_URL`, `SURFCONEXT_CLIENT_ID`, and `SURFCONEXT_SECRET`. Google Sign-In uses `GOOGLE_CLIENT_ID`.
+SURFconext production authentication uses `SURFCONEXT_ISSUER_URL`, `SURFCONEXT_REDIRECT_URL`, `SURFCONEXT_CLIENT_ID`, and `SURFCONEXT_SECRET`. `SURFCONEXT_HU_IDP` and `SURFCONEXT_EDUID_IDP` contain the environment-specific IdP entity IDs used for direct provider selection. Google Sign-In uses `GOOGLE_CLIENT_ID`.
 
 Production sessions are stored in Redis using `REDIS_HOST` and `REDIS_PORT`. Development uses an in-memory session store and mock SURFconext identities from [`mockData.json`](src/modules/authentication/surfConext/mockData.json). The development session helper uses `lastSessionData` to restore the most recently selected mock identity after a restart.
 

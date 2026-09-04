@@ -1,7 +1,7 @@
 import crypto from 'node:crypto'
 import { Client as OpenIdClient, Issuer } from 'openid-client'
 
-import { type SurfConextCallbackParams, type SurfConextClient, type SurfConextIdentity, isSurfConextIdentity } from './types.ts'
+import { type SurfConextCallbackParams, type SurfConextClient, type SurfConextIdentity, type SurfConextIdentityProvider, type SurfConextIdentityProviderHints, isSurfConextIdentity } from './types.ts'
 
 function hash(text: string): string {
 	return crypto.createHash('sha256').update(text).digest('hex')
@@ -12,20 +12,26 @@ export class Client implements SurfConextClient {
 	private readonly _redirectUrl: string
 	private readonly _clientId: string
 	private readonly _secret: string
+	private readonly _identityProviderHints: SurfConextIdentityProviderHints
 	private _maybeClient: OpenIdClient | null = null
 	private _clientExpiresAt = new Date()
 
-	constructor(issuerUrl: string, redirectUrl: string, clientId: string, secret: string) {
+	constructor(issuerUrl: string, redirectUrl: string, clientId: string, secret: string, identityProviderHints: SurfConextIdentityProviderHints) {
 		this._issuerUrl = issuerUrl
 		this._redirectUrl = redirectUrl
 		this._clientId = clientId
 		this._secret = secret
+		this._identityProviderHints = identityProviderHints
 	}
 
-	async authorizationUrl(sessionId: string): Promise<string | null> {
+	async authorizationUrl(sessionId: string, identityProvider?: SurfConextIdentityProvider): Promise<string | null> {
 		try {
 			const client = await this._instance()
-			return client?.authorizationUrl({ scope: 'openid', state: hash(sessionId) }) ?? null
+			return client?.authorizationUrl({
+				scope: 'openid',
+				state: hash(sessionId),
+				...(identityProvider ? { login_hint: this._identityProviderHints[identityProvider] } : {}),
+			}) ?? null
 		} catch (error) {
 			console.error(error)
 			return null

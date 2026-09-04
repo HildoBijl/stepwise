@@ -101,7 +101,7 @@ function LogInError() {
 function HULogInButton({ redirect }) {
 	// How do we send the user to SURFConext?
 	const goToSurfConext = () => {
-		window.location.href = `${apiAddress}/auth/surfconext/initiate?redirect=${encodeURIComponent(redirect)}`
+		window.location.href = `${apiAddress}/auth/surfconext/initiate/hu?redirect=${encodeURIComponent(redirect)}`
 	}
 
 	// Only show this button on Dutch or English language settings.

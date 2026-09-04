@@ -61,9 +61,10 @@ class Client {
 			.join(' ')
 	}
 
-	async initiate(redirect?: string): Promise<string> {
+	async initiate(redirect?: string, identityProvider?: SurfConext.SurfConextIdentityProvider): Promise<string> {
+		const providerPath = identityProvider ? `/${identityProvider}` : ''
 		const response = await request(this._server)
-			.get(`/auth/surfconext/initiate`)
+			.get(`/auth/surfconext/initiate${providerPath}`)
 			.query({ redirect })
 			.expect(302)
 		this._storeCookies(response)

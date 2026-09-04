@@ -18,6 +18,9 @@ export interface SurfConextCallbackParams {
 	sub?: unknown
 }
 
+export type SurfConextIdentityProvider = 'hu' | 'eduid'
+export type SurfConextIdentityProviderHints = Readonly<Record<SurfConextIdentityProvider, string>>
+
 export interface SurfConextIdentity {
 	sub: string
 	databaseId?: string | null
@@ -58,7 +61,7 @@ export function ensureSurfConextIdentities(value: unknown): asserts value is Sur
 }
 
 export interface SurfConextClient {
-	authorizationUrl(sessionId: string): Promise<string | null>
+	authorizationUrl(sessionId: string, identityProvider?: SurfConextIdentityProvider): Promise<string | null>
 	getIdentity(
 		params: SurfConextCallbackParams,
 		sessionId: string,
