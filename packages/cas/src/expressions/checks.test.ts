@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { expressionChecks } from './checks.ts'
 
 describe('expressionChecks', () => {

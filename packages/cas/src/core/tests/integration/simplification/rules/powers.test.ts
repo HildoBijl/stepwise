@@ -1,3 +1,5 @@
+import { describe, test } from 'vitest'
+
 import { variable, negative, sum, product, fraction, power } from '../../../../construction/index.ts'
 
 import { expectSimplifyToGive } from '../../../testUtils.ts'

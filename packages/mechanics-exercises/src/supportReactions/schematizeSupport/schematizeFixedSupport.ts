@@ -3,7 +3,9 @@ import { compareInputs } from '@step-wise/exercise-grading'
 import { Vector } from '@step-wise/geometry'
 import { createForce, createMoment, isForce, isMoment } from '@step-wise/engineering-mechanics'
 
-import { buildStepExercise, createStepExerciseMetadata } from '#mechanicsExerciseBuilding/freeBodyDiagram'
+import { mechanicsExerciseBuilders, createStepExerciseMetadata } from '#mechanicsExerciseBuilding'
+
+const { buildStepExercise } = mechanicsExerciseBuilders.freeBodyDiagram
 
 export default buildStepExercise({
 	metadata: {

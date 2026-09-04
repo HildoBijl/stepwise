@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { asExpression } from './Expression.ts'
 import { asExpressionEqualityOptions, defaultExpressionEqualityOptions, isExpressionEqualityOptionsInput } from './equalityOptions.ts'
 

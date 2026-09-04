@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { identity } from '@step-wise/js-utils'
 
 import { sum, variable } from '../core/index.ts'

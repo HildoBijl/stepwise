@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { deepEqual } from '@step-wise/js-utils'
 
 import updateLogContents from '../../public/locales/updateLog.json?raw'

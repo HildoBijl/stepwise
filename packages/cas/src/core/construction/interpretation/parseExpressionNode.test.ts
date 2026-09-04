@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { areNodesEqual } from '../../operations/index.ts'
 
 import { product, variable } from '../creation/index.ts'

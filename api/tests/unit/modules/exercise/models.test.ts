@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { hasLoadedExerciseEvents } from '../../../../src/modules/exercise/models.ts'
 import type { ExerciseSampleRecord } from '../../../../src/modules/exercise/index.ts'
 

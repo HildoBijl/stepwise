@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { skillTree } from '@step-wise/skill-tree'
 
 describe('Check all skills:', () => {

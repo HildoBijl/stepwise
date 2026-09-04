@@ -20,20 +20,20 @@
 		"README.md"
 	],
 	"imports": {
-		"#mechanicsExerciseBuilding/*": {
-			"types": "./src/tools/exerciseBuilding/*.ts",
-			"development": "./src/tools/exerciseBuilding/*.ts",
-			"default": "./dist/tools/exerciseBuilding/*.js"
+		"#mechanicsExerciseBuilding": {
+			"types": "./src/private/exerciseBuilding/index.ts",
+			"development": "./src/private/exerciseBuilding/index.ts",
+			"default": "./dist/private/exerciseBuilding/index.js"
 		},
-		"#tools": {
-			"types": "./src/tools/index.ts",
-			"development": "./src/tools/index.ts",
-			"default": "./dist/tools/index.js"
+		"#mechanicsValueTypes": {
+			"types": "./src/private/valueTypes/index.ts",
+			"development": "./src/private/valueTypes/index.ts",
+			"default": "./dist/private/valueTypes/index.js"
 		},
-		"#mechanicsValueTypes/*": {
-			"types": "./src/tools/valueTypes/*.ts",
-			"development": "./src/tools/valueTypes/*.ts",
-			"default": "./dist/tools/valueTypes/*.js"
+		"#mechanicsTools": {
+			"types": "./src/private/tools/index.ts",
+			"development": "./src/private/tools/index.ts",
+			"default": "./dist/private/tools/index.js"
 		}
 	},
 	"scripts": {

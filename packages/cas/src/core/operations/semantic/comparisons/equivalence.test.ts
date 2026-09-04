@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { type ExpressionNodeInput, asExpressionNode, negative, plusMinus, variable, sum, product, fraction, power } from '../../../construction/index.ts'
 
 import { areEquivalent } from './equivalence.ts'

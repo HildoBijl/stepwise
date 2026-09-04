@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { GraphQLError } from 'graphql'
 
 import { ForbiddenError, InvalidInputError, UnauthenticatedError } from '../../src/errors.ts'

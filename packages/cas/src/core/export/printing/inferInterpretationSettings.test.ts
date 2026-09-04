@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { namedConstants, product, variable } from '../../construction/index.ts'
 
 import { inferInterpretationSettingsOptions } from './inferInterpretationSettings.ts'

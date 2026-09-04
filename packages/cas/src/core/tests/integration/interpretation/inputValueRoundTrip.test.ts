@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import type { EquationInputValue, ExpressionInputValue, InputValuePart } from '@step-wise/math-input-value'
 
 import { asEquation } from '../../../../equations/index.ts'

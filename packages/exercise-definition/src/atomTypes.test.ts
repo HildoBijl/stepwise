@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { ensureExerciseAction, isExerciseAction } from './atomTypes.ts'
 
 describe('exercise action validation', () => {

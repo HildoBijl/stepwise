@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { fraction, negative, power, product, sum, variable } from '../../construction/index.ts'
 
 import { nodeToString } from './toString.ts'

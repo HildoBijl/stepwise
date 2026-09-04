@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { type ExpressionNode, negative, plusMinus, product, sum, variable } from '../../../construction/index.ts'
 
 import { areNodesEqual } from '../inspection/index.ts'

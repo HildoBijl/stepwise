@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import type { RequestWithSession } from '../../../src/server/types.ts'
 import { getSessionUserId } from '../../../src/server/support.ts'
 

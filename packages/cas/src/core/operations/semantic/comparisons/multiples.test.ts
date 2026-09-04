@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { Integer, namedConstants, variable, sum, product, power } from '../../../construction/index.ts'
 
 import { isConstantMultiple, isIntegerMultiple } from './multiples.ts'

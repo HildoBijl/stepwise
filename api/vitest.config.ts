@@ -5,7 +5,6 @@ export default defineConfig({
 		env: { POSTGRES_DB: 'testing' },
 		fileParallelism: false,
 		globalSetup: './tests/globalSetup.ts',
-		globals: true,
 		include: ['tests/**/*.test.ts'],
 		maxWorkers: 1,
 		minWorkers: 1,

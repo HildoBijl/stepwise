@@ -1,3 +1,5 @@
+import { describe, test } from 'vitest'
+
 import { negative, variable, sum, product, fraction, power } from '../../../../construction/index.ts'
 import { simplify, normalize } from '../../../../operations/index.ts'
 

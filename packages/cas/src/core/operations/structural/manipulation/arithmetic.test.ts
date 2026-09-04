@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { fraction, negative, product, sum } from '../../../construction/index.ts'
 
 import { areNodesEqual } from '../inspection/index.ts'

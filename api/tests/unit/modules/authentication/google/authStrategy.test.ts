@@ -1,3 +1,5 @@
+import { describe, expect, it, vi } from 'vitest'
+
 import type { GoogleAuthDatabase, GoogleAuthRequest, GoogleClient, GoogleIdentity } from '../../../../../src/modules/authentication/google/types.ts'
 import { AuthStrategy } from '../../../../../src/modules/authentication/google/authStrategy.ts'
 import type { UserRecord } from '../../../../../src/modules/user/index.ts'

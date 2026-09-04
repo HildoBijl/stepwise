@@ -1,3 +1,5 @@
+import { describe, test } from 'vitest'
+
 import { type ExpressionNodeInput, type VariableInput, Integer, namedConstants, asExpressionNode, negative, variable, sum, product, fraction, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan } from '../../../construction/index.ts'
 import { differentiate } from '../../../operations/index.ts'
 

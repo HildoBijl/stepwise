@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { fraction, ln, log, negative, number, plusMinus, power, product, root, sin, sqrt, sum } from '../../../construction/index.ts'
 
 import { areNumbersEqual, evaluateNumericNode, tryToEvaluateNumericNode } from './numeric.ts'

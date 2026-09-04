@@ -1,6 +1,7 @@
 import React from 'react'
 import { ThemeProvider, CssBaseline } from '@mui/material'
 import { ApolloProvider } from '@apollo/client/react'
+import { HelmetProvider } from 'react-helmet-async'
 
 import { UserWrapper, ActiveGroupProvider, SkillCacher } from 'api'
 import { I18nProvider } from 'i18n'
@@ -19,20 +20,22 @@ function AppWithoutProvider() {
 	return (
 		<div id="app">
 			<div id="appInner">
-				<I18nProvider>
-					<ThemeProvider theme={theme}>
-						<CssBaseline />
-						<UserWrapper>
-							<PrivacyPolicyWrapper>
-								<ActiveGroupProvider>
-									<SkillCacher>
-										<Routing />
-									</SkillCacher>
-								</ActiveGroupProvider>
-							</PrivacyPolicyWrapper>
-						</UserWrapper>
-					</ThemeProvider>
-				</I18nProvider>
+				<HelmetProvider>
+					<I18nProvider>
+						<ThemeProvider theme={theme}>
+							<CssBaseline />
+							<UserWrapper>
+								<PrivacyPolicyWrapper>
+									<ActiveGroupProvider>
+										<SkillCacher>
+											<Routing />
+										</SkillCacher>
+									</ActiveGroupProvider>
+								</PrivacyPolicyWrapper>
+							</UserWrapper>
+						</ThemeProvider>
+					</I18nProvider>
+				</HelmetProvider>
 			</div>
 		</div>
 	)

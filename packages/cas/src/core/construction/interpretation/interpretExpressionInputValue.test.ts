@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import type { ExpressionInputValue } from '@step-wise/math-input-value'
 
 import { areNodesEqual } from '../../operations/index.ts'

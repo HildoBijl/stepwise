@@ -1,3 +1,5 @@
+import { afterAll, beforeAll, beforeEach } from 'vitest'
+
 import { Database } from '../../src/database.ts'
 import { createSequelize } from '../../scripts/index.ts'
 

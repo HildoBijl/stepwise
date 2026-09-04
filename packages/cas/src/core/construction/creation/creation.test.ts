@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { Float, Integer, Product, Sum, Variable } from '../nodes/index.ts'
 
 import { asExpressionNode } from './asExpressionNode.ts'

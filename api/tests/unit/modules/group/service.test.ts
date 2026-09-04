@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { ForbiddenError, InvalidInputError } from '../../../../src/errors.ts'
 import type { GroupMemberRecord, GroupWithMembers } from '../../../../src/modules/group/models.ts'
 import { createRandomGroupCode, ensureActiveGroupMembership, ensureGroupMembership } from '../../../../src/modules/group/service.ts'

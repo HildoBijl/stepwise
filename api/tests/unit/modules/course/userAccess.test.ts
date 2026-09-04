@@ -1,3 +1,5 @@
+import { describe, expect, it, vi } from 'vitest'
+
 import { canViewStudentPrivateData } from '../../../../src/modules/course/userAccess.ts'
 import type { UserContext, UserRecord } from '../../../../src/modules/user/index.ts'
 
