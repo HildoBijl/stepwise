@@ -1,5 +1,1 @@
-export * from './colors'
-export * from './development'
-export * from './dom'
-export * from './localStorage'
 export * from './react'
