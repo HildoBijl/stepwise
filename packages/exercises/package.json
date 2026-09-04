@@ -39,6 +39,6 @@
 	"devDependencies": {
 		"@step-wise/input-exercises": "^0.1.0",
 		"@step-wise/serialization": "^0.1.0",
-		"vitest": "^3.0.0"
+		"vitest": "^5.0.0"
 	}
 }

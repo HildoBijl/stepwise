@@ -30,6 +30,6 @@
 		"@step-wise/skill-setup": "^0.1.0"
 	},
 	"devDependencies": {
-		"vitest": "^3.0.0"
+		"vitest": "^5.0.0"
 	}
 }
