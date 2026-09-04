@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { SurfConext } from '../../src/modules/authentication/index.ts'
 
 import { createClient, defaultConfig } from '../support/client.ts'

@@ -1,3 +1,5 @@
+import { describe, expect, it, test } from 'vitest'
+
 import type { CourseRecord } from '../../../../src/modules/course/index.ts'
 import { createCourseDefinition } from '../../../../src/modules/course/service.ts'
 

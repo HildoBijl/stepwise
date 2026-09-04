@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { combineNumbersInSums } from '../rules/numeric/index.ts'
 import { flattenSums } from '../rules/structural/index.ts'
 

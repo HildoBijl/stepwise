@@ -1,3 +1,5 @@
+import { describe, expect, it, vi } from 'vitest'
+
 import { currentPrivacyPolicyVersion, languages } from '@step-wise/settings'
 
 import { InvalidInputError } from '../../../../src/errors.ts'

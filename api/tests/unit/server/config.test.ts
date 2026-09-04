@@ -1,3 +1,5 @@
+import { describe, expect, it, test } from 'vitest'
+
 import { loadConfig, validateServerConfig } from '../../../src/server/index.ts'
 
 import { defaultConfig } from '../../support/client.ts'

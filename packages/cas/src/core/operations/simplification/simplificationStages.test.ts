@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { type ExpressionNode } from '../../construction/index.ts'
 
 import { defineRule, simplificationRules } from './rules/index.ts'

@@ -1,3 +1,5 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { Client } from '../../../../../src/modules/authentication/google/client.ts'
 
 const verifyIdToken = vi.fn()

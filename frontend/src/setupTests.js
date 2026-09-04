@@ -1,12 +1,17 @@
-import '@testing-library/jest-dom/vitest'
-import { vi } from 'vitest'
+import { cleanup } from '@testing-library/react'
+import { afterEach, vi } from 'vitest'
 
 // The MUI DataGrid uses a TextEncoder that is not known to Node. Polyfill it.
-import { TextEncoder, TextDecoder } from 'util'
+import { TextEncoder, TextDecoder } from 'node:util'
+
+afterEach(cleanup)
 if (!globalThis.TextEncoder)
 	globalThis.TextEncoder = TextEncoder
 if (!globalThis.TextDecoder)
 	globalThis.TextDecoder = TextDecoder
+
+// JSDOM does not implement scrolling, but rendered exercise wrappers request it.
+vi.stubGlobal('scrollTo', vi.fn())
 
 // Keep tests deterministic and prevent rendered providers from making network
 // requests. Local public files are served in the same shape as Vite serves them.

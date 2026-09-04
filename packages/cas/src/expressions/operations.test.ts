@@ -1,3 +1,5 @@
+import { describe, test } from 'vitest'
+
 import { expectExpressionToEqual } from '../tests/support/wrapperAssertions.ts'
 
 import { expressionOperations } from './operations.ts'

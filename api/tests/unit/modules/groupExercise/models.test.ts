@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import type { GroupWithMembers } from '../../../../src/modules/group/index.ts'
 import { hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents, hasLoadedGroupExercises } from '../../../../src/modules/groupExercise/models.ts'
 import type { GroupExerciseEventRecord, GroupExerciseSampleRecord } from '../../../../src/modules/groupExercise/index.ts'

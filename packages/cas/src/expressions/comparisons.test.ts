@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { sum } from '../core/index.ts'
 
 import { Expression, asExpression } from './Expression.ts'

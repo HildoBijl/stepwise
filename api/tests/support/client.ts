@@ -1,3 +1,5 @@
+import { afterAll, beforeAll } from 'vitest'
+
 import request, { type Response } from 'supertest'
 import type { PubSubEngine } from 'graphql-subscriptions'
 

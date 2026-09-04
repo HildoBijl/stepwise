@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { asEquation } from './Equation.ts'
 import { deserializeEquation, isEquationStorageValue, isSerializedEquation, serializeEquation } from './serialization.ts'
 

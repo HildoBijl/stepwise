@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { arccos, arcsin, arctan, fraction, ln, log, negative, namedConstants, plusMinus, power, product, root, sin, sqrt, sum, tan, variable } from '../../construction/index.ts'
 import { areNodesEqual } from '../../operations/index.ts'
 

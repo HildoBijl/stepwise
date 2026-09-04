@@ -1,3 +1,5 @@
+import { describe, expect, it, test } from 'vitest'
+
 import { defineApiModule, defineRegistryKeys, ensureCompleteRegistry } from '../../../src/modules/types.ts'
 
 describe('API module helpers', () => {

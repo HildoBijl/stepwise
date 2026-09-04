@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { validateSimplificationOptions } from '.'
 
 describe('simplification option validation', () => {

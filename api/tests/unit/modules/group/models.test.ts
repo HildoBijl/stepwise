@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { hasLoadedGroupMembers, hasLoadedUserGroups } from '../../../../src/modules/group/models.ts'
 import type { GroupRecord } from '../../../../src/modules/group/index.ts'
 import type { UserRecord } from '../../../../src/modules/user/index.ts'

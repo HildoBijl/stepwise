@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { ensureSurfConextIdentities, isSurfConextIdentity } from '../../../../../src/modules/authentication/surfConext/types.ts'
 
 describe('SURFconext identity validation', () => {

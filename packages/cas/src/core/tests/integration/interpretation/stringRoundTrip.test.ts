@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { type ExpressionNode, namedConstants, integer, negative, plusMinus, variable, sum, product, fraction, power, sqrt, root, ln, log, sin, parseExpressionNode } from '../../../construction/index.ts'
 import { nodeToString, inferInterpretationSettingsOptions } from '../../../export/index.ts'
 

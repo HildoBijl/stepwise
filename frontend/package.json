@@ -41,8 +41,6 @@
 		"@step-wise/skill-tracking": "^0.1.0",
 		"@step-wise/skill-tree": "^0.1.0",
 		"@step-wise/value-types": "^0.1.0",
-		"@testing-library/react": "^13.4.0",
-		"@testing-library/user-event": "^14.4.3",
 		"clsx": "^1.1.1",
 		"country-flag-icons": "^1.5.7",
 		"fontfaceobserver": "^2.3.0",
@@ -77,7 +75,9 @@
 		]
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "^7.0.1",
+		"@testing-library/dom": "^10.4.1",
+		"@testing-library/react": "^16.3.3",
+		"@testing-library/user-event": "^14.6.7",
 		"@vitejs/plugin-react": "^5.0.0",
 		"jsdom": "^26.0.0",
 		"resize-observer-polyfill": "^1.5.1",

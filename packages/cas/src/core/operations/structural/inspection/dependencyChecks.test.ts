@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { product, sum, variable } from '../../../construction/index.ts'
 
 import { collectVariables, collectVariableStrings, dependsOn, dependsOnAny, dependsOnlyOn } from './dependencyChecks.ts'

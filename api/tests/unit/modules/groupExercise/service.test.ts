@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import type { GroupExerciseEventRecord, GroupExerciseSampleRecord } from '../../../../src/modules/groupExercise/index.ts'
 import { getCurrentGroupExerciseState } from '../../../../src/modules/groupExercise/service.ts'
 

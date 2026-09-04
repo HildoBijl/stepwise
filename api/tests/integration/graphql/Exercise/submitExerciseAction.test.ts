@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { deserializeData } from '@step-wise/serialization'
 
 import surfConextMockData from '../../../../src/modules/authentication/surfConext/mockData.json' with { type: 'json' }

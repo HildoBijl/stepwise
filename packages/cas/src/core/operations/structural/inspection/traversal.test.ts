@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { power, product, sum } from '../../../construction/index.ts'
 
 import { countNodes, everyNode, findNode, forEachNode, getNodes, someChild, someNode } from './traversal.ts'

@@ -1,3 +1,5 @@
+import { describe, test } from 'vitest'
+
 import { number, variable, sum, product, power, sqrt } from '../../../../construction/index.ts'
 import { simplify, factorize } from '../../../../operations/index.ts'
 

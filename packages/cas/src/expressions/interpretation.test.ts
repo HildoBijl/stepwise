@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { parseExpressionInputValue } from '@step-wise/math-input-value'
 
 import { Expression, asExpression } from './Expression.ts'

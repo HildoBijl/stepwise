@@ -1,3 +1,5 @@
+import { describe, expect, it, vi } from 'vitest'
+
 import type { SkillId } from '@step-wise/skill-definition'
 
 import { ForbiddenError } from '../../../../src/errors.ts'

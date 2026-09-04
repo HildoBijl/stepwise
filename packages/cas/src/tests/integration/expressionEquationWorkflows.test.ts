@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { asEquation, deserializeEquation, equationToInputValue, inputValueToEquation, serializeEquation } from '../../equations/index.ts'
 
 describe('expression and equation workflows', () => {
