@@ -1,12 +1,10 @@
 import React from 'react'
 
 import { UserProvider } from './provider'
-import { LanguageSetter } from './LanguageSetter'
 
-// The UserWrapper is a wrapper that wraps all user functionalities, most of all the UserProvider providing user data.
+// The UserWrapper provides the current user data throughout the application.
 export function UserWrapper({ children }) {
 	return <UserProvider>
-		<LanguageSetter />
 		{children}
 	</UserProvider>
 }
