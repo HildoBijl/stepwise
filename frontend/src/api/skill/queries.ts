@@ -14,8 +14,8 @@ import { skillFields } from './fragments.ts'
 
 type SkillQueryData = { skill: SkillRecord | null }
 type SkillQueryVariables = { skillId: SkillId; userId?: string }
-export type SkillsQueryData = { skills: SkillRecord[] }
-export type SkillsQueryVariables = { skillIds: SkillId[] }
+export type SkillLevelRecordsQueryData = { skills: SkillRecord[] }
+export type SkillLevelRecordsQueryVariables = { skillIds: SkillId[] }
 
 // Get the data for a skill.
 export function useSkillQuery(skillId: SkillId, userId?: string) {
@@ -34,17 +34,17 @@ export const SKILL: TypedDocumentNode<SkillQueryData, SkillQueryVariables> = gql
 `
 
 // Get the data for multiple skills. In this case only coefficients are loaded, and not exercises.
-export function useSkillsQuery(skillIds: SkillId[]) {
+export function useSkillLevelRecordsQuery(skillIds: SkillId[]) {
 	skillIds = [...ensureSkillIds(skillIds)]
 	const user = useUser()
 	const skip = !user || skillIds.length === 0
-	const result = useQuery(SKILLS, { variables: { skillIds }, skip })
-	const rawData = result.data as SkillsQueryData | undefined
+	const result = useQuery(SKILL_LEVEL_RECORDS, { variables: { skillIds }, skip })
+	const rawData = result.data as SkillLevelRecordsQueryData | undefined
 	const data = useMemo(() => rawData ? { skills: rawData.skills.map(skillRecordToSkill) } : undefined, [rawData])
 	return { ...result, data: data as { skills: UserSkill[] } | undefined }
 }
-export const SKILLS: TypedDocumentNode<SkillsQueryData, SkillsQueryVariables> = gql`
-	query skills($skillIds: [String]!) {
+const SKILL_LEVEL_RECORDS: TypedDocumentNode<SkillLevelRecordsQueryData, SkillLevelRecordsQueryVariables> = gql`
+	query skillLevelRecords($skillIds: [String]!) {
 		skills(skillIds: $skillIds) {
 			${skillFields(false)}
 		}
