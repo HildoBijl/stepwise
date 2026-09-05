@@ -55,9 +55,10 @@ describe('skill', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(BOB_SURFSUB)
 
-		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId exerciseData {exercises {id}}}}` })
+		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId levelData {numPracticed coefficients coefficientsOn highest highestOn createdAt updatedAt} exerciseData {exercises {id}}}}` })
 		expect(errors).toBeUndefined()
 		expect(skill).toMatchObject({ skillId: SAMPLE_SKILL })
+		expect(skill.levelData).toMatchObject({ numPracticed: 0 })
 		expect(skill.exerciseData).not.toBeNull()
 	})
 

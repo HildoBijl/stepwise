@@ -23,14 +23,19 @@ export const skillResolvers = {
 		id: ({ record }: SkillResolverSource) => record.id,
 		userId: ({ record }: SkillResolverSource) => record.userId,
 		skillId: ({ record }: SkillResolverSource) => record.skillId,
-		numPracticed: ({ record }: SkillResolverSource) => record.numPracticed,
-		coefficients: ({ record }: SkillResolverSource) => record.coefficients,
-		coefficientsOn: ({ record }: SkillResolverSource) => record.coefficientsOn,
-		highest: ({ record }: SkillResolverSource) => record.highest,
-		highestOn: ({ record }: SkillResolverSource) => record.highestOn,
-		createdAt: ({ record }: SkillResolverSource) => record.createdAt,
-		updatedAt: ({ record }: SkillResolverSource) => record.updatedAt,
+		levelData: ({ record }: SkillResolverSource) => record,
 	},
+
+	SkillLevelData: {
+		numPracticed: (skill: UserSkillRecord) => skill.numPracticed,
+		coefficients: (skill: UserSkillRecord) => skill.coefficients,
+		coefficientsOn: (skill: UserSkillRecord) => skill.coefficientsOn,
+		highest: (skill: UserSkillRecord) => skill.highest,
+		highestOn: (skill: UserSkillRecord) => skill.highestOn,
+		createdAt: (skill: UserSkillRecord) => skill.createdAt,
+		updatedAt: (skill: UserSkillRecord) => skill.updatedAt,
+	},
+	
 	UserSharedData: { skills: userSkills },
 
 	Query: {

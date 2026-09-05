@@ -1,9 +1,6 @@
 import { gql } from 'graphql-tag'
 
-export const skillFields = `
-	id: ID!
-	userId: ID!
-	skillId: String!
+export const skillLevelFields = `
 	numPracticed: Int!
 	coefficients: [Float]!
 	coefficientsOn: DateTime!
@@ -28,6 +25,13 @@ export const skillTypeDefs = gql`
 	}
 
 	type Skill {
-		${skillFields}
+		id: ID!
+		userId: ID!
+		skillId: String!
+		levelData: SkillLevelData!
+	}
+
+	type SkillLevelData {
+		${skillLevelFields}
 	}
 `

@@ -25,6 +25,7 @@ async function lockActiveExercise(db: ExerciseDatabase, exerciseId: string, skil
 
 export const exerciseResolvers = {
 	Skill: { exerciseData: ({ record, mayViewExerciseData }: SkillResolverSource) => mayViewExerciseData ? record : null },
+
 	SkillExerciseData: {
 		exercises: (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => loaders.exercisesForSkill.load(skill.id),
 		activeExercise: async (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => {
@@ -32,6 +33,7 @@ export const exerciseResolvers = {
 			return exercises.find(exercise => exercise.active && !!getExercise(skill.skillId, exercise.exerciseId)) ?? null
 		},
 	},
+
 	Exercise: {
 		mode: () => 'solo',
 		startedAt: (exercise: ExerciseSampleRecord) => exercise.createdAt,
@@ -41,6 +43,7 @@ export const exerciseResolvers = {
 		history: (exercise: ExerciseSampleRecord) => exercise.events ?? [],
 		active: (exercise: ExerciseSampleRecord) => exercise.active,
 	},
+	
 	ExerciseEvent: { performedAt: (event: ExerciseEventRecord) => event.createdAt },
 
 	Mutation: {

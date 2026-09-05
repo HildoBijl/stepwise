@@ -31,10 +31,10 @@ describe('skills', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(ALEX_SURFSUB)
 
-		const { data: { skills }, errors } = await client.graphql({ query: `{skills {id skillId}}` })
+		const { data: { skills }, errors } = await client.graphql({ query: `{skills {id skillId levelData {numPracticed coefficients}}}` })
 		expect(errors).toBeUndefined()
 		expect(skills).toHaveLength(1)
-		expect(skills[0]).toMatchObject({ skillId: SAMPLE_SKILL })
+		expect(skills[0]).toMatchObject({ skillId: SAMPLE_SKILL, levelData: { numPracticed: 0 } })
 	})
 
 	it('(only) gives data on existing skills for queries with parameters', async () => {
