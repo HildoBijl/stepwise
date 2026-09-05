@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
@@ -18,9 +19,11 @@ export const START_EXERCISE: TypedDocumentNode<StartExerciseData, StartExerciseV
 	}
 `
 
-export function useStartExerciseMutation(skillId: SkillId) {
-	return useMutation(START_EXERCISE, {
+export function useStartExercise(skillId: SkillId) {
+	const [mutate, { loading, error }] = useMutation(START_EXERCISE, {
 		variables: { skillId },
 		refetchQueries: [{ query: SKILL, variables: { skillId } }],
 	})
+	const startExercise = useCallback(async () => { await mutate() }, [mutate])
+	return [startExercise, { loading, error }] as const
 }

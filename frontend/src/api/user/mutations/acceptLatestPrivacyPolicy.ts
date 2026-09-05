@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
@@ -25,10 +26,8 @@ const ACCEPT_LATEST_PRIVACY_POLICY_MUTATION: TypedDocumentNode<AcceptLatestPriva
 	${PRIVACY_POLICY_CONSENT_FRAGMENT}
 `
 
-export function useAcceptLatestPrivacyPolicyMutation() {
+export function useAcceptLatestPrivacyPolicy() {
 	const [mutate, { loading, error }] = useMutation(ACCEPT_LATEST_PRIVACY_POLICY_MUTATION)
-	return [
-		async () => { await mutate() },
-		{ loading, error },
-	] as const
+	const acceptLatestPrivacyPolicy = useCallback(async () => { await mutate() }, [mutate])
+	return [acceptLatestPrivacyPolicy, { loading, error }] as const
 }

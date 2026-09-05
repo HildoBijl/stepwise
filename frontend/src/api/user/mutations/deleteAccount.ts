@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
@@ -10,10 +11,8 @@ const DELETE_ACCOUNT_MUTATION: TypedDocumentNode<DeleteAccountData, DeleteAccoun
 	}
 `
 
-export function useDeleteAccountMutation() {
+export function useDeleteAccount() {
 	const [mutate, { data, loading, error }] = useMutation(DELETE_ACCOUNT_MUTATION)
-	return [
-		async (confirmEmail: string) => { await mutate({ variables: { confirmEmail } }) },
-		{ succeeded: data !== undefined, loading, error },
-	] as const
+	const deleteAccount = useCallback(async (confirmEmail: string) => { await mutate({ variables: { confirmEmail } }) }, [mutate])
+	return [deleteAccount, { succeeded: data !== undefined, loading, error }] as const
 }

@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
@@ -14,9 +15,6 @@ type SubmitExerciseActionData = {
 	}
 }
 type SubmitExerciseActionVariables = { skillId: SkillId; action: ExerciseAction }
-type SubmitExerciseActionOptions = Omit<useMutation.MutationFunctionOptions<SubmitExerciseActionData, SubmitExerciseActionVariables>, 'variables'> & {
-	variables: { action: ExerciseAction; skillId?: SkillId }
-}
 
 export const SUBMIT_EXERCISE_ACTION: TypedDocumentNode<SubmitExerciseActionData, SubmitExerciseActionVariables> = gql`
 	mutation submitExerciseAction($skillId: String!, $action: JSON!) {
@@ -31,11 +29,8 @@ export const SUBMIT_EXERCISE_ACTION: TypedDocumentNode<SubmitExerciseActionData,
 	}
 `
 
-export function useSubmitExerciseActionMutation(skillId: SkillId) {
-	const [submit, result] = useMutation(SUBMIT_EXERCISE_ACTION)
-	const submitForSkill = ({ variables, ...options }: SubmitExerciseActionOptions) => submit({
-		...options,
-		variables: { skillId, ...variables },
-	})
-	return [submitForSkill, result] as const
+export function useSubmitExerciseAction(skillId: SkillId) {
+	const [mutate, { loading, error }] = useMutation(SUBMIT_EXERCISE_ACTION)
+	const submitExerciseAction = useCallback(async (action: ExerciseAction) => { await mutate({ variables: { skillId, action } }) }, [mutate, skillId])
+	return [submitExerciseAction, { loading, error }] as const
 }

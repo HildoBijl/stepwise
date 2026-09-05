@@ -1,12 +1,12 @@
 import React from 'react'
 import { Box, alpha } from '@mui/material'
 
-import { useSetLanguageMutation } from 'api'
+import { useSetLanguage } from 'api'
 import { Translation, useLanguage } from 'i18n'
 
 export function Language({ Flag, language, text }) {
 	const currentLanguage = useLanguage()
-	const [setUserLanguage] = useSetLanguageMutation()
+	const [setUserLanguage] = useSetLanguage()
 	const active = language === currentLanguage
 
 	return <Box onClick={() => setUserLanguage(language)} sx={theme => ({

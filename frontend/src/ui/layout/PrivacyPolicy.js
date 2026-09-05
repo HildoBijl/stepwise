@@ -3,7 +3,7 @@ import { Box, Button } from '@mui/material'
 import { Check, Clear } from '@mui/icons-material'
 
 import { logOutAddress } from 'settings'
-import { useUser, useAcceptLatestPrivacyPolicyMutation } from 'api'
+import { useUser, useAcceptLatestPrivacyPolicy } from 'api'
 import { TranslationSection, Translation } from 'i18n'
 import { linkStyle } from 'ui/theme'
 
@@ -30,7 +30,7 @@ export function PrivacyPolicyWrapper({ children }) {
 
 export function ApprovePrivacyPolicy({ firstTime }) {
 	const logOut = () => { window.location.href = logOutAddress }
-	const [acceptLatestPrivacyPolicy] = useAcceptLatestPrivacyPolicyMutation()
+	const [acceptLatestPrivacyPolicy] = useAcceptLatestPrivacyPolicy()
 
 	return <PageTranslationFile page="privacyPolicy">
 		<Box sx={{

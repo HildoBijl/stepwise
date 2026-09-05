@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import { Button, TextField } from '@mui/material'
 
 import { logOutAddress } from 'settings'
-import { useDeleteAccountMutation } from 'api'
+import { useDeleteAccount } from 'api'
 import { TranslationSection, Translation } from 'i18n'
 import { Par, Head } from 'ui/components'
 
 export function DeleteAccount() {
 	const [confirmEmail, setConfirmEmail] = useState('')
 	const [lastSubmission, setLastSubmission] = useState()
-	const [deleteAccount, { succeeded, error }] = useDeleteAccountMutation()
+	const [deleteAccount, { succeeded, error }] = useDeleteAccount()
 
 	// On submission, try to delete the account.
 	const submitForm = (evt) => {

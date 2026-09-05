@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
@@ -22,10 +23,8 @@ const SET_LANGUAGE_MUTATION: TypedDocumentNode<SetLanguageData, SetLanguageVaria
 	}
 `
 
-export function useSetLanguageMutation() {
+export function useSetLanguage() {
 	const [mutate, { loading, error }] = useMutation(SET_LANGUAGE_MUTATION)
-	return [
-		async (language: Language) => { await mutate({ variables: { language } }) },
-		{ loading, error },
-	] as const
+	const setLanguage = useCallback(async (language: Language) => { await mutate({ variables: { language } }) }, [mutate])
+	return [setLanguage, { loading, error }] as const
 }
