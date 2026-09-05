@@ -17,17 +17,17 @@ export function CourseProvider({ children }) {
 	// Depending on if the data is there, set up an empty provider or a provider loading further data.
 	const { loading, error, data } = courseResult
 	if (loading || error)
-		return <CourseContext.Provider value={{ loading, error, course: null, overview: null, skillsData: null, skillsDataLoaded: false, analysis: null }}>{children}</CourseContext.Provider>
+		return <CourseContext.Provider value={{ loading, error, course: null, overview: null, skillLevelSet: null, skillLevelsLoaded: false, analysis: null }}>{children}</CourseContext.Provider>
 	return <CourseProviderInner course={data.course || data.courseForStudent}>{children}</CourseProviderInner>
 }
 
 function CourseProviderInner({ course, children }) {
 	// Analyse the course for the specific user.
 	const overview = useMemo(() => new Course(skillTree, courseRecordToCourseData(course)), [course])
-	const skillsData = useSkillLevels(overview.allSkillIds)
-	const skillsDataLoaded = overview.allSkillIds.every(skillId => !!skillsData[skillId])
-	const analysis = analyzeCourseProgress(overview, skillsData)
-	return <CourseContext.Provider value={{ course, overview, skillsData, skillsDataLoaded, analysis }}>{children}</CourseContext.Provider>
+	const skillLevelSet = useSkillLevels(overview.allSkillIds)
+	const skillLevelsLoaded = overview.allSkillIds.every(skillId => skillLevelSet.hasSkillLevel(skillId))
+	const analysis = analyzeCourseProgress(overview, skillLevelSet)
+	return <CourseContext.Provider value={{ course, overview, skillLevelSet, skillLevelsLoaded, analysis }}>{children}</CourseContext.Provider>
 }
 
 export function useCourseData() {

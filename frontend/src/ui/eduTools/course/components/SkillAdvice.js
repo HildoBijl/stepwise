@@ -110,7 +110,7 @@ function useSkillModal() {
 	const translate = useTranslator()
 	const paths = usePaths()
 	const navigate = useNavigate()
-	const { course, skillsDataLoaded } = useCourseData()
+	const { course, skillLevelsLoaded } = useCourseData()
 	const courseCode = course?.code
 	const skillId = useSkillId()
 	const { useModal, closeModal } = useModalContext()
@@ -124,7 +124,7 @@ function useSkillModal() {
 
 	// Determine the contents to show in the modal. (If there is no recommendation, don't do anything yet. We don't have all data yet.)
 	let contents = <div />
-	if (skillsDataLoaded) {
+	if (skillLevelsLoaded) {
 		if (adviceType === 'moveOnward') {
 			const message = recommendation === freePracticeRecommendation ?
 				<Translation entry="modals.mastery.toFreePracticeMode">You just mastered <Link to={paths.courseSkill({ courseCode, skillId })} onClick={closeModal}>{{ passedSkill: translate(skillTree[skillId].name, `${skillTree[skillId].groupPath.join('.')}.${skillId}`, 'eduContent/skillNames') }}</Link>, and with that all skills of <Link to={paths.course({ courseCode })} onClick={closeModal}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>! We recommend you to practice with a mixed assortment of exercises in the <Link to={paths.freePractice({ courseCode })} onClick={closeModal}>free practice mode</Link>.</Translation> :
@@ -162,11 +162,11 @@ function useSkillModal() {
 	// Use an effect to show a modal when the advice changes. But only do this when we previously already had good data and suddenly the advice type changes while staying at the same skill.
 	const previousAdviceType = usePrevious(adviceType)
 	const previousSkillId = usePrevious(skillId)
-	const previousSkillsDataLoaded = usePrevious(skillsDataLoaded)
+	const previousSkillLevelsLoaded = usePrevious(skillLevelsLoaded)
 	useEffect(() => {
-		if (previousSkillsDataLoaded && previousSkillId === skillId && previousAdviceType === 'stay' && (adviceType === 'moveOnward' || adviceType === 'goBack'))
+		if (previousSkillLevelsLoaded && previousSkillId === skillId && previousAdviceType === 'stay' && (adviceType === 'moveOnward' || adviceType === 'goBack'))
 			setShowModal(true)
-	}, [previousSkillsDataLoaded, adviceType, previousAdviceType, skillId, previousSkillId, setShowModal])
+	}, [previousSkillLevelsLoaded, adviceType, previousAdviceType, skillId, previousSkillId, setShowModal])
 }
 
 // useSkillAdvice returns an advice type and recommendation that determine whether the user should stay, move onward or go back to a prerequisite. The recommendation is based on the current skillId: it is not always the course recommendation. For instance, if a prerequisite of the given skill is good to practice, it recommends that one.
