@@ -27,11 +27,7 @@ export const skillTypeDefs = gql`
 		skillsUpdated: [Skill]!
 	}
 
-	interface Skill {
-		${skillFields}
-	}
-
-	type SkillWithoutExercises implements Skill {
+	type Skill {
 		${skillFields}
 	}
 `

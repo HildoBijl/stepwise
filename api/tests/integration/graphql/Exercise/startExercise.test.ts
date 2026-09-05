@@ -44,12 +44,12 @@ describe('startExercise', () => {
 		})
 
 		// After this the skill should exist.
-		const { data: { skill: skillAfter }, errors: skillAfterErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId ... on SkillWithExercises {activeExercise {id exerciseId parameters initialState active startedAt state lastAction lastActionAt history {action state performedAt}} exercises {id}}}}` })
+		const { data: { skill: skillAfter }, errors: skillAfterErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId exerciseData {activeExercise {id exerciseId parameters initialState active startedAt state lastAction lastActionAt history {action state performedAt}} exercises {id}}}}` })
 		expect(skillAfterErrors).toBeUndefined()
 		expect(skillAfter.skillId).toBe(SAMPLE_SKILL)
-		expect(skillAfter.activeExercise).toMatchObject(exercise)
-		expect(skillAfter.exercises).toHaveLength(1)
-		expect(skillAfter.exercises[0].id).toBe(exercise.id)
+		expect(skillAfter.exerciseData.activeExercise).toMatchObject(exercise)
+		expect(skillAfter.exerciseData.exercises).toHaveLength(1)
+		expect(skillAfter.exerciseData.exercises[0].id).toBe(exercise.id)
 	})
 
 	it('gives an error when there already is an active exercise', async () => {
@@ -76,9 +76,9 @@ describe('startExercise', () => {
 		expect(responses.filter(response => response.errors === undefined)).toHaveLength(1)
 		expect(responses.filter(response => response.errors !== undefined)).toHaveLength(1)
 
-		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {... on SkillWithExercises {exercises {id active}}}}` })
+		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {exerciseData {exercises {id active}}}}` })
 		expect(errors).toBeUndefined()
-		expect(skill.exercises).toHaveLength(1)
-		expect(skill.exercises[0].active).toStrictEqual(true)
+		expect(skill.exerciseData.exercises).toHaveLength(1)
+		expect(skill.exerciseData.exercises[0].active).toStrictEqual(true)
 	})
 })

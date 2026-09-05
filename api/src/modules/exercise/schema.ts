@@ -1,15 +1,16 @@
 import { gql } from 'graphql-tag'
 
-import { skillFields } from '../skill/index.ts'
-
 export const exerciseTypeDefs = gql`
 	enum ExerciseMode {
 		solo
 		group
 	}
 
-	type SkillWithExercises implements Skill {
-		${skillFields}
+	extend type Skill {
+		exerciseData: SkillExerciseData
+	}
+
+	type SkillExerciseData {
 		exercises: [Exercise]!
 		activeExercise: Exercise
 	}

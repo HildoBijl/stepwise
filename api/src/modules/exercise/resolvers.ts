@@ -24,8 +24,8 @@ async function lockActiveExercise(db: ExerciseDatabase, exerciseId: string, skil
 }
 
 export const exerciseResolvers = {
-	Skill: { __resolveType: (skill: UserSkillRecord) => skill.mayViewExercises ? 'SkillWithExercises' : 'SkillWithoutExercises' },
-	SkillWithExercises: {
+	Skill: { exerciseData: (skill: UserSkillRecord) => skill.mayViewExerciseData ? skill : null },
+	SkillExerciseData: {
 		exercises: (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => loaders.exercisesForSkill.load(skill.id),
 		activeExercise: async (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => {
 			const exercises = await loaders.exercisesForSkill.load(skill.id)

@@ -57,9 +57,10 @@ describe('skill', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(BOB_SURFSUB)
 
-		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId}}` })
+		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId exerciseData {exercises {id}}}}` })
 		expect(errors).toBeUndefined()
 		expect(skill).toMatchObject({ skillId: SAMPLE_SKILL })
+		expect(skill.exerciseData).not.toBeNull()
 	})
 
 	it('gives an error when a student accesses other people\'s skills', async () => {
@@ -84,8 +85,9 @@ describe('skill', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(ALEX_SURFSUB)
 
-		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}", userId: "${BOB_ID}") {id skillId}}` })
+		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}", userId: "${BOB_ID}") {id skillId exerciseData {exercises {id}}}}` })
 		expect(errors).toBeUndefined()
 		expect(skill).toMatchObject({ skillId: SAMPLE_SKILL })
+		expect(skill.exerciseData).not.toBeNull()
 	})
 })

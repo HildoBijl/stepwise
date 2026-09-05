@@ -97,9 +97,9 @@ describe('submitExerciseAction', () => {
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 
 		// Check that no exercise is active.
-		const { data: { skill: skillAfterSolving }, errors: skillAfterSolvingErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId ... on SkillWithExercises {activeExercise {id exerciseId parameters active}}}}` })
+		const { data: { skill: skillAfterSolving }, errors: skillAfterSolvingErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId exerciseData {activeExercise {id exerciseId parameters active}}}}` })
 		expect(skillAfterSolvingErrors).toBeUndefined()
-		expect(skillAfterSolving.activeExercise).toBe(null)
+		expect(skillAfterSolving.exerciseData.activeExercise).toBe(null)
 
 		// Start a new exercise and check that we can start it.
 		const { data: { startExercise: secondExercise }, errors: secondExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId parameters active}}` })
@@ -108,10 +108,10 @@ describe('submitExerciseAction', () => {
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 
 		// Check that the right exercise is active.
-		const { data: { skill: skillAfterRestart }, errors: skillAfterRestartErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId ... on SkillWithExercises {activeExercise {id exerciseId parameters active} exercises {id}}}}` })
+		const { data: { skill: skillAfterRestart }, errors: skillAfterRestartErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId exerciseData {activeExercise {id exerciseId parameters active} exercises {id}}}}` })
 		expect(skillAfterRestartErrors).toBeUndefined()
-		expect(skillAfterRestart.activeExercise).toMatchObject(secondExercise)
-		expect(skillAfterRestart.exercises).toHaveLength(2)
+		expect(skillAfterRestart.exerciseData.activeExercise).toMatchObject(secondExercise)
+		expect(skillAfterRestart.exerciseData.exercises).toHaveLength(2)
 	})
 
 	it('only processes an exercise-completing action once under concurrent requests', async () => {
@@ -127,10 +127,10 @@ describe('submitExerciseAction', () => {
 		expect(responses.filter(response => response.errors !== undefined)).toHaveLength(1)
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 
-		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {... on SkillWithExercises {exercises {active history {action}}}}}` })
+		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {exerciseData {exercises {active history {action}}}}}` })
 		expect(errors).toBeUndefined()
-		expect(skill.exercises).toHaveLength(1)
-		expect(skill.exercises[0]).toMatchObject({ active: false })
-		expect(skill.exercises[0].history).toHaveLength(1)
+		expect(skill.exerciseData.exercises).toHaveLength(1)
+		expect(skill.exerciseData.exercises[0]).toMatchObject({ active: false })
+		expect(skill.exerciseData.exercises[0].history).toHaveLength(1)
 	})
 })

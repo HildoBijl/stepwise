@@ -34,6 +34,6 @@ export async function loadVisibleSkills(targetUserId: string, skillIds: readonly
 			return skill
 		})
 		.filter((skill): skill is UserSkillRecord => skill !== null)
-	skills.forEach(skill => { skill.mayViewExercises = mayViewAll || skillIdsWithExercisePermission?.has(skill.skillId) === true })
+	skills.forEach(skill => { skill.mayViewExerciseData = mayViewAll || skillIdsWithExercisePermission?.has(skill.skillId) === true })
 	return skills
 }

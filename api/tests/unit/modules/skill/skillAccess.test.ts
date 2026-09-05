@@ -43,7 +43,7 @@ describe('skill access', () => {
 		const skills = [skill('one'), skill('two')]
 		const { context, loadPermissions } = createContext({ ...options, skills })
 		await expect(loadVisibleSkills('target-id', ['one', 'two'] as SkillId[], context)).resolves.toEqual(skills)
-		expect(skills.every(item => item.mayViewExercises)).toBe(true)
+		expect(skills.every(item => item.mayViewExerciseData)).toBe(true)
 		expect(loadPermissions).not.toHaveBeenCalled()
 	})
 
@@ -58,8 +58,8 @@ describe('skill access', () => {
 		})
 		await expect(loadVisibleSkills('student-id', ['with', 'without', 'hidden'] as SkillId[], context)).resolves.toEqual([visibleWithExercises, visibleWithoutExercises])
 		expect(loadMany).toHaveBeenCalledWith([{ userId: 'student-id', skillId: 'with' }, { userId: 'student-id', skillId: 'without' }])
-		expect(visibleWithExercises.mayViewExercises).toBe(true)
-		expect(visibleWithoutExercises.mayViewExercises).toBe(false)
+		expect(visibleWithExercises.mayViewExerciseData).toBe(true)
+		expect(visibleWithoutExercises.mayViewExerciseData).toBe(false)
 	})
 
 	it('loads every permitted skill ID when no IDs are requested', async () => {
