@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react'
 
 import { mergeDefaults, pickFromDefaults, omitKeys } from '@step-wise/js-utils'
 import { ensureVector, ensureVectorArray } from '@step-wise/geometry'
-import { ensureReactElement } from '@step-wise/react-utils'
+import { ensureReactContent } from '@step-wise/react-utils'
 
 import { useGraphicalVector } from '../../DrawingContext'
 
@@ -20,7 +20,7 @@ export const defaultLineLabel = {
 export const LineLabel = forwardRef((props, ref) => {
 	// Check input.
 	let { children, points, graphicalPoints, oppositeTo, graphicalOppositeTo } = mergeDefaults(props, defaultLineLabel)
-	children = ensureReactElement(children)
+	children = ensureReactContent(children)
 	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), { dimension: 2, length: 2 })
 	oppositeTo = ensureVector(useGraphicalVector(oppositeTo, graphicalOppositeTo))
 

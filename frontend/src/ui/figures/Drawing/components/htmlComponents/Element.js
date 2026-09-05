@@ -2,7 +2,7 @@ import React, { forwardRef, useCallback, useLayoutEffect } from 'react'
 
 import { ensureNumber, ensureBoolean, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
-import { useEnsureRef, ensureReactElement, useEqualRefOnEquality, useResizeListener } from '@step-wise/react-utils'
+import { ensureReactContent, useEnsureRef, useEqualRefOnEquality, useResizeListener } from '@step-wise/react-utils'
 
 import { notSelectable } from 'ui/theme'
 
@@ -32,7 +32,7 @@ export const Element = forwardRef((props, ref) => {
 
 	// Check input.
 	let { children, position, graphicalPosition, rotate, scale, anchor, ignoreMouse, style, className } = mergeDefaults(props, defaultElement)
-	children = ensureReactElement(children)
+	children = ensureReactContent(children)
 	position = ensureVector(useGraphicalVector(position, graphicalPosition), { dimension: 2 })
 	rotate = ensureNumber(rotate)
 	scale = ensureNumber(scale)
