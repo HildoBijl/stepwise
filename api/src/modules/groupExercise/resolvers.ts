@@ -12,7 +12,7 @@ import type { AuthenticatedContext } from '../user/index.ts'
 import { ensureActiveGroupMembership, ensureGroupMembership, getGroup, groupEvents, hasLoadedGroupMembers } from '../group/index.ts'
 import { type UserSkillObservationInput, type UserSkillRecord, applySkillObservations, skillEvents } from '../skill/index.ts'
 
-import { type GroupExerciseActionRecord, type GroupExerciseEventRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents } from './models.ts'
+import { type GroupExerciseActionRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents } from './models.ts'
 import { type GroupExerciseDatabase, type GroupExerciseUpdatedPayload, getCurrentGroupExerciseState, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, getGroupWithAllExercises, groupExerciseEvents } from './service.ts'
 
 type GroupExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'pubsub' | 'userId'>
@@ -38,14 +38,6 @@ export const groupExerciseResolvers = {
 	},
 
 	GroupEvent: {
-		__resolveType: (event: GroupExerciseEventRecord) => event.state === null ? 'PendingGroupEvent' : 'ResolvedGroupEvent',
-	},
-
-	ResolvedGroupEvent: {
-		performedAt: getGroupEventPerformedAt,
-	},
-
-	PendingGroupEvent: {
 		performedAt: getGroupEventPerformedAt,
 	},
 

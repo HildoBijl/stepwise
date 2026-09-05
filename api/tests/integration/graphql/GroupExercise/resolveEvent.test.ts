@@ -78,9 +78,11 @@ describe('resolve group exercise:', () => {
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(3)
 
 		// Resolve the event.
-		const { data: { resolveGroupEvent: resolvedExercise1 }, errors1 } = await client.graphql({ query: `mutation{resolveGroupEvent(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}"){skillId active}}` })
+		const { data: { resolveGroupEvent: resolvedExercise1 }, errors: errors1 } = await client.graphql({ query: `mutation{resolveGroupEvent(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}"){skillId active history {__typename state}}}` })
 		expect(errors1).toBeUndefined()
-		expect(resolvedExercise1).toStrictEqual({ skillId: SAMPLE_SKILL, active: true })
+		expect(resolvedExercise1).toMatchObject({ skillId: SAMPLE_SKILL, active: true })
+		expect(resolvedExercise1.history.map(event => event.__typename)).toStrictEqual(['GroupEvent', 'GroupEvent'])
+		expect(resolvedExercise1.history.map(event => event.state === null)).toStrictEqual([false, true])
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(4)
 
 		// Make another wrong action and log out.
@@ -94,7 +96,7 @@ describe('resolve group exercise:', () => {
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(6)
 
 		// Resolve the event.
-		const { data: { resolveGroupEvent: resolvedExercise2 }, errors2 } = await client.graphql({ query: `mutation{resolveGroupEvent(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}"){skillId active}}` })
+		const { data: { resolveGroupEvent: resolvedExercise2 }, errors: errors2 } = await client.graphql({ query: `mutation{resolveGroupEvent(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}"){skillId active}}` })
 		expect(errors2).toBeUndefined()
 		expect(resolvedExercise2).toStrictEqual({ skillId: SAMPLE_SKILL, active: false })
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(7)

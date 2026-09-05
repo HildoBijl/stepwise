@@ -26,9 +26,7 @@ export const groupExerciseParameters = `
 	history {
 		id
 		performedAt
-		... on ResolvedGroupEvent {
-			state
-		}
+		state
 		actions {
 			id
 			userId

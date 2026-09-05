@@ -29,21 +29,9 @@ export const groupExerciseTypeDefs = gql`
 		history: [GroupEvent]!
 	}
 
-	interface GroupEvent {
+	type GroupEvent {
 		id: ID!
-		performedAt: DateTime!
-		actions: [GroupExerciseAction]!
-	}
-
-	type ResolvedGroupEvent implements GroupEvent {
-		id: ID!
-		state: JSON!
-		performedAt: DateTime!
-		actions: [GroupExerciseAction]!
-	}
-
-	type PendingGroupEvent implements GroupEvent {
-		id: ID!
+		state: JSON
 		performedAt: DateTime!
 		actions: [GroupExerciseAction]!
 	}
