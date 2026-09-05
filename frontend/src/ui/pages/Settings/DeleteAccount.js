@@ -9,7 +9,7 @@ import { Par, Head } from 'ui/components'
 export function DeleteAccount() {
 	const [confirmEmail, setConfirmEmail] = useState('')
 	const [lastSubmission, setLastSubmission] = useState()
-	const [deleteAccount, { data, error }] = useDeleteAccountMutation()
+	const [deleteAccount, { succeeded, error }] = useDeleteAccountMutation()
 
 	// On submission, try to delete the account.
 	const submitForm = (evt) => {
@@ -33,7 +33,7 @@ export function DeleteAccount() {
 	}
 
 	// Check if a success message should be displayed.
-	if (data)
+	if (succeeded)
 		helperText = <Translation entry="successfulDeletion">Your account has been deleted. You will be sent back to the home page.</Translation>
 
 	return <TranslationSection entry="deleteAccount">

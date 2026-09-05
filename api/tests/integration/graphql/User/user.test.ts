@@ -92,21 +92,21 @@ describe('privacy policy consent', () => {
 		await client.loginSurfConext(BOB_SURFSUB)
 
 		const before = new Date().getTime()
-		const { data: { acceptLatestPrivacyPolicy }, errors } = await client.graphql({ query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}` })
+		const { data: { acceptLatestPrivacyPolicy: { accountData: { privacyPolicyConsent: acceptedConsent } } }, errors } = await client.graphql({ query: `mutation {acceptLatestPrivacyPolicy {accountData {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
 		const after = new Date().getTime()
 
 		expect(errors).toBeUndefined()
-		expect(acceptLatestPrivacyPolicy.version).toEqual(currentPrivacyPolicyVersion)
-		const acceptedAt = new Date(acceptLatestPrivacyPolicy.acceptedAt).getTime()
+		expect(acceptedConsent.version).toEqual(currentPrivacyPolicyVersion)
+		const acceptedAt = new Date(acceptedConsent.acceptedAt).getTime()
 		expect(acceptedAt).toBeGreaterThanOrEqual(before)
 		expect(acceptedAt).toBeLessThanOrEqual(after)
-		expect(acceptLatestPrivacyPolicy.isLatestVersion).toEqual(true)
+		expect(acceptedConsent.isLatestVersion).toEqual(true)
 
 		// Double-check that the `me` query yields the same data.
 		const { data: { me: { accountData: { privacyPolicyConsent } } } } = await client.graphql({ query: `{me {accountData {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
-		expect(privacyPolicyConsent.version).toEqual(acceptLatestPrivacyPolicy.version)
-		expect(privacyPolicyConsent.acceptedAt).toEqual(acceptLatestPrivacyPolicy.acceptedAt)
-		expect(privacyPolicyConsent.isLatestVersion).toEqual(acceptLatestPrivacyPolicy.isLatestVersion)
+		expect(privacyPolicyConsent.version).toEqual(acceptedConsent.version)
+		expect(privacyPolicyConsent.acceptedAt).toEqual(acceptedConsent.acceptedAt)
+		expect(privacyPolicyConsent.isLatestVersion).toEqual(acceptedConsent.isLatestVersion)
 	})
 
 	it('does not overwrite the `acceptedAt` date if version didn\'t advance', async () => {
@@ -114,11 +114,11 @@ describe('privacy policy consent', () => {
 		await client.loginSurfConext(BOB_SURFSUB)
 
 		// Accept the privacy policy.
-		const { data: { acceptLatestPrivacyPolicy: firstConsent } } = await client.graphql({ query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}` })
+		const { data: { acceptLatestPrivacyPolicy: { accountData: { privacyPolicyConsent: firstConsent } } } } = await client.graphql({ query: `mutation {acceptLatestPrivacyPolicy {accountData {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
 
 		// Let time progress a little bit and try to accept it again. It should not change things.
 		await new Promise(resolve => setTimeout(resolve, 5))
-		const { data: { acceptLatestPrivacyPolicy: secondConsent } } = await client.graphql({ query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}` })
+		const { data: { acceptLatestPrivacyPolicy: { accountData: { privacyPolicyConsent: secondConsent } } } } = await client.graphql({ query: `mutation {acceptLatestPrivacyPolicy {accountData {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
 		expect(firstConsent).toMatchObject(secondConsent)
 	})
 })

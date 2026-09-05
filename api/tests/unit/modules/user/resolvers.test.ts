@@ -91,7 +91,7 @@ describe('user resolvers', () => {
 		const mutation = createUserResolvers().Mutation.acceptLatestPrivacyPolicy
 		const result = await mutation(undefined, undefined, createContext(user))
 		expect(user.update).toHaveBeenCalledWith(expect.objectContaining({ privacyPolicyAcceptedVersion: currentPrivacyPolicyVersion, privacyPolicyAcceptedAt: expect.any(Date) }))
-		expect(result).toMatchObject({ version: currentPrivacyPolicyVersion, isLatestVersion: true })
+		expect(result).toBe(user)
 
 		vi.mocked(user.update).mockClear()
 		await mutation(undefined, undefined, createContext(user))

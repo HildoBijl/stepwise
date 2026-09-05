@@ -44,7 +44,7 @@ const userResolvers = {
 		acceptLatestPrivacyPolicy: async (_source: unknown, _args: unknown, { ensureLoggedIn, user }: UserContext) => {
 			ensureLoggedIn()
 			if (!user!.privacyPolicyAcceptedVersion || user!.privacyPolicyAcceptedVersion < currentPrivacyPolicyVersion) await user!.update({ privacyPolicyAcceptedVersion: currentPrivacyPolicyVersion, privacyPolicyAcceptedAt: new Date() })
-			return { ...privacyPolicyConsent(user!), isLatestVersion: true }
+			return user
 		},
 		deleteAccount: async (_source: unknown, { confirmEmail }: { confirmEmail: string }, { ensureLoggedIn, user }: UserContext) => {
 			ensureLoggedIn()

@@ -11,6 +11,9 @@ const DELETE_ACCOUNT_MUTATION: TypedDocumentNode<DeleteAccountData, DeleteAccoun
 `
 
 export function useDeleteAccountMutation() {
-	const [deleteAccount, result] = useMutation(DELETE_ACCOUNT_MUTATION)
-	return [(confirmEmail: string) => deleteAccount({ variables: { confirmEmail } }), result] as const
+	const [mutate, { data, loading, error }] = useMutation(DELETE_ACCOUNT_MUTATION)
+	return [
+		async (confirmEmail: string) => { await mutate({ variables: { confirmEmail } }) },
+		{ succeeded: data !== undefined, loading, error },
+	] as const
 }
