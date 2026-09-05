@@ -5,7 +5,7 @@ import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 import { last, fromKeys, isPlainObject, repeat } from '@step-wise/js-utils'
 import { getLastAction } from '@step-wise/exercise-definition'
 import { getLastRawInput, getCurrentStep } from '@step-wise/input-exercises'
-import { useLatest, useConsistentValue } from '@step-wise/react-utils'
+import { useLatestRef, useReferencePreservingValue } from '@step-wise/react-utils'
 
 import { useUserId, useIsAdmin, useActiveGroup, useSelfAndOtherMembers } from 'api'
 import { Translation, useTranslator, useGetTranslation } from 'i18n'
@@ -303,7 +303,7 @@ function CurrentActionRow({ actionList, submitting, index }) {
 	const isSelfPresent = actionMembers.some(member => member.userId === userId)
 
 	// Set up handlers to put the input into the form and possibly submit it.
-	const historyRef = useLatest(history), actionListRef = useLatest(actionList)
+	const historyRef = useLatestRef(history), actionListRef = useLatestRef(actionList)
 	const setFormInput = useCallback(() => {
 		// Find the previous input action of the user and show the feedback on this.
 		updateFeedback(getLastRawInput({ ...exerciseData, history: historyRef.current }, last(actionListRef.current).userId, { resolvedOnly: true }) || {}) // Show feedback on the last resolved input.
@@ -410,7 +410,7 @@ function useDerivedParameters() {
 	const activeGroup = useActiveGroup()
 	const userId = useUserId()
 	const { isAllInputEqual, getFieldIds } = useFormData()
-	const fieldIds = useConsistentValue(getFieldIds())
+	const fieldIds = useReferencePreservingValue(getFieldIds())
 
 	// Determine the status of the exercise.	
 	return useMemo(() => {

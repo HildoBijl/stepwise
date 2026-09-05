@@ -4,19 +4,19 @@ import { preserveRefs } from '@step-wise/js-utils'
 import { readLocalStorageValue, writeLocalStorageValue } from '@step-wise/browser-utils'
 
 import { useEventListener } from './eventListeners.ts'
-import { useConsistentValue, useLatest } from './refs.ts'
+import { useLatestRef, useReferencePreservingValue } from './refs.ts'
 
 type AnyFunction = (...args: any[]) => any
 
 export function useUpdater(effect: () => void, dependencies: DependencyList): void {
-	const consistentDependencies = useConsistentValue(dependencies)
-	const effectRef = useLatest(effect)
+	const consistentDependencies = useReferencePreservingValue(dependencies)
+	const effectRef = useLatestRef(effect)
 	useEffect(() => effectRef.current(), [effectRef, consistentDependencies])
 }
 
 export function useStableCallback<FunctionType extends AnyFunction>(callback: FunctionType, dependencies?: DependencyList): FunctionType {
-	const consistentDependencies = useConsistentValue(dependencies)
-	const callbackRef = useLatest(callback)
+	const consistentDependencies = useReferencePreservingValue(dependencies)
+	const callbackRef = useLatestRef(callback)
 	return useCallback(((...args: Parameters<FunctionType>) => callbackRef.current(...args)) as FunctionType, [callbackRef, consistentDependencies])
 }
 

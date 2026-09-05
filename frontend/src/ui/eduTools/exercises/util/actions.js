@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import { count } from '@step-wise/js-utils'
 import { getLastAction } from '@step-wise/exercise-definition'
-import { useLatest } from '@step-wise/react-utils'
+import { useLatestRef } from '@step-wise/react-utils'
 
 import { useUserId, useActiveGroup } from 'api'
 import { useSubmitCall } from 'ui/form'
@@ -14,8 +14,8 @@ export function useFormSubmitAction() {
 	const { instance, submitting, submitAction } = useExerciseData()
 	const userId = useUserId()
 
-	const instanceRef = useLatest(instance)
-	const disabledRef = useLatest(submitting)
+	const instanceRef = useLatestRef(instance)
+	const disabledRef = useLatestRef(submitting)
 
 	return useCallback((input, formData) => {
 		// Check if we're enabled. (This is not the case if we're still submitting.)
@@ -42,7 +42,7 @@ export function useSubmitAction() {
 
 export function useGiveUpAction() {
 	const { submitting, submitAction } = useExerciseData()
-	const disabledRef = useLatest(submitting)
+	const disabledRef = useLatestRef(submitting)
 
 	return useCallback(() => {
 		if (disabledRef.current)
@@ -54,7 +54,7 @@ export function useGiveUpAction() {
 export function useCancelAction() {
 	const { cancelAction, history } = useExerciseData()
 	const userId = useUserId()
-	const historyRef = useLatest(history)
+	const historyRef = useLatestRef(history)
 
 	return useCallback(() => {
 		// If the user has no current action, do not do anything.
@@ -71,8 +71,8 @@ export function useCancelAction() {
 export function useResolveEvent() {
 	const { resolveEvent, history } = useExerciseData()
 	const activeGroup = useActiveGroup()
-	const historyRef = useLatest(history)
-	const activeGroupRef = useLatest(activeGroup)
+	const historyRef = useLatestRef(history)
+	const activeGroupRef = useLatestRef(activeGroup)
 
 	return useCallback(() => {
 		// If we cannot resolve the event, do nothing.

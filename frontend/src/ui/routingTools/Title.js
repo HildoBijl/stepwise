@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@mui/material'
 import { ArrowRight as Arrow } from '@mui/icons-material'
 
 import { last, resolveFunctionValuesDeep } from '@step-wise/js-utils'
-import { useStaggeredFunction, useResizeListener, useLatest } from '@step-wise/react-utils'
+import { useStaggeredFunction, useResizeListener, useLatestRef } from '@step-wise/react-utils'
 
 import { websiteName } from 'settings'
 import { TranslationSection, useTextTranslator } from 'i18n'
@@ -41,7 +41,7 @@ export function Title({ setTitleCollapsed, sx }) {
 
 	// Use storage to keep track of page names. The TitleItems will register said name.
 	const [pageNames, setPageNames] = useState([])
-	const pageNamesRef = useLatest(pageNames)
+	const pageNamesRef = useLatestRef(pageNames)
 	const registerPageName = useCallback((index, name) => setPageNames(pageNames => {
 		pageNames = [...pageNames]
 		pageNames[index] = name

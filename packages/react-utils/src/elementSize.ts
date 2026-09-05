@@ -1,6 +1,6 @@
 import { type RefObject, useLayoutEffect, useState } from 'react'
 
-import { useLatest } from './refs.ts'
+import { useLatestRef } from './refs.ts'
 
 export type ResizeObserverTarget<T extends Element = HTMLElement> = T | RefObject<T | null> | null | undefined
 export type ResizeObserverCallback = (entry: ResizeObserverEntry, observer: ResizeObserver) => void
@@ -16,7 +16,7 @@ function resolveTarget<T extends Element>(target: ResizeObserverTarget<T>): T | 
 }
 
 export function useResizeObserver<T extends Element>(target: ResizeObserverTarget<T>, callback: ResizeObserverCallback): void {
-	const callbackRef = useLatest(callback)
+	const callbackRef = useLatestRef(callback)
 	useLayoutEffect(() => {
 		const element = resolveTarget(target)
 		if (!element || typeof ResizeObserver === 'undefined') return

@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef } from 'react'
 
-import { useLatest } from './refs.ts'
+import { useLatestRef } from './refs.ts'
 import { useStableCallback } from './state.ts'
 
 type AnyFunction = (...args: any[]) => any
 
 export function useStaggeredFunction<FunctionType extends AnyFunction>(callback: FunctionType): FunctionType {
-	const callbackRef = useLatest(callback)
+	const callbackRef = useLatestRef(callback)
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 	return useStableCallback(((...args: Parameters<FunctionType>) => {
 		if (timeoutRef.current === undefined) {
@@ -22,7 +22,7 @@ export function useAnimation(animationCallback: (time: number, deltaTime: number
 	const startTimeRef = useRef<number | undefined>(undefined)
 	const previousTimeRef = useRef<number | undefined>(undefined)
 	const requestRef = useRef<number | undefined>(undefined)
-	const animationCallbackRef = useLatest(animationCallback)
+	const animationCallbackRef = useLatestRef(animationCallback)
 	const animate = useCallback((pageTime: number) => {
 		let deltaTime: number | undefined, time: number
 		if (startTimeRef.current === undefined) {

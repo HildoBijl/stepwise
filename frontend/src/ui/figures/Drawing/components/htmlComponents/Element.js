@@ -2,7 +2,7 @@ import React, { forwardRef, useCallback, useLayoutEffect } from 'react'
 
 import { ensureNumber, ensureBoolean, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
-import { ensureReactContent, useEnsureRef, useEqualRefOnEquality, useResizeListener } from '@step-wise/react-utils'
+import { ensureReactContent, useEnsureRef, useStableValue, useResizeListener } from '@step-wise/react-utils'
 
 import { notSelectable } from 'ui/theme'
 
@@ -45,8 +45,8 @@ export const Element = forwardRef((props, ref) => {
 		style.pointerEvents = 'none'
 
 	// Make sure the vector references remain consistent.
-	position = useEqualRefOnEquality(position)
-	anchor = useEqualRefOnEquality(anchor)
+	position = useStableValue(position, (current, previous) => current.equals(previous))
+	anchor = useStableValue(anchor, (current, previous) => current.equals(previous))
 
 	// Extract the drawing from the context.
 	const { transformationSettings, figure } = useDrawingData()

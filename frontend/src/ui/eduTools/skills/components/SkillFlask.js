@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useId } from 'react'
 import { Tooltip, Box } from '@mui/material'
 
 import { resolveFunctionValuesDeep, integerRange, clamp, repeat } from '@step-wise/js-utils'
@@ -6,7 +6,6 @@ import { interpolateGrid } from '@step-wise/interpolation'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { skillTree } from '@step-wise/skill-tree'
 import { colorToCss, mixColors, shiftColorBrightness } from '@step-wise/browser-utils'
-import { useUUID } from '@step-wise/react-utils'
 
 import { Translation, Check } from 'i18n'
 
@@ -28,7 +27,7 @@ const colorFadingEnd = 3 // And when do we end?
 
 export function SkillFlask(props) {
 	const { coef, size = 60, strongShadow = false, className, skillId, isPriorKnowledge = false, tooltip = true, sx = {} } = props
-	const id = useUUID()
+	const id = useId()
 
 	// If a skillId is given, calculate and display the target.
 	const thresholds = skillId ? skillTree[skillId].thresholds : undefined

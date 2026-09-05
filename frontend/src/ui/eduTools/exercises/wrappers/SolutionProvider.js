@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo } from 'react'
 
 import { isPlainObject } from '@step-wise/js-utils'
-import { useConsistentValue } from '@step-wise/react-utils'
+import { useReferencePreservingValue } from '@step-wise/react-utils'
 
 import { useInputObject } from 'ui/form'
 
@@ -57,7 +57,7 @@ function SolutionProviderForObject({ children }) {
 			return input // Default value on mission input dependency function.
 		return getInputDependency(input, staticSolution)
 	}, [input, getDynamicSolution, getInputDependency, staticSolution])
-	const inputDependency = useConsistentValue(inputDependencyRecalculated)
+	const inputDependency = useReferencePreservingValue(inputDependencyRecalculated)
 
 	// Determine the dynamic solution.
 	const dynamicSolution = useMemo(() => {

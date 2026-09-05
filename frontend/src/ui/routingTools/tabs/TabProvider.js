@@ -1,7 +1,7 @@
 import React, { useState, useCallback, createContext, useContext } from 'react'
 
 import { clamp } from '@step-wise/js-utils'
-import { useConsistentValue, useLatest, useUpdater } from '@step-wise/react-utils'
+import { useReferencePreservingValue, useLatestRef, useUpdater } from '@step-wise/react-utils'
 
 import { getOrderedTabs } from './util'
 
@@ -12,7 +12,7 @@ export function TabProvider({ children }) {
 	const tabIndex = tabs.length === 0 || !tabs.includes(tab) ? 0 : tabs.indexOf(tab)
 
 	// Define refs where needed.
-	const tabsRef = useLatest(tabs)
+	const tabsRef = useLatestRef(tabs)
 
 	// Set up handlers.
 	const setTabIndex = useCallback(tabIndex => {
@@ -48,7 +48,7 @@ export function useTabs(tabs, initialTab) {
 	const context = useTabContext()
 	const { tab, setTabs, setTab, setTabIndex, reset } = context
 	const [initialized, setInitialized] = useState(false)
-	tabs = useConsistentValue(getOrderedTabs(tabs))
+	tabs = useReferencePreservingValue(getOrderedTabs(tabs))
 
 	// On mounting and dismounting, apply the initial tab.
 	useUpdater(() => {

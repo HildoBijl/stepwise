@@ -2,12 +2,12 @@ import { useMemo } from 'react'
 
 import { ensureNumber, ensureInteger, isPlainObject, mapValues } from '@step-wise/js-utils'
 import { isTransformable, Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from '@step-wise/geometry'
-import { useConsistentValue, useEqualRefOnEquality } from '@step-wise/react-utils'
+import { useReferencePreservingValue, useStableValue } from '@step-wise/react-utils'
 
 // Keep a point collection stable while accepting all Vector inputs supported by geometry.
 // Vector instances are compared through their coordinates instead of generic object equality.
 export function useConsistentPoints(points) {
-	return useEqualRefOnEquality(points, (current, previous) => {
+	return useStableValue(points, (current, previous) => {
 		if (Object.is(current, previous)) return true
 		if (!current || !previous) return false
 		if (Array.isArray(current) !== Array.isArray(previous)) return false
@@ -90,7 +90,7 @@ export function applyTransformation(points, transformation, preventShift) {
 
 // useRotationReflectionTransformation gives a Transformation object that first reflects along the x-axis (if reflection is set to true) and then rotates (by the given rotation angle). Optionally, this can be done with respect to a given point. It only gives the Transformation object and not transformation settings with bounds, scales, etcetera, since that data is not available. It is mainly used to set up a pretransformation, when random rotation and reflection values are used.
 export function useRotationReflectionTransformation(rotation = 0, reflection = true, relativeTo) {
-	relativeTo = useConsistentValue(relativeTo)
+	relativeTo = useReferencePreservingValue(relativeTo)
 	return useMemo(() => {
 		let transformation = Transformation.fromRotation(rotation)
 		if (reflection)

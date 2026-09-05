@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 
 import { isPlainObject, preserveRefs } from '@step-wise/js-utils'
-import { useUpdater, useLatest } from '@step-wise/react-utils'
+import { useUpdater, useLatestRef } from '@step-wise/react-utils'
 
 import { FormContext } from './context'
 import { useSubscriptionHandlers, useReadHandlers, useWriteHandlers, useValidationHandlers } from './handlers'
@@ -13,7 +13,7 @@ export function Form({ children, initialInput, submit, interpretInput }) {
 
 	// Define refs. These store important data that do not require rerenders.
 	const fieldsRef = useRef({}) // Stores all subscribed fields, processed versions of their input, and whether these data points are valid.
-	const submitRef = useLatest(submit) // Stores the submit function.
+	const submitRef = useLatestRef(submit) // Stores the submit function.
 
 	// Define handler functions.
 	const subscriptionHandlers = useSubscriptionHandlers(initialInput, setInput, fieldsRef)

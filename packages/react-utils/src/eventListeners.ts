@@ -2,7 +2,7 @@ import { type Ref, type RefObject, useEffect, useImperativeHandle, useRef } from
 
 import { shallowEqualArrays, shallowEqualObjects } from '@step-wise/js-utils'
 
-import { useConsistentValue, useEqualRefOnEquality, useLatest } from './refs.ts'
+import { useLatestRef, useReferencePreservingValue, useStableValue } from './refs.ts'
 
 type EventHandler = (event: Event) => void
 type EventTargetReference = EventTarget | RefObject<EventTarget | null> | null | undefined
@@ -30,14 +30,14 @@ export function useEventListener(
 	if (Array.isArray(eventName) && Array.isArray(handler) && eventName.length !== handler.length)
 		throw new Error(`Invalid event listeners: received ${eventName.length} event names but ${handler.length} handlers.`)
 
-	const consistentEventName = useConsistentValue(eventName)
-	const handlerRef = useLatest(handler)
-	const consistentOptions = useEqualRefOnEquality(options, areListenerOptionsEqual)
+	const consistentEventName = useReferencePreservingValue(eventName)
+	const handlerRef = useLatestRef(handler)
+	const consistentOptions = useStableValue(options, areListenerOptionsEqual)
 	const inputElements = elements === undefined
 		? (typeof window === 'undefined' ? [] : [window])
 		: (Array.isArray(elements) ? elements : [elements])
 	const targetsDuringRender = resolveEventTargets(inputElements)
-	const consistentTargets = useEqualRefOnEquality(targetsDuringRender, (current, previous) => Array.isArray(previous) && shallowEqualArrays(current, previous))
+	const consistentTargets = useStableValue(targetsDuringRender, shallowEqualArrays)
 
 	useEffect(() => {
 		const eventNames = Array.isArray(consistentEventName) ? consistentEventName : [consistentEventName]

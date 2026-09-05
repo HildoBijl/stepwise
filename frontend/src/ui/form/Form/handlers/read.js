@@ -1,10 +1,10 @@
 import { pickKeys, preserveRefs, fromKeys } from '@step-wise/js-utils'
 import { interpretInputData } from '@step-wise/input-interpretation'
-import { useLatest, useStableCallback } from '@step-wise/react-utils'
+import { useLatestRef, useStableCallback } from '@step-wise/react-utils'
 
 // The read handlers allow the extraction of parameters from the Form.
 export function useReadHandlers(input, { getFieldData, getFieldIds }, interpretInput = interpretInputData) {
-	const inputRef = useLatest(input)
+	const inputRef = useLatestRef(input)
 
 	// getInputFI takes a field ID or an array of field IDs and gives the FI value of the given field. If the field value has not been registered yet, it tries to derive it regardless.
 	const getInputFI = useStableCallback((id) => {

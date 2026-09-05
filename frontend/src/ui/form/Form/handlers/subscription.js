@@ -1,9 +1,9 @@
-import { useIsMountedRef, useLatest, useStableCallback } from '@step-wise/react-utils'
+import { useIsMountedRef, useLatestRef, useStableCallback } from '@step-wise/react-utils'
 
 // The subscription handlers track which input fields exist, allows new input fields to subscribe (while providing the right information) and allows dismounting input fields to unsubscribe.
 export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
 	const isMountedRef = useIsMountedRef()
-	const initialInputRef = useLatest(initialInput)
+	const initialInputRef = useLatestRef(initialInput)
 
 	// register makes sure that the input field is known to the form and all its settings are saved. It is instantaneous and saves the options in the Form refs. However, it does not involve a state update.
 	const register = useStableCallback((options) => {

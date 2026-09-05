@@ -1,6 +1,6 @@
 import { type RefObject, useEffect, useReducer, useState } from 'react'
 
-import { useLatest } from './refs.ts'
+import { useLatestRef } from './refs.ts'
 import { useResizeObserver } from './elementSize.ts'
 import { useEventListener } from './eventListeners.ts'
 import { useStaggeredFunction } from './scheduling.ts'
@@ -47,7 +47,7 @@ export function useDimension(
 		: dimensionFunction
 	const update = () => fieldRef.current && setDimension(resolvedDimensionFunction(fieldRef.current))
 	const field = fieldRef.current
-	const updateRef = useLatest(update)
+	const updateRef = useLatestRef(update)
 	useEffect(() => {
 		if (field) updateRef.current()
 	}, [field, updateRef])

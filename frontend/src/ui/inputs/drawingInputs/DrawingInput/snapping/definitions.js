@@ -2,7 +2,7 @@ import { useMemo, } from 'react'
 
 import { deduplicate } from '@step-wise/js-utils'
 import { ensureVector, Line, LineSegment } from '@step-wise/geometry'
-import { useEqualRefOnEquality } from '@step-wise/react-utils'
+import { useStableValue } from '@step-wise/react-utils'
 
 import { useTransformationSettings, applyTransformation } from 'ui/figures'
 
@@ -40,7 +40,7 @@ function useInputDependentSnappers(rawSnappers) {
 		FI = undefined // We don't need the input then. Prevent it from triggering the memo.
 
 	// Recalculate the snappers upon a change.
-	rawSnappers = useEqualRefOnEquality(rawSnappers, areSnappersEqual) // Prevent unnecessary updates.
+	rawSnappers = useStableValue(rawSnappers, areSnappersEqual) // Prevent unnecessary updates.
 	return useMemo(() => {
 		let snappers = rawSnappers
 		if (typeof snappers === 'function')

@@ -3,7 +3,7 @@ import React, { useState, createContext, useContext, useEffect, useRef, useMemo 
 import { getCurrentState } from '@step-wise/exercise-definition'
 import { getSkill } from '@step-wise/skill-tree'
 import { getExercise } from '@step-wise/exercises'
-import { useConsistentValue } from '@step-wise/react-utils'
+import { useReferencePreservingValue } from '@step-wise/react-utils'
 
 import { useTranslator } from 'i18n'
 import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
@@ -55,7 +55,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	const parametersFO = useMemo(() => exerciseLoaded ? ExerciseShared.current.valueOperations.deserializeParameters(parameters) : undefined, [exerciseLoaded, parameters, exerciseId])
 
 	// Ensure that the state has a consistent reference.
-	const state = useConsistentValue(inspection ? (exercise.history[historyIndex]?.state ?? exercise.initialState) : getCurrentState(instance))
+	const state = useReferencePreservingValue(inspection ? (exercise.history[historyIndex]?.state ?? exercise.initialState) : getCurrentState(instance))
 
 	if (!exerciseLoaded)
 		return <LoadingNote text={translate('Loading exercise component...', 'loadingNotes.loadingExerciseComponent', 'eduTools/pages/skillPage')} />

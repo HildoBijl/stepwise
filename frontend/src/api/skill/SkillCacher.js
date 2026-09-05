@@ -3,7 +3,7 @@ import React, { useState, useCallback, useMemo, useEffect, createContext, useCon
 import { fromKeysAndValues, fromKeys } from '@step-wise/js-utils'
 import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
 import { expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
-import { useConsistentValue, useConstant } from '@step-wise/react-utils'
+import { useReferencePreservingValue, useConstant } from '@step-wise/react-utils'
 
 import { useUser } from 'api'
 
@@ -23,7 +23,7 @@ export default function SkillCacher({ children }) {
 	const removeSkillsToLoad = useCallback(removalSkillIds => {
 		setSkillsToLoad(skillsToLoad => skillsToLoad.filter(skillsToLoadElement => removalSkillIds.indexOf(skillsToLoadElement) !== 1))
 	}, [setSkillsToLoad])
-	const allSkillsToLoad = useConsistentValue(useMemo(() => [...new Set(skillsToLoad.flat())], [skillsToLoad]))
+	const allSkillsToLoad = useReferencePreservingValue(useMemo(() => [...new Set(skillsToLoad.flat())], [skillsToLoad]))
 
 	// Load in all the skills from the database. Also listen to updates.
 	const skillsWithPrerequisitesAndLinks = useMemo(() => expandSkillIdsWithDirectPrerequisitesAndLinks(allSkillsToLoad), [allSkillsToLoad])
@@ -78,7 +78,7 @@ export function useSkillLevelSet() {
 
 // useSkillLoading takes a list of skillIds and ensures that they are being loaded by the cacher.
 function useSkillLoading(skillIds) {
-	skillIds = useConsistentValue(skillIds)
+	skillIds = useReferencePreservingValue(skillIds)
 	const { addSkillsToLoad, removeSkillsToLoad } = useSkillCacherContext()
 	useEffect(() => {
 		addSkillsToLoad(skillIds)
@@ -89,7 +89,7 @@ function useSkillLoading(skillIds) {
 // useSkillLevels is the main function used by child components to load in data on skills. It ensures that the cacher loads in data on the requested skillIds. The skillLevelSet object is returned.
 export function useSkillLevels(skillIds) {
 	// Ensure the requested skills are being loaded.
-	skillIds = useConsistentValue(skillIds)
+	skillIds = useReferencePreservingValue(skillIds)
 	useSkillLoading(skillIds)
 
 	// Subscribe this consumer to updates in the skill level set.

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
-import { useImmutableValue } from '@step-wise/react-utils'
+import { useAssertConstant } from '@step-wise/react-utils'
 
 import { Input, defaultInputOptions } from '../../../Input'
 
@@ -25,7 +25,7 @@ export function MultipleChoice(options) {
 	options = mergeDefaults(options, defaultMultipleChoiceOptions)
 
 	// Set up the Input field settings.
-	const multiple = useImmutableValue(options.multiple) // Ensure that "multiple" does not change.
+	const multiple = useAssertConstant(options.multiple) // Ensure that "multiple" does not change.
 	const inputOptions = {
 		...pickFromDefaults(options, defaultInputOptions),
 		allowFocus: false, // Tabbing does not focus MultipleChoice input fields.

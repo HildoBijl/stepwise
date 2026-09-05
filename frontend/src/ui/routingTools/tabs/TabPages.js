@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { useConsistentValue, useUpdater } from '@step-wise/react-utils'
+import { useReferencePreservingValue, useUpdater } from '@step-wise/react-utils'
 
 import { TranslationSection } from 'i18n'
 import { VisibleProvider } from 'ui/components'
@@ -36,7 +36,7 @@ function useTabScrollPositions(tab) {
 
 export function TabPages({ pages, initialPage, updateUrl = true }) {
 	const urlTab = useTab()
-	const tabs = useConsistentValue(getOrderedTabs(pages))
+	const tabs = useReferencePreservingValue(getOrderedTabs(pages))
 	const tabContext = useTabs(tabs, urlTab || initialPage)
 	const { tab: contextTab, tabIndex, setTab } = tabContext
 	useTabScrollPositions(contextTab)

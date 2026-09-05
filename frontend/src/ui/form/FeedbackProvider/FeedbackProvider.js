@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
 import { isPlainObject, mapValues, pickKeys, deepEqual } from '@step-wise/js-utils'
-import { useLatest, useStableCallback } from '@step-wise/react-utils'
+import { useLatestRef, useStableCallback } from '@step-wise/react-utils'
 
 import { useTranslator, addSection } from 'i18n'
 
@@ -30,12 +30,12 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 
 	// Set up state to store the feedback and corresponding input to which that feedback was given.
 	const [feedback, setFeedback] = useState({ result: {}, input: {} })
-	const feedbackRef = useLatest(feedback)
+	const feedbackRef = useLatestRef(feedback)
 	const stateRef = useRef()
 
 	// Set up an updateFeedback handler.
 	const { isAllInputEqual } = useFormData()
-	const exerciseDataRef = useLatest(exerciseData)
+	const exerciseDataRef = useLatestRef(exerciseData)
 	const updateFeedback = useStableCallback((input = {}, state = {}) => {
 		// Compare the new input with the previous input. When they are equal, and the state is equal too, do not evaluate.
 		const { result: previousResult, input: previousInput } = feedbackRef.current
