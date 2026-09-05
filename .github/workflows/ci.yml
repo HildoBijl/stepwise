@@ -27,14 +27,12 @@ jobs:
           cache: npm
       - name: Install workspace dependencies
         run: npm ci --no-audit --no-fund
-      - name: Build packages
-        run: npm run build:packages
+      - name: Build packages and type-check applications
+        run: npm run typecheck
       - name: Verify package ESM entry points
         run: npm run verify:package-entry-points
       - name: Verify package artifacts
         run: npm run verify:package-artifacts
-      - name: Type-check API
-        run: npm run typecheck:api
       - name: Build API output
         run: npm run build --workspace=@step-wise/api
       - name: Run package tests
