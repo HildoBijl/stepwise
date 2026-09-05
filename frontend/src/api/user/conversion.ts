@@ -1,5 +1,21 @@
-import type { CurrentUser, PrivacyPolicyConsent } from './types.ts'
-import type { CurrentUserRecord, PrivacyPolicyConsentRecord } from './records.ts'
+import type { CurrentUser, PrivacyPolicyConsent, User, UserWithAccountData, UserWithSharedData } from './types.ts'
+import type { CurrentUserRecord, PrivacyPolicyConsentRecord, UserAccountDataRecord, UserRecord, UserSharedDataRecord } from './records.ts'
+
+type UserSharedData = Omit<UserWithSharedData, keyof User>
+type UserAccountData = Omit<UserWithAccountData, keyof UserWithSharedData>
+
+export function userRecordToUser(record: UserRecord): User {
+	return {
+		id: record.id,
+		...(record.name === null ? {} : { name: record.name }),
+		...(record.givenName === null ? {} : { givenName: record.givenName }),
+		...(record.familyName === null ? {} : { familyName: record.familyName }),
+	}
+}
+
+export function userSharedDataRecordToData(record: UserSharedDataRecord): UserSharedData {
+	return record.email === null ? {} : { email: record.email }
+}
 
 export function privacyPolicyConsentRecordToConsent(record: PrivacyPolicyConsentRecord): PrivacyPolicyConsent {
 	return {
@@ -9,18 +25,21 @@ export function privacyPolicyConsentRecordToConsent(record: PrivacyPolicyConsent
 	}
 }
 
+export function userAccountDataRecordToData(record: UserAccountDataRecord): UserAccountData {
+	return {
+		role: record.role,
+		...(record.language === null ? {} : { language: record.language }),
+		privacyPolicyConsent: privacyPolicyConsentRecordToConsent(record.privacyPolicyConsent),
+		createdAt: record.createdAt,
+		updatedAt: record.updatedAt,
+	}
+}
+
 export function currentUserRecordToUser(record: CurrentUserRecord): CurrentUser {
 	const { sharedData, accountData } = record
 	return {
-		id: record.id,
-		...(record.name === null ? {} : { name: record.name }),
-		...(record.givenName === null ? {} : { givenName: record.givenName }),
-		...(record.familyName === null ? {} : { familyName: record.familyName }),
-		...(sharedData.email === null ? {} : { email: sharedData.email }),
-		role: accountData.role,
-		...(accountData.language === null ? {} : { language: accountData.language }),
-		privacyPolicyConsent: privacyPolicyConsentRecordToConsent(accountData.privacyPolicyConsent),
-		createdAt: accountData.createdAt,
-		updatedAt: accountData.updatedAt,
+		...userRecordToUser(record),
+		...userSharedDataRecordToData(sharedData),
+		...userAccountDataRecordToData(accountData),
 	}
 }

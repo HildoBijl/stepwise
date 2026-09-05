@@ -3,7 +3,8 @@ import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
 import { USER_FRAGMENTS } from './user/fragments'
-import { userWithSkillsFields, userWithSkillsRecordToUser } from './skill'
+import { userWithSkillsRecordToUser } from './skill/conversion'
+import { userWithSkillsFields } from './skill/fragments'
 
 export function useAllUsersQuery() {
 	const result = useQuery(ALLUSERS)

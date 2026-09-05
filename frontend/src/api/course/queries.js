@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
-import { skillFields } from '../skill'
+import { skillFields } from '../skill/fragments'
 
 import { courseRecordToCourseData } from './conversion'
 
