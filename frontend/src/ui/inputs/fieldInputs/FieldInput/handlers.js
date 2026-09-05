@@ -87,7 +87,7 @@ function useMouseClickProcessing(mouseClickToCursor, mouseClickToFI, setFI, hull
 	}, [mouseClickToFI, hullRef, cursorRef, setFI, getStartCursor, getEndCursor])
 
 	// Listen to mouse downs on the field.
-	useEventListener('mousedown', mouseClickHandler, hullRef.current?.field)
+	useEventListener('mousedown', mouseClickHandler, hullRef.current?.field ?? null)
 }
 
 // useContentSlidingEffect sets up an effect for content sliding. It gets references to the contents field and the cursor (if existing). It then positions the contents field within its container (the input field) such that the cursor is appropriately visible.

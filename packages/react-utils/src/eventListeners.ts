@@ -6,10 +6,11 @@ import { useForwardedRef, useLatestRef, useReferencePreservingValue, useStableVa
 
 type EventHandler = (event: Event) => void
 type EventTargetReference = EventTarget | RefObject<EventTarget | null> | null | undefined
+type ListenerRegistration = { readonly target: EventTarget, readonly eventName: string, readonly listener: EventListener }
 
-function areListenerOptionsEqual(current: AddEventListenerOptions | boolean, previous: AddEventListenerOptions | boolean | undefined): boolean {
+function areListenerOptionsEqual(current: AddEventListenerOptions | boolean | undefined, previous: AddEventListenerOptions | boolean | undefined): boolean {
 	if (typeof current === 'boolean' || typeof previous === 'boolean') return Object.is(current, previous)
-	if (previous === undefined) return false
+	if (!current || !previous) return current === previous
 	return shallowEqualObjects(current, previous)
 }
 
@@ -22,40 +23,37 @@ function resolveEventTargets(references: readonly EventTargetReference[]): Event
 }
 
 export function useEventListener(
-	eventName: string | string[],
-	handler: EventHandler | EventHandler[],
-	elements?: EventTargetReference | EventTargetReference[],
-	options: AddEventListenerOptions | boolean = {},
+	eventNames: string | readonly string[],
+	handler: EventHandler,
+	targets?: EventTargetReference | readonly EventTargetReference[],
+	options?: AddEventListenerOptions | boolean,
 ): void {
-	if (Array.isArray(eventName) && Array.isArray(handler) && eventName.length !== handler.length)
-		throw new Error(`Invalid event listeners: received ${eventName.length} event names but ${handler.length} handlers.`)
+	const handlers = Object.fromEntries((typeof eventNames === 'string' ? [eventNames] : eventNames).map(eventName => [eventName, handler]))
+	useEventListeners(handlers, targets, options)
+}
 
-	const consistentEventName = useReferencePreservingValue(eventName)
-	const handlerRef = useLatestRef(handler)
-	const consistentOptions = useStableValue(options, areListenerOptionsEqual)
-	const inputElements = elements === undefined
+export function useEventListeners(handlers: Readonly<Record<string, EventHandler>>, targets?: EventTargetReference | readonly EventTargetReference[], options?: AddEventListenerOptions | boolean): void {
+	const eventNames = useReferencePreservingValue(Object.keys(handlers))
+	const handlersRef = useLatestRef(handlers)
+	const stableOptions = useStableValue(options, areListenerOptionsEqual)
+	const inputTargets = targets === undefined
 		? (typeof window === 'undefined' ? [] : [window])
-		: (Array.isArray(elements) ? elements : [elements])
-	const targetsDuringRender = resolveEventTargets(inputElements)
-	const consistentTargets = useStableValue(targetsDuringRender, shallowEqualArrays)
+		: (Array.isArray(targets) ? targets : [targets])
+	const stableTargets = useStableValue(inputTargets, shallowEqualArrays)
 
 	useEffect(() => {
-		const eventNames = Array.isArray(consistentEventName) ? consistentEventName : [consistentEventName]
-		const targets = resolveEventTargets(inputElements)
-		const redirectingHandlers = eventNames.map((_, index) => (event: Event) => {
-			const currentHandler = Array.isArray(handlerRef.current) ? handlerRef.current[index] : handlerRef.current
-			currentHandler?.(event)
-		})
-		eventNames.forEach((name, index) => targets.forEach(target => target.addEventListener(name, redirectingHandlers[index]!, consistentOptions)))
-		return () => eventNames.forEach((name, index) => targets.forEach(target => target.removeEventListener(name, redirectingHandlers[index]!)))
-	}, [consistentEventName, handlerRef, consistentOptions, consistentTargets])
+		const resolvedTargets = resolveEventTargets(stableTargets)
+		const registrations: ListenerRegistration[] = eventNames.flatMap(eventName => resolvedTargets.map(target => ({
+			target,
+			eventName,
+			listener: event => handlersRef.current[eventName]?.(event),
+		})))
+		registrations.forEach(({ target, eventName, listener }) => target.addEventListener(eventName, listener, stableOptions))
+		return () => registrations.forEach(({ target, eventName, listener }) => target.removeEventListener(eventName, listener, stableOptions))
+	}, [eventNames, handlersRef, stableOptions, stableTargets])
 }
 
-export function useEventListeners(handlers: Record<string, EventHandler>, elements?: EventTargetReference | EventTargetReference[], options?: AddEventListenerOptions | boolean): void {
-	useEventListener(Object.keys(handlers), Object.values(handlers), elements, options)
-}
-
-export function useRefWithEventListeners<T extends EventTarget>(handlers: Record<string, EventHandler>, forwardedRef?: Ref<T>, options?: AddEventListenerOptions | boolean): RefObject<T | null> {
+export function useRefWithEventListeners<T extends EventTarget>(handlers: Readonly<Record<string, EventHandler>>, forwardedRef?: Ref<T>, options?: AddEventListenerOptions | boolean): RefObject<T | null> {
 	const ref = useForwardedRef(forwardedRef)
 	useEventListeners(handlers, ref, options)
 	return ref

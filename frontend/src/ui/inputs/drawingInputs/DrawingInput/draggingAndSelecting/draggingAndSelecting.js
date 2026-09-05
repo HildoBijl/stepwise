@@ -40,7 +40,7 @@ export function useDraggingAndSelecting(options, { mouseData, eventSnapper }) {
 	// Listen to mouse-down and mouse-up events to start/end a drag/selection.
 	const { startDragHandler, endDragHandler } = useStartEndDragHandlers({ startDrag, endDrag, startSelect, endSelect, applySelecting, isSelecting, mouseDownData, setMouseDownData, eventSnapper })
 	const eventContainer = useDrawing()?.figure?.inner
-	useEventListener(['mousedown', 'touchstart'], startDragHandler, eventContainer, { passive: false })
+	useEventListener(['mousedown', 'touchstart'], startDragHandler, eventContainer ?? null, { passive: false })
 	useEventListener(['mouseup', 'touchend'], endDragHandler)
 
 	// On a click outside of the figure, deselect all.
