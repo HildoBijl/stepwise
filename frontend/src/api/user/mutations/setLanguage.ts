@@ -4,6 +4,8 @@ import { useMutation } from '@apollo/client/react'
 
 import type { Language } from '@step-wise/settings'
 
+import type { UseSetLanguageResult } from '../types.ts'
+
 type SetLanguageData = {
 	setLanguage: {
 		id: string
@@ -23,7 +25,7 @@ const SET_LANGUAGE_MUTATION: TypedDocumentNode<SetLanguageData, SetLanguageVaria
 	}
 `
 
-export function useSetLanguage() {
+export function useSetLanguage(): UseSetLanguageResult {
 	const [mutate, { loading, error }] = useMutation(SET_LANGUAGE_MUTATION)
 	const setLanguage = useCallback(async (language: Language) => { await mutate({ variables: { language } }) }, [mutate])
 	return [setLanguage, { loading, error }] as const

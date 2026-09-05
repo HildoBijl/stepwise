@@ -3,7 +3,7 @@ import { currentUserRecordToUser } from './conversion.ts'
 import { useCurrentUserQuery } from './queries.ts'
 
 export function useUser(): CurrentUser | undefined {
-	const userRecord = useCurrentUserQuery().data?.me
+	const { userRecord } = useCurrentUserQuery()
 	return userRecord ? currentUserRecordToUser(userRecord) : undefined
 }
 

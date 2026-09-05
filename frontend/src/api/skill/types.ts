@@ -2,6 +2,7 @@ import type { ExerciseAction, ExerciseParameters, ExerciseState } from '@step-wi
 import type { SkillId } from '@step-wise/skill-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 
+import type { ApiMutationResult, ApiQueryResult } from '../types.ts'
 import type { User, UserWithAccountData, UserWithSharedData } from '../user/types.ts'
 
 export type ExerciseEvent = {
@@ -31,19 +32,13 @@ export type Skill = {
 	activeExercise?: Exercise
 }
 
-export type UseSkillResult = {
-	skill: Skill | undefined
-	loading: boolean
-	error: Error | undefined
-}
+export type UseSkillResult = ApiQueryResult<'skill', Skill>
 
 export type UserWithSkills = User & Partial<Omit<UserWithSharedData & UserWithAccountData, keyof User>> & {
 	skills: Skill[]
 	skillLevelSet: SkillLevelSet
 }
 
-export type UseUserWithSkillsResult = {
-	user: UserWithSkills | undefined
-	loading: boolean
-	error: Error | undefined
-}
+export type UseUserWithSkillsResult = ApiQueryResult<'user', UserWithSkills>
+export type UseStartExerciseResult = ApiMutationResult<() => Promise<void>>
+export type UseSubmitExerciseActionResult = ApiMutationResult<(action: ExerciseAction) => Promise<void>>

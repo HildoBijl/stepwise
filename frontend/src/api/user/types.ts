@@ -1,5 +1,7 @@
 import type { Language } from '@step-wise/settings'
 
+import type { ApiMutationResult } from '../types.ts'
+
 export type UserRole = 'student' | 'teacher' | 'admin'
 
 export type User = {
@@ -28,3 +30,7 @@ export type UserWithAccountData = UserWithSharedData & {
 }
 
 export type CurrentUser = UserWithAccountData
+
+export type UseSetLanguageResult = ApiMutationResult<(language: Language) => Promise<void>>
+export type UseAcceptLatestPrivacyPolicyResult = ApiMutationResult<() => Promise<void>>
+export type UseDeleteAccountResult = ApiMutationResult<(confirmEmail: string) => Promise<void>, { succeeded: boolean }>

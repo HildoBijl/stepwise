@@ -6,6 +6,7 @@ import type { ExerciseAction } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/skill-definition'
 
 import type { ExerciseRecord, SkillLevelRecord } from '../records.ts'
+import type { UseSubmitExerciseActionResult } from '../types.ts'
 import { exerciseFields, skillLevelFields } from '../fragments.ts'
 
 type SubmitExerciseActionData = {
@@ -29,7 +30,7 @@ export const SUBMIT_EXERCISE_ACTION: TypedDocumentNode<SubmitExerciseActionData,
 	}
 `
 
-export function useSubmitExerciseAction(skillId: SkillId) {
+export function useSubmitExerciseAction(skillId: SkillId): UseSubmitExerciseActionResult {
 	const [mutate, { loading, error }] = useMutation(SUBMIT_EXERCISE_ACTION)
 	const submitExerciseAction = useCallback(async (action: ExerciseAction) => { await mutate({ variables: { skillId, action } }) }, [mutate, skillId])
 	return [submitExerciseAction, { loading, error }] as const
