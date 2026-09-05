@@ -1,9 +1,9 @@
 import { type RefObject, useEffect, useReducer, useState } from 'react'
 
-import { useEventListener } from './eventListeners.ts'
 import { useLatest } from './refs.ts'
+import { useResizeObserver } from './elementSize.ts'
+import { useEventListener } from './eventListeners.ts'
 import { useStaggeredFunction } from './scheduling.ts'
-import { useResizeObserver } from './vendorHooks.ts'
 
 export function useBoundingClientRect(element: Element | null | undefined): DOMRect | null {
 	const [rect, setRect] = useState<DOMRect | null>(null)

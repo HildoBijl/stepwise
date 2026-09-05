@@ -1,8 +1,16 @@
-import { type MutableRefObject, type Ref, useRef } from 'react'
+import { type MutableRefObject, type Ref, useEffect, useRef } from 'react'
 
 import { preserveRefs } from '@step-wise/js-utils'
 
-import { usePrevious } from './vendorHooks.ts'
+export function usePrevious<T>(value: T, initialValue: T): T
+export function usePrevious<T>(value: T): T | undefined
+export function usePrevious<T>(value: T, initialValue?: T): T | undefined {
+	const ref = useRef(initialValue)
+	useEffect(() => {
+		ref.current = value
+	}, [value])
+	return ref.current
+}
 
 export function useConstant<T>(factory: () => T): T {
 	const ref = useRef<T | null>(null)

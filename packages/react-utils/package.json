@@ -24,9 +24,6 @@
 		"watch": "tsc -b tsconfig.build.json --watch"
 	},
 	"dependencies": {
-		"@react-hook/previous": "^1.0.1",
-		"@react-hook/resize-observer": "^1.2.6",
-		"@react-hook/size": "^2.1.2",
 		"@step-wise/browser-utils": "^0.1.0",
 		"@step-wise/geometry": "^0.1.0",
 		"@step-wise/js-utils": "^0.1.0"
