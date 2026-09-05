@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useUser } from 'api'
+import { useRequiredUser } from 'api'
 import { Translation } from 'i18n'
 import { Par } from 'ui/components'
 
@@ -10,7 +10,7 @@ import { LanguageSettings } from './LanguageSettings'
 import { DeleteAccount } from './DeleteAccount'
 
 export function Settings() {
-	const { name, email } = useUser()
+	const { name, email } = useRequiredUser()
 	return <PageTranslationFile page="settings">
 		<Par><Translation entry="introduction">You are logged in as {{ name }} &lt;{{ email }}&gt;.</Translation></Par>
 		<LanguageSettings />

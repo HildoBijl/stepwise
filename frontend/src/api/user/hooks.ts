@@ -1,12 +1,16 @@
 import type { CurrentUser, UserRole } from './types.ts'
+import { currentUserRecordToUser } from './conversion.ts'
 import { useCurrentUserQuery } from './queries.ts'
 
-export function useUserResult() {
-	return useCurrentUserQuery()
+export function useUser(): CurrentUser | undefined {
+	const userRecord = useCurrentUserQuery().data?.me
+	return userRecord ? currentUserRecordToUser(userRecord) : undefined
 }
 
-export function useUser(): CurrentUser | null {
-	return useUserResult().data?.me ?? null
+export function useRequiredUser(): CurrentUser {
+	const user = useUser()
+	if (!user) throw new Error('A signed-in user is required here.')
+	return user
 }
 
 export function useUserId(): string | undefined {
@@ -14,7 +18,7 @@ export function useUserId(): string | undefined {
 }
 
 export function useIsSignedIn(): boolean {
-	return useUser() !== null
+	return useUser() !== undefined
 }
 
 export function useUserRole(): UserRole | undefined {
@@ -25,6 +29,6 @@ export function useIsAdmin(): boolean {
 	return useUserRole() === 'admin'
 }
 
-export function useIsUserDataLoaded(): boolean {
-	return useUserResult().data !== undefined
+export function useIsUserLoading(): boolean {
+	return useCurrentUserQuery().loading
 }

@@ -4,14 +4,14 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { Box, Alert, AlertTitle } from '@mui/material'
 
 import { apiAddress, googleClientId, googleRedirectAddress } from 'settings'
-import { useIsUserDataLoaded } from 'api'
+import { useIsUserLoading } from 'api'
 import { Translation, useLanguage } from 'i18n'
 import HUlogo from 'ui/images/HU.png'
 
 export function LogInButtons({ redirect = window.location.pathname + window.location.search, centered = true }) {
 	// When it's unknown yet whether the user is logged in, don't show buttons.
-	const isUserDataLoaded = useIsUserDataLoaded()
-	if (!isUserDataLoaded)
+	const isUserLoading = useIsUserLoading()
+	if (isUserLoading)
 		return null
 
 	// Render the page.

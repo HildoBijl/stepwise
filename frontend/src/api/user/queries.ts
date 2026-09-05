@@ -1,52 +1,24 @@
-import { gql } from '@apollo/client'
+import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
-import type { CurrentUser } from './types.ts'
-
-export const privacyPolicyConsentFields = `
-	version
-	acceptedAt
-	isLatestVersion
-`
-
-export function getUserFields(additionalPrivateFields = ''): string {
-	const privateFields = `
-		email
-		${additionalPrivateFields}
-	`
-	return `
-		id
-		name
-		givenName
-		familyName
-		... on UserPrivate {
-			${privateFields}
-		}
-		... on UserFull {
-			${privateFields}
-			role
-			language
-			privacyPolicyConsent {
-				${privacyPolicyConsentFields}
-			}
-			createdAt
-			updatedAt
-		}
-	`
-}
+import type { CurrentUserRecord } from './records.ts'
+import { USER_FRAGMENTS } from './fragments.ts'
 
 type CurrentUserQueryData = {
-	me: CurrentUser | null
+	me: CurrentUserRecord | null
 }
 
-export const CURRENT_USER_QUERY = gql`
+export const CURRENT_USER_QUERY: TypedDocumentNode<CurrentUserQueryData, Record<string, never>> = gql`
 	query currentUser {
 		me {
-			${getUserFields()}
+			...UserPublicFields
+			...UserPrivateFields
+			...UserFullFields
 		}
 	}
+	${USER_FRAGMENTS}
 `
 
 export function useCurrentUserQuery() {
-	return useQuery<CurrentUserQueryData>(CURRENT_USER_QUERY)
+	return useQuery(CURRENT_USER_QUERY)
 }

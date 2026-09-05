@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
+import { USER_FRAGMENTS } from './user/fragments'
 import { userWithSkillsFields } from './skill'
 
 export function useAllUsersQuery() {
@@ -12,6 +13,7 @@ const ALLUSERS = gql`
 			${userWithSkillsFields(false)}
 		}
 	}
+	${USER_FRAGMENTS}
 `
 
 export function isTeacher(user) {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useUserResult, useUser, useActiveGroupResult, useActiveGroup } from 'api'
+import { useUser, useIsUserLoading, useActiveGroupResult, useActiveGroup } from 'api'
 import { useTranslator } from 'i18n'
 import { LoadingNote } from 'ui/components'
 
@@ -10,7 +10,7 @@ import { ExercisePageForGroup } from './ExercisePageForGroup'
 
 export function ExercisePage({ skillId }) {
 	const translate = useTranslator()
-	const { loading: userLoading } = useUserResult()
+	const userLoading = useIsUserLoading()
 	const { loading: groupLoading } = useActiveGroupResult()
 	const user = useUser()
 	const activeGroup = useActiveGroup()

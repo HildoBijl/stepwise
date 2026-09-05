@@ -4,24 +4,24 @@ export type UserRole = 'student' | 'teacher' | 'admin'
 
 export type UserPublic = {
 	id: string
-	name: string | null
-	givenName: string | null
-	familyName: string | null
+	name?: string
+	givenName?: string
+	familyName?: string
 }
 
 export type UserPrivate = UserPublic & {
-	email: string | null
+	email?: string
 }
 
 export type PrivacyPolicyConsent = {
-	version: number | null
-	acceptedAt: string | null
+	version?: number
+	acceptedAt?: string
 	isLatestVersion: boolean
 }
 
 export type UserFull = UserPrivate & {
 	role: UserRole
-	language: Language | null
+	language?: Language
 	privacyPolicyConsent: PrivacyPolicyConsent
 	createdAt: string
 	updatedAt: string
