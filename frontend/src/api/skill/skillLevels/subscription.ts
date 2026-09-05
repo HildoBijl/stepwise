@@ -4,8 +4,9 @@ import { type SubscribeToMoreFunction, type TypedDocumentNode, gql } from '@apol
 import { useIsSignedIn } from '../../user'
 
 import type { SkillLevelRecord } from '../records.ts'
-import type { SkillLevelRecordsQueryData, SkillLevelRecordsQueryVariables } from '../queries.ts'
 import { skillLevelFields } from '../fragments.ts'
+
+import type { SkillLevelRecordsQueryData, SkillLevelRecordsQueryVariables } from './query.ts'
 
 type SkillLevelsUpdatedData = { skillsUpdated: SkillLevelRecord[] }
 

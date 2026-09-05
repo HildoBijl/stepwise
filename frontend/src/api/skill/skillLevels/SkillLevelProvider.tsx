@@ -9,9 +9,8 @@ import { useConstant } from 'util/index'
 
 import { useUser } from '../../user'
 
-import { useSkillLevelRecordsQuery } from '../queries.ts'
-
 import { type SkillLevelContextValue, SkillLevelContext } from './context.ts'
+import { useSkillLevelRecordsQuery } from './query.ts'
 import { useSkillLevelSubscription } from './subscription.ts'
 
 export function SkillLevelProvider({ children }: PropsWithChildren) {

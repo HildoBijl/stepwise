@@ -7,7 +7,7 @@ import type { SkillId } from '@step-wise/skill-definition'
 import type { ExerciseRecord } from '../records.ts'
 import type { UseStartExerciseResult } from '../types.ts'
 import { exerciseFields } from '../fragments.ts'
-import { SKILL } from '../queries.ts'
+import { SKILL_QUERY } from '../hooks/useSkill.ts'
 
 type StartExerciseData = { startExercise: ExerciseRecord }
 type StartExerciseVariables = { skillId: SkillId }
@@ -23,7 +23,7 @@ const START_EXERCISE: TypedDocumentNode<StartExerciseData, StartExerciseVariable
 export function useStartExercise(skillId: SkillId): UseStartExerciseResult {
 	const [mutate, { loading, error }] = useMutation(START_EXERCISE, {
 		variables: { skillId },
-		refetchQueries: [{ query: SKILL, variables: { skillId } }],
+		refetchQueries: [{ query: SKILL_QUERY, variables: { skillId } }],
 	})
 	const startExercise = useCallback(async () => { await mutate() }, [mutate])
 	return [startExercise, { loading, error }]
