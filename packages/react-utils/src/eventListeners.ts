@@ -1,8 +1,8 @@
-import { type Ref, type RefObject, useEffect, useImperativeHandle, useRef } from 'react'
+import { type Ref, type RefObject, useEffect } from 'react'
 
 import { shallowEqualArrays, shallowEqualObjects } from '@step-wise/js-utils'
 
-import { useLatestRef, useReferencePreservingValue, useStableValue } from './refs.ts'
+import { useForwardedRef, useLatestRef, useReferencePreservingValue, useStableValue } from './refs.ts'
 
 type EventHandler = (event: Event) => void
 type EventTargetReference = EventTarget | RefObject<EventTarget | null> | null | undefined
@@ -56,8 +56,7 @@ export function useEventListeners(handlers: Record<string, EventHandler>, elemen
 }
 
 export function useRefWithEventListeners<T extends EventTarget>(handlers: Record<string, EventHandler>, forwardedRef?: Ref<T>, options?: AddEventListenerOptions | boolean): RefObject<T | null> {
-	const ref = useRef<T>(null)
-	useImperativeHandle(forwardedRef, () => ref.current!, [forwardedRef])
+	const ref = useForwardedRef(forwardedRef)
 	useEventListeners(handlers, ref, options)
 	return ref
 }

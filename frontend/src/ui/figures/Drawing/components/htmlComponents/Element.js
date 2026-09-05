@@ -2,7 +2,7 @@ import React, { forwardRef, useCallback, useLayoutEffect } from 'react'
 
 import { ensureNumber, ensureBoolean, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
-import { ensureReactContent, useEnsureRef, useStableValue, useResizeListener } from '@step-wise/react-utils'
+import { ensureReactContent, useForwardedRef, useStableValue, useResizeListener } from '@step-wise/react-utils'
 
 import { notSelectable } from 'ui/theme'
 
@@ -28,7 +28,7 @@ export const defaultElement = {
 }
 
 export const Element = forwardRef((props, ref) => {
-	ref = useEnsureRef(ref)
+	ref = useForwardedRef(ref)
 
 	// Check input.
 	let { children, position, graphicalPosition, rotate, scale, anchor, ignoreMouse, style, className } = mergeDefaults(props, defaultElement)

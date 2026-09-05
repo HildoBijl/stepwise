@@ -1,7 +1,7 @@
 import React, { forwardRef, useState } from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
-import { useEnsureRef } from '@step-wise/react-utils'
+import { useForwardedRef } from '@step-wise/react-utils'
 
 import { Input, defaultInputOptions } from '../../../Input'
 
@@ -17,7 +17,7 @@ export const defaultDrawingInputOptions = {
 // The DrawingInput wrapper wraps a Drawing into an Input object for Input functionalities. It forwards the Ref to the Drawing element.
 export const DrawingInput = forwardRef((options, drawingRef) => {
 	options = mergeDefaults(options, defaultDrawingInputOptions)
-	drawingRef = useEnsureRef(drawingRef)
+	drawingRef = useForwardedRef(drawingRef)
 
 	// Set up a state to control the cursor style.
 	const [cursor, setCursor] = useState()

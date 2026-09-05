@@ -1,4 +1,4 @@
-import { type Ref, type RefObject, useEffect, useRef } from 'react'
+import { type Ref, type RefObject, useEffect, useImperativeHandle, useRef } from 'react'
 
 import { preserveRefs } from '@step-wise/js-utils'
 
@@ -49,7 +49,8 @@ export function useAssertConstant<T>(value: T): T {
 	return value
 }
 
-export function useEnsureRef<T>(ref: Ref<T> | undefined | null): Ref<T> {
-	const backupRef = useRef<T>(null)
-	return ref || backupRef
+export function useForwardedRef<T>(forwardedRef?: Ref<T>): RefObject<T | null> {
+	const ref = useRef<T>(null)
+	useImperativeHandle(forwardedRef, () => ref.current!)
+	return ref
 }
