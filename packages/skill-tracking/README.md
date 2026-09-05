@@ -15,6 +15,8 @@ npm install @step-wise/skill-tracking
 
 A processed `SkillTree` from [`@step-wise/skill-definition`](../skill-definition/) is required. Exercise requirements are represented by setups from [`@step-wise/skill-setup`](../skill-setup/).
 
+Use [`@step-wise/course-analysis`](../course-analysis/) to interpret tracked skill levels within a resolved course and derive progress or practice recommendations.
+
 
 ## Quick start
 

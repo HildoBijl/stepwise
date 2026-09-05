@@ -35,7 +35,7 @@ Each package has its own README with installation instructions, examples, and AP
 To work on the repository, install:
 
 - [Git](https://git-scm.com/downloads);
-- [Node.js](https://nodejs.org/en/download) 24.12 or newer, including npm;
+- [Node.js](https://nodejs.org/en/download) 24.15 or newer, including npm;
 - [PostgreSQL](https://www.postgresql.org/download/) when running the API or its integration tests.
 
 PostgreSQL is not required when you only want to run the frontend without login and server-backed features.

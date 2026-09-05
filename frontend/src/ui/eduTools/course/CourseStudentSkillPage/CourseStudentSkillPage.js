@@ -6,7 +6,7 @@ import { TranslationFile, TranslationSection, Translation } from 'i18n'
 import { Info, LoadingIndicator, ErrorNote } from 'ui/components'
 
 import { useSkillId } from '../../skills'
-import { processStudent } from '../../courses'
+import { processStudentForCourse } from '../../courses'
 
 import { useCourseData } from '../components'
 
@@ -33,7 +33,7 @@ export function CourseStudentSkillPage() {
 export function CourseStudentSkillPageForUser({ overview, user }) {
 	// Load in relevant data.
 	const skillId = useSkillId()
-	const student = useMemo(() => processStudent(user, overview), [user, overview])
+	const student = useMemo(() => processStudentForCourse(user, overview), [user, overview])
 	const userSkill = student.skills.find(skill => skill.skillId === skillId)
 
 	// Set up controllers for the buttons.

@@ -9,6 +9,8 @@
 npm install @step-wise/course-definition @step-wise/skill-definition
 ```
 
+Use [`@step-wise/course-analysis`](../course-analysis/) to combine a resolved course with learner data from `@step-wise/skill-tracking` and derive progress or practice recommendations.
+
 
 ## Quick start
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box } from '@mui/material'
 
-import { fromKeys } from '@step-wise/js-utils'
 import { getBernsteinQuantileFunction } from '@step-wise/bernstein-polynomials'
 
 import { Translation } from 'i18n'
@@ -9,17 +8,16 @@ import { Translation } from 'i18n'
 import { useCourseData } from './CourseProvider'
 
 export function GradeEstimate() {
-	const { skillsDataLoaded, skillsData, overview } = useCourseData()
+	const { skillLevelsLoaded, skillLevelSet, overview } = useCourseData()
 
 	// Do not show an estimate when no set-up has been given.
 	const { setup } = overview
-	if (!skillsDataLoaded || !setup)
+	if (!skillLevelsLoaded || !setup)
 		return null
 
 	// Gather all the required data.
-	const coefficientSet = fromKeys(setup.getSkillList(), skillId => skillsData[skillId].coefficients)
-	const EV = setup.getExpectedValue(coefficientSet)
-	const distribution = setup.getDistribution(coefficientSet)
+	const EV = skillLevelSet.getSetupExpectedSuccessRate(setup)
+	const distribution = skillLevelSet.getSetupInferredCoefficients(setup)
 	const quantile = getBernsteinQuantileFunction(distribution)
 
 	// Display the grade estimate.

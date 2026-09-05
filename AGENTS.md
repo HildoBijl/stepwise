@@ -3,7 +3,7 @@
 
 ## Repository overview
 
-Step-Wise is an npm monorepo requiring Node.js 24.12 or newer.
+Step-Wise is an npm monorepo requiring Node.js 24.15 or newer.
 
 - `frontend/` contains the React and Vite application.
 - `api/` contains the TypeScript GraphQL API backed by PostgreSQL.
