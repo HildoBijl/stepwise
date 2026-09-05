@@ -15,7 +15,7 @@ const courseExternal = `
 	updatedAt: DateTime!
 `
 
-const courseStudent = `${courseExternal}
+const courseAccess = `
 	role: String
 	subscribedAt: DateTime
 	teachers: [User]!
@@ -37,12 +37,17 @@ export const courseTypeDefs = gql`
 		promoteToTeacher(courseId: ID!, userId: ID!): Course!
 	}
 
-	interface Course { ${courseExternal} }
-	type ExternalCourse implements Course { ${courseExternal} }
-	interface UserCourse implements Course { ${courseStudent} }
-	type StudentCourse implements UserCourse & Course { ${courseStudent} }
-	type TeacherCourse implements UserCourse & Course {
-		${courseStudent}
+	type Course {
+		${courseExternal}
+		accessData: CourseAccessData
+		teacherData: CourseTeacherData
+	}
+
+	type CourseAccessData {
+		${courseAccess}
+	}
+
+	type CourseTeacherData {
 		students: [User]!
 	}
 

@@ -52,6 +52,14 @@ export function createApolloClient() {
 						accountData: { merge: true },
 					},
 				},
+				Course: {
+					fields: {
+						accessData: { merge: true },
+						teacherData: { merge: true },
+					},
+				},
+				CourseAccessData: { keyFields: false },
+				CourseTeacherData: { keyFields: false },
 				Skill: {
 					keyFields: ['userId', 'skillId'],
 					fields: {
@@ -74,17 +82,6 @@ export function createApolloClient() {
 				Query: {
 					fields: {
 						myGroups: { merge: false },
-					},
-				},
-				StudentCourse: { // Define custom merge functions to prevent warnings from Apollo on updates.
-					fields: {
-						teachers: { merge(existing, incoming) { return incoming } },
-					},
-				},
-				TeacherCourse: {
-					fields: {
-						students: { merge(existing, incoming) { return incoming } },
-						teachers: { merge(existing, incoming) { return incoming } },
 					},
 				},
 			},

@@ -2,15 +2,13 @@ import { useCallback } from 'react'
 import { gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
-import { useUserId } from '../user'
-
 import { getCourseFields } from './queries'
 
 export function useCreateCourseMutation(addTeachers = true, addStudents = true) {
 	const [createCourse, data] = useMutation(CREATE_COURSE(addTeachers, addStudents))
-	const newCreateCourse = input => createCourse({ variables: { input } })
-	return [newCreateCourse, data]
+	return [input => createCourse({ variables: { input } }), data]
 }
+
 const CREATE_COURSE = (addTeachers, addStudents) => gql`
 	mutation createCourse($input: CreateCourseInput!) {
 		createCourse(input: $input) {
@@ -20,69 +18,32 @@ const CREATE_COURSE = (addTeachers, addStudents) => gql`
 `
 
 export function useSubscribeToCourseMutation(addTeachers = true, addStudents = true) {
-	const userId = useUserId() // Needed for cache updates.
 	const [subscribe, data] = useMutation(SUBSCRIBE_TO_COURSE(addTeachers, addStudents), {
 		update(cache, { data }) {
-			// Load the newly subscribed course.
 			const newCourse = data?.subscribeToCourse
-			if (!newCourse)
-				return
-
-			// Update the myCourses query.
+			if (!newCourse) return
 			cache.modify({
 				fields: {
 					myCourses: (existingRefs = [], { readField }) => {
-						const courseAlreadyInList = existingRefs.some(ref => readField("id", ref) === newCourse.id)
-						if (courseAlreadyInList)
-							return existingRefs
+						if (existingRefs.some(ref => readField('id', ref) === newCourse.id)) return existingRefs
 						const newCourseRef = cache.writeFragment({
 							data: newCourse,
 							fragment: gql`
-              fragment NewCourse on StudentCourse {
-                id
-                __typename
-              }`,
+								fragment NewCourse on Course {
+									id
+									__typename
+								}
+							`,
 						})
 						return [...existingRefs, newCourseRef]
 					},
 				},
 			})
-
-			// Update the StudentCourse query.
-			cache.modify({
-				id: cache.identify({ __typename: "StudentCourse", id: newCourse.id }),
-				fields: {
-					role: () => "student",
-				}
-			})
-
-			// Update the TeacherCourse query.
-			cache.modify({
-				id: cache.identify({ __typename: "TeacherCourse", id: newCourse.id }),
-				fields: {
-					role: () => "student",
-					students: (existingRefs = [], { readField }) => {
-						const studentAlreadyInList = existingRefs.some(ref => readField("id", ref) === userId)
-						if (studentAlreadyInList)
-							return existingRefs
-						const userRef = cache.writeFragment({
-							data: { id: userId, __typename: "User" },
-							fragment: gql`
-				fragment NewStudent on User {
-                  id
-                  __typename
-                }
-              `,
-						})
-						return [...existingRefs, userRef]
-					},
-				},
-			})
-		}
+		},
 	})
-	const subscribeToCourse = courseId => subscribe({ variables: { courseId } })
-	return [subscribeToCourse, data]
+	return [courseId => subscribe({ variables: { courseId } }), data]
 }
+
 const SUBSCRIBE_TO_COURSE = (addTeachers, addStudents) => gql`
 	mutation subscribeToCourse($courseId: ID!) {
 		subscribeToCourse(courseId: $courseId) {
@@ -92,42 +53,20 @@ const SUBSCRIBE_TO_COURSE = (addTeachers, addStudents) => gql`
 `
 
 export function useUnsubscribeFromCourseMutation(addTeachers = true, addStudents = true) {
-	const userId = useUserId() // Needed for cache updates.
 	const [unsubscribe, data] = useMutation(UNSUBSCRIBE_FROM_COURSE(addTeachers, addStudents), {
-		update(cache, { data }) { // Add an update function to automatically update the myCourses query.
-			// Load the newly subscribed course.
+		update(cache, { data }) {
 			const removedCourse = data?.unsubscribeFromCourse
-			if (!removedCourse)
-				return
-
-			// Update the myCourses query.
+			if (!removedCourse) return
 			cache.modify({
 				fields: {
 					myCourses: (existingCourseRefs = [], { readField }) => existingCourseRefs.filter(courseRef => readField('id', courseRef) !== removedCourse.id),
 				},
 			})
-
-			// Update the StudentCourse and TeacherCourse queries.
-			cache.modify({
-				id: cache.identify({ __typename: "StudentCourse", id: removedCourse.id }),
-				fields: {
-					role: () => undefined,
-					teachers: (existingRefs = [], { readField }) => existingRefs.filter(ref => readField("id", ref) !== userId),
-				},
-			})
-			cache.modify({
-				id: cache.identify({ __typename: "TeacherCourse", id: removedCourse.id }),
-				fields: {
-					role: () => undefined,
-					students: (existingRefs = [], { readField }) => existingRefs.filter(ref => readField("id", ref) !== userId),
-					teachers: (existingRefs = [], { readField }) => existingRefs.filter(ref => readField("id", ref) !== userId),
-				},
-			})
-		}
+		},
 	})
-	const unsubscribeFromCourse = courseId => unsubscribe({ variables: { courseId } })
-	return [unsubscribeFromCourse, data]
+	return [courseId => unsubscribe({ variables: { courseId } }), data]
 }
+
 const UNSUBSCRIBE_FROM_COURSE = (addTeachers, addStudents) => gql`
 	mutation unsubscribeFromCourse($courseId: ID!) {
 		unsubscribeFromCourse(courseId: $courseId) {
@@ -141,6 +80,7 @@ export function usePromoteToTeacherMutation(courseId, addTeachers = true, addStu
 	const promoteToTeacher = useCallback(userId => promote({ variables: { courseId, userId } }), [promote, courseId])
 	return [promoteToTeacher, data]
 }
+
 const PROMOTE_TO_TEACHER = (addTeachers, addStudents) => gql`
 	mutation promoteToTeacher($courseId: ID!, $userId: ID!) {
 		promoteToTeacher(courseId: $courseId, userId: $userId) {

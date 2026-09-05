@@ -1,11 +1,14 @@
+import { useMemo } from 'react'
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
 import { skillFields } from '../skill'
 
+import { courseRecordToCourseData } from './conversion'
+
 // Define the default fields we read for a course.
 export const getCourseFields = (addTeachers, addStudents, addSkills, addExercises) => `
-  __typename
+	__typename
 	id
 	code
 	name
@@ -21,10 +24,10 @@ export const getCourseFields = (addTeachers, addStudents, addSkills, addExercise
 	}
 	createdAt
 	updatedAt
-	... on StudentCourse {
+	accessData {
 		${courseForStudentFields(addTeachers)}
 	}
-	... on TeacherCourse {
+	teacherData {
 		${courseForTeacherFields(addTeachers, addStudents, addSkills, addExercises)}
 	}
 `
@@ -48,7 +51,6 @@ const courseForTeacherFields = (addTeachers, addStudents, addSkills, addExercise
 		}
 	`
 	return `
-		${courseForStudentFields(addTeachers)}
 		${addStudents ? `
 		students {
 			id
@@ -64,7 +66,9 @@ const courseForTeacherFields = (addTeachers, addStudents, addSkills, addExercise
 }
 
 export function useAllCoursesQuery(addTeachers = true, addStudents = false, addSkills = false, addExercises = false) {
-	return useQuery(ALL_COURSES(addTeachers, addStudents, addSkills, addExercises))
+	const result = useQuery(ALL_COURSES(addTeachers, addStudents, addSkills, addExercises))
+	const data = useMemo(() => result.data ? { ...result.data, allCourses: result.data.allCourses.map(courseRecordToCourseData) } : undefined, [result.data])
+	return { ...result, data }
 }
 export const ALL_COURSES = (addTeachers, addStudents, addSkills, addExercises) => gql`
 	{
@@ -75,7 +79,9 @@ export const ALL_COURSES = (addTeachers, addStudents, addSkills, addExercises) =
 `
 
 export function useMyCoursesQuery(addTeachers = true, addStudents = false, addSkills = false, addExercises = false) {
-	return useQuery(MY_COURSES(addTeachers, addStudents, addSkills, addExercises))
+	const result = useQuery(MY_COURSES(addTeachers, addStudents, addSkills, addExercises))
+	const data = useMemo(() => result.data ? { ...result.data, myCourses: result.data.myCourses.map(courseRecordToCourseData) } : undefined, [result.data])
+	return { ...result, data }
 }
 export const MY_COURSES = (addTeachers, addStudents, addSkills, addExercises) => gql`
 	{
@@ -86,7 +92,9 @@ export const MY_COURSES = (addTeachers, addStudents, addSkills, addExercises) =>
 `
 
 export function useCourseQuery(code, addTeachers = true, addStudents = true, addSkills = true, addExercises = false) {
-	return useQuery(COURSE(addTeachers, addStudents, addSkills, addExercises), { variables: { code } })
+	const result = useQuery(COURSE(addTeachers, addStudents, addSkills, addExercises), { variables: { code } })
+	const data = useMemo(() => result.data ? { ...result.data, course: courseRecordToCourseData(result.data.course) } : undefined, [result.data])
+	return { ...result, data }
 }
 export const COURSE = (addTeachers, addStudents, addSkills, addExercises) => gql`
 	query course($code: String!) {
