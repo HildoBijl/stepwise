@@ -5,7 +5,7 @@ import { type AuthenticatedContext, type UserRecord, getUser } from '../user/ind
 
 import type { UserSkillRecord } from './models.ts'
 import { skillEvents } from './service.ts'
-import { type SkillAccessContext, loadVisibleSkills } from './skillAccess.ts'
+import { type SkillAccessContext, type SkillResolverSource, createSkillResolverSource, loadVisibleSkills } from './skillAccess.ts'
 
 type SkillContext = SkillAccessContext & Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'pubsub'>
 
@@ -19,6 +19,18 @@ async function userSkills(user: UserRecord, { skillIds }: { skillIds?: string[] 
 }
 
 export const skillResolvers = {
+	Skill: {
+		id: ({ record }: SkillResolverSource) => record.id,
+		userId: ({ record }: SkillResolverSource) => record.userId,
+		skillId: ({ record }: SkillResolverSource) => record.skillId,
+		numPracticed: ({ record }: SkillResolverSource) => record.numPracticed,
+		coefficients: ({ record }: SkillResolverSource) => record.coefficients,
+		coefficientsOn: ({ record }: SkillResolverSource) => record.coefficientsOn,
+		highest: ({ record }: SkillResolverSource) => record.highest,
+		highestOn: ({ record }: SkillResolverSource) => record.highestOn,
+		createdAt: ({ record }: SkillResolverSource) => record.createdAt,
+		updatedAt: ({ record }: SkillResolverSource) => record.updatedAt,
+	},
 	UserSharedData: { skills: userSkills },
 
 	Query: {
@@ -36,6 +48,6 @@ export const skillResolvers = {
 	},
 
 	Subscription: {
-		...createSubscriptionResolver('skillsUpdated', [skillEvents.skillsUpdated], ({ updatedSkills, userId }: SkillsUpdatedPayload, _args: unknown, context: SkillContext) => userId === context.userId ? updatedSkills : undefined),
+		...createSubscriptionResolver('skillsUpdated', [skillEvents.skillsUpdated], ({ updatedSkills, userId }: SkillsUpdatedPayload, _args: unknown, context: SkillContext) => userId === context.userId ? updatedSkills.map(skill => createSkillResolverSource(skill, true)) : undefined),
 	},
 }

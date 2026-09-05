@@ -8,7 +8,16 @@ import type { UserSkillRecord } from './models.ts'
 
 export type SkillAccessContext = Pick<AuthenticatedContext, 'loaders' | 'isAdmin' | 'userId'>
 
-export async function loadVisibleSkills(targetUserId: string, skillIds: readonly SkillId[] | undefined, context: SkillAccessContext, rejectInaccessible = false): Promise<UserSkillRecord[]> {
+export interface SkillResolverSource {
+	record: UserSkillRecord
+	mayViewExerciseData: boolean
+}
+
+export function createSkillResolverSource(record: UserSkillRecord, mayViewExerciseData: boolean): SkillResolverSource {
+	return { record, mayViewExerciseData }
+}
+
+export async function loadVisibleSkills(targetUserId: string, skillIds: readonly SkillId[] | undefined, context: SkillAccessContext, rejectInaccessible = false): Promise<SkillResolverSource[]> {
 	const mayViewAll = targetUserId === context.userId || context.isAdmin
 	let filteredSkillIds = skillIds
 	let skillIdsWithExercisePermission: Set<string> | undefined
@@ -24,16 +33,13 @@ export async function loadVisibleSkills(targetUserId: string, skillIds: readonly
 		skillIdsWithExercisePermission = new Set(withExercises)
 	}
 
-	// Load the skills, and note the respective permissions.
+	// Load the skills and combine each record with its request-specific permission.
 	const loadedSkills = filteredSkillIds
 		? await context.loaders.skillForUser.loadMany(filteredSkillIds.map(skillId => ({ userId: targetUserId, skillId })))
 		: await context.loaders.allSkillsForUser.load(targetUserId)
-	const skills = loadedSkills
-		.map(skill => {
-			if (skill instanceof Error) throw skill
-			return skill
-		})
-		.filter((skill): skill is UserSkillRecord => skill !== null)
-	skills.forEach(skill => { skill.mayViewExerciseData = mayViewAll || skillIdsWithExercisePermission?.has(skill.skillId) === true })
-	return skills
+	const skills = loadedSkills.map(skill => {
+		if (skill instanceof Error) throw skill
+		return skill
+	}).filter((skill): skill is UserSkillRecord => skill !== null)
+	return skills.map(skill => createSkillResolverSource(skill, mayViewAll || skillIdsWithExercisePermission?.has(skill.skillId) === true))
 }

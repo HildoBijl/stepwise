@@ -1,4 +1,4 @@
-import { type CreationOptional, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
+import { type CreationOptional, type InferAttributes, type InferCreationAttributes, type ModelStatic, type Sequelize, DataTypes, Model } from 'sequelize'
 
 import type { BernsteinCoefficients } from '@step-wise/bernstein-polynomials'
 import type { SkillId } from '@step-wise/skill-definition'
@@ -14,7 +14,6 @@ export class UserSkillRecord extends Model<InferAttributes<UserSkillRecord>, Inf
 	declare highestOn: CreationOptional<Date>
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
-	declare mayViewExerciseData?: NonAttribute<boolean>
 }
 
 export type UserSkillModel = ModelStatic<UserSkillRecord>

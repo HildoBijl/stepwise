@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest'
 import type { SkillId } from '@step-wise/skill-definition'
 
 import { ForbiddenError } from '../../../../src/errors.ts'
-import { loadVisibleSkills } from '../../../../src/modules/skill/skillAccess.ts'
+import { createSkillResolverSource, loadVisibleSkills } from '../../../../src/modules/skill/skillAccess.ts'
 import type { UserSkillRecord } from '../../../../src/modules/skill/index.ts'
 import type { SkillAccessContext } from '../../../../src/modules/skill/skillAccess.ts'
 
@@ -42,8 +42,7 @@ describe('skill access', () => {
 	] as const)('lets %s view all requested skills and their exercises', async (_label, options) => {
 		const skills = [skill('one'), skill('two')]
 		const { context, loadPermissions } = createContext({ ...options, skills })
-		await expect(loadVisibleSkills('target-id', ['one', 'two'] as SkillId[], context)).resolves.toEqual(skills)
-		expect(skills.every(item => item.mayViewExerciseData)).toBe(true)
+		await expect(loadVisibleSkills('target-id', ['one', 'two'] as SkillId[], context)).resolves.toEqual(skills.map(item => createSkillResolverSource(item, true)))
 		expect(loadPermissions).not.toHaveBeenCalled()
 	})
 
@@ -56,16 +55,17 @@ describe('skill access', () => {
 			withoutExercises: ['with', 'without'],
 			skills: [visibleWithExercises, visibleWithoutExercises, hidden],
 		})
-		await expect(loadVisibleSkills('student-id', ['with', 'without', 'hidden'] as SkillId[], context)).resolves.toEqual([visibleWithExercises, visibleWithoutExercises])
+		await expect(loadVisibleSkills('student-id', ['with', 'without', 'hidden'] as SkillId[], context)).resolves.toEqual([
+			createSkillResolverSource(visibleWithExercises, true),
+			createSkillResolverSource(visibleWithoutExercises, false),
+		])
 		expect(loadMany).toHaveBeenCalledWith([{ userId: 'student-id', skillId: 'with' }, { userId: 'student-id', skillId: 'without' }])
-		expect(visibleWithExercises.mayViewExerciseData).toBe(true)
-		expect(visibleWithoutExercises.mayViewExerciseData).toBe(false)
 	})
 
 	it('loads every permitted skill ID when no IDs are requested', async () => {
 		const skills = [skill('one')]
 		const { context, loadMany } = createContext({ withoutExercises: ['one'], skills })
-		await expect(loadVisibleSkills('student-id', undefined, context)).resolves.toEqual(skills)
+		await expect(loadVisibleSkills('student-id', undefined, context)).resolves.toEqual(skills.map(item => createSkillResolverSource(item, false)))
 		expect(loadMany).toHaveBeenCalledWith([{ userId: 'student-id', skillId: 'one' }])
 	})
 

@@ -25,4 +25,5 @@ export const skillModule = defineApiModule({
 export * from './skillLevels.ts'
 export * from './models.ts'
 export * from './service.ts'
+export * from './skillAccess.ts'
 export { skillFields } from './schema.ts'

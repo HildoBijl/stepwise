@@ -10,9 +10,7 @@ const ALEX = surfConextMockData.find(surf => surf.sub === ALEX_SURFSUB)!
 const BOB_ID = 'b0000000-0000-0000-0000-000000000000'
 const BOB_SURFSUB = 'b000000000000000000000000000000000000000'
 const BOB = surfConextMockData.find(surf => surf.sub === BOB_SURFSUB)!
-const NONEXISTING_SURFSUB = '1234567890abcdef1234567890abcdef12345678'
 const NONEXISTING_ID = '12345678-1234-1234-1234-1234567890ab'
-
 
 const SAMPLE_SKILL = 'enterInteger'
 const NONEXISTING_SKILL = 'abcdefghijklmnopqrstuvwxyz'

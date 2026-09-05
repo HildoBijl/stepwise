@@ -8,7 +8,7 @@ import { getExercise, getExercises } from '@step-wise/exercises'
 import { InvalidInputError } from '../../errors.ts'
 
 import type { AuthenticatedContext } from '../user/index.ts'
-import { type SkillObservationInput, type UserSkillRecord, applySkillObservationsForUser, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
+import { type SkillObservationInput, type SkillResolverSource, type UserSkillRecord, applySkillObservationsForUser, createSkillResolverSource, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
 
 import { type ExerciseEventRecord, type ExerciseSampleRecord, type ExerciseSampleWithEvents, hasLoadedExerciseEvents } from './models.ts'
 import { type ExerciseDatabase, getCurrentExerciseState, getLatestExerciseEvent, getUserSkillWithExercises } from './service.ts'
@@ -24,7 +24,7 @@ async function lockActiveExercise(db: ExerciseDatabase, exerciseId: string, skil
 }
 
 export const exerciseResolvers = {
-	Skill: { exerciseData: (skill: UserSkillRecord) => skill.mayViewExerciseData ? skill : null },
+	Skill: { exerciseData: ({ record, mayViewExerciseData }: SkillResolverSource) => mayViewExerciseData ? record : null },
 	SkillExerciseData: {
 		exercises: (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => loaders.exercisesForSkill.load(skill.id),
 		activeExercise: async (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => {
@@ -97,7 +97,7 @@ export const exerciseResolvers = {
 
 			// Publish the outcome.
 			await pubsub.publish(skillEvents.skillsUpdated, { userId, updatedSkills })
-			return { updatedExercise, updatedSkills }
+			return { updatedExercise, updatedSkills: updatedSkills.map(skill => createSkillResolverSource(skill, true)) }
 		},
 	},
 }
