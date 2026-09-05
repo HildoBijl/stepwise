@@ -6,7 +6,7 @@ import { last, repeat, count } from '@step-wise/js-utils'
 import { skillTree } from '@step-wise/skill-tree'
 import { hasExercises } from '@step-wise/exercises'
 
-import { useUserQuery } from 'api'
+import { useUserWithSkillsQuery } from 'api'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
 import { Head, Par, TimeAgo, LoadingIndicator, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
@@ -23,7 +23,7 @@ export function CourseStudentPage() {
 	// Load in required data.
 	const { studentId } = useParams()
 	const { course, overview, loading: courseLoading, error: courseError } = useCourseData()
-	const { data, loading: userLoading, error: userError } = useUserQuery(studentId)
+	const { data, loading: userLoading, error: userError } = useUserWithSkillsQuery(studentId)
 
 	// Check if the data is already present.
 	if (userLoading || courseLoading)

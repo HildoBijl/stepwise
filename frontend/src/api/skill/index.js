@@ -1,5 +1,6 @@
 export * from './util'
 export { useSkillQuery, useSkillsQuery } from './queries'
+export { useUserWithSkillsQuery, userWithSkillsFields } from './userQueries'
 export { useSkillsSubscription } from './subscriptions'
 export * from './SkillCacher'
 export { default as SkillCacher } from './SkillCacher'

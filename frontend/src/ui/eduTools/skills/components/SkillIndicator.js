@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useSkillLevel, useUserQuery } from 'api'
+import { useSkillLevel, useUserWithSkillsQuery } from 'api'
 
 import { useCourseData } from '../../course'
 import { processStudentForCourse } from '../../courses'
@@ -28,7 +28,7 @@ function SkillIndicatorForSelf() {
 // We only inspect a user as part of a course. So load the course data as well. This is probably cached already anyway.
 function SkillIndicatorForUser({ userId }) {
 	const { overview, loading: courseLoading, error: courseError } = useCourseData()
-	const { data, loading: userLoading, error: userError } = useUserQuery(userId)
+	const { data, loading: userLoading, error: userError } = useUserWithSkillsQuery(userId)
 	if (userLoading || courseLoading || userError || courseError)
 		return null
 	const { user } = data

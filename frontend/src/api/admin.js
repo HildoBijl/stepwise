@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
-import { userFields } from './user'
+import { userWithSkillsFields } from './skill'
 
 export function useAllUsersQuery() {
 	return useQuery(ALLUSERS)
@@ -9,7 +9,7 @@ export function useAllUsersQuery() {
 const ALLUSERS = gql`
 	query allUsers {
 		allUsers {
-			${userFields(true, false)}
+			${userWithSkillsFields(false)}
 		}
 	}
 `

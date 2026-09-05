@@ -1,8 +1,6 @@
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
-import { skillFields } from '../skill'
-
 // Define the fields we read for the privacy policy consent.
 export const privacyPolicyConsentFields = `
 	version
@@ -11,13 +9,10 @@ export const privacyPolicyConsentFields = `
 `
 
 // Define the fields we read for users.
-export const userFields = (addSkills, addExercises) => {
+export const userFields = (additionalPrivateFields = '') => {
 	const privateFields = `
 		email
-		${addSkills ? `
-		skills {
-			${skillFields(addExercises)}
-		}` : ``}
+		${additionalPrivateFields}
 	`
 	return `
 		id
@@ -47,18 +42,7 @@ export function useMeQuery() {
 export const ME = gql`
 	{
 		me {
-			${userFields(false, false)}
-		}
-	}
-`
-
-export function useUserQuery(userId) {
-	return useQuery(USER, { variables: { userId } })
-}
-export const USER = gql`
-	query user($userId: ID!) {
-		user(userId: $userId) {
-			${userFields(true, true)}
+			${userFields()}
 		}
 	}
 `

@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useUserQuery } from 'api'
+import { useUserWithSkillsQuery } from 'api'
 import { TranslationFile, TranslationSection, Translation } from 'i18n'
 import { Info, LoadingIndicator, ErrorNote } from 'ui/components'
 
@@ -20,7 +20,7 @@ export function CourseStudentSkillPage() {
 	// Load in required data.
 	const { studentId } = useParams()
 	const { overview, loading: courseLoading, error: courseError } = useCourseData()
-	const { data, loading: userLoading, error: userError } = useUserQuery(studentId)
+	const { data, loading: userLoading, error: userError } = useUserWithSkillsQuery(studentId)
 
 	// Check if the data is already present.
 	if (userLoading || courseLoading)

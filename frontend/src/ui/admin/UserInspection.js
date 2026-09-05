@@ -6,14 +6,14 @@ import { fromKeysAndValues, fromKeys, formatDate } from '@step-wise/js-utils'
 import { expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
 import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
 
-import { useUserQuery } from 'api'
+import { useUserWithSkillsQuery } from 'api'
 import { Par, HorizontalSlider } from 'ui/components'
 import { TitleItem } from 'ui/routingTools'
 import { SkillFlask } from 'ui/eduTools'
 
 export function UserInspection() {
 	const params = useParams()
-	const res = useUserQuery(params && params.userId)
+	const res = useUserWithSkillsQuery(params && params.userId)
 
 	// Check if data has loaded properly.
 	if (res.loading)
@@ -67,7 +67,7 @@ function UserInspectionItem({ skillId, skillLevel }) {
 
 export function UserInspectionTitle() {
 	const params = useParams()
-	const res = useUserQuery(params && params.userId)
+	const res = useUserWithSkillsQuery(params && params.userId)
 	const name = getUserNameFromQueryResult(res)
 	return <TitleItem name={name} />
 }
