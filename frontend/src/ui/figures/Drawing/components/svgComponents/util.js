@@ -1,18 +1,13 @@
 import { mod, first, last, repeat, filterProperties } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-import { useEnsureRef, useEventListeners } from '@step-wise/react-utils'
+import { useRefWithEventListeners } from '@step-wise/react-utils'
 
 // Define event handlers that objects can use.
 export const defaultEventHandlers = {}
 const eventHandlers = ['mouseenter', 'mouseleave', 'click', 'mousedown', 'mouseup']
 eventHandlers.forEach(name => { defaultEventHandlers[name] = undefined })
 export const filterEventHandlers = (options) => filterProperties(options, (value, key) => eventHandlers.includes(key) && typeof value === 'function')
-export const useRefWithEventHandlers = (props, ref) => {
-	ref = useEnsureRef(ref)
-	const handlers = filterEventHandlers(props)
-	useEventListeners(handlers, ref)
-	return ref
-}
+export const useRefWithEventHandlers = (props, ref) => useRefWithEventListeners(filterEventHandlers(props), ref)
 
 // These are the parameters inherited by all object types.
 export const defaultObject = {

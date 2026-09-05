@@ -2,10 +2,11 @@ import React, { forwardRef } from 'react'
 
 import { ensureNumber, ensureString, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
+import { useRefWithEventListeners } from '@step-wise/react-utils'
 
 import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
 
-import { defaultObject, useRefWithEventHandlers, filterEventHandlers, getArcPath } from './util'
+import { defaultObject, filterEventHandlers, getArcPath } from './util'
 
 export const defaultArc = {
 	...defaultObject,
@@ -28,10 +29,10 @@ export const Arc = forwardRef((props, ref) => {
 	endAngle = ensureNumber(endAngle)
 	className = ensureString(className)
 	style = { ...defaultArc.style, ...ensureObject(style) }
-	ref = useRefWithEventHandlers(props, ref)
+	ref = useRefWithEventListeners(filterEventHandlers(props), ref)
 
 	// Draw the arc.
-	return <SvgPortal><path ref={ref} className={className} style={style} d={getArcPath(center, radius, startAngle, endAngle)} {...filterEventHandlers(props)} /></SvgPortal>
+	return <SvgPortal><path ref={ref} className={className} style={style} d={getArcPath(center, radius, startAngle, endAngle)} /></SvgPortal>
 })
 Arc.defaultProps = defaultArc
 export default Arc

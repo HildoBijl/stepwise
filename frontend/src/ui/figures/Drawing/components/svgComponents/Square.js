@@ -2,10 +2,11 @@ import React, { forwardRef } from 'react'
 
 import { ensureString, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
+import { useRefWithEventListeners } from '@step-wise/react-utils'
 
 import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
 
-import { defaultObject, useRefWithEventHandlers, filterEventHandlers } from './util'
+import { defaultObject, filterEventHandlers } from './util'
 
 export const defaultSquare = {
 	...defaultObject,
@@ -22,11 +23,11 @@ export const Square = forwardRef((props, ref) => {
 	side = useGraphicalDistance(side, graphicalSide)
 	className = ensureString(className)
 	style = { ...defaultSquare.style, ...ensureObject(style) }
-	ref = useRefWithEventHandlers(props, ref)
+	ref = useRefWithEventListeners(filterEventHandlers(props), ref)
 
 	// Set up the square.
 	return <SvgPortal>
-		<rect ref={ref} x={center.x - side / 2} y={center.y - side / 2} width={side} height={side} className={className} style={style} {...filterEventHandlers(props)} />
+		<rect ref={ref} x={center.x - side / 2} y={center.y - side / 2} width={side} height={side} className={className} style={style} />
 	</SvgPortal>
 })
 Square.defaultProps = defaultSquare

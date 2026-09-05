@@ -2,10 +2,11 @@ import React, { forwardRef } from 'react'
 
 import { ensureNumber, ensureString, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { ensureRectangle as ensureGeometryRectangle } from '@step-wise/geometry'
+import { useRefWithEventListeners } from '@step-wise/react-utils'
 
 import { useGraphicalObject, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
 
-import { defaultObject, useRefWithEventHandlers, filterEventHandlers } from './util'
+import { defaultObject, filterEventHandlers } from './util'
 
 export const defaultRectangle = {
 	...defaultObject,
@@ -22,11 +23,11 @@ export const Rectangle = forwardRef((props, ref) => {
 	cornerRadius = ensureNumber(useGraphicalDistance(cornerRadius, graphicalCornerRadius))
 	className = ensureString(className)
 	style = { ...defaultRectangle.style, ...ensureObject(style) }
-	ref = useRefWithEventHandlers(props, ref)
+	ref = useRefWithEventListeners(filterEventHandlers(props), ref)
 
 	// Set up the circle.
 	const { min, size } = dimensions
-	return <SvgPortal><rect ref={ref} x={min.x} y={min.y} width={size.x} height={size.y} rx={cornerRadius} className={className} style={style} {...filterEventHandlers(props)} /></SvgPortal>
+	return <SvgPortal><rect ref={ref} x={min.x} y={min.y} width={size.x} height={size.y} rx={cornerRadius} className={className} style={style} /></SvgPortal>
 })
 Rectangle.defaultProps = defaultRectangle
 export default Rectangle

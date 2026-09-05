@@ -18,20 +18,6 @@ export function useStaggeredFunction<FunctionType extends AnyFunction>(callback:
 	}) as FunctionType, [callbackRef, timeoutRef])
 }
 
-export function useThrottledFunction<FunctionType extends AnyFunction>(callback: FunctionType, time = 25, onDeny?: FunctionType): FunctionType {
-	const lastTimeRef = useRef<number | undefined>(undefined)
-	return useStableCallback(((...args: Parameters<FunctionType>) => {
-		const lastTime = lastTimeRef.current
-		const currentTime = new Date().getTime()
-		if (lastTime === undefined || lastTime + time <= currentTime) {
-			lastTimeRef.current = currentTime
-			callback(...args)
-		} else if (onDeny) {
-			onDeny(...args)
-		}
-	}) as FunctionType)
-}
-
 export function useAnimation(animationCallback: (time: number, deltaTime: number | undefined) => void): void {
 	const startTimeRef = useRef<number | undefined>(undefined)
 	const previousTimeRef = useRef<number | undefined>(undefined)

@@ -2,10 +2,11 @@ import React, { forwardRef } from 'react'
 
 import { ensureString, ensureBoolean, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { ensureVectorArray } from '@step-wise/geometry'
+import { useRefWithEventListeners } from '@step-wise/react-utils'
 
 import { useGraphicalVector, SvgPortal } from '../../DrawingContext'
 
-import { defaultObject, useRefWithEventHandlers, filterEventHandlers, getLinePath } from './util'
+import { defaultObject, filterEventHandlers, getLinePath } from './util'
 
 export const defaultLine = {
 	...defaultObject,
@@ -29,12 +30,12 @@ export const Line = forwardRef((props, ref) => {
 	close = ensureBoolean(close)
 	className = ensureString(className)
 	style = { ...defaultLine.style, ...ensureObject(style) }
-	ref = useRefWithEventHandlers(props, ref)
+	ref = useRefWithEventListeners(filterEventHandlers(props), ref)
 
 	// Set up the line.
 	const path = getLinePath(points, close)
 	return <SvgPortal>
-		<path ref={ref} className={className} style={style} d={path} {...filterEventHandlers(props)} />
+		<path ref={ref} className={className} style={style} d={path} />
 	</SvgPortal>
 })
 Line.defaultProps = defaultLine

@@ -3,15 +3,10 @@ import { type DependencyList, useCallback, useEffect, useState } from 'react'
 import { preserveRefs } from '@step-wise/js-utils'
 import { readLocalStorageValue, writeLocalStorageValue } from '@step-wise/browser-utils'
 
-import { useEventListener } from './events.ts'
+import { useEventListener } from './eventListeners.ts'
 import { useConsistentValue, useLatest } from './refs.ts'
 
 type AnyFunction = (...args: any[]) => any
-
-export function useCounter(initialValue = 0): [number, () => void] {
-	const [counter, setCounter] = useState(initialValue)
-	return [counter, () => setCounter(counter + 1)]
-}
 
 export function useUpdater(effect: () => void, dependencies: DependencyList): void {
 	const consistentDependencies = useConsistentValue(dependencies)

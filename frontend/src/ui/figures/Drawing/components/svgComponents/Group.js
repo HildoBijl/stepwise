@@ -2,10 +2,11 @@ import React, { forwardRef } from 'react'
 
 import { ensureNumber, ensureString, ensureBoolean, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
+import { useRefWithEventListeners } from '@step-wise/react-utils'
 
 import { useDrawingId, useGraphicalVector, SvgPortal } from '../../DrawingContext'
 
-import { defaultObject, useRefWithEventHandlers } from './util'
+import { defaultObject, filterEventHandlers } from './util'
 
 export const defaultGroup = {
 	...defaultObject,
@@ -27,7 +28,7 @@ export const Group = forwardRef((props, ref) => {
 	overflow = ensureBoolean(overflow)
 	className = ensureString(className)
 	style = { ...defaultGroup.style, ...ensureObject(style) }
-	ref = useRefWithEventHandlers(props, ref)
+	ref = useRefWithEventListeners(filterEventHandlers(props), ref)
 
 	// Set up the group with the right transform property.
 	const drawingId = useDrawingId()

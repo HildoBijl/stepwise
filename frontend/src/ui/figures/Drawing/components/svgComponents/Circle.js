@@ -2,10 +2,11 @@ import React, { forwardRef } from 'react'
 
 import { ensureNumber, ensureString, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
+import { useRefWithEventListeners } from '@step-wise/react-utils'
 
 import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
 
-import { defaultObject, useRefWithEventHandlers, filterEventHandlers } from './util'
+import { defaultObject, filterEventHandlers } from './util'
 
 export const defaultCircle = {
 	...defaultObject,
@@ -23,10 +24,10 @@ export const Circle = forwardRef((props, ref) => {
 	radius = ensureNumber(useGraphicalDistance(radius, graphicalRadius), { nonNegative: true })
 	className = ensureString(className)
 	style = { ...defaultCircle.style, ...ensureObject(style) }
-	ref = useRefWithEventHandlers(props, ref)
+	ref = useRefWithEventListeners(filterEventHandlers(props), ref)
 
 	// Set up the circle.
-	return <SvgPortal><circle ref={ref} cx={center.x} cy={center.y} r={radius} className={className} style={style} {...filterEventHandlers(props)} /></SvgPortal>
+	return <SvgPortal><circle ref={ref} cx={center.x} cy={center.y} r={radius} className={className} style={style} /></SvgPortal>
 })
 Circle.defaultProps = defaultCircle
 export default Circle

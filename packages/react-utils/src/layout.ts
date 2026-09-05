@@ -1,18 +1,9 @@
 import { type RefObject, useEffect, useReducer, useState } from 'react'
 
-import { Vector } from '@step-wise/geometry'
-
-import { useEventListener, useMousePosition } from './events.ts'
+import { useEventListener } from './eventListeners.ts'
 import { useLatest } from './refs.ts'
 import { useStaggeredFunction } from './scheduling.ts'
 import { useResizeObserver } from './vendorHooks.ts'
-
-export function useMousePositionRelative(element: Element | null | undefined): Vector | null {
-	const position = useMousePosition()
-	const elementRect = useBoundingClientRect(element)
-	if (!position || !elementRect) return null
-	return new Vector(position.x - elementRect.x, position.y - elementRect.y)
-}
 
 export function useBoundingClientRect(element: Element | null | undefined): DOMRect | null {
 	const [rect, setRect] = useState<DOMRect | null>(null)

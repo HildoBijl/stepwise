@@ -5,7 +5,7 @@ import { ensureCorner } from '@step-wise/geometry'
 
 import { useGraphicalVector, useGraphicalDistance } from '../../DrawingContext'
 
-import { defaultObject, useRefWithEventHandlers } from './util'
+import { defaultObject } from './util'
 import Line, { defaultLine } from './Line'
 
 export const defaultRightAngle = {
@@ -25,7 +25,6 @@ export const RightAngle = forwardRef((props, ref) => {
 	if (points.length !== 3)
 		throw new Error(`Invalid RightAngle points: expected exactly three points, of which the middle one is the given corner, but received ${points.length} points.`)
 	size = useGraphicalDistance(size, graphicalSize)
-	ref = useRefWithEventHandlers(props, ref)
 
 	// Determine the shape of the right angle.
 	const point = points[1]
