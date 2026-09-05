@@ -257,7 +257,7 @@ describe('groups security', () => {
 		await client.loginSurfConext(ALEX_SURFSUB)
 
 		// Query personal information and fail due to wrong schema.
-		const { errors } = await client.graphql({ query: `{group(code: "${GROUP_CODE}"){members{email}}}` }, 400)
+		const { errors } = await client.graphql({ query: `{group(code: "${GROUP_CODE}"){members{sharedData {email}}}}` }, 400)
 		expect(errors).not.toBeUndefined()
 	})
 

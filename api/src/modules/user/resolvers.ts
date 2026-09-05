@@ -9,7 +9,7 @@ import { getAllUsers, getUser } from './service.ts'
 
 export type UserContext = Pick<ApiContext, 'db' | 'user' | 'isAdmin' | 'loaders' | 'ensureLoggedIn' | 'ensureAdmin'>
 
-export type UserPrivateAccessRule = (user: UserRecord, context: UserContext) => boolean | Promise<boolean>
+export type UserSharedDataAccessRule = (user: UserRecord, context: UserContext) => boolean | Promise<boolean>
 
 function privacyPolicyConsent(user: UserRecord) {
 	return {
@@ -20,9 +20,7 @@ function privacyPolicyConsent(user: UserRecord) {
 }
 
 const userResolvers = {
-	UserPublic: {},
-	UserPrivate: {},
-	UserFull: { privacyPolicyConsent },
+	UserAccountData: { privacyPolicyConsent },
 
 	Query: {
 		me: async (_source: unknown, _args: unknown, { user }: UserContext) => user,
@@ -57,16 +55,20 @@ const userResolvers = {
 	},
 }
 
-export function createUserResolvers(privateAccessRules: UserPrivateAccessRule[] = []) {
+export function createUserResolvers(sharedDataAccessRules: UserSharedDataAccessRule[] = []) {
 	return {
 		...userResolvers,
 		User: {
-			async __resolveType(user: UserRecord, context: UserContext) {
-				if (!context.user) return 'UserPublic'
-				if (context.user.id === user.id || context.isAdmin) return 'UserFull'
-				for (const rule of privateAccessRules)
-					if (await rule(user, context)) return 'UserPrivate'
-				return 'UserPublic'
+			async sharedData(user: UserRecord, _args: unknown, context: UserContext) {
+				if (!context.user) return null
+				if (context.user.id === user.id || context.isAdmin) return user
+				for (const rule of sharedDataAccessRules)
+					if (await rule(user, context)) return user
+				return null
+			},
+			accountData(user: UserRecord, _args: unknown, context: UserContext) {
+				if (!context.user) return null
+				return context.user.id === user.id || context.isAdmin ? user : null
 			},
 		},
 	}

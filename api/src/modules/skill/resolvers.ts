@@ -19,8 +19,7 @@ async function userSkills(user: UserRecord, { skillIds }: { skillIds?: string[] 
 }
 
 export const skillResolvers = {
-	UserPrivate: { skills: userSkills },
-	UserFull: { skills: userSkills },
+	UserSharedData: { skills: userSkills },
 
 	Query: {
 		skill: async (_source: unknown, args: { skillId: string; userId?: string }, context: SkillContext) => {

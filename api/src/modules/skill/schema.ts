@@ -14,15 +14,7 @@ export const skillFields = `
 `
 
 export const skillTypeDefs = gql`
-	extend interface UserSemiPrivate {
-		skills(skillIds: [String]): [Skill]!
-	}
-
-	extend type UserPrivate {
-		skills(skillIds: [String]): [Skill]!
-	}
-
-	extend type UserFull {
+	extend type UserSharedData {
 		skills(skillIds: [String]): [Skill]!
 	}
 

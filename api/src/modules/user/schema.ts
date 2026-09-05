@@ -7,13 +7,11 @@ const userPublicFields = `
 	familyName: String
 `
 
-const userPrivateFields = `
-	${userPublicFields}
+const userSharedDataFields = `
 	email: EmailAddress
 `
 
-const userFullFields = `
-	${userPrivateFields}
+const userAccountDataFields = `
 	role: String!
 	language: String
 	createdAt: DateTime!
@@ -40,23 +38,17 @@ export const userTypeDefs = gql`
 		isLatestVersion: Boolean!
 	}
 
-	interface User {
+	type User {
 		${userPublicFields}
+		sharedData: UserSharedData
+		accountData: UserAccountData
 	}
 
-	type UserPublic implements User {
-		${userPublicFields}
+	type UserSharedData {
+		${userSharedDataFields}
 	}
 
-	interface UserSemiPrivate implements User {
-		${userPrivateFields}
-	}
-
-	type UserPrivate implements UserSemiPrivate & User {
-		${userPrivateFields}
-	}
-
-	type UserFull implements UserSemiPrivate & User {
-		${userFullFields}
+	type UserAccountData {
+		${userAccountDataFields}
 	}
 `

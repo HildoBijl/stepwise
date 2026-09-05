@@ -2,7 +2,7 @@ import { defineApiModule } from '../types.ts'
 
 import { userTypeDefs } from './schema.ts'
 import { type UserModel, createUserModel } from './models.ts'
-import { type UserPrivateAccessRule, createUserResolvers } from './resolvers.ts'
+import { type UserSharedDataAccessRule, createUserResolvers } from './resolvers.ts'
 
 declare module '../types.ts' {
 	interface ApiModels {
@@ -11,14 +11,14 @@ declare module '../types.ts' {
 }
 
 interface UserModuleOptions {
-	privateAccessRules?: UserPrivateAccessRule[]
+	sharedDataAccessRules?: UserSharedDataAccessRule[]
 }
 
-export function createUserModule({ privateAccessRules = [] }: UserModuleOptions = {}) {
+export function createUserModule({ sharedDataAccessRules = [] }: UserModuleOptions = {}) {
 	return defineApiModule({
 		typeDefs: userTypeDefs,
 		models: { User: createUserModel },
-		resolvers: createUserResolvers(privateAccessRules),
+		resolvers: createUserResolvers(sharedDataAccessRules),
 	})
 }
 

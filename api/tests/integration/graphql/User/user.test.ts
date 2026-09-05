@@ -39,11 +39,11 @@ describe('user', () => {
 		const { data: { user }, errors } = await client.graphql({
 			query: `{user(userId: "${ALEX_ID}") {
 				id
-				... on UserPrivate { email }
-				... on UserFull {	language }
+				sharedData { email }
+				accountData { language }
 			}}` })
 		expect(errors).toBeUndefined()
-		expect(user).toMatchObject({ id: ALEX_ID })
+		expect(user).toStrictEqual({ id: ALEX_ID, sharedData: null, accountData: null })
 	})
 
 	it('throws an error when no user is given (bad request)', async () => {
@@ -67,9 +67,13 @@ describe('user', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(ALEX_SURFSUB)
 
-		const { data: { user }, errors } = await client.graphql({ query: `{user(userId: "${BOB_ID}") {id}}` })
+		const { data: { user }, errors } = await client.graphql({ query: `{user(userId: "${BOB_ID}") {id sharedData {email} accountData {role}}}` })
 		expect(errors).toBeUndefined()
-		expect(user).toMatchObject({ id: BOB_ID })
+		expect(user).toStrictEqual({
+			id: BOB_ID,
+			sharedData: { email: BOB.email },
+			accountData: { role: 'student' },
+		})
 	})
 })
 
@@ -78,7 +82,7 @@ describe('privacy policy consent', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(BOB_SURFSUB)
 
-		const { data: { me: { privacyPolicyConsent } }, errors } = await client.graphql({ query: `{me {... on UserFull {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
+		const { data: { me: { accountData: { privacyPolicyConsent } } }, errors } = await client.graphql({ query: `{me {accountData {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
 		expect(errors).toBeUndefined()
 		expect(privacyPolicyConsent).toMatchObject({ acceptedAt: null, isLatestVersion: false, version: null })
 	})
@@ -99,7 +103,7 @@ describe('privacy policy consent', () => {
 		expect(acceptLatestPrivacyPolicy.isLatestVersion).toEqual(true)
 
 		// Double-check that the `me` query yields the same data.
-		const { data: { me: { privacyPolicyConsent } } } = await client.graphql({ query: `{me {... on UserFull {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
+		const { data: { me: { accountData: { privacyPolicyConsent } } } } = await client.graphql({ query: `{me {accountData {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
 		expect(privacyPolicyConsent.version).toEqual(acceptLatestPrivacyPolicy.version)
 		expect(privacyPolicyConsent.acceptedAt).toEqual(acceptLatestPrivacyPolicy.acceptedAt)
 		expect(privacyPolicyConsent.isLatestVersion).toEqual(acceptLatestPrivacyPolicy.isLatestVersion)

@@ -30,41 +30,51 @@ function createContext(user: UserRecord | null, isAdmin = false): UserContext {
 }
 
 describe('user resolvers', () => {
-	it('resolves public, private, own, and administrator views', async () => {
+	it('exposes shared data to the user, administrators, and users matching an access rule', async () => {
 		const target = createUser()
 		const current = createUser({ id: 'current-id' })
 		const rule = vi.fn().mockResolvedValue(true)
-		const resolveType = createUserResolvers([rule]).User.__resolveType
+		const sharedData = createUserResolvers([rule]).User.sharedData
 
-		await expect(resolveType(target, createContext(null))).resolves.toBe('UserPublic')
-		await expect(resolveType(target, createContext(target))).resolves.toBe('UserFull')
-		await expect(resolveType(target, createContext(current, true))).resolves.toBe('UserFull')
-		await expect(resolveType(target, createContext(current))).resolves.toBe('UserPrivate')
+		await expect(sharedData(target, undefined, createContext(null))).resolves.toBeNull()
+		await expect(sharedData(target, undefined, createContext(target))).resolves.toBe(target)
+		await expect(sharedData(target, undefined, createContext(current, true))).resolves.toBe(target)
+		await expect(sharedData(target, undefined, createContext(current))).resolves.toBe(target)
 		expect(rule).toHaveBeenCalledWith(target, expect.objectContaining({ user: current }))
 	})
 
-	it('evaluates private-access rules in order and stops after the first match', async () => {
+	it('evaluates shared-data access rules in order and stops after the first match', async () => {
 		const target = createUser()
 		const context = createContext(createUser({ id: 'current-id' }))
 		const first = vi.fn().mockReturnValue(false)
 		const second = vi.fn().mockResolvedValue(true)
 		const third = vi.fn().mockReturnValue(true)
-		await expect(createUserResolvers([first, second, third]).User.__resolveType(target, context)).resolves.toBe('UserPrivate')
+		await expect(createUserResolvers([first, second, third]).User.sharedData(target, undefined, context)).resolves.toBe(target)
 		expect(first).toHaveBeenCalledOnce()
 		expect(second).toHaveBeenCalledOnce()
 		expect(third).not.toHaveBeenCalled()
 	})
 
-	it('returns a public view when no access rule matches', async () => {
+	it('hides shared data when no access rule matches', async () => {
 		const target = createUser()
 		const context = createContext(createUser({ id: 'current-id' }))
-		await expect(createUserResolvers([() => false]).User.__resolveType(target, context)).resolves.toBe('UserPublic')
+		await expect(createUserResolvers([() => false]).User.sharedData(target, undefined, context)).resolves.toBeNull()
+	})
+
+	it('only exposes account data to the user and administrators', () => {
+		const target = createUser()
+		const current = createUser({ id: 'current-id' })
+		const accountData = createUserResolvers().User.accountData
+		expect(accountData(target, undefined, createContext(null))).toBeNull()
+		expect(accountData(target, undefined, createContext(current))).toBeNull()
+		expect(accountData(target, undefined, createContext(target))).toBe(target)
+		expect(accountData(target, undefined, createContext(current, true))).toBe(target)
 	})
 
 	it('reports privacy-policy consent', () => {
 		const acceptedAt = new Date()
 		const user = createUser({ privacyPolicyAcceptedVersion: currentPrivacyPolicyVersion, privacyPolicyAcceptedAt: acceptedAt })
-		expect(createUserResolvers().UserFull.privacyPolicyConsent(user)).toEqual({ version: currentPrivacyPolicyVersion, acceptedAt, isLatestVersion: true })
+		expect(createUserResolvers().UserAccountData.privacyPolicyConsent(user)).toEqual({ version: currentPrivacyPolicyVersion, acceptedAt, isLatestVersion: true })
 	})
 
 	it('sets a supported language and rejects unsupported languages', async () => {
