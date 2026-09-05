@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import React from 'react'
 import { render } from '@testing-library/react'
+import { MockedProvider } from '@apollo/client/testing/react'
 import ResizeObserver from 'resize-observer-polyfill'
 import { ThemeProvider } from '@mui/material/styles'
 
@@ -10,6 +11,7 @@ import { skillTree } from '@step-wise/skill-tree'
 import { resolveSolution } from '@step-wise/input-exercises'
 import { getAllExercises } from '@step-wise/exercises'
 
+import { ME } from 'api'
 import { I18nProvider, TranslationFile, TranslationSection } from 'i18n'
 import { ModalManager } from 'ui/components'
 import theme from 'ui/theme'
@@ -17,6 +19,7 @@ import { FieldController } from 'ui/form'
 import { ExerciseContext } from 'ui/eduTools'
 
 const exerciseModules = import.meta.glob('/src/ui/eduContent/**/exercises/*.js')
+const apolloMocks = [{ request: { query: ME }, result: { data: { me: null } }, maxUsageCount: Infinity }]
 
 function loadExercise(skill, exerciseId) {
 	const path = `/src/ui/eduContent/${skill.groupPath.join('/')}/${skill.id}/exercises/${exerciseId}.js`
@@ -67,21 +70,23 @@ describe('Check all exercises:', () => {
 							solution: shared.getSolution && resolveSolution(shared.getSolution, parameters),
 						}
 						expect(() => render(
-							<I18nProvider loadLanguageFiles={false}>
-								<ThemeProvider theme={theme}>
-									<FieldController>
-										<ModalManager>
-											<TranslationFile path={`eduContent/${skill.groupPath.join('/')}/${skill.id}`}>
-												<TranslationSection entry="practice">
-													<ExerciseContext.Provider value={exerciseData}>
-														<Exercise />
-													</ExerciseContext.Provider>
-												</TranslationSection>
-											</TranslationFile>
-										</ModalManager>
-									</FieldController>
-								</ThemeProvider>
-							</I18nProvider>
+							<MockedProvider mocks={apolloMocks}>
+								<I18nProvider loadLanguageFiles={false}>
+									<ThemeProvider theme={theme}>
+										<FieldController>
+											<ModalManager>
+												<TranslationFile path={`eduContent/${skill.groupPath.join('/')}/${skill.id}`}>
+													<TranslationSection entry="practice">
+														<ExerciseContext.Provider value={exerciseData}>
+															<Exercise />
+														</ExerciseContext.Provider>
+													</TranslationSection>
+												</TranslationFile>
+											</ModalManager>
+										</FieldController>
+									</ThemeProvider>
+								</I18nProvider>
+							</MockedProvider>
 						)).not.toThrow()
 					})
 				})

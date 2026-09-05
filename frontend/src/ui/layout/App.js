@@ -3,7 +3,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material'
 import { ApolloProvider } from '@apollo/client/react'
 import { HelmetProvider } from 'react-helmet-async'
 
-import { UserWrapper, useUser, ActiveGroupProvider, SkillCacher } from 'api'
+import { useUser, ActiveGroupProvider, SkillCacher } from 'api'
 import { I18nProvider, useLanguageSetting } from 'i18n'
 import theme from 'ui/theme'
 
@@ -23,20 +23,18 @@ export function App({ apolloClient }) {
 				<I18nProvider>
 					<ThemeProvider theme={theme}>
 						<CssBaseline />
-						<UserWrapper>
-							<UserLanguageSynchronizer />
-							<div id="app">
-								<div id="appInner">
-									<PrivacyPolicyWrapper>
-										<ActiveGroupProvider>
-											<SkillCacher>
-												<Routing />
-											</SkillCacher>
-										</ActiveGroupProvider>
-									</PrivacyPolicyWrapper>
-								</div>
+						<UserLanguageSynchronizer />
+						<div id="app">
+							<div id="appInner">
+								<PrivacyPolicyWrapper>
+									<ActiveGroupProvider>
+										<SkillCacher>
+											<Routing />
+										</SkillCacher>
+									</ActiveGroupProvider>
+								</PrivacyPolicyWrapper>
 							</div>
-						</UserWrapper>
+						</div>
 					</ThemeProvider>
 				</I18nProvider>
 			</HelmetProvider>

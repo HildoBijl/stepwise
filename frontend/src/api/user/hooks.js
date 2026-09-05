@@ -1,6 +1,9 @@
-import { useUserResult } from './provider'
+import { useMeQuery } from './queries'
 
-export { useUserResult }
+// Get the current-user query result directly from Apollo's shared cache.
+export function useUserResult() {
+	return useMeQuery()
+}
 
 // Only get the resulting user.
 export function useUser() {
