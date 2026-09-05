@@ -2,7 +2,7 @@ import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import { Box } from '@mui/material'
 
 import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
-import { useSize } from '@step-wise/react-utils'
+import { useElementSize } from '@step-wise/react-utils'
 
 import { notSelectable } from 'ui/theme'
 
@@ -76,9 +76,9 @@ export const FieldInputHull = forwardRef((options, hullRef) => {
 	}))
 
 	// Determine element widths.
-	const [fieldWidth] = useSize(fieldRef)
-	const [contentsContainerWidth] = useSize(contentsContainerRef)
-	const [labelWidth] = useSize(labelRef)
+	const fieldWidth = useElementSize(fieldRef)?.width ?? 0
+	const contentsContainerWidth = useElementSize(contentsContainerRef)?.width ?? 0
+	const labelWidth = useElementSize(labelRef)?.width ?? 0
 
 	// Extract the status of the Input field.
 	const { value, cursor } = useInputValue()

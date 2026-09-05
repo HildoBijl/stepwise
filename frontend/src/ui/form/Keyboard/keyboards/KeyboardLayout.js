@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 import clsx from 'clsx'
 
 import { resolveFunctionValuesDeep } from '@step-wise/js-utils'
-import { useSize } from '@step-wise/react-utils'
+import { useElementSize } from '@step-wise/react-utils'
 
 import { useButtonClickFunction } from './util'
 import { KeyButton } from './KeyButton'
@@ -11,7 +11,7 @@ import { KeyButton } from './KeyButton'
 export function KeyboardLayout({ settings, keyFunction, keySettings = {}, keys, numColumns, numRows, styles, widthToRowHeight, maxWidth, keyClassNames = {} }) {
 	// Determine the row height.
 	const keyboardLayoutRef = useRef()
-	const [width] = useSize(keyboardLayoutRef)
+	const width = useElementSize(keyboardLayoutRef)?.width ?? 0
 	const rowHeight = widthToRowHeight ? widthToRowHeight(width) : width / numColumns
 	const [buttonClickFunction, properties] = useButtonClickFunction(keyFunction)
 

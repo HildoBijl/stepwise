@@ -1,47 +1,56 @@
 import { type RefObject, useLayoutEffect, useState } from 'react'
 
-import { useLatestRef } from './refs.ts'
+import { shallowEqualObjects } from '@step-wise/js-utils'
 
-export type ResizeObserverTarget<T extends Element = HTMLElement> = T | RefObject<T | null> | null | undefined
-export type ResizeObserverCallback = (entry: ResizeObserverEntry, observer: ResizeObserver) => void
+import { useLatestRef, useStableValue } from './refs.ts'
 
-export interface UseSizeOptions {
-	readonly initialWidth: number
-	readonly initialHeight: number
+export type ElementReference<T extends Element = HTMLElement> = T | RefObject<T | null> | null | undefined
+export type ResizeEntryCallback = (entry: ResizeObserverEntry, observer: ResizeObserver) => void
+
+export interface ElementSize {
+	readonly width: number
+	readonly height: number
 }
 
-function resolveTarget<T extends Element>(target: ResizeObserverTarget<T>): T | null {
+function resolveElement<T extends Element>(target: ElementReference<T>): T | null {
 	if (!target) return null
 	return 'current' in target ? target.current : target
 }
 
-export function useResizeObserver<T extends Element>(target: ResizeObserverTarget<T>, callback: ResizeObserverCallback): void {
+function areResizeObserverOptionsEqual(current: ResizeObserverOptions | undefined, previous: ResizeObserverOptions | undefined): boolean {
+	if (!current || !previous) return current === previous
+	return shallowEqualObjects(current, previous)
+}
+
+export function useResizeObserver<T extends Element>(target: ElementReference<T>, callback: ResizeEntryCallback, options?: ResizeObserverOptions): void {
 	const callbackRef = useLatestRef(callback)
+	const stableOptions = useStableValue(options, areResizeObserverOptionsEqual)
 	useLayoutEffect(() => {
-		const element = resolveTarget(target)
+		const element = resolveElement(target)
 		if (!element || typeof ResizeObserver === 'undefined') return
 
 		const observer = new ResizeObserver(entries => {
 			entries.forEach(entry => callbackRef.current(entry, observer))
 		})
-		observer.observe(element)
+		observer.observe(element, stableOptions)
 		return () => observer.disconnect()
-	}, [target, callbackRef])
+	}, [target, callbackRef, stableOptions])
 }
 
-export function useSize<T extends HTMLElement>(target: ResizeObserverTarget<T>, options?: UseSizeOptions): [number, number] {
-	const [size, setSize] = useState<[number, number]>(() => {
-		const element = resolveTarget(target)
-		return element ? [element.offsetWidth, element.offsetHeight] : [options?.initialWidth ?? 0, options?.initialHeight ?? 0]
-	})
+export function useElementSize<T extends HTMLElement>(target: ElementReference<T>, options?: ResizeObserverOptions): ElementSize | undefined {
+	const [size, setSize] = useState<ElementSize>()
+	const updateSize = (element: T | null) => {
+		if (!element) {
+			setSize(undefined)
+			return
+		}
+		const newSize = { width: element.offsetWidth, height: element.offsetHeight }
+		setSize(previousSize => previousSize?.width === newSize.width && previousSize.height === newSize.height ? previousSize : newSize)
+	}
 
 	useLayoutEffect(() => {
-		const element = resolveTarget(target)
-		if (element) setSize([element.offsetWidth, element.offsetHeight])
+		updateSize(resolveElement(target))
 	}, [target])
-	useResizeObserver(target, entry => {
-		const element = entry.target as T
-		setSize([element.offsetWidth, element.offsetHeight])
-	})
+	useResizeObserver(target, entry => updateSize(entry.target as T), options)
 	return size
 }
