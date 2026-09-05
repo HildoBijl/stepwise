@@ -30,5 +30,5 @@ const ACCEPT_LATEST_PRIVACY_POLICY_MUTATION: TypedDocumentNode<AcceptLatestPriva
 export function useAcceptLatestPrivacyPolicy(): UseAcceptLatestPrivacyPolicyResult {
 	const [mutate, { loading, error }] = useMutation(ACCEPT_LATEST_PRIVACY_POLICY_MUTATION)
 	const acceptLatestPrivacyPolicy = useCallback(async () => { await mutate() }, [mutate])
-	return [acceptLatestPrivacyPolicy, { loading, error }] as const
+	return [acceptLatestPrivacyPolicy, { loading, error }]
 }

@@ -12,7 +12,7 @@ import { SKILL } from '../queries.ts'
 type StartExerciseData = { startExercise: ExerciseRecord }
 type StartExerciseVariables = { skillId: SkillId }
 
-export const START_EXERCISE: TypedDocumentNode<StartExerciseData, StartExerciseVariables> = gql`
+const START_EXERCISE: TypedDocumentNode<StartExerciseData, StartExerciseVariables> = gql`
 	mutation startExercise($skillId: String!) {
 		startExercise(skillId: $skillId) {
 			${exerciseFields}
@@ -26,5 +26,5 @@ export function useStartExercise(skillId: SkillId): UseStartExerciseResult {
 		refetchQueries: [{ query: SKILL, variables: { skillId } }],
 	})
 	const startExercise = useCallback(async () => { await mutate() }, [mutate])
-	return [startExercise, { loading, error }] as const
+	return [startExercise, { loading, error }]
 }

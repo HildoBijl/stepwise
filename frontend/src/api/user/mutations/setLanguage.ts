@@ -28,5 +28,5 @@ const SET_LANGUAGE_MUTATION: TypedDocumentNode<SetLanguageData, SetLanguageVaria
 export function useSetLanguage(): UseSetLanguageResult {
 	const [mutate, { loading, error }] = useMutation(SET_LANGUAGE_MUTATION)
 	const setLanguage = useCallback(async (language: Language) => { await mutate({ variables: { language } }) }, [mutate])
-	return [setLanguage, { loading, error }] as const
+	return [setLanguage, { loading, error }]
 }

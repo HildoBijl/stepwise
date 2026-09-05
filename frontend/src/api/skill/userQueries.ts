@@ -22,7 +22,7 @@ export function useUserWithSkills(userId?: string): UseUserWithSkillsResult {
 	return { user, loading, error }
 }
 
-export const USER_WITH_SKILLS: TypedDocumentNode<UserWithSkillsQueryData, UserWithSkillsQueryVariables> = gql`
+const USER_WITH_SKILLS: TypedDocumentNode<UserWithSkillsQueryData, UserWithSkillsQueryVariables> = gql`
 	query userWithSkills($userId: ID!) {
 		user(userId: $userId) {
 			${userWithSkillsFields(true)}
