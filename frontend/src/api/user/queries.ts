@@ -12,8 +12,12 @@ export const CURRENT_USER_QUERY: TypedDocumentNode<CurrentUserQueryData, Record<
 	query currentUser {
 		me {
 			...UserPublicFields
-			...UserPrivateFields
-			...UserFullFields
+			sharedData {
+				...UserSharedDataFields
+			}
+			accountData {
+				...UserAccountDataFields
+			}
 		}
 	}
 	${USER_FRAGMENTS}

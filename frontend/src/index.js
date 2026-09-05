@@ -52,6 +52,12 @@ const apolloClient = new ApolloClient({
 	),
 	cache: new InMemoryCache({
 		typePolicies: {
+			User: {
+				fields: {
+					sharedData: { merge: true },
+					accountData: { merge: true },
+				},
+			},
 			SkillWithExercises: {
 				keyFields: ['userId', 'skillId'],
 			},

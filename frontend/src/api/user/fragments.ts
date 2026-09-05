@@ -16,11 +16,11 @@ export const USER_FRAGMENTS = gql`
 		familyName
 	}
 
-	fragment UserPrivateFields on UserSemiPrivate {
+	fragment UserSharedDataFields on UserSharedData {
 		email
 	}
 
-	fragment UserFullFields on UserFull {
+	fragment UserAccountDataFields on UserAccountData {
 		role
 		language
 		privacyPolicyConsent {

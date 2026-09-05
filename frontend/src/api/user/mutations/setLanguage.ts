@@ -14,8 +14,12 @@ const SET_LANGUAGE_MUTATION: TypedDocumentNode<SetLanguageData, SetLanguageVaria
 	mutation setLanguage($language: String!) {
 		setLanguage(language: $language) {
 			...UserPublicFields
-			...UserPrivateFields
-			...UserFullFields
+			sharedData {
+				...UserSharedDataFields
+			}
+			accountData {
+				...UserAccountDataFields
+			}
 		}
 	}
 	${USER_FRAGMENTS}

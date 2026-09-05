@@ -2,14 +2,14 @@ import type { Language } from '@step-wise/settings'
 
 export type UserRole = 'student' | 'teacher' | 'admin'
 
-export type UserPublic = {
+export type User = {
 	id: string
 	name?: string
 	givenName?: string
 	familyName?: string
 }
 
-export type UserPrivate = UserPublic & {
+export type UserWithSharedData = User & {
 	email?: string
 }
 
@@ -19,7 +19,7 @@ export type PrivacyPolicyConsent = {
 	isLatestVersion: boolean
 }
 
-export type UserFull = UserPrivate & {
+export type UserWithAccountData = UserWithSharedData & {
 	role: UserRole
 	language?: Language
 	privacyPolicyConsent: PrivacyPolicyConsent
@@ -27,4 +27,4 @@ export type UserFull = UserPrivate & {
 	updatedAt: string
 }
 
-export type CurrentUser = UserFull
+export type CurrentUser = UserWithAccountData

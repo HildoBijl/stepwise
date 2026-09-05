@@ -66,9 +66,9 @@ export function useSubscribeToCourseMutation(addTeachers = true, addStudents = t
 						if (studentAlreadyInList)
 							return existingRefs
 						const userRef = cache.writeFragment({
-							data: { id: userId, __typename: "UserPrivate" },
+							data: { id: userId, __typename: "User" },
 							fragment: gql`
-                fragment NewStudent on UserPrivate {
+				fragment NewStudent on User {
                   id
                   __typename
                 }

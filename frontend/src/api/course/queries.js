@@ -41,8 +41,8 @@ const courseForStudentFields = (addTeachers) => `
 `
 
 const courseForTeacherFields = (addTeachers, addStudents, addSkills, addExercises) => {
-	const privateFields = `
-		email
+	const sharedFields = `
+				email
 		skills {
 			${skillFields(addExercises)}
 		}
@@ -56,11 +56,8 @@ const courseForTeacherFields = (addTeachers, addStudents, addSkills, addExercise
 			givenName
 			familyName
 			${addSkills ? `
-			... on UserPrivate {
-				${privateFields}
-			}
-			... on UserFull {
-				${privateFields}
+			sharedData {
+				${sharedFields}
 			}` : ``}
 		}` : ''}
 	`

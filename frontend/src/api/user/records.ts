@@ -2,14 +2,14 @@ import type { Language } from '@step-wise/settings'
 
 import type { UserRole } from './types.ts'
 
-export type UserPublicRecord = {
+export type UserRecord = {
 	id: string
 	name: string | null
 	givenName: string | null
 	familyName: string | null
 }
 
-export type UserPrivateRecord = UserPublicRecord & {
+export type UserSharedDataRecord = {
 	email: string | null
 }
 
@@ -19,7 +19,7 @@ export type PrivacyPolicyConsentRecord = {
 	isLatestVersion: boolean
 }
 
-export type UserFullRecord = UserPrivateRecord & {
+export type UserAccountDataRecord = {
 	role: UserRole
 	language: Language | null
 	privacyPolicyConsent: PrivacyPolicyConsentRecord
@@ -27,4 +27,7 @@ export type UserFullRecord = UserPrivateRecord & {
 	updatedAt: string
 }
 
-export type CurrentUserRecord = UserFullRecord
+export type CurrentUserRecord = UserRecord & {
+	sharedData: UserSharedDataRecord
+	accountData: UserAccountDataRecord
+}

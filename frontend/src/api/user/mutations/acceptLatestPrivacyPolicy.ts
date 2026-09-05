@@ -29,7 +29,10 @@ export function useAcceptLatestPrivacyPolicyMutation() {
 			cache.writeQuery<CurrentUserQueryData>({
 				query: CURRENT_USER_QUERY,
 				data: {
-					me: { ...currentUserData.me, privacyPolicyConsent },
+					me: {
+						...currentUserData.me,
+						accountData: { ...currentUserData.me.accountData, privacyPolicyConsent },
+					},
 				},
 			})
 		},

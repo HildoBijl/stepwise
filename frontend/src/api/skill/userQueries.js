@@ -7,12 +7,14 @@ import { skillFields } from './util'
 
 export const userWithSkillsFields = (addExercises) => `
 		...UserPublicFields
-		...UserPrivateFields
-		...UserFullFields
-		... on UserSemiPrivate {
+		sharedData {
+			...UserSharedDataFields
 			skills {
 				${skillFields(addExercises)}
 			}
+		}
+		accountData {
+			...UserAccountDataFields
 		}
 `
 

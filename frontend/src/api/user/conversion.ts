@@ -10,16 +10,17 @@ export function privacyPolicyConsentRecordToConsent(record: PrivacyPolicyConsent
 }
 
 export function currentUserRecordToUser(record: CurrentUserRecord): CurrentUser {
+	const { sharedData, accountData } = record
 	return {
 		id: record.id,
 		...(record.name === null ? {} : { name: record.name }),
 		...(record.givenName === null ? {} : { givenName: record.givenName }),
 		...(record.familyName === null ? {} : { familyName: record.familyName }),
-		...(record.email === null ? {} : { email: record.email }),
-		role: record.role,
-		...(record.language === null ? {} : { language: record.language }),
-		privacyPolicyConsent: privacyPolicyConsentRecordToConsent(record.privacyPolicyConsent),
-		createdAt: record.createdAt,
-		updatedAt: record.updatedAt,
+		...(sharedData.email === null ? {} : { email: sharedData.email }),
+		role: accountData.role,
+		...(accountData.language === null ? {} : { language: accountData.language }),
+		privacyPolicyConsent: privacyPolicyConsentRecordToConsent(accountData.privacyPolicyConsent),
+		createdAt: accountData.createdAt,
+		updatedAt: accountData.updatedAt,
 	}
 }
