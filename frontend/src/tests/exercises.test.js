@@ -11,7 +11,7 @@ import { skillTree } from '@step-wise/skill-tree'
 import { resolveSolution } from '@step-wise/input-exercises'
 import { getAllExercises } from '@step-wise/exercises'
 
-import { ME } from 'api'
+import { CURRENT_USER_QUERY } from 'api/user/queries'
 import { I18nProvider, TranslationFile, TranslationSection } from 'i18n'
 import { ModalManager } from 'ui/components'
 import theme from 'ui/theme'
@@ -19,7 +19,7 @@ import { FieldController } from 'ui/form'
 import { ExerciseContext } from 'ui/eduTools'
 
 const exerciseModules = import.meta.glob('/src/ui/eduContent/**/exercises/*.js')
-const apolloMocks = [{ request: { query: ME }, result: { data: { me: null } }, maxUsageCount: Infinity }]
+const apolloMocks = [{ request: { query: CURRENT_USER_QUERY }, result: { data: { me: null } }, maxUsageCount: Infinity }]
 
 function loadExercise(skill, exerciseId) {
 	const path = `/src/ui/eduContent/${skill.groupPath.join('/')}/${skill.id}/exercises/${exerciseId}.js`

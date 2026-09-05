@@ -1,15 +1,15 @@
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
-// Define the fields we read for the privacy policy consent.
+import type { CurrentUser } from './types.ts'
+
 export const privacyPolicyConsentFields = `
 	version
 	acceptedAt
 	isLatestVersion
 `
 
-// Define the fields we read for users.
-export const userFields = (additionalPrivateFields = '') => {
+export function getUserFields(additionalPrivateFields = ''): string {
 	const privateFields = `
 		email
 		${additionalPrivateFields}
@@ -35,14 +35,18 @@ export const userFields = (additionalPrivateFields = '') => {
 	`
 }
 
-// Get the query results. It's recommended not to use this one externally but use the context results, to have a single source of truth. (GraphQL gives flaky results.)
-export function useMeQuery() {
-	return useQuery(ME)
+type CurrentUserQueryData = {
+	me: CurrentUser | null
 }
-export const ME = gql`
-	{
+
+export const CURRENT_USER_QUERY = gql`
+	query currentUser {
 		me {
-			${userFields()}
+			${getUserFields()}
 		}
 	}
 `
+
+export function useCurrentUserQuery() {
+	return useQuery<CurrentUserQueryData>(CURRENT_USER_QUERY)
+}

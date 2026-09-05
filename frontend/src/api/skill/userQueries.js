@@ -1,11 +1,11 @@
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
-import { userFields } from '../user'
+import { getUserFields } from '../user/queries'
 
 import { skillFields } from './util'
 
-export const userWithSkillsFields = (addExercises) => userFields(`
+export const userWithSkillsFields = (addExercises) => getUserFields(`
 		skills {
 			${skillFields(addExercises)}
 		}
