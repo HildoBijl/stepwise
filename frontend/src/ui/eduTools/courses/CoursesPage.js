@@ -2,10 +2,8 @@ import { useMemo } from 'react'
 import { Alert, AlertTitle, Box } from '@mui/material'
 
 import { count } from '@step-wise/js-utils'
-import { Course } from '@step-wise/course-definition'
-import { skillTree } from '@step-wise/skill-tree'
 
-import { useSkillLevels, useMyCoursesQuery, courseRecordToCourseData } from 'api'
+import { useSkillLevels, useMyCoursesQuery, courseRecordToCourse } from 'api'
 import { Translation, TranslationFile } from 'i18n'
 import { Head, LoadingIndicator, ErrorNote } from 'ui/components'
 
@@ -76,7 +74,7 @@ const coursesStyle = {
 function StudentCourseList({ courses, showAddButton }) {
 	// Load all the skills data for the courses and use it to determine which skills need practice.
 	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => new Date(c1.subscribedAt) - new Date(c2.subscribedAt)), [courses]) // Sort by subscription date, so that later courses come at the end.
-	const courseOverviews = useMemo(() => sortedCourses.map(rawCourse => new Course(skillTree, courseRecordToCourseData(rawCourse))), [sortedCourses])
+	const courseOverviews = useMemo(() => sortedCourses.map(courseRecordToCourse), [sortedCourses])
 	const allSkills = [...new Set(courseOverviews.map(overview => overview.allSkillIds).flat())] // A list of all relevant skills for all courses.
 	const skillLevelSet = useSkillLevels(allSkills) // The SkillLevelSet objects for all skills.
 	const skillLevelSnapshot = skillLevelSet.getSnapshot()

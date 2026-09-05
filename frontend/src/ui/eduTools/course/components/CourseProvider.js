@@ -1,10 +1,7 @@
 import { createContext, useContext, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Course } from '@step-wise/course-definition'
-import { skillTree } from '@step-wise/skill-tree'
-
-import { useSkillLevels, useCourseQuery, courseRecordToCourseData } from 'api'
+import { useSkillLevels, useCourseQuery, courseRecordToCourse } from 'api'
 
 import { analyzeCourseProgress } from '../../courses'
 
@@ -23,7 +20,7 @@ export function CourseProvider({ children }) {
 
 function CourseProviderInner({ course, children }) {
 	// Analyse the course for the specific user.
-	const overview = useMemo(() => new Course(skillTree, courseRecordToCourseData(course)), [course])
+	const overview = useMemo(() => courseRecordToCourse(course), [course])
 	const skillLevelSet = useSkillLevels(overview.allSkillIds)
 	const skillLevelsLoaded = overview.allSkillIds.every(skillId => skillLevelSet.hasSkillLevel(skillId))
 	const analysis = analyzeCourseProgress(overview, skillLevelSet)
