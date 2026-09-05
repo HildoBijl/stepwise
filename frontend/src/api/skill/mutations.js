@@ -1,60 +1,17 @@
 import { gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
-import { v4 as uuidv4 } from 'uuid'
 
 import { useUserId } from '../user'
 
-import { skillFields, exerciseFields } from './util'
 import { SKILL } from './queries'
+import { skillFields, exerciseFields } from './util'
 
 // Start an exercise.
 export function useStartExerciseMutation(skillId) {
 	const userId = useUserId()
 	return useMutation(START_EXERCISE, {
 		variables: { skillId },
-		update: (cache, { data: { startExercise: exercise } }) => {
-			// This is only a client-side placeholder. Keep its timestamp older than any real server state so clock skew cannot make it appear newer.
-			const placeholderDate = new Date(0)
-			const skillRef = cache.identify({
-				__typename: "SkillWithExercises",
-				userId,
-				skillId,
-			})
-
-			// When the skill exists in the cache, extend it with the new exercise.
-			if (cache.extract()[skillRef] !== undefined) {
-				return cache.modify({
-					id: skillRef,
-					fields: {
-						exercises: (existing = []) => [...existing, exercise],
-						activeExercise: () => exercise,
-					},
-				})
-			}
-
-			// When the skill doesn't exist in the cache, then it's also not in the database yet (or we would've obtained it already), so we add a new one as if we ran the skill query.
-			cache.writeQuery({
-				query: SKILL,
-				variables: { userId, skillId },
-				data: {
-					skill: {
-						__typename: "SkillWithExercises",
-						id: uuidv4(), // Add a random ID. Since the key is [userId, skillId], this will be overwritten whenever new data appears.
-						userId,
-						skillId,
-						numPracticed: 0,
-						coefficients: [1],
-						coefficientsOn: placeholderDate,
-						highest: [1],
-						highestOn: placeholderDate,
-						createdAt: placeholderDate,
-						updatedAt: placeholderDate,
-						exercises: [exercise],
-						activeExercise: exercise,
-					},
-				},
-			})
-		},
+		refetchQueries: [{ query: SKILL, variables: { skillId, userId } }],
 	})
 }
 export const START_EXERCISE = gql`
@@ -67,7 +24,6 @@ export const START_EXERCISE = gql`
 
 // Submit an exercise action.
 export function useSubmitExerciseActionMutation(skillId) {
-	const userId = useUserId()
 	const [submit, data] = useMutation(SUBMIT_EXERCISE_ACTION)
 	const newSubmit = parameters => submit({ // Insert the given skillId by default.
 		...parameters,
@@ -75,25 +31,6 @@ export function useSubmitExerciseActionMutation(skillId) {
 			skillId, // Put the skillId first, so it can still be overwritten.
 			...parameters.variables,
 		},
-		update: (cache, { data: { submitExerciseAction: { updatedSkills, updatedExercise } } }) => {
-			// The updated skills are not implemented into the cache, since this is done through a subscription already.
-
-			// Implement the updated exercise within the skill for the cache.
-			const skillRef = cache.identify({
-				__typename: "SkillWithExercises",
-				userId,
-				skillId,
-			})
-			if (cache.extract()[skillRef] !== undefined) { // Still check that it actually exists.
-				return cache.modify({
-					id: skillRef,
-					fields: {
-						exercises: (existing = []) => [...existing.filter(exercise => !exercise.active), updatedExercise],
-						activeExercise: () => updatedExercise,
-					},
-				})
-			}
-		}
 	})
 	return [newSubmit, data]
 }

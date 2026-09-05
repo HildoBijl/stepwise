@@ -1,11 +1,14 @@
+import { useMemo } from 'react'
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
 import { USER_FRAGMENTS } from './user/fragments'
-import { userWithSkillsFields } from './skill'
+import { userWithSkillsFields, userWithSkillsRecordToUser } from './skill'
 
 export function useAllUsersQuery() {
-	return useQuery(ALLUSERS)
+	const result = useQuery(ALLUSERS)
+	const data = useMemo(() => result.data ? { ...result.data, allUsers: result.data.allUsers?.map(userWithSkillsRecordToUser) } : undefined, [result.data])
+	return { ...result, data }
 }
 const ALLUSERS = gql`
 	query allUsers {

@@ -1,4 +1,5 @@
 export * from './util'
+export * from './conversion'
 export { useSkillQuery, useSkillsQuery } from './queries'
 export { useUserWithSkillsQuery, userWithSkillsFields } from './userQueries'
 export { useSkillsSubscription } from './subscriptions'

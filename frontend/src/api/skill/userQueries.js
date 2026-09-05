@@ -1,8 +1,10 @@
+import { useMemo } from 'react'
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
 import { USER_FRAGMENTS } from '../user/fragments'
 
+import { userWithSkillsRecordToUser } from './conversion'
 import { skillFields } from './util'
 
 export const userWithSkillsFields = (addExercises) => `
@@ -19,7 +21,9 @@ export const userWithSkillsFields = (addExercises) => `
 `
 
 export function useUserWithSkillsQuery(userId) {
-	return useQuery(USER_WITH_SKILLS, { variables: { userId } })
+	const result = useQuery(USER_WITH_SKILLS, { variables: { userId } })
+	const data = useMemo(() => result.data ? { ...result.data, user: result.data.user ? userWithSkillsRecordToUser(result.data.user) : null } : undefined, [result.data])
+	return { ...result, data }
 }
 
 export const USER_WITH_SKILLS = gql`

@@ -10,7 +10,7 @@ export const skillFields = (addExerciseFields) => `
 	createdAt
 	updatedAt
 	${addExerciseFields ? `
-	... on SkillWithExercises {
+	exerciseData {
 		exercises {
 			${exerciseFields}
 		}

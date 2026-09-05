@@ -58,12 +58,13 @@ const apolloClient = new ApolloClient({
 					accountData: { merge: true },
 				},
 			},
-			SkillWithExercises: {
+			Skill: {
 				keyFields: ['userId', 'skillId'],
+				fields: {
+					exerciseData: { merge: true },
+				},
 			},
-			SkillWithoutExercises: {
-				keyFields: ['userId', 'skillId'],
-			},
+			SkillExerciseData: { keyFields: false },
 			Group: {
 				keyFields: ['code'],
 				fields: {
