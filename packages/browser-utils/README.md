@@ -48,10 +48,12 @@ Colors use normalized channel values between `0` and `1`. `RgbColor` contains re
 
 | Function | Behavior |
 | --- | --- |
-| `getEventClientPosition(event)` | Returns mouse or touch client coordinates as a `Vector`, or `null` when coordinates are unavailable. |
+| `getEventClientPosition(event)` | Returns pointer client coordinates as a `Vector`, or `undefined` when coordinates are unavailable. |
 | `getClientPosition(input, parent?)` | Returns the client position of an element or event-like value. With a parent, the result is relative to the parent's client rectangle. |
 | `getHorizontalClickSide(event)` | Returns `0` for the left side of the event target and `1` for the right side. |
-| `getModifierKeyState(event)` | Returns the event's Shift, Control, and Alt state as `{ shift, ctrl, alt }`. |
+| `ModifierKeyState` | Represents the Shift, Control, and Alt state returned for an event. |
+| `ModifierKeyEvent` | Structural event type containing Shift, Control, and Alt properties. |
+| `getModifierKeyState(event)` | Returns the event's `ModifierKeyState`. |
 | `resolveHTMLElement(value)` | Resolves an `HTMLElement` or an object whose `current` property contains one; otherwise returns `null`. |
 | `ensureHTMLElement(value)` | Resolves an `HTMLElement` and throws when none is available. |
 

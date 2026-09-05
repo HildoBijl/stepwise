@@ -3,9 +3,17 @@ import { Vector } from '@step-wise/geometry'
 type PositionSource = { clientX?: number, clientY?: number }
 type PositionEvent = PositionSource & { touches?: ArrayLike<PositionSource>, changedTouches?: ArrayLike<PositionSource> }
 
-export function getEventClientPosition(event: PositionEvent): Vector | null {
+export interface ModifierKeyState {
+	readonly shift: boolean
+	readonly ctrl: boolean
+	readonly alt: boolean
+}
+
+export type ModifierKeyEvent = Pick<KeyboardEvent, 'shiftKey' | 'ctrlKey' | 'altKey'>
+
+export function getEventClientPosition(event: PositionEvent): Vector | undefined {
 	const source = event.touches?.[0] ?? event.changedTouches?.[0] ?? event
-	if (source.clientX === undefined || source.clientY === undefined) return null
+	if (source.clientX === undefined || source.clientY === undefined) return undefined
 	return new Vector(source.clientX, source.clientY)
 }
 
@@ -33,7 +41,7 @@ export function getHorizontalClickSide(event: MouseEvent): 0 | 1 {
 	return (event.clientX - rect.x + 1) * 2 >= rect.width ? 1 : 0
 }
 
-export function getModifierKeyState(event: Pick<KeyboardEvent, 'shiftKey' | 'ctrlKey' | 'altKey'>): Record<'shift' | 'ctrl' | 'alt', boolean> {
+export function getModifierKeyState(event: ModifierKeyEvent): ModifierKeyState {
 	return { shift: event.shiftKey, ctrl: event.ctrlKey, alt: event.altKey }
 }
 

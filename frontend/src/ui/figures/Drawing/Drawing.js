@@ -7,7 +7,7 @@ import React, { useRef, forwardRef, useImperativeHandle, useId } from 'react'
 import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
 import { getEventClientPosition } from '@step-wise/browser-utils'
-import { useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from '@step-wise/react-utils'
+import { usePointerState as useClientPointerState, useBoundingClientRect, useForceUpdateEffect } from '@step-wise/react-utils'
 
 import { notSelectable } from 'ui/theme'
 
@@ -150,11 +150,11 @@ function getGraphicalCoordinates(clientCoordinates, transformationSettings, figu
 	])
 }
 
-// useMouseData tracks the position of the mouse in various coordinate systems. It returns its data in the form { clientPosition: ..., graphicalPosition: ..., position: ..., keys: {...} }.
-export function useMouseData() {
+// usePointerState tracks the pointer position in various coordinate systems.
+export function usePointerState() {
 	// Acquire data.
 	let { figure, transformationSettings } = useDrawingData()
-	const { position: clientPosition, keys } = useClientMouseData()
+	const { position: clientPosition, modifierKeys } = useClientPointerState()
 	const figureRect = useBoundingClientRect(figure?.inner)
 
 	// return an empty object on missing data.
@@ -169,15 +169,15 @@ export function useMouseData() {
 	const position = graphicalPosition && inverseTransformation.transform(graphicalPosition)
 
 	// Calculate the position in graphical coordinates.
-	return { clientPosition, graphicalPosition, position, keys }
+	return { clientPosition, graphicalPosition, position, modifierKeys }
 }
 
-// useGraphicalMousePosition tracks the position of the mouse in graphical coordinates. This is of the from {x: 120, y: 90 }.
-export function useGraphicalMousePosition(drawing) {
-	return useMouseData().graphicalPosition
+// useGraphicalPointerPosition tracks the pointer position in graphical coordinates.
+export function useGraphicalPointerPosition(drawing) {
+	return usePointerState().graphicalPosition
 }
 
-// useMousePosition tracks the position of the mouse and gives the location in drawing coordinates. This is of the form { x: 3.5, y: -2.5 }. The function must be provided with a reference to the drawing.
-export function useMousePosition() {
-	return useMouseData().position
+// usePointerPosition tracks the pointer position in drawing coordinates.
+export function usePointerPosition() {
+	return usePointerState().position
 }

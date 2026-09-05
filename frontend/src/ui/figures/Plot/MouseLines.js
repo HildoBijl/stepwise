@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material'
 
 import { roundToDigits, ensureBoolean, ensurePlainObject, mergeDefaults, ensureFunction } from '@step-wise/js-utils'
 
-import { useTransformationSettings, useMousePosition, Group, Line, Circle, Label } from '../Drawing'
+import { useTransformationSettings, usePointerPosition, Group, Line, Circle, Label } from '../Drawing'
 
 export const defaultMouseLinesOptions = {
 	lineStyle: {},
@@ -30,7 +30,7 @@ const labelAngles = [[3 / 4, 1 / 2, 1 / 4], [1, -1 / 4, 0], [-3 / 4, 1 / 2, -1 /
 export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
 	const theme = useTheme()
 	const { plotBounds } = useTransformationSettings()
-	const mousePosition = useMousePosition()
+	const mousePosition = usePointerPosition()
 	const mouseInPlot = !!mousePosition && plotBounds.containsPoint(mousePosition)
 
 	// Process options.

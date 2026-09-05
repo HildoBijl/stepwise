@@ -2,7 +2,7 @@ import React from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
 
-import { useDrawingData, useMouseData } from 'ui/figures'
+import { useDrawingData, usePointerState } from 'ui/figures'
 
 import { useInputData } from '../../../Input'
 
@@ -26,7 +26,7 @@ export function DrawingInputCore(options) {
 	const drawingData = useDrawingData()
 
 	// Use handlers to set up the required functionality.
-	const rawMouseData = useMouseData()
+	const rawMouseData = usePointerState()
 	const mouseSnapping = useMouseSnapping(pickFromDefaults(options, defaultSnappingOptions), rawMouseData)
 	const mouseDragging = useDraggingAndSelecting(pickFromDefaults(options, defaultDraggingAndSelectingOptions), { ...rawMouseData, ...mouseSnapping })
 	const deleting = useDeleting(pickFromDefaults(options, defaultDeletingOptions))
