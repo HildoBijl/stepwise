@@ -8,6 +8,7 @@ import { ensureSkillIds } from '@step-wise/skill-tree'
 import { useUser } from '../user'
 
 import type { SkillLevelRecord, SkillWithExercisesRecord } from './records.ts'
+import type { UseSkillResult } from './types.ts'
 import { skillLevelRecordToData, skillRecordToSkill } from './conversion'
 import { skillExerciseFields, skillLevelFields } from './fragments.ts'
 
@@ -17,7 +18,7 @@ export type SkillLevelRecordsQueryData = { skills: SkillLevelRecord[] }
 export type SkillLevelRecordsQueryVariables = { skillIds: SkillId[] }
 
 // Get the data for a skill.
-export function useSkill(skillId: SkillId, userId?: string) {
+export function useSkill(skillId: SkillId, userId?: string): UseSkillResult {
 	const variables = { skillId, ...(userId ? { userId } : {}) }
 	const { data, loading, error } = useQuery(SKILL, { variables })
 	const record = (data as SkillQueryData | undefined)?.skill

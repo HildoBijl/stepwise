@@ -5,23 +5,19 @@ import { Box } from '@mui/material'
 import { formatDate } from '@step-wise/js-utils'
 import { skillTree } from '@step-wise/skill-tree'
 
-import { useUserWithSkillsQuery } from 'api'
+import { useUserWithSkills } from 'api'
 import { Par, HorizontalSlider } from 'ui/components'
 import { TitleItem } from 'ui/routingTools'
 import { SkillFlask } from 'ui/eduTools'
 
 export function UserInspection() {
 	const params = useParams()
-	const res = useUserWithSkillsQuery(params && params.userId)
+	const { user, loading, error } = useUserWithSkills(params?.userId)
 
 	// Check if data has loaded properly.
-	if (res.loading)
-		return <Par>Looking up user data...</Par>
-	if (res.error || !res.data)
-		return <Par>Oops... Something went wrong while looking up user data.</Par>
-	const user = res.data.user
-	if (!user)
-		return <Par>Oops... The user could not be found. It doesn't exist.</Par>
+	if (loading) return <Par>Looking up user data...</Par>
+	if (error) return <Par>Oops... Something went wrong while looking up user data.</Par>
+	if (!user) return <Par>Oops... The user could not be found. It doesn't exist.</Par>
 
 	// Display the user.
 	return <UserInspectionForUser user={user} />
@@ -66,22 +62,18 @@ function UserInspectionItem({ skillId, skillLevel }) {
 
 export function UserInspectionTitle() {
 	const params = useParams()
-	const res = useUserWithSkillsQuery(params && params.userId)
-	const name = getUserNameFromQueryResult(res)
+	const result = useUserWithSkills(params?.userId)
+	const name = getUserNameFromResult(result)
 	return <TitleItem name={name} />
 }
 
-function getUserNameFromQueryResult(res) {
+function getUserNameFromResult({ user, loading, error }) {
 	// Check if the query was successful.
-	if (res.loading)
-		return 'Loading name...'
-	if (res.error || !res.data)
-		return 'Oops...'
+	if (loading) return 'Loading name...'
+	if (error) return 'Oops...'
 
 	// Check if the user exists.
-	const user = res.data.user
-	if (!user)
-		return 'Unknown user'
+	if (!user) return 'Unknown user'
 	return user.name
 }
 

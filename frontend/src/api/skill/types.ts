@@ -31,7 +31,19 @@ export type Skill = {
 	activeExercise?: Exercise
 }
 
+export type UseSkillResult = {
+	skill: Skill | undefined
+	loading: boolean
+	error: Error | undefined
+}
+
 export type UserWithSkills = User & Partial<Omit<UserWithSharedData & UserWithAccountData, keyof User>> & {
 	skills: Skill[]
 	skillLevelSet: SkillLevelSet
+}
+
+export type UseUserWithSkillsResult = {
+	user: UserWithSkills | undefined
+	loading: boolean
+	error: Error | undefined
 }

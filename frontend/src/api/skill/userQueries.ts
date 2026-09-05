@@ -5,18 +5,21 @@ import { useQuery } from '@apollo/client/react'
 import { USER_FRAGMENTS } from '../user/fragments'
 
 import type { UserWithSkillsRecord } from './records.ts'
-import type { UserWithSkills } from './types.ts'
+import type { UseUserWithSkillsResult } from './types.ts'
 import { userWithSkillsRecordToUser } from './conversion'
 import { userWithSkillsFields } from './fragments.ts'
 
 type UserWithSkillsQueryData = { user: UserWithSkillsRecord | null }
 type UserWithSkillsQueryVariables = { userId: string }
 
-export function useUserWithSkillsQuery(userId: string) {
-	const result = useQuery(USER_WITH_SKILLS, { variables: { userId } })
-	const rawData = result.data as UserWithSkillsQueryData | undefined
-	const data = useMemo(() => rawData ? { user: rawData.user ? userWithSkillsRecordToUser(rawData.user) : null } : undefined, [rawData])
-	return { ...result, data: data as { user: UserWithSkills | null } | undefined }
+export function useUserWithSkills(userId?: string): UseUserWithSkillsResult {
+	const { data, loading, error } = useQuery(USER_WITH_SKILLS, {
+		variables: { userId: userId ?? '' },
+		skip: !userId,
+	})
+	const record = (data as UserWithSkillsQueryData | undefined)?.user
+	const user = useMemo(() => record ? userWithSkillsRecordToUser(record) : undefined, [record])
+	return { user, loading, error }
 }
 
 export const USER_WITH_SKILLS: TypedDocumentNode<UserWithSkillsQueryData, UserWithSkillsQueryVariables> = gql`
