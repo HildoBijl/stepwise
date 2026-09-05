@@ -1,0 +1,39 @@
+{
+	"name": "@step-wise/course-analysis",
+	"version": "0.1.0",
+	"description": "Combine course definitions with learner skill-tracking data to derive progress and practice recommendations.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HildoBijl/stepwise.git",
+		"directory": "packages/course-analysis"
+	},
+	"bugs": { "url": "https://github.com/HildoBijl/stepwise/issues" },
+	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/course-analysis#readme",
+	"publishConfig": { "access": "public" },
+	"engines": { "node": ">=24.12.0" },
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"development": "./src/index.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"files": ["dist", "README.md"],
+	"scripts": {
+		"build": "tsc -b tsconfig.build.json",
+		"watch": "tsc -b tsconfig.build.json --watch",
+		"test": "vitest run",
+		"test:watch": "vitest"
+	},
+	"dependencies": {
+		"@step-wise/js-utils": "^0.1.0",
+		"@step-wise/skill-definition": "^0.1.0",
+		"@step-wise/course-definition": "^0.1.0",
+		"@step-wise/skill-tracking": "^0.1.0"
+	},
+	"devDependencies": { "vitest": "^5.0.0" }
+}

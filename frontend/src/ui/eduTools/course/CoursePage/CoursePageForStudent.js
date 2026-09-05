@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from 'react'
 import { Box, useMediaQuery } from '@mui/material'
 
-import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
+import { freePracticeRecommendation } from '@step-wise/course-analysis'
 
-import { strFreePractice } from '../../courses'
+import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
 
 import { useCourseData, SkillList, SkillRecommender, Block, GradeEstimate } from '../components'
 
@@ -28,7 +28,7 @@ export function CoursePageForStudent() {
 	let recommendationBlock = overview.blocks.findIndex(block => block.contentSkillIds.includes(recommendation)) // Find the block containing the recommendation.
 	if (overview.priorKnowledgeIds.includes(recommendation))
 		recommendationBlock = -1 // -1 means prior knowledge.
-	if (recommendation === strFreePractice)
+	if (recommendation === freePracticeRecommendation)
 		recommendationBlock = overview.blocks.length - 1 // When everything is mastered, open up the last block.
 
 	// Track which block is active.

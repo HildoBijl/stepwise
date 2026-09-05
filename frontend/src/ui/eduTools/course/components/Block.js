@@ -10,7 +10,7 @@ import { ProgressIndicator } from 'ui/components'
 import { SkillList } from './SkillList'
 
 export function Block({ landscape, courseCode, skillIds, active, toggleActive, name, number, isPriorKnowledge, analysis }) {
-	const numCompleted = analysis ? count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0) : 0
+	const numCompleted = analysis ? count(skillIds, (skillId) => analysis.practiceNeeds[skillId] === 0) : 0
 
 	return (
 		<Box sx={{

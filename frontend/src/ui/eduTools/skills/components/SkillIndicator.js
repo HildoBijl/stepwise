@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useSkillLevel, useUserQuery } from 'api'
 
 import { useCourseData } from '../../course'
-import { processStudent } from '../../courses'
+import { processStudentForCourse } from '../../courses'
 
 import { SkillFlask } from './SkillFlask'
 
@@ -37,7 +37,7 @@ function SkillIndicatorForUser({ userId }) {
 
 function SkillIndicatorForLoadedUser({ overview, user }) {
 	const { skillId } = useParams()
-	const processedStudent = useMemo(() => processStudent(user, overview), [user, overview])
+	const processedStudent = useMemo(() => processStudentForCourse(user, overview), [user, overview])
 	const skillLevel = processedStudent.skillLevelSet.getSkillLevel(skillId)
 	return <SkillIndicatorGraphics skillLevel={skillLevel} />
 }

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Tooltip, Box, alpha } from '@mui/material'
 
 import { Course } from '@step-wise/course-definition'
+import { freePracticeRecommendation } from '@step-wise/course-analysis'
 import { skillTree } from '@step-wise/skill-tree'
 
 import { courseRecordToCourseData } from 'api'
@@ -12,8 +13,6 @@ import { usePaths } from 'ui/routingTools'
 import { Button, ProgressIndicator, QuickPractice } from 'ui/components'
 
 import { getOrganization } from '../organizations'
-
-import { strFreePractice } from './util'
 
 // Set up style for a tile.
 const getTileStyle = preventHoverStyle => (theme => ({
@@ -75,7 +74,7 @@ export function StudentTile({ course, skillsTotal, skillsDone, recommendation })
 		case undefined:
 			tooltip = translate('Your progress is being loaded...', 'loadingSkillData')
 			break
-		case strFreePractice:
+		case freePracticeRecommendation:
 			tooltip = translate('You have all skills on a sufficient level! The next step is the free practice mode.', 'freePracticeRecommendation')
 			break
 		default:
@@ -87,7 +86,7 @@ export function StudentTile({ course, skillsTotal, skillsDone, recommendation })
 	// Set up recommendation handler.
 	const goToRecommendation = (evt) => {
 		evt.preventDefault() // Prevent the tile link from working.
-		if (recommendation === strFreePractice)
+		if (recommendation === freePracticeRecommendation)
 			navigate(paths.freePractice({ courseCode: course.code }))
 		else if (recommendation)
 			navigate(paths.courseSkill({ courseCode: course.code, skillId: recommendation }))
