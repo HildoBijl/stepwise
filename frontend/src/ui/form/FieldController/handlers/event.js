@@ -5,11 +5,11 @@ import { useStableCallback, useEventListener } from '@step-wise/react-utils'
 export function useEventHandlers(fieldTrackerRef, keyboardRef, tabbingOnRef, { activate, blur, incrementTabIndex, decrementTabIndex, getActiveFieldId }) {
 	// Set up listeners for keyboard events.
 	const keyDownHandler = useStableCallback((evt) => handleKeyPress(evt, tabbingOnRef.current, incrementTabIndex, decrementTabIndex), [tabbingOnRef, incrementTabIndex, decrementTabIndex])
-	useEventListener('keydown', keyDownHandler)
+	useEventListener('keydown', keyDownHandler, window)
 
 	// Set up listeners for mouse events.
 	const mouseDownHandler = useStableCallback((evt) => handleMouseDown(evt, fieldTrackerRef, keyboardRef, getActiveFieldId, activate, blur), [fieldTrackerRef, keyboardRef, getActiveFieldId, activate, blur])
-	useEventListener('mousedown', mouseDownHandler)
+	useEventListener('mousedown', mouseDownHandler, window)
 }
 
 // handleKeyPress process a key press. It checks if it was a tab, and if so increments/decrements the tab index.

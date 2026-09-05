@@ -11,9 +11,9 @@ export function useMouseData(): { position?: Vector | null, keys?: Record<'shift
 		position: getEventClientPosition(event as MouseEvent | TouchEvent),
 		keys: getModifierKeyState(event as KeyboardEvent),
 	})
-	useEventListener(['mousemove', 'touchstart', 'touchmove'], storeData)
+	useEventListener(['mousemove', 'touchstart', 'touchmove'], storeData, typeof window === 'undefined' ? null : window)
 	const processKeyPress = (event: Event) => setData(currentData => ({ ...currentData, keys: getModifierKeyState(event as KeyboardEvent) }))
-	useEventListener(['keydown', 'keyup'], processKeyPress)
+	useEventListener(['keydown', 'keyup'], processKeyPress, typeof window === 'undefined' ? null : window)
 	return data
 }
 

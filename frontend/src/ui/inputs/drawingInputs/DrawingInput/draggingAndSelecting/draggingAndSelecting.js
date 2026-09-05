@@ -41,15 +41,15 @@ export function useDraggingAndSelecting(options, { mouseData, eventSnapper }) {
 	const { startDragHandler, endDragHandler } = useStartEndDragHandlers({ startDrag, endDrag, startSelect, endSelect, applySelecting, isSelecting, mouseDownData, setMouseDownData, eventSnapper })
 	const eventContainer = useDrawing()?.figure?.inner
 	useEventListener(['mousedown', 'touchstart'], startDragHandler, eventContainer ?? null, { passive: false })
-	useEventListener(['mouseup', 'touchend'], endDragHandler)
+	useEventListener(['mouseup', 'touchend'], endDragHandler, window)
 
 	// On a click outside of the figure, deselect all.
 	const clickOutsideFigureHandler = (event) => !eventContainer.contains(event.target) && setFI(FI => deselectAll(FI))
-	useEventListener(['mousedown'], clickOutsideFigureHandler)
+	useEventListener(['mousedown'], clickOutsideFigureHandler, window)
 
 	// Listen to key presses for selecting/deselecting.
 	const keyDownHandler = useSelectionKeyDownHandler(selectAll, deselectAll)
-	useEventListener('keydown', keyDownHandler)
+	useEventListener('keydown', keyDownHandler, window)
 
 	// Through an effect, set the cursor of the input field.
 	useEffect(() => setCursor((canStartSelecting || isSelecting) ? 'crosshair' : 'pointer'), [canStartSelecting, isSelecting, setCursor])

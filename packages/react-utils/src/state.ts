@@ -29,6 +29,6 @@ export function useLocalStorageState<T>(key: string, initialState: T): [T, (valu
 			return preserveRefs(resolvedState, previousState)
 		})
 	}, [key, setState])
-	useEventListener('storage', () => setLocalStorageState(readLocalStorageValue(key) as T))
+	useEventListener('storage', () => setLocalStorageState(readLocalStorageValue(key) as T), typeof window === 'undefined' ? null : window)
 	return [state, setLocalStorageState]
 }

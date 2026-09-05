@@ -13,7 +13,7 @@ export function useBoundingClientRect(element: Element | null | undefined): DOMR
 	useEffect(() => updateElementPosition(), [element, updateElementPosition])
 	useResizeObserver(document.body, updateElementPosition)
 	useResizeObserver(element, updateElementPosition)
-	useEventListener('scroll', updateElementPosition)
+	useEventListener('scroll', updateElementPosition, typeof window === 'undefined' ? null : window)
 	if (element && !rect) {
 		const actualRect = element.getBoundingClientRect()
 		setRect(actualRect)
@@ -33,7 +33,7 @@ export function useForceUpdateEffect(): void {
 
 export function useResizeListener(callback: () => void, element: Element | null = document.querySelector('#appInner')): void {
 	useResizeObserver(element, callback)
-	useEventListener('resize', callback)
+	useEventListener('resize', callback, typeof window === 'undefined' ? null : window)
 }
 
 export function useDimension(

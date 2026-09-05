@@ -20,7 +20,7 @@ export function useDeleting(options) {
 
 	// Listen to key presses for deleting.
 	const keyDownHandler = useDeletionKeyDownHandler(applyDeletion)
-	useEventListener('keydown', keyDownHandler)
+	useEventListener('keydown', keyDownHandler, window)
 
 	// Return data that is useful for the context.
 	return { applyDeletion, showDeleteButton, isMouseOverButton, setIsMouseOverButton }

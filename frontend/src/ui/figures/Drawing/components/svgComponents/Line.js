@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react'
 
 import { ensureString, ensureBoolean, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { ensureVectorArray } from '@step-wise/geometry'
-import { useRefWithEventListeners } from '@step-wise/react-utils'
+import { useEventListenersRef } from '@step-wise/react-utils'
 
 import { useGraphicalVector, SvgPortal } from '../../DrawingContext'
 
@@ -30,7 +30,7 @@ export const Line = forwardRef((props, ref) => {
 	close = ensureBoolean(close)
 	className = ensureString(className)
 	style = { ...defaultLine.style, ...ensureObject(style) }
-	ref = useRefWithEventListeners(filterEventHandlers(props), ref)
+	ref = useEventListenersRef(filterEventHandlers(props), ref)
 
 	// Set up the line.
 	const path = getLinePath(points, close)

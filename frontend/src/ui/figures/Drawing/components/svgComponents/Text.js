@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react'
 
 import { ensureString, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { ensureVector } from '@step-wise/geometry'
-import { useRefWithEventListeners } from '@step-wise/react-utils'
+import { useEventListenersRef } from '@step-wise/react-utils'
 
 import { useGraphicalVector, SvgPortal } from '../../DrawingContext'
 
@@ -25,7 +25,7 @@ export const Text = forwardRef((props, ref) => {
 	anchor = ensureString(anchor)
 	className = ensureString(className)
 	style = { ...defaultText.style, ...ensureObject(style) }
-	ref = useRefWithEventListeners(filterEventHandlers(props), ref)
+	ref = useEventListenersRef(filterEventHandlers(props), ref)
 
 	// Only accept a string as a child.
 	if (typeof children !== 'string')

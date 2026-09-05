@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react'
 
 import { ensureNumber, ensureString, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { ensureRectangle as ensureGeometryRectangle } from '@step-wise/geometry'
-import { useRefWithEventListeners } from '@step-wise/react-utils'
+import { useEventListenersRef } from '@step-wise/react-utils'
 
 import { useGraphicalObject, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
 
@@ -23,7 +23,7 @@ export const Rectangle = forwardRef((props, ref) => {
 	cornerRadius = ensureNumber(useGraphicalDistance(cornerRadius, graphicalCornerRadius))
 	className = ensureString(className)
 	style = { ...defaultRectangle.style, ...ensureObject(style) }
-	ref = useRefWithEventListeners(filterEventHandlers(props), ref)
+	ref = useEventListenersRef(filterEventHandlers(props), ref)
 
 	// Set up the circle.
 	const { min, size } = dimensions

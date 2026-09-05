@@ -1,8 +1,8 @@
-import { type Ref, type RefObject, useEffect } from 'react'
+import { type Ref, type RefCallback, type RefObject, useCallback, useEffect, useImperativeHandle, useState } from 'react'
 
 import { shallowEqualArrays, shallowEqualObjects } from '@step-wise/js-utils'
 
-import { useForwardedRef, useLatestRef, useReferencePreservingValue, useStableValue } from './refs.ts'
+import { useLatestRef, useReferencePreservingValue, useStableValue } from './refs.ts'
 
 type EventHandler = (event: Event) => void
 type EventTargetReference = EventTarget | RefObject<EventTarget | null> | null | undefined
@@ -25,20 +25,18 @@ function resolveEventTargets(references: readonly EventTargetReference[]): Event
 export function useEventListener(
 	eventNames: string | readonly string[],
 	handler: EventHandler,
-	targets?: EventTargetReference | readonly EventTargetReference[],
+	targets: EventTargetReference | readonly EventTargetReference[],
 	options?: AddEventListenerOptions | boolean,
 ): void {
 	const handlers = Object.fromEntries((typeof eventNames === 'string' ? [eventNames] : eventNames).map(eventName => [eventName, handler]))
 	useEventListeners(handlers, targets, options)
 }
 
-export function useEventListeners(handlers: Readonly<Record<string, EventHandler>>, targets?: EventTargetReference | readonly EventTargetReference[], options?: AddEventListenerOptions | boolean): void {
+export function useEventListeners(handlers: Readonly<Record<string, EventHandler>>, targets: EventTargetReference | readonly EventTargetReference[], options?: AddEventListenerOptions | boolean): void {
 	const eventNames = useReferencePreservingValue(Object.keys(handlers))
 	const handlersRef = useLatestRef(handlers)
 	const stableOptions = useStableValue(options, areListenerOptionsEqual)
-	const inputTargets = targets === undefined
-		? (typeof window === 'undefined' ? [] : [window])
-		: (Array.isArray(targets) ? targets : [targets])
+	const inputTargets = Array.isArray(targets) ? targets : [targets]
 	const stableTargets = useStableValue(inputTargets, shallowEqualArrays)
 
 	useEffect(() => {
@@ -53,8 +51,15 @@ export function useEventListeners(handlers: Readonly<Record<string, EventHandler
 	}, [eventNames, handlersRef, stableOptions, stableTargets])
 }
 
-export function useRefWithEventListeners<T extends EventTarget>(handlers: Readonly<Record<string, EventHandler>>, forwardedRef?: Ref<T>, options?: AddEventListenerOptions | boolean): RefObject<T | null> {
-	const ref = useForwardedRef(forwardedRef)
-	useEventListeners(handlers, ref, options)
+export function useEventListenerRef<T extends EventTarget>(eventNames: string | readonly string[], handler: EventHandler, forwardedRef?: Ref<T>, options?: AddEventListenerOptions | boolean): RefCallback<T> {
+	const handlers = Object.fromEntries((typeof eventNames === 'string' ? [eventNames] : eventNames).map(eventName => [eventName, handler]))
+	return useEventListenersRef(handlers, forwardedRef, options)
+}
+
+export function useEventListenersRef<T extends EventTarget>(handlers: Readonly<Record<string, EventHandler>>, forwardedRef?: Ref<T>, options?: AddEventListenerOptions | boolean): RefCallback<T> {
+	const [target, setTarget] = useState<T | null>(null)
+	const ref = useCallback((newTarget: T | null) => setTarget(newTarget), [])
+	useImperativeHandle(forwardedRef, () => target!, [forwardedRef, target])
+	useEventListeners(handlers, target, options)
 	return ref
 }

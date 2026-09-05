@@ -30,7 +30,7 @@ export default function FBDInputInner(options) {
 
 	// Deal with certain key presses not already caught by the DrawingInput.
 	const keyDownHandler = (event) => active && handleKeyPress(event, setFI)
-	useEventListener('keydown', keyDownHandler)
+	useEventListener('keydown', keyDownHandler, window)
 
 	return <>
 		<GlowDefs />
