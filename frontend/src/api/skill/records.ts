@@ -23,21 +23,35 @@ export type ExerciseRecord = {
 	history: ExerciseEventRecord[]
 }
 
-export type SkillRecord = {
+export type SkillIdentityRecord = {
 	id: string
 	userId: string
 	skillId: SkillId
+}
+
+export type SkillLevelDataRecord = {
 	numPracticed: number
 	coefficients: BernsteinCoefficients
 	coefficientsOn: string
 	highest: BernsteinCoefficients
 	highestOn: string
-	createdAt: string
-	updatedAt: string
-	exerciseData?: {
-		exercises: ExerciseRecord[]
-		activeExercise: ExerciseRecord | null
-	} | null
+}
+
+export type SkillLevelRecord = SkillIdentityRecord & {
+	levelData: SkillLevelDataRecord
+}
+
+export type SkillExerciseDataRecord = {
+	exercises: ExerciseRecord[]
+	activeExercise: ExerciseRecord | null
+}
+
+export type SkillWithExercisesRecord = SkillIdentityRecord & {
+	exerciseData: SkillExerciseDataRecord | null
+}
+
+export type SkillRecord = SkillLevelRecord & {
+	exerciseData?: SkillExerciseDataRecord | null
 }
 
 export type UserWithSkillsRecord = UserRecord & {

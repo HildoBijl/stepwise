@@ -24,13 +24,13 @@ function createSkillRecord(options: Partial<SkillRecord> = {}): SkillRecord {
 		id: 'skill-id',
 		userId: 'user-id',
 		skillId: 'enterInteger',
-		numPracticed: 0,
-		coefficients: [1],
-		coefficientsOn: date,
-		highest: [1],
-		highestOn: date,
-		createdAt: date,
-		updatedAt: date,
+		levelData: {
+			numPracticed: 0,
+			coefficients: [1],
+			coefficientsOn: date,
+			highest: [1],
+			highestOn: date,
+		},
 		...options,
 	}
 }
@@ -42,7 +42,8 @@ describe('skill API conversion', () => {
 
 		expect(skill.exercises?.[0]?.startedAt).toStrictEqual(new Date(date))
 		expect(skill.activeExercise?.startedAt).toStrictEqual(new Date(date))
-		expect(skill.coefficientsOn).toStrictEqual(new Date(date))
+		expect(skill).not.toHaveProperty('coefficients')
+		expect(skill).not.toHaveProperty('levelData')
 	})
 
 	it('does not expose the transport-only exerciseData property when access is denied', () => {
@@ -75,5 +76,6 @@ describe('skill API conversion', () => {
 
 		expect(user).toMatchObject({ id: 'user-id', name: 'Alex', email: 'alex@example.com', role: 'admin' })
 		expect(user.skills[0]?.exercises).toStrictEqual([])
+		expect(user.skillLevelSet.getSkillLevel('enterInteger').coefficientsOn).toStrictEqual(new Date(date))
 	})
 })

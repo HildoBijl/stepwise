@@ -15,18 +15,21 @@ export const exerciseFields = `
 	}
 `
 
-export const skillFields = (addExerciseFields: boolean): string => `
+export const skillIdentityFields = `
 	id
 	userId
 	skillId
+`
+
+export const skillLevelDataFields = `
 	numPracticed
 	coefficients
 	coefficientsOn
 	highest
 	highestOn
-	createdAt
-	updatedAt
-	${addExerciseFields ? `
+`
+
+export const skillExerciseDataFields = `
 	exerciseData {
 		exercises {
 			${exerciseFields}
@@ -34,7 +37,24 @@ export const skillFields = (addExerciseFields: boolean): string => `
 		activeExercise {
 			${exerciseFields}
 		}
-	}` : ``}
+	}
+`
+
+export const skillLevelFields = `
+	${skillIdentityFields}
+	levelData {
+		${skillLevelDataFields}
+	}
+`
+
+export const skillExerciseFields = `
+	${skillIdentityFields}
+	${skillExerciseDataFields}
+`
+
+export const skillFields = (addExerciseFields: boolean): string => `
+	${skillLevelFields}
+	${addExerciseFields ? skillExerciseDataFields : ''}
 `
 
 export const userWithSkillsFields = (addExercises: boolean): string => `

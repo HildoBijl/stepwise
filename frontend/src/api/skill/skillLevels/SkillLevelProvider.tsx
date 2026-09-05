@@ -2,7 +2,7 @@ import { type PropsWithChildren, useCallback, useEffect, useMemo, useState } fro
 
 import { fromKeys, fromKeysAndValues } from '@step-wise/js-utils'
 import type { SkillId } from '@step-wise/skill-definition'
-import { SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
+import { SkillLevelSet, getInitialSkillLevel } from '@step-wise/skill-tracking'
 import { expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
 
 import { useConstant } from 'util/index'
@@ -39,7 +39,7 @@ export function SkillLevelProvider({ children }: PropsWithChildren) {
 	useEffect(() => {
 		if (expandedSkillIds.length === 0 || !user || loading || error) return
 		const skills = data?.skills ?? []
-		const skillsById = fromKeysAndValues(skills.map(skill => skill.skillId), skills.map(skill => ensureSkillLevel(skill)))
+		const skillsById = fromKeysAndValues(skills.map(skill => skill.skillId), skills)
 		const storedSkillLevels = fromKeys(expandedSkillIds, skillId => skillsById[skillId] ?? getInitialSkillLevel(new Date(0)))
 		skillLevelSet.applyUpdates(storedSkillLevels)
 	}, [data, error, expandedSkillIds, loading, skillLevelSet, user])

@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from 'react'
 
 import { hasExercises } from '@step-wise/exercises'
 
-import { useSkillQuery, useStartExercise, useSubmitExerciseAction } from 'api'
+import { useSkill, useStartExercise, useSubmitExerciseAction } from 'api'
 import { useTranslator } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
 
@@ -12,7 +12,7 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 	const translate = useTranslator()
 
 	// Load the exercise the user has open.
-	const { loading, error, data } = useSkillQuery(skillId)
+	const { skill, loading, error } = useSkill(skillId)
 
 	// Get mutation functions.
 	const [startExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartExercise(skillId)
@@ -31,7 +31,7 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 	}, [submitExerciseAction])
 
 	// If there is no exercise, start one.
-	const exercise = data?.skill?.activeExercise
+	const exercise = skill?.activeExercise
 	useEffect(() => {
 		if (!loading && !exercise) startNewExercise()
 	}, [loading, exercise, startNewExercise])

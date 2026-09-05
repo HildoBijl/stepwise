@@ -1,7 +1,11 @@
+import { fromKeys, fromKeysAndValues } from '@step-wise/js-utils'
+import { type SkillLevelData, SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
+import { expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
+
 import { userAccountDataRecordToData, userRecordToUser, userSharedDataRecordToData } from '../user/conversion.ts'
 
-import type { Exercise, UserSkill, UserWithSkills } from './types.ts'
-import type { ExerciseRecord, SkillRecord, UserWithSkillsRecord } from './records.ts'
+import type { Exercise, Skill, UserWithSkills } from './types.ts'
+import type { ExerciseRecord, SkillIdentityRecord, SkillLevelRecord, SkillRecord, UserWithSkillsRecord } from './records.ts'
 
 export function exerciseRecordToExercise(record: ExerciseRecord): Exercise {
 	return {
@@ -11,18 +15,35 @@ export function exerciseRecordToExercise(record: ExerciseRecord): Exercise {
 	}
 }
 
-export function skillRecordToSkill({ exerciseData, ...record }: SkillRecord): UserSkill {
+export function skillRecordToSkill({ exerciseData, ...record }: SkillIdentityRecord & Pick<SkillRecord, 'exerciseData'>): Skill {
 	return {
-		...record,
-		coefficientsOn: new Date(record.coefficientsOn),
-		highestOn: new Date(record.highestOn),
-		createdAt: new Date(record.createdAt),
-		updatedAt: new Date(record.updatedAt),
+		id: record.id,
+		userId: record.userId,
+		skillId: record.skillId,
 		...(exerciseData ? {
 			exercises: exerciseData.exercises.map(exerciseRecordToExercise),
 			...(exerciseData.activeExercise ? { activeExercise: exerciseRecordToExercise(exerciseData.activeExercise) } : {}),
 		} : {}),
 	}
+}
+
+export function skillLevelRecordToData({ skillId, levelData }: SkillLevelRecord): SkillLevelData {
+	return {
+		skillId,
+		...ensureSkillLevel({
+			...levelData,
+			coefficientsOn: new Date(levelData.coefficientsOn),
+			highestOn: new Date(levelData.highestOn),
+		}),
+	}
+}
+
+export function skillLevelRecordsToSet(records: SkillLevelRecord[]): SkillLevelSet {
+	const validRecords = records.filter(record => !!skillTree[record.skillId])
+	const skillLevelsById = fromKeysAndValues(validRecords.map(record => record.skillId), validRecords.map(skillLevelRecordToData))
+	const expandedSkillIds = expandSkillIdsWithDirectPrerequisitesAndLinks(validRecords.map(record => record.skillId))
+	const storedSkillLevels = fromKeys(expandedSkillIds, skillId => skillLevelsById[skillId] ?? getInitialSkillLevel(new Date(0)))
+	return new SkillLevelSet(skillTree, storedSkillLevels)
 }
 
 export function userWithSkillsRecordToUser({ sharedData, accountData, ...user }: UserWithSkillsRecord): UserWithSkills {
@@ -31,5 +52,6 @@ export function userWithSkillsRecordToUser({ sharedData, accountData, ...user }:
 		...(sharedData ? userSharedDataRecordToData(sharedData) : {}),
 		...(accountData ? userAccountDataRecordToData(accountData) : {}),
 		skills: sharedData?.skills.map(skillRecordToSkill) ?? [],
+		skillLevelSet: skillLevelRecordsToSet(sharedData?.skills ?? []),
 	}
 }

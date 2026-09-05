@@ -2,9 +2,8 @@ import React, { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { Box } from '@mui/material'
 
-import { fromKeysAndValues, fromKeys, formatDate } from '@step-wise/js-utils'
-import { expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
-import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
+import { formatDate } from '@step-wise/js-utils'
+import { skillTree } from '@step-wise/skill-tree'
 
 import { useUserWithSkillsQuery } from 'api'
 import { Par, HorizontalSlider } from 'ui/components'
@@ -88,17 +87,8 @@ function getUserNameFromQueryResult(res) {
 
 function useSkillsLevelsList(user) {
 	return useMemo(() => {
-		// Process the skills into a raw data set. (Also filter them to remove outdated skills not in the skill tree anymore.)
-		const existingSkills = user.skills.filter(skill => !!skillTree[skill.skillId])
-		const skillIds = existingSkills.map(skill => skill.skillId)
-		const skillsAsObject = fromKeysAndValues(skillIds, existingSkills.map(skill => ensureSkillLevel(skill)))
-
-		// Add skills that are not in the data set. (These are skills that are not in the database yet.)
-		const allSkillIds = expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds)
-		const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
-		const skillLevelSet = new SkillLevelSet(skillTree, skills)
-
-		// Turn the object back into an array, with only the practiced skills and not the prerequisites, and sort by last activity.
+		const skillLevelSet = user.skillLevelSet
+		const skillIds = user.skills.map(skill => skill.skillId).filter(skillId => !!skillTree[skillId])
 		const skillLevels = skillIds.map(skillId => skillLevelSet.getSkillLevel(skillId))
 		return skillLevels.sort((a, b) => b.coefficientsOn - a.coefficientsOn) // Sort with latest first.
 	}, [user])

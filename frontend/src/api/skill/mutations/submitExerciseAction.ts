@@ -5,13 +5,13 @@ import { useMutation } from '@apollo/client/react'
 import type { ExerciseAction } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/skill-definition'
 
-import type { ExerciseRecord, SkillRecord } from '../records.ts'
-import { exerciseFields, skillFields } from '../fragments.ts'
+import type { ExerciseRecord, SkillLevelRecord } from '../records.ts'
+import { exerciseFields, skillLevelFields } from '../fragments.ts'
 
 type SubmitExerciseActionData = {
 	submitExerciseAction: {
 		updatedExercise: ExerciseRecord
-		updatedSkills: SkillRecord[]
+		updatedSkills: SkillLevelRecord[]
 	}
 }
 type SubmitExerciseActionVariables = { skillId: SkillId; action: ExerciseAction }
@@ -23,7 +23,7 @@ export const SUBMIT_EXERCISE_ACTION: TypedDocumentNode<SubmitExerciseActionData,
 				${exerciseFields}
 			}
 			updatedSkills {
-				${skillFields(false)}
+				${skillLevelFields}
 			}
 		}
 	}

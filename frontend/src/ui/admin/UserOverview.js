@@ -28,7 +28,10 @@ function UserOverviewWithData({ allUsers }) {
 	const usersWithLastActivity = useMemo(() => {
 		// Find the last activity of each user.
 		const usersWithLastActivity = allUsers.map(user => {
-			const activitiesAt = [user.updatedAt, ...user.skills.map(skill => skill.updatedAt)].map(ensureDate)
+			const skillActivities = user.skills
+				.filter(skill => user.skillLevelSet.hasSkillLevel(skill.skillId))
+				.map(skill => user.skillLevelSet.getSkillLevel(skill.skillId).coefficientsOn)
+			const activitiesAt = [user.updatedAt, ...skillActivities].map(ensureDate)
 			return {
 				user,
 				lastActivity: findOptimum(activitiesAt, (a, b) => a > b),

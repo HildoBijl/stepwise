@@ -63,9 +63,11 @@ export function createApolloClient() {
 				Skill: {
 					keyFields: ['userId', 'skillId'],
 					fields: {
+						levelData: { merge: true },
 						exerciseData: { merge: true },
 					},
 				},
+				SkillLevelData: { keyFields: false },
 				SkillExerciseData: { keyFields: false },
 				Group: {
 					keyFields: ['code'],
