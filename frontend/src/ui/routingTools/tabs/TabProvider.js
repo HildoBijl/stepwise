@@ -46,7 +46,7 @@ export function useTabContext() {
 // useTabs is called by a component that wants to display tabs on the page. It takes an array of tab names, like ["theory", "practice", "references"], and optionally an initial tab "practice". It returns the full tab context.
 export function useTabs(tabs, initialTab) {
 	const context = useTabContext()
-	const { tab, setTabs, setTab, setTabIndex, reset } = context
+	const { tab, setTabs, setTab, reset } = context
 	const [initialized, setInitialized] = useState(false)
 	tabs = useReferencePreservingValue(getOrderedTabs(tabs))
 
@@ -70,12 +70,8 @@ export function useTabs(tabs, initialTab) {
 
 	// If the old tab is not valid, reset to the initial tab, or otherwise the first tab.
 	const ensureValidTab = useEffectEvent(() => {
-		if (tabs.length > 0 && (!tab || !tabs.includes(tab))) {
-			if (initialTab && tabs.includes(initialTab))
-				setTab(initialTab)
-			else
-				setTabIndex(0)
-		}
+		if (tabs.length > 0 && (!tab || !tabs.includes(tab)))
+			setTab(initialTab && tabs.includes(initialTab) ? initialTab : tabs[0])
 	})
 	useEffect(() => ensureValidTab(), [tab, tabs])
 
