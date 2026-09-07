@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 
-import { useMyActiveGroup } from '../queries/index.ts'
+import { useMyActiveGroup } from '../queries/useMyActiveGroup.ts'
 
 import { ActiveGroupContext } from './context.ts'
 

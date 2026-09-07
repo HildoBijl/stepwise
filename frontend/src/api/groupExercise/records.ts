@@ -28,3 +28,6 @@ export type GroupExerciseRecord = {
 	state: ExerciseState | null
 	history: GroupExerciseEventRecord[]
 }
+
+export type ActiveGroupExercisesQueryData = { activeGroupExercises: GroupExerciseRecord[] }
+export type ActiveGroupExercisesQueryVariables = { code: string }

@@ -1,3 +1,3 @@
 export * from './types.ts'
-export * from './exerciseMutations.ts'
-export * from './ActiveGroupExerciseProvider.tsx'
+export * from './mutations/index.ts'
+export * from './activeGroupExercises/index.ts'

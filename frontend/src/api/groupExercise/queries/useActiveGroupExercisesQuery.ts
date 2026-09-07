@@ -1,11 +1,8 @@
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
-import type { GroupExerciseRecord } from './records.ts'
-import { groupExerciseFields } from './fragments.ts'
-
-export type ActiveGroupExercisesQueryData = { activeGroupExercises: GroupExerciseRecord[] }
-export type ActiveGroupExercisesQueryVariables = { code: string }
+import type { ActiveGroupExercisesQueryData, ActiveGroupExercisesQueryVariables } from '../records.ts'
+import { groupExerciseFields } from '../fragments.ts'
 
 export const ACTIVE_GROUP_EXERCISES_QUERY: TypedDocumentNode<ActiveGroupExercisesQueryData, ActiveGroupExercisesQueryVariables> = gql`
 	query activeGroupExercises($code: String!) {

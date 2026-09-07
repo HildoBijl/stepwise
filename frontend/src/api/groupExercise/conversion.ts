@@ -1,5 +1,5 @@
-import type { GroupExercise, GroupExerciseAction, GroupExerciseEvent } from './types.ts'
 import type { GroupExerciseActionRecord, GroupExerciseEventRecord, GroupExerciseRecord } from './records.ts'
+import type { GroupExercise, GroupExerciseAction, GroupExerciseEvent } from './types.ts'
 
 function groupExerciseActionRecordToAction(record: GroupExerciseActionRecord): GroupExerciseAction {
 	return { ...record, performedAt: new Date(record.performedAt) }

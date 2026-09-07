@@ -1,10 +1,9 @@
 import { useEffect } from 'react'
 import { type SubscribeToMoreFunction, type TypedDocumentNode, gql } from '@apollo/client'
 
-import type { GroupExerciseRecord } from './records.ts'
-import type { ActiveGroupExercisesQueryData, ActiveGroupExercisesQueryVariables } from './query.ts'
-import { groupExerciseFields } from './fragments.ts'
-import { addGroupExerciseToList } from './reconciliation.ts'
+import type { ActiveGroupExercisesQueryData, ActiveGroupExercisesQueryVariables, GroupExerciseRecord } from '../records.ts'
+import { groupExerciseFields } from '../fragments.ts'
+import { addGroupExerciseRecordToList } from '../recordLists.ts'
 
 type ActiveGroupExerciseUpdatedData = { activeGroupExercisesUpdated: GroupExerciseRecord }
 type ActiveGroupExerciseUpdatedVariables = { code: string }
@@ -30,7 +29,7 @@ export function useActiveGroupExercisesSubscription(
 			updateQuery: (previousData, { subscriptionData }) => {
 				const exercises = previousData.activeGroupExercises as GroupExerciseRecord[]
 				const updatedExercise = subscriptionData.data?.activeGroupExercisesUpdated
-				return { activeGroupExercises: updatedExercise ? addGroupExerciseToList(updatedExercise, exercises) : exercises }
+				return { activeGroupExercises: updatedExercise ? addGroupExerciseRecordToList(updatedExercise, exercises) : exercises }
 			},
 		})
 	}, [apply, code, subscribeToMore])
