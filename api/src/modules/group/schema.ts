@@ -28,7 +28,7 @@ export const groupTypeDefs = gql`
 		name: String
 		givenName: String
 		familyName: String
-		active: Boolean
+		active: Boolean!
 		lastActivity: DateTime!
 	}
 

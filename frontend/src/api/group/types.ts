@@ -1,4 +1,4 @@
-import type { ApiMutationResult, ApiOperationState, ApiQueryResult } from '../types.ts'
+import type { ApiMutationResult, ApiQueryResult } from '../types.ts'
 
 export type GroupMember = {
 	groupId: string
@@ -25,4 +25,4 @@ export type UseLeaveGroupResult = ApiMutationResult<() => Promise<void>>
 export type UseActivateGroupResult = ApiMutationResult<() => Promise<void>>
 export type UseDeactivateGroupResult = ApiMutationResult<() => Promise<void>>
 
-export type ActiveGroupState = ApiOperationState & { group: Group | undefined }
+export type ActiveGroupState = UseMyActiveGroupResult

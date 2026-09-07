@@ -1,7 +1,7 @@
 import type { ExerciseAction, ExerciseState, GroupExerciseHistoryEvent, GroupExerciseInstance, UserExerciseAction } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/skill-definition'
 
-import type { ApiMutationResult, ApiOperationState } from '../types.ts'
+import type { ApiMutationResult, ApiQueryResult } from '../types.ts'
 
 export type GroupExerciseAction = UserExerciseAction & {
 	id: string
@@ -29,4 +29,4 @@ export type UseSubmitGroupActionResult = ApiMutationResult<(action: ExerciseActi
 export type UseCancelGroupActionResult = ApiMutationResult<() => Promise<void>>
 export type UseResolveGroupEventResult = ApiMutationResult<() => Promise<void>>
 
-export type ActiveGroupExercisesState = ApiOperationState & { exercises: GroupExercise[] | undefined }
+export type ActiveGroupExercisesState = ApiQueryResult<'exercises', GroupExercise[]>
