@@ -12,6 +12,15 @@ import { userWithSkillsRecordToUser } from '../conversion.ts'
 type UserWithSkillsQueryData = { user: UserWithSkillsRecord | null }
 type UserWithSkillsQueryVariables = { userId: string }
 
+const USER_WITH_SKILLS_QUERY: TypedDocumentNode<UserWithSkillsQueryData, UserWithSkillsQueryVariables> = gql`
+	query userWithSkills($userId: ID!) {
+		user(userId: $userId) {
+			${userWithSkillsFields(true)}
+		}
+	}
+	${USER_FRAGMENTS}
+`
+
 export function useUserWithSkills(userId?: string): UseUserWithSkillsResult {
 	const { data, loading, error } = useQuery(USER_WITH_SKILLS_QUERY, {
 		variables: { userId: userId ?? '' },
@@ -21,12 +30,3 @@ export function useUserWithSkills(userId?: string): UseUserWithSkillsResult {
 	const user = useMemo(() => record ? userWithSkillsRecordToUser(record) : undefined, [record])
 	return { user, loading, error }
 }
-
-const USER_WITH_SKILLS_QUERY: TypedDocumentNode<UserWithSkillsQueryData, UserWithSkillsQueryVariables> = gql`
-	query userWithSkills($userId: ID!) {
-		user(userId: $userId) {
-			${userWithSkillsFields(true)}
-		}
-	}
-	${USER_FRAGMENTS}
-`

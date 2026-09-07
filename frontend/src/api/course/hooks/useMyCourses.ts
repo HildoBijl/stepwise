@@ -11,6 +11,23 @@ import { courseRecordToCourseInfo } from '../conversion.ts'
 
 type MyCoursesQueryData = { myCourses: CourseRecord[] }
 
+const MY_COURSES_QUERY: TypedDocumentNode<MyCoursesQueryData, Record<string, never>> = gql`
+	query myCourses {
+		myCourses {
+			...CourseInfoFields
+			subscription {
+				role
+				subscribedAt
+			}
+			students {
+				...UserPublicFields
+			}
+		}
+	}
+	${COURSE_INFO_FRAGMENT}
+	${USER_PUBLIC_FRAGMENT}
+`
+
 export function useMyCourses(): UseMyCoursesResult {
 	const { data, loading, error } = useQuery(MY_COURSES_QUERY)
 	const records = (data as MyCoursesQueryData | undefined)?.myCourses
@@ -35,20 +52,3 @@ export function useMyCourses(): UseMyCoursesResult {
 	}, [records])
 	return { ...courses, loading, error }
 }
-
-export const MY_COURSES_QUERY: TypedDocumentNode<MyCoursesQueryData, Record<string, never>> = gql`
-	query myCourses {
-		myCourses {
-			...CourseInfoFields
-			subscription {
-				role
-				subscribedAt
-			}
-			students {
-				...UserPublicFields
-			}
-		}
-	}
-	${COURSE_INFO_FRAGMENT}
-	${USER_PUBLIC_FRAGMENT}
-`

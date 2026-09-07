@@ -13,16 +13,6 @@ import { courseWithStudentSkillsRecordToCourseInfo } from '../conversion.ts'
 type CourseQueryData = { course: CourseWithStudentSkillsRecord }
 type CourseQueryVariables = { code: string }
 
-export function useCourse(code?: string): UseCourseResult {
-	const { data, loading, error } = useQuery(COURSE_QUERY, {
-		variables: { code: code ?? '' },
-		skip: !code,
-	})
-	const record = (data as CourseQueryData | undefined)?.course
-	const course = useMemo(() => record ? courseWithStudentSkillsRecordToCourseInfo(record) : undefined, [record])
-	return { course, loading, error }
-}
-
 const COURSE_QUERY: TypedDocumentNode<CourseQueryData, CourseQueryVariables> = gql`
 	query course($code: String!) {
 		course(code: $code) {
@@ -49,3 +39,13 @@ const COURSE_QUERY: TypedDocumentNode<CourseQueryData, CourseQueryVariables> = g
 	${USER_PUBLIC_FRAGMENT}
 	${USER_SHARED_DATA_FRAGMENT}
 `
+
+export function useCourse(code?: string): UseCourseResult {
+	const { data, loading, error } = useQuery(COURSE_QUERY, {
+		variables: { code: code ?? '' },
+		skip: !code,
+	})
+	const record = (data as CourseQueryData | undefined)?.course
+	const course = useMemo(() => record ? courseWithStudentSkillsRecordToCourseInfo(record) : undefined, [record])
+	return { course, loading, error }
+}

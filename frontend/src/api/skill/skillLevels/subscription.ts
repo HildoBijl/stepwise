@@ -10,6 +10,14 @@ import type { SkillLevelRecordsQueryData, SkillLevelRecordsQueryVariables } from
 
 type SkillLevelsUpdatedData = { skillsUpdated: SkillLevelRecord[] }
 
+const SKILL_LEVELS_UPDATED: TypedDocumentNode<SkillLevelsUpdatedData, Record<string, never>> = gql`
+	subscription skillLevelsUpdated {
+		skillsUpdated {
+			${skillLevelFields}
+		}
+	}
+`
+
 export function useSkillLevelSubscription(subscribeToMore: SubscribeToMoreFunction<SkillLevelRecordsQueryData, SkillLevelRecordsQueryVariables>, apply: boolean): void {
 	const isSignedIn = useIsSignedIn()
 	useEffect(() => {
@@ -33,11 +41,3 @@ export function useSkillLevelSubscription(subscribeToMore: SubscribeToMoreFuncti
 		return unsubscribe
 	}, [apply, isSignedIn, subscribeToMore])
 }
-
-const SKILL_LEVELS_UPDATED: TypedDocumentNode<SkillLevelsUpdatedData, Record<string, never>> = gql`
-	subscription skillLevelsUpdated {
-		skillsUpdated {
-			${skillLevelFields}
-		}
-	}
-`

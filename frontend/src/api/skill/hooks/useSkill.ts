@@ -12,14 +12,6 @@ import { skillRecordToSkill } from '../conversion.ts'
 type SkillQueryData = { skill: SkillWithExercisesRecord | null }
 type SkillQueryVariables = { skillId: SkillId; userId?: string }
 
-export function useSkill(skillId: SkillId, userId?: string): UseSkillResult {
-	const variables = { skillId, ...(userId ? { userId } : {}) }
-	const { data, loading, error } = useQuery(SKILL_QUERY, { variables })
-	const record = (data as SkillQueryData | undefined)?.skill
-	const skill = useMemo(() => record ? skillRecordToSkill(record) : undefined, [record])
-	return { skill, loading, error }
-}
-
 export const SKILL_QUERY: TypedDocumentNode<SkillQueryData, SkillQueryVariables> = gql`
 	query skill($skillId: String!, $userId: ID) {
 		skill(skillId: $skillId, userId: $userId) {
@@ -27,3 +19,11 @@ export const SKILL_QUERY: TypedDocumentNode<SkillQueryData, SkillQueryVariables>
 		}
 	}
 `
+
+export function useSkill(skillId: SkillId, userId?: string): UseSkillResult {
+	const variables = { skillId, ...(userId ? { userId } : {}) }
+	const { data, loading, error } = useQuery(SKILL_QUERY, { variables })
+	const record = (data as SkillQueryData | undefined)?.skill
+	const skill = useMemo(() => record ? skillRecordToSkill(record) : undefined, [record])
+	return { skill, loading, error }
+}

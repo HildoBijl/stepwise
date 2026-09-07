@@ -14,6 +14,14 @@ import { skillLevelRecordToData } from '../conversion.ts'
 export type SkillLevelRecordsQueryData = { skills: SkillLevelRecord[] }
 export type SkillLevelRecordsQueryVariables = { skillIds: SkillId[] }
 
+const SKILL_LEVEL_RECORDS_QUERY: TypedDocumentNode<SkillLevelRecordsQueryData, SkillLevelRecordsQueryVariables> = gql`
+	query skillLevelRecords($skillIds: [String]!) {
+		skills(skillIds: $skillIds) {
+			${skillLevelFields}
+		}
+	}
+`
+
 export function useSkillLevelRecordsQuery(skillIds: SkillId[]) {
 	skillIds = [...ensureSkillIds(skillIds)]
 	const user = useUser()
@@ -23,11 +31,3 @@ export function useSkillLevelRecordsQuery(skillIds: SkillId[]) {
 	const data = useMemo(() => rawData ? { skills: rawData.skills.map(skillLevelRecordToData) } : undefined, [rawData])
 	return { ...result, data }
 }
-
-const SKILL_LEVEL_RECORDS_QUERY: TypedDocumentNode<SkillLevelRecordsQueryData, SkillLevelRecordsQueryVariables> = gql`
-	query skillLevelRecords($skillIds: [String]!) {
-		skills(skillIds: $skillIds) {
-			${skillLevelFields}
-		}
-	}
-`
