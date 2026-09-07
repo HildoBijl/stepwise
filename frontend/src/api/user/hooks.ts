@@ -1,6 +1,6 @@
 import type { CurrentUser, UserRole } from './types.ts'
 import { currentUserRecordToUser } from './conversion.ts'
-import { useCurrentUserQuery } from './queries.ts'
+import { useCurrentUserQuery } from './queries/index.ts'
 
 export function useUser(): CurrentUser | undefined {
 	const { userRecord } = useCurrentUserQuery()

@@ -1,10 +1,10 @@
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
-import type { ApiQueryResult } from '../types.ts'
+import type { ApiQueryResult } from '../../types.ts'
 
-import type { CurrentUserRecord } from './records.ts'
-import { USER_FRAGMENTS } from './fragments.ts'
+import type { CurrentUserRecord } from '../records.ts'
+import { USER_FRAGMENTS } from '../fragments.ts'
 
 type CurrentUserQueryData = {
 	me: CurrentUserRecord | null

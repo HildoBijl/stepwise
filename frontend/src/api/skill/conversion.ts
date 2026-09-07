@@ -4,8 +4,8 @@ import { expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-
 
 import { userAccountDataRecordToData, userRecordToUser, userSharedDataRecordToData } from '../user/conversion.ts'
 
-import type { Exercise, Skill, UserWithSkills } from './types.ts'
-import type { ExerciseRecord, SkillIdentityRecord, SkillLevelRecord, SkillRecord, UserWithSkillsRecord } from './records.ts'
+import type { Exercise, Skill, UserWithSkillActivity, UserWithSkills } from './types.ts'
+import type { ExerciseRecord, SkillIdentityRecord, SkillLevelRecord, SkillRecord, UserWithSkillActivityRecord, UserWithSkillsRecord } from './records.ts'
 
 export function exerciseRecordToExercise(record: ExerciseRecord): Exercise {
 	return {
@@ -53,5 +53,14 @@ export function userWithSkillsRecordToUser({ sharedData, accountData, ...user }:
 		...(accountData ? userAccountDataRecordToData(accountData) : {}),
 		skills: sharedData?.skills.map(skillRecordToSkill) ?? [],
 		skillLevelSet: skillLevelRecordsToSet(sharedData?.skills ?? []),
+	}
+}
+
+export function userWithSkillActivityRecordToUser({ sharedData, accountData, ...record }: UserWithSkillActivityRecord): UserWithSkillActivity {
+	return {
+		...userRecordToUser(record),
+		...userSharedDataRecordToData(sharedData),
+		...userAccountDataRecordToData(accountData),
+		skillActivities: sharedData.skills.map(({ skillId, levelData }) => ({ skillId, lastPracticedAt: new Date(levelData.coefficientsOn) })),
 	}
 }

@@ -7,7 +7,7 @@ import type { SkillId } from '@step-wise/skill-definition'
 import type { ExerciseRecord } from '../records.ts'
 import type { UseStartExerciseResult } from '../types.ts'
 import { exerciseFields } from '../fragments.ts'
-import { SKILL_QUERY } from '../hooks/useSkill.ts'
+import { SKILL_QUERY } from '../queries/useSkill.ts'
 
 type StartExerciseData = { startExercise: ExerciseRecord }
 type StartExerciseVariables = { skillId: SkillId }

@@ -4,23 +4,22 @@ import { Box } from '@mui/material'
 
 import { findOptimum, ensureDate, formatDate } from '@step-wise/js-utils'
 
-import { useAllUsersQuery } from 'api'
+import { useAllUsersWithSkillActivity } from 'api'
 import { usePaths } from 'ui/routingTools'
 import { Par, HorizontalSlider } from 'ui/components'
 
 export function UserOverview() {
-	const res = useAllUsersQuery()
+	const { users, loading, error } = useAllUsersWithSkillActivity()
 
 	// Check if data has loaded properly.
-	if (res.loading)
+	if (loading)
 		return <Par>Users are being loaded...</Par>
-	if (res.error || !res.data || !res.data.allUsers) {
+	if (error || !users) {
 		return <Par>Oops... The users apparently cannot be loaded.</Par>
 	}
 
 	// All loaded!
-	const allUsers = res.data.allUsers
-	return <UserOverviewWithData allUsers={allUsers} />
+	return <UserOverviewWithData allUsers={users} />
 }
 
 function UserOverviewWithData({ allUsers }) {
@@ -28,9 +27,7 @@ function UserOverviewWithData({ allUsers }) {
 	const usersWithLastActivity = useMemo(() => {
 		// Find the last activity of each user.
 		const usersWithLastActivity = allUsers.map(user => {
-			const skillActivities = user.skills
-				.filter(skill => user.skillLevelSet.hasSkillLevel(skill.skillId))
-				.map(skill => user.skillLevelSet.getSkillLevel(skill.skillId).coefficientsOn)
+			const skillActivities = user.skillActivities.map(skill => skill.lastPracticedAt)
 			const activitiesAt = [user.updatedAt, ...skillActivities].map(ensureDate)
 			return {
 				user,
@@ -76,7 +73,7 @@ function UserOverviewItem({ user, lastActivity }) {
 	const paths = usePaths()
 	return <>
 		<div className="name"><Link to={paths.userInspection({ userId: user.id })}>{user.name}</Link></div>
-		<div className="stats">{user.skills.length}</div>
+		<div className="stats">{user.skillActivities.length}</div>
 		<div className="updatedAt">{formatDate(lastActivity)}</div>
 		<div className="createdAt">{formatDate(user.createdAt)}</div>
 		<div className="role">{user.role === 'admin' ? 'Admin' : (user.role === 'teacher' ? 'Docent' : 'Student')}</div>
