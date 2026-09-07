@@ -17,6 +17,7 @@ export type Group = {
 
 export type UseGroupExistsResult = ApiQueryResult<'exists', boolean>
 export type UseMyGroupsResult = ApiQueryResult<'groups', Group[]>
+export type UseMyActiveGroupResult = ApiQueryResult<'group', Group>
 
 export type UseCreateGroupResult = ApiMutationResult<() => Promise<void>>
 export type UseJoinGroupResult = ApiMutationResult<(code: string) => Promise<void>>
