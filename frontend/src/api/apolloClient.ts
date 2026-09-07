@@ -7,7 +7,7 @@ import { createClient } from 'graphql-ws'
 
 import { graphqlAddress, graphqlWebsocketAddress } from '../settings'
 
-export function createApolloClient() {
+export function createApolloClient(): ApolloClient {
 	const wsLink = new GraphQLWsLink(createClient({
 		url: graphqlWebsocketAddress,
 		retryAttempts: Infinity,
