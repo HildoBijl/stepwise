@@ -26,4 +26,7 @@ export type BaseExerciseInstanceByMode<TAction extends ExerciseAction = Exercise
 	}
 }
 
+export type SoloExerciseInstance<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = BaseExerciseInstanceByMode<TAction, TState, TParameters>['solo']
+export type GroupExerciseInstance<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = BaseExerciseInstanceByMode<TAction, TState, TParameters>['group']
+
 export type BaseExerciseInstance<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = BaseExerciseInstanceByMode<TAction, TState, TParameters>[ExerciseMode]

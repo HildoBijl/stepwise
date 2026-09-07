@@ -1,23 +1,18 @@
-import type { ExerciseAction, ExerciseParameters, ExerciseState } from '@step-wise/exercise-definition'
+import type { ExerciseAction, ExerciseState, SoloExerciseHistoryEvent, SoloExerciseInstance } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/skill-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 
 import type { ApiMutationResult, ApiQueryResult } from '../types.ts'
 import type { User, UserWithAccountData, UserWithSharedData } from '../user/types.ts'
 
-export type ExerciseEvent = {
+export type ExerciseEvent = SoloExerciseHistoryEvent & {
 	id: string
-	action: ExerciseAction
-	state: ExerciseState
 	performedAt: Date
 }
 
-export type Exercise = {
+export type Exercise = Omit<SoloExerciseInstance, 'history'> & {
 	id: string
 	exerciseId: string
-	mode: 'solo'
-	parameters: ExerciseParameters
-	initialState: ExerciseState
 	startedAt: Date
 	active: boolean
 	state: ExerciseState

@@ -33,7 +33,7 @@ describe('group-exercise API conversion', () => {
 		expect(exercise.startedAt).toEqual(new Date('2026-01-01T00:00:00.000Z'))
 		expect(exercise.state).toBeUndefined()
 		expect(exercise.history[0]?.performedAt).toEqual(new Date('2026-01-01T00:01:00.000Z'))
-		expect(exercise.history[0]?.state).toBeUndefined()
+		expect('state' in exercise.history[0]!).toBe(false)
 		expect(exercise.history[0]?.actions[0]?.performedAt).toEqual(new Date('2026-01-01T00:01:00.000Z'))
 	})
 })

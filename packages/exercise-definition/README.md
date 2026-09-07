@@ -150,7 +150,7 @@ A `BaseExerciseInstance` combines the generated data with its execution context:
 }
 ```
 
-The `mode` determines the history shape. `initialState` remains stored separately and is used whenever the history does not yet contain a suitable resolved state.
+The `mode` determines the history shape. `initialState` remains stored separately and is used whenever the history does not yet contain a suitable resolved state. Use `SoloExerciseInstance` or `GroupExerciseInstance` when code is specific to one execution mode; `BaseExerciseInstance` represents their union.
 
 The following helpers work with either mode:
 

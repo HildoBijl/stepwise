@@ -1,29 +1,23 @@
+import type { ExerciseAction, ExerciseState, GroupExerciseHistoryEvent, GroupExerciseInstance, UserExerciseAction } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/skill-definition'
-import type { ExerciseAction, ExerciseParameters, ExerciseState } from '@step-wise/exercise-definition'
 
 import type { ApiMutationResult, ApiOperationState } from '../types.ts'
 
-export type GroupExerciseAction = {
+export type GroupExerciseAction = UserExerciseAction & {
 	id: string
-	userId: string
-	action: ExerciseAction
 	performedAt: Date
 }
 
-export type GroupExerciseEvent = {
+export type GroupExerciseEvent = GroupExerciseHistoryEvent & {
 	id: string
-	state?: ExerciseState
 	performedAt: Date
 	actions: GroupExerciseAction[]
 }
 
-export type GroupExercise = {
+export type GroupExercise = Omit<GroupExerciseInstance, 'history'> & {
 	id: string
 	skillId: SkillId
 	exerciseId: string
-	mode: 'group'
-	parameters: ExerciseParameters
-	initialState: ExerciseState
 	active: boolean
 	startedAt: Date
 	state?: ExerciseState
