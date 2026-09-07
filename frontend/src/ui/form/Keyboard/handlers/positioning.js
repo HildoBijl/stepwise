@@ -1,6 +1,6 @@
 import { useRef, useLayoutEffect, useCallback } from 'react'
 
-import { useResizeListener } from '@step-wise/react-utils'
+import { useResizeObserver } from '@step-wise/react-utils'
 
 // useKeyboardPositioning manages the raising and lowering of the keyboard, setting its vertical position.
 export function useKeyboardPositioning(tab, barRef, tabsRef, keyboardRef, fillerRef, active, open) {
@@ -12,7 +12,8 @@ export function useKeyboardPositioning(tab, barRef, tabsRef, keyboardRef, filler
 
 	// Call the positioning handler upon a change in tab, or when the app resizes (like on a screen resize).
 	useLayoutEffect(positionKeyboardCB, [positionKeyboardCB, tab]) // Also update the position when the active tab changes.
-	useResizeListener(positionKeyboardCB)
+	useResizeObserver(tabsRef, positionKeyboardCB)
+	useResizeObserver(keyboardRef, positionKeyboardCB)
 }
 
 // positionKeyboard takes references to various parts of the keyboard, and uses this to position the keyboard appropriately.

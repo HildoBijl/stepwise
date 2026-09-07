@@ -2,7 +2,7 @@ import React, { forwardRef, useCallback, useLayoutEffect } from 'react'
 
 import { ensureNumber, ensureBoolean, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
-import { ensureReactContent, useForwardedRef, useStableValue, useResizeListener } from '@step-wise/react-utils'
+import { ensureReactContent, useForwardedRef, useResizeObserver, useStableValue } from '@step-wise/react-utils'
 
 import { notSelectable } from 'ui/theme'
 
@@ -73,9 +73,9 @@ export const Element = forwardRef((props, ref) => {
 		`
 	}, [ref, transformationSettings, figure, position, rotate, scale, anchor])
 
-	// Properly position the element on a change of settings, a change of contents or on a window resize.
+	// Properly position the element on a change of settings, contents or drawing size.
 	useLayoutEffect(updateElementPosition, [updateElementPosition, children])
-	useResizeListener(updateElementPosition)
+	useResizeObserver(figure?.inner, updateElementPosition)
 
 	// Render the children inside the Drawing HTML contents container.
 	return <HtmlPortal>

@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import { Box, alpha } from '@mui/material'
 
 import { clamp } from '@step-wise/js-utils'
 import { getClientPosition, getEventClientPosition } from '@step-wise/browser-utils'
-import { useEventListener, useElementMeasurement, useElementSize, useForceUpdate, useResizeListener } from '@step-wise/react-utils'
+import { useElementMeasurement, useElementSize, useEventListener } from '@step-wise/react-utils'
 
 import { notSelectable } from 'ui/theme'
 
@@ -84,11 +84,6 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 	useEventListener('touchstart', startDragging, outerRef, { passive: true })
 	useEventListener('touchmove', updateDragging, window, { passive: true })
 	useEventListener('touchend', endDragging, window, { passive: true })
-
-	// On a window-resize rerender the scrollbar.
-	const forceUpdate = useForceUpdate()
-	useResizeListener(forceUpdate)
-	useEffect(() => forceUpdate(), [forceUpdate])
 
 	// Implement style and render slider.
 	const bottomDisplacement = '0.5rem'

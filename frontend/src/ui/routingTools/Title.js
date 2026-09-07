@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@mui/material'
 import { ArrowRight as Arrow } from '@mui/icons-material'
 
 import { last, resolveFunctionValuesDeep } from '@step-wise/js-utils'
-import { useCoalescedCallback, useResizeListener, useLatestRef } from '@step-wise/react-utils'
+import { useCoalescedCallback, useLatestRef, useResizeObserver } from '@step-wise/react-utils'
 
 import { websiteName } from 'settings'
 import { TranslationSection, useTextTranslator } from 'i18n'
@@ -95,7 +95,8 @@ export function Title({ setTitleCollapsed, sx }) {
 		setTitleCollapsed(collapsed) // Inform the Header that the title is collapsed. This influences whether a menu button is shown.
 	}, [fullTitleRef, partialTitleRef, pageNamesRef, setTitleCollapsed])
 	const checkUpdateTitle = useCoalescedCallback(updateTitle)
-	useResizeListener(checkUpdateTitle)
+	useResizeObserver(fullTitleRef, checkUpdateTitle)
+	useResizeObserver(partialTitleRef, checkUpdateTitle)
 	useLayoutEffect(() => checkUpdateTitle(), [checkUpdateTitle, pageNames]) // Also update when the pageNames changes. This might happen during loading when translations come in.
 
 	// Determine the title to be shown in the browser tab, through the HTML <title> tag.

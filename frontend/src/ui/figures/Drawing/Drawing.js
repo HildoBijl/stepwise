@@ -2,12 +2,12 @@
  * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired. The option useSvg is by default true.
  */
 
-import React, { useRef, forwardRef, useImperativeHandle, useId } from 'react'
+import React, { useState, forwardRef, useImperativeHandle, useId } from 'react'
 
 import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
 import { getEventClientPosition } from '@step-wise/browser-utils'
-import { usePointerState as useClientPointerState, useElementBounds, useForceUpdateEffect } from '@step-wise/react-utils'
+import { usePointerState as useClientPointerState, useElementBounds } from '@step-wise/react-utils'
 
 import { notSelectable } from 'ui/theme'
 
@@ -36,12 +36,11 @@ export const Drawing = forwardRef((options, ref) => {
 
 	// Set up styles and references.
 	const id = useId()
-	const figureRef = useRef()
-	const htmlContentsRef = useRef()
-	const svgRef = useRef()
-	const svgDefsRef = useRef()
-	const canvasRef = useRef()
-	useForceUpdateEffect() // Rerender the component once references are established.
+	const [figure, setFigure] = useState()
+	const [htmlContents, setHtmlContents] = useState()
+	const [svg, setSvg] = useState()
+	const [svgDefs, setSvgDefs] = useState()
+	const [canvas, setCanvas] = useState()
 
 	// Determine figure size parameters to use for rendering.
 	const { graphicalBounds } = transformationSettings
@@ -52,10 +51,10 @@ export const Drawing = forwardRef((options, ref) => {
 	// Set up refs and make them accessible to any implementing component.
 	useImperativeHandle(ref, () => ({
 		// Basic getters.
-		get figure() { return figureRef.current },
-		get svg() { return svgRef.current },
-		get canvas() { return canvasRef.current },
-		get context() { return canvasRef.current.getContext('2d') },
+		get figure() { return figure },
+		get svg() { return svg },
+		get canvas() { return canvas },
+		get context() { return canvas.getContext('2d') },
 		get transformationSettings() { return transformationSettings },
 		get width() { return transformationSettings.graphicalBounds.width },
 		get height() { return transformationSettings.graphicalBounds.height },
@@ -67,16 +66,16 @@ export const Drawing = forwardRef((options, ref) => {
 
 		// Coordinate manipulation functions. Note the distinction between client points, graphical points and drawing points, all in different coordinate systems.
 		getGraphicalCoordinates(cPoint, figureRect) {
-			return getGraphicalCoordinates(cPoint, transformationSettings, figureRef.current, figureRect)
+			return getGraphicalCoordinates(cPoint, transformationSettings, figure, figureRect)
 		},
 		getDrawingCoordinates(cPoint, figureRect) {
-			const gPoint = getGraphicalCoordinates(cPoint, transformationSettings, figureRef.current, figureRect)
+			const gPoint = getGraphicalCoordinates(cPoint, transformationSettings, figure, figureRect)
 			const inverseTransformation = transformationSettings.inverseTransformation
 			return gPoint && inverseTransformation.transform(gPoint)
 		},
 		getPointFromEvent(event) {
 			const cPoint = getEventClientPosition(event)
-			const gPoint = getGraphicalCoordinates(cPoint, transformationSettings, figureRef.current)
+			const gPoint = getGraphicalCoordinates(cPoint, transformationSettings, figure)
 			const inverseTransformation = transformationSettings.inverseTransformation
 			return gPoint && inverseTransformation.transform(gPoint)
 		},
@@ -92,15 +91,15 @@ export const Drawing = forwardRef((options, ref) => {
 
 	// Render figure with SVG and Canvas properly placed.
 	return (
-		<DrawingContext.Provider value={{ id, transformationSettings, figure: figureRef.current, svg: svgRef.current, svgDefs: svgDefsRef.current, htmlContents: htmlContentsRef.current, canvas: canvasRef.current }}>
-			<Figure ref={figureRef} {...pickFromDefaults(options, defaultFigureOptions)}>
+		<DrawingContext.Provider value={{ id, transformationSettings, figure, svg, svgDefs, htmlContents, canvas }}>
+			<Figure ref={setFigure} {...pickFromDefaults(options, defaultFigureOptions)}>
 				{options.useSvg ? (
-					<svg ref={svgRef} viewBox={`0 0 ${width} ${height}`} style={{ display: 'block', ...notSelectable, outline: 'none', overflow: 'visible', width: '100%', zIndex: 2 }}>
-						<defs ref={svgDefsRef} />
+					<svg ref={setSvg} viewBox={`0 0 ${width} ${height}`} style={{ display: 'block', ...notSelectable, outline: 'none', overflow: 'visible', width: '100%', zIndex: 2 }}>
+						<defs ref={setSvgDefs} />
 					</svg>
 				) : null}
-				{options.useCanvas ? <canvas ref={canvasRef} width={width} height={height} style={{ height: '100%', ...notSelectable, width: '100%', zIndex: 1 }} /> : null}
-				<div ref={htmlContentsRef} />
+				{options.useCanvas ? <canvas ref={setCanvas} width={width} height={height} style={{ height: '100%', ...notSelectable, width: '100%', zIndex: 1 }} /> : null}
+				<div ref={setHtmlContents} />
 				{options.children}
 
 				{/* Clip path to prevent overflow. */}
