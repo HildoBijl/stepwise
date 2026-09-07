@@ -8,8 +8,8 @@ import { ACTIVE_GROUP_EXERCISES } from './exerciseQueries'
 export function useStartGroupExerciseMutation(code, skillId) {
 	return useMutation(START_GROUP_EXERCISE, {
 		variables: { code, skillId },
-		update: (cache, { data: { startGroupExercise: newExercise } }) => {
-			updateExerciseInCache(cache, code, skillId, newExercise)
+		update: (cache, { data }) => {
+			if (data?.startGroupExercise) updateExerciseInCache(cache, code, skillId, data.startGroupExercise)
 		},
 	})
 }
@@ -27,8 +27,8 @@ export function useSubmitGroupActionMutation(code, skillId) {
 	const newSubmit = parameters => submit({ // Insert the given code and skillId by default.
 		...parameters,
 		variables: { skillId, code, ...parameters.variables },
-		update: (cache, { data: { submitGroupAction: updatedExercise } }) => {
-			updateExerciseInCache(cache, code, skillId, updatedExercise)
+		update: (cache, { data }) => {
+			if (data?.submitGroupAction) updateExerciseInCache(cache, code, skillId, data.submitGroupAction)
 		}
 	})
 	return [newSubmit, data]
@@ -47,8 +47,8 @@ export function useCancelGroupActionMutation(code, skillId) {
 	const newCancel = (parameters = {}) => cancel({ // Insert the given code and skillId by default.
 		...parameters,
 		variables: { skillId, code, ...parameters.variables },
-		update: (cache, { data: { cancelGroupAction: updatedExercise } }) => {
-			updateExerciseInCache(cache, code, skillId, updatedExercise)
+		update: (cache, { data }) => {
+			if (data?.cancelGroupAction) updateExerciseInCache(cache, code, skillId, data.cancelGroupAction)
 		}
 	})
 	return [newCancel, data]
@@ -67,8 +67,8 @@ export function useResolveGroupEventMutation(code, skillId) {
 	const newResolve = (parameters = {}) => resolve({ // Insert the given code and skillId by default.
 		...parameters,
 		variables: { skillId, code, ...parameters.variables },
-		update: (cache, { data: { resolveGroupEvent: updatedExercise } }) => {
-			updateExerciseInCache(cache, code, skillId, updatedExercise)
+		update: (cache, { data }) => {
+			if (data?.resolveGroupEvent) updateExerciseInCache(cache, code, skillId, data.resolveGroupEvent)
 		}
 	})
 	return [newResolve, data]
@@ -84,11 +84,12 @@ const RESOLVE_GROUP_EVENT = gql`
 // updateExerciseInCache is a helper function that takes the cache, a group code and an updated exercises and updates that exercise in the cache.
 function updateExerciseInCache(cache, code, skillId, updatedExercise) {
 	const activeGroupExercises = cache.readQuery({ query: ACTIVE_GROUP_EXERCISES, variables: { code } })?.activeGroupExercises
+	if (!activeGroupExercises) return
 	cache.writeQuery({
 		query: ACTIVE_GROUP_EXERCISES,
 		variables: { code },
 		data: {
-			activeGroupExercises: activeGroupExercises && (activeGroupExercises.some(exercise => exercise.skillId === skillId) ? activeGroupExercises.map(exercise => exercise.skillId === skillId ? updatedExercise : exercise) : [...activeGroupExercises, updatedExercise])
+			activeGroupExercises: activeGroupExercises.some(exercise => exercise.skillId === skillId) ? activeGroupExercises.map(exercise => exercise.skillId === skillId ? updatedExercise : exercise) : [...activeGroupExercises, updatedExercise]
 		},
 	})
 }

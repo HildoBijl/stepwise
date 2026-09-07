@@ -35,14 +35,16 @@ export function Groups() {
 	}, [activeGroup, myGroups])
 
 	// If a group code has been given for a group the user is a member of, join that group.
-	const { code } = useParams()
+	const { code: codeParameter } = useParams()
+	const code = codeParameter?.toUpperCase()
 	const paths = usePaths()
 	const [activateGroup] = useActivateGroupMutation(code)
 	const navigate = useNavigate()
 	useEffect(() => {
 		if (code && myGroups && myGroups.find(group => group.code === code)) {
-			activateGroup(code)
-			navigate(paths.groups(), { replace: true }) // Remove the code from the URL.
+			activateGroup()
+				.then(() => navigate(paths.groups(), { replace: true })) // Remove the code from the URL.
+				.catch(() => {})
 		}
 	}, [code, paths, activateGroup, navigate, myGroups])
 

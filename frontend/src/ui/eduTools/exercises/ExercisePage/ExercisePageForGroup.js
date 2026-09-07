@@ -25,12 +25,12 @@ export function ExercisePageForGroup({ skillId }) {
 	const startNewExercise = useCallback(() => {
 		if (hasExercises(skillId)) {
 			setRequestedNextExercise(true)
-			startNewExerciseOnServer()
+			startNewExerciseOnServer().catch(() => {})
 		}
 	}, [skillId, startNewExerciseOnServer])
 	const submitAction = useCallback((action, processGroupActions) => {
 		// ToDo later: use processGroupActions to set up an optimistic response.
-		submitActionToServer({ variables: { action } })
+		submitActionToServer({ variables: { action } }).catch(() => {})
 	}, [submitActionToServer])
 
 	// If there is no exercise, start one.
@@ -54,11 +54,11 @@ export function ExercisePageForGroup({ skillId }) {
 	const displayExercise = requestedNextExercise ? exercise : displayExerciseRef.current
 
 	// Are there simply no exercises?
-	if (!hasExercises)
+	if (!hasExercises(skillId))
 		return <div>{getTranslation('loadingNotes.noExercises', 'eduTools/pages/skillPage')}</div>
 
 	// Any errors we should notify the user of?
-	const presentError = error && newExerciseError && actionError && cancelError && resolveError
+	const presentError = error || newExerciseError || actionError || cancelError || resolveError
 	if (presentError)
 		return <ErrorNote error={presentError} />
 

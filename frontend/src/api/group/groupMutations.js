@@ -9,7 +9,10 @@ import { GROUP, MY_ACTIVE_GROUP, MY_GROUPS } from './groupQueries'
 // CreateGroup creates a new group and makes the user a member.
 export function useCreateGroupMutation() {
 	return useMutation(CREATE_GROUP, {
-		update: (cache, { data: { createGroup: newGroup } }) => {
+		update: (cache, { data }) => {
+			const newGroup = data?.createGroup
+			if (!newGroup) return
+
 			// Update Group.
 			cache.writeQuery({
 				query: GROUP,
@@ -45,7 +48,10 @@ const CREATE_GROUP = gql`
 // JoinGroup will add a user to a group, setting up their membership.
 export function useJoinGroupMutation() {
 	const [joinGroup, res] = useMutation(JOIN_GROUP, {
-		update: (cache, { data: { joinGroup: updatedGroup } }) => {
+		update: (cache, { data }) => {
+			const updatedGroup = data?.joinGroup
+			if (!updatedGroup) return
+
 			// Update Group.
 			cache.writeQuery({
 				query: GROUP,
@@ -71,7 +77,7 @@ export function useJoinGroupMutation() {
 	})
 	const joinGroupWithCode = (code) => {
 		code = code.toUpperCase()
-		joinGroup({ variables: { code } })
+		return joinGroup({ variables: { code } })
 	}
 	return [joinGroupWithCode, res]
 }
@@ -136,7 +142,10 @@ export function useActivateGroupMutation(code) {
 	code = code && code.toUpperCase()
 	return useMutation(ACTIVATE_GROUP, {
 		variables: { code },
-		update: (cache, { data: { activateGroup: updatedGroup } }) => {
+		update: (cache, { data }) => {
+			const updatedGroup = data?.activateGroup
+			if (!updatedGroup) return
+
 			// Update Group.
 			cache.writeQuery({
 				query: GROUP,
@@ -172,18 +181,22 @@ const ACTIVATE_GROUP = gql`
 // DeactivateGroup will make a user inactive from any group in which they may be active.
 export function useDeactivateGroupMutation() {
 	return useMutation(DEACTIVATE_GROUP, {
-		update: (cache, { data: { deactivateGroup: updatedGroup } }) => {
+		update: (cache, { data }) => {
+			if (!data) return
+			const updatedGroup = data.deactivateGroup
+
+			// Update MyActiveGroup, including when there was no active group to deactivate.
+			cache.writeQuery({
+				query: MY_ACTIVE_GROUP,
+				data: { myActiveGroup: null },
+			})
+			if (!updatedGroup) return
+
 			// Update Group.
 			cache.writeQuery({
 				query: GROUP,
 				variables: { code: updatedGroup.code },
 				data: { group: updatedGroup },
-			})
-
-			// Update MyActiveGroup.
-			cache.writeQuery({
-				query: MY_ACTIVE_GROUP,
-				data: { myActiveGroup: null },
 			})
 
 			// Update MyGroups.

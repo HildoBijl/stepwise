@@ -26,7 +26,7 @@ export function JoinGroupConditions({ code }) {
 				variant="contained"
 				color="primary"
 				startIcon={<Done />}
-				onClick={() => joinGroup(code)}
+				onClick={() => joinGroup(code).catch(() => {})}
 				sx={{ margin: '0.5rem' }}
 			><Translation entry="agreeButton">Yes, I agree</Translation></Button>
 			<Button

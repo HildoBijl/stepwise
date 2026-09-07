@@ -54,12 +54,11 @@ export function useMyActiveGroupSubscription(subscribeToMore, apply = true) {
 				if (member && member.active)
 					return { myActiveGroup: updatedGroup }
 
-				// The user is not an active member. Check if the previous group has him active. In that case, it may happen that the activation of a new group came faster than the deactivation of the previous group.
-				const currentMember = myActiveGroup && myActiveGroup.members && myActiveGroup.members.find(member => member.userId === userId)
-				if (currentMember && currentMember.active)
+				// Ignore a late deactivation of a previous group after a newer group has already become active.
+				if (myActiveGroup && myActiveGroup.code !== updatedGroup.code)
 					return { myActiveGroup }
 
-				// No idea in which group the user is active.
+				// The current group was deactivated, so there is no known active group.
 				return { myActiveGroup: null }
 			}
 		})

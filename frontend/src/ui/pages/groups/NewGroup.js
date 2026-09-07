@@ -35,7 +35,8 @@ export function NewGroup() {
 					startIcon={<Done />}
 					onClick={() => {
 						createGroup()
-						navigate(paths.groups())
+							.then(() => navigate(paths.groups()))
+							.catch(() => {})
 					}}
 					style={{ margin: '0.5rem' }}
 				><Translation entry="agreeButton">Yes, I agree</Translation></Button>

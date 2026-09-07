@@ -21,7 +21,7 @@ export function ActiveGroup({ group }) {
 		size="small"
 		color="secondary"
 		endIcon={wideScreen ? <ExitToApp /> : null}
-		onClick={deactivateGroup}
+		onClick={() => deactivateGroup().catch(() => {})}
 	>{wideScreen ? <Translation entry="deactivateButton">Leave this group</Translation> : <ExitToApp />}</Button>
 
 	return <TranslationSection entry="activeGroup">
