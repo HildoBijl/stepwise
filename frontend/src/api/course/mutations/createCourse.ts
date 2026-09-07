@@ -8,10 +8,10 @@ import { ensureSetup, serializeSetup } from '@step-wise/skill-setup'
 import { USER_PUBLIC_FRAGMENT } from '../../user/fragments.ts'
 
 import type { CreateCourseInput, UseCreateCourseResult } from '../types.ts'
-import type { CourseRecord } from '../records.ts'
+import type { FullCourseRecord } from '../records.ts'
 import { COURSE_INFO_FRAGMENT } from '../fragments.ts'
 
-type CreateCourseData = { createCourse: CourseRecord }
+type CreateCourseData = { createCourse: FullCourseRecord }
 type CreateCourseBlockInput = { name: string; goals: readonly SkillId[] }
 type CreateCourseVariables = {
 	input: {

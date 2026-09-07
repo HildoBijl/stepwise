@@ -3,11 +3,11 @@ import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
 import type { UseAvailableCoursesResult } from '../types.ts'
-import type { CourseRecord } from '../records.ts'
+import type { CourseRecordWithSubscription } from '../records.ts'
 import { COURSE_INFO_FRAGMENT } from '../fragments.ts'
 import { courseRecordToCourseInfo } from '../conversion.ts'
 
-type AvailableCoursesQueryData = { allCourses: CourseRecord[] }
+type AvailableCoursesQueryData = { allCourses: CourseRecordWithSubscription[] }
 
 const AVAILABLE_COURSES_QUERY: TypedDocumentNode<AvailableCoursesQueryData, Record<string, never>> = gql`
 	query availableCourses {

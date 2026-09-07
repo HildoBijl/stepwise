@@ -3,10 +3,10 @@ import { type Reference, type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
 import type { UseSubscribeToCourseResult } from '../types.ts'
-import type { CourseRecord } from '../records.ts'
+import type { CourseRecordWithSubscription } from '../records.ts'
 import { COURSE_INFO_FRAGMENT } from '../fragments.ts'
 
-type SubscribeToCourseData = { subscribeToCourse: CourseRecord }
+type SubscribeToCourseData = { subscribeToCourse: CourseRecordWithSubscription }
 type SubscribeToCourseVariables = { courseId: string }
 
 const SUBSCRIBE_TO_COURSE_MUTATION: TypedDocumentNode<SubscribeToCourseData, SubscribeToCourseVariables> = gql`

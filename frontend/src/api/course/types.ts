@@ -11,7 +11,7 @@ export type CourseSubscription<Role extends CourseRole = CourseRole> = {
 	subscribedAt: Date
 }
 
-export type CourseInfoWithStudents<Student extends User = User> = {
+export type CourseInfo<Student extends User = User> = {
 	id: string
 	code: string
 	name: string
@@ -26,18 +26,11 @@ export type CourseInfoWithStudents<Student extends User = User> = {
 	students?: Student[]
 }
 
-export type CourseInfo = CourseInfoWithStudents
-export type StudentCourseInfo = CourseInfo & {
-	subscription: CourseSubscription<'student'>
-	students?: never
-}
-export type TeacherCourseInfo<Student extends User = User> = CourseInfoWithStudents<Student> & {
-	subscription: CourseSubscription<'teacher'>
-	students: Student[]
-}
+export type StudentCourseInfo = CourseInfo & { subscription: CourseSubscription<'student'> }
+export type TeacherCourseInfo<Student extends User = User> = CourseInfo<Student> & { subscription: CourseSubscription<'teacher'> }
+export type TeacherCourseInfoWithStudents<Student extends User = User> = TeacherCourseInfo<Student> & { students: Student[] }
 export type SubscribedCourseInfo = StudentCourseInfo | TeacherCourseInfo
-export type CourseInfoWithStudentSkills = CourseInfoWithStudents<UserWithSkills>
-export type TeacherCourseInfoWithStudentSkills = TeacherCourseInfo<UserWithSkills> & { teachers: User[] }
+export type CourseInfoWithStudentSkills = CourseInfo<UserWithSkills>
 
 export type CreateCourseInput = {
 	code: string
@@ -51,7 +44,7 @@ export type CreateCourseInput = {
 export type UseAvailableCoursesResult = ApiQueryResult<'courses', CourseInfo[]>
 export type UseMyCoursesResult = ApiOperationState & {
 	studentCourses: StudentCourseInfo[] | undefined
-	teacherCourses: TeacherCourseInfo[] | undefined
+	teacherCourses: TeacherCourseInfoWithStudents[] | undefined
 }
 export type UseCourseResult = ApiQueryResult<'course', CourseInfoWithStudentSkills>
 

@@ -1,5 +1,5 @@
-import type { SerializedSkillSetup } from '@step-wise/skill-setup'
 import type { SkillId } from '@step-wise/skill-definition'
+import type { SerializedSkillSetup } from '@step-wise/skill-setup'
 
 import type { UserRecord } from '../user/records.ts'
 import type { UserWithSkillsRecord } from '../skill/records.ts'
@@ -16,7 +16,7 @@ export type CourseSubscriptionRecord = {
 	subscribedAt: string
 }
 
-export type CourseRecord<StudentRecord extends UserRecord = UserRecord> = {
+export type CourseRecord = {
 	__typename: 'Course'
 	id: string
 	code: string
@@ -30,9 +30,19 @@ export type CourseRecord<StudentRecord extends UserRecord = UserRecord> = {
 	blocks: CourseBlockRecord[]
 	createdAt: string
 	updatedAt: string
-	subscription?: CourseSubscriptionRecord | null
-	teachers?: UserRecord[] | null
-	students?: StudentRecord[] | null
 }
 
-export type CourseWithStudentSkillsRecord = CourseRecord<UserWithSkillsRecord>
+export type CourseRecordWithSubscription = CourseRecord & {
+	subscription: CourseSubscriptionRecord | null
+}
+
+export type MyCourseRecord = CourseRecordWithSubscription & {
+	students: UserRecord[] | null
+}
+
+export type FullCourseRecord<StudentRecord extends UserRecord = UserRecord> = CourseRecordWithSubscription & {
+	teachers: UserRecord[] | null
+	students: StudentRecord[] | null
+}
+
+export type CourseWithStudentSkillsRecord = FullCourseRecord<UserWithSkillsRecord>

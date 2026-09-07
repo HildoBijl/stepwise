@@ -2,18 +2,24 @@ import { deserializeSetup } from '@step-wise/skill-setup'
 import { CourseDefinition } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
 
+import type { User } from '../user/types.ts'
+import type { UserRecord } from '../user/records.ts'
 import { userRecordToUser } from '../user/conversion.ts'
+import type { UserWithSkills } from '../skill/types.ts'
+import type { UserWithSkillsRecord } from '../skill/records.ts'
 import { userWithSkillsRecordToUser } from '../skill/conversion.ts'
 
-import type { CourseRecord, CourseWithStudentSkillsRecord } from './records.ts'
-import type { CourseInfo, CourseInfoWithStudentSkills, CourseSubscription } from './types.ts'
+import type { CourseInfo, CourseInfoWithStudentSkills, CourseSubscription, StudentCourseInfo, TeacherCourseInfoWithStudents } from './types.ts'
+import type { CourseRecord, CourseSubscriptionRecord, CourseWithStudentSkillsRecord, FullCourseRecord, MyCourseRecord } from './records.ts'
 
-function courseSubscriptionRecordToSubscription(record: CourseRecord['subscription']): CourseSubscription | undefined {
+type ConvertibleCourseRecord<StudentRecord extends UserRecord = UserRecord> = CourseRecord & Partial<FullCourseRecord<StudentRecord>>
+
+function courseSubscriptionRecordToSubscription(record: CourseSubscriptionRecord | null | undefined): CourseSubscription | undefined {
 	if (!record) return undefined
 	return { role: record.role, subscribedAt: new Date(record.subscribedAt) }
 }
 
-function courseRecordToBaseInfo(record: CourseRecord): Omit<CourseInfo, 'students'> {
+function convertCourseRecord<StudentRecord extends UserRecord, Student extends User>(record: ConvertibleCourseRecord<StudentRecord>, convertStudent: (student: StudentRecord) => Student): CourseInfo<Student> {
 	const subscription = courseSubscriptionRecordToSubscription(record.subscription)
 	return {
 		id: record.id,
@@ -32,20 +38,33 @@ function courseRecordToBaseInfo(record: CourseRecord): Omit<CourseInfo, 'student
 			...(record.setup === null ? {} : { setup: deserializeSetup(record.setup) }),
 		}),
 		...(record.teachers ? { teachers: record.teachers.map(userRecordToUser) } : {}),
+		...(record.students ? { students: record.students.map(convertStudent) } : {}),
 		...(subscription ? { subscription } : {}),
 	}
 }
 
-export function courseRecordToCourseInfo(record: CourseRecord): CourseInfo {
-	return {
-		...courseRecordToBaseInfo(record),
-		...(record.students ? { students: record.students.map(userRecordToUser) } : {}),
-	}
+export function courseRecordToCourseInfo(record: ConvertibleCourseRecord): CourseInfo {
+	return convertCourseRecord(record, userRecordToUser)
 }
 
 export function courseWithStudentSkillsRecordToCourseInfo(record: CourseWithStudentSkillsRecord): CourseInfoWithStudentSkills {
-	return {
-		...courseRecordToBaseInfo(record),
-		...(record.students ? { students: record.students.map(userWithSkillsRecordToUser) } : {}),
-	}
+	return convertCourseRecord<UserWithSkillsRecord, UserWithSkills>(record, userWithSkillsRecordToUser)
+}
+
+export function courseRecordsToMyCourses(records: MyCourseRecord[]): { studentCourses: StudentCourseInfo[]; teacherCourses: TeacherCourseInfoWithStudents[] } {
+	const studentCourses: StudentCourseInfo[] = []
+	const teacherCourses: TeacherCourseInfoWithStudents[] = []
+	records.forEach(record => {
+		const course = courseRecordToCourseInfo(record)
+		if (!course.subscription) throw new Error('Invalid own course: the current user does not have a subscription.')
+		if (course.subscription.role === 'student') {
+			if (course.students !== undefined) throw new Error('Invalid student course: student data is visible to a student.')
+			studentCourses.push({ ...course, subscription: { ...course.subscription, role: 'student' } })
+			return
+		}
+		if (course.subscription.role !== 'teacher') throw new Error(`Invalid own course: unknown subscription role "${course.subscription.role}".`)
+		if (!course.students) throw new Error('Invalid teacher course: student data is missing.')
+		teacherCourses.push({ ...course, subscription: { ...course.subscription, role: 'teacher' }, students: course.students })
+	})
+	return { studentCourses, teacherCourses }
 }

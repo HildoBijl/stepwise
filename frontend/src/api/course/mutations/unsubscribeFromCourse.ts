@@ -3,9 +3,9 @@ import { type Reference, type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
 import type { UseUnsubscribeFromCourseResult } from '../types.ts'
-import type { CourseRecord } from '../records.ts'
+import type { CourseRecord, CourseSubscriptionRecord } from '../records.ts'
 
-type UnsubscribedCourseRecord = Pick<CourseRecord, '__typename' | 'id' | 'subscription'>
+type UnsubscribedCourseRecord = Pick<CourseRecord, '__typename' | 'id'> & { subscription: CourseSubscriptionRecord | null }
 type UnsubscribeFromCourseData = { unsubscribeFromCourse: UnsubscribedCourseRecord }
 type UnsubscribeFromCourseVariables = { courseId: string }
 
