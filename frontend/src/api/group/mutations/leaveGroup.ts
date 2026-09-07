@@ -3,7 +3,7 @@ import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
 import type { UseLeaveGroupResult } from '../types.ts'
-import { removeGroupRecordFromList } from '../recordLists.ts'
+import { removeGroupRecord } from '../recordLists.ts'
 import { MY_ACTIVE_GROUP_QUERY } from '../queries/useMyActiveGroup.ts'
 import { MY_GROUPS_QUERY } from '../queries/useMyGroups.ts'
 
@@ -27,7 +27,7 @@ export function useLeaveGroup(code: string): UseLeaveGroupResult {
 			const activeGroup = cache.readQuery({ query: MY_ACTIVE_GROUP_QUERY })?.myActiveGroup
 			if (activeGroup?.code === normalizedCode) writeActiveGroup(cache, null)
 			const groups = cache.readQuery({ query: MY_GROUPS_QUERY })?.myGroups
-			if (groups) cache.writeQuery({ query: MY_GROUPS_QUERY, data: { myGroups: removeGroupRecordFromList(normalizedCode, groups) } })
+			if (groups) cache.writeQuery({ query: MY_GROUPS_QUERY, data: { myGroups: removeGroupRecord(normalizedCode, groups) } })
 		},
 	})
 	const leaveGroup = useCallback(async () => { await mutate() }, [mutate])

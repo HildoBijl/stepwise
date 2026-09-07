@@ -29,8 +29,9 @@ export function useMyActiveGroupSubscription(subscribeToMore: SubscribeToMoreFun
 		if (!apply) return
 		return subscribeToMore({
 			document: MY_ACTIVE_GROUP_UPDATED,
-			updateQuery: (previousData, { subscriptionData }) => {
-				const currentGroup = previousData.myActiveGroup as GroupRecord | null
+			updateQuery: (_unsafePreviousData, { complete, previousData, subscriptionData }) => {
+				if (!complete) return
+				const currentGroup = previousData.myActiveGroup
 				const updatedGroup = subscriptionData.data?.myActiveGroupUpdated
 				return { myActiveGroup: updatedGroup ? reconcileActiveGroupRecord(currentGroup, updatedGroup, userId) : currentGroup }
 			},

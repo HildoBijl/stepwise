@@ -22,8 +22,9 @@ export function useSkillLevelSubscription(subscribeToMore: SubscribeToMoreFuncti
 		if (!apply || !isSignedIn) return
 		const unsubscribe = subscribeToMore({
 			document: SKILL_LEVELS_UPDATED,
-			updateQuery: (previousData, { subscriptionData }) => {
-				const skills = (previousData.skills ?? []) as SkillLevelRecord[]
+			updateQuery: (_unsafePreviousData, { complete, previousData, subscriptionData }) => {
+				if (!complete) return
+				const skills = previousData.skills
 				const updatedSkills = subscriptionData.data?.skillsUpdated
 				if (!updatedSkills) return { skills }
 

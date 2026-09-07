@@ -1,7 +1,7 @@
 import type { ApolloCache } from '@apollo/client'
 
 import type { GroupExerciseRecord } from '../records.ts'
-import { addGroupExerciseRecordToList } from '../recordLists.ts'
+import { upsertGroupExerciseRecord } from '../recordLists.ts'
 import { ACTIVE_GROUP_EXERCISES_QUERY } from '../queries/useActiveGroupExercisesQuery.ts'
 
 export function updateGroupExerciseInCache(cache: ApolloCache, code: string, updatedExercise: GroupExerciseRecord): void {
@@ -10,6 +10,6 @@ export function updateGroupExerciseInCache(cache: ApolloCache, code: string, upd
 	cache.writeQuery({
 		query: ACTIVE_GROUP_EXERCISES_QUERY,
 		variables: { code },
-		data: { activeGroupExercises: addGroupExerciseRecordToList(updatedExercise, exercises) },
+		data: { activeGroupExercises: upsertGroupExerciseRecord(updatedExercise, exercises) },
 	})
 }

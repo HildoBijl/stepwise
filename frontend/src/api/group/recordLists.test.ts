@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import type { GroupRecord } from './records.ts'
-import { addGroupRecordToList, removeGroupRecordFromList } from './recordLists.ts'
+import { removeGroupRecord, upsertGroupRecord } from './recordLists.ts'
 
 function createGroup(code: string, active: boolean): GroupRecord {
 	return {
@@ -20,11 +20,20 @@ function createGroup(code: string, active: boolean): GroupRecord {
 }
 
 describe('group record-list updates', () => {
-	it('adds, replaces, and removes groups without duplicates', () => {
+	it('replaces a group with the same code', () => {
 		const original = createGroup('AAAA', true)
 		const replacement = createGroup('AAAA', false)
-		expect(addGroupRecordToList(replacement, [original])).toEqual([replacement])
-		expect(addGroupRecordToList(createGroup('BBBB', false), [original])).toHaveLength(2)
-		expect(removeGroupRecordFromList('AAAA', [original])).toEqual([])
+		expect(upsertGroupRecord(replacement, [original])).toEqual([replacement])
+	})
+
+	it('adds a group with a new code', () => {
+		const original = createGroup('AAAA', true)
+		const newGroup = createGroup('BBBB', false)
+		expect(upsertGroupRecord(newGroup, [original])).toEqual([original, newGroup])
+	})
+
+	it('removes a group by code', () => {
+		const original = createGroup('AAAA', true)
+		expect(removeGroupRecord('AAAA', [original])).toEqual([])
 	})
 })

@@ -3,7 +3,7 @@ import { type SubscribeToMoreFunction, type TypedDocumentNode, gql } from '@apol
 
 import type { ActiveGroupExercisesQueryData, ActiveGroupExercisesQueryVariables, GroupExerciseRecord } from '../records.ts'
 import { groupExerciseFields } from '../fragments.ts'
-import { addGroupExerciseRecordToList } from '../recordLists.ts'
+import { upsertGroupExerciseRecord } from '../recordLists.ts'
 
 type ActiveGroupExerciseUpdatedData = { activeGroupExercisesUpdated: GroupExerciseRecord }
 type ActiveGroupExerciseUpdatedVariables = { code: string }
@@ -26,10 +26,11 @@ export function useActiveGroupExercisesSubscription(
 		return subscribeToMore({
 			document: ACTIVE_GROUP_EXERCISE_UPDATED,
 			variables: { code },
-			updateQuery: (previousData, { subscriptionData }) => {
-				const exercises = previousData.activeGroupExercises as GroupExerciseRecord[]
+			updateQuery: (_unsafePreviousData, { complete, previousData, subscriptionData }) => {
+				if (!complete) return
+				const exercises = previousData.activeGroupExercises
 				const updatedExercise = subscriptionData.data?.activeGroupExercisesUpdated
-				return { activeGroupExercises: updatedExercise ? addGroupExerciseRecordToList(updatedExercise, exercises) : exercises }
+				return { activeGroupExercises: updatedExercise ? upsertGroupExerciseRecord(updatedExercise, exercises) : exercises }
 			},
 		})
 	}, [apply, code, subscribeToMore])

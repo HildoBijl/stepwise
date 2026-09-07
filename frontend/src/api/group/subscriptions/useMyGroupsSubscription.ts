@@ -5,7 +5,7 @@ import { useUserId } from '../../user/index.ts'
 
 import type { GroupRecord, MyGroupsQueryData } from '../records.ts'
 import { groupFields } from '../fragments.ts'
-import { addGroupRecordToList, removeGroupRecordFromList } from '../recordLists.ts'
+import { removeGroupRecord, upsertGroupRecord } from '../recordLists.ts'
 
 type MyGroupsUpdatedData = { myGroupsUpdated: GroupRecord }
 
@@ -26,15 +26,16 @@ export function useMyGroupsSubscription(
 		if (!apply) return
 		return subscribeToMore({
 			document: MY_GROUPS_UPDATED,
-			updateQuery: (previousData, { subscriptionData }) => {
-				const currentGroups = previousData.myGroups as GroupRecord[]
+			updateQuery: (_unsafePreviousData, { complete, previousData, subscriptionData }) => {
+				if (!complete) return
+				const currentGroups = previousData.myGroups
 				const updatedGroup = subscriptionData.data?.myGroupsUpdated
 				if (!updatedGroup) return { myGroups: currentGroups }
-				const groups = addGroupRecordToList(updatedGroup, currentGroups)
+				const groups = upsertGroupRecord(updatedGroup, currentGroups)
 				return {
 					myGroups: updatedGroup.members.some(member => member.userId === userId)
 						? groups
-						: removeGroupRecordFromList(updatedGroup.code, groups),
+						: removeGroupRecord(updatedGroup.code, groups),
 				}
 			},
 		})

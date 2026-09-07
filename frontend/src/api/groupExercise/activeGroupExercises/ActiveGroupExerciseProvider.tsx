@@ -12,7 +12,7 @@ export function ActiveGroupExerciseProvider({ children }: PropsWithChildren) {
 	const group = useActiveGroup()
 	const query = useActiveGroupExercisesQuery(group?.code, !!group)
 
-	const records = query.data?.activeGroupExercises
+	const records = group ? query.data?.activeGroupExercises : undefined
 	const exercises = useMemo(() => records?.map(groupExerciseRecordToExercise), [records])
 	const value = useMemo<ActiveGroupExercisesState>(() => ({
 		exercises,
