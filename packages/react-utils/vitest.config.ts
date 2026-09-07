@@ -1,9 +1,10 @@
 import { defineConfig, mergeConfig } from 'vitest/config'
 
-import baseConfig from './vitest.base.config.ts'
+import baseConfig from '../../vitest.base.config.ts'
 
 export default mergeConfig(baseConfig, defineConfig({
 	test: {
-		include: ['packages/*/src/**/*.test.{ts,tsx}'],
+		environment: 'jsdom',
+		include: ['src/**/*.test.{ts,tsx}'],
 	},
 }))
