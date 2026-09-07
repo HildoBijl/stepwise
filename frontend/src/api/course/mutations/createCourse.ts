@@ -2,12 +2,14 @@ import { useCallback } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
-import { ensureSetup, serializeSetup } from '@step-wise/skill-setup'
 import type { SkillId } from '@step-wise/skill-definition'
+import { ensureSetup, serializeSetup } from '@step-wise/skill-setup'
 
-import type { CourseRecord } from '../records.ts'
+import { USER_PUBLIC_FRAGMENT } from '../../user/fragments.ts'
+
 import type { CreateCourseInput, UseCreateCourseResult } from '../types.ts'
-import { courseMutationFields, USER_PUBLIC_FRAGMENT } from '../fragments.ts'
+import type { CourseRecord } from '../records.ts'
+import { COURSE_INFO_FRAGMENT } from '../fragments.ts'
 
 type CreateCourseData = { createCourse: CourseRecord }
 type CreateCourseBlockInput = { name: string; goals: readonly SkillId[] }
@@ -28,9 +30,20 @@ type CreateCourseVariables = {
 const CREATE_COURSE_MUTATION: TypedDocumentNode<CreateCourseData, CreateCourseVariables> = gql`
 	mutation createCourse($input: CreateCourseInput!) {
 		createCourse(input: $input) {
-			${courseMutationFields}
+			...CourseInfoFields
+			subscription {
+				role
+				subscribedAt
+			}
+			teachers {
+				...UserPublicFields
+			}
+			students {
+				...UserPublicFields
+			}
 		}
 	}
+	${COURSE_INFO_FRAGMENT}
 	${USER_PUBLIC_FRAGMENT}
 `
 

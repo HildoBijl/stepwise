@@ -2,17 +2,26 @@ import { useCallback } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
-import type { CourseRecord } from '../records.ts'
-import type { UsePromoteToTeacherResult } from '../types.ts'
-import { courseMutationFields, USER_PUBLIC_FRAGMENT } from '../fragments.ts'
+import { USER_PUBLIC_FRAGMENT } from '../../user/fragments.ts'
 
-type PromoteToTeacherData = { promoteToTeacher: CourseRecord }
+import type { UsePromoteToTeacherResult } from '../types.ts'
+import type { CourseRecord } from '../records.ts'
+
+type PromotedCourseRecord = Pick<CourseRecord, '__typename' | 'id' | 'teachers' | 'students'>
+type PromoteToTeacherData = { promoteToTeacher: PromotedCourseRecord }
 type PromoteToTeacherVariables = { courseId: string; userId: string }
 
 const PROMOTE_TO_TEACHER_MUTATION: TypedDocumentNode<PromoteToTeacherData, PromoteToTeacherVariables> = gql`
 	mutation promoteToTeacher($courseId: ID!, $userId: ID!) {
 		promoteToTeacher(courseId: $courseId, userId: $userId) {
-			${courseMutationFields}
+			__typename
+			id
+			teachers {
+				...UserPublicFields
+			}
+			students {
+				...UserPublicFields
+			}
 		}
 	}
 	${USER_PUBLIC_FRAGMENT}

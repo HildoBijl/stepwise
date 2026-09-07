@@ -2,20 +2,24 @@ import { useCallback } from 'react'
 import { type Reference, type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
-import type { CourseRecord } from '../records.ts'
 import type { UseUnsubscribeFromCourseResult } from '../types.ts'
-import { courseMutationFields, USER_PUBLIC_FRAGMENT } from '../fragments.ts'
+import type { CourseRecord } from '../records.ts'
 
-type UnsubscribeFromCourseData = { unsubscribeFromCourse: CourseRecord }
+type UnsubscribedCourseRecord = Pick<CourseRecord, '__typename' | 'id' | 'subscription'>
+type UnsubscribeFromCourseData = { unsubscribeFromCourse: UnsubscribedCourseRecord }
 type UnsubscribeFromCourseVariables = { courseId: string }
 
 const UNSUBSCRIBE_FROM_COURSE_MUTATION: TypedDocumentNode<UnsubscribeFromCourseData, UnsubscribeFromCourseVariables> = gql`
 	mutation unsubscribeFromCourse($courseId: ID!) {
 		unsubscribeFromCourse(courseId: $courseId) {
-			${courseMutationFields}
+			__typename
+			id
+			subscription {
+				role
+				subscribedAt
+			}
 		}
 	}
-	${USER_PUBLIC_FRAGMENT}
 `
 
 export function useUnsubscribeFromCourse(): UseUnsubscribeFromCourseResult {

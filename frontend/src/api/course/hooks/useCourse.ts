@@ -2,9 +2,12 @@ import { useMemo } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
-import type { CourseWithStudentSkillsRecord } from '../records.ts'
+import { USER_PUBLIC_FRAGMENT, USER_SHARED_DATA_FRAGMENT } from '../../user/fragments.ts'
+import { skillLevelFields } from '../../skill/fragments.ts'
+
 import type { UseCourseResult } from '../types.ts'
-import { fullCourseFields, USER_PUBLIC_FRAGMENT, USER_SHARED_DATA_FRAGMENT } from '../fragments.ts'
+import type { CourseWithStudentSkillsRecord } from '../records.ts'
+import { COURSE_INFO_FRAGMENT } from '../fragments.ts'
 import { courseWithStudentSkillsRecordToCourseInfo } from '../conversion.ts'
 
 type CourseQueryData = { course: CourseWithStudentSkillsRecord }
@@ -23,9 +26,26 @@ export function useCourse(code?: string): UseCourseResult {
 const COURSE_QUERY: TypedDocumentNode<CourseQueryData, CourseQueryVariables> = gql`
 	query course($code: String!) {
 		course(code: $code) {
-			${fullCourseFields}
+			...CourseInfoFields
+			subscription {
+				role
+				subscribedAt
+			}
+			teachers {
+				...UserPublicFields
+			}
+			students {
+				...UserPublicFields
+				sharedData {
+					...UserSharedDataFields
+					skills {
+						${skillLevelFields}
+					}
+				}
+			}
 		}
 	}
+	${COURSE_INFO_FRAGMENT}
 	${USER_PUBLIC_FRAGMENT}
 	${USER_SHARED_DATA_FRAGMENT}
 `

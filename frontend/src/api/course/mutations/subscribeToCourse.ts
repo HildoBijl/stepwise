@@ -2,9 +2,9 @@ import { useCallback } from 'react'
 import { type Reference, type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
-import type { CourseRecord } from '../records.ts'
 import type { UseSubscribeToCourseResult } from '../types.ts'
-import { courseMutationFields, USER_PUBLIC_FRAGMENT } from '../fragments.ts'
+import type { CourseRecord } from '../records.ts'
+import { COURSE_INFO_FRAGMENT } from '../fragments.ts'
 
 type SubscribeToCourseData = { subscribeToCourse: CourseRecord }
 type SubscribeToCourseVariables = { courseId: string }
@@ -12,10 +12,14 @@ type SubscribeToCourseVariables = { courseId: string }
 const SUBSCRIBE_TO_COURSE_MUTATION: TypedDocumentNode<SubscribeToCourseData, SubscribeToCourseVariables> = gql`
 	mutation subscribeToCourse($courseId: ID!) {
 		subscribeToCourse(courseId: $courseId) {
-			${courseMutationFields}
+			...CourseInfoFields
+			subscription {
+				role
+				subscribedAt
+			}
 		}
 	}
-	${USER_PUBLIC_FRAGMENT}
+	${COURSE_INFO_FRAGMENT}
 `
 
 export function useSubscribeToCourse(): UseSubscribeToCourseResult {
