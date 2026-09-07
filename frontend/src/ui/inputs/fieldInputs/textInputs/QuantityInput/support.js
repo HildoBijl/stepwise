@@ -196,7 +196,7 @@ export function mouseClickToCursor(event, FI, contentsElement) {
 	} else if (part === 'unit') {
 		newCursor = unitMouseClickToCursor(event, getUnitFI(FI), partElement)
 	} else if (part === 'unitSpacer') {
-		if (getHorizontalClickSide(event) === 0) {
+		if (getHorizontalClickSide(event, partElement) === 0) {
 			part = 'value'
 			newCursor = getPrecisionNumberEndCursor(numericValue)
 		} else {

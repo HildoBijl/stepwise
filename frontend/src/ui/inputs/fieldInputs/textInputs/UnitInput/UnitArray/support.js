@@ -136,7 +136,7 @@ export function mouseClickToCursor(evt, FI, unitArrayElement) {
 
 	// If we clicked on whitespace around the unit array, put the cursor on the start/end.
 	if (evt.target === unitArrayElement)
-		return getHorizontalClickSide(evt) === 0 ? getStartCursor(value, cursor) : getEndCursor(value, cursor)
+		return getHorizontalClickSide(evt, unitArrayElement) === 0 ? getStartCursor(value, cursor) : getEndCursor(value, cursor)
 
 	// If we clicked on a unit factor, pass on the call.
 	const unitFactorElements = [...unitArrayElement.getElementsByClassName('unitFactor')]
@@ -151,7 +151,7 @@ export function mouseClickToCursor(evt, FI, unitArrayElement) {
 	const timesElements = [...unitArrayElement.getElementsByClassName('times')]
 	const timesIndex = timesElements.findIndex(timesElement => timesElement.contains(evt.target))
 	if (timesIndex !== -1) {
-		const side = getHorizontalClickSide(evt)
+		const side = getHorizontalClickSide(evt, timesElements[timesIndex])
 		const part = timesIndex + side
 		const unitFactor = value[part]
 		return {

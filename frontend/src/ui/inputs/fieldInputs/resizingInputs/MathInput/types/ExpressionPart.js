@@ -272,7 +272,7 @@ export function addStrToFI(str, FI) {
 }
 
 export function charElementClickToCursor(evt, FI, trace, charElements, equationElement) {
-	return first(trace) + getHorizontalClickSide(evt)
+	return first(trace) + getHorizontalClickSide(evt, evt.target)
 }
 
 export function coordinatesToCursor(coordinates, boundsData, FI, charElements, contentsElement) {

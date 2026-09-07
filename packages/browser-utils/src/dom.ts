@@ -1,7 +1,16 @@
 import { Vector } from '@step-wise/geometry'
 
-type PositionSource = { clientX?: number, clientY?: number }
-type PositionEvent = PositionSource & { touches?: ArrayLike<PositionSource>, changedTouches?: ArrayLike<PositionSource> }
+export interface ClientPosition {
+	readonly clientX: number
+	readonly clientY: number
+}
+
+export interface PartialPositionEvent {
+	readonly clientX?: number
+	readonly clientY?: number
+	readonly touches?: ArrayLike<Partial<ClientPosition>>
+	readonly changedTouches?: ArrayLike<Partial<ClientPosition>>
+}
 
 export interface ModifierKeyState {
 	readonly shift: boolean
@@ -11,13 +20,16 @@ export interface ModifierKeyState {
 
 export type ModifierKeyEvent = Pick<KeyboardEvent, 'shiftKey' | 'ctrlKey' | 'altKey'>
 
-export function getEventClientPosition(event: PositionEvent): Vector | undefined {
+export function getEventClientPosition(event: MouseEvent | PointerEvent): Vector
+export function getEventClientPosition(event: TouchEvent): Vector | undefined
+export function getEventClientPosition(event: PartialPositionEvent): Vector | undefined
+export function getEventClientPosition(event: PartialPositionEvent): Vector | undefined {
 	const source = event.touches?.[0] ?? event.changedTouches?.[0] ?? event
 	if (source.clientX === undefined || source.clientY === undefined) return undefined
 	return new Vector(source.clientX, source.clientY)
 }
 
-export function getClientPosition(input: Element | PositionSource, parent: Element | null = null): { x: number, y: number } {
+export function getClientPosition(input: Element | Partial<ClientPosition>, parent: Element | null = null): { x: number, y: number } {
 	let x: number, y: number
 	if ('getBoundingClientRect' in input) {
 		const rect = input.getBoundingClientRect()
@@ -36,9 +48,9 @@ export function getClientPosition(input: Element | PositionSource, parent: Eleme
 	return { x, y }
 }
 
-export function getHorizontalClickSide(event: MouseEvent): 0 | 1 {
-	const rect = (event.target as Element).getBoundingClientRect()
-	return (event.clientX - rect.x + 1) * 2 >= rect.width ? 1 : 0
+export function getHorizontalClickSide(event: Pick<MouseEvent, 'clientX'>, element: Element): 0 | 1 {
+	const rect = element.getBoundingClientRect()
+	return event.clientX < rect.left + rect.width / 2 ? 0 : 1
 }
 
 export function getModifierKeyState(event: ModifierKeyEvent): ModifierKeyState {

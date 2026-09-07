@@ -48,9 +48,11 @@ Colors use normalized channel values between `0` and `1`. `RgbColor` contains re
 
 | Function | Behavior |
 | --- | --- |
-| `getEventClientPosition(event)` | Returns pointer client coordinates as a `Vector`, or `undefined` when coordinates are unavailable. |
+| `ClientPosition` | Structural type for a value with numeric `clientX` and `clientY` coordinates. |
+| `PartialPositionEvent` | Structural type for possibly incomplete direct or touch client coordinates. |
+| `getEventClientPosition(event)` | Returns client coordinates as a `Vector`. Mouse and pointer events always return a position; touch and incomplete structural events may return `undefined`. |
 | `getClientPosition(input, parent?)` | Returns the client position of an element or event-like value. With a parent, the result is relative to the parent's client rectangle. |
-| `getHorizontalClickSide(event)` | Returns `0` for the left side of the event target and `1` for the right side. |
+| `getHorizontalClickSide(event, element)` | Returns `0` for the left half of the supplied element and `1` for its right half. |
 | `ModifierKeyState` | Represents the Shift, Control, and Alt state returned for an event. |
 | `ModifierKeyEvent` | Structural event type containing Shift, Control, and Alt properties. |
 | `getModifierKeyState(event)` | Returns the event's `ModifierKeyState`. |
