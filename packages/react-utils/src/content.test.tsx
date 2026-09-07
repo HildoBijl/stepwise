@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
 import './testSetup.ts'
-import { ensureReactContent, Portal } from './elements.ts'
+import { ensureReactContent, Portal } from './content.ts'
 
 describe('ensureReactContent', () => {
 	it('accepts supported React content', () => {

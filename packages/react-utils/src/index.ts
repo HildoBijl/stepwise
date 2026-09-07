@@ -1,4 +1,4 @@
-export * from './elements.ts'
+export * from './content.ts'
 export * from './lifecycle.ts'
 export * from './refs.ts'
 export * from './localStorageState.ts'

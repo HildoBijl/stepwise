@@ -71,3 +71,5 @@ Colors use normalized channel values between `0` and `1`. `RgbColor` contains re
 | `writeLocalStorageValue(key, value)` | Serializes a value as JSON. Passing `null` or `undefined` removes the stored entry. |
 
 Local-storage values cross an untyped persistence boundary. Consumers should validate values before relying on their shape.
+
+React applications can use `useLocalStorageState` from `@step-wise/react-utils` to subscribe to these values and synchronize updates between components and browser documents.
