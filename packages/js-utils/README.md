@@ -238,7 +238,7 @@ The `rangeByStep` step must be non-zero and point toward the endpoint.
 
 | Function | Behavior |
 | --- | --- |
-| `shallowEqual(a, b)` | Checks equal length and strict equality at every position. |
+| `shallowEqualArrays(a, b)` | Checks equal length and strict equality at every position. |
 | `compareNumberArrays(a, b)` | Approximately compares equally shaped nested number arrays. |
 | `getOneToOneMatching(a, b, matcher?)` | Maps each item in `a` to an unused matching index in `b`, using deep equality by default. |
 | `hasOneToOneMatching(a, b, matcher?)` | Checks for a complete one-to-one matching. |
@@ -302,6 +302,10 @@ Irregular dimensions, invalid endpoints and incomplete element paths throw. `get
 Functions, special object types, sparse arrays and circular references are not plain data.
 
 ### Deep comparison
+
+| Function | Behavior |
+| --- | --- |
+| `shallowEqualObjects(a, b)` | Checks that both objects have the same own keys with strictly equal values. |
 
 #### `deepEqual(a, b)`
 

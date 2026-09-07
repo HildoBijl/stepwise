@@ -4,6 +4,6 @@ import baseConfig from './vitest.base.config.ts'
 
 export default mergeConfig(baseConfig, defineConfig({
 	test: {
-		include: ['packages/*/src/**/*.test.ts'],
+		include: ['packages/*/src/**/*.test.{ts,tsx}'],
 	},
 }))

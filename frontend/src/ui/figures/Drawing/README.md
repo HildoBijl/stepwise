@@ -35,6 +35,6 @@ Out comes a drawing, which hopefully looks as good as you want it to be!
 There are many ways to make drawings dynamic.
 
 - Want to have responses to user interaction? Then add event handlers to the components.
-- Want to have the drawing move by itself? Then use the `useAnimation` hook (from the [util/react file](frontend/src/util/react.js)) to call an update function dozens of times per second.
+- Want to have the drawing move by itself? Then use the `useAnimation` hook from `@step-wise/react-utils` to call an update function dozens of times per second.
 
 With some creativity you can achieve amazing results.

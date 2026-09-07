@@ -1,19 +1,13 @@
 import { mod, first, last, repeat, filterProperties } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-
-import { useEnsureRef, useEventListeners } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useEventListenersRef } from '@step-wise/react-utils'
 
 // Define event handlers that objects can use.
 export const defaultEventHandlers = {}
 const eventHandlers = ['mouseenter', 'mouseleave', 'click', 'mousedown', 'mouseup']
 eventHandlers.forEach(name => { defaultEventHandlers[name] = undefined })
 export const filterEventHandlers = (options) => filterProperties(options, (value, key) => eventHandlers.includes(key) && typeof value === 'function')
-export const useRefWithEventHandlers = (props, ref) => {
-	ref = useEnsureRef(ref)
-	const handlers = filterEventHandlers(props)
-	useEventListeners(handlers, ref)
-	return ref
-}
+export const useRefWithEventHandlers = (props, ref) => useEventListenersRef(filterEventHandlers(props), ref)
 
 // These are the parameters inherited by all object types.
 export const defaultObject = {

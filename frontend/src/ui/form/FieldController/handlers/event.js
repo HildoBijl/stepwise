@@ -1,14 +1,15 @@
-import { useStableCallback, useEventListener, ensureHTMLElement } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { ensureHTMLElement } from '@step-wise/browser-utils'
+import { useStableCallback, useEventListener } from '@step-wise/react-utils'
 
 // The event handlers will deal with events like key presses, mouse presses and such.
 export function useEventHandlers(fieldTrackerRef, keyboardRef, tabbingOnRef, { activate, blur, incrementTabIndex, decrementTabIndex, getActiveFieldId }) {
 	// Set up listeners for keyboard events.
-	const keyDownHandler = useStableCallback((evt) => handleKeyPress(evt, tabbingOnRef.current, incrementTabIndex, decrementTabIndex), [tabbingOnRef, incrementTabIndex, decrementTabIndex])
-	useEventListener('keydown', keyDownHandler)
+	const keyDownHandler = useStableCallback((evt) => handleKeyPress(evt, tabbingOnRef.current, incrementTabIndex, decrementTabIndex))
+	useEventListener('keydown', keyDownHandler, window)
 
 	// Set up listeners for mouse events.
-	const mouseDownHandler = useStableCallback((evt) => handleMouseDown(evt, fieldTrackerRef, keyboardRef, getActiveFieldId, activate, blur), [fieldTrackerRef, keyboardRef, getActiveFieldId, activate, blur])
-	useEventListener('mousedown', mouseDownHandler)
+	const mouseDownHandler = useStableCallback((evt) => handleMouseDown(evt, fieldTrackerRef, keyboardRef, getActiveFieldId, activate, blur))
+	useEventListener('mousedown', mouseDownHandler, window)
 }
 
 // handleKeyPress process a key press. It checks if it was a tab, and if so increments/decrements the tab index.

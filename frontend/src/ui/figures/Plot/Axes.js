@@ -1,8 +1,7 @@
 import React, { Fragment, forwardRef } from 'react'
 
 import { ensureNumber, ensureBoolean, ensurePlainObject, mergeDefaults, first, last, ensureFunction } from '@step-wise/js-utils'
-
-import { ensureReactElement } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { ensureReactContent } from '@step-wise/react-utils'
 
 import { useTransformationSettings, Group, Line, Label } from '../Drawing'
 
@@ -38,8 +37,8 @@ export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
 	tickToElement = ensureFunction(tickToElement)
 	gridLines = ensureBoolean(gridLines)
 	gridLineStyle = ensurePlainObject(gridLineStyle)
-	xLabel = xLabel && ensureReactElement(xLabel)
-	yLabel = yLabel && ensureReactElement(yLabel)
+	xLabel = xLabel && ensureReactContent(xLabel)
+	yLabel = yLabel && ensureReactContent(yLabel)
 	xLabelShift = ensureNumber(xLabelShift)
 	yLabelShift = ensureNumber(yLabelShift)
 	textScale = ensureNumber(textScale, { nonNegative: true, nonZero: true })

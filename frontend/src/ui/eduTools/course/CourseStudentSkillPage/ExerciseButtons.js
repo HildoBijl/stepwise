@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { Box, Typography, Button, alpha } from '@mui/material'
 
-import { useDimension } from 'util'
+import { useElementSize } from '@step-wise/react-utils'
+
 import { Translation } from 'i18n'
 
 
@@ -15,7 +16,7 @@ export function ExerciseButtons({ exerciseIndex, setExerciseIndex, userSkill, sh
 
 	// Update whether or not labels have to be shown.
 	const containerRef = useRef()
-	const containerWidth = useDimension(containerRef, 'offsetWidth')
+	const containerWidth = useElementSize(containerRef)?.width
 	useEffect(() => {
 		if (containerWidth !== undefined)
 			setShowLabels(exercises.length * 40 + 120 <= containerWidth)

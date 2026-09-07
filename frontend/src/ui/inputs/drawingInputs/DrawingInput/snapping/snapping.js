@@ -1,6 +1,7 @@
 import { integerRange, sortBy, mergeDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
+import { getEventClientPosition, getModifierKeyState } from '@step-wise/browser-utils'
+import { useStableCallback } from '@step-wise/react-utils'
 
-import { getEventPosition, getUtilKeys, useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useTransformationSettings } from 'ui/figures'
 import { useInputData } from '../../../Input'
 
@@ -15,7 +16,7 @@ export const defaultSnappingOptions = {
 }
 
 // useMouseSnapping wraps all the snapping functionalities into one hook. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.
-export function useMouseSnapping(options, { position, keys }) {
+export function useMouseSnapping(options, { position, modifierKeys }) {
 	let { snappers, applySnapping, snappingDistance } = mergeDefaults(options, defaultSnappingOptions)
 
 	// Resolve parameters that may depend on the input.
@@ -27,7 +28,7 @@ export function useMouseSnapping(options, { position, keys }) {
 	const snapper = useSnapperFunction(lines, graphicalLines, snappingDistance, applySnapping)
 
 	// Retrieve the current mouse position and apply the snapper.
-	const mouseData = { ...snapper(position), keys }
+	const mouseData = { ...snapper(position), modifierKeys }
 	const eventSnapper = useEventSnapper(snapper)
 
 	// If no drawing data is available, return a default outcome.
@@ -112,7 +113,7 @@ const emptySnapMousePositionResponse = { position: undefined, snappedPosition: u
 function useEventSnapper(snapper) {
 	const drawingRef = useDrawingRef()
 	return useStableCallback((event) => ({
-		...snapper(drawingRef.current.getDrawingCoordinates(getEventPosition(event))),
-		keys: getUtilKeys(event),
+		...snapper(drawingRef.current.getDrawingCoordinates(getEventClientPosition(event))),
+		modifierKeys: getModifierKeyState(event),
 	}))
 }

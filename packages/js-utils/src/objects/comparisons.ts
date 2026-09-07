@@ -1,5 +1,15 @@
 import { isPlainObject } from './plainnessChecks.ts'
 
+// Check whether two objects have the same own keys with strictly equal values.
+export function shallowEqualObjects(a: object, b: object): boolean {
+	if (Object.is(a, b)) return true
+	const aRecord = a as Record<PropertyKey, unknown>
+	const bRecord = b as Record<PropertyKey, unknown>
+	const aKeys = Reflect.ownKeys(a)
+	const bKeys = Reflect.ownKeys(b)
+	return aKeys.length === bKeys.length && aKeys.every(key => Object.prototype.hasOwnProperty.call(b, key) && Object.is(aRecord[key], bRecord[key]))
+}
+
 // Deeply compare primitives, arrays, plain objects, dates and regular expressions. Unsupported object types throw instead of producing unreliable results.
 export function deepEqual(a: unknown, b: unknown): boolean {
 	const aToB = new WeakMap<object, object>()

@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react'
+import React, { useEffect, useEffectEvent, useState, useRef } from 'react'
 
 import { isPlainObject, preserveRefs } from '@step-wise/js-utils'
-
-import { useUpdater, useLatest } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useLatestRef } from '@step-wise/react-utils'
 
 import { FormContext } from './context'
 import { useSubscriptionHandlers, useReadHandlers, useWriteHandlers, useValidationHandlers } from './handlers'
@@ -14,7 +13,7 @@ export function Form({ children, initialInput, submit, interpretInput }) {
 
 	// Define refs. These store important data that do not require rerenders.
 	const fieldsRef = useRef({}) // Stores all subscribed fields, processed versions of their input, and whether these data points are valid.
-	const submitRef = useLatest(submit) // Stores the submit function.
+	const submitRef = useLatestRef(submit) // Stores the submit function.
 
 	// Define handler functions.
 	const subscriptionHandlers = useSubscriptionHandlers(initialInput, setInput, fieldsRef)
@@ -42,7 +41,7 @@ export function Form({ children, initialInput, submit, interpretInput }) {
 
 // useInitialInputUpdating is an effect that is triggered on a change in the initialValue parameter. When this parameter changes, we attempt to implement the new value.
 function useInitialInputUpdating(initialInput, setInput, getFieldData) {
-	useUpdater(() => {
+	const applyInitialInput = useEffectEvent(() => {
 		// Check the initial input.
 		if (initialInput === undefined)
 			return
@@ -73,5 +72,6 @@ function useInitialInputUpdating(initialInput, setInput, getFieldData) {
 			})
 			return preserveRefs(newInput, input)
 		})
-	}, [initialInput])
+	})
+	useEffect(() => applyInitialInput(), [initialInput])
 }

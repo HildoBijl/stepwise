@@ -1,8 +1,9 @@
 import { useCallback, useEffect } from 'react'
 
 import { clamp } from '@step-wise/js-utils'
+import { getClientPosition } from '@step-wise/browser-utils'
+import { useEventListener } from '@step-wise/react-utils'
 
-import { getCoordinatesOf, useEventListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useSubmitCall } from 'ui/form'
 
 import { useInputData } from '../../Input'
@@ -71,8 +72,8 @@ function useMouseClickProcessing(mouseClickToCursor, mouseClickToFI, setFI, hull
 			return // If the target element has disappeared from the field (like a filler that's no longer present when the field becomes active) then do nothing.
 		if (!contents.contains(evt.target)) {
 			// If the field was clicked but not the contents, check where we're closer to.
-			const clickCoords = getCoordinatesOf(evt, field)
-			const contentsCoords = getCoordinatesOf(contents, field)
+			const clickCoords = getClientPosition(evt, field)
+			const contentsCoords = getClientPosition(contents, field)
 			const contentsWidth = contents.offsetWidth
 			if (clickCoords.x <= contentsCoords.x)
 				setFI(FI => addCursor(FI, getStartCursor(FI?.value, FI?.cursor))) // Left
@@ -86,7 +87,7 @@ function useMouseClickProcessing(mouseClickToCursor, mouseClickToFI, setFI, hull
 	}, [mouseClickToFI, hullRef, cursorRef, setFI, getStartCursor, getEndCursor])
 
 	// Listen to mouse downs on the field.
-	useEventListener('mousedown', mouseClickHandler, hullRef.current?.field)
+	useEventListener('mousedown', mouseClickHandler, hullRef.current?.field ?? null)
 }
 
 // useContentSlidingEffect sets up an effect for content sliding. It gets references to the contents field and the cursor (if existing). It then positions the contents field within its container (the input field) such that the cursor is appropriately visible.
@@ -118,7 +119,7 @@ function useContentSliding(hullRef, center) {
 		// If it doesn't fit, slide it appropriately.
 		const cutOff = 0.1 // The part of the container at which the contents don't slide yet.
 		const cutOffDistance = cutOff * containerWidth
-		const cursorPos = getCoordinatesOf(cursorElement, contents).x
+		const cursorPos = getClientPosition(cursorElement, contents).x
 		const slidePart = clamp((cursorPos - cutOffDistance) / (contentsWidth - 2 * cutOffDistance), 0, 1) - (center ? 0.5 : 0)
 		const translation = -slidePart * (contentsWidth - containerWidth)
 		contents.style.transform = `translateX(${translation}px)`

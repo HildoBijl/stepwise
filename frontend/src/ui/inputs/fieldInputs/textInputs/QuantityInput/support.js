@@ -1,7 +1,6 @@
 import { isNumeric, isLetter, mapValues, identity } from '@step-wise/js-utils'
 import { unitDefinitions, prefixes } from '@step-wise/physics-core'
-
-import { getClickSide } from 'util'
+import { getHorizontalClickSide } from '@step-wise/browser-utils'
 
 import { type as precisionNumberType, keyboardSettings as precisionNumberKeyboardSettings, keyPressToFI as precisionNumberKeyPressToFI, mouseClickToCursor as precisionNumberMouseClickToCursor, isEmpty as isPrecisionNumberEmpty, getStartCursor as getPrecisionNumberStartCursor, getEndCursor as getPrecisionNumberEndCursor, isCursorAtStart as isCursorAtPrecisionNumberStart, isCursorAtEnd as isCursorAtPrecisionNumberEnd, isValid as isPrecisionNumberValid, clean as cleanPrecisionNumber, functionalize as functionalizePrecisionNumber, errorToMessage as precisionNumberErrorToMessage } from '../PrecisionNumberInput'
 import { type as unitType, keyboardSettings as unitKeyboardSettings, keyPressToFI as unitKeyPressToFI, mouseClickToCursor as unitMouseClickToCursor, isEmpty as isUnitEmpty, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd, isValid as isUnitValid, clean as cleanUnit, functionalize as functionalizeUnit, errorToMessage as unitErrorToMessage } from '../UnitInput'
@@ -197,7 +196,7 @@ export function mouseClickToCursor(event, FI, contentsElement) {
 	} else if (part === 'unit') {
 		newCursor = unitMouseClickToCursor(event, getUnitFI(FI), partElement)
 	} else if (part === 'unitSpacer') {
-		if (getClickSide(event) === 0) {
+		if (getHorizontalClickSide(event, partElement) === 0) {
 			part = 'value'
 			newCursor = getPrecisionNumberEndCursor(numericValue)
 		} else {

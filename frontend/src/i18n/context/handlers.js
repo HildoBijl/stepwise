@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 
 import { setByPath } from '@step-wise/js-utils'
 import { languages, defaultLanguage } from '@step-wise/settings'
-
-import { isLocalhost, useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { isLocalhost } from '@step-wise/browser-utils'
+import { useStableCallback } from '@step-wise/react-utils'
 
 import { pathAsString, entryAsArray, getStoredLanguage, setStoredLanguage, getLocationBasedLanguage } from '../util'
 import { loadLanguageFile, sendLanguageFileUpdates } from '../loadAndUpdate'

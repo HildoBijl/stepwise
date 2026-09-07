@@ -1,6 +1,5 @@
 import { pickFromDefaults, resolveFunctionValue } from '@step-wise/js-utils'
-
-import { getHTMLElement } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { resolveHTMLElement } from '@step-wise/browser-utils'
 
 import { useFormParameter, defaultUseFormParameterOptions, useFieldRegistration, defaultFieldRegistrationOptions, useFormPartSettings } from 'ui/form'
 
@@ -22,7 +21,7 @@ export function useFieldControlRegistration(options, FI, setFI) {
 	const { allowFocus, readOnly, keyboard, element } = options
 	const [active, activateField, deactivateField] = useFieldRegistration({
 		...pickFromDefaults(options, defaultFieldRegistrationOptions),
-		apply: allowFocus && !readOnly && !!getHTMLElement(element), // Only apply when the element has loaded.
+		apply: allowFocus && !readOnly && !!resolveHTMLElement(element), // Only apply when the element has loaded.
 		keyboard: resolveFunctionValue(keyboard, FI, setFI), // The keyboard set-up may depend on the input field value, and the keyFunction may use the setFI function.
 	})
 	return { active, activateField, deactivateField }

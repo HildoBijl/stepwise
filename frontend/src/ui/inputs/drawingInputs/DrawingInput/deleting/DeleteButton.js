@@ -3,8 +3,8 @@ import { Box } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 
 import { resolveFunctionValuesDeep } from '@step-wise/js-utils'
+import { useEventListener } from '@step-wise/react-utils'
 
-import { useEventListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { Element, useGraphicalBounds } from 'ui/figures'
 
 import { useInput } from '../../../Input'

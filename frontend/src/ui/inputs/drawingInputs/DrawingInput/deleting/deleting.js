@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
 import { mergeDefaults } from '@step-wise/js-utils'
-
-import { getUtilKeys, useEventListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { getModifierKeyState } from '@step-wise/browser-utils'
+import { useEventListener } from '@step-wise/react-utils'
 
 import { useInputData } from '../../../Input'
 
@@ -20,7 +20,7 @@ export function useDeleting(options) {
 
 	// Listen to key presses for deleting.
 	const keyDownHandler = useDeletionKeyDownHandler(applyDeletion)
-	useEventListener('keydown', keyDownHandler)
+	useEventListener('keydown', keyDownHandler, window)
 
 	// Return data that is useful for the context.
 	return { applyDeletion, showDeleteButton, isMouseOverButton, setIsMouseOverButton }
@@ -40,7 +40,7 @@ export function useDeletionKeyDownHandler(applyDeletion) {
 		// On a delete remove all selected loads.
 		if (applyDeletion && (event.key === 'Delete' || event.key === 'Backspace')) {
 			event.preventDefault()
-			return setFI(FI => applyDeletion(FI, getUtilKeys(event)))
+			return setFI(FI => applyDeletion(FI, getModifierKeyState(event)))
 		}
 	}
 }

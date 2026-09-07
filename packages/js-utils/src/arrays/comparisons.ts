@@ -4,7 +4,7 @@ import { deepEqual } from '../objects/index.ts'
 import { isArray } from './checks.ts'
 
 // Check whether two arrays are shallow-equal (element-wise ===).
-export function shallowEqual<T>(a: readonly T[], b: readonly T[]): boolean {
+export function shallowEqualArrays<T>(a: readonly T[], b: readonly T[]): boolean {
 	return a.length === b.length && a.every((x, i) => x === b[i])
 }
 

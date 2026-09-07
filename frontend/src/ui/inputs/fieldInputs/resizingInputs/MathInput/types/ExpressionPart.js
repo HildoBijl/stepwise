@@ -1,8 +1,8 @@
 import { isNumber, isNumeric, isLetter, removeAt, insertAt, first } from '@step-wise/js-utils'
 import { defaultDecimalSeparator as decimalSeparator } from '@step-wise/settings'
 import { accentNames, constructTypes, textFunctions } from '@step-wise/cas'
+import { getHorizontalClickSide } from '@step-wise/browser-utils'
 
-import { getClickSide } from 'util'
 import { latexMinus } from 'ui/components'
 import { greekAlphabet } from 'ui/form'
 
@@ -272,7 +272,7 @@ export function addStrToFI(str, FI) {
 }
 
 export function charElementClickToCursor(evt, FI, trace, charElements, equationElement) {
-	return first(trace) + getClickSide(evt)
+	return first(trace) + getHorizontalClickSide(evt, evt.target)
 }
 
 export function coordinatesToCursor(coordinates, boundsData, FI, charElements, contentsElement) {

@@ -5,7 +5,7 @@ import { ensureLine as ensureGeometryLine } from '@step-wise/geometry'
 
 import { useGraphicalBounds, useGraphicalObject } from '../../DrawingContext'
 
-import { defaultObject, useRefWithEventHandlers } from './util'
+import { defaultObject } from './util'
 import Line, { defaultLine } from './Line'
 
 export const defaultBoundedLine = {
@@ -20,7 +20,6 @@ export const BoundedLine = forwardRef((props, ref) => {
 	// Process the input.
 	let { line, graphicalLine } = mergeDefaults(props, defaultBoundedLine)
 	line = ensureGeometryLine(useGraphicalObject(line, graphicalLine), 2)
-	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the line part and display it.
 	const bounds = useGraphicalBounds()

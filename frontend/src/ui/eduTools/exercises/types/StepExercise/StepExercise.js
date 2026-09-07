@@ -37,9 +37,10 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	// Upon loading, or on a change of the last event (something was submitted), focus on the first field. (Delay to ensure all fields are registered.))
 	const lastEventId = last(history, { allowOutOfBounds: true })?.id
 	useEffect(() => {
-		if (!state.done)
-			setTimeout(activateFirst, 1)
-	}, [MainProblem, state, lastEventId, activateFirst])
+		if (inspection || state.done) return undefined
+		const timeoutIndex = setTimeout(activateFirst, 1)
+		return () => clearTimeout(timeoutIndex)
+	}, [MainProblem, state, lastEventId, inspection, activateFirst])
 
 	// Determine what to show.
 	const hasMainProblemActions = hasPreviousInputAtStep(instance, 0, userId)

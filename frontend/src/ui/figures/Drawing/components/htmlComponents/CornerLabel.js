@@ -3,8 +3,7 @@ import React, { forwardRef } from 'react'
 
 import { ensureNumber, mergeDefaults, pickFromDefaults, omitKeys } from '@step-wise/js-utils'
 import { ensureCorner } from '@step-wise/geometry'
-
-import { ensureReactElement } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { ensureReactContent } from '@step-wise/react-utils'
 
 import { useGraphicalVector, useGraphicalDistance } from '../../DrawingContext'
 
@@ -21,7 +20,7 @@ export const defaultCornerLabel = {
 export const CornerLabel = forwardRef((props, ref) => {
 	// Check input.
 	let { children, points, graphicalPoints, size, graphicalSize } = mergeDefaults(props, defaultCornerLabel)
-	children = ensureReactElement(children)
+	children = ensureReactContent(children)
 	points = ensureCorner(useGraphicalVector(points, graphicalPoints), { dimension: 2 })
 	size = ensureNumber(useGraphicalDistance(size, graphicalSize))
 

@@ -2,8 +2,7 @@
 import React, { forwardRef, Fragment } from 'react'
 
 import { isObject, mapValues } from '@step-wise/js-utils'
-
-import { toCSS } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { colorToCss } from '@step-wise/browser-utils'
 
 import { themeColor, feedbackColors } from 'ui/theme'
 import { Group, components as drawingComponents } from 'ui/figures'
@@ -20,8 +19,8 @@ export const loadColors = {
 	external: '#8e0b0b',
 	reaction: '#043870',
 	section: '#902dba',
-	feedback: mapValues(feedbackColors, toCSS),
-	glow: toCSS(themeColor), // On selection.
+	feedback: mapValues(feedbackColors, colorToCss),
+	glow: colorToCss(themeColor), // On selection.
 }
 
 // render takes a data object, checks its "type" parameter, and based on that tries to render it into the right component for the Engineering Diagram.

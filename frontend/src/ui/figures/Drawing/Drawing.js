@@ -2,12 +2,13 @@
  * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired. The option useSvg is by default true.
  */
 
-import React, { useRef, forwardRef, useImperativeHandle, useId } from 'react'
+import React, { useState, forwardRef, useImperativeHandle, useId } from 'react'
 
 import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
+import { getEventClientPosition } from '@step-wise/browser-utils'
+import { usePointerState as useClientPointerState, useElementBounds } from '@step-wise/react-utils'
 
-import { getEventPosition, useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { notSelectable } from 'ui/theme'
 
 import { Figure, defaultFigureOptions } from '../Figure'
@@ -35,12 +36,11 @@ export const Drawing = forwardRef((options, ref) => {
 
 	// Set up styles and references.
 	const id = useId()
-	const figureRef = useRef()
-	const htmlContentsRef = useRef()
-	const svgRef = useRef()
-	const svgDefsRef = useRef()
-	const canvasRef = useRef()
-	useForceUpdateEffect() // Rerender the component once references are established.
+	const [figure, setFigure] = useState()
+	const [htmlContents, setHtmlContents] = useState()
+	const [svg, setSvg] = useState()
+	const [svgDefs, setSvgDefs] = useState()
+	const [canvas, setCanvas] = useState()
 
 	// Determine figure size parameters to use for rendering.
 	const { graphicalBounds } = transformationSettings
@@ -51,10 +51,10 @@ export const Drawing = forwardRef((options, ref) => {
 	// Set up refs and make them accessible to any implementing component.
 	useImperativeHandle(ref, () => ({
 		// Basic getters.
-		get figure() { return figureRef.current },
-		get svg() { return svgRef.current },
-		get canvas() { return canvasRef.current },
-		get context() { return canvasRef.current.getContext('2d') },
+		get figure() { return figure },
+		get svg() { return svg },
+		get canvas() { return canvas },
+		get context() { return canvas.getContext('2d') },
 		get transformationSettings() { return transformationSettings },
 		get width() { return transformationSettings.graphicalBounds.width },
 		get height() { return transformationSettings.graphicalBounds.height },
@@ -66,16 +66,16 @@ export const Drawing = forwardRef((options, ref) => {
 
 		// Coordinate manipulation functions. Note the distinction between client points, graphical points and drawing points, all in different coordinate systems.
 		getGraphicalCoordinates(cPoint, figureRect) {
-			return getGraphicalCoordinates(cPoint, transformationSettings, figureRef.current, figureRect)
+			return getGraphicalCoordinates(cPoint, transformationSettings, figure, figureRect)
 		},
 		getDrawingCoordinates(cPoint, figureRect) {
-			const gPoint = getGraphicalCoordinates(cPoint, transformationSettings, figureRef.current, figureRect)
+			const gPoint = getGraphicalCoordinates(cPoint, transformationSettings, figure, figureRect)
 			const inverseTransformation = transformationSettings.inverseTransformation
 			return gPoint && inverseTransformation.transform(gPoint)
 		},
 		getPointFromEvent(event) {
-			const cPoint = getEventPosition(event)
-			const gPoint = getGraphicalCoordinates(cPoint, transformationSettings, figureRef.current)
+			const cPoint = getEventClientPosition(event)
+			const gPoint = getGraphicalCoordinates(cPoint, transformationSettings, figure)
 			const inverseTransformation = transformationSettings.inverseTransformation
 			return gPoint && inverseTransformation.transform(gPoint)
 		},
@@ -91,15 +91,15 @@ export const Drawing = forwardRef((options, ref) => {
 
 	// Render figure with SVG and Canvas properly placed.
 	return (
-		<DrawingContext.Provider value={{ id, transformationSettings, figure: figureRef.current, svg: svgRef.current, svgDefs: svgDefsRef.current, htmlContents: htmlContentsRef.current, canvas: canvasRef.current }}>
-			<Figure ref={figureRef} {...pickFromDefaults(options, defaultFigureOptions)}>
+		<DrawingContext.Provider value={{ id, transformationSettings, figure, svg, svgDefs, htmlContents, canvas }}>
+			<Figure ref={setFigure} {...pickFromDefaults(options, defaultFigureOptions)}>
 				{options.useSvg ? (
-					<svg ref={svgRef} viewBox={`0 0 ${width} ${height}`} style={{ display: 'block', ...notSelectable, outline: 'none', overflow: 'visible', width: '100%', zIndex: 2 }}>
-						<defs ref={svgDefsRef} />
+					<svg ref={setSvg} viewBox={`0 0 ${width} ${height}`} style={{ display: 'block', ...notSelectable, outline: 'none', overflow: 'visible', width: '100%', zIndex: 2 }}>
+						<defs ref={setSvgDefs} />
 					</svg>
 				) : null}
-				{options.useCanvas ? <canvas ref={canvasRef} width={width} height={height} style={{ height: '100%', ...notSelectable, width: '100%', zIndex: 1 }} /> : null}
-				<div ref={htmlContentsRef} />
+				{options.useCanvas ? <canvas ref={setCanvas} width={width} height={height} style={{ height: '100%', ...notSelectable, width: '100%', zIndex: 1 }} /> : null}
+				<div ref={setHtmlContents} />
 				{options.children}
 
 				{/* Clip path to prevent overflow. */}
@@ -149,12 +149,12 @@ function getGraphicalCoordinates(clientCoordinates, transformationSettings, figu
 	])
 }
 
-// useMouseData tracks the position of the mouse in various coordinate systems. It returns its data in the form { clientPosition: ..., graphicalPosition: ..., position: ..., keys: {...} }.
-export function useMouseData() {
+// usePointerState tracks the pointer position in various coordinate systems.
+export function usePointerState() {
 	// Acquire data.
 	let { figure, transformationSettings } = useDrawingData()
-	const { position: clientPosition, keys } = useClientMouseData()
-	const figureRect = useBoundingClientRect(figure?.inner)
+	const { position: clientPosition, modifierKeys } = useClientPointerState()
+	const figureRect = useElementBounds(figure?.inner)
 
 	// return an empty object on missing data.
 	if (!clientPosition || !figureRect || figureRect.width === 0 || figureRect.height === 0)
@@ -168,15 +168,15 @@ export function useMouseData() {
 	const position = graphicalPosition && inverseTransformation.transform(graphicalPosition)
 
 	// Calculate the position in graphical coordinates.
-	return { clientPosition, graphicalPosition, position, keys }
+	return { clientPosition, graphicalPosition, position, modifierKeys }
 }
 
-// useGraphicalMousePosition tracks the position of the mouse in graphical coordinates. This is of the from {x: 120, y: 90 }.
-export function useGraphicalMousePosition(drawing) {
-	return useMouseData().graphicalPosition
+// useGraphicalPointerPosition tracks the pointer position in graphical coordinates.
+export function useGraphicalPointerPosition(drawing) {
+	return usePointerState().graphicalPosition
 }
 
-// useMousePosition tracks the position of the mouse and gives the location in drawing coordinates. This is of the form { x: 3.5, y: -2.5 }. The function must be provided with a reference to the drawing.
-export function useMousePosition() {
-	return useMouseData().position
+// usePointerPosition tracks the pointer position in drawing coordinates.
+export function usePointerPosition() {
+	return usePointerState().position
 }

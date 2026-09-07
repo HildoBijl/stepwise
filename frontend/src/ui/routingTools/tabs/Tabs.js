@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
 import { Tabs as MuiTabs, Tab as MuiTab, useTheme } from '@mui/material'
 
-import { useDimension, useResizeListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useElementSize } from '@step-wise/react-utils'
 
 import { useTabContext } from './TabProvider'
 import { TabLabel } from './TabLabel'
@@ -15,8 +15,8 @@ export function Tabs() {
 	const { tabs, tabIndex, setTabIndex } = useTabContext()
 
 	// Determine based on the width of the tabs bar whether labels should be shown.
-	const tabsRef = useRef()
-	const width = useDimension(tabsRef, 'offsetWidth', useResizeListener)
+	const [tabsElement, setTabsElement] = useState()
+	const width = useElementSize(tabsElement)?.width
 	let showIcon = true, showLabel = true
 	if (width / tabs.length < lowerTabWidthLimit)
 		showLabel = false
@@ -28,7 +28,7 @@ export function Tabs() {
 		return null
 
 	return <MuiTabs
-		ref={tabsRef}
+		ref={setTabsElement}
 		value={tabIndex}
 		onChange={(event, newValue) => setTabIndex(newValue)}
 		variant="fullWidth"

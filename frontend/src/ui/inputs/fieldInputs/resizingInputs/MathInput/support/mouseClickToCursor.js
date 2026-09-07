@@ -1,6 +1,5 @@
 import { findOptimum, findOptimumIndex, findIndexPath } from '@step-wise/js-utils'
-
-import { getCoordinatesOf } from 'util'
+import { getClientPosition } from '@step-wise/browser-utils'
 
 import { getFIFuncs } from '../types'
 
@@ -19,7 +18,7 @@ export function mouseClickToCursor(evt, FI, charElements, contentsElement) {
 	}
 
 	// Plan B: the click was not on a charElement or the charElement couldn't figure it out. Use the coordinates to determine the best cursor position.
-	const coordinates = getCoordinatesOf(evt)
+	const coordinates = getClientPosition(evt)
 	const boundsData = charElementsToBounds(charElements)
 	return getFIFuncs(FI).coordinatesToCursor(coordinates, boundsData, FI, charElements, contentsElement)
 }

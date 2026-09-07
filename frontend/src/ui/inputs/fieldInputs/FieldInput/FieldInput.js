@@ -1,8 +1,7 @@
 import React, { useRef, forwardRef } from 'react'
 
 import { isEmptyObject, mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep, identity } from '@step-wise/js-utils'
-
-import { useEnsureRef } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useForwardedRef } from '@step-wise/react-utils'
 
 import { Input, defaultInputOptions } from '../../Input'
 
@@ -34,7 +33,7 @@ export const defaultFieldInputOptions = {
 export const FieldInput = forwardRef((options, ref) => {
 	options = mergeDefaults(options, defaultFieldInputOptions)
 	const { type, initialValue, initialSettings, initialProperties, clean, functionalize, keyPressToFI, keyboardSettings } = options
-	ref = useEnsureRef(ref)
+	ref = useForwardedRef(ref)
 	const cursorRef = useRef()
 
 	// Process fields whose SIs contain a type and value, optionally supplemented with settings or other type-specific properties. The corresponding FI additionally has a cursor. Descendent components then only have to worry about the value.

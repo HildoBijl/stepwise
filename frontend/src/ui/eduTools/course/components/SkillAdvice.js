@@ -5,9 +5,9 @@ import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArro
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
 import { skillTree } from '@step-wise/skill-tree'
+import { usePrevious } from '@step-wise/react-utils'
 
 import { TranslationFile, Translation, useTranslator } from 'i18n'
-import { usePrevious } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { linkStyle } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
 import { NotificationBar, useModalContext } from 'ui/components'

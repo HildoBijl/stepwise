@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import { Box, alpha } from '@mui/material'
 
 import { clamp } from '@step-wise/js-utils'
+import { getClientPosition, getEventClientPosition } from '@step-wise/browser-utils'
+import { useElementMeasurement, useElementSize, useEventListener } from '@step-wise/react-utils'
 
-import { getCoordinatesOf, getEventPosition, useEventListener, useForceUpdate, useDimension, useResizeListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { notSelectable } from 'ui/theme'
 
 export default function HorizontalSlider({ children, sliderInside = false, padding = 0 }) {
@@ -20,17 +21,17 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 	const scrollerRef = useRef()
 
 	// Determine width and use it to determine whether we are active.
-	let contentsWidth = useDimension(innerRef, 'scrollWidth', useResizeListener)
-	const containerWidth = useDimension(innerRef, 'offsetWidth', useResizeListener)
+	let contentsWidth = useElementMeasurement(innerRef, element => element.scrollWidth)
+	const containerWidth = useElementSize(innerRef)?.width
 	const active = contentsWidth > containerWidth
 	contentsWidth = contentsWidth + (active ? 2 * padding : 0)
 	const contentsPart = containerWidth / contentsWidth
 
 	// Set up generic support functions.
-	const getClickPosition = (evt) => getEventPosition(evt).x
+	const getClickPosition = (evt) => getEventClientPosition(evt).x
 	const getClickPart = (evt) => {
 		const clickPosition = getClickPosition(evt)
-		const containerPosition = getCoordinatesOf(outerRef.current).x
+		const containerPosition = getClientPosition(outerRef.current).x
 		return (clickPosition - containerPosition) / containerWidth
 	}
 
@@ -76,18 +77,13 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 
 	// Set up event listeners for mouse clicks/drags for the horizontal scroll bar.
 	useEventListener('mousedown', startSliding, scrollerRef)
-	useEventListener('mousemove', updateSliding)
-	useEventListener('mouseup', endSliding)
+	useEventListener('mousemove', updateSliding, window)
+	useEventListener('mouseup', endSliding, window)
 
 	// Set up event listeners for touch for the contents itself.
 	useEventListener('touchstart', startDragging, outerRef, { passive: true })
-	useEventListener('touchmove', updateDragging, undefined, { passive: true })
-	useEventListener('touchend', endDragging, undefined, { passive: true })
-
-	// On a window-resize rerender the scrollbar.
-	const forceUpdate = useForceUpdate()
-	useResizeListener(forceUpdate)
-	useEffect(() => forceUpdate(), [forceUpdate])
+	useEventListener('touchmove', updateDragging, window, { passive: true })
+	useEventListener('touchend', endDragging, window, { passive: true })
 
 	// Implement style and render slider.
 	const bottomDisplacement = '0.5rem'
