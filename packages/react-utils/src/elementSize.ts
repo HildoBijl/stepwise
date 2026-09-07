@@ -14,6 +14,11 @@ export interface ElementSize {
 	readonly height: number
 }
 
+interface ElementMeasurementController<Measurement> {
+	readonly measurement: Measurement | undefined
+	readonly updateMeasurement: () => void
+}
+
 function resolveElement<T extends Element>(target: ElementReference<T>): T | null {
 	if (!target) return null
 	return 'current' in target ? target.current : target
@@ -37,22 +42,46 @@ export function useResizeObserver<T extends Element>(target: ElementReference<T>
 	}, [target, callbackRef, stableOptions])
 }
 
-export function useElementSize<T extends HTMLElement>(target: ElementReference<T>, options?: ResizeObserverOptions): ElementSize | undefined {
-	const [size, setSize] = useState<ElementSize>()
-	const updateSize = (element: T | null) => {
+function useElementMeasurementController<T extends Element, Measurement>(
+	target: ElementReference<T>,
+	measure: (element: T) => Measurement,
+	areEqual: (current: Measurement, previous: Measurement) => boolean,
+	resizeObserverOptions?: ResizeObserverOptions,
+): ElementMeasurementController<Measurement> {
+	const [measurement, setMeasurement] = useState<Measurement>()
+	const measureRef = useLatestRef(measure)
+	const areEqualRef = useLatestRef(areEqual)
+
+	const updateMeasurement = useStableCallback(() => {
+		const element = resolveElement(target)
 		if (!element) {
-			setSize(undefined)
+			setMeasurement(undefined)
 			return
 		}
-		const newSize = { width: element.offsetWidth, height: element.offsetHeight }
-		setSize(previousSize => previousSize?.width === newSize.width && previousSize.height === newSize.height ? previousSize : newSize)
-	}
+		const newMeasurement = measureRef.current(element)
+		setMeasurement(previousMeasurement => previousMeasurement !== undefined && areEqualRef.current(newMeasurement, previousMeasurement) ? previousMeasurement : newMeasurement)
+	})
 
-	useLayoutEffect(() => {
-		updateSize(resolveElement(target))
-	}, [target])
-	useResizeObserver(target, entry => updateSize(entry.target as T), options)
-	return size
+	useLayoutEffect(() => { updateMeasurement() })
+	useResizeObserver(target, updateMeasurement, resizeObserverOptions)
+	return { measurement, updateMeasurement }
+}
+
+export function useElementMeasurement<T extends Element, Measurement>(
+	target: ElementReference<T>,
+	measure: (element: T) => Measurement,
+	areEqual: (current: Measurement, previous: Measurement) => boolean = Object.is,
+	resizeObserverOptions?: ResizeObserverOptions,
+): Measurement | undefined {
+	return useElementMeasurementController(target, measure, areEqual, resizeObserverOptions).measurement
+}
+
+function areElementSizesEqual(current: ElementSize, previous: ElementSize): boolean {
+	return current.width === previous.width && current.height === previous.height
+}
+
+export function useElementSize<T extends HTMLElement>(target: ElementReference<T>, options?: ResizeObserverOptions): ElementSize | undefined {
+	return useElementMeasurement(target, element => ({ width: element.offsetWidth, height: element.offsetHeight }), areElementSizesEqual, options)
 }
 
 function areBoundsEqual(current: DOMRect, previous: DOMRect): boolean {
@@ -60,21 +89,8 @@ function areBoundsEqual(current: DOMRect, previous: DOMRect): boolean {
 }
 
 export function useElementBounds<T extends Element>(target: ElementReference<T>): DOMRect | undefined {
-	const [bounds, setBounds] = useState<DOMRect>()
-
-	const updateBounds = useStableCallback(() => {
-		const element = resolveElement(target)
-		if (!element) {
-			setBounds(undefined)
-			return
-		}
-		const newBounds = element.getBoundingClientRect()
-		setBounds(previousBounds => previousBounds && areBoundsEqual(newBounds, previousBounds) ? previousBounds : newBounds)
-	})
-	useLayoutEffect(() => { updateBounds() }, [target, updateBounds])
-
-	const scheduleBoundsUpdate = useCoalescedCallback(updateBounds)
-	useResizeObserver(target, scheduleBoundsUpdate)
+	const { measurement: bounds, updateMeasurement } = useElementMeasurementController(target, element => element.getBoundingClientRect(), areBoundsEqual)
+	const scheduleBoundsUpdate = useCoalescedCallback(updateMeasurement)
 	useEventListener(['resize', 'scroll'], scheduleBoundsUpdate, typeof window === 'undefined' ? null : window, { capture: true, passive: true })
 	return bounds
 }
