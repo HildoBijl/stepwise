@@ -2,10 +2,10 @@ import { partition } from '@step-wise/js-utils'
 import { type SkillSetup, ensureSetup } from '@step-wise/skill-setup'
 import { type SkillId, type SkillTree, isSkillPrerequisiteOf, sortSkillIdsByTreeOrder } from '@step-wise/skill-definition'
 
-import type { CourseAnalysis, CourseBlockDiagnostics, CourseDefinition, CourseResolutionBlock } from './types.ts'
+import type { CourseAnalysis, CourseBlockDiagnostics, CourseResolutionBlock, CourseSpecification } from './types.ts'
 
-export function analyzeCourse(skillTree: SkillTree, definition: CourseDefinition): CourseAnalysis {
-	const { learningGoalIds: originalLearningGoalIds, startingPointIds: originalStartingPointIds } = definition
+export function analyzeCourse(skillTree: SkillTree, specification: CourseSpecification): CourseAnalysis {
+	const { learningGoalIds: originalLearningGoalIds, startingPointIds: originalStartingPointIds } = specification
 
 	// Filter out unknown skills.
 	const [learningGoalIdsFiltered, unknownLearningGoalIds] = partition(originalLearningGoalIds, skillId => Object.hasOwn(skillTree, skillId))
@@ -52,23 +52,23 @@ export function analyzeCourse(skillTree: SkillTree, definition: CourseDefinition
 
 	// Determine learning goals and the errors in them.
 	const learningGoalIds = learningGoalIdsFiltered
-	const learningGoalWeights = learningGoalIdsFiltered.map(goalId => definition.learningGoalWeights ? definition.learningGoalWeights[originalLearningGoalIds.indexOf(goalId)] : 1)
+	const learningGoalWeights = learningGoalIdsFiltered.map(goalId => specification.learningGoalWeights ? specification.learningGoalWeights[originalLearningGoalIds.indexOf(goalId)] : 1)
 
 	// Determine prior knowledge: direct prerequisites of starting points outside the course.
 	const priorKnowledgeIds = sortSkillIdsByTreeOrder(skillTree, getPriorKnowledgeIds(skillTree, startingPointIds, contentsFound))
 
 	// Resolve blocks. If no blocks are provided, create one implicit block for the course goals.
 	let blocks: CourseResolutionBlock[] | undefined, contentSkillIds: SkillId[] | undefined, blockDiagnostics: CourseBlockDiagnostics[] | undefined, uncoveredLearningGoalIds: SkillId[] | undefined
-	if (definition.blockLearningGoalIds) {
-		[blocks, blockDiagnostics, uncoveredLearningGoalIds] = analyzeCourseBlocks(skillTree, definition.blockLearningGoalIds, contentsFound, learningGoalIdsFiltered)
+	if (specification.blockLearningGoalIds) {
+		[blocks, blockDiagnostics, uncoveredLearningGoalIds] = analyzeCourseBlocks(skillTree, specification.blockLearningGoalIds, contentsFound, learningGoalIdsFiltered)
 		if (uncoveredLearningGoalIds.length === 0) contentSkillIds = blocks.flatMap(block => block.contentSkillIds) // Sort contents by blocks.
 	}
 	if (!contentSkillIds) contentSkillIds = sortSkillIdsByTreeOrder(skillTree, contentsFound) // Sort contents by Skill Tree.
 
 	// Check the set-up contents.
 	let setup: SkillSetup | undefined, unknownSetupSkillIds: SkillId[] | undefined, externalSetupSkillIds: SkillId[] | undefined
-	if (definition.setup !== undefined) {
-		setup = ensureSetup(definition.setup)
+	if (specification.setup !== undefined) {
+		setup = ensureSetup(specification.setup)
 		unknownSetupSkillIds = setup.getSkillList().filter(skillId => !Object.hasOwn(skillTree, skillId))
 		externalSetupSkillIds = setup.getSkillList().filter(skillId => Object.hasOwn(skillTree, skillId) && !contentsFound.includes(skillId))
 	}

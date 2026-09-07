@@ -27,15 +27,15 @@ function SkillIndicatorForSelf() {
 
 // We only inspect a user as part of a course. So load the course data as well. This is probably cached already anyway.
 function SkillIndicatorForUser({ userId }) {
-	const { overview, loading: courseLoading, error: courseError } = useCourseData()
+	const { courseDefinition, loading: courseLoading, error: courseError } = useCourseData()
 	const { user, loading: userLoading, error: userError } = useUserWithSkills(userId)
 	if (userLoading || courseLoading || userError || courseError || !user) return null
-	return <SkillIndicatorForLoadedUser overview={overview} user={user} />
+	return <SkillIndicatorForLoadedUser courseDefinition={courseDefinition} user={user} />
 }
 
-function SkillIndicatorForLoadedUser({ overview, user }) {
+function SkillIndicatorForLoadedUser({ courseDefinition, user }) {
 	const { skillId } = useParams()
-	const processedStudent = useMemo(() => processStudentForCourse(user, overview), [user, overview])
+	const processedStudent = useMemo(() => processStudentForCourse(user, courseDefinition), [user, courseDefinition])
 	const skillLevel = processedStudent.skillLevelSet.getSkillLevel(skillId)
 	return <SkillIndicatorGraphics skillLevel={skillLevel} />
 }

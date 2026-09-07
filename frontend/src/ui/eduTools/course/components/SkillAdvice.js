@@ -171,7 +171,7 @@ function useSkillModal() {
 
 // useSkillAdvice returns an advice type and recommendation that determine whether the user should stay, move onward or go back to a prerequisite. The recommendation is based on the current skillId: it is not always the course recommendation. For instance, if a prerequisite of the given skill is good to practice, it recommends that one.
 export function useSkillAdvice() {
-	const { overview, analysis } = useCourseData()
+	const { courseDefinition, analysis } = useCourseData()
 	const skillId = useSkillId()
-	return getSkillPracticeAdvice(overview, analysis, skillId)
+	return getSkillPracticeAdvice(courseDefinition, analysis, skillId)
 }

@@ -1,6 +1,6 @@
 import type { SkillId, SkillSetup, SkillSetupLike } from '@step-wise/skill-setup'
 
-export type CourseDefinition = {
+export type CourseSpecification = {
 	startingPointIds: readonly SkillId[]
 	learningGoalIds: readonly SkillId[]
 	learningGoalWeights?: readonly number[]

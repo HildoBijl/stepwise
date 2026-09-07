@@ -22,27 +22,27 @@ const translationPath = `eduTools/pages/courseStudentPage`
 export function CourseStudentPage() {
 	// Load in required data.
 	const { studentId } = useParams()
-	const { course, overview, loading: courseLoading, error: courseError } = useCourseData()
+	const { course, courseDefinition, loading: courseLoading, error: courseError } = useCourseData()
 	const { user: student, loading: userLoading, error: userError } = useUserWithSkills(studentId)
 
 	// Check if the data is already present.
 	if (userLoading || courseLoading) return <LoadingIndicator />
 	if (userError || courseError || !student) return <ErrorNote error={userError ?? courseError} />
-	return <CourseStudentPageForStudent course={course} overview={overview} student={student} />
+	return <CourseStudentPageForStudent course={course} courseDefinition={courseDefinition} student={student} />
 }
 
-export function CourseStudentPageForStudent({ course, overview, student }) {
+export function CourseStudentPageForStudent({ course, courseDefinition, student }) {
 	// Process the given data.
-	const processedStudent = useMemo(() => processStudentForCourse(student, overview), [student, overview])
+	const processedStudent = useMemo(() => processStudentForCourse(student, courseDefinition), [student, courseDefinition])
 
 	// Render the various page parts.
 	return <TranslationFile path={translationPath}>
-		<LastActivity {...{ processedStudent, course, overview }} />
-		<ProgressOverview {...{ processedStudent, course, overview }} />
+		<LastActivity {...{ processedStudent, course, courseDefinition }} />
+		<ProgressOverview {...{ processedStudent, course, courseDefinition }} />
 	</TranslationFile>
 }
 
-function LastActivity({ processedStudent, course, overview }) {
+function LastActivity({ processedStudent, course, courseDefinition }) {
 	const translate = useTranslator()
 	const paths = usePaths()
 	const navigate = useNavigate()
@@ -55,7 +55,7 @@ function LastActivity({ processedStudent, course, overview }) {
 		const lastEvent = last(lastExercise.history)
 		return new Date(lastEvent.performedAt)
 	}
-	let skills = processedStudent.skills.filter(skill => hasExercises(skill.skillId) && overview.allSkillIds.includes(skill.skillId))
+	let skills = processedStudent.skills.filter(skill => hasExercises(skill.skillId) && courseDefinition.allSkillIds.includes(skill.skillId))
 	skills = skills.filter(skill => getLastSkillActivity(skill) !== undefined)
 	skills = skills.sort((s1, s2) => getLastSkillActivity(s2) - getLastSkillActivity(s1))
 
@@ -77,7 +77,7 @@ function LastActivity({ processedStudent, course, overview }) {
 									<TimeAgo date={lastActivity} addAgo={true} />
 								</TableCell>
 								<TableCell align="center" sx={{ minWidth: 60, width: 80 }}>
-									<SkillFlaskWithNumbers skillId={skill.id} student={processedStudent} overview={overview} />
+									<SkillFlaskWithNumbers skillId={skill.id} student={processedStudent} courseDefinition={courseDefinition} />
 								</TableCell>
 								<TableCell sx={{ minWidth: 140, width: 800 }}>
 									{translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
@@ -90,13 +90,13 @@ function LastActivity({ processedStudent, course, overview }) {
 	</TranslationSection >
 }
 
-function ProgressOverview({ processedStudent, course, overview }) {
+function ProgressOverview({ processedStudent, course, courseDefinition }) {
 	const translate = useTranslator()
 	const paths = usePaths()
 	const navigate = useNavigate()
-	const numSkillColumns = useMemo(() => Math.max(...overview.blocks.map(block => block.contentSkillIds.length)), [overview])
+	const numSkillColumns = useMemo(() => Math.max(...courseDefinition.blocks.map(block => block.contentSkillIds.length)), [courseDefinition])
 
-	// Render the overview.
+	// Render the course definition.
 	return <TranslationSection entry="progressOverview">
 		<Head sx={{ mb: 1 }}><Translation entry="head">Course progress</Translation></Head>
 		<TableContainer component={Paper} sx={{ overflowX: 'auto' }}>
@@ -110,7 +110,7 @@ function ProgressOverview({ processedStudent, course, overview }) {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{overview.blocks.map((block, index) => <TableRow key={index}>
+					{courseDefinition.blocks.map((block, index) => <TableRow key={index}>
 						<TableCell align="center" sx={{ fontWeight: 450, color: 'primary.main' }}>
 							{index + 1}
 						</TableCell>
@@ -121,7 +121,7 @@ function ProgressOverview({ processedStudent, course, overview }) {
 							<CenteredProgressIndicator size={50} total={block.contentSkillIds.length} done={processedStudent.analysis.numCompletedPerBlock[index]} />
 						</TableCell>
 						{repeat(numSkillColumns, index => <TableCell key={index} align="center" onClick={() => navigate(paths.courseStudentSkill({ courseCode: course.code, studentId: processedStudent.id, skillId: block.contentSkillIds[index] }))} sx={{ verticalAlign: 'top', cursor: 'pointer', '&:hover': { backgroundColor: theme => theme.palette.action.hover } }}>
-							<SkillIndicator skillId={block.contentSkillIds[index]} student={processedStudent} overview={overview} />
+							<SkillIndicator skillId={block.contentSkillIds[index]} student={processedStudent} courseDefinition={courseDefinition} />
 						</TableCell>)}
 					</TableRow>)}
 				</TableBody>
@@ -130,7 +130,7 @@ function ProgressOverview({ processedStudent, course, overview }) {
 	</TranslationSection>
 }
 
-function SkillIndicator({ skillId, student, overview }) {
+function SkillIndicator({ skillId, student, courseDefinition }) {
 	const translate = useTranslator()
 
 	// When there's no skillId, we are through the skills of this block and don't need to show more.
@@ -140,18 +140,18 @@ function SkillIndicator({ skillId, student, overview }) {
 
 	// Render the contents.
 	return <Box sx={{ display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', justifyContent: 'flex-start', gap: '4px' }}>
-		<SkillFlaskWithNumbers {...{ skillId, student, overview }} />
+		<SkillFlaskWithNumbers {...{ skillId, student, courseDefinition }} />
 		<Box sx={{ fontSize: 8, fontWeight: 500 }}>
 			{translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
 		</Box>
 	</Box>
 }
 
-function SkillFlaskWithNumbers({ skillId, student, overview }) {
+function SkillFlaskWithNumbers({ skillId, student, courseDefinition }) {
 	// Extract data for the skill.
 	const skillLevelSet = student.skillLevelSet
 	const skill = student.skills.find(skill => skill.skillId === skillId)
-	const isPriorKnowledge = overview.priorKnowledgeIds.includes(skillId)
+	const isPriorKnowledge = courseDefinition.priorKnowledgeIds.includes(skillId)
 
 	// Determine the number of correct, partially correct, incorrect and in-progress exercises. (Partially correct counts as correct on a second or later attempt. Incorrect is "given up" or "solved step-wise".)
 	const exercises = skill?.exercises ?? []

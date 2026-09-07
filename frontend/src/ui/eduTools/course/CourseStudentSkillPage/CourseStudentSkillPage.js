@@ -19,19 +19,19 @@ const translationPath = `eduTools/pages/courseStudentSkillPage`
 export function CourseStudentSkillPage() {
 	// Load in required data.
 	const { studentId } = useParams()
-	const { overview, loading: courseLoading, error: courseError } = useCourseData()
+	const { courseDefinition, loading: courseLoading, error: courseError } = useCourseData()
 	const { user, loading: userLoading, error: userError } = useUserWithSkills(studentId)
 
 	// Check if the data is already present.
 	if (userLoading || courseLoading) return <LoadingIndicator />
 	if (userError || courseError || !user) return <ErrorNote error={userError ?? courseError} />
-	return <CourseStudentSkillPageForUser overview={overview} user={user} />
+	return <CourseStudentSkillPageForUser courseDefinition={courseDefinition} user={user} />
 }
 
-export function CourseStudentSkillPageForUser({ overview, user }) {
+export function CourseStudentSkillPageForUser({ courseDefinition, user }) {
 	// Load in relevant data.
 	const skillId = useSkillId()
-	const student = useMemo(() => processStudentForCourse(user, overview), [user, overview])
+	const student = useMemo(() => processStudentForCourse(user, courseDefinition), [user, courseDefinition])
 	const userSkill = student.skills.find(skill => skill.skillId === skillId)
 
 	// Set up controllers for the buttons.

@@ -8,10 +8,10 @@ import { Translation } from 'i18n'
 import { useCourseData } from './CourseProvider'
 
 export function GradeEstimate() {
-	const { skillLevelsLoaded, skillLevelSet, overview } = useCourseData()
+	const { skillLevelsLoaded, skillLevelSet, courseDefinition } = useCourseData()
 
 	// Do not show an estimate when no set-up has been given.
-	const { setup } = overview
+	const { setup } = courseDefinition
 	if (!skillLevelsLoaded || !setup)
 		return null
 

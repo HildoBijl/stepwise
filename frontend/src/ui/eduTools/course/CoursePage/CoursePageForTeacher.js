@@ -19,7 +19,7 @@ const translationPath = 'eduTools/pages/coursePage'
 const translationSection = 'teachers'
 
 export function CoursePageForTeacher() {
-	const { course, overview } = useCourseData()
+	const { course, courseDefinition } = useCourseData()
 	const paths = usePaths()
 
 	// When there are no students, show a note.
@@ -34,18 +34,18 @@ export function CoursePageForTeacher() {
 			</TranslationSection>
 		</TranslationFile >
 
-	// On students, show the overview.
-	return <StudentOverview course={course} overview={overview} students={students} />
+	// On students, show the course definition.
+	return <StudentOverview course={course} courseDefinition={courseDefinition} students={students} />
 }
 
-function StudentOverview({ course, overview, students }) {
+function StudentOverview({ course, courseDefinition, students }) {
 	const translate = useTranslator()
 	const [filterInactive, setFilterInactive] = useLocalStorageState(false)
 	const navigate = useNavigate()
 	const paths = usePaths()
 
 	// Check out the course and define columns based on it.
-	const { blocks } = overview
+	const { blocks } = courseDefinition
 	const renderHeader = cell => <Box component="span" sx={{ fontWeight: 500, ...notSelectable }}>{cell.colDef.headerName}</Box>
 	const dgColumns = useMemo(() => [
 		{
@@ -82,9 +82,9 @@ function StudentOverview({ course, overview, students }) {
 			align: 'center',
 			headerAlign: 'center',
 			renderHeader,
-			renderCell: cell => <CenteredProgressIndicator total={overview.contentSkillIds.length} done={cell.value} sx={{ fontWeight: 600 }} />,
+			renderCell: cell => <CenteredProgressIndicator total={courseDefinition.contentSkillIds.length} done={cell.value} sx={{ fontWeight: 600 }} />,
 		},
-		...overview.blocks.map((_, index) => ({
+		...courseDefinition.blocks.map((_, index) => ({
 			field: `block${index}`,
 			headerName: `${index + 1}`,
 			minWidth: 60,
@@ -94,12 +94,12 @@ function StudentOverview({ course, overview, students }) {
 			renderHeader: cell => <Tooltip title={translate(course.blocks[index].name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')} arrow>
 				{renderHeader(cell)}
 			</Tooltip>,
-			renderCell: cell => <CenteredProgressIndicator total={overview.blocks[index].contentSkillIds.length} done={cell.value} />,
+			renderCell: cell => <CenteredProgressIndicator total={courseDefinition.blocks[index].contentSkillIds.length} done={cell.value} />,
 		})),
-	], [course, overview, translate])
+	], [course, courseDefinition, translate])
 
 	// Process the student data and potentially filter out inactive students.
-	let processedStudents = useMemo(() => students.map(student => processStudentForCourse(student, overview)), [students, overview])
+	let processedStudents = useMemo(() => students.map(student => processStudentForCourse(student, courseDefinition)), [students, courseDefinition])
 	const inactiveStudentThreshold = 2 * 30 * 24 * 60 * 60 * 1000 // 2 months
 	const isStudentInactive = student => student.lastActive === undefined || new Date() - student.lastActive > inactiveStudentThreshold
 	const areInactiveStudents = processedStudents.some(isStudentInactive)

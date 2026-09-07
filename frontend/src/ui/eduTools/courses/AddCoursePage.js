@@ -4,7 +4,7 @@ import { Tooltip, Alert, AlertTitle, Box, alpha } from '@mui/material'
 import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 import clsx from 'clsx'
 
-import { useAllCoursesQuery, courseRecordToCourse } from 'api'
+import { useAllCoursesQuery, courseRecordToCourseDefinition } from 'api'
 import { TranslationFile, Translation } from 'i18n'
 import { Head } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
@@ -106,7 +106,7 @@ function CourseEntry({ course }) {
 	const navigate = useNavigate()
 
 	// Analyze the course to see what's in it.
-	const overview = useMemo(() => courseRecordToCourse(course), [course])
+	const courseDefinition = useMemo(() => courseRecordToCourseDefinition(course), [course])
 
 	// Set up handlers for events.
 	const [hover, setHover] = useState(false)
@@ -121,8 +121,8 @@ function CourseEntry({ course }) {
 		<Tooltip open={hover} arrow title={<Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</Translation>}>
 			<Box className={clsx('cell', 'name', { hover })} {...handlers}><Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.name`}>{course.name}</Translation></Box>
 		</Tooltip>
-		<Box className={clsx('cell', 'numBlocks', { hover })} {...handlers}>{overview.blocks.length}</Box>
-		<Box className={clsx('cell', 'numSkills', { hover })} {...handlers}>{overview.contentSkillIds.length}</Box>
+		<Box className={clsx('cell', 'numBlocks', { hover })} {...handlers}>{courseDefinition.blocks.length}</Box>
+		<Box className={clsx('cell', 'numSkills', { hover })} {...handlers}>{courseDefinition.contentSkillIds.length}</Box>
 		<Box className={clsx('cell', 'subscribed', { hover })} {...handlers}><SubscribeIcon style={{ opacity: course.role ? 1 : 0.05 }} /></Box>
 	</>
 }

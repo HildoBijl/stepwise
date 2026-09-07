@@ -1,5 +1,5 @@
 import { type SkillId, type SkillTree, createSkillTree } from '@step-wise/skill-definition'
-import { Course } from '@step-wise/course-definition'
+import { CourseDefinition } from '@step-wise/course-definition'
 import { type StoredSkillLevel, type StoredSkillLevelSet, SkillLevelSet } from '@step-wise/skill-tracking'
 
 import type { PracticeNeed } from './practiceNeeds.ts'
@@ -15,7 +15,7 @@ export const skillTree = createSkillTree({
 	outside: { name: 'Outside' },
 })
 
-export const course = new Course(skillTree, {
+export const courseDefinition = new CourseDefinition(skillTree, {
 	startingPointIds: ['basic'],
 	learningGoalIds: ['advanced'],
 	blockLearningGoalIds: [['intermediate'], ['advanced']],

@@ -5,7 +5,7 @@ import { Tooltip, Box, alpha } from '@mui/material'
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
 import { skillTree } from '@step-wise/skill-tree'
 
-import { courseRecordToCourse } from 'api'
+import { courseRecordToCourseDefinition } from 'api'
 import { useTranslator, Translation, Plurals } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
@@ -106,7 +106,7 @@ export function StudentTile({ course, skillsTotal, skillsDone, recommendation })
 
 export function TeacherTile({ course }) {
 	// Process the course.
-	const overview = useMemo(() => courseRecordToCourse(course), [course])
+	const courseDefinition = useMemo(() => courseRecordToCourseDefinition(course), [course])
 
 	// Define styles.
 	const containerStyle = { textAlign: 'center' }
@@ -126,10 +126,10 @@ export function TeacherTile({ course }) {
 	// Render the tile part.
 	return <Tile course={course}>
 		<Box sx={containerStyle}>
-			<Box sx={numberStyle}>{overview.contentSkillIds.length}</Box>
+			<Box sx={numberStyle}>{courseDefinition.contentSkillIds.length}</Box>
 			<Box sx={labelStyle}>
 				<Translation entry="tiles.skills">
-					<Plurals value={overview.contentSkillIds.length}>
+					<Plurals value={courseDefinition.contentSkillIds.length}>
 						<Plurals.One>Skill</Plurals.One>
 						<Plurals.NotOne>Skills</Plurals.NotOne>
 					</Plurals>

@@ -1,5 +1,5 @@
 import { deserializeSetup } from '@step-wise/skill-setup'
-import { Course } from '@step-wise/course-definition'
+import { CourseDefinition } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
 
 import type { ServiceOptions } from '../types.ts'
@@ -65,8 +65,8 @@ export function getCourseById(db: CourseDatabase, courseId: string, options: Get
 	return getCourse(db, { id: courseId }, options)
 }
 
-export function createCourseDefinition(course: CourseRecord): Course {
-	return new Course(skillTree, {
+export function createCourseDefinition(course: CourseRecord): CourseDefinition {
+	return new CourseDefinition(skillTree, {
 		startingPointIds: course.startingPoints,
 		learningGoalIds: course.goals,
 		...(course.goalWeights ? { learningGoalWeights: course.goalWeights } : {}),

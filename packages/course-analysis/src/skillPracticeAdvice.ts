@@ -1,6 +1,6 @@
 import { findValue } from '@step-wise/js-utils'
 import type { SkillId } from '@step-wise/skill-definition'
-import type { Course } from '@step-wise/course-definition'
+import type { CourseDefinition } from '@step-wise/course-definition'
 
 import { type HasExercises, type PracticeRecommendation, allSkillsHaveExercises, freePracticeRecommendation } from './types.ts'
 import type { CourseProgressAnalysis } from './courseProgress.ts'
@@ -12,7 +12,7 @@ export type SkillPracticeAdvice = {
 	recommendation: PracticeRecommendation
 }
 
-export function getSkillPracticeAdvice(course: Course, analysis: CourseProgressAnalysis | undefined, skillId?: SkillId, hasExercises: HasExercises = allSkillsHaveExercises): SkillPracticeAdvice | undefined {
+export function getSkillPracticeAdvice(courseDefinition: CourseDefinition, analysis: CourseProgressAnalysis | undefined, skillId?: SkillId, hasExercises: HasExercises = allSkillsHaveExercises): SkillPracticeAdvice | undefined {
 	if (!analysis) return undefined
 
 	// Without a current skill, the student is using free practice. Only recommend leaving it for a skill that requires practice.
@@ -33,11 +33,11 @@ export function getSkillPracticeAdvice(course: Course, analysis: CourseProgressA
 	// The student is currently practicing a skill that is part of the course. Give advice based on the practice need for that skill.
 	switch (analysis.practiceNeeds[skillId]) {
 		case 0:
-			return { type: 'moveOnward', recommendation: findContinuationToPractice(course.skillTree, hasExercises, skillId, course.allSkillIds, analysis.practiceNeeds) ?? analysis.recommendation }
+			return { type: 'moveOnward', recommendation: findContinuationToPractice(courseDefinition.skillTree, hasExercises, skillId, courseDefinition.allSkillIds, analysis.practiceNeeds) ?? analysis.recommendation }
 		case 1:
 			return { type: 'stay', recommendation: skillId }
 		case 2: {
-			const recommendation = findPrerequisiteToPractice(course.skillTree, hasExercises, skillId, course.allSkillIds, analysis.practiceNeeds)
+			const recommendation = findPrerequisiteToPractice(courseDefinition.skillTree, hasExercises, skillId, courseDefinition.allSkillIds, analysis.practiceNeeds)
 			return recommendation === skillId ? { type: 'stay', recommendation } : { type: 'goBack', recommendation }
 		}
 		default:
@@ -45,13 +45,13 @@ export function getSkillPracticeAdvice(course: Course, analysis: CourseProgressA
 	}
 }
 
-function findPrerequisiteToPractice(skillTree: Course['skillTree'], hasExercises: HasExercises, skillId: SkillId, courseSkillIds: readonly SkillId[], practiceNeeds: PracticeNeeds, includeRecommendedPractice = false): SkillId {
+function findPrerequisiteToPractice(skillTree: CourseDefinition['skillTree'], hasExercises: HasExercises, skillId: SkillId, courseSkillIds: readonly SkillId[], practiceNeeds: PracticeNeeds, includeRecommendedPractice = false): SkillId {
 	const recommendation = courseSkillIds.find(prerequisiteId => skillTree[skillId].prerequisiteIds.includes(prerequisiteId) && (practiceNeeds[prerequisiteId] === 2 || (includeRecommendedPractice && practiceNeeds[prerequisiteId] === 1)) && hasExercises(prerequisiteId))
 	if (!recommendation) return skillId
 	return findPrerequisiteToPractice(skillTree, hasExercises, recommendation, courseSkillIds, practiceNeeds, includeRecommendedPractice)
 }
 
-function findContinuationToPractice(skillTree: Course['skillTree'], hasExercises: HasExercises, skillId: SkillId, courseSkillIds: readonly SkillId[], practiceNeeds: PracticeNeeds): SkillId | undefined {
+function findContinuationToPractice(skillTree: CourseDefinition['skillTree'], hasExercises: HasExercises, skillId: SkillId, courseSkillIds: readonly SkillId[], practiceNeeds: PracticeNeeds): SkillId | undefined {
 	const continuations = courseSkillIds.filter(continuationId => skillTree[skillId].continuationIds.includes(continuationId))
 	const recommendation = continuations.find(continuationId => (practiceNeeds[continuationId] === 1 || practiceNeeds[continuationId] === 2) && hasExercises(continuationId))
 	if (!recommendation) return findValue(continuations, continuationId => findContinuationToPractice(skillTree, hasExercises, continuationId, courseSkillIds, practiceNeeds))

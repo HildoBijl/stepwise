@@ -1,5 +1,5 @@
 import type { SkillId, SkillThresholdOptions, SkillTree } from '@step-wise/skill-definition'
-import type { Course } from '@step-wise/course-definition'
+import type { CourseDefinition } from '@step-wise/course-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 
 export type PracticeNeed = 0 | 1 | 2
@@ -26,11 +26,11 @@ function calculatePracticeNeed(skillLevelSet: SkillLevelSet, skillId: SkillId, {
 	return 2
 }
 
-export function getCoursePracticeNeeds(course: Course, skillLevelSet: SkillLevelSet): PracticeNeeds | undefined {
-	if (course.allSkillIds.some(skillId => !skillLevelSet.hasRequiredDataFor(skillId))) return undefined
+export function getCoursePracticeNeeds(courseDefinition: CourseDefinition, skillLevelSet: SkillLevelSet): PracticeNeeds | undefined {
+	if (courseDefinition.allSkillIds.some(skillId => !skillLevelSet.hasRequiredDataFor(skillId))) return undefined
 
 	const practiceNeeds: PracticeNeeds = {}
-	course.learningGoalIds.forEach(goalId => collectPracticeNeeds(course.skillTree, goalId, skillLevelSet, course.priorKnowledgeIds, practiceNeeds))
+	courseDefinition.learningGoalIds.forEach(goalId => collectPracticeNeeds(courseDefinition.skillTree, goalId, skillLevelSet, courseDefinition.priorKnowledgeIds, practiceNeeds))
 	return practiceNeeds
 }
 

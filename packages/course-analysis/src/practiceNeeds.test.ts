@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { createSkillTree } from '@step-wise/skill-definition'
-import { Course } from '@step-wise/course-definition'
+import { CourseDefinition } from '@step-wise/course-definition'
 
 import { getCoursePracticeNeeds, getPracticeNeed } from './practiceNeeds.ts'
-import { course, createSkillLevelSet, now, skillTree } from './testUtils.ts'
+import { courseDefinition, createSkillLevelSet, now, skillTree } from './testUtils.ts'
 
 beforeEach(() => vi.useFakeTimers().setSystemTime(now))
 afterEach(() => vi.useRealTimers())
@@ -39,14 +39,14 @@ describe('getCoursePracticeNeeds', () => {
 	it('propagates the maximum need permitted by mastered continuation skills', () => {
 		const skillLevelSet = createSkillLevelSet(skillTree, { foundation: 2, basic: 2, intermediate: 1, advanced: 0 })
 
-		expect(getCoursePracticeNeeds(course, skillLevelSet)).toEqual({ advanced: 0, intermediate: 0, basic: 0, foundation: 0 })
+		expect(getCoursePracticeNeeds(courseDefinition, skillLevelSet)).toEqual({ advanced: 0, intermediate: 0, basic: 0, foundation: 0 })
 	})
 
 	it('combines multiple learning-goal branches through shared prerequisites', () => {
-		const branchingCourse = new Course(skillTree, { startingPointIds: ['basic'], learningGoalIds: ['advanced', 'alternative'] })
+		const branchingCourseDefinition = new CourseDefinition(skillTree, { startingPointIds: ['basic'], learningGoalIds: ['advanced', 'alternative'] })
 		const skillLevelSet = createSkillLevelSet(skillTree, { foundation: 2, basic: 2, intermediate: 2, advanced: 2, alternative: 1 })
 
-		expect(getCoursePracticeNeeds(branchingCourse, skillLevelSet)).toEqual({
+		expect(getCoursePracticeNeeds(branchingCourseDefinition, skillLevelSet)).toEqual({
 			advanced: 2,
 			intermediate: 2,
 			alternative: 1,
@@ -57,6 +57,6 @@ describe('getCoursePracticeNeeds', () => {
 
 	it('returns undefined when the course data is incomplete', () => {
 		const skillLevelSet = createSkillLevelSet(skillTree, {}, ['intermediate'])
-		expect(getCoursePracticeNeeds(course, skillLevelSet)).toBeUndefined()
+		expect(getCoursePracticeNeeds(courseDefinition, skillLevelSet)).toBeUndefined()
 	})
 })

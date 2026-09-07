@@ -1,6 +1,6 @@
 # @step-wise/course-definition
 
-`@step-wise/course-definition` resolves and validates courses against a skill tree. A course definition provides starting points and learning goals and may additionally provide learning-goal weights, block goals and a setup. The package derives the course contents and prior knowledge, resolves the supplied block goals into block contents, and reports diagnostics without depending on one particular set of skills.
+`@step-wise/course-definition` resolves and validates courses against a skill tree. A course specification provides starting points and learning goals and may additionally provide learning-goal weights, block goals and a setup. The package derives the course contents and prior knowledge, resolves the supplied block goals into block contents, and reports diagnostics without depending on one particular set of skills.
 
 
 ## Installation
@@ -14,10 +14,10 @@ Use [`@step-wise/course-analysis`](../course-analysis/) to combine a resolved co
 
 ## Quick start
 
-Create a `Course` by passing it a processed `SkillTree` and a `CourseDefinition`.
+Create a `CourseDefinition` by passing it a processed `SkillTree` and a `CourseSpecification`.
 
 ```ts
-import { Course, validateCourseDiagnostics } from '@step-wise/course-definition'
+import { CourseDefinition, validateCourseDiagnostics } from '@step-wise/course-definition'
 import { createSkillTree } from '@step-wise/skill-definition'
 
 const skillTree = createSkillTree({
@@ -38,24 +38,24 @@ const skillTree = createSkillTree({
 	},
 })
 
-const course = new Course(skillTree, {
+const courseDefinition = new CourseDefinition(skillTree, {
 	startingPointIds: ['arithmeticBasics'],
 	learningGoalIds: ['solveMixedCalculations'],
 })
 
-validateCourseDiagnostics(course.diagnostics)
+validateCourseDiagnostics(courseDefinition.diagnostics)
 
-course.contentSkillIds // Skills taught in the course
-course.priorKnowledgeIds // Prerequisites assumed before the course
-course.allSkillIds // Prior knowledge followed by course contents
+courseDefinition.contentSkillIds // Skills taught in the course
+courseDefinition.priorKnowledgeIds // Prerequisites assumed before the course
+courseDefinition.allSkillIds // Prior knowledge followed by course contents
 ```
 
-Constructing a course validates and normalizes the supplied data. Accessing its analysis resolves the definition against the skill tree. Semantic issues such as unknown skills or missing starting points are recorded as diagnostics; call `validateCourseDiagnostics` when those issues should reject the course.
+Constructing a course definition validates and normalizes the supplied specification. Accessing its analysis resolves the specification against the skill tree. Semantic issues such as unknown skills or missing starting points are recorded as diagnostics; call `validateCourseDiagnostics` when those issues should reject the course.
 
 
 ## Defining a course
 
-A `CourseDefinition` supports the following properties.
+A `CourseSpecification` supports the following properties.
 
 | Property | Required | Behavior |
 | --- | --- | --- |
@@ -65,14 +65,14 @@ A `CourseDefinition` supports the following properties.
 | `blockLearningGoalIds` | No | Learning goals assigned to consecutive course blocks. |
 | `setup` | No | The target end-level setup, such as the skill combination required by a typical final assessment. |
 
-Starting-point and learning-goal arrays must not contain duplicate IDs. Empty courses are allowed so a definition can be created before its contents are filled in.
+Starting-point and learning-goal arrays must not contain duplicate IDs. Empty courses are allowed so a specification can be created before its contents are filled in.
 
 ### Starting points
 
 A starting point is included in the course contents. Its prerequisites are considered prior knowledge unless another starting point causes those prerequisites to be taught within the course.
 
 ```ts
-const course = new Course(skillTree, {
+const courseDefinition = new CourseDefinition(skillTree, {
 	startingPointIds: ['addNumbers', 'multiplyNumbers'],
 	learningGoalIds: ['solveMixedCalculations'],
 })
@@ -82,10 +82,10 @@ The analysis removes starting points that are already reached from another start
 
 ### Learning-goal weights
 
-Learning-goal weights are optional course-definition data; they are not derived from the learning goals. When weights are supplied, their number must equal the number of learning goals. Every weight must be finite and non-negative, and their sum must be positive. Individual zero weights are allowed.
+Learning-goal weights are optional course-specification data; they are not derived from the learning goals. When weights are supplied, their number must equal the number of learning goals. Every weight must be finite and non-negative, and their sum must be positive. Individual zero weights are allowed.
 
 ```ts
-const course = new Course(skillTree, {
+const courseDefinition = new CourseDefinition(skillTree, {
 	startingPointIds: ['arithmeticBasics'],
 	learningGoalIds: ['addNumbers', 'multiplyNumbers'],
 	learningGoalWeights: [1, 2],
@@ -96,10 +96,10 @@ Weights can be used for an "Open Practice" mode where students get exercises ran
 
 ### Blocks
 
-Block goals are optional course-definition data. When supplied, they divide the course into consecutive sections, with each inner array explicitly listing the goals of one block.
+Block goals are optional course-specification data. When supplied, they divide the course into consecutive sections, with each inner array explicitly listing the goals of one block.
 
 ```ts
-const course = new Course(skillTree, {
+const courseDefinition = new CourseDefinition(skillTree, {
 	startingPointIds: ['arithmeticBasics'],
 	learningGoalIds: ['solveMixedCalculations'],
 	blockLearningGoalIds: [
@@ -118,7 +118,7 @@ The optional setup describes the target level at the end of the course, such as 
 ```ts
 import { and } from '@step-wise/skill-setup'
 
-const course = new Course(skillTree, {
+const courseDefinition = new CourseDefinition(skillTree, {
 	startingPointIds: ['addNumbers', 'multiplyNumbers'],
 	learningGoalIds: ['solveMixedCalculations'],
 	setup: and('addNumbers', 'multiplyNumbers', 'solveMixedCalculations'),
@@ -130,7 +130,7 @@ Every setup skill must exist in the skill tree and occur in the resolved course 
 
 ## Course resolution
 
-The `resolution` property contains the complete `CourseResolution`. The same values are available directly through the `Course` instance.
+The `resolution` property contains the complete `CourseResolution`. The same values are available directly through the `CourseDefinition` instance.
 
 | Property | Behavior |
 | --- | --- |
@@ -144,19 +144,19 @@ The `resolution` property contains the complete `CourseResolution`. The same val
 | `setup` | The normalized optional setup. |
 
 ```ts
-course.resolution
-course.contentSkillIds
-course.learningGoalWeights
-course.blocks
+courseDefinition.resolution
+courseDefinition.contentSkillIds
+courseDefinition.learningGoalWeights
+courseDefinition.blocks
 ```
 
 
 ## Course diagnostics
 
-The `diagnostics` property explains problems found while resolving the definition. It distinguishes unknown, external, redundant and missing endpoints; reports invalid block assignments and uncovered goals; and identifies unknown or external setup skills.
+The `diagnostics` property explains problems found while resolving the specification. It distinguishes unknown, external, redundant and missing endpoints; reports invalid block assignments and uncovered goals; and identifies unknown or external setup skills.
 
 ```ts
-const { diagnostics } = course
+const { diagnostics } = courseDefinition
 
 diagnostics.unknownStartingPointIds
 diagnostics.missingStartingPointIds
@@ -168,19 +168,19 @@ diagnostics.unknownSetupSkillIds
 Diagnostics remain available even for an invalid course, which allows an editor to show several problems without discarding the analysis. Use `validateCourseDiagnostics` to throw on the first issue.
 
 ```ts
-validateCourseDiagnostics(course.diagnostics)
+validateCourseDiagnostics(courseDefinition.diagnostics)
 ```
 
 
 ## Convenience methods
 
-The `Course` class provides membership helpers for the roles a skill can have.
+The `CourseDefinition` class provides membership helpers for the roles a skill can have.
 
 ```ts
-course.hasAsContents('addNumbers')
-course.hasAsPriorKnowledge('arithmeticBasics')
-course.hasAsStartingPoint('addNumbers')
-course.hasAsLearningGoal('solveMixedCalculations')
+courseDefinition.hasAsContents('addNumbers')
+courseDefinition.hasAsPriorKnowledge('arithmeticBasics')
+courseDefinition.hasAsStartingPoint('addNumbers')
+courseDefinition.hasAsLearningGoal('solveMixedCalculations')
 ```
 
 `getLearningGoalWeight(skillId)` returns the configured or default weight for a learning goal and returns zero when the skill is not a learning goal.
@@ -188,4 +188,4 @@ course.hasAsLearningGoal('solveMixedCalculations')
 
 ## TypeScript
 
-The package includes TypeScript declarations. Its principal exported types are `CourseDefinition`, `CourseResolution`, `CourseResolutionBlock`, `CourseDiagnostics`, `CourseBlockDiagnostics` and `CourseAnalysis`.
+The package includes TypeScript declarations. Its principal exported types are `CourseSpecification`, `CourseResolution`, `CourseResolutionBlock`, `CourseDiagnostics`, `CourseBlockDiagnostics` and `CourseAnalysis`, alongside the `CourseDefinition` class.

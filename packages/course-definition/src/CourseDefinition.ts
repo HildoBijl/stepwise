@@ -1,23 +1,23 @@
 import type { SkillId, SkillSetup } from '@step-wise/skill-setup'
 import type { SkillTree } from '@step-wise/skill-definition'
 
-import type { CourseAnalysis, CourseDefinition, CourseDiagnostics, CourseResolution, CourseResolutionBlock } from './types.ts'
-import { ensureCourseDefinition } from './dataValidation.ts'
+import type { CourseAnalysis, CourseDiagnostics, CourseResolution, CourseResolutionBlock, CourseSpecification } from './types.ts'
+import { ensureCourseSpecification } from './dataValidation.ts'
 import { analyzeCourse } from './analyzeCourse.ts'
 
-export class Course {
+export class CourseDefinition {
 	readonly skillTree: SkillTree
-	readonly definition: CourseDefinition
+	readonly specification: CourseSpecification
 
 	private _analysis?: CourseAnalysis
 
-	constructor(skillTree: SkillTree, definition: CourseDefinition) {
+	constructor(skillTree: SkillTree, specification: CourseSpecification) {
 		this.skillTree = skillTree
-		this.definition = ensureCourseDefinition(definition)
+		this.specification = ensureCourseSpecification(specification)
 	}
 
 	get analysis(): CourseAnalysis {
-		return this._analysis ??= analyzeCourse(this.skillTree, this.definition)
+		return this._analysis ??= analyzeCourse(this.skillTree, this.specification)
 	}
 
 	/*

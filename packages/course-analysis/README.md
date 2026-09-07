@@ -11,7 +11,7 @@ The package contains domain logic only. It does not depend on a particular skill
 npm install @step-wise/course-analysis
 ```
 
-The analysis operates on a `Course` from `@step-wise/course-definition` and a `SkillLevelSet` from `@step-wise/skill-tracking`.
+The analysis operates on a `CourseDefinition` from `@step-wise/course-definition` and a `SkillLevelSet` from `@step-wise/skill-tracking`.
 
 
 ## Quick start
@@ -19,7 +19,7 @@ The analysis operates on a `Course` from `@step-wise/course-definition` and a `S
 ```ts
 import { analyzeCourseProgress, freePracticeRecommendation } from '@step-wise/course-analysis'
 
-const analysis = analyzeCourseProgress(course, skillLevelSet)
+const analysis = analyzeCourseProgress(courseDefinition, skillLevelSet)
 
 if (analysis) {
 	analysis.practiceNeeds
@@ -70,7 +70,7 @@ It returns `undefined` when the skill level set lacks data required for the skil
 Use `getCoursePracticeNeeds` to derive a `PracticeNeeds` map for a course.
 
 ```ts
-const practiceNeeds = getCoursePracticeNeeds(course, skillLevelSet)
+const practiceNeeds = getCoursePracticeNeeds(courseDefinition, skillLevelSet)
 ```
 
 The analysis starts at every learning goal and follows prerequisites back to the course's prior-knowledge boundary. If a later skill is mastered, its prerequisites do not receive a greater practice need: successfully using the later skill provides evidence that those prerequisites are currently sufficient. Shared prerequisites are combined across all learning-goal paths.
@@ -83,7 +83,7 @@ The analysis starts at every learning goal and follows prerequisites back to the
 `analyzeCourseProgress` produces the main `CourseProgressAnalysis`.
 
 ```ts
-const analysis = analyzeCourseProgress(course, skillLevelSet, hasExercises)
+const analysis = analyzeCourseProgress(courseDefinition, skillLevelSet, hasExercises)
 ```
 
 Its result contains:
@@ -108,7 +108,7 @@ Applications may pass a `HasExercises` predicate when some skills cannot current
 
 ```ts
 const analysis = analyzeCourseProgress(
-	course,
+	courseDefinition,
 	skillLevelSet,
 	skillId => exerciseRegistry.has(skillId),
 )
@@ -123,7 +123,7 @@ Unavailable skills are skipped when selecting recommendations. Their practice ne
 
 ```ts
 const advice = getSkillPracticeAdvice(
-	course,
+	courseDefinition,
 	analysis,
 	currentSkillId,
 	hasExercises,

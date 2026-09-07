@@ -1,5 +1,5 @@
 import { type SkillId, deserializeSetup } from '@step-wise/skill-setup'
-import { Course } from '@step-wise/course-definition'
+import { CourseDefinition } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
 
 type CourseRecord = {
@@ -10,8 +10,8 @@ type CourseRecord = {
 	blocks?: readonly { goals: readonly SkillId[] }[] | null
 }
 
-export function courseRecordToCourse(record: CourseRecord): Course {
-	return new Course(skillTree, {
+export function courseRecordToCourseDefinition(record: CourseRecord): CourseDefinition {
+	return new CourseDefinition(skillTree, {
 		learningGoalIds: record.goals,
 		startingPointIds: record.startingPoints,
 		...(record.goalWeights == null ? {} : { learningGoalWeights: record.goalWeights }),

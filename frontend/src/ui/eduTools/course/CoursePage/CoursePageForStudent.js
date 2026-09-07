@@ -20,16 +20,16 @@ const courseOverviewStyle = {
 
 export function CoursePageForStudent() {
 	// Load in relevant data about the course.
-	const { course, overview, analysis } = useCourseData()
+	const { course, courseDefinition, analysis } = useCourseData()
 	const recommendation = analysis?.recommendation
 	const hasRecommendation = !!recommendation
 
 	// Determine which block to open up at the start.
-	let recommendationBlock = overview.blocks.findIndex(block => block.contentSkillIds.includes(recommendation)) // Find the block containing the recommendation.
-	if (overview.priorKnowledgeIds.includes(recommendation))
+	let recommendationBlock = courseDefinition.blocks.findIndex(block => block.contentSkillIds.includes(recommendation)) // Find the block containing the recommendation.
+	if (courseDefinition.priorKnowledgeIds.includes(recommendation))
 		recommendationBlock = -1 // -1 means prior knowledge.
 	if (recommendation === freePracticeRecommendation)
-		recommendationBlock = overview.blocks.length - 1 // When everything is mastered, open up the last block.
+		recommendationBlock = courseDefinition.blocks.length - 1 // When everything is mastered, open up the last block.
 
 	// Track which block is active.
 	const [activeBlock, setActiveBlock] = useState() // -1 means prior knowledge. Undefined means none selected.
@@ -48,7 +48,7 @@ export function CoursePageForStudent() {
 	}, [hasRecommendation, recommendationBlock, activeBlock, setActiveBlock])
 
 	// Render the component.
-	const data = { course, overview, analysis, activeBlock, toggleActiveBlock }
+	const data = { course, courseDefinition, analysis, activeBlock, toggleActiveBlock }
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={translationSection}>
 			{hasRecommendation ? <SkillRecommender courseCode={course.code} recommendation={recommendation} /> : null}
@@ -57,7 +57,7 @@ export function CoursePageForStudent() {
 	</TranslationFile>
 }
 
-function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
+function LandscapeCourse({ course, courseDefinition, analysis, activeBlock, toggleActiveBlock }) {
 	const translate = useTranslator()
 	const landscape = true
 
@@ -66,26 +66,26 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 	if (activeBlock === undefined)
 		skillIds = []
 	else if (activeBlock === -1)
-		skillIds = overview.priorKnowledgeIds
+		skillIds = courseDefinition.priorKnowledgeIds
 	else
-		skillIds = overview.blocks[activeBlock].contentSkillIds
+		skillIds = courseDefinition.blocks[activeBlock].contentSkillIds
 
 	// Determine other important data.
-	const hasPriorKnowledge = overview.priorKnowledgeIds.length > 0
+	const hasPriorKnowledge = courseDefinition.priorKnowledgeIds.length > 0
 
 	return <Box sx={courseOverviewStyle}>
 		<Box sx={{ marginRight: '1rem', width: '50%' }}>
 			{hasPriorKnowledge ? <Block
 				landscape={landscape}
 				courseCode={course.code}
-				skillIds={overview.priorKnowledgeIds}
+				skillIds={courseDefinition.priorKnowledgeIds}
 				active={activeBlock === -1}
 				toggleActive={() => toggleActiveBlock(-1)}
 				name={translate('Prior knowledge', 'priorKnowledge')}
 				isPriorKnowledge={true}
 				analysis={analysis}
 			/> : null}
-			{overview.blocks.map((block, index) => <Block
+			{courseDefinition.blocks.map((block, index) => <Block
 				key={index}
 				landscape={landscape}
 				courseCode={course.code}
@@ -103,24 +103,24 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 	</Box>
 }
 
-function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
+function PortraitCourse({ course, courseDefinition, analysis, activeBlock, toggleActiveBlock }) {
 	const translate = useTranslator()
 	const landscape = false
-	const hasPriorKnowledge = overview.priorKnowledgeIds.length > 0
+	const hasPriorKnowledge = courseDefinition.priorKnowledgeIds.length > 0
 
 	return <Box sx={courseOverviewStyle}>
 		<Box sx={{ width: '100%' }}>
 			{hasPriorKnowledge ? <Block
 				landscape={landscape}
 				courseCode={course.code}
-				skillIds={overview.priorKnowledgeIds}
+				skillIds={courseDefinition.priorKnowledgeIds}
 				active={activeBlock === -1}
 				toggleActive={() => toggleActiveBlock(-1)}
 				name={translate('Prior knowledge', 'priorKnowledge')}
 				isPriorKnowledge={true}
 				analysis={analysis}
 			/> : null}
-			{overview.blocks.map((block, index) => (
+			{courseDefinition.blocks.map((block, index) => (
 				<Block
 					key={index}
 					landscape={landscape}

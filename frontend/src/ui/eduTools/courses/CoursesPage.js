@@ -3,7 +3,7 @@ import { Alert, AlertTitle, Box } from '@mui/material'
 
 import { count } from '@step-wise/js-utils'
 
-import { useSkillLevels, useMyCoursesQuery, courseRecordToCourse } from 'api'
+import { useSkillLevels, useMyCoursesQuery, courseRecordToCourseDefinition } from 'api'
 import { Translation, TranslationFile } from 'i18n'
 import { Head, LoadingIndicator, ErrorNote } from 'ui/components'
 
@@ -74,14 +74,14 @@ const coursesStyle = {
 function StudentCourseList({ courses, showAddButton }) {
 	// Load all the skills data for the courses and use it to determine which skills need practice.
 	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => new Date(c1.subscribedAt) - new Date(c2.subscribedAt)), [courses]) // Sort by subscription date, so that later courses come at the end.
-	const courseOverviews = useMemo(() => sortedCourses.map(courseRecordToCourse), [sortedCourses])
-	const allSkills = [...new Set(courseOverviews.map(overview => overview.allSkillIds).flat())] // A list of all relevant skills for all courses.
+	const courseDefinitions = useMemo(() => sortedCourses.map(courseRecordToCourseDefinition), [sortedCourses])
+	const allSkills = [...new Set(courseDefinitions.map(courseDefinition => courseDefinition.allSkillIds).flat())] // A list of all relevant skills for all courses.
 	const skillLevelSet = useSkillLevels(allSkills) // The SkillLevelSet objects for all skills.
 	const skillLevelSnapshot = skillLevelSet.getSnapshot()
 	const analyses = useMemo(() => {
 		void skillLevelSnapshot // The snapshot is the invalidation token for the mutable skillLevelSet.
-		return courseOverviews.map(overview => analyzeCourseProgress(overview, skillLevelSet))
-	}, [courseOverviews, skillLevelSet, skillLevelSnapshot])
+		return courseDefinitions.map(courseDefinition => analyzeCourseProgress(courseDefinition, skillLevelSet))
+	}, [courseDefinitions, skillLevelSet, skillLevelSnapshot])
 
 	// Render all the tiles with corresponding data.
 	return <TranslationFile path={translationPath}>
@@ -90,8 +90,8 @@ function StudentCourseList({ courses, showAddButton }) {
 				{sortedCourses.map((course, index) => <StudentTile
 					key={course.id}
 					course={course}
-					skillsTotal={courseOverviews[index].contentSkillIds.length}
-					skillsDone={analyses[index] ? count(courseOverviews[index].contentSkillIds, (skillId) => analyses[index].practiceNeeds[skillId] === 0) : '0'}
+					skillsTotal={courseDefinitions[index].contentSkillIds.length}
+					skillsDone={analyses[index] ? count(courseDefinitions[index].contentSkillIds, (skillId) => analyses[index].practiceNeeds[skillId] === 0) : '0'}
 					recommendation={analyses[index]?.recommendation}
 				/>)}
 				{showAddButton && <AddCourseTile />}
