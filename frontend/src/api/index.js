@@ -1,5 +1,6 @@
 export * from './user'
 export * from './skill'
 export * from './group'
+export * from './groupExercise'
 export * from './course'
 export * from './admin'

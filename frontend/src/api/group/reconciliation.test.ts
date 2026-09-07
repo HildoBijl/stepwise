@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import type { GroupExerciseRecord, GroupRecord } from './records.ts'
-import { addGroupExerciseToList, addGroupToList, reconcileActiveGroup, removeGroupFromList } from './reconciliation.ts'
+import type { GroupRecord } from './records.ts'
+import { addGroupToList, reconcileActiveGroup, removeGroupFromList } from './reconciliation.ts'
 
 function createGroup(code: string, active: boolean): GroupRecord {
 	return {
@@ -18,8 +18,6 @@ function createGroup(code: string, active: boolean): GroupRecord {
 		}],
 	}
 }
-
-const exercise = { __typename: 'GroupExercise', id: 'exercise-1', skillId: 'demo' } as GroupExerciseRecord
 
 describe('group subscription reconciliation', () => {
 	it('clears the current group when that group is deactivated', () => {
@@ -42,11 +40,5 @@ describe('group subscription reconciliation', () => {
 		expect(addGroupToList(replacement, [original])).toEqual([replacement])
 		expect(addGroupToList(createGroup('BBBB', false), [original])).toHaveLength(2)
 		expect(removeGroupFromList('AAAA', [original])).toEqual([])
-	})
-
-	it('replaces exercises by skill and adds exercises for new skills', () => {
-		const replacement = { ...exercise, id: 'exercise-2' }
-		expect(addGroupExerciseToList(replacement, [exercise])).toEqual([replacement])
-		expect(addGroupExerciseToList({ ...exercise, skillId: 'test' }, [exercise])).toHaveLength(2)
 	})
 })

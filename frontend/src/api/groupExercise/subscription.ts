@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { type SubscribeToMoreFunction, type TypedDocumentNode, gql } from '@apollo/client'
 
 import type { GroupExerciseRecord } from './records.ts'
-import type { ActiveGroupExercisesQueryData, ActiveGroupExercisesQueryVariables } from './exerciseQueries.ts'
+import type { ActiveGroupExercisesQueryData, ActiveGroupExercisesQueryVariables } from './query.ts'
 import { groupExerciseFields } from './fragments.ts'
 import { addGroupExerciseToList } from './reconciliation.ts'
 

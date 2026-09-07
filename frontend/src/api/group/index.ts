@@ -1,5 +1,4 @@
 export * from './types.ts'
 export { useGroupExists, useMyGroups } from './groupQueries.ts'
 export * from './groupMutations.ts'
-export * from './exerciseMutations.ts'
 export * from './ActiveGroupProvider.tsx'

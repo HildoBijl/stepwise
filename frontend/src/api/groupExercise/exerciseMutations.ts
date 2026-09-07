@@ -8,7 +8,7 @@ import type { SkillId } from '@step-wise/skill-definition'
 import type { UseCancelGroupActionResult, UseResolveGroupEventResult, UseStartGroupExerciseResult, UseSubmitGroupActionResult } from './types.ts'
 import type { GroupExerciseRecord } from './records.ts'
 import { groupExerciseFields } from './fragments.ts'
-import { ACTIVE_GROUP_EXERCISES_QUERY } from './exerciseQueries.ts'
+import { ACTIVE_GROUP_EXERCISES_QUERY } from './query.ts'
 import { addGroupExerciseToList } from './reconciliation.ts'
 
 type GroupExerciseMutationData<Key extends string> = Record<Key, GroupExerciseRecord>

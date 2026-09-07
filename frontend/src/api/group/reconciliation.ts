@@ -1,4 +1,4 @@
-import type { GroupExerciseRecord, GroupRecord } from './records.ts'
+import type { GroupRecord } from './records.ts'
 
 export function addGroupToList(newGroup: GroupRecord, groups: readonly GroupRecord[] = []): GroupRecord[] {
 	if (groups.some(group => group.code === newGroup.code)) return groups.map(group => group.code === newGroup.code ? newGroup : group)
@@ -15,9 +15,4 @@ export function reconcileActiveGroup(currentGroup: GroupRecord | null, updatedGr
 	if (member?.active) return updatedGroup
 	if (currentGroup && currentGroup.code !== updatedGroup.code) return currentGroup
 	return null
-}
-
-export function addGroupExerciseToList(updatedExercise: GroupExerciseRecord, exercises: readonly GroupExerciseRecord[]): GroupExerciseRecord[] {
-	if (exercises.some(exercise => exercise.skillId === updatedExercise.skillId)) return exercises.map(exercise => exercise.skillId === updatedExercise.skillId ? updatedExercise : exercise)
-	return [...exercises, updatedExercise]
 }

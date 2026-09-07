@@ -1,71 +1,38 @@
 import { type ReactNode, createContext, useContext, useMemo } from 'react'
 import { useQuery } from '@apollo/client/react'
 
-import type { SkillId } from '@step-wise/skill-definition'
 import { sortBy } from '@step-wise/js-utils'
 
 import { useUserId } from '../user/index.ts'
 
-import type { ActiveGroupExercisesState, ActiveGroupState, GroupExercise, GroupMember } from './types.ts'
+import type { ActiveGroupState, GroupMember } from './types.ts'
 import { MY_ACTIVE_GROUP_QUERY } from './groupQueries.ts'
 import { useMyActiveGroupSubscription } from './groupSubscriptions.ts'
-import { useActiveGroupExercisesQuery } from './exerciseQueries.ts'
-import { useActiveGroupExercisesSubscription } from './exerciseSubscriptions.ts'
-import { groupExerciseRecordToExercise, groupRecordToGroup } from './conversion.ts'
+import { groupRecordToGroup } from './conversion.ts'
 
-type ActiveGroupContextValue = {
-	activeGroup: ActiveGroupState
-	activeGroupExercises: ActiveGroupExercisesState
-}
-
-const ActiveGroupContext = createContext<ActiveGroupContextValue | undefined>(undefined)
+const ActiveGroupContext = createContext<ActiveGroupState | undefined>(undefined)
 
 export function ActiveGroupProvider({ children }: { children: ReactNode }) {
 	const userId = useUserId()
-	const activeGroupQuery = useQuery(MY_ACTIVE_GROUP_QUERY, { skip: !userId })
-	useMyActiveGroupSubscription(activeGroupQuery.subscribeToMore, !!userId)
+	const query = useQuery(MY_ACTIVE_GROUP_QUERY, { skip: !userId })
+	useMyActiveGroupSubscription(query.subscribeToMore, !!userId)
 
-	const activeGroupRecord = activeGroupQuery.data?.myActiveGroup
-	const currentMember = activeGroupRecord?.members.find(member => member.userId === userId)
-	const group = useMemo(() => currentMember?.active && activeGroupRecord ? groupRecordToGroup(activeGroupRecord) : undefined, [activeGroupRecord, currentMember?.active])
-
-	const exercisesQuery = useActiveGroupExercisesQuery(group?.code, !!group)
-	useActiveGroupExercisesSubscription(group?.code, exercisesQuery.subscribeToMore, !!group)
-	const exerciseRecords = exercisesQuery.data?.activeGroupExercises
-	const exercises = useMemo(() => exerciseRecords?.map(groupExerciseRecordToExercise), [exerciseRecords])
-
-	const value = useMemo<ActiveGroupContextValue>(() => ({
-		activeGroup: { group, loading: activeGroupQuery.loading, error: activeGroupQuery.error },
-		activeGroupExercises: { exercises, loading: exercisesQuery.loading, error: exercisesQuery.error },
-	}), [activeGroupQuery.error, activeGroupQuery.loading, exercises, exercisesQuery.error, exercisesQuery.loading, group])
+	const record = query.data?.myActiveGroup
+	const currentMember = record?.members.find(member => member.userId === userId)
+	const group = useMemo(() => currentMember?.active && record ? groupRecordToGroup(record) : undefined, [currentMember?.active, record])
+	const value = useMemo<ActiveGroupState>(() => ({ group, loading: query.loading, error: query.error }), [group, query.error, query.loading])
 
 	return <ActiveGroupContext.Provider value={value}>{children}</ActiveGroupContext.Provider>
 }
 
-function useActiveGroupContext(): ActiveGroupContextValue {
+export function useActiveGroupState(): ActiveGroupState {
 	const context = useContext(ActiveGroupContext)
 	if (!context) throw new Error('Active-group hooks must be used within an ActiveGroupProvider.')
 	return context
 }
 
-export function useActiveGroupState(): ActiveGroupState {
-	return useActiveGroupContext().activeGroup
-}
-
 export function useActiveGroup() {
 	return useActiveGroupState().group
-}
-
-export function useActiveGroupExercisesState(): ActiveGroupExercisesState {
-	return useActiveGroupContext().activeGroupExercises
-}
-
-export function useActiveGroupExercises(): GroupExercise[] | undefined {
-	return useActiveGroupExercisesState().exercises
-}
-
-export function useActiveGroupExercise(skillId: SkillId): GroupExercise | undefined {
-	return useActiveGroupExercises()?.find(exercise => exercise.skillId === skillId)
 }
 
 export function useOtherGroupMembers(members: GroupMember[]): GroupMember[] {
