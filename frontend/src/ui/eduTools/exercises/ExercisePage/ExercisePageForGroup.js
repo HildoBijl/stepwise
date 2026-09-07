@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react'
 
 import { hasExercises } from '@step-wise/exercises'
 
-import { useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api'
+import { useActiveGroup, useActiveGroupExercisesState, useActiveGroupExercise, useStartGroupExercise, useSubmitGroupAction, useCancelGroupAction, useResolveGroupEvent } from 'api'
 import { useGetTranslation } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
 
@@ -16,10 +16,10 @@ export function ExercisePageForGroup({ skillId }) {
 	const [requestedNextExercise, setRequestedNextExercise] = useState(false)
 
 	// Get mutation functions.
-	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartGroupExerciseMutation(group.code, skillId)
-	const [submitActionToServer, { error: actionError }] = useSubmitGroupActionMutation(group.code, skillId)
-	const [cancelAction, { error: cancelError }] = useCancelGroupActionMutation(group.code, skillId)
-	const [resolveEvent, { loading: resolveLoading, error: resolveError }] = useResolveGroupEventMutation(group.code, skillId)
+	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartGroupExercise(group.code, skillId)
+	const [submitActionToServer, { error: actionError }] = useSubmitGroupAction(group.code, skillId)
+	const [cancelAction, { error: cancelError }] = useCancelGroupAction(group.code, skillId)
+	const [resolveEvent, { loading: resolveLoading, error: resolveError }] = useResolveGroupEvent(group.code, skillId)
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
@@ -30,12 +30,12 @@ export function ExercisePageForGroup({ skillId }) {
 	}, [skillId, startNewExerciseOnServer])
 	const submitAction = useCallback((action, processGroupActions) => {
 		// ToDo later: use processGroupActions to set up an optimistic response.
-		submitActionToServer({ variables: { action } }).catch(() => {})
+		submitActionToServer(action).catch(() => {})
 	}, [submitActionToServer])
 
 	// If there is no exercise, start one.
-	const { loading, error } = useActiveGroupExercisesResult()
-	const exercise = useActiveGroupExerciseForSkill(skillId)
+	const { loading, error } = useActiveGroupExercisesState()
+	const exercise = useActiveGroupExercise(skillId)
 	useEffect(() => {
 		if (!loading && !exercise)
 			startNewExercise()

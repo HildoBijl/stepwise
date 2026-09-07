@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Done, Clear } from '@mui/icons-material'
 
-import { useJoinGroupMutation } from 'api'
+import { useJoinGroup } from 'api'
 import { TranslationSection, Translation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par, List } from 'ui/components'
@@ -13,7 +13,7 @@ import { groupPossibilities } from './support'
 export function JoinGroupConditions({ code }) {
 	const paths = usePaths()
 	const navigate = useNavigate()
-	const [joinGroup] = useJoinGroupMutation()
+	const [joinGroup] = useJoinGroup()
 
 	return <TranslationSection entry="joinGroupConditions">
 		<Par>

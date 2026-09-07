@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Button, Paper, TextField } from '@mui/material'
 
-import { useGroupExistsQuery } from 'api'
+import { useGroupExists } from 'api'
 import { TranslationSection, Translation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 
@@ -78,7 +78,7 @@ function JoinGroup() {
 	const [problem, setProblem] = useState(problems.allOK)
 
 	// If a code has been submitted, check its value.
-	const { data, loading } = useGroupExistsQuery(submittedCode, isValidCode(submittedCode))
+	const { exists, loading } = useGroupExists(submittedCode, isValidCode(submittedCode))
 
 	// Set up a submission handler.
 	const submit = (evt) => {
@@ -101,14 +101,14 @@ function JoinGroup() {
 	// When the group code check is done, process the results.
 	useEffect(() => {
 		if (submittedCode && isValidCode(submittedCode)) {
-			if (!loading && data) {
-				if (data.groupExists)
+			if (!loading && exists !== undefined) {
+				if (exists)
 					navigate(paths.group({ code: submittedCode })) // Send to verification page.
 				else
 					setProblem(problems.nonExisting)
 			}
 		}
-	}, [submittedCode, loading, data, navigate, paths])
+	}, [submittedCode, loading, exists, navigate, paths])
 
 	// Render the component.
 	return <TranslationSection entry="joinGroup">

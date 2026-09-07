@@ -7,7 +7,7 @@ import { getLastAction } from '@step-wise/exercise-definition'
 import { getLastRawInput, getCurrentStep } from '@step-wise/input-exercises'
 
 import { useLatest, useConsistentValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
-import { useUserId, useIsAdmin, useActiveGroup, useSelfAndOtherMembers } from 'api'
+import { useUserId, useIsAdmin, useActiveGroup, useSortedGroupMembers } from 'api'
 import { Translation, useTranslator, useGetTranslation } from 'i18n'
 import { getIcon } from 'ui/theme'
 import { Button, useModal, PictureConfirmation, QuickPractice, MemberList } from 'ui/components'
@@ -299,7 +299,7 @@ function CurrentActionRow({ actionList, submitting, index }) {
 
 	// Determine the members and their names for display purposes.
 	const actionMembers = actionList.map(userAction => activeGroup.members.find(member => member.userId === userAction.userId))
-	const membersSorted = useSelfAndOtherMembers(actionMembers)
+	const membersSorted = useSortedGroupMembers(actionMembers)
 	const isSelfPresent = actionMembers.some(member => member.userId === userId)
 
 	// Set up handlers to put the input into the form and possibly submit it.
@@ -341,7 +341,7 @@ function GivenUpNote({ stepwise, gaveUp, submitting, groupedActions }) {
 
 	// Determine who gave up.
 	const giveUpMembers = groupedActions.giveUp.map(userAction => activeGroup.members.find(member => member.userId === userAction.userId))
-	const membersSorted = useSelfAndOtherMembers(giveUpMembers)
+	const membersSorted = useSortedGroupMembers(giveUpMembers)
 
 	// If no one gave up, show nothing.
 	if (groupedActions.giveUp.length === 0)

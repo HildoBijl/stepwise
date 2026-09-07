@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Box, Button, useMediaQuery } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
-import { useLeaveGroupMutation, useSelfAndOtherMembers } from 'api'
+import { useLeaveGroup, useSortedGroupMembers } from 'api'
 import { Translation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Head, MemberList } from 'ui/components'
@@ -25,8 +25,8 @@ export function OtherGroups({ groups, hasActiveGroup }) {
 
 function OtherGroup({ group }) {
 	const paths = usePaths()
-	const [leaveGroup] = useLeaveGroupMutation(group.code)
-	const membersSorted = useSelfAndOtherMembers(group.members)
+	const [leaveGroup] = useLeaveGroup(group.code)
+	const membersSorted = useSortedGroupMembers(group.members)
 	const wideScreen = useMediaQuery('(min-width:600px)')
 
 	return <>

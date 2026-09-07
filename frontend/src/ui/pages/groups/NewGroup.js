@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Done, Clear } from '@mui/icons-material'
 
-import { useCreateGroupMutation, useActiveGroup } from 'api'
+import { useCreateGroup, useActiveGroup } from 'api'
 import { TranslationFile, TranslationSection, Translation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par, List } from 'ui/components'
@@ -13,7 +13,7 @@ import { translationPath, groupPossibilities } from './support'
 export function NewGroup() {
 	const paths = usePaths()
 	const navigate = useNavigate()
-	const [createGroup] = useCreateGroupMutation()
+	const [createGroup] = useCreateGroup()
 
 	// If there is an active group, go to the main group page.
 	const activeGroup = useActiveGroup()

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 
 import { sortBy } from '@step-wise/js-utils'
 
-import { useUserId, useMyGroupsQuery, useActivateGroupMutation, useMyGroupsSubscription } from 'api'
+import { useUserId, useMyGroups, useActivateGroup } from 'api'
 import { TranslationFile, Translation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par } from 'ui/components'
@@ -16,12 +16,10 @@ import { GroupCreation } from './GroupCreation'
 
 export function Groups() {
 	// Get myGroups and listen to updates.
-	const { loading, error, data, subscribeToMore } = useMyGroupsQuery()
-	useMyGroupsSubscription(subscribeToMore)
+	const { groups: myGroups, loading, error } = useMyGroups()
 
 	// Split the groups up into the active group and the other groups.
 	const userId = useUserId()
-	const myGroups = data?.myGroups
 	const activeGroup = useMemo(() => myGroups && myGroups.find(group => {
 		const member = group.members.find(member => member.userId === userId)
 		return member && member.active
@@ -30,7 +28,7 @@ export function Groups() {
 		if (!myGroups)
 			return []
 		const groups = activeGroup ? myGroups.filter(group => group.code !== activeGroup.code) : myGroups
-		const lastGroupActivity = groups.map(group => Math.max(...group.members.map(member => new Date(member.lastActivity).getTime())))
+		const lastGroupActivity = groups.map(group => Math.max(...group.members.map(member => member.lastActivity.getTime())))
 		return sortBy(groups, lastGroupActivity, { order: 'descending' })
 	}, [activeGroup, myGroups])
 
@@ -38,7 +36,7 @@ export function Groups() {
 	const { code: codeParameter } = useParams()
 	const code = codeParameter?.toUpperCase()
 	const paths = usePaths()
-	const [activateGroup] = useActivateGroupMutation(code)
+	const [activateGroup] = useActivateGroup(code)
 	const navigate = useNavigate()
 	useEffect(() => {
 		if (code && myGroups && myGroups.find(group => group.code === code)) {

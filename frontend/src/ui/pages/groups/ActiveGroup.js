@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom'
 import { Box, Button, useMediaQuery } from '@mui/material'
 import { ExitToApp } from '@mui/icons-material'
 
-import { useDeactivateGroupMutation, useSelfAndOtherMembers } from 'api'
+import { useDeactivateGroup, useSortedGroupMembers } from 'api'
 import { TranslationSection, Translation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Head, MemberList } from 'ui/components'
 
 export function ActiveGroup({ group }) {
 	const paths = usePaths()
-	const [deactivateGroup] = useDeactivateGroupMutation()
-	const membersSorted = useSelfAndOtherMembers(group.members)
+	const [deactivateGroup] = useDeactivateGroup()
+	const membersSorted = useSortedGroupMembers(group.members)
 	const wideScreen = useMediaQuery('(min-width:600px)')
 
 	// Set up a deactivate button.
