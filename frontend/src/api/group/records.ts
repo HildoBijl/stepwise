@@ -13,3 +13,6 @@ export type GroupRecord = {
 	code: string
 	members: GroupMemberRecord[]
 }
+
+export type MyActiveGroupQueryData = { myActiveGroup: GroupRecord | null }
+export type MyGroupsQueryData = { myGroups: GroupRecord[] }

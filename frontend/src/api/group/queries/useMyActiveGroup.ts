@@ -4,13 +4,11 @@ import { useQuery } from '@apollo/client/react'
 
 import { useUserId } from '../../user/index.ts'
 
+import type { MyActiveGroupQueryData } from '../records.ts'
 import type { UseMyActiveGroupResult } from '../types.ts'
-import type { GroupRecord } from '../records.ts'
 import { groupFields } from '../fragments.ts'
 import { groupRecordToGroup } from '../conversion.ts'
 import { useMyActiveGroupSubscription } from '../subscriptions/index.ts'
-
-export type MyActiveGroupQueryData = { myActiveGroup: GroupRecord | null }
 
 export const MY_ACTIVE_GROUP_QUERY: TypedDocumentNode<MyActiveGroupQueryData, Record<string, never>> = gql`
 	query myActiveGroup {

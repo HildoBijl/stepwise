@@ -2,9 +2,10 @@ import { useCallback } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
-import type { UseCreateGroupResult } from '../types.ts'
 import type { GroupRecord } from '../records.ts'
+import type { UseCreateGroupResult } from '../types.ts'
 import { groupFields } from '../fragments.ts'
+
 import { addGroupToCachedLists } from './cache.ts'
 
 type CreateGroupData = { createGroup: GroupRecord }

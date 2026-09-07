@@ -2,11 +2,12 @@ import { useCallback } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
-import type { UseDeactivateGroupResult } from '../types.ts'
 import type { GroupRecord } from '../records.ts'
-import { MY_GROUPS_QUERY } from '../queries/useMyGroups.ts'
+import type { UseDeactivateGroupResult } from '../types.ts'
 import { groupFields } from '../fragments.ts'
-import { addGroupToList } from '../reconciliation.ts'
+import { addGroupRecordToList } from '../recordLists.ts'
+import { MY_GROUPS_QUERY } from '../queries/useMyGroups.ts'
+
 import { writeActiveGroup } from './cache.ts'
 
 type DeactivateGroupData = { deactivateGroup: GroupRecord | null }
@@ -26,7 +27,7 @@ export function useDeactivateGroup(): UseDeactivateGroupResult {
 			writeActiveGroup(cache, null)
 			if (!data.deactivateGroup) return
 			const groups = cache.readQuery({ query: MY_GROUPS_QUERY })?.myGroups
-			if (groups) cache.writeQuery({ query: MY_GROUPS_QUERY, data: { myGroups: addGroupToList(data.deactivateGroup, groups) } })
+			if (groups) cache.writeQuery({ query: MY_GROUPS_QUERY, data: { myGroups: addGroupRecordToList(data.deactivateGroup, groups) } })
 		},
 	})
 	const deactivateGroup = useCallback(async () => { await mutate() }, [mutate])

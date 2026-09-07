@@ -3,10 +3,8 @@ import { type SubscribeToMoreFunction, type TypedDocumentNode, gql } from '@apol
 
 import { useUserId } from '../../user/index.ts'
 
-import type { GroupRecord } from '../records.ts'
-import type { MyActiveGroupQueryData } from '../queries/useMyActiveGroup.ts'
+import type { GroupRecord, MyActiveGroupQueryData } from '../records.ts'
 import { groupFields } from '../fragments.ts'
-import { reconcileActiveGroup } from '../reconciliation.ts'
 
 type MyActiveGroupUpdatedData = { myActiveGroupUpdated: GroupRecord }
 
@@ -18,6 +16,13 @@ const MY_ACTIVE_GROUP_UPDATED: TypedDocumentNode<MyActiveGroupUpdatedData, Recor
 	}
 `
 
+export function reconcileActiveGroupRecord(currentGroup: GroupRecord | null, updatedGroup: GroupRecord, userId: string | undefined): GroupRecord | null {
+	const member = updatedGroup.members.find(member => member.userId === userId)
+	if (member?.active) return updatedGroup
+	if (currentGroup && currentGroup.code !== updatedGroup.code) return currentGroup
+	return null
+}
+
 export function useMyActiveGroupSubscription(subscribeToMore: SubscribeToMoreFunction<MyActiveGroupQueryData, Record<string, never>>, apply = true): void {
 	const userId = useUserId()
 	useEffect(() => {
@@ -27,7 +32,7 @@ export function useMyActiveGroupSubscription(subscribeToMore: SubscribeToMoreFun
 			updateQuery: (previousData, { subscriptionData }) => {
 				const currentGroup = previousData.myActiveGroup as GroupRecord | null
 				const updatedGroup = subscriptionData.data?.myActiveGroupUpdated
-				return { myActiveGroup: updatedGroup ? reconcileActiveGroup(currentGroup, updatedGroup, userId) : currentGroup }
+				return { myActiveGroup: updatedGroup ? reconcileActiveGroupRecord(currentGroup, updatedGroup, userId) : currentGroup }
 			},
 		})
 	}, [apply, subscribeToMore, userId])

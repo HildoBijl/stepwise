@@ -1,5 +1,5 @@
-import type { Group, GroupMember } from './types.ts'
 import type { GroupMemberRecord, GroupRecord } from './records.ts'
+import type { Group, GroupMember } from './types.ts'
 
 export function groupMemberRecordToMember(record: GroupMemberRecord): GroupMember {
 	return {
