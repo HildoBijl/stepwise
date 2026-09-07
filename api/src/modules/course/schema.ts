@@ -15,12 +15,6 @@ const courseExternal = `
 	updatedAt: DateTime!
 `
 
-const courseAccess = `
-	role: String
-	subscribedAt: DateTime
-	teachers: [User]!
-`
-
 export const courseTypeDefs = gql`
 	extend type Query {
 		allCourses: [Course]!
@@ -39,16 +33,14 @@ export const courseTypeDefs = gql`
 
 	type Course {
 		${courseExternal}
-		accessData: CourseAccessData
-		teacherData: CourseTeacherData
+		subscription: CourseSubscription
+		teachers: [User!]
+		students: [User!]
 	}
 
-	type CourseAccessData {
-		${courseAccess}
-	}
-
-	type CourseTeacherData {
-		students: [User]!
+	type CourseSubscription {
+		role: String!
+		subscribedAt: DateTime!
 	}
 
 	input CreateCourseInput {

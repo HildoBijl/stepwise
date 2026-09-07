@@ -19,8 +19,9 @@ const baseRecord: CourseRecord = {
 	blocks: [{ name: 'Block one', goals: ['goal'] }],
 	createdAt: '2026-01-01T00:00:00.000Z',
 	updatedAt: '2026-01-02T00:00:00.000Z',
-	accessData: null,
-	teacherData: null,
+	subscription: null,
+	teachers: null,
+	students: null,
 }
 
 describe('course API conversion', () => {
@@ -37,33 +38,27 @@ describe('course API conversion', () => {
 		})
 	})
 
-	it('converts complete subscription data and rejects partial data', () => {
+	it('converts subscription and teacher data', () => {
 		const course = courseRecordToCourseInfo({
 			...baseRecord,
-			accessData: { role: 'teacher', subscribedAt: '2026-02-01T00:00:00.000Z', teachers: [] },
+			subscription: { role: 'teacher', subscribedAt: '2026-02-01T00:00:00.000Z' },
+			teachers: [],
 		})
 		expect(course.subscription).toEqual({ role: 'teacher', subscribedAt: new Date('2026-02-01T00:00:00.000Z') })
 		expect(course.teachers).toEqual([])
-
-		expect(() => courseRecordToCourseInfo({
-			...baseRecord,
-			accessData: { role: 'student', subscribedAt: null },
-		})).toThrow(/role and subscription date/)
 	})
 
 	it('converts teacher-visible student skill data', () => {
 		const record: CourseWithStudentSkillsRecord = {
 			...baseRecord,
-			teacherData: {
-				students: [{
-					id: 'student-id',
-					name: null,
-					givenName: null,
-					familyName: null,
-					sharedData: { email: null, skills: [] },
-					accountData: null,
-				}],
-			},
+			students: [{
+				id: 'student-id',
+				name: null,
+				givenName: null,
+				familyName: null,
+				sharedData: { email: null, skills: [] },
+				accountData: null,
+			}],
 		}
 		const course = courseWithStudentSkillsRecordToCourseInfo(record)
 

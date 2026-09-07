@@ -54,12 +54,10 @@ export function createApolloClient() {
 				},
 				Course: {
 					fields: {
-						accessData: { merge: true },
-						teacherData: { merge: true },
+						subscription: { merge: true },
 					},
 				},
-				CourseAccessData: { keyFields: false },
-				CourseTeacherData: { keyFields: false },
+				CourseSubscription: { keyFields: false },
 				Skill: {
 					keyFields: ['userId', 'skillId'],
 					fields: {

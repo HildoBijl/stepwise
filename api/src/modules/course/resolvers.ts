@@ -34,15 +34,17 @@ type AuthenticatedCourseContext = Pick<AuthenticatedContext, 'db' | 'ensureLogge
 
 interface CourseResolverSource {
 	record: CourseRecord
-	mayViewAccessData: boolean
-	mayViewTeacherData: boolean
+	mayViewSubscription: boolean
+	mayViewTeachers: boolean
+	mayViewStudents: boolean
 }
 
 function createCourseResolverSource(record: CourseRecord, { isLoggedIn, user }: Pick<CourseContext, 'isLoggedIn' | 'user'>): CourseResolverSource {
 	return {
 		record,
-		mayViewAccessData: isLoggedIn,
-		mayViewTeacherData: isLoggedIn && (record.courseSubscription?.role === 'teacher' || user?.role === 'admin'),
+		mayViewSubscription: isLoggedIn,
+		mayViewTeachers: isLoggedIn,
+		mayViewStudents: isLoggedIn && (record.courseSubscription?.role === 'teacher' || user?.role === 'admin'),
 	}
 }
 
@@ -82,18 +84,14 @@ export const courseResolvers = {
 		blocks: ({ record }: CourseResolverSource) => record.blocks,
 		createdAt: ({ record }: CourseResolverSource) => record.createdAt,
 		updatedAt: ({ record }: CourseResolverSource) => record.updatedAt,
-		accessData: ({ record, mayViewAccessData }: CourseResolverSource) => mayViewAccessData ? record : null,
-		teacherData: ({ record, mayViewTeacherData }: CourseResolverSource) => mayViewTeacherData ? record : null,
+		subscription: ({ record, mayViewSubscription }: CourseResolverSource) => mayViewSubscription && record.courseSubscription ? record : null,
+		teachers: ({ record, mayViewTeachers }: CourseResolverSource, _args: unknown, { loaders }: CourseContext) => mayViewTeachers ? loaders.courseTeachers.load(record.id) : null,
+		students: ({ record, mayViewStudents }: CourseResolverSource, _args: unknown, { loaders }: CourseContext) => mayViewStudents ? loaders.courseStudents.load(record.id) : null,
 	},
 	
-	CourseAccessData: {
+	CourseSubscription: {
 		role: (course: CourseRecord) => course.courseSubscription?.role,
 		subscribedAt: (course: CourseRecord) => course.courseSubscription?.createdAt,
-		teachers: (course: CourseRecord, _args: unknown, { loaders }: CourseContext) => loaders.courseTeachers.load(course.id),
-	},
-
-	CourseTeacherData: {
-		students: (course: CourseRecord, _args: unknown, { loaders }: CourseContext) => loaders.courseStudents.load(course.id),
 	},
 
 	Query: {

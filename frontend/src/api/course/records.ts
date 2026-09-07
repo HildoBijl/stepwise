@@ -11,14 +11,9 @@ export type CourseBlockRecord = {
 	goals: SkillId[]
 }
 
-export type CourseAccessDataRecord = {
-	role: CourseRole | null
-	subscribedAt: string | null
-	teachers?: UserRecord[]
-}
-
-export type CourseTeacherDataRecord<StudentRecord extends UserRecord = UserRecord> = {
-	students: StudentRecord[]
+export type CourseSubscriptionRecord = {
+	role: CourseRole
+	subscribedAt: string
 }
 
 export type CourseRecord<StudentRecord extends UserRecord = UserRecord> = {
@@ -35,8 +30,9 @@ export type CourseRecord<StudentRecord extends UserRecord = UserRecord> = {
 	blocks: CourseBlockRecord[]
 	createdAt: string
 	updatedAt: string
-	accessData?: CourseAccessDataRecord | null
-	teacherData?: CourseTeacherDataRecord<StudentRecord> | null
+	subscription?: CourseSubscriptionRecord | null
+	teachers?: UserRecord[] | null
+	students?: StudentRecord[] | null
 }
 
 export type CourseWithStudentSkillsRecord = CourseRecord<UserWithSkillsRecord>

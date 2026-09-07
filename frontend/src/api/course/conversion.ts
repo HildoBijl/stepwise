@@ -8,14 +8,13 @@ import { userWithSkillsRecordToUser } from '../skill/conversion.ts'
 import type { CourseRecord, CourseWithStudentSkillsRecord } from './records.ts'
 import type { CourseInfo, CourseInfoWithStudentSkills, CourseSubscription } from './types.ts'
 
-function courseAccessRecordToSubscription(record: CourseRecord['accessData']): CourseSubscription | undefined {
-	if (!record || (record.role === null && record.subscribedAt === null)) return undefined
-	if (record.role === null || record.subscribedAt === null) throw new Error('Invalid course subscription: the role and subscription date must either both exist or both be absent.')
+function courseSubscriptionRecordToSubscription(record: CourseRecord['subscription']): CourseSubscription | undefined {
+	if (!record) return undefined
 	return { role: record.role, subscribedAt: new Date(record.subscribedAt) }
 }
 
 function courseRecordToBaseInfo(record: CourseRecord): Omit<CourseInfo, 'students'> {
-	const subscription = courseAccessRecordToSubscription(record.accessData)
+	const subscription = courseSubscriptionRecordToSubscription(record.subscription)
 	return {
 		id: record.id,
 		code: record.code,
@@ -32,7 +31,7 @@ function courseRecordToBaseInfo(record: CourseRecord): Omit<CourseInfo, 'student
 			blockLearningGoalIds: record.blocks.map(block => block.goals),
 			...(record.setup === null ? {} : { setup: deserializeSetup(record.setup) }),
 		}),
-		...(record.accessData?.teachers ? { teachers: record.accessData.teachers.map(userRecordToUser) } : {}),
+		...(record.teachers ? { teachers: record.teachers.map(userRecordToUser) } : {}),
 		...(subscription ? { subscription } : {}),
 	}
 }
@@ -40,13 +39,13 @@ function courseRecordToBaseInfo(record: CourseRecord): Omit<CourseInfo, 'student
 export function courseRecordToCourseInfo(record: CourseRecord): CourseInfo {
 	return {
 		...courseRecordToBaseInfo(record),
-		...(record.teacherData ? { students: record.teacherData.students.map(userRecordToUser) } : {}),
+		...(record.students ? { students: record.students.map(userRecordToUser) } : {}),
 	}
 }
 
 export function courseWithStudentSkillsRecordToCourseInfo(record: CourseWithStudentSkillsRecord): CourseInfoWithStudentSkills {
 	return {
 		...courseRecordToBaseInfo(record),
-		...(record.teacherData ? { students: record.teacherData.students.map(userWithSkillsRecordToUser) } : {}),
+		...(record.students ? { students: record.students.map(userWithSkillsRecordToUser) } : {}),
 	}
 }

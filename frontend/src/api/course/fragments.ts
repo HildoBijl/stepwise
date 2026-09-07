@@ -31,54 +31,48 @@ const userFields = `
 
 export const availableCourseFields = `
 	${courseInfoFields}
-	accessData {
+	subscription {
 		${courseSubscriptionFields}
 	}
 `
 
 export const myCourseFields = `
 	${courseInfoFields}
-	accessData {
+	subscription {
 		${courseSubscriptionFields}
 	}
-	teacherData {
-		students {
-			${userFields}
-		}
+	students {
+		${userFields}
 	}
 `
 
 export const courseMutationFields = `
 	${courseInfoFields}
-	accessData {
+	subscription {
 		${courseSubscriptionFields}
-		teachers {
-			${userFields}
-		}
 	}
-	teacherData {
-		students {
-			${userFields}
-		}
+	teachers {
+		${userFields}
+	}
+	students {
+		${userFields}
 	}
 `
 
 export const fullCourseFields = `
 	${courseInfoFields}
-	accessData {
+	subscription {
 		${courseSubscriptionFields}
-		teachers {
-			${userFields}
-		}
 	}
-	teacherData {
-		students {
-			${userFields}
-			sharedData {
-				...UserSharedDataFields
-				skills {
-					${skillLevelFields}
-				}
+	teachers {
+		${userFields}
+	}
+	students {
+		${userFields}
+		sharedData {
+			...UserSharedDataFields
+			skills {
+				${skillLevelFields}
 			}
 		}
 	}

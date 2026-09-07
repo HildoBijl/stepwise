@@ -29,21 +29,22 @@ async function seed(db) {
 }
 
 describe('updateCourse', () => {
-	it('exposes course access data according to the current user', async () => {
+	it('exposes protected course fields according to the current user', async () => {
 		const client = await createClient(seed)
-		const query = `{course(code: "TEST") {__typename accessData {role teachers {id}} teacherData {students {id}}}}`
+		const query = `{course(code: "TEST") {__typename subscription {role} teachers {id} students {id}}}`
 
 		const anonymousResponse = await client.graphql({ query })
 		expect(anonymousResponse.errors).toBeUndefined()
-		expect(anonymousResponse.data.course).toStrictEqual({ __typename: 'Course', accessData: null, teacherData: null })
+		expect(anonymousResponse.data.course).toStrictEqual({ __typename: 'Course', subscription: null, teachers: null, students: null })
 
 		await client.loginSurfConext(TEACHER_SURFSUB)
 		const teacherResponse = await client.graphql({ query })
 		expect(teacherResponse.errors).toBeUndefined()
 		expect(teacherResponse.data.course).toStrictEqual({
 			__typename: 'Course',
-			accessData: { role: 'teacher', teachers: [{ id: TEACHER_ID }] },
-			teacherData: { students: [] },
+			subscription: { role: 'teacher' },
+			teachers: [{ id: TEACHER_ID }],
+			students: [],
 		})
 	})
 
