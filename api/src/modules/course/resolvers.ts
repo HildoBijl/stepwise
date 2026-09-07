@@ -150,7 +150,8 @@ export const courseResolvers = {
 			const { db, ensureSignedIn, userId } = context
 			ensureSignedIn()
 			const course = await getCourseById(db, courseId, { userId })
-			course.courseSubscription = await db.CourseSubscription.create({ courseId, userId })
+			const [courseSubscription] = await db.CourseSubscription.findOrCreate({ where: { courseId, userId }, defaults: { courseId, userId } })
+			course.courseSubscription = courseSubscription
 			return createCourseResolverSource(course, context)
 		},
 

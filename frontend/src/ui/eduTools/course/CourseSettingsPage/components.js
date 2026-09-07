@@ -7,7 +7,7 @@ import { skillTree } from '@step-wise/skill-tree'
 
 import { useSubscribeToCourse, useUnsubscribeFromCourse } from 'api'
 import { TranslationFile, TranslationSection, Translation, Plurals, WordList } from 'i18n'
-import { Head, Par, List } from 'ui/components'
+import { Head, Par, List, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
 import { getOrganization } from '../../organizations'
@@ -58,23 +58,25 @@ export function CourseLearningGoals({ course }) {
 }
 
 export function SubscribeButton({ course }) {
-	const [subscribeToCourse] = useSubscribeToCourse()
+	const [subscribeToCourse, { loading, error }] = useSubscribeToCourse()
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={translationSection}>
-			<Button variant="contained" startIcon={<SubscribeIcon />} onClick={() => subscribeToCourse(course.id)} color="primary" style={{ marginTop: '0.2rem', marginBottom: '0.6rem' }}>
+			<Button variant="contained" startIcon={<SubscribeIcon />} onClick={() => subscribeToCourse(course.id).catch(() => {})} disabled={loading} color="primary" style={{ marginTop: '0.2rem', marginBottom: '0.6rem' }}>
 				<Translation entry="subscribe.button">Subscribe to this course</Translation>
 			</Button>
+			{error && <ErrorNote error={error} />}
 		</TranslationSection>
 	</TranslationFile>
 }
 
 export function UnsubscribeButton({ course }) {
-	const [unsubscribeFromCourse] = useUnsubscribeFromCourse()
+	const [unsubscribeFromCourse, { loading, error }] = useUnsubscribeFromCourse()
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={translationSection}>
-			<Button variant="contained" startIcon={<SubscribeIcon />} onClick={() => unsubscribeFromCourse(course.id)} color="secondary" style={{ marginTop: '0.2rem', marginBottom: '0.6rem' }}>
+			<Button variant="contained" startIcon={<SubscribeIcon />} onClick={() => unsubscribeFromCourse(course.id).catch(() => {})} disabled={loading} color="secondary" style={{ marginTop: '0.2rem', marginBottom: '0.6rem' }}>
 				<Translation entry="unsubscribe.button">Unsubscribe from this course</Translation>
 			</Button>
+			{error && <ErrorNote error={error} />}
 		</TranslationSection>
 	</TranslationFile>
 }

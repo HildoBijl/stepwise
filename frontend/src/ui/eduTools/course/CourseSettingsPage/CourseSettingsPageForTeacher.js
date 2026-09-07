@@ -5,7 +5,7 @@ import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 import { useLocalStorageState } from 'util'
 import { usePromoteToTeacher, useIsAdmin } from 'api'
 import { TranslationFile, TranslationSection, Translation, Check } from 'i18n'
-import { Head, Par, Info, Warning } from 'ui/components'
+import { Head, Par, Info, Warning, ErrorNote } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
 
@@ -64,14 +64,14 @@ function AddTeacherForm({ course }) {
 	const selectedStudent = newTeacher && students.find(student => student.id === newTeacher)
 
 	// Set up the handler to confirm the addition of the teacher.
-	const [promoteToTeacher] = usePromoteToTeacher(course.id)
-	const addTeacher = useCallback(() => {
-		setNewTeacher(newTeacher => {
-			if (newTeacher)
-				promoteToTeacher(newTeacher)
-			return '' // Clear the dropdown list.
-		})
-	}, [setNewTeacher, promoteToTeacher])
+	const [promoteToTeacher, { loading, error }] = usePromoteToTeacher(course.id)
+	const addTeacher = useCallback(async () => {
+		if (!newTeacher) return
+		try {
+			await promoteToTeacher(newTeacher)
+			setNewTeacher('')
+		} catch {}
+	}, [newTeacher, promoteToTeacher])
 
 	// Render the form.
 	return <TranslationFile path={translationPath}>
@@ -90,8 +90,9 @@ function AddTeacherForm({ course }) {
 			</FormControl>
 			{selectedStudent && <>
 				<Warning style={{ margin: '0.25rem 0' }}><Translation entry="note">Adding a teacher will grant them access to the work and progress of all students within this course.</Translation></Warning>
-				<Button variant="contained" color="primary" startIcon={<SubscribeIcon />} onClick={addTeacher} sx={{ my: 1 }}><Translation entry="button">Add {{ name: selectedStudent.name }} as teacher</Translation></Button>
+				<Button variant="contained" color="primary" startIcon={<SubscribeIcon />} onClick={addTeacher} disabled={loading} sx={{ my: 1 }}><Translation entry="button">Add {{ name: selectedStudent.name }} as teacher</Translation></Button>
 			</>}
+			{error && <ErrorNote error={error} />}
 		</TranslationSection>
 	</TranslationFile>
 }

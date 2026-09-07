@@ -2,11 +2,13 @@ import { useCallback } from 'react'
 import { type Reference, type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
+import { USER_PUBLIC_FRAGMENT } from '../../user/fragments.ts'
+
 import type { UseSubscribeToCourseResult } from '../types.ts'
-import type { CourseRecordWithSubscription } from '../records.ts'
+import type { MyCourseRecord } from '../records.ts'
 import { COURSE_INFO_FRAGMENT } from '../fragments.ts'
 
-type SubscribeToCourseData = { subscribeToCourse: CourseRecordWithSubscription }
+type SubscribeToCourseData = { subscribeToCourse: MyCourseRecord }
 type SubscribeToCourseVariables = { courseId: string }
 
 const SUBSCRIBE_TO_COURSE_MUTATION: TypedDocumentNode<SubscribeToCourseData, SubscribeToCourseVariables> = gql`
@@ -17,9 +19,13 @@ const SUBSCRIBE_TO_COURSE_MUTATION: TypedDocumentNode<SubscribeToCourseData, Sub
 				role
 				subscribedAt
 			}
+			students {
+				...UserPublicFields
+			}
 		}
 	}
 	${COURSE_INFO_FRAGMENT}
+	${USER_PUBLIC_FRAGMENT}
 `
 
 export function useSubscribeToCourse(): UseSubscribeToCourseResult {
@@ -29,17 +35,10 @@ export function useSubscribeToCourse(): UseSubscribeToCourseResult {
 			if (!newCourse) return
 			cache.modify({
 				fields: {
-					myCourses: (existingReferences = [], { readField }) => {
+					myCourses: (existingReferences = [], { readField, toReference }) => {
 						if (existingReferences.some((reference: Reference | undefined) => readField('id', reference) === newCourse.id)) return existingReferences
-						const newCourseReference = cache.writeFragment({
-							data: newCourse,
-							fragment: gql`
-								fragment NewCourse on Course {
-									id
-									__typename
-								}
-							`,
-						})
+						const newCourseReference = toReference({ __typename: newCourse.__typename, id: newCourse.id })
+						if (!newCourseReference) throw new Error('Could not create a cache reference for the subscribed course.')
 						return [...existingReferences, newCourseReference]
 					},
 				},
