@@ -41,6 +41,9 @@ export type SkillLevelRecord = SkillIdentityRecord & {
 	levelData: SkillLevelDataRecord
 }
 
+export type SkillLevelRecordsQueryData = { skills: SkillLevelRecord[] }
+export type SkillLevelRecordsQueryVariables = { skillIds: SkillId[] }
+
 export type SkillExerciseDataRecord = {
 	exercises: ExerciseRecord[]
 	activeExercise: ExerciseRecord | null

@@ -11,7 +11,6 @@ import { useUser } from '../../user'
 
 import { type SkillLevelContextValue, SkillLevelContext } from './context.ts'
 import { useSkillLevelRecordsQuery } from './query.ts'
-import { useSkillLevelSubscription } from './subscription.ts'
 
 export function SkillLevelProvider({ children }: PropsWithChildren) {
 	const [registrations, setRegistrations] = useState<ReadonlyMap<symbol, readonly SkillId[]>>(() => new Map())
@@ -31,8 +30,7 @@ export function SkillLevelProvider({ children }: PropsWithChildren) {
 
 	const requestedSkillIds = useMemo(() => [...new Set([...registrations.values()].flat())], [registrations])
 	const expandedSkillIds = useMemo(() => expandSkillIdsWithDirectPrerequisitesAndLinks(requestedSkillIds), [requestedSkillIds])
-	const { data, loading, error, subscribeToMore } = useSkillLevelRecordsQuery(expandedSkillIds)
-	useSkillLevelSubscription(subscribeToMore, requestedSkillIds.length > 0)
+	const { data, loading, error } = useSkillLevelRecordsQuery(expandedSkillIds)
 
 	const user = useUser()
 	useEffect(() => {

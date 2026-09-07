@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client/react'
 
 import type { ActiveGroupExercisesQueryData, ActiveGroupExercisesQueryVariables } from '../records.ts'
 import { groupExerciseFields } from '../fragments.ts'
+import { useActiveGroupExercisesSubscription } from '../subscriptions/index.ts'
 
 export const ACTIVE_GROUP_EXERCISES_QUERY: TypedDocumentNode<ActiveGroupExercisesQueryData, ActiveGroupExercisesQueryVariables> = gql`
 	query activeGroupExercises($code: String!) {
@@ -13,5 +14,7 @@ export const ACTIVE_GROUP_EXERCISES_QUERY: TypedDocumentNode<ActiveGroupExercise
 `
 
 export function useActiveGroupExercisesQuery(code: string | undefined, apply = true) {
-	return useQuery(ACTIVE_GROUP_EXERCISES_QUERY, { variables: { code: code ?? '' }, skip: !apply })
+	const result = useQuery(ACTIVE_GROUP_EXERCISES_QUERY, { variables: { code: code ?? '' }, skip: !apply })
+	useActiveGroupExercisesSubscription(code, result.subscribeToMore, apply)
+	return result
 }

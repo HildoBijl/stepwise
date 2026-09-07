@@ -5,14 +5,12 @@ import { useActiveGroup } from '../../group/index.ts'
 import type { ActiveGroupExercisesState } from '../types.ts'
 import { groupExerciseRecordToExercise } from '../conversion.ts'
 import { useActiveGroupExercisesQuery } from '../queries/index.ts'
-import { useActiveGroupExercisesSubscription } from '../subscriptions/index.ts'
 
 import { ActiveGroupExercisesContext } from './context.ts'
 
 export function ActiveGroupExerciseProvider({ children }: PropsWithChildren) {
 	const group = useActiveGroup()
 	const query = useActiveGroupExercisesQuery(group?.code, !!group)
-	useActiveGroupExercisesSubscription(group?.code, query.subscribeToMore, !!group)
 
 	const records = query.data?.activeGroupExercises
 	const exercises = useMemo(() => records?.map(groupExerciseRecordToExercise), [records])

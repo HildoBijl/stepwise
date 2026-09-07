@@ -7,12 +7,11 @@ import { ensureSkillIds } from '@step-wise/skill-tree'
 
 import { useUser } from '../../user/index.ts'
 
-import type { SkillLevelRecord } from '../records.ts'
+import type { SkillLevelRecordsQueryData, SkillLevelRecordsQueryVariables } from '../records.ts'
 import { skillLevelFields } from '../fragments.ts'
 import { skillLevelRecordToData } from '../conversion.ts'
 
-export type SkillLevelRecordsQueryData = { skills: SkillLevelRecord[] }
-export type SkillLevelRecordsQueryVariables = { skillIds: SkillId[] }
+import { useSkillLevelSubscription } from './subscription.ts'
 
 const SKILL_LEVEL_RECORDS_QUERY: TypedDocumentNode<SkillLevelRecordsQueryData, SkillLevelRecordsQueryVariables> = gql`
 	query skillLevelRecords($skillIds: [String]!) {
@@ -27,6 +26,8 @@ export function useSkillLevelRecordsQuery(skillIds: SkillId[]) {
 	const user = useUser()
 	const skip = !user || skillIds.length === 0
 	const result = useQuery(SKILL_LEVEL_RECORDS_QUERY, { variables: { skillIds }, skip })
+	useSkillLevelSubscription(result.subscribeToMore, !skip)
+
 	const rawData = result.data
 	const data = useMemo(() => rawData ? { skills: rawData.skills.map(skillLevelRecordToData) } : undefined, [rawData])
 	return { ...result, data }
