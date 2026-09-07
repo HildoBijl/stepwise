@@ -63,6 +63,7 @@ export type UserWithSkillsRecord = UserRecord & {
 }
 
 export type UserSkillActivityRecord = {
+	userId: string
 	skillId: SkillId
 	levelData: { coefficientsOn: string }
 }

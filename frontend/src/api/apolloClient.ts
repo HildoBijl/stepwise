@@ -84,6 +84,11 @@ export function createApolloClient(): ApolloClient {
 						myGroups: { merge: false },
 					},
 				},
+				Subscription: {
+					fields: {
+						skillsUpdated: { merge: false },
+					},
+				},
 			},
 		}),
 	})

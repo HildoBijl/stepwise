@@ -85,7 +85,7 @@ describe('skill API conversion', () => {
 			name: 'Alex',
 			givenName: 'Alex',
 			familyName: null,
-			sharedData: { email: 'alex@example.com', skills: [{ skillId: 'enterInteger', levelData: { coefficientsOn: date } }] },
+			sharedData: { email: 'alex@example.com', skills: [{ userId: 'user-id', skillId: 'enterInteger', levelData: { coefficientsOn: date } }] },
 			accountData: {
 				role: 'admin',
 				language: null,

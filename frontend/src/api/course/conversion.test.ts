@@ -70,10 +70,10 @@ describe('course API conversion', () => {
 		expect(course.students?.[0]?.skillLevelSet).toBeInstanceOf(SkillLevelSet)
 	})
 
-	it('classifies own courses and guarantees students for teacher courses', () => {
+	it('classifies own courses, preserves admin-visible students, and guarantees students for teacher courses', () => {
 		const studentRecord = createMyCourseRecord({
 			subscription: { role: 'student', subscribedAt: '2026-02-01T00:00:00.000Z' },
-			students: null,
+			students: [],
 		})
 		const teacherRecord = createMyCourseRecord({
 			subscription: { role: 'teacher', subscribedAt: '2026-02-02T00:00:00.000Z' },
@@ -82,6 +82,7 @@ describe('course API conversion', () => {
 		const { studentCourses, teacherCourses } = courseRecordsToMyCourses([studentRecord, teacherRecord])
 
 		expect(studentCourses).toHaveLength(1)
+		expect(studentCourses[0]?.students).toEqual([])
 		expect(teacherCourses).toHaveLength(1)
 		expect(teacherCourses[0]?.students).toEqual([])
 	})

@@ -17,6 +17,7 @@ const ALL_USERS_WITH_SKILL_ACTIVITY_QUERY: TypedDocumentNode<AllUsersWithSkillAc
 			sharedData {
 				...UserSharedDataFields
 				skills {
+					userId
 					skillId
 					levelData {
 						coefficientsOn

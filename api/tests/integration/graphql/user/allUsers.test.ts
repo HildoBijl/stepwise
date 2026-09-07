@@ -52,4 +52,15 @@ describe('allUsers', () => {
 		expect(errors).toBeUndefined()
 		expect(allUsers.map(a => a.id).sort()).toEqual([ALEX_ID, BOB_ID,CAROL_ID].sort())
 	})
+
+	it('gives account data and skill activity when an admin accesses it', async () => {
+		const client = await createClient(seed)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
+
+		const query = '{allUsers {id name givenName familyName sharedData {email skills {userId skillId levelData {coefficientsOn}}} accountData {role language privacyPolicyConsent {version acceptedAt isLatestVersion} createdAt updatedAt}}}'
+		const { data: { allUsers }, errors } = await client.graphql({ query })
+		expect(errors).toBeUndefined()
+		expect(allUsers).toHaveLength(3)
+		expect(allUsers.every(user => Array.isArray(user.sharedData.skills))).toBe(true)
+	})
 })

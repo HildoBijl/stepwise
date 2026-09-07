@@ -58,7 +58,6 @@ export function courseRecordsToMyCourses(records: MyCourseRecord[]): { studentCo
 		const course = courseRecordToCourseInfo(record)
 		if (!course.subscription) throw new Error('Invalid own course: the current user does not have a subscription.')
 		if (course.subscription.role === 'student') {
-			if (course.students !== undefined) throw new Error('Invalid student course: student data is visible to a student.')
 			studentCourses.push({ ...course, subscription: { ...course.subscription, role: 'student' } })
 			return
 		}
