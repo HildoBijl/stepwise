@@ -3,11 +3,11 @@ import { type RefObject, useEffect, useReducer, useState } from 'react'
 import { useLatestRef } from './refs.ts'
 import { useResizeObserver } from './elementSize.ts'
 import { useEventListener } from './eventListeners.ts'
-import { useStaggeredFunction } from './scheduling.ts'
+import { useCoalescedCallback } from './scheduling.ts'
 
 export function useBoundingClientRect(element: Element | null | undefined): DOMRect | null {
 	const [rect, setRect] = useState<DOMRect | null>(null)
-	const updateElementPosition = useStaggeredFunction(() => {
+	const updateElementPosition = useCoalescedCallback(() => {
 		if (element) setRect(element.getBoundingClientRect())
 	})
 	useEffect(() => updateElementPosition(), [element, updateElementPosition])

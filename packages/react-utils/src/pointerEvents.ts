@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react'
 
-import { type ModifierKeyState, getEventClientPosition, getModifierKeyState } from '@step-wise/browser-utils'
 import { type Vector } from '@step-wise/geometry'
+import { type ModifierKeyState, getEventClientPosition, getModifierKeyState } from '@step-wise/browser-utils'
 
 export interface PointerState {
 	readonly position: Vector | undefined
