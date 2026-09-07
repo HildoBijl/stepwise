@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
 import { Tabs as MuiTabs, Tab as MuiTab, useTheme } from '@mui/material'
 
 import { useElementSize } from '@step-wise/react-utils'
@@ -15,8 +15,8 @@ export function Tabs() {
 	const { tabs, tabIndex, setTabIndex } = useTabContext()
 
 	// Determine based on the width of the tabs bar whether labels should be shown.
-	const tabsRef = useRef()
-	const width = useElementSize(tabsRef)?.width
+	const [tabsElement, setTabsElement] = useState()
+	const width = useElementSize(tabsElement)?.width
 	let showIcon = true, showLabel = true
 	if (width / tabs.length < lowerTabWidthLimit)
 		showLabel = false
@@ -28,7 +28,7 @@ export function Tabs() {
 		return null
 
 	return <MuiTabs
-		ref={tabsRef}
+		ref={setTabsElement}
 		value={tabIndex}
 		onChange={(event, newValue) => setTabIndex(newValue)}
 		variant="fullWidth"
