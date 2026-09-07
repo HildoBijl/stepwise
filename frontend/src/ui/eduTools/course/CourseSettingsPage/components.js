@@ -5,7 +5,7 @@ import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 
 import { skillTree } from '@step-wise/skill-tree'
 
-import { useSubscribeToCourseMutation, useUnsubscribeFromCourseMutation } from 'api'
+import { useSubscribeToCourse, useUnsubscribeFromCourse } from 'api'
 import { TranslationFile, TranslationSection, Translation, Plurals, WordList } from 'i18n'
 import { Head, Par, List } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
@@ -48,8 +48,8 @@ export function CourseLearningGoals({ course }) {
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={translationSection}>
 			<Head><Translation entry="learningGoals.title">Learning goals</Translation></Head>
-			<Par><Translation entry="learningGoals.description">The course has the following final <Plurals value={course.goals.length}><Plurals.One>goal</Plurals.One><Plurals.NotOne>goals</Plurals.NotOne></Plurals>.</Translation></Par>
-			<List items={course.goals.map(goalId => {
+			<Par><Translation entry="learningGoals.description">The course has the following final <Plurals value={course.courseDefinition.learningGoalIds.length}><Plurals.One>goal</Plurals.One><Plurals.NotOne>goals</Plurals.NotOne></Plurals>.</Translation></Par>
+			<List items={course.courseDefinition.learningGoalIds.map(goalId => {
 				const skill = skillTree[goalId]
 				return <Link to={paths.skill({ skillId: goalId })}><Translation path="eduContent/skillNames" entry={`${skill.groupPath.join('.')}.${skill.id}`}>{skill.name}</Translation></Link>
 			})} />
@@ -58,7 +58,7 @@ export function CourseLearningGoals({ course }) {
 }
 
 export function SubscribeButton({ course }) {
-	const [subscribeToCourse] = useSubscribeToCourseMutation()
+	const [subscribeToCourse] = useSubscribeToCourse()
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={translationSection}>
 			<Button variant="contained" startIcon={<SubscribeIcon />} onClick={() => subscribeToCourse(course.id)} color="primary" style={{ marginTop: '0.2rem', marginBottom: '0.6rem' }}>
@@ -69,7 +69,7 @@ export function SubscribeButton({ course }) {
 }
 
 export function UnsubscribeButton({ course }) {
-	const [unsubscribeFromCourse] = useUnsubscribeFromCourseMutation()
+	const [unsubscribeFromCourse] = useUnsubscribeFromCourse()
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={translationSection}>
 			<Button variant="contained" startIcon={<SubscribeIcon />} onClick={() => unsubscribeFromCourse(course.id)} color="secondary" style={{ marginTop: '0.2rem', marginBottom: '0.6rem' }}>

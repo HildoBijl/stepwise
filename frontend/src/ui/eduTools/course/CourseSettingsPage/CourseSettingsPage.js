@@ -20,7 +20,7 @@ export function CourseSettingsPage() {
 	const paths = usePaths()
 	const navigate = useNavigate()
 	useEffect(() => {
-		if (course && !course.role && !isAdmin)
+		if (course && !course.subscription && !isAdmin)
 			navigate(paths.courses(), { replace: true })
 	}, [course, paths, navigate, isAdmin])
 
@@ -31,9 +31,9 @@ export function CourseSettingsPage() {
 		return <ErrorNote />
 
 	// When we do have data, determine what page to show.
-	if (isAdmin || course.role === 'teacher')
+	if (isAdmin || course.subscription?.role === 'teacher')
 		return <CourseSettingsPageForTeacher />
-	if (course.role === 'student')
+	if (course.subscription?.role === 'student')
 		return <CourseSettingsPageForStudent />
 	return null
 }

@@ -3,7 +3,7 @@ import { Alert, AlertTitle, Box } from '@mui/material'
 
 import { count } from '@step-wise/js-utils'
 
-import { useSkillLevels, useMyCoursesQuery, courseRecordToCourseDefinition } from 'api'
+import { useSkillLevels, useMyCourses } from 'api'
 import { Translation, TranslationFile } from 'i18n'
 import { Head, LoadingIndicator, ErrorNote } from 'ui/components'
 
@@ -13,23 +13,20 @@ import { StudentTile, TeacherTile, AddCourseTile } from './Tile'
 const translationPath = 'eduTools/pages/coursesPage'
 
 export function CoursesPage() {
-	const myCoursesResult = useMyCoursesQuery(true, true)
+	const { courses, loading, error } = useMyCourses()
 
 	// When we don't have the data, show a relevant indication of what's going on.
-	if (myCoursesResult.loading)
-		return <LoadingIndicator />
-	if (myCoursesResult.error)
-		return <ErrorNote />
+	if (loading) return <LoadingIndicator />
+	if (error || !courses) return <ErrorNote error={error} />
 
 	// When we have the data, render it accordingly.
-	const myCourses = myCoursesResult.data.myCourses
-	return <CoursePageForCourses courses={myCourses} />
+	return <CoursePageForCourses courses={courses} />
 }
 
 function CoursePageForCourses({ courses }) {
 	// Split the courses based on teacher and student roles.
-	const studentCourses = useMemo(() => courses.filter(course => course.role === 'student'), [courses])
-	const teacherCourses = useMemo(() => courses.filter(course => course.role === 'teacher'), [courses])
+	const studentCourses = useMemo(() => courses.filter(course => course.subscription.role === 'student'), [courses])
+	const teacherCourses = useMemo(() => courses.filter(course => course.subscription.role === 'teacher'), [courses])
 
 	// If there are no teacher courses, only show student courses.
 	if (teacherCourses.length === 0)
@@ -73,8 +70,8 @@ const coursesStyle = {
 
 function StudentCourseList({ courses, showAddButton }) {
 	// Load all the skills data for the courses and use it to determine which skills need practice.
-	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => new Date(c1.subscribedAt) - new Date(c2.subscribedAt)), [courses]) // Sort by subscription date, so that later courses come at the end.
-	const courseDefinitions = useMemo(() => sortedCourses.map(courseRecordToCourseDefinition), [sortedCourses])
+	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => c1.subscription.subscribedAt - c2.subscription.subscribedAt), [courses]) // Sort by subscription date, so that later courses come at the end.
+	const courseDefinitions = useMemo(() => sortedCourses.map(course => course.courseDefinition), [sortedCourses])
 	const allSkills = [...new Set(courseDefinitions.map(courseDefinition => courseDefinition.allSkillIds).flat())] // A list of all relevant skills for all courses.
 	const skillLevelSet = useSkillLevels(allSkills) // The SkillLevelSet objects for all skills.
 	const skillLevelSnapshot = skillLevelSet.getSnapshot()
@@ -113,7 +110,7 @@ function StudentCourseList({ courses, showAddButton }) {
 
 function TeacherCourseList({ courses }) {
 	// Load all the skills data for the courses and use it to determine which skills need practice.
-	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => new Date(c1.subscribedAt) - new Date(c2.subscribedAt)), [courses]) // Sort by subscription date, so that later courses come at the end.
+	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => c1.subscription.subscribedAt - c2.subscription.subscribedAt), [courses]) // Sort by subscription date, so that later courses come at the end.
 
 	return <TranslationFile path={translationPath}>
 		<Box sx={coursesStyle}>

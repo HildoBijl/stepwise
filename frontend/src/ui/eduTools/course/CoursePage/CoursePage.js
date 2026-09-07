@@ -20,7 +20,7 @@ export function CoursePage() {
 	const paths = usePaths()
 	const navigate = useNavigate()
 	useEffect(() => {
-		if (course?.role && location.pathname.includes('/addCourse/'))
+		if (course?.subscription && location.pathname.includes('/addCourse/'))
 			navigate(paths.course({ courseCode: course.code }), { replace: true })
 	}, [course, location, paths, navigate])
 
@@ -40,9 +40,9 @@ function CoursePageForCourse({ course }) {
 	// When we do have data, determine what page to show.
 	if (!user)
 		return <CoursePageForExternal />
-	if (isAdmin || course.role === 'teacher')
+	if (isAdmin || course.subscription?.role === 'teacher')
 		return studentView ? <CoursePageForStudent /> : <CoursePageForTeacher />
-	if (course.role === 'student')
+	if (course.subscription?.role === 'student')
 		return <CoursePageForStudent />
 	return <CourseSettingsPageForUnsubscribedUser />
 }

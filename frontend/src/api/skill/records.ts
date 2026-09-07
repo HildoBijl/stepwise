@@ -56,5 +56,5 @@ export type SkillRecord = SkillLevelRecord & {
 
 export type UserWithSkillsRecord = UserRecord & {
 	sharedData: (UserSharedDataRecord & { skills: SkillRecord[] }) | null
-	accountData: UserAccountDataRecord | null
+	accountData?: UserAccountDataRecord | null
 }

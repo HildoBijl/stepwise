@@ -4,7 +4,7 @@ import { Tooltip, Alert, AlertTitle, Box, alpha } from '@mui/material'
 import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 import clsx from 'clsx'
 
-import { useAllCoursesQuery, courseRecordToCourseDefinition } from 'api'
+import { useAvailableCourses } from 'api'
 import { TranslationFile, Translation } from 'i18n'
 import { Head } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
@@ -14,17 +14,17 @@ import { organizations } from '../organizations'
 const translationPath = 'eduTools/pages/addCoursePage'
 
 export function AddCoursePage() {
-	const allCoursesResult = useAllCoursesQuery()
+	const { courses, loading, error } = useAvailableCourses()
 
 	// When we don't have the data, show a relevant indication of what's going on.
-	if (allCoursesResult.loading)
+	if (loading)
 		return <Translation path={translationPath} entry="loading.loading">
 			<Alert severity="info">
 				<AlertTitle>Loading courses...</AlertTitle>
 				We are loading all available courses from the database. This shouldn't take long.
 			</Alert>
 		</Translation>
-	if (allCoursesResult.error)
+	if (error || !courses)
 		return <Translation path={translationPath} entry="loading.failed">
 			<Alert severity="error">
 				<AlertTitle>Loading courses failed</AlertTitle>
@@ -33,7 +33,7 @@ export function AddCoursePage() {
 		</Translation>
 
 	// When we have the data, render it accordingly.
-	return <AddCoursePageForCourses courses={allCoursesResult.data.allCourses} />
+	return <AddCoursePageForCourses courses={courses} />
 }
 
 function AddCoursePageForCourses({ courses }) {
@@ -55,7 +55,7 @@ function AddCoursePageForCourses({ courses }) {
 
 function CoursesPerOrganization({ organization, courses }) {
 	// Sort the courses by creation date.
-	const coursesSorted = useMemo(() => courses.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)), [courses])
+	const coursesSorted = useMemo(() => [...courses].sort((a, b) => a.createdAt - b.createdAt), [courses])
 
 	// On no courses, don't show the organization.
 	if (courses.length === 0)
@@ -106,7 +106,7 @@ function CourseEntry({ course }) {
 	const navigate = useNavigate()
 
 	// Analyze the course to see what's in it.
-	const courseDefinition = useMemo(() => courseRecordToCourseDefinition(course), [course])
+	const { courseDefinition } = course
 
 	// Set up handlers for events.
 	const [hover, setHover] = useState(false)
@@ -123,6 +123,6 @@ function CourseEntry({ course }) {
 		</Tooltip>
 		<Box className={clsx('cell', 'numBlocks', { hover })} {...handlers}>{courseDefinition.blocks.length}</Box>
 		<Box className={clsx('cell', 'numSkills', { hover })} {...handlers}>{courseDefinition.contentSkillIds.length}</Box>
-		<Box className={clsx('cell', 'subscribed', { hover })} {...handlers}><SubscribeIcon style={{ opacity: course.role ? 1 : 0.05 }} /></Box>
+		<Box className={clsx('cell', 'subscribed', { hover })} {...handlers}><SubscribeIcon style={{ opacity: course.subscription ? 1 : 0.05 }} /></Box>
 	</>
 }

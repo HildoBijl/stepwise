@@ -91,7 +91,7 @@ function StudentOverview({ course, courseDefinition, students }) {
 			flex: 1,
 			align: 'center',
 			headerAlign: 'center',
-			renderHeader: cell => <Tooltip title={translate(course.blocks[index].name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')} arrow>
+			renderHeader: cell => <Tooltip title={translate(course.blockNames[index], `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')} arrow>
 				{renderHeader(cell)}
 			</Tooltip>,
 			renderCell: cell => <CenteredProgressIndicator total={courseDefinition.blocks[index].contentSkillIds.length} done={cell.value} />,

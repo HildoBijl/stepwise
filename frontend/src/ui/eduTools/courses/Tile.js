@@ -1,11 +1,10 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Tooltip, Box, alpha } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
 import { skillTree } from '@step-wise/skill-tree'
 
-import { courseRecordToCourseDefinition } from 'api'
 import { useTranslator, Translation, Plurals } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
@@ -106,7 +105,7 @@ export function StudentTile({ course, skillsTotal, skillsDone, recommendation })
 
 export function TeacherTile({ course }) {
 	// Process the course.
-	const courseDefinition = useMemo(() => courseRecordToCourseDefinition(course), [course])
+	const { courseDefinition } = course
 
 	// Define styles.
 	const containerStyle = { textAlign: 'center' }

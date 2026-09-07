@@ -115,7 +115,7 @@ function ProgressOverview({ processedStudent, course, courseDefinition }) {
 							{index + 1}
 						</TableCell>
 						<TableCell sx={{}}>
-							{translate(course.blocks[index].name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
+							{translate(course.blockNames[index], `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
 						</TableCell>
 						<TableCell align="center">
 							<CenteredProgressIndicator size={50} total={block.contentSkillIds.length} done={processedStudent.analysis.numCompletedPerBlock[index]} />

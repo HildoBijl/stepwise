@@ -92,7 +92,7 @@ function LandscapeCourse({ course, courseDefinition, analysis, activeBlock, togg
 				skillIds={block.contentSkillIds}
 				active={activeBlock === index}
 				toggleActive={() => toggleActiveBlock(index)}
-				name={translate(course.blocks[index].name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
+				name={translate(course.blockNames[index], `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
 				number={index + 1}
 				isPriorKnowledge={false}
 				analysis={analysis}
@@ -128,7 +128,7 @@ function PortraitCourse({ course, courseDefinition, analysis, activeBlock, toggl
 					skillIds={block.contentSkillIds}
 					active={activeBlock === index}
 					toggleActive={() => toggleActiveBlock(index)}
-					name={translate(course.blocks[index].name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
+					name={translate(course.blockNames[index], `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
 					number={index + 1}
 					isPriorKnowledge={false}
 					analysis={analysis}
