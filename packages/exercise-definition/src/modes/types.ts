@@ -1,8 +1,8 @@
-import type { ExerciseAction, ExerciseState, ExerciseParameters } from '../atomTypes.ts'
+import type { ExerciseParameters, ExerciseAction, ExerciseState } from '../atomTypes.ts'
 
 import type { ExerciseMode } from './definitions.ts'
-import type { SoloExerciseHistory } from './solo/index.ts'
-import type { GroupExerciseHistory } from './group/index.ts'
+import type { SoloExerciseHistory, SoloExerciseInstance } from './solo/index.ts'
+import type { GroupExerciseHistory, GroupExerciseInstance } from './group/index.ts'
 
 export type ExerciseHistoryByMode<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = {
 	solo: SoloExerciseHistory<TAction, TState>
@@ -12,21 +12,8 @@ export type ExerciseHistoryByMode<TAction extends ExerciseAction = ExerciseActio
 export type ExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = ExerciseHistoryByMode<TAction, TState>[ExerciseMode]
 
 export type BaseExerciseInstanceByMode<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = {
-	solo: {
-		mode: 'solo'
-		parameters: TParameters
-		initialState: TState
-		history: SoloExerciseHistory<TAction, TState>
-	}
-	group: {
-		mode: 'group'
-		parameters: TParameters
-		initialState: TState
-		history: GroupExerciseHistory<TAction, TState>
-	}
+	solo: SoloExerciseInstance<TAction, TState, TParameters>
+	group: GroupExerciseInstance<TAction, TState, TParameters>
 }
-
-export type SoloExerciseInstance<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = BaseExerciseInstanceByMode<TAction, TState, TParameters>['solo']
-export type GroupExerciseInstance<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = BaseExerciseInstanceByMode<TAction, TState, TParameters>['group']
 
 export type BaseExerciseInstance<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = BaseExerciseInstanceByMode<TAction, TState, TParameters>[ExerciseMode]
