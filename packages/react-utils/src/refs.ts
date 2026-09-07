@@ -4,6 +4,33 @@ import { preserveRefs } from '@step-wise/js-utils'
 
 type AnyFunction = (...args: any[]) => any
 
+/*
+ * Constant values.
+ */
+
+export function useConstant<T>(factory: () => T): T {
+	const ref = useRef<{ value: T } | undefined>(undefined)
+	if (ref.current === undefined) ref.current = { value: factory() }
+	return ref.current.value
+}
+
+export function useAssertConstant<T>(value: T): T {
+	const ref = useRef<{ value: T } | undefined>(undefined)
+	if (ref.current === undefined) ref.current = { value }
+	if (!Object.is(value, ref.current.value)) throw new Error(`Unexpected value change: expected the value to remain constant, but it changed from "${String(ref.current.value)}" to "${String(value)}".`)
+	return value
+}
+
+/*
+ * Current and historical values.
+ */
+
+export function useLatestRef<T>(value: T): RefObject<T> {
+	const ref = useRef(value)
+	ref.current = value
+	return ref
+}
+
 export function usePrevious<T>(value: T, initialValue: T): T
 export function usePrevious<T>(value: T): T | undefined
 export function usePrevious<T>(value: T, initialValue?: T): T | undefined {
@@ -14,28 +41,15 @@ export function usePrevious<T>(value: T, initialValue?: T): T | undefined {
 	return ref.current
 }
 
-export function useConstant<T>(factory: () => T): T {
-	const ref = useRef<{ value: T } | undefined>(undefined)
-	if (ref.current === undefined) ref.current = { value: factory() }
-	return ref.current.value
-}
-
-export function useLatestRef<T>(value: T): RefObject<T> {
-	const ref = useRef(value)
-	ref.current = value
-	return ref
-}
-
-export function useStableCallback<FunctionType extends AnyFunction>(callback: FunctionType): FunctionType {
-	const callbackRef = useLatestRef(callback)
-	return useCallback(((...args: Parameters<FunctionType>) => callbackRef.current(...args)) as FunctionType, [callbackRef])
-}
-
 export function useLastDefinedValue<T>(value: T | null | undefined): T | undefined {
 	const ref = useRef<T | undefined>(undefined)
 	if (value !== null && value !== undefined) ref.current = value
 	return ref.current
 }
+
+/*
+ * Reference-preserving values and callbacks.
+ */
 
 export function useReferencePreservingValue<T>(value: T): T {
 	const ref = useRef<T | undefined>(undefined)
@@ -49,12 +63,14 @@ export function useStableValue<T>(value: T, areEqual: (current: T, previous: T) 
 	return ref.current.value
 }
 
-export function useAssertConstant<T>(value: T): T {
-	const ref = useRef<{ value: T } | undefined>(undefined)
-	if (ref.current === undefined) ref.current = { value }
-	if (!Object.is(value, ref.current.value)) throw new Error(`Unexpected value change: expected the value to remain constant, but it changed from "${String(ref.current.value)}" to "${String(value)}".`)
-	return value
+export function useStableCallback<FunctionType extends AnyFunction>(callback: FunctionType): FunctionType {
+	const callbackRef = useLatestRef(callback)
+	return useCallback(((...args: Parameters<FunctionType>) => callbackRef.current(...args)) as FunctionType, [callbackRef])
 }
+
+/*
+ * Forwarded refs.
+ */
 
 export function useForwardedRef<T>(forwardedRef?: Ref<T>): RefObject<T | null> {
 	const ref = useRef<T>(null)

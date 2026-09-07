@@ -2,10 +2,10 @@ import { type Dispatch, type SetStateAction, useCallback, useMemo, useSyncExtern
 
 import { readLocalStorageValue, writeLocalStorageValue } from '@step-wise/browser-utils'
 
-const localStorageChangeEvent = 'react-utils:local-storage-change'
+const LOCAL_STORAGE_CHANGE_EVENT = 'react-utils:local-storage-change'
 
 export interface LocalStorageStateOptions<T> {
-	parse?: (value: unknown) => T
+	readonly parse?: (value: unknown) => T
 }
 
 function subscribeToLocalStorageKey(key: string, notify: () => void): () => void {
@@ -17,10 +17,10 @@ function subscribeToLocalStorageKey(key: string, notify: () => void): () => void
 		if ((event as CustomEvent<string>).detail === key) notify()
 	}
 	window.addEventListener('storage', handleStorageChange)
-	window.addEventListener(localStorageChangeEvent, handleLocalChange)
+	window.addEventListener(LOCAL_STORAGE_CHANGE_EVENT, handleLocalChange)
 	return () => {
 		window.removeEventListener('storage', handleStorageChange)
-		window.removeEventListener(localStorageChangeEvent, handleLocalChange)
+		window.removeEventListener(LOCAL_STORAGE_CHANGE_EVENT, handleLocalChange)
 	}
 }
 
@@ -43,7 +43,7 @@ export function useLocalStorageState<T>(key: string, initialState?: T, options: 
 		const parsedState = options.parse ? options.parse(storedState) : storedState
 		const resolvedState = typeof newState === 'function' ? (newState as (previous: T | undefined) => T | undefined)(parsedState) : newState
 		writeLocalStorageValue(key, resolvedState)
-		window.dispatchEvent(new CustomEvent(localStorageChangeEvent, { detail: key }))
+		window.dispatchEvent(new CustomEvent(LOCAL_STORAGE_CHANGE_EVENT, { detail: key }))
 	}, [initialState, key, options.parse])
 	return [state, setState]
 }

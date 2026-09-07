@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import { useLatestRef, useStableCallback } from './refs.ts'
 
 export interface AnimationOptions {
-	active?: boolean
+	readonly active?: boolean
 }
 
 export function useAnimation(animationCallback: (elapsedTime: number, deltaTime: number | undefined) => void, { active = true }: AnimationOptions = {}): void {
@@ -56,6 +56,6 @@ export function useCoalescedCallback<Arguments extends unknown[]>(callback: (...
 		requestRef.current = undefined
 		argumentsRef.current = undefined
 	}, [])
-	
+
 	return coalescedCallback
 }
