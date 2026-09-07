@@ -2,7 +2,7 @@ import { gql } from 'graphql-tag'
 
 export const groupExerciseTypeDefs = gql`
 	extend type Query {
-		activeGroupExercises(code: String!): [GroupExercise]!
+		activeGroupExercises(code: String!): [GroupExercise!]!
 	}
 
 	extend type Mutation {
@@ -26,14 +26,14 @@ export const groupExerciseTypeDefs = gql`
 		active: Boolean!
 		startedAt: DateTime!
 		state: JSON
-		history: [GroupEvent]!
+		history: [GroupEvent!]!
 	}
 
 	type GroupEvent {
 		id: ID!
 		state: JSON
 		performedAt: DateTime!
-		actions: [GroupExerciseAction]!
+		actions: [GroupExerciseAction!]!
 	}
 
 	type GroupExerciseAction {

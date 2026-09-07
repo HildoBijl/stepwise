@@ -2,9 +2,9 @@ import { gql } from 'graphql-tag'
 
 export const skillLevelFields = `
 	numPracticed: Int!
-	coefficients: [Float]!
+	coefficients: [Float!]!
 	coefficientsOn: DateTime!
-	highest: [Float]!
+	highest: [Float!]!
 	highestOn: DateTime!
 	createdAt: DateTime!
 	updatedAt: DateTime!
@@ -12,16 +12,16 @@ export const skillLevelFields = `
 
 export const skillTypeDefs = gql`
 	extend type UserSharedData {
-		skills(skillIds: [String]): [Skill]!
+		skills(skillIds: [String!]): [Skill!]!
 	}
 
 	extend type Query {
 		skill(skillId: String!, userId: ID): Skill
-		skills(skillIds: [String]): [Skill]!
+		skills(skillIds: [String!]): [Skill!]!
 	}
 
 	extend type Subscription {
-		skillsUpdated: [Skill]!
+		skillsUpdated: [Skill!]!
 	}
 
 	type Skill {

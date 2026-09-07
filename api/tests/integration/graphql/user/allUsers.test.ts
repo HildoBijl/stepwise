@@ -31,7 +31,7 @@ describe('allUsers', () => {
 		const client = await createClient(seed)
 
 		const { data, errors } = await client.graphql({ query: `{allUsers {id}}` })
-		expect(data).toStrictEqual({ allUsers: null })
+		expect(data).toBeNull()
 		expect(errors).not.toBeUndefined()
 	})
 
@@ -40,7 +40,7 @@ describe('allUsers', () => {
 		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `{allUsers {id}}` })
-		expect(data).toStrictEqual({ allUsers: null })
+		expect(data).toBeNull()
 		expect(errors).not.toBeUndefined()
 	})
 

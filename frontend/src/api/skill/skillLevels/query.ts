@@ -14,7 +14,7 @@ import { skillLevelRecordToData } from '../conversion.ts'
 import { useSkillLevelSubscription } from './subscription.ts'
 
 const SKILL_LEVEL_RECORDS_QUERY: TypedDocumentNode<SkillLevelRecordsQueryData, SkillLevelRecordsQueryVariables> = gql`
-	query skillLevelRecords($skillIds: [String]!) {
+	query skillLevelRecords($skillIds: [String!]!) {
 		skills(skillIds: $skillIds) {
 			${skillLevelFields}
 		}

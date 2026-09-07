@@ -5,20 +5,20 @@ const courseExternal = `
 	code: String!
 	name: String!
 	description: String
-	goals: [String]!
-	goalWeights: [Int]
-	startingPoints: [String]!
+	goals: [String!]!
+	goalWeights: [Int!]
+	startingPoints: [String!]!
 	setup: JSON
 	organization: String!
-	blocks: [CourseBlock]!
+	blocks: [CourseBlock!]!
 	createdAt: DateTime!
 	updatedAt: DateTime!
 `
 
 export const courseTypeDefs = gql`
 	extend type Query {
-		allCourses: [Course]!
-		myCourses: [Course]!
+		allCourses: [Course!]!
+		myCourses: [Course!]!
 		course(code: String!): Course!
 	}
 
@@ -47,33 +47,33 @@ export const courseTypeDefs = gql`
 		code: String!
 		name: String!
 		description: String
-		goals: [String]!
-		goalWeights: [Int]
-		startingPoints: [String]!
+		goals: [String!]!
+		goalWeights: [Int!]
+		startingPoints: [String!]!
 		setup: JSON
 		organization: String
-		blocks: [CourseBlockInput]
+		blocks: [CourseBlockInput!]
 	}
 
 	input UpdateCourseInput {
 		code: String
 		name: String
 		description: String
-		goals: [String]
-		goalWeights: [Int]
-		startingPoints: [String]
+		goals: [String!]
+		goalWeights: [Int!]
+		startingPoints: [String!]
 		setup: JSON
 		organization: String
-		blocks: [CourseBlockInput]
+		blocks: [CourseBlockInput!]
 	}
 
 	type CourseBlock {
 		name: String!
-		goals: [String]!
+		goals: [String!]!
 	}
 
 	input CourseBlockInput {
 		name: String!
-		goals: [String]!
+		goals: [String!]!
 	}
 `

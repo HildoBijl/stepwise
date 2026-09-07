@@ -11,7 +11,7 @@ export const exerciseTypeDefs = gql`
 	}
 
 	type SkillExerciseData {
-		exercises: [Exercise]!
+		exercises: [Exercise!]!
 		activeExercise: Exercise
 	}
 
@@ -31,12 +31,12 @@ export const exerciseTypeDefs = gql`
 		state: JSON!
 		lastAction: JSON
 		lastActionAt: DateTime
-		history: [ExerciseEvent]!
+		history: [ExerciseEvent!]!
 	}
 
 	type ExerciseActionResult {
 		updatedExercise: Exercise!
-		updatedSkills: [Skill]!
+		updatedSkills: [Skill!]!
 	}
 
 	type ExerciseEvent {

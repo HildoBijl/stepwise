@@ -5,7 +5,7 @@ export const groupTypeDefs = gql`
 		group(code: String!): Group
 		groupExists(code: String!): Boolean!
 		myActiveGroup: Group
-		myGroups: [Group]
+		myGroups: [Group!]!
 	}
 
 	extend type Mutation {
@@ -35,6 +35,6 @@ export const groupTypeDefs = gql`
 	type Group {
 		id: ID!
 		code: String!
-		members: [GroupMember]
+		members: [GroupMember!]!
 	}
 `
