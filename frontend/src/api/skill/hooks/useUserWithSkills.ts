@@ -26,7 +26,7 @@ export function useUserWithSkills(userId?: string): UseUserWithSkillsResult {
 		variables: { userId: userId ?? '' },
 		skip: !userId,
 	})
-	const record = (data as UserWithSkillsQueryData | undefined)?.user
+	const record = data?.user
 	const user = useMemo(() => record ? userWithSkillsRecordToUser(record) : undefined, [record])
 	return { user, loading, error }
 }

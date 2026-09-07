@@ -26,7 +26,7 @@ export function useSkillLevelSubscription(subscribeToMore: SubscribeToMoreFuncti
 			document: SKILL_LEVELS_UPDATED,
 			updateQuery: (previousData, { subscriptionData }) => {
 				const skills = (previousData.skills ?? []) as SkillLevelRecord[]
-				const updatedSkills = (subscriptionData.data as SkillLevelsUpdatedData | undefined)?.skillsUpdated
+				const updatedSkills = subscriptionData.data?.skillsUpdated
 				if (!updatedSkills) return { skills }
 
 				const newSkills = [...skills]

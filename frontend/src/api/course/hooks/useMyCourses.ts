@@ -30,7 +30,7 @@ const MY_COURSES_QUERY: TypedDocumentNode<MyCoursesQueryData, Record<string, nev
 
 export function useMyCourses(): UseMyCoursesResult {
 	const { data, loading, error } = useQuery(MY_COURSES_QUERY)
-	const records = (data as MyCoursesQueryData | undefined)?.myCourses
+	const records = data?.myCourses
 	const courses = useMemo(() => records ? courseRecordsToMyCourses(records) : { studentCourses: undefined, teacherCourses: undefined }, [records])
 	return { ...courses, loading, error }
 }

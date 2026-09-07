@@ -24,7 +24,7 @@ const AVAILABLE_COURSES_QUERY: TypedDocumentNode<AvailableCoursesQueryData, Reco
 
 export function useAvailableCourses(): UseAvailableCoursesResult {
 	const { data, loading, error } = useQuery(AVAILABLE_COURSES_QUERY)
-	const records = (data as AvailableCoursesQueryData | undefined)?.allCourses
+	const records = data?.allCourses
 	const courses = useMemo(() => records?.map(courseRecordToCourseInfo), [records])
 	return { courses, loading, error }
 }

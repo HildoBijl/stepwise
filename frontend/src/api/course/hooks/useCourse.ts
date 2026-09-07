@@ -45,7 +45,7 @@ export function useCourse(code?: string): UseCourseResult {
 		variables: { code: code ?? '' },
 		skip: !code,
 	})
-	const record = (data as CourseQueryData | undefined)?.course
+	const record = data?.course
 	const course = useMemo(() => record ? courseWithStudentSkillsRecordToCourseInfo(record) : undefined, [record])
 	return { course, loading, error }
 }

@@ -27,7 +27,7 @@ export function useSkillLevelRecordsQuery(skillIds: SkillId[]) {
 	const user = useUser()
 	const skip = !user || skillIds.length === 0
 	const result = useQuery(SKILL_LEVEL_RECORDS_QUERY, { variables: { skillIds }, skip })
-	const rawData = result.data as SkillLevelRecordsQueryData | undefined
+	const rawData = result.data
 	const data = useMemo(() => rawData ? { skills: rawData.skills.map(skillLevelRecordToData) } : undefined, [rawData])
 	return { ...result, data }
 }
