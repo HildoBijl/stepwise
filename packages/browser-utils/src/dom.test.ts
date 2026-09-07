@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import { describe, expect, it, vi } from 'vitest'
 
 import { ensureHTMLElement, getClientPosition, getEventClientPosition, getHorizontalClickSide, getModifierKeyState, resolveHTMLElement } from './dom.ts'
