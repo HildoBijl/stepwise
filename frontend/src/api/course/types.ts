@@ -1,17 +1,17 @@
 import type { CourseDefinition, CourseSpecification } from '@step-wise/course-definition'
 
-import type { ApiMutationResult, ApiQueryResult } from '../types.ts'
+import type { ApiMutationResult, ApiOperationState, ApiQueryResult } from '../types.ts'
 import type { User } from '../user/types.ts'
 import type { UserWithSkills } from '../skill/types.ts'
 
 export type CourseRole = 'student' | 'teacher'
 
-export type CourseSubscription = {
-	role: CourseRole
+export type CourseSubscription<Role extends CourseRole = CourseRole> = {
+	role: Role
 	subscribedAt: Date
 }
 
-export type CourseInfo = {
+export type CourseInfoWithStudents<Student extends User = User> = {
 	id: string
 	code: string
 	name: string
@@ -23,11 +23,21 @@ export type CourseInfo = {
 	courseDefinition: CourseDefinition
 	subscription?: CourseSubscription
 	teachers?: User[]
-	students?: User[]
+	students?: Student[]
 }
 
-export type SubscribedCourseInfo = CourseInfo & { subscription: CourseSubscription }
-export type CourseInfoWithStudentSkills = Omit<CourseInfo, 'students'> & { students?: UserWithSkills[] }
+export type CourseInfo = CourseInfoWithStudents
+export type StudentCourseInfo = CourseInfo & {
+	subscription: CourseSubscription<'student'>
+	students?: never
+}
+export type TeacherCourseInfo<Student extends User = User> = CourseInfoWithStudents<Student> & {
+	subscription: CourseSubscription<'teacher'>
+	students: Student[]
+}
+export type SubscribedCourseInfo = StudentCourseInfo | TeacherCourseInfo
+export type CourseInfoWithStudentSkills = CourseInfoWithStudents<UserWithSkills>
+export type TeacherCourseInfoWithStudentSkills = TeacherCourseInfo<UserWithSkills> & { teachers: User[] }
 
 export type CreateCourseInput = {
 	code: string
@@ -39,7 +49,10 @@ export type CreateCourseInput = {
 }
 
 export type UseAvailableCoursesResult = ApiQueryResult<'courses', CourseInfo[]>
-export type UseMyCoursesResult = ApiQueryResult<'courses', SubscribedCourseInfo[]>
+export type UseMyCoursesResult = ApiOperationState & {
+	studentCourses: StudentCourseInfo[] | undefined
+	teacherCourses: TeacherCourseInfo[] | undefined
+}
 export type UseCourseResult = ApiQueryResult<'course', CourseInfoWithStudentSkills>
 
 export type UseCreateCourseResult = ApiMutationResult<(input: CreateCourseInput) => Promise<void>>

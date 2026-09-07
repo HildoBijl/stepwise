@@ -13,24 +13,20 @@ import { StudentTile, TeacherTile, AddCourseTile } from './Tile'
 const translationPath = 'eduTools/pages/coursesPage'
 
 export function CoursesPage() {
-	const { courses, loading, error } = useMyCourses()
+	const { studentCourses, teacherCourses, loading, error } = useMyCourses()
 
 	// When we don't have the data, show a relevant indication of what's going on.
 	if (loading) return <LoadingIndicator />
-	if (error || !courses) return <ErrorNote error={error} />
+	if (error || !studentCourses || !teacherCourses) return <ErrorNote error={error} />
 
 	// When we have the data, render it accordingly.
-	return <CoursePageForCourses courses={courses} />
+	return <CoursePageForCourses studentCourses={studentCourses} teacherCourses={teacherCourses} />
 }
 
-function CoursePageForCourses({ courses }) {
-	// Split the courses based on teacher and student roles.
-	const studentCourses = useMemo(() => courses.filter(course => course.subscription.role === 'student'), [courses])
-	const teacherCourses = useMemo(() => courses.filter(course => course.subscription.role === 'teacher'), [courses])
-
+function CoursePageForCourses({ studentCourses, teacherCourses }) {
 	// If there are no teacher courses, only show student courses.
 	if (teacherCourses.length === 0)
-		return <StudentCourses courses={courses} />
+		return <StudentCourses courses={studentCourses} />
 
 	// Render each of them separately. Put the one with the most courses first.
 	if (studentCourses.length >= teacherCourses.length)

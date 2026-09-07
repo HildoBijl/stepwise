@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { IconButton, useMediaQuery } from '@mui/material'
 import { Settings as SettingsIcon } from '@mui/icons-material'
 
-import { useIsAdmin } from 'api'
+import { isStudentCourse, isTeacherCourse, useIsAdmin } from 'api'
 import { usePaths } from 'ui/routingTools'
 import { LoadingIndicator, ErrorNote } from 'ui/components'
 
@@ -31,9 +31,9 @@ export function CourseSettingsPage() {
 		return <ErrorNote />
 
 	// When we do have data, determine what page to show.
-	if (isAdmin || course.subscription?.role === 'teacher')
+	if (isAdmin || isTeacherCourse(course))
 		return <CourseSettingsPageForTeacher />
-	if (course.subscription?.role === 'student')
+	if (isStudentCourse(course))
 		return <CourseSettingsPageForStudent />
 	return null
 }
