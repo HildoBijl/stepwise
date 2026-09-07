@@ -3,24 +3,6 @@ import { type RefObject, useEffect, useReducer, useState } from 'react'
 import { useLatestRef } from './refs.ts'
 import { useResizeObserver } from './elementSize.ts'
 import { useEventListener } from './eventListeners.ts'
-import { useCoalescedCallback } from './scheduling.ts'
-
-export function useBoundingClientRect(element: Element | null | undefined): DOMRect | null {
-	const [rect, setRect] = useState<DOMRect | null>(null)
-	const updateElementPosition = useCoalescedCallback(() => {
-		if (element) setRect(element.getBoundingClientRect())
-	})
-	useEffect(() => updateElementPosition(), [element, updateElementPosition])
-	useResizeObserver(document.body, updateElementPosition)
-	useResizeObserver(element, updateElementPosition)
-	useEventListener('scroll', updateElementPosition, typeof window === 'undefined' ? null : window)
-	if (element && !rect) {
-		const actualRect = element.getBoundingClientRect()
-		setRect(actualRect)
-		return actualRect
-	}
-	return rect
-}
 
 export function useForceUpdate(): () => void {
 	return useReducer(() => ({}), {})[1]

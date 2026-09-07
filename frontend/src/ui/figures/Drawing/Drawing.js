@@ -7,7 +7,7 @@ import React, { useRef, forwardRef, useImperativeHandle, useId } from 'react'
 import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
 import { getEventClientPosition } from '@step-wise/browser-utils'
-import { usePointerState as useClientPointerState, useBoundingClientRect, useForceUpdateEffect } from '@step-wise/react-utils'
+import { usePointerState as useClientPointerState, useElementBounds, useForceUpdateEffect } from '@step-wise/react-utils'
 
 import { notSelectable } from 'ui/theme'
 
@@ -155,7 +155,7 @@ export function usePointerState() {
 	// Acquire data.
 	let { figure, transformationSettings } = useDrawingData()
 	const { position: clientPosition, modifierKeys } = useClientPointerState()
-	const figureRect = useBoundingClientRect(figure?.inner)
+	const figureRect = useElementBounds(figure?.inner)
 
 	// return an empty object on missing data.
 	if (!clientPosition || !figureRect || figureRect.width === 0 || figureRect.height === 0)

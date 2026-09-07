@@ -2,7 +2,9 @@ import { type RefObject, useLayoutEffect, useState } from 'react'
 
 import { shallowEqualObjects } from '@step-wise/js-utils'
 
-import { useLatestRef, useStableValue } from './refs.ts'
+import { useLatestRef, useStableCallback, useStableValue } from './refs.ts'
+import { useEventListener } from './eventListeners.ts'
+import { useCoalescedCallback } from './scheduling.ts'
 
 export type ElementReference<T extends Element = HTMLElement> = T | RefObject<T | null> | null | undefined
 export type ResizeEntryCallback = (entry: ResizeObserverEntry, observer: ResizeObserver) => void
@@ -29,9 +31,7 @@ export function useResizeObserver<T extends Element>(target: ElementReference<T>
 		const element = resolveElement(target)
 		if (!element || typeof ResizeObserver === 'undefined') return
 
-		const observer = new ResizeObserver(entries => {
-			entries.forEach(entry => callbackRef.current(entry, observer))
-		})
+		const observer = new ResizeObserver(entries => { entries.forEach(entry => callbackRef.current(entry, observer)) })
 		observer.observe(element, stableOptions)
 		return () => observer.disconnect()
 	}, [target, callbackRef, stableOptions])
@@ -53,4 +53,28 @@ export function useElementSize<T extends HTMLElement>(target: ElementReference<T
 	}, [target])
 	useResizeObserver(target, entry => updateSize(entry.target as T), options)
 	return size
+}
+
+function areBoundsEqual(current: DOMRect, previous: DOMRect): boolean {
+	return current.x === previous.x && current.y === previous.y && current.width === previous.width && current.height === previous.height
+}
+
+export function useElementBounds<T extends Element>(target: ElementReference<T>): DOMRect | undefined {
+	const [bounds, setBounds] = useState<DOMRect>()
+
+	const updateBounds = useStableCallback(() => {
+		const element = resolveElement(target)
+		if (!element) {
+			setBounds(undefined)
+			return
+		}
+		const newBounds = element.getBoundingClientRect()
+		setBounds(previousBounds => previousBounds && areBoundsEqual(newBounds, previousBounds) ? previousBounds : newBounds)
+	})
+	useLayoutEffect(() => { updateBounds() }, [target, updateBounds])
+
+	const scheduleBoundsUpdate = useCoalescedCallback(updateBounds)
+	useResizeObserver(target, scheduleBoundsUpdate)
+	useEventListener(['resize', 'scroll'], scheduleBoundsUpdate, typeof window === 'undefined' ? null : window, { capture: true, passive: true })
+	return bounds
 }
