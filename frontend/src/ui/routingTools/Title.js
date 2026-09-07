@@ -5,8 +5,8 @@ import { Breadcrumbs } from '@mui/material'
 import { ArrowRight as Arrow } from '@mui/icons-material'
 
 import { last, resolveFunctionValuesDeep } from '@step-wise/js-utils'
+import { useCoalescedCallback, useLatestRef, useResizeObserver } from '@step-wise/react-utils'
 
-import { useStaggeredFunction, useResizeListener, useLatest } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { websiteName } from 'settings'
 import { TranslationSection, useTextTranslator } from 'i18n'
 import { useRoute, usePaths } from 'ui/routingTools'
@@ -41,7 +41,7 @@ export function Title({ setTitleCollapsed, sx }) {
 
 	// Use storage to keep track of page names. The TitleItems will register said name.
 	const [pageNames, setPageNames] = useState([])
-	const pageNamesRef = useLatest(pageNames)
+	const pageNamesRef = useLatestRef(pageNames)
 	const registerPageName = useCallback((index, name) => setPageNames(pageNames => {
 		pageNames = [...pageNames]
 		pageNames[index] = name
@@ -94,8 +94,9 @@ export function Title({ setTitleCollapsed, sx }) {
 		}
 		setTitleCollapsed(collapsed) // Inform the Header that the title is collapsed. This influences whether a menu button is shown.
 	}, [fullTitleRef, partialTitleRef, pageNamesRef, setTitleCollapsed])
-	const checkUpdateTitle = useStaggeredFunction(updateTitle)
-	useResizeListener(checkUpdateTitle)
+	const checkUpdateTitle = useCoalescedCallback(updateTitle)
+	useResizeObserver(fullTitleRef, checkUpdateTitle)
+	useResizeObserver(partialTitleRef, checkUpdateTitle)
 	useLayoutEffect(() => checkUpdateTitle(), [checkUpdateTitle, pageNames]) // Also update when the pageNames changes. This might happen during loading when translations come in.
 
 	// Determine the title to be shown in the browser tab, through the HTML <title> tag.

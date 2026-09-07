@@ -2,10 +2,11 @@ import React, { forwardRef } from 'react'
 
 import { ensureString, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { ensureVector } from '@step-wise/geometry'
+import { useEventListenersRef } from '@step-wise/react-utils'
 
 import { useGraphicalVector, SvgPortal } from '../../DrawingContext'
 
-import { defaultObject, useRefWithEventHandlers, filterEventHandlers } from './util'
+import { defaultObject, filterEventHandlers } from './util'
 
 export const defaultText = {
 	...defaultObject,
@@ -24,7 +25,7 @@ export const Text = forwardRef((props, ref) => {
 	anchor = ensureString(anchor)
 	className = ensureString(className)
 	style = { ...defaultText.style, ...ensureObject(style) }
-	ref = useRefWithEventHandlers(props, ref)
+	ref = useEventListenersRef(filterEventHandlers(props), ref)
 
 	// Only accept a string as a child.
 	if (typeof children !== 'string')
@@ -32,7 +33,7 @@ export const Text = forwardRef((props, ref) => {
 
 	// Set up the line.
 	return <SvgPortal>
-		<text ref={ref} textAnchor={anchor} className={className} style={style} x={point.x} y={point.y} {...filterEventHandlers(props)}>
+		<text ref={ref} textAnchor={anchor} className={className} style={style} x={point.x} y={point.y}>
 			{children}
 		</text>
 	</SvgPortal>

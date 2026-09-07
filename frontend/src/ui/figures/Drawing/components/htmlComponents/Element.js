@@ -2,8 +2,8 @@ import React, { forwardRef, useCallback, useLayoutEffect } from 'react'
 
 import { ensureNumber, ensureBoolean, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
+import { ensureReactContent, useForwardedRef, useResizeObserver, useStableValue } from '@step-wise/react-utils'
 
-import { useEnsureRef, ensureReactElement, useEqualRefOnEquality, useResizeListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { notSelectable } from 'ui/theme'
 
 import { useDrawingData, useGraphicalVector, HtmlPortal } from '../../DrawingContext'
@@ -28,11 +28,11 @@ export const defaultElement = {
 }
 
 export const Element = forwardRef((props, ref) => {
-	ref = useEnsureRef(ref)
+	ref = useForwardedRef(ref)
 
 	// Check input.
 	let { children, position, graphicalPosition, rotate, scale, anchor, ignoreMouse, style, className } = mergeDefaults(props, defaultElement)
-	children = ensureReactElement(children)
+	children = ensureReactContent(children)
 	position = ensureVector(useGraphicalVector(position, graphicalPosition), { dimension: 2 })
 	rotate = ensureNumber(rotate)
 	scale = ensureNumber(scale)
@@ -45,8 +45,8 @@ export const Element = forwardRef((props, ref) => {
 		style.pointerEvents = 'none'
 
 	// Make sure the vector references remain consistent.
-	position = useEqualRefOnEquality(position)
-	anchor = useEqualRefOnEquality(anchor)
+	position = useStableValue(position, (current, previous) => current.equals(previous))
+	anchor = useStableValue(anchor, (current, previous) => current.equals(previous))
 
 	// Extract the drawing from the context.
 	const { transformationSettings, figure } = useDrawingData()
@@ -73,9 +73,9 @@ export const Element = forwardRef((props, ref) => {
 		`
 	}, [ref, transformationSettings, figure, position, rotate, scale, anchor])
 
-	// Properly position the element on a change of settings, a change of contents or on a window resize.
+	// Properly position the element on a change of settings, contents or drawing size.
 	useLayoutEffect(updateElementPosition, [updateElementPosition, children])
-	useResizeListener(updateElementPosition)
+	useResizeObserver(figure?.inner, updateElementPosition)
 
 	// Render the children inside the Drawing HTML contents container.
 	return <HtmlPortal>

@@ -1,7 +1,7 @@
 import { createTheme, useTheme, alpha } from '@mui/material'
 import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@mui/icons-material'
 
-import { toHex, toCSS } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { colorToCss, colorToHex } from '@step-wise/browser-utils'
 
 const themeColor = [0.05, 0.5, 0.26, 1] // #0d8042
 const secondaryColor = [0.26, 0.16, 0.08, 1] // #422814
@@ -26,17 +26,17 @@ export { themeColor, secondaryColor, feedbackColors, backgroundColor, inputBackg
 
 let theme = {
 	palette: {
-		primary: { main: toCSS(themeColor) },
-		secondary: { main: toCSS(secondaryColor) },
-		success: { main: toCSS(feedbackColors.success) },
-		error: { main: toCSS(feedbackColors.error) },
-		warning: { main: toCSS(feedbackColors.warning) },
-		info: { main: toCSS(feedbackColors.info) },
+		primary: { main: colorToCss(themeColor) },
+		secondary: { main: colorToCss(secondaryColor) },
+		success: { main: colorToCss(feedbackColors.success) },
+		error: { main: colorToCss(feedbackColors.error) },
+		warning: { main: colorToCss(feedbackColors.warning) },
+		info: { main: colorToCss(feedbackColors.info) },
 		background: {
-			default: toCSS(backgroundColor),
-			main: toCSS(backgroundColor),
+			default: colorToCss(backgroundColor),
+			main: colorToCss(backgroundColor),
 		},
-		inputBackground: { main: toCSS(inputBackgroundColor) },
+		inputBackground: { main: colorToCss(inputBackgroundColor) },
 	},
 	typography: {
 		body1: { fontSize: '0.875rem' },
@@ -148,6 +148,6 @@ export function getHexColor(color) {
 		return color.map(color => getHexColor(color))
 	if (!colors[color])
 		throw new Error(`Invalid color name: tried to get the hex code for the color "${color}" but this color was not known.`)
-	return toHex(colors[color])
+	return colorToHex(colors[color])
 }
 

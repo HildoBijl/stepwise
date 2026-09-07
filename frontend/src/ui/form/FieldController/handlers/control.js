@@ -1,6 +1,5 @@
 import { mod } from '@step-wise/js-utils'
-
-import { useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useStableCallback } from '@step-wise/react-utils'
 
 // The control handlers allow the controlling/setting of which field is active.
 export function useControlHandlers(tabOrderRef, tabIndexRef, setTabIndex) {
@@ -25,7 +24,7 @@ export function useControlHandlers(tabOrderRef, tabIndexRef, setTabIndex) {
 	})
 
 	// blur will deactivate any currently active field.
-	const blur = useStableCallback(() => setTabIndex(-1), [setTabIndex])
+	const blur = useStableCallback(() => setTabIndex(-1))
 
 	// activateFirst focuses on the first field in the form. Optionally a set of IDs can be passed. When this is done, the focus is put on the first field among the given list. (This is for instance used when a form has various faulty fields and wants to activate the first of these.)
 	const activateFirst = useStableCallback((ids) => {

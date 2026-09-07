@@ -35,7 +35,7 @@ export function ExerciseWrapper({ getFeedback, children }) {
 	const scrollToExercisePart = useExercisePartScrolling(exerciseRef)
 	const visible = useVisible()
 	const currentStep = exerciseData.shared.type === 'step' ? getCurrentStep(exerciseData.state) : 0
-	useScrollToActiveProblem(exerciseRef, visible, currentStep, !!exerciseData.state.done)
+	useScrollToActiveProblem(exerciseRef, visible, currentStep, !!exerciseData.state.done, !inspection)
 
 	// Render all the components that we wrap exercises in.
 	return <div ref={exerciseRef}>
@@ -71,7 +71,7 @@ function useExercisePartScrolling(exerciseRef) {
 }
 
 // When an exercise appears, show its active problem. When it advances, only catch up to the completed problem if needed.
-function useScrollToActiveProblem(exerciseRef, visible, currentStep, exerciseDone) {
+function useScrollToActiveProblem(exerciseRef, visible, currentStep, exerciseDone, enabled) {
 	const theme = useTheme()
 	const scrollDuration = theme.transitions.duration.standard + 25
 	const previousStep = useRef(currentStep)
@@ -79,6 +79,12 @@ function useScrollToActiveProblem(exerciseRef, visible, currentStep, exerciseDon
 	const wasVisible = useRef(false)
 
 	useEffect(() => {
+		if (!enabled) {
+			previousStep.current = currentStep
+			wasDone.current = exerciseDone
+			wasVisible.current = false
+			return undefined
+		}
 		if (!visible) {
 			previousStep.current = currentStep
 			wasDone.current = exerciseDone
@@ -113,7 +119,7 @@ function useScrollToActiveProblem(exerciseRef, visible, currentStep, exerciseDon
 			cancelAnimationFrame(firstFrame)
 			cancelAnimationFrame(secondFrame)
 		}
-	}, [exerciseRef, visible, currentStep, exerciseDone, scrollDuration])
+	}, [exerciseRef, visible, currentStep, exerciseDone, enabled, scrollDuration])
 }
 
 // Smoothly follow a completed problem while the next problem expands and creates more scrolling space.

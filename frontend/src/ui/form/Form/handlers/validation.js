@@ -1,11 +1,11 @@
-import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useLatestRef, useStableCallback } from '@step-wise/react-utils'
 
 import { useFieldControllerContext } from '../../FieldController'
 
 // The validation handlers compare and evaluate the full form input.
 export function useValidationHandlers(validation, setValidation, { getFieldIds, getFieldData, getInputSI, getAllInputSI, getAllInputFO }) {
 	const { activateFirst } = useFieldControllerContext()
-	const validationRef = useLatest(validation)
+	const validationRef = useLatestRef(validation)
 
 	// isInputEqual is used to compare SI objects. It should be given the ID of the field to compare. It is then also given either two SI values (and these are compared) or it is given one, in which case the current SI is compared.
 	const isInputEqual = useStableCallback((id, a, b = getInputSI(id)) => {

@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
-import { compareNumberArrays, getOneToOneMatching, hasOneToOneMatching, invertOneToOneMatching, shallowEqual } from './comparisons.ts'
+import { compareNumberArrays, getOneToOneMatching, hasOneToOneMatching, invertOneToOneMatching, shallowEqualArrays } from './comparisons.ts'
 
 describe('array comparisons', () => {
 	it('compares shallow and nested numeric arrays', () => {
 		const object = {}
-		expect(shallowEqual([object, 1], [object, 1])).toBe(true)
-		expect(shallowEqual([{}], [{}])).toBe(false)
+		expect(shallowEqualArrays([object, 1], [object, 1])).toBe(true)
+		expect(shallowEqualArrays([{}], [{}])).toBe(false)
 		expect(compareNumberArrays([1, [2]], [1 + 1e-11, [2]])).toBe(true)
 		expect(compareNumberArrays([1, [2]], [1, 2])).toBe(false)
 	})

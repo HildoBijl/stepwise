@@ -34,9 +34,9 @@ function MonoExerciseInner({ Problem, Solution }) {
 	// Upon loading, or on history updates, focus on the first field. (Delay to ensure all fields are registered.)
 	useEffect(() => {
 		clearTimeout(timeoutIndexRef.current)
-		if (!state.done)
+		if (!inspection && !state.done)
 			timeoutIndexRef.current = setTimeout(activateFirst)
-	}, [Problem, state, history, activateFirst])
+	}, [Problem, state, history, inspection, activateFirst])
 
 	// Determine what to show.
 	const hasPreviousActions = hasPreviousInput(exerciseData, userId) // Has there been an input action?

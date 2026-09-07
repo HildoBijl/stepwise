@@ -2,8 +2,7 @@ import { useMemo } from 'react'
 
 import { ensureNumber, ensureBoolean, mapValues, mergeDefaults, identity, ensureFunction } from '@step-wise/js-utils'
 import { Transformation, ensureTransformation } from '@step-wise/geometry'
-
-import { useConsistentValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useReferencePreservingValue } from '@step-wise/react-utils'
 
 import { getBoundingRectangle, ensureScale, ensureMargin, useConsistentPoints } from './util'
 import { useScaleBasedTransformationSettings } from './scaleBasedTransformation'
@@ -21,7 +20,7 @@ export const defaultBoundsBasedTransformationOptions = {
 export function useBoundsBasedTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
 	points = useConsistentPoints(points)
-	options = useConsistentValue(options)
+	options = useReferencePreservingValue(options)
 
 	// Wrap the settings calculation in a useMemo for reference equality and efficiency.
 	const scaleAndShiftOptions = useMemo(() => {

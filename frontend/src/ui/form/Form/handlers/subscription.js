@@ -1,9 +1,9 @@
-import { useLatest, useMountedRef, useStableCallback } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useIsMountedRef, useLatestRef, useStableCallback } from '@step-wise/react-utils'
 
 // The subscription handlers track which input fields exist, allows new input fields to subscribe (while providing the right information) and allows dismounting input fields to unsubscribe.
 export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
-	const mountedRef = useMountedRef()
-	const initialInputRef = useLatest(initialInput)
+	const isMountedRef = useIsMountedRef()
+	const initialInputRef = useLatestRef(initialInput)
 
 	// register makes sure that the input field is known to the form and all its settings are saved. It is instantaneous and saves the options in the Form refs. However, it does not involve a state update.
 	const register = useStableCallback((options) => {
@@ -54,7 +54,7 @@ export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
 		// Delay calls to unsubscribe, to ensure all subscribe calls are finished.
 		setTimeout(() => {
 			// When the Form has dismounted, do not do anything anymore.
-			if (!mountedRef.current)
+			if (!isMountedRef.current)
 				return
 
 			// Based on the subscription numbers, check if the input field needs to be removed. If so, remove it. Use the latest input value to do so.

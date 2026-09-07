@@ -1,0 +1,79 @@
+import { type Ref, type RefObject, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
+
+import { preserveRefs } from '@step-wise/js-utils'
+
+type AnyFunction = (...args: any[]) => any
+
+/*
+ * Constant values.
+ */
+
+export function useConstant<T>(factory: () => T): T {
+	const ref = useRef<{ value: T } | undefined>(undefined)
+	if (ref.current === undefined) ref.current = { value: factory() }
+	return ref.current.value
+}
+
+export function useAssertConstant<T>(value: T): T {
+	const ref = useRef<{ value: T } | undefined>(undefined)
+	if (ref.current === undefined) ref.current = { value }
+	if (!Object.is(value, ref.current.value)) throw new Error(`Unexpected value change: expected the value to remain constant, but it changed from "${String(ref.current.value)}" to "${String(value)}".`)
+	return value
+}
+
+/*
+ * Current and historical values.
+ */
+
+export function useLatestRef<T>(value: T): RefObject<T> {
+	const ref = useRef(value)
+	ref.current = value
+	return ref
+}
+
+export function usePrevious<T>(value: T, initialValue: T): T
+export function usePrevious<T>(value: T): T | undefined
+export function usePrevious<T>(value: T, initialValue?: T): T | undefined {
+	const ref = useRef(initialValue)
+	useEffect(() => {
+		ref.current = value
+	}, [value])
+	return ref.current
+}
+
+export function useLastDefinedValue<T>(value: T | null | undefined): T | undefined {
+	const ref = useRef<T | undefined>(undefined)
+	if (value !== null && value !== undefined) ref.current = value
+	return ref.current
+}
+
+/*
+ * Reference-preserving values and callbacks.
+ */
+
+export function useReferencePreservingValue<T>(value: T): T {
+	const ref = useRef<T | undefined>(undefined)
+	ref.current = preserveRefs(value, ref.current)
+	return ref.current as T
+}
+
+export function useStableValue<T>(value: T, areEqual: (current: T, previous: T) => boolean): T {
+	const ref = useRef<{ value: T } | undefined>(undefined)
+	if (ref.current === undefined || (!Object.is(value, ref.current.value) && !areEqual(value, ref.current.value))) ref.current = { value }
+	return ref.current.value
+}
+
+export function useStableCallback<FunctionType extends AnyFunction>(callback: FunctionType): FunctionType {
+	const callbackRef = useLatestRef(callback)
+	return useCallback(((...args: Parameters<FunctionType>) => callbackRef.current(...args)) as FunctionType, [callbackRef])
+}
+
+/*
+ * Forwarded refs.
+ */
+
+export function useForwardedRef<T>(forwardedRef?: Ref<T>): RefObject<T | null> {
+	const ref = useRef<T>(null)
+	useImperativeHandle(forwardedRef, () => ref.current!)
+	return ref
+}

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 
 import { mergeDefaults } from '@step-wise/js-utils'
 import { reverseLoad } from '@step-wise/engineering-mechanics'
+import { useEventListener } from '@step-wise/react-utils'
 
-import { useEventListener } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useInputData } from 'ui/inputs'
 
 import { DragLoad, InputLoads, LoadLabels } from '../components'
@@ -30,7 +30,7 @@ export default function FBDInputInner(options) {
 
 	// Deal with certain key presses not already caught by the DrawingInput.
 	const keyDownHandler = (event) => active && handleKeyPress(event, setFI)
-	useEventListener('keydown', keyDownHandler)
+	useEventListener('keydown', keyDownHandler, window)
 
 	return <>
 		<GlowDefs />

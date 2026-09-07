@@ -3,8 +3,7 @@ import React, { forwardRef } from 'react'
 
 import { ensureNumber, mergeDefaults, pickFromDefaults, omitKeys } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
-
-import { ensureReactElement } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { ensureReactContent } from '@step-wise/react-utils'
 
 import { useGraphicalVector, useGraphicalDistance } from '../../DrawingContext'
 
@@ -22,7 +21,7 @@ export const defaultLabel = {
 export const Label = forwardRef((props, ref) => {
 	// Check input.
 	let { children, position, graphicalPosition, distance, graphicalDistance, angle, anchor, rotate } = mergeDefaults(props, defaultLabel)
-	children = ensureReactElement(children)
+	children = ensureReactContent(children)
 	position = ensureVector(useGraphicalVector(position, graphicalPosition), { dimension: 2 })
 	distance = ensureNumber(useGraphicalDistance(distance, graphicalDistance))
 	angle = ensureNumber(angle)

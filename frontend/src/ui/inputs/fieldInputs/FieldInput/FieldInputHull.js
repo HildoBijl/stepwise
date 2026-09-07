@@ -2,8 +2,8 @@ import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import { Box } from '@mui/material'
 
 import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
+import { useElementSize } from '@step-wise/react-utils'
 
-import { useSize } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { notSelectable } from 'ui/theme'
 
 import { useInputValue, useReadOnly, useActive, useFeedbackResult } from '../../Input'
@@ -76,9 +76,9 @@ export const FieldInputHull = forwardRef((options, hullRef) => {
 	}))
 
 	// Determine element widths.
-	const [fieldWidth] = useSize(fieldRef)
-	const [contentsContainerWidth] = useSize(contentsContainerRef)
-	const [labelWidth] = useSize(labelRef)
+	const fieldWidth = useElementSize(fieldRef)?.width ?? 0
+	const contentsContainerWidth = useElementSize(contentsContainerRef)?.width ?? 0
+	const labelWidth = useElementSize(labelRef)?.width ?? 0
 
 	// Extract the status of the Input field.
 	const { value, cursor } = useInputValue()

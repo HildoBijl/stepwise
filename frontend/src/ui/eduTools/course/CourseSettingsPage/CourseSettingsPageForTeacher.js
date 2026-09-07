@@ -2,7 +2,8 @@ import { useState, useMemo, useCallback } from 'react'
 import { FormControl, InputLabel, MenuItem, Select, Button, FormControlLabel, Switch } from '@mui/material'
 import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 
-import { useLocalStorageState } from 'util'
+import { useLocalStorageState } from '@step-wise/react-utils'
+
 import { usePromoteToTeacher, useIsAdmin } from 'api'
 import { TranslationFile, TranslationSection, Translation, Check } from 'i18n'
 import { Head, Par, Info, Warning, ErrorNote } from 'ui/components'

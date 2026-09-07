@@ -21,7 +21,7 @@ export const Figure = forwardRef((options, ref) => {
 	useImperativeHandle(ref, () => ({
 		get inner() { return figureInner.current },
 		get outer() { return figureOuter.current },
-	}))
+	}), [])
 
 	// Render the component.
 	return <Box className={className} ref={figureOuter} style={style} sx={theme => ({

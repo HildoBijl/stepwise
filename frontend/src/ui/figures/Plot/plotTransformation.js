@@ -2,8 +2,7 @@ import { useMemo } from 'react'
 
 import { ensureBoolean, omitKeys, pickFromDefaults, mergeDefaults, first, last } from '@step-wise/js-utils'
 import { Vector, Rectangle, Transformation } from '@step-wise/geometry'
-
-import { useConsistentValue } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useReferencePreservingValue } from '@step-wise/react-utils'
 
 import { getBoundingRectangle, ensureScale, useConsistentPoints } from '../Drawing/transformation/util'
 import { useBoundsBasedTransformationSettings, defaultBoundsBasedTransformationOptions } from '../Drawing'
@@ -21,13 +20,13 @@ export const defaultPlotTransformationOptions = {
 export function usePlotTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
 	points = useConsistentPoints(points)
-	options = useConsistentValue(mergeDefaults(options, defaultPlotTransformationOptions))
+	options = useReferencePreservingValue(mergeDefaults(options, defaultPlotTransformationOptions))
 
 	// Check the options.
 	let { includeOrigin, extendBoundsToTicks, desiredNumTicks } = options
 	includeOrigin = ensureBoolean(includeOrigin)
 	extendBoundsToTicks = ensureBoolean(extendBoundsToTicks)
-	desiredNumTicks = useConsistentValue(ensureScale(desiredNumTicks))
+	desiredNumTicks = useReferencePreservingValue(ensureScale(desiredNumTicks))
 
 	// Get the bounds and extract ticks from them. Also update the bounds given these ticks.
 	const { ticks, bounds } = useMemo(() => {

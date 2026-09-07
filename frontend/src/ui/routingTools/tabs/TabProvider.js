@@ -1,8 +1,7 @@
-import React, { useState, useCallback, createContext, useContext } from 'react'
+import React, { useState, useCallback, createContext, useContext, useEffect, useEffectEvent } from 'react'
 
 import { clamp } from '@step-wise/js-utils'
-
-import { useConsistentValue, useLatest, useUpdater } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useReferencePreservingValue, useLatestRef } from '@step-wise/react-utils'
 
 import { getOrderedTabs } from './util'
 
@@ -13,7 +12,7 @@ export function TabProvider({ children }) {
 	const tabIndex = tabs.length === 0 || !tabs.includes(tab) ? 0 : tabs.indexOf(tab)
 
 	// Define refs where needed.
-	const tabsRef = useLatest(tabs)
+	const tabsRef = useLatestRef(tabs)
 
 	// Set up handlers.
 	const setTabIndex = useCallback(tabIndex => {
@@ -47,12 +46,12 @@ export function useTabContext() {
 // useTabs is called by a component that wants to display tabs on the page. It takes an array of tab names, like ["theory", "practice", "references"], and optionally an initial tab "practice". It returns the full tab context.
 export function useTabs(tabs, initialTab) {
 	const context = useTabContext()
-	const { tab, setTabs, setTab, setTabIndex, reset } = context
+	const { tab, setTabs, setTab, reset } = context
 	const [initialized, setInitialized] = useState(false)
-	tabs = useConsistentValue(getOrderedTabs(tabs))
+	tabs = useReferencePreservingValue(getOrderedTabs(tabs))
 
 	// On mounting and dismounting, apply the initial tab.
-	useUpdater(() => {
+	const initializeTabs = useEffectEvent(() => {
 		if (initialTab && tabs.includes(initialTab))
 			setTab(initialTab)
 		setInitialized(true)
@@ -60,22 +59,21 @@ export function useTabs(tabs, initialTab) {
 			reset()
 			setInitialized(false)
 		}
-	}, [])
+	})
+	useEffect(() => initializeTabs(), [])
 
 	// On a change in tabs, update the tabs.
-	useUpdater(() => {
+	const updateTabs = useEffectEvent(() => {
 		setTabs(tabs)
-	}, [tabs])
+	})
+	useEffect(() => updateTabs(), [tabs])
 
 	// If the old tab is not valid, reset to the initial tab, or otherwise the first tab.
-	useUpdater(() => {
-		if (tabs.length > 0 && (!tab || !tabs.includes(tab))) {
-			if (initialTab && tabs.includes(initialTab))
-				setTab(initialTab)
-			else
-				setTabIndex(0)
-		}
-	}, [tab, tabs])
+	const ensureValidTab = useEffectEvent(() => {
+		if (tabs.length > 0 && (!tab || !tabs.includes(tab)))
+			setTab(initialTab && tabs.includes(initialTab) ? initialTab : tabs[0])
+	})
+	useEffect(() => ensureValidTab(), [tab, tabs])
 
 	// Return the context for further application. When initializing has not finished, do not include the tab data, since it may be from the previous component, whose dismounting still needs to be applied.
 	return initialized ? context : { ...context, tab: undefined, tabIndex: undefined, tabs: [] }

@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import { useLocalStorageState } from '@step-wise/react-utils'
+
 import { isStudentCourse, isTeacherCourse, useIsAdmin, useUser } from 'api'
-import { useLocalStorageState } from 'util'
 import { usePaths } from 'ui/routingTools'
 import { LoadingIndicator, ErrorNote } from 'ui/components'
 

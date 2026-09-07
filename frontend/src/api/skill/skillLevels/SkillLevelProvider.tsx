@@ -1,11 +1,10 @@
 import { type PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { fromKeys, fromKeysAndValues } from '@step-wise/js-utils'
+import { useConstant } from '@step-wise/react-utils'
 import type { SkillId } from '@step-wise/skill-definition'
 import { SkillLevelSet, getInitialSkillLevel } from '@step-wise/skill-tracking'
 import { expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
-
-import { useConstant } from 'util/index'
 
 import { useUser } from '../../user/index.ts'
 
@@ -14,7 +13,7 @@ import { useSkillLevelRecordsQuery } from './query.ts'
 
 export function SkillLevelProvider({ children }: PropsWithChildren) {
 	const [registrations, setRegistrations] = useState<ReadonlyMap<symbol, readonly SkillId[]>>(() => new Map())
-	const skillLevelSet = useConstant(() => new SkillLevelSet(skillTree)) as SkillLevelSet
+	const skillLevelSet = useConstant(() => new SkillLevelSet(skillTree))
 
 	const registerSkillLevels = useCallback((skillIds: readonly SkillId[]) => {
 		const registrationId = Symbol()

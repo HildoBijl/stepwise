@@ -5,7 +5,7 @@ import { Vector, ensureVector, ensureLineSegment } from '@step-wise/geometry'
 
 import { useGraphicalObject, useGraphicalVector } from '../../DrawingContext'
 
-import { defaultObject, useRefWithEventHandlers } from './util'
+import { defaultObject } from './util'
 import Line, { defaultLine } from './Line'
 
 export const defaultDistance = {
@@ -33,7 +33,6 @@ export const Distance = forwardRef((props, ref) => {
 	shift = ensureVector(useGraphicalVector(shift, graphicalShift, true), { dimension: 2 })
 	style = { ...defaultDistance.style, ...ensureObject(style) }
 	className = ensureString(className)
-	ref = useRefWithEventHandlers(props, ref)
 
 	// Render the line with the appropriate style. Enforce that the default className is used, because this adds the arrow spread.
 	lineSegment = lineSegment.add(shift)

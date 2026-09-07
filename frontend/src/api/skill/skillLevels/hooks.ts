@@ -1,9 +1,8 @@
 import { useEffect, useSyncExternalStore } from 'react'
 
+import { useReferencePreservingValue } from '@step-wise/react-utils'
 import type { SkillId } from '@step-wise/skill-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
-
-import { useConsistentValue } from 'util/index'
 
 import { useSkillLevelContext } from './context.ts'
 
@@ -12,7 +11,7 @@ export function useSkillLevelSet(): SkillLevelSet {
 }
 
 function useSkillLevelRegistration(skillIds: readonly SkillId[]): void {
-	const consistentSkillIds = useConsistentValue(skillIds) as readonly SkillId[]
+	const consistentSkillIds = useReferencePreservingValue(skillIds)
 	const { registerSkillLevels } = useSkillLevelContext()
 	useEffect(() => registerSkillLevels(consistentSkillIds), [consistentSkillIds, registerSkillLevels])
 }

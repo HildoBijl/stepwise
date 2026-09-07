@@ -1,4 +1,5 @@
-import { useStableCallback, getHTMLElement } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { resolveHTMLElement } from '@step-wise/browser-utils'
+import { useStableCallback } from '@step-wise/react-utils'
 
 // The registration handlers arrange the registration and deregistration of fields to the FieldController.
 export function useRegistrationHandlers(controllerRef, fieldTrackerRef, tabOrderRef, setTabIndex, { activate, deactivate, refreshKeyboard }) {
@@ -44,7 +45,7 @@ function getTabOrder(controller, fields) {
 		const field = fields[id]
 		if (!field.useTabbing)
 			return
-		const number = tags.indexOf(getHTMLElement(field.element))
+		const number = tags.indexOf(resolveHTMLElement(field.element))
 		if (number !== -1)
 			elementNumbers.push({ id, number, manualIndex: field.manualIndex })
 	})

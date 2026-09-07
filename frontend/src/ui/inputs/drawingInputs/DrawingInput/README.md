@@ -71,7 +71,7 @@ function Circles() {
 
 	// If there is a selection rectangle (will be discussed later) then already update the visuals with it.
 	if (selectionRectangle)
-		FI = applySelectionRectangle(FI, selectionRectangle, mouseData?.keys)
+		FI = applySelectionRectangle(FI, selectionRectangle, mouseData?.modifierKeys)
 
 	// Show the circles based on the input value.
 	return FI.map((circle, index) => <Circle key={index} center={circle.center} radius={circle.radius} style={{ fill: circle.selected ? 'green' : 'blue' }} />)

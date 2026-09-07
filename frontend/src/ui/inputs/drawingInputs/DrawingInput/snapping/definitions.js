@@ -2,8 +2,8 @@ import { useMemo, } from 'react'
 
 import { deduplicate } from '@step-wise/js-utils'
 import { ensureVector, Line, LineSegment } from '@step-wise/geometry'
+import { useStableValue } from '@step-wise/react-utils'
 
-import { useEqualRefOnEquality } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
 import { useTransformationSettings, applyTransformation } from 'ui/figures'
 
 import { useInputFI } from '../../../Input'
@@ -40,7 +40,7 @@ function useInputDependentSnappers(rawSnappers) {
 		FI = undefined // We don't need the input then. Prevent it from triggering the memo.
 
 	// Recalculate the snappers upon a change.
-	rawSnappers = useEqualRefOnEquality(rawSnappers, areSnappersEqual) // Prevent unnecessary updates.
+	rawSnappers = useStableValue(rawSnappers, areSnappersEqual) // Prevent unnecessary updates.
 	return useMemo(() => {
 		let snappers = rawSnappers
 		if (typeof snappers === 'function')

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback } from 'react'
 
-import { useLatest } from 'util/index' // Unit test import issue: use 'util/index' because the test runner otherwise resolves Node's built-in util package.
+import { useLatestRef } from '@step-wise/react-utils'
 
 import { Keyboard } from '../Keyboard'
 
@@ -15,13 +15,13 @@ export function FieldController({ children }) {
 
 	// Track the current active element through a tab index.
 	const [tabIndex, setTabIndex] = useState(-1) // -1 means no tab has been performed just yet.
-	const tabIndexRef = useLatest(tabIndex)
+	const tabIndexRef = useLatestRef(tabIndex)
 
 	// Allow to activate/deactive the tab controller.
 	const [tabbingOn, setTabbingOn] = useState(true)
 	const turnTabbingOn = useCallback(() => setTabbingOn(true), [setTabbingOn])
 	const turnTabbingOff = useCallback(() => setTabbingOn(false), [setTabbingOn])
-	const tabbingOnRef = useLatest(tabbingOn)
+	const tabbingOnRef = useLatestRef(tabbingOn)
 
 	// Define handler functions for various parts of the field control.
 	const { activate, deactivate, blur, activateFirst, incrementTabIndex, decrementTabIndex, getActiveFieldId, isActive } = useControlHandlers(tabOrderRef, tabIndexRef, setTabIndex)

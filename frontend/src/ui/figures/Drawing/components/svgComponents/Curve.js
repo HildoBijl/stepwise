@@ -2,10 +2,11 @@ import React, { forwardRef } from 'react'
 
 import { ensureNumber, ensureString, ensureBoolean, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { ensureVectorArray } from '@step-wise/geometry'
+import { useEventListenersRef } from '@step-wise/react-utils'
 
 import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
 
-import { useRefWithEventHandlers, filterEventHandlers, getCurvePathThrough, getCurvePathAlong } from './util'
+import { filterEventHandlers, getCurvePathThrough, getCurvePathAlong } from './util'
 import { defaultLine } from './Line'
 
 export const defaultCurve = {
@@ -34,12 +35,12 @@ export const Curve = forwardRef((props, ref) => {
 	close = ensureBoolean(close)
 	className = ensureString(className)
 	style = { ...defaultCurve.style, ...ensureObject(style) }
-	ref = useRefWithEventHandlers(props, ref)
+	ref = useEventListenersRef(filterEventHandlers(props), ref)
 
 	// Set up the line.
 	const path = (through ? getCurvePathThrough : getCurvePathAlong)(points, close, part, spread)
 	return <SvgPortal>
-		<path ref={ref} className={className} style={style} d={path} {...filterEventHandlers(props)} />
+		<path ref={ref} className={className} style={style} d={path} />
 	</SvgPortal>
 })
 Curve.defaultProps = defaultCurve

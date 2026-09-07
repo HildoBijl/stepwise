@@ -1,6 +1,23 @@
 import { describe, expect, it } from 'vitest'
 
-import { deepEqual } from './comparisons.ts'
+import { deepEqual, shallowEqualObjects } from './comparisons.ts'
+
+describe('shallow object equality', () => {
+	it('compares own keys and values without traversing nested objects', () => {
+		const nested = { value: 1 }
+		expect(shallowEqualObjects({ nested, value: Number.NaN }, { nested, value: Number.NaN })).toBe(true)
+		expect(shallowEqualObjects({ nested: { value: 1 } }, { nested: { value: 1 } })).toBe(false)
+		expect(shallowEqualObjects({ value: 1 }, { value: 1, extra: 2 })).toBe(false)
+	})
+
+	it('includes symbol and non-enumerable own keys', () => {
+		const key = Symbol('key')
+		const a = Object.defineProperty({ [key]: 1 }, 'hidden', { value: 2 })
+		const b = Object.defineProperty({ [key]: 1 }, 'hidden', { value: 2 })
+		expect(shallowEqualObjects(a, b)).toBe(true)
+		expect(shallowEqualObjects(a, { [key]: 1 })).toBe(false)
+	})
+})
 
 describe('deep object equality', () => {
 	it('compares primitives and supported object types', () => {
