@@ -5,8 +5,8 @@ import { useQuery } from '@apollo/client/react'
 import { USER_PUBLIC_FRAGMENT, USER_SHARED_DATA_FRAGMENT } from '../../user/fragments.ts'
 import { skillLevelFields } from '../../skill/fragments.ts'
 
-import type { UseCourseResult } from '../types.ts'
 import type { CourseWithStudentSkillsRecord } from '../records.ts'
+import type { UseCourseResult } from '../types.ts'
 import { COURSE_INFO_FRAGMENT } from '../fragments.ts'
 import { courseWithStudentSkillsRecordToCourseInfo } from '../conversion.ts'
 

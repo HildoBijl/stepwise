@@ -14,7 +14,8 @@ export const ACTIVE_GROUP_EXERCISES_QUERY: TypedDocumentNode<ActiveGroupExercise
 `
 
 export function useActiveGroupExercisesQuery(code: string | undefined, apply = true) {
-	const result = useQuery(ACTIVE_GROUP_EXERCISES_QUERY, { variables: { code: code ?? '' }, skip: !apply })
-	useActiveGroupExercisesSubscription(code, result.subscribeToMore, apply)
+	const skip = !apply || !code
+	const result = useQuery(ACTIVE_GROUP_EXERCISES_QUERY, { variables: { code: code ?? '' }, skip })
+	useActiveGroupExercisesSubscription(code, result.subscribeToMore, !skip)
 	return result
 }

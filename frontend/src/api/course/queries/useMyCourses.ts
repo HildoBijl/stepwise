@@ -4,8 +4,8 @@ import { useQuery } from '@apollo/client/react'
 
 import { USER_PUBLIC_FRAGMENT } from '../../user/fragments.ts'
 
-import type { UseMyCoursesResult } from '../types.ts'
 import type { MyCourseRecord } from '../records.ts'
+import type { UseMyCoursesResult } from '../types.ts'
 import { COURSE_INFO_FRAGMENT } from '../fragments.ts'
 import { courseRecordsToMyCourses } from '../conversion.ts'
 

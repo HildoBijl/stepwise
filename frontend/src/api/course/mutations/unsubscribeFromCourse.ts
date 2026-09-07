@@ -5,8 +5,8 @@ import { useMutation } from '@apollo/client/react'
 import type { UserRecord } from '../../user/records.ts'
 import { USER_PUBLIC_FRAGMENT } from '../../user/fragments.ts'
 
-import type { UseUnsubscribeFromCourseResult } from '../types.ts'
 import type { CourseRecord, CourseSubscriptionRecord } from '../records.ts'
+import type { UseUnsubscribeFromCourseResult } from '../types.ts'
 
 type UnsubscribedCourseRecord = Pick<CourseRecord, '__typename' | 'id'> & {
 	subscription: CourseSubscriptionRecord | null

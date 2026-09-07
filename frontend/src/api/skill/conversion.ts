@@ -4,8 +4,8 @@ import { expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-
 
 import { userAccountDataRecordToData, userRecordToUser, userSharedDataRecordToData } from '../user/conversion.ts'
 
-import type { Exercise, Skill, UserWithSkillActivity, UserWithSkills } from './types.ts'
 import type { ExerciseRecord, SkillIdentityRecord, SkillLevelRecord, SkillRecord, UserWithSkillActivityRecord, UserWithSkillsRecord } from './records.ts'
+import type { Exercise, Skill, UserWithSkillActivity, UserWithSkills } from './types.ts'
 
 export function exerciseRecordToExercise(record: ExerciseRecord): Exercise {
 	return {

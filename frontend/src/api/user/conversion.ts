@@ -1,5 +1,5 @@
-import type { CurrentUser, PrivacyPolicyConsent, User, UserWithAccountData, UserWithSharedData } from './types.ts'
 import type { CurrentUserRecord, PrivacyPolicyConsentRecord, UserAccountDataRecord, UserRecord, UserSharedDataRecord } from './records.ts'
+import type { CurrentUser, PrivacyPolicyConsent, User, UserWithAccountData, UserWithSharedData } from './types.ts'
 
 type UserSharedData = Omit<UserWithSharedData, keyof User>
 type UserAccountData = Omit<UserWithAccountData, keyof UserWithSharedData>

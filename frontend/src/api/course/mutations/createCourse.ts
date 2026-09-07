@@ -7,8 +7,8 @@ import { ensureSetup, serializeSetup } from '@step-wise/skill-setup'
 
 import { USER_PUBLIC_FRAGMENT } from '../../user/fragments.ts'
 
-import type { CreateCourseInput, UseCreateCourseResult } from '../types.ts'
 import type { FullCourseRecord } from '../records.ts'
+import type { CreateCourseInput, UseCreateCourseResult } from '../types.ts'
 import { COURSE_INFO_FRAGMENT } from '../fragments.ts'
 
 type CreateCourseData = { createCourse: FullCourseRecord }

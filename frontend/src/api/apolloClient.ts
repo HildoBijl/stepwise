@@ -5,7 +5,7 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { getMainDefinition } from '@apollo/client/utilities'
 import { createClient } from 'graphql-ws'
 
-import { graphqlAddress, graphqlWebsocketAddress } from '../settings'
+import { graphqlAddress, graphqlWebsocketAddress } from '../settings.ts'
 
 export function createApolloClient(): ApolloClient {
 	const wsLink = new GraphQLWsLink(createClient({

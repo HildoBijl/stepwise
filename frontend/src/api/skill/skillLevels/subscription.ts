@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { type SubscribeToMoreFunction, type TypedDocumentNode, gql } from '@apollo/client'
 
-import { useIsSignedIn } from '../../user'
+import { useIsSignedIn } from '../../user/index.ts'
 
 import type { SkillLevelRecord, SkillLevelRecordsQueryData, SkillLevelRecordsQueryVariables } from '../records.ts'
 import { skillLevelFields } from '../fragments.ts'

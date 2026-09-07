@@ -2,15 +2,15 @@ import { deserializeSetup } from '@step-wise/skill-setup'
 import { CourseDefinition } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
 
-import type { User } from '../user/types.ts'
 import type { UserRecord } from '../user/records.ts'
+import type { User } from '../user/types.ts'
 import { userRecordToUser } from '../user/conversion.ts'
-import type { UserWithSkills } from '../skill/types.ts'
 import type { UserWithSkillsRecord } from '../skill/records.ts'
+import type { UserWithSkills } from '../skill/types.ts'
 import { userWithSkillsRecordToUser } from '../skill/conversion.ts'
 
-import type { CourseInfo, CourseInfoWithStudentSkills, CourseSubscription, StudentCourseInfo, TeacherCourseInfoWithStudents } from './types.ts'
 import type { CourseRecord, CourseSubscriptionRecord, CourseWithStudentSkillsRecord, FullCourseRecord, MyCourseRecord } from './records.ts'
+import type { CourseInfo, CourseInfoWithStudentSkills, CourseSubscription, StudentCourseInfo, TeacherCourseInfoWithStudents } from './types.ts'
 
 type ConvertibleCourseRecord<StudentRecord extends UserRecord = UserRecord> = CourseRecord & Partial<FullCourseRecord<StudentRecord>>
 

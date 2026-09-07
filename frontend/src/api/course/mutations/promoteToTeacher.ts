@@ -4,8 +4,8 @@ import { useMutation } from '@apollo/client/react'
 
 import { USER_PUBLIC_FRAGMENT } from '../../user/fragments.ts'
 
-import type { UsePromoteToTeacherResult } from '../types.ts'
 import type { FullCourseRecord } from '../records.ts'
+import type { UsePromoteToTeacherResult } from '../types.ts'
 
 type PromotedCourseRecord = Pick<FullCourseRecord, '__typename' | 'id' | 'teachers' | 'students'>
 type PromoteToTeacherData = { promoteToTeacher: PromotedCourseRecord }

@@ -7,7 +7,7 @@ import { expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-
 
 import { useConstant } from 'util/index'
 
-import { useUser } from '../../user'
+import { useUser } from '../../user/index.ts'
 
 import { type SkillLevelContextValue, SkillLevelContext } from './context.ts'
 import { useSkillLevelRecordsQuery } from './query.ts'
