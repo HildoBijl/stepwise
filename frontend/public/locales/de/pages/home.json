@@ -8,8 +8,8 @@
 	"getStarted": {
 		"title": "Sofort anfangen",
 		"description": "Melde dich an, um sofort zu üben.",
-		"logInHU": "Anmeldung mit Hogeschool Utrecht",
-		"logInError": {
+		"signInHU": "Anmeldung mit Hogeschool Utrecht",
+		"signInError": {
 			"title": "Anmelden fehlgeschlagen",
 			"invalidAuthentication": "Wir konnten nicht feststellen, wer du bist. Bitte versuche ein anderes Konto, wenn möglich.",
 			"internalError": "Beim Anmelden ist auf unserem Server ein Fehler aufgetreten. Bitte versuche es später noch einmal.",

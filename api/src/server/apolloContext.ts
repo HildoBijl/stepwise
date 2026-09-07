@@ -12,11 +12,11 @@ import { getSessionUserId } from './support.ts'
 declare module '../modules/types.ts' {
 	interface ApiContext {
 		db: Database
-		isLoggedIn: boolean
+		isSignedIn: boolean
 		isAdmin: boolean
 		userId?: string
 		user: UserRecord | null
-		ensureLoggedIn: () => void
+		ensureSignedIn: () => void
 		ensureAdmin: () => void
 		loaders: ApiLoaders
 		pubsub: PubSubEngine
@@ -35,11 +35,11 @@ export function createApolloContext(db: Database, pubsub: PubSubEngine): ApolloC
 		// Set up a context object. Loaders receive the same context object that is returned to Apollo.
 		const context: LoaderContext = {
 			db,
-			isLoggedIn: !!user,
+			isSignedIn: !!user,
 			isAdmin: user?.role === 'admin',
 			...(userId ? { userId } : {}),
 			user,
-			ensureLoggedIn: () => {
+			ensureSignedIn: () => {
 				if (!user) throw new UnauthenticatedError('User not signed in.')
 			},
 			ensureAdmin: () => {

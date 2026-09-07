@@ -27,7 +27,7 @@ async function seed(db) {
 }
 
 describe('allUsers', () => {
-	it('gives an error when no user is logged in', async () => {
+	it('gives an error when no user is signed in', async () => {
 		const client = await createClient(seed)
 
 		const { data, errors } = await client.graphql({ query: `{allUsers {id}}` })
@@ -37,7 +37,7 @@ describe('allUsers', () => {
 
 	it('gives an error when a student accesses user data', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `{allUsers {id}}` })
 		expect(data).toStrictEqual({ allUsers: null })
@@ -46,7 +46,7 @@ describe('allUsers', () => {
 
 	it('gives all user data when an admin accesses it', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { data: { allUsers }, errors } = await client.graphql({ query: `{allUsers {id}}` })
 		expect(errors).toBeUndefined()

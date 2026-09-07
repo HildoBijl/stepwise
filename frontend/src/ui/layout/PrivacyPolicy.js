@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Button } from '@mui/material'
 import { Check, Clear } from '@mui/icons-material'
 
-import { logOutAddress } from 'settings'
+import { signOutAddress } from 'settings'
 import { useUser, useAcceptLatestPrivacyPolicy } from 'api'
 import { TranslationSection, Translation } from 'i18n'
 import { linkStyle } from 'ui/theme'
@@ -12,7 +12,7 @@ import { PageTranslationFile } from '../pages'
 export function PrivacyPolicyWrapper({ children }) {
 	const user = useUser()
 
-	// Not logged in? Just show contents.
+	// Not signed in? Just show contents.
 	if (!user)
 		return children
 
@@ -29,7 +29,7 @@ export function PrivacyPolicyWrapper({ children }) {
 }
 
 export function ApprovePrivacyPolicy({ firstTime }) {
-	const logOut = () => { window.location.href = logOutAddress }
+	const signOut = () => { window.location.href = signOutAddress }
 	const [acceptLatestPrivacyPolicy] = useAcceptLatestPrivacyPolicy()
 
 	return <PageTranslationFile page="privacyPolicy">
@@ -74,7 +74,7 @@ export function ApprovePrivacyPolicy({ firstTime }) {
 						},
 					})}>
 						<TranslationSection entry="buttons">
-							<Button variant="contained" startIcon={<Clear />} onClick={() => logOut()} color="secondary"><Translation entry="reject">Do not approve: sign out</Translation></Button>
+							<Button variant="contained" startIcon={<Clear />} onClick={() => signOut()} color="secondary"><Translation entry="reject">Do not approve: sign out</Translation></Button>
 							<Button variant="contained" startIcon={<Check />} onClick={() => acceptLatestPrivacyPolicy()} color="primary"><Translation entry="approve">Approve: finish signing in</Translation></Button>
 						</TranslationSection>
 					</Box>

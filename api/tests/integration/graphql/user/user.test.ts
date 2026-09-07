@@ -24,7 +24,7 @@ async function seed(db) {
 }
 
 describe('user', () => {
-	it('gives an error when no user is logged in', async () => {
+	it('gives an error when no user is signed in', async () => {
 		const client = await createClient(seed)
 
 		const { data, errors } = await client.graphql({ query: `{user(userId: "${BOB_ID}") {id}}` })
@@ -34,7 +34,7 @@ describe('user', () => {
 
 	it('gives only public fields when a student accesses user data', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		const { data: { user }, errors } = await client.graphql({
 			query: `{user(userId: "${ALEX_ID}") {
@@ -48,7 +48,7 @@ describe('user', () => {
 
 	it('throws an error when no user is given (bad request)', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { errors } = await client.graphql({ query: `{user {id}}` }, 400)
 		expect(errors).not.toBeUndefined()
@@ -56,7 +56,7 @@ describe('user', () => {
 
 	it('gives an error when a non-existing user is given (bad request)', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `{user(userId: "${NONEXISTING_ID}") {id}}` })
 		expect(data).toStrictEqual({ user: null })
@@ -65,7 +65,7 @@ describe('user', () => {
 
 	it('gives user data when an admin gives an appropriate query', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { data: { user }, errors } = await client.graphql({ query: `{user(userId: "${BOB_ID}") {id sharedData {email} accountData {role}}}` })
 		expect(errors).toBeUndefined()
@@ -80,7 +80,7 @@ describe('user', () => {
 describe('privacy policy consent', () => {
 	it('does not have privacy policy consent by default', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		const { data: { me: { accountData: { privacyPolicyConsent } } }, errors } = await client.graphql({ query: `{me {accountData {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
 		expect(errors).toBeUndefined()
@@ -89,7 +89,7 @@ describe('privacy policy consent', () => {
 
 	it('accepts current privacy policy', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		const before = new Date().getTime()
 		const { data: { acceptLatestPrivacyPolicy: { accountData: { privacyPolicyConsent: acceptedConsent } } }, errors } = await client.graphql({ query: `mutation {acceptLatestPrivacyPolicy {accountData {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
@@ -111,7 +111,7 @@ describe('privacy policy consent', () => {
 
 	it('does not overwrite the `acceptedAt` date if version didn\'t advance', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		// Accept the privacy policy.
 		const { data: { acceptLatestPrivacyPolicy: { accountData: { privacyPolicyConsent: firstConsent } } } } = await client.graphql({ query: `mutation {acceptLatestPrivacyPolicy {accountData {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
@@ -124,9 +124,9 @@ describe('privacy policy consent', () => {
 })
 
 describe('shutdown account', () => {
-	it('shuts down the logged-in user account', async () => {
+	it('shuts down the signed-in user account', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		// Shut down the account should give the ID back.
 		const { data: shutdownData, errors: shutdownErrors } = await client.graphql({ query: `mutation {deleteAccount(confirmEmail: "${BOB.email}")}` })
@@ -139,7 +139,7 @@ describe('shutdown account', () => {
 		expect(me).toBeNull()
 	})
 
-	it('cannot shutdown account if not logged in', async () => {
+	it('cannot shutdown account if not signed in', async () => {
 		const client = await createClient(seed)
 
 		const { data, errors } = await client.graphql({ query: `mutation {deleteAccount(confirmEmail: "${BOB.email}")}` })
@@ -149,7 +149,7 @@ describe('shutdown account', () => {
 
 	it('cannot shutdown user account if confirmation email does not match up', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `mutation {deleteAccount(confirmEmail: "incorrect@email.address")}` })
 		expect(errors).not.toBeUndefined()

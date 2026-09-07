@@ -13,7 +13,7 @@ import { type SkillObservationInput, type SkillResolverSource, type UserSkillRec
 import { type ExerciseEventRecord, type ExerciseSampleRecord, type ExerciseSampleWithEvents, hasLoadedExerciseEvents } from './models.ts'
 import { type ExerciseDatabase, getCurrentExerciseState, getLatestExerciseEvent, getUserSkillWithExercises } from './service.ts'
 
-type ExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'loaders' | 'pubsub' | 'userId'>
+type ExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'loaders' | 'pubsub' | 'userId'>
 
 async function lockActiveExercise(db: ExerciseDatabase, exerciseId: string, skillId: string, transaction: Transaction): Promise<ExerciseSampleWithEvents> {
 	const exercise = await db.ExerciseSample.findByPk(exerciseId, { transaction, lock: transaction.LOCK.UPDATE })
@@ -47,8 +47,8 @@ export const exerciseResolvers = {
 	ExerciseEvent: { performedAt: (event: ExerciseEventRecord) => event.createdAt },
 
 	Mutation: {
-		startExercise: async (_source: unknown, { skillId: rawSkillId }: { skillId: string }, { db, ensureLoggedIn, userId }: ExerciseContext) => {
-			ensureLoggedIn()
+		startExercise: async (_source: unknown, { skillId: rawSkillId }: { skillId: string }, { db, ensureSignedIn, userId }: ExerciseContext) => {
+			ensureSignedIn()
 			const skillId = ensureSkillId(rawSkillId)
 			const skillData = await getUserSkillWithExercises(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true, createIfNoneExists: true })
 			if (!skillData) throw new Error(`Failed to load or create user skill "${skillId}".`)
@@ -63,8 +63,8 @@ export const exerciseResolvers = {
 			}
 		},
 
-		submitExerciseAction: async (_source: unknown, { skillId: rawSkillId, action: rawAction }: { skillId: string; action: unknown }, { db, pubsub, ensureLoggedIn, userId }: ExerciseContext) => {
-			ensureLoggedIn()
+		submitExerciseAction: async (_source: unknown, { skillId: rawSkillId, action: rawAction }: { skillId: string; action: unknown }, { db, pubsub, ensureSignedIn, userId }: ExerciseContext) => {
+			ensureSignedIn()
 			const skillId = ensureSkillId(rawSkillId)
 			const action = ensureExerciseAction(rawAction)
 

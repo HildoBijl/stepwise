@@ -37,7 +37,7 @@ describe('updateCourse', () => {
 		expect(anonymousResponse.errors).toBeUndefined()
 		expect(anonymousResponse.data.course).toStrictEqual({ __typename: 'Course', subscription: null, teachers: null, students: null })
 
-		await client.loginSurfConext(TEACHER_SURFSUB)
+		await client.signInWithSurfConext(TEACHER_SURFSUB)
 		const teacherResponse = await client.graphql({ query })
 		expect(teacherResponse.errors).toBeUndefined()
 		expect(teacherResponse.data.course).toStrictEqual({
@@ -50,7 +50,7 @@ describe('updateCourse', () => {
 
 	it('distinguishes omitted fields from fields explicitly set to null', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(TEACHER_SURFSUB)
+		await client.signInWithSurfConext(TEACHER_SURFSUB)
 
 		const response = await client.graphql({
 			query: `mutation {
@@ -65,7 +65,7 @@ describe('updateCourse', () => {
 
 	it('rejects null for a non-nullable stored field', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(TEACHER_SURFSUB)
+		await client.signInWithSurfConext(TEACHER_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `mutation {updateCourse(courseId: "${COURSE_ID}", input: {name: null}) {name}}` })
 		expect(data).toStrictEqual(null)

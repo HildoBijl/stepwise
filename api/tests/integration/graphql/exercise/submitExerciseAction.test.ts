@@ -31,7 +31,7 @@ function inputAction(ans) {
 }
 
 describe('submitExerciseAction', () => {
-	it('gives an error when no user is logged in', async () => {
+	it('gives an error when no user is signed in', async () => {
 		const client = await createClient(seed)
 
 		const { data, errors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(42))}) {updatedExercise {id}}}` })
@@ -42,7 +42,7 @@ describe('submitExerciseAction', () => {
 
 	it('gives an error when no exercise is active', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(42))}) {updatedExercise {id}}}` })
 		expect(data).toBe(null)
@@ -52,7 +52,7 @@ describe('submitExerciseAction', () => {
 
 	it('remembers a wrong submission', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Start an exercise.
 		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId parameters active}}` })
@@ -80,7 +80,7 @@ describe('submitExerciseAction', () => {
 
 	it('processes a correct solution so a new exercise can be started', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Start an exercise.
 		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId parameters active}}` })
@@ -116,7 +116,7 @@ describe('submitExerciseAction', () => {
 
 	it('only processes an exercise-completing action once under concurrent requests', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { data: { startExercise: exercise } } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {parameters}}` })
 		const parameters = deserializeData(exercise.parameters) as any

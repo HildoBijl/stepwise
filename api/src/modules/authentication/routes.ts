@@ -17,7 +17,7 @@ export function createAuthRouter(config: AuthConfig, db: AuthenticationDatabase,
 	router.use(cookieParser())
 	router.use(bodyParser.urlencoded({ extended: true }))
 
-	const createLoginHandler = (getUser: (request: Request) => Promise<AuthenticatedUserReference | null>): RequestHandler => async (request, response) => {
+	const createSignInHandler = (getUser: (request: Request) => Promise<AuthenticatedUserReference | null>): RequestHandler => async (request, response) => {
 		try {
 			const user = await getUser(request)
 			if (!user) return void response.redirect(`${config.homepageUrl}?error=${INVALID_AUTHENTICATION}`)
@@ -34,7 +34,7 @@ export function createAuthRouter(config: AuthConfig, db: AuthenticationDatabase,
 	router.get('/logout', (request, response) => request.session.destroy(() => response.redirect(config.homepageUrl)))
 
 	const surfConext = new SurfConextAuthStrategy(db, clients.surfConextClient)
-	router.get('/surfconext/login', createLoginHandler(request => surfConext.authenticateAndSync(request)))
+	router.get('/surfconext/login', createSignInHandler(request => surfConext.authenticateAndSync(request)))
 	const createSurfConextInitiateHandler = (identityProvider?: SurfConextIdentityProvider): RequestHandler => async (request, response) => {
 		try {
 			await regenerateSession(request)
@@ -53,7 +53,7 @@ export function createAuthRouter(config: AuthConfig, db: AuthenticationDatabase,
 	router.get('/surfconext/initiate', createSurfConextInitiateHandler())
 
 	const google = new GoogleAuthStrategy(db, clients.googleClient)
-	router.post('/google/login', createLoginHandler(request => google.authenticateAndSync(request)))
+	router.post('/google/login', createSignInHandler(request => google.authenticateAndSync(request)))
 	router.get('/google/initiate', async (request, response) => {
 		try {
 			await regenerateSession(request)

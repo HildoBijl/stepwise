@@ -1,2 +1,2 @@
-export * from './LogInButtons'
+export * from './SignInButtons'
 export * from './MemberList'

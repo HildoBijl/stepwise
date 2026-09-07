@@ -1,5 +1,5 @@
 import { isTeacher, isAdmin } from 'api'
-import { ForStudents, ForTeachers, About, SkillTrackerExplainer, Test, Home, SkillOverview, Settings, LogOut, Groups, NewGroup } from 'ui/pages'
+import { ForStudents, ForTeachers, About, SkillTrackerExplainer, Test, Home, SkillOverview, Settings, SignOut, Groups, NewGroup } from 'ui/pages'
 import { UserInspection, UserInspectionTitle, UserOverview, TestProvider } from 'ui/admin'
 
 import { CoursesPage, CoursePage, CourseProvider, CourseName, AddCoursePage, SkillAdvice, FreePracticePage, CourseSettingsPage, CourseSettingsIcon, SkillPage, SkillName, SkillIndicator, BlankExercise, ExerciseName, CourseStudentPage, CourseStudentName, CourseStudentSkillPage } from 'ui/eduTools'
@@ -34,14 +34,14 @@ export function getRoutes(user = undefined) {
 			id: 'skillTab',
 			page: SkillPage,
 			name: SkillName,
-			recommendLogIn: true,
+			recommendSignIn: true,
 			Indicator: SkillIndicator,
 		},
 		'skill/:skillId': {
 			id: 'skill',
 			page: SkillPage,
 			name: SkillName,
-			recommendLogIn: true,
+			recommendSignIn: true,
 			Indicator: SkillIndicator,
 		},
 		'test': {
@@ -125,7 +125,7 @@ export function getRoutes(user = undefined) {
 			}
 		}
 
-		// Set up routes for regular logged-in users.
+		// Set up routes for regular signed-in users.
 		routes = {
 			...routes,
 			'settings': {
@@ -134,8 +134,8 @@ export function getRoutes(user = undefined) {
 				name: 'Settings',
 			},
 			'logout': {
-				id: 'logOut',
-				page: LogOut,
+				id: 'signOut',
+				page: SignOut,
 				name: 'Signing out...'
 			},
 			'groups': {

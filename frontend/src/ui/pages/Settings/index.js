@@ -12,7 +12,7 @@ import { DeleteAccount } from './DeleteAccount'
 export function Settings() {
 	const { name, email } = useRequiredUser()
 	return <PageTranslationFile page="settings">
-		<Par><Translation entry="introduction">You are logged in as {{ name }} &lt;{{ email }}&gt;.</Translation></Par>
+		<Par><Translation entry="introduction">You are signed in as {{ name }} &lt;{{ email }}&gt;.</Translation></Par>
 		<LanguageSettings />
 		<DeleteAccount />
 	</PageTranslationFile>

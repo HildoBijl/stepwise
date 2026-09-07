@@ -2,12 +2,12 @@
   "websiteName": "Step-Wise",
   "websiteNameAddendum": "Maßgeschneiderte Praxisübungen",
   "notifications": {
-    "notLoggedIn": "Du bist nicht angemeldet. Dein Lernfortschritt wird nicht verfolgt. Übungsvorschläge und personalisierte Aufgaben sind nicht möglich.",
+    "notSignedIn": "Du bist nicht angemeldet. Dein Lernfortschritt wird nicht verfolgt. Übungsvorschläge und personalisierte Aufgaben sind nicht möglich.",
     "notOnline": "Du scheinst derzeit nicht mit dem Internet verbunden zu sein. Einige Funktionen werden nicht verfügbar sein, bis du wieder online bist."
   },
   "loading": "Laden ... {text}",
   "errorNote": "<a><b>Ups ... da ist etwas schief gelaufen.</b><par>Die Seite konnte nicht geladen/angezeigt werden. {reason} Wir empfehlen dir folgendes.</par><list><item><c>Aktualisiere die Seite (F5). Möglicherweise ist deine Verbindung kurz unterbrochen worden.</c></item><item><d>Prüfe, ob die URL korrekt ist. Keine Tippfehler?</d></item><item><e>Versuche einen Hard Refresh (Umschalt+F5), um sicherzustellen, dass du keine alte Version der Web-App auf deinem Gerät zwischengespeichert hast.</e></item><item><f>Das alles funktioniert nicht? Dann liegt es wahrscheinlich an uns. Versuche es später erneut.</f></item></list><par>Ist der Fehler später immer noch vorhanden? Dann sende eine E-Mail an <link>{infoEmail}</link> (Hildo). Ich werde den Fehler beheben, damit weder du noch andere weiterhin darauf stoßen. Füge nach Möglichkeit auch Folgendes hinzu:</par><list><item><g>Wo der Fehler auftrat: zum Beispiel welche Kompetenz/Übung.</g></item><item><h>Was du unmittelbar vor dem Auftreten des Fehlers getan hast.</h></item><item><i>Eventuell einen Screenshot von möglichen roten Fehlermeldungen in der Entwicklerkonsole (F12).</i></item></list></a>",
-  "login": {
-    "loggingOut": "<p>Du wurdest ausgeloggt...</p>"
+  "signOut": {
+    "message": "<p>Du wurdest ausgeloggt...</p>"
   }
 }

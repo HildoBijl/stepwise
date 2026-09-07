@@ -19,7 +19,7 @@ async function seed(db) {
 }
 
 describe('skills', () => {
-	it('gives an error when no user is logged in', async () => {
+	it('gives an error when no user is signed in', async () => {
 		const client = await createClient(seed)
 
 		const { data, errors } = await client.graphql({ query: `{skills {id skillId}}` })
@@ -29,7 +29,7 @@ describe('skills', () => {
 
 	it('(only) gives data on existing skills for queries without parameters', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { data: { skills }, errors } = await client.graphql({ query: `{skills {id skillId levelData {numPracticed coefficients}}}` })
 		expect(errors).toBeUndefined()
@@ -39,7 +39,7 @@ describe('skills', () => {
 
 	it('(only) gives data on existing skills for queries with parameters', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { data: { skills }, errors } = await client.graphql({ query: `{skills(skillIds: ["${SAMPLE_SKILL}","${BACKUP_SKILL}"]) {id skillId}}` })
 		expect(errors).toBeUndefined()
@@ -49,7 +49,7 @@ describe('skills', () => {
 
 	it('gives an error when requesting a non-existing skill', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `{skills(skillIds: ["${NONEXISTING_SKILL}"]) {id skillId}}` })
 		expect(data).toBe(null)

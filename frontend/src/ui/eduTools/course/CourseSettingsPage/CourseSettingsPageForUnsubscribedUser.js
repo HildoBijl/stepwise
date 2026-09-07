@@ -1,6 +1,6 @@
 import { useUser } from 'api'
 import { TranslationFile, TranslationSection, Translation, Check } from 'i18n'
-import { Head, Par, LogInButtons } from 'ui/components'
+import { Head, Par, SignInButtons } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
 
@@ -32,7 +32,7 @@ function SubscribeToCourse({ course }) {
 				<TranslationSection entry={translationSection}>
 					<Head><Translation entry="subscribe.title">Subscribe</Translation></Head>
 					<Par>You are currently not signed in.</Par>
-					<LogInButtons centered={false} />
+					<SignInButtons centered={false} />
 				</TranslationSection>
 			</TranslationFile>
 		</>

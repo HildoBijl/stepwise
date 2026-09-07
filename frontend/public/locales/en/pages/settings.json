@@ -1,5 +1,5 @@
 {
-  "introduction": "You are logged in as {name} <{email}>.",
+  "introduction": "You are signed in as {name} <{email}>.",
   "language": {
     "title": "Language settings",
     "languageList": {

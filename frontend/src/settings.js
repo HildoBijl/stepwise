@@ -9,8 +9,8 @@ const apiAddress = import.meta.env.VITE_API_ADDRESS
 const graphqlAddress = `${apiAddress}/graphql`
 const websocketEndpoint = import.meta.env.VITE_API_WEBSOCKET_ENDPOINT || 'graphql'
 const graphqlWebsocketAddress = `${apiAddress}/${websocketEndpoint}`.replace('http', 'ws')
-const logOutAddress = `${apiAddress}/auth/logout`
-export { apiAddress, logOutAddress, graphqlAddress, graphqlWebsocketAddress }
+const signOutAddress = `${apiAddress}/auth/logout`
+export { apiAddress, signOutAddress, graphqlAddress, graphqlWebsocketAddress }
 
 // Google sign-in settings.
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID

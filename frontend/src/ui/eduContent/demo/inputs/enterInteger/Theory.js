@@ -6,7 +6,7 @@ import { Translation, Check } from 'i18n'
 import { Head, Par, List, Term, Warning } from 'ui/components'
 
 export function Theory() {
-	const isLoggedIn = !!useUser()
+	const isSignedIn = !!useUser()
 	return <>
 		<Translation entry="intro">
 			<Par>Welcome to the Step-Wise tutorial! Here you can learn how the web-app is set up and freely play around with the main functionalities.</Par>
@@ -16,7 +16,7 @@ export function Theory() {
 		<Translation entry="skills">
 			<Head>Skills</Head>
 			<Par>Step-Wise is structured around the concept of <Term>skills</Term>. Every skill is something that you can actually do. For instance (like for this skill) simply entering a number into a field.</Par>
-			<Par>For every skill we estimate the <Term>likelihood</Term> that you will do it correctly. We developed our own probability theory script for this, which takes into account lots of different factors. <Check value={isLoggedIn}><Check.True>For you it's simple: you can always see the success chance through the skill orb in the top right corner. Feel free to hover over it for more information.</Check.True><Check.False>If you were logged in, you could also see that success chance in the top right corner of the screen.</Check.False></Check></Par>
+			<Par>For every skill we estimate the <Term>likelihood</Term> that you will do it correctly. We developed our own probability theory script for this, which takes into account lots of different factors. <Check value={isSignedIn}><Check.True>For you it's simple: you can always see the success chance through the skill orb in the top right corner. Feel free to hover over it for more information.</Check.True><Check.False>If you were signed in, you could also see that success chance in the top right corner of the screen.</Check.False></Check></Par>
 		</Translation>
 
 		<Translation entry="exercises">

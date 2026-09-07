@@ -16,7 +16,7 @@ async function seed(db) {
 }
 
 describe('startExercise', () => {
-	it('gives an error when no user is logged in', async () => {
+	it('gives an error when no user is signed in', async () => {
 		const client = await createClient(seed)
 
 		const { data, errors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id}}` })
@@ -26,7 +26,7 @@ describe('startExercise', () => {
 
 	it('creates a skill when none exists yet', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// First the skill should not exist.
 		const { data: { skill: skillBefore }, errors: skillBeforeErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId}}` })
@@ -54,7 +54,7 @@ describe('startExercise', () => {
 
 	it('gives an error when there already is an active exercise', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// The first exercise we start should be fine.
 		const { data: { startExercise: exercise }, errors: errorsBefore } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id}}` })
@@ -69,7 +69,7 @@ describe('startExercise', () => {
 
 	it('does not create multiple active exercises for concurrent requests', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const query = { query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id}}` }
 		const responses = await Promise.all([client.graphql(query), client.graphql(query)])

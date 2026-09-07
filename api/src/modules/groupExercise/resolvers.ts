@@ -15,7 +15,7 @@ import { type UserSkillObservationInput, type UserSkillRecord, applySkillObserva
 import { type GroupExerciseActionRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents } from './models.ts'
 import { type GroupExerciseDatabase, type GroupExerciseUpdatedPayload, getCurrentGroupExerciseState, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, getGroupWithAllExercises, groupExerciseEvents } from './service.ts'
 
-type GroupExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'pubsub' | 'userId'>
+type GroupExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'pubsub' | 'userId'>
 
 function getGroupEventPerformedAt(event: GroupExerciseEventWithActions): Date {
 	return findOptimum(event.actions.map(userAction => userAction.updatedAt), (a, b) => a.getTime() > b.getTime()) ?? event.updatedAt
@@ -46,8 +46,8 @@ export const groupExerciseResolvers = {
 	},
 
 	Query: {
-		activeGroupExercises: async (_source: unknown, { code }: { code: string }, { db, ensureLoggedIn, userId }: GroupExerciseContext) => {
-			ensureLoggedIn()
+		activeGroupExercises: async (_source: unknown, { code }: { code: string }, { db, ensureSignedIn, userId }: GroupExerciseContext) => {
+			ensureSignedIn()
 			const group = await getGroupWithActiveExercises(db, code)
 			ensureActiveGroupMembership(group, userId)
 			return group.exercises
@@ -55,8 +55,8 @@ export const groupExerciseResolvers = {
 	},
 
 	Mutation: {
-		leaveGroup: async (_source: unknown, { code }: { code: string }, { db, pubsub, ensureLoggedIn, userId }: GroupExerciseContext) => {
-			ensureLoggedIn()
+		leaveGroup: async (_source: unknown, { code }: { code: string }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
+			ensureSignedIn()
 			const result = await db.transaction(async transaction => {
 				// Lock the group so concurrent leave operations cannot both make decisions from the same member list.
 				const group = await getGroup(db, code, { transaction, lock: transaction.LOCK.UPDATE })
@@ -94,9 +94,9 @@ export const groupExerciseResolvers = {
 			return true
 		},
 
-		startGroupExercise: async (_source: unknown, { code, skillId }: { code: string; skillId: string }, { db, pubsub, ensureLoggedIn, userId }: GroupExerciseContext) => {
+		startGroupExercise: async (_source: unknown, { code, skillId }: { code: string; skillId: string }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
 			// Verify that the user is a member of the given group.
-			ensureLoggedIn()
+			ensureSignedIn()
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
 			ensureActiveGroupMembership(group, userId)
 
@@ -132,9 +132,9 @@ export const groupExerciseResolvers = {
 			return loadedExercise
 		},
 
-		submitGroupAction: async (_source: unknown, { code, skillId, action: rawAction }: { code: string; skillId: string; action: unknown }, { db, pubsub, ensureLoggedIn, userId }: GroupExerciseContext) => {
+		submitGroupAction: async (_source: unknown, { code, skillId, action: rawAction }: { code: string; skillId: string; action: unknown }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
 			// Load and verify data.
-			ensureLoggedIn()
+			ensureSignedIn()
 			const action = ensureExerciseAction(rawAction)
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
 			ensureActiveGroupMembership(group, userId)
@@ -162,9 +162,9 @@ export const groupExerciseResolvers = {
 			return activeExercise
 		},
 
-		cancelGroupAction: async (_source: unknown, { code, skillId }: { code: string; skillId: string }, { db, pubsub, ensureLoggedIn, userId }: GroupExerciseContext) => {
+		cancelGroupAction: async (_source: unknown, { code, skillId }: { code: string; skillId: string }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
 			// Load and verify data.
-			ensureLoggedIn()
+			ensureSignedIn()
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
 			ensureActiveGroupMembership(group, userId)
 			const activeExercise = group.exercises[0]
@@ -190,9 +190,9 @@ export const groupExerciseResolvers = {
 			return activeExercise
 		},
 
-		resolveGroupEvent: async (_source: unknown, { code, skillId }: { code: string; skillId: string }, { db, pubsub, ensureLoggedIn, userId }: GroupExerciseContext) => {
+		resolveGroupEvent: async (_source: unknown, { code, skillId }: { code: string; skillId: string }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
 			// Load and verify data.
-			ensureLoggedIn()
+			ensureSignedIn()
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
 			ensureActiveGroupMembership(group, userId)
 			const activeExercise = group.exercises[0]
@@ -254,8 +254,8 @@ export const groupExerciseResolvers = {
 		...createSubscriptionResolver('activeGroupExercisesUpdated', [groupExerciseEvents.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }: GroupExerciseUpdatedPayload, { code: codeOfFollowedGroup }: { code: string }) => {
 			// Only pass on when the code matches.
 			if (codeOfEvent === codeOfFollowedGroup.toUpperCase()) return updatedGroupExercise
-		}, async ({ code }: { code: string }, { db, ensureLoggedIn, userId }: GroupExerciseContext) => {
-			ensureLoggedIn()
+		}, async ({ code }: { code: string }, { db, ensureSignedIn, userId }: GroupExerciseContext) => {
+			ensureSignedIn()
 			ensureActiveGroupMembership(await getGroupWithActiveExercises(db, code), userId)
 		}),
 	},

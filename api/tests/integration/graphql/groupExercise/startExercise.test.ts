@@ -34,7 +34,7 @@ async function seed(db) {
 describe('start group exercise:', () => {
 	it('throws an error when not a member of the group', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `mutation{startGroupExercise(code: "${OTHER_GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {skillId exerciseId parameters active}}` })
 		expect(errors).not.toBeUndefined()
@@ -44,7 +44,7 @@ describe('start group exercise:', () => {
 
 	it('throws an error when not active in the group', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {skillId}}` })
 		expect(errors).not.toBeUndefined()
@@ -54,7 +54,7 @@ describe('start group exercise:', () => {
 
 	it('starts an exercise when being an active member of the group', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Activate the group.
 		const { data: { activateGroup }, errors: activateErrors } = await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
@@ -79,7 +79,7 @@ describe('start group exercise:', () => {
 
 	it('returns the same exercise for concurrent start requests', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 
 		const query = { query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {id}}` }

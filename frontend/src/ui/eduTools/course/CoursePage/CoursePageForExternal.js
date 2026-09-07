@@ -1,5 +1,5 @@
 import { TranslationFile, TranslationSection, Translation } from 'i18n'
-import { Head, Par, LogInButtons } from 'ui/components'
+import { Head, Par, SignInButtons } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
 
@@ -19,7 +19,7 @@ export function CoursePageForExternal() {
 			<TranslationSection entry={translationSection}>
 				<Head><Translation entry="signin.title">Sign in required</Translation></Head>
 				<Par><Translation entry="signin.description">To participate in this course, you have to be signed in. No worries, it's all free. This is so we can show you your progress within the course.</Translation></Par>
-				<LogInButtons centered={false} />
+				<SignInButtons centered={false} />
 				{organization.noTeachers ? null : <>
 					<Head><Translation entry="school.title">School/Institution</Translation></Head>
 					<Par style={{ marginBottom: '1.2rem' }}>

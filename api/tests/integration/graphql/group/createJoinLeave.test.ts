@@ -27,7 +27,7 @@ async function seed(db) {
 describe('creating group:', () => {
 	it('can create a new group and automatically joins it', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Create a group.
 		const { data: { createGroup }, errors: createErrors } = await client.graphql({ query: `mutation {createGroup{code}}` })
@@ -44,7 +44,7 @@ describe('creating group:', () => {
 
 	it('can create (and join) multiple groups', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Create three groups.
 		await client.graphql({ query: `mutation {createGroup{code}}` })
@@ -61,7 +61,7 @@ describe('creating group:', () => {
 describe('joining group:', () => {
 	it('does not have any groups without joining', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Query the groups.
 		const { data, errors } = await client.graphql({ query: `{myGroups{code}}` })
@@ -71,7 +71,7 @@ describe('joining group:', () => {
 
 	it('can join an existing group', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Join the group.
 		const { data: { joinGroup }, errors: joinErrors } = await client.graphql({ query: `mutation {joinGroup(code: "${GROUP_CODE}"){code}}` })
@@ -96,7 +96,7 @@ describe('joining group:', () => {
 
 	it('re-joining has no "negative" effect', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Join the given group.
 		const { data: { joinGroup }, errors: joinErrors } = await client.graphql({ query: `mutation {joinGroup(code: "${GROUP_CODE}"){code}}` })
@@ -123,7 +123,7 @@ describe('joining group:', () => {
 
 	it('cannot join a non-existing group without deactivating the current group', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Join an existing group first.
 		const { errors: initialJoinErrors } = await client.graphql({ query: `mutation {joinGroup(code: "${GROUP_CODE}"){code}}` })
@@ -143,7 +143,7 @@ describe('joining group:', () => {
 
 	it('accepts group codes in lowercase', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Join the group.
 		const lowercaseCode = GROUP_CODE.toLowerCase()
@@ -165,7 +165,7 @@ describe('joining group:', () => {
 describe('leaving groups', () => {
 	it('can leave a group (and rejoin afterwards)', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Join the group.
 		await client.graphql({ query: `mutation {joinGroup(code: "${GROUP_CODE}"){code}}` })
@@ -189,7 +189,7 @@ describe('leaving groups', () => {
 
 	it('deletes group after the last member has left', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		// Leave the group (as last member).
 		const { errors: leaveErrors } = await client.graphql({ query: `mutation {leaveGroup(code: "${GROUP_CODE}")}` })
@@ -206,7 +206,7 @@ describe('leaving groups', () => {
 describe('group existence', () => {
 	it('can check that an existing group exists', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Check that an existing group exists.
 		const { data: { groupExists }, errors: existsErrors } = await client.graphql({ query: `{groupExists(code: "${GROUP_CODE}")}` })
@@ -216,7 +216,7 @@ describe('group existence', () => {
 
 	it('can check that a non-existing group does not exists', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Check that a non-existing group does not exist.
 		const { data: { groupExists }, errors: existsErrors } = await client.graphql({ query: `{groupExists(code: "1234")}` })
@@ -228,7 +228,7 @@ describe('group existence', () => {
 describe('groups security', () => {
 	it('cannot get group data without being a member', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Query the group and fail.
 		const { data: groupData, errors: groupErrors } = await client.graphql({ query: `{group(code: "${GROUP_CODE}"){members{name}}}` })
@@ -238,7 +238,7 @@ describe('groups security', () => {
 
 	it('cannot leave a group without being a member', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Try to leave Bob's group and fail without publishing an update.
 		const { data, errors } = await client.graphql({ query: `mutation {leaveGroup(code: "${GROUP_CODE}")}` })
@@ -254,27 +254,27 @@ describe('groups security', () => {
 
 	it('cannot retrieve personal information such as the email address', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Query personal information and fail due to wrong schema.
 		const { errors } = await client.graphql({ query: `{group(code: "${GROUP_CODE}"){members{sharedData {email}}}}` }, 400)
 		expect(errors).not.toBeUndefined()
 	})
 
-	it('only allows interactions with groups when logged in', async () => {
+	it('only allows interactions with groups when signed in', async () => {
 		const client = await createClient(seed)
 
-		// Try to query a group when not logged in.
+		// Try to query a group when not signed in.
 		const { data: groupData, errors: groupErrors } = await client.graphql({ query: `{group(code: "${GROUP_CODE}"){code}}` })
 		expect(groupData.group).toBeNull()
 		expect(groupErrors[0].extensions).toStrictEqual({ code: 'UNAUTHENTICATED' })
 
-		// Try to create a group when not logged in.
+		// Try to create a group when not signed in.
 		const { data: createData, errors: createErrors } = await client.graphql({ query: `mutation {createGroup{code}}` })
 		expect(createData).toBeNull()
 		expect(createErrors[0].extensions).toStrictEqual({ code: 'UNAUTHENTICATED' })
 
-		// Try to join a group when not logged in.
+		// Try to join a group when not signed in.
 		const { data: joinData, errors: joinErrors } = await client.graphql({ query: `mutation {joinGroup(code: "${GROUP_CODE}"){code}}` })
 		expect(joinData).toBeNull()
 		expect(joinErrors[0].extensions).toStrictEqual({ code: 'UNAUTHENTICATED' })

@@ -36,7 +36,7 @@ function inputAction(ans) {
 describe('submit group action:', () => {
 	it('throws an error when no exercise is active', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Activate the group.
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
@@ -50,7 +50,7 @@ describe('submit group action:', () => {
 
 	it('throws an error when not active in the group', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Activate the group, start an exercise and deactivate the group.
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
@@ -67,7 +67,7 @@ describe('submit group action:', () => {
 
 	it('allows submitting, resubmitting and canceling actions', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Activate the group and start an exercise.
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
@@ -101,7 +101,7 @@ describe('submit group action:', () => {
 describe('cancel group action:', () => {
 	it('does nothing when there is no action to cancel', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Activate the group and start an exercise.
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })

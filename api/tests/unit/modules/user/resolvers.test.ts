@@ -22,7 +22,7 @@ function createContext(user: UserRecord | null, isAdmin = false): UserContext {
 	return {
 		user,
 		isAdmin,
-		ensureLoggedIn: vi.fn(),
+		ensureSignedIn: vi.fn(),
 		ensureAdmin: vi.fn(),
 		db: {} as UserContext['db'],
 		loaders: {} as UserContext['loaders'],

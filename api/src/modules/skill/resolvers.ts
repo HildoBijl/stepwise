@@ -7,7 +7,7 @@ import type { UserSkillRecord } from './models.ts'
 import { skillEvents } from './service.ts'
 import { type SkillAccessContext, type SkillResolverSource, createSkillResolverSource, loadVisibleSkills } from './skillAccess.ts'
 
-type SkillContext = SkillAccessContext & Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'pubsub'>
+type SkillContext = SkillAccessContext & Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'pubsub'>
 
 interface SkillsUpdatedPayload {
 	userId: string
@@ -40,14 +40,14 @@ export const skillResolvers = {
 
 	Query: {
 		skill: async (_source: unknown, args: { skillId: string; userId?: string }, context: SkillContext) => {
-			context.ensureLoggedIn()
+			context.ensureSignedIn()
 			const skillId = ensureSkillId(args.skillId)
 			const userId = args.userId ?? context.userId
 			if (userId !== context.userId) await getUser(context.db, userId)
 			return (await loadVisibleSkills(userId, [skillId], context, true))[0] ?? null
 		},
 		skills: async (_source: unknown, { skillIds }: { skillIds?: string[] }, context: SkillContext) => {
-			context.ensureLoggedIn()
+			context.ensureSignedIn()
 			return loadVisibleSkills(context.userId, skillIds ? ensureSkillIds(skillIds) : undefined, context)
 		},
 	},

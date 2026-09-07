@@ -46,7 +46,7 @@ export default function Menu({ titleCollapsed, sx }) {
 			setOpen(open)
 		}
 
-		// Define buttons common to logged-in and non-logged-in users.
+		// Define buttons common to signed-in and signed-out users.
 		const commonButtons = <>
 			<MenuLink id="forStudents" icon={Student} />
 			<MenuLink id="forTeachers" icon={Teacher} />
@@ -75,7 +75,7 @@ export default function Menu({ titleCollapsed, sx }) {
 							<MenuLink id="courses" icon={MenuBook} />
 							<MenuLink id="groups" icon={People} />
 							<MenuLink id="settings" path={paths.settings()} icon={Settings} />
-							<MenuLink id="logOut" text='Log out' icon={ExitToApp} />
+							<MenuLink id="signOut" text='Sign out' icon={ExitToApp} />
 							<Divider />
 							{commonButtons}
 						</List>

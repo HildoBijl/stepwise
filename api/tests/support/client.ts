@@ -73,7 +73,7 @@ class Client {
 		return getLocation(response)
 	}
 
-	async loginSurfConext(surfConextSub: string): Promise<string> {
+	async signInWithSurfConext(surfConextSub: string): Promise<string> {
 		const response = await request(this._server)
 			.get(`/auth/surfconext/login`)
 			.set('Cookie', [this._cookieHeader()])
@@ -83,7 +83,7 @@ class Client {
 		return getLocation(response)
 	}
 
-	async loginGoogle(googleSub: string): Promise<string> {
+	async signInWithGoogle(googleSub: string): Promise<string> {
 		const response = await request(this._server)
 			.post(`/auth/google/login`)
 			.send(`credential=${googleSub}`)
@@ -92,7 +92,7 @@ class Client {
 		return getLocation(response)
 	}
 
-	async logout(): Promise<string> {
+	async signOut(): Promise<string> {
 		const response = await request(this._server)
 			.get('/auth/logout')
 			.set('Cookie', this._cookieHeader())

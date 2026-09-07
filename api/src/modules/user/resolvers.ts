@@ -7,7 +7,7 @@ import type { ApiContext } from '../types.ts'
 import type { UserRecord } from './models.ts'
 import { getAllUsers, getUser } from './service.ts'
 
-export type UserContext = Pick<ApiContext, 'db' | 'user' | 'isAdmin' | 'loaders' | 'ensureLoggedIn' | 'ensureAdmin'>
+export type UserContext = Pick<ApiContext, 'db' | 'user' | 'isAdmin' | 'loaders' | 'ensureSignedIn' | 'ensureAdmin'>
 
 export type UserSharedDataAccessRule = (user: UserRecord, context: UserContext) => boolean | Promise<boolean>
 
@@ -24,8 +24,8 @@ const userResolvers = {
 
 	Query: {
 		me: async (_source: unknown, _args: unknown, { user }: UserContext) => user,
-		user: async (_source: unknown, { userId }: { userId: string }, { db, ensureLoggedIn }: UserContext) => {
-			ensureLoggedIn()
+		user: async (_source: unknown, { userId }: { userId: string }, { db, ensureSignedIn }: UserContext) => {
+			ensureSignedIn()
 			return getUser(db, userId)
 		},
 		allUsers: async (_source: unknown, _args: unknown, { db, ensureAdmin }: UserContext) => {
@@ -35,19 +35,19 @@ const userResolvers = {
 	},
 
 	Mutation: {
-		setLanguage: async (_source: unknown, { language }: { language: string }, { ensureLoggedIn, user }: UserContext) => {
-			ensureLoggedIn()
+		setLanguage: async (_source: unknown, { language }: { language: string }, { ensureSignedIn, user }: UserContext) => {
+			ensureSignedIn()
 			if (!(languages as readonly string[]).includes(language)) throw new Error(`Invalid language setting: the language "${language}" is not in the list of supported languages.`)
 			await user!.update({ language })
 			return user
 		},
-		acceptLatestPrivacyPolicy: async (_source: unknown, _args: unknown, { ensureLoggedIn, user }: UserContext) => {
-			ensureLoggedIn()
+		acceptLatestPrivacyPolicy: async (_source: unknown, _args: unknown, { ensureSignedIn, user }: UserContext) => {
+			ensureSignedIn()
 			if (!user!.privacyPolicyAcceptedVersion || user!.privacyPolicyAcceptedVersion < currentPrivacyPolicyVersion) await user!.update({ privacyPolicyAcceptedVersion: currentPrivacyPolicyVersion, privacyPolicyAcceptedAt: new Date() })
 			return user
 		},
-		deleteAccount: async (_source: unknown, { confirmEmail }: { confirmEmail: string }, { ensureLoggedIn, user }: UserContext) => {
-			ensureLoggedIn()
+		deleteAccount: async (_source: unknown, { confirmEmail }: { confirmEmail: string }, { ensureSignedIn, user }: UserContext) => {
+			ensureSignedIn()
 			if (user!.email !== confirmEmail) throw new InvalidInputError('User shutdown denied: the confirmation email does not match.')
 			await user!.destroy()
 			return user!.id

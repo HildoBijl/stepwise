@@ -10,7 +10,7 @@ import type { GroupMemberRecord, GroupRecord } from './models.ts'
 import { type GroupUpdatedPayload, createRandomGroupCode, deactivateUserGroupMemberships, ensureGroupMembership, getGroup, getUserGroups, getUserWithGroups, groupEvents, publishDeactivatedGroupMemberships } from './service.ts'
 
 type GroupContext = Pick<ApiContext, 'db'>
-type AuthenticatedGroupContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'pubsub' | 'userId'>
+type AuthenticatedGroupContext = Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'pubsub' | 'userId'>
 
 export const groupResolvers = {
 	Group: {
@@ -25,8 +25,8 @@ export const groupResolvers = {
 	},
 
 	Query: {
-		myGroups: async (_source: unknown, _args: unknown, { db, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
-			ensureLoggedIn()
+		myGroups: async (_source: unknown, _args: unknown, { db, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
+			ensureSignedIn()
 			return getUserGroups(db, userId)
 		},
 
@@ -40,13 +40,13 @@ export const groupResolvers = {
 			}
 		},
 
-		myActiveGroup: async (_source: unknown, _args: unknown, { db, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
-			ensureLoggedIn()
+		myActiveGroup: async (_source: unknown, _args: unknown, { db, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
+			ensureSignedIn()
 			return (await getUserGroups(db, userId, { onlyActive: true }))[0]
 		},
 
-		group: async (_source: unknown, { code }: { code: string }, { db, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
-			ensureLoggedIn()
+		group: async (_source: unknown, { code }: { code: string }, { db, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
+			ensureSignedIn()
 			const group = await getGroup(db, code, { includeMembers: true })
 			const member = group.members.find(member => member.id === userId)
 			if (!member) throw new ForbiddenError('Failed to load group data: only members have access.')
@@ -55,8 +55,8 @@ export const groupResolvers = {
 	},
 
 	Mutation: {
-		createGroup: async (_source: unknown, _args: unknown, { db, pubsub, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
-			ensureLoggedIn()
+		createGroup: async (_source: unknown, _args: unknown, { db, pubsub, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
+			ensureSignedIn()
 
 			// Create and join a new group atomically. The code may already exist, so retry the entire transaction on a collision.
 			const result = await (async () => {
@@ -83,8 +83,8 @@ export const groupResolvers = {
 			return result.group
 		},
 
-		joinGroup: async (_source: unknown, { code }: { code: string }, { db, pubsub, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
-			ensureLoggedIn()
+		joinGroup: async (_source: unknown, { code }: { code: string }, { db, pubsub, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
+			ensureSignedIn()
 			const result = await db.transaction(async transaction => {
 				// Validate the target before changing any existing memberships.
 				const group = await getGroup(db, code, { transaction })
@@ -115,8 +115,8 @@ export const groupResolvers = {
 			return result.group
 		},
 
-		activateGroup: async (_source: unknown, { code }: { code: string }, { db, pubsub, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
-			ensureLoggedIn()
+		activateGroup: async (_source: unknown, { code }: { code: string }, { db, pubsub, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
+			ensureSignedIn()
 			const result = await db.transaction(async transaction => {
 				const user = await getUserWithGroups(db, userId, { transaction })
 				const normalizedCode = code.toUpperCase()
@@ -138,9 +138,9 @@ export const groupResolvers = {
 			return result.group
 		},
 
-		deactivateGroup: async (_source: unknown, _args: unknown, { db, pubsub, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
+		deactivateGroup: async (_source: unknown, _args: unknown, { db, pubsub, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
 			// Load all groups, find one where the user is active (so it may be returned as the deactivated group) and then deactivate all groups.
-			ensureLoggedIn()
+			ensureSignedIn()
 			const result = await db.transaction(async transaction => {
 				const user = await getUserWithGroups(db, userId, { transaction })
 				const activeGroup = user.groups.find(group => group.members.some(member => member.id === userId && member.groupMembership.active))
@@ -156,8 +156,8 @@ export const groupResolvers = {
 		...createSubscriptionResolver('groupUpdated', [groupEvents.groupUpdated], ({ updatedGroup }: GroupUpdatedPayload, { code }: { code: string }) => {
 			// Only pass on when the code matches.
 			if (updatedGroup.code === code.toUpperCase()) return updatedGroup
-		}, async ({ code }: { code: string }, { db, ensureLoggedIn, userId }: AuthenticatedGroupContext) => {
-			ensureLoggedIn()
+		}, async ({ code }: { code: string }, { db, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
+			ensureSignedIn()
 			ensureGroupMembership(await getGroup(db, code, { includeMembers: true }), userId)
 		}),
 

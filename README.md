@@ -38,7 +38,7 @@ To work on the repository, install:
 - [Node.js](https://nodejs.org/en/download) 24.15 or newer, including npm;
 - [PostgreSQL](https://www.postgresql.org/download/) when running the API or its integration tests.
 
-PostgreSQL is not required when you only want to run the frontend without login and server-backed features.
+PostgreSQL is not required when you only want to run the frontend without sign-in and server-backed features.
 
 
 ## Install the repository
@@ -82,7 +82,7 @@ The frontend can run without the API. This is useful for browsing educational co
    npm run dev:frontend
    ```
 
-Vite opens the application at <http://localhost:3000>. Without the API, login, courses, and persisted student progress are unavailable.
+Vite opens the application at <http://localhost:3000>. Without the API, sign-in, courses, and persisted student progress are unavailable.
 
 
 ## Run the complete application
@@ -149,7 +149,7 @@ npm run dev
 
 This rebuilds the workspace packages and starts both development servers. The frontend opens at <http://localhost:3000>, while the GraphQL API and Apollo Sandbox are available at <http://localhost:4000/graphql>.
 
-Development uses mock authentication, so you can choose a local test identity and log in without production SURFconext credentials.
+Development uses mock authentication, so you can choose a local test identity and sign in without production SURFconext credentials.
 
 After the initial package build, `npm run dev:fast` starts both servers without rebuilding every package first. You can also run them separately with `npm run dev:api` and `npm run dev:frontend`.
 

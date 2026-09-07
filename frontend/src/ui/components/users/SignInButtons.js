@@ -8,8 +8,8 @@ import { useIsUserLoading } from 'api'
 import { Translation, useLanguage } from 'i18n'
 import HUlogo from 'ui/images/HU.png'
 
-export function LogInButtons({ redirect = window.location.pathname + window.location.search, centered = true }) {
-	// When it's unknown yet whether the user is logged in, don't show buttons.
+export function SignInButtons({ redirect = window.location.pathname + window.location.search, centered = true }) {
+	// When it's unknown yet whether the user is signed in, don't show buttons.
 	const isUserLoading = useIsUserLoading()
 	if (isUserLoading)
 		return null
@@ -26,13 +26,13 @@ export function LogInButtons({ redirect = window.location.pathname + window.loca
 			margin: `1rem 0 1rem 0`,
 		},
 	})}>
-		<LogInError />
-		<GoogleLogInButton redirect={redirect} />
-		<HULogInButton redirect={redirect} />
+		<SignInError />
+		<GoogleSignInButton redirect={redirect} />
+		<HUSignInButton redirect={redirect} />
 	</Box>
 }
 
-function GoogleLogInButton({ redirect }) {
+function GoogleSignInButton({ redirect }) {
 	const language = useLanguage()
 
 	// Store the redirect address in the server before loading the widget. (Google doesn't allow this on-click due to a strict user flow.)
@@ -71,11 +71,11 @@ function GoogleLogInButton({ redirect }) {
 }
 
 const errorCode2Message = {
-	INVALID_AUTHENTICATION: <Translation entry="logInError.invalidAuthentication">We could not determine your identity. If possible try another account.</Translation>,
-	INTERNAL_ERROR: <Translation entry="logInError.internalError">A server error occurred while signing in. Please try again later.</Translation>,
+	INVALID_AUTHENTICATION: <Translation entry="signInError.invalidAuthentication">We could not determine your identity. If possible try another account.</Translation>,
+	INTERNAL_ERROR: <Translation entry="signInError.internalError">A server error occurred while signing in. Please try again later.</Translation>,
 }
 
-function LogInError() {
+function SignInError() {
 	const [errorMessage, setErrorMessage] = useState('')
 	const location = useLocation()
 	const navigate = useNavigate()
@@ -84,7 +84,7 @@ function LogInError() {
 		const queryParams = new URLSearchParams(location.search)
 		if (queryParams.has('error')) {
 			const code = queryParams.get('error')
-			setErrorMessage(errorCode2Message[code] || <Translation entry="logInError.unspecifiedError">Something went wrong while signing in. Please try again later.</Translation>)
+			setErrorMessage(errorCode2Message[code] || <Translation entry="signInError.unspecifiedError">Something went wrong while signing in. Please try again later.</Translation>)
 			queryParams.delete('error')
 			navigate({ search: queryParams.toString() }, { replace: true })
 		}
@@ -93,12 +93,12 @@ function LogInError() {
 	if (!errorMessage)
 		return null
 	return <Alert severity="error">
-		<AlertTitle><Translation entry="logInError.title">Sign-in unsuccessful</Translation></AlertTitle>
+		<AlertTitle><Translation entry="signInError.title">Sign-in unsuccessful</Translation></AlertTitle>
 		{errorMessage}
 	</Alert>
 }
 
-function HULogInButton({ redirect }) {
+function HUSignInButton({ redirect }) {
 	// How do we send the user to SURFConext?
 	const goToSurfConext = () => {
 		window.location.href = `${apiAddress}/auth/surfconext/initiate/hu?redirect=${encodeURIComponent(redirect)}`
@@ -149,7 +149,7 @@ function HULogInButton({ redirect }) {
 				flexGrow: '1',
 				fontWeight: '500',
 			}}>
-				<Translation path="pages/home" entry="getStarted.logInHU">Sign in through Hogeschool Utrecht</Translation>
+				<Translation path="pages/home" entry="getStarted.signInHU">Sign in through Hogeschool Utrecht</Translation>
 			</Box>
 		</Box>
 	</Box>

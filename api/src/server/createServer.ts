@@ -67,7 +67,7 @@ export async function createServer({ config, db, sessionStore, surfConextClient,
 		async onConnect(context) {
 			// Attach session object to upgrade request.
 			const request = await attachSession(context.extra.request, processSession)
-			// Ensure that only logged-in users can connect to the socket.
+			// Ensure that only signed-in users can connect to the socket.
 			if (!getSessionUserId(request)) return false
 		},
 		context: context => {

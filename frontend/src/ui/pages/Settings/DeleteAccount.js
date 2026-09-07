@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, TextField } from '@mui/material'
 
-import { logOutAddress } from 'settings'
+import { signOutAddress } from 'settings'
 import { useDeleteAccount } from 'api'
 import { TranslationSection, Translation } from 'i18n'
 import { Par, Head } from 'ui/components'
@@ -18,7 +18,7 @@ export function DeleteAccount() {
 		deleteAccount(confirmEmail)
 			.then(() => {
 				setTimeout(() => {
-					window.location.href = logOutAddress
+					window.location.href = signOutAddress
 				}, 3000)
 			})
 			.catch(() => { }) // Do nothing here upon an error.

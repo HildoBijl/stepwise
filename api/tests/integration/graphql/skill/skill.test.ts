@@ -26,7 +26,7 @@ async function seed(db) {
 }
 
 describe('skill', () => {
-	it('gives an error when no user is logged in', async () => {
+	it('gives an error when no user is signed in', async () => {
 		const client = await createClient(seed)
 
 		const { data, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId}}` })
@@ -36,7 +36,7 @@ describe('skill', () => {
 
 	it('throws an error when no skill is given (bad request)', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		const { errors } = await client.graphql({ query: `{skill {id skillId}}` }, 400)
 		expect(errors).not.toBeUndefined()
@@ -44,7 +44,7 @@ describe('skill', () => {
 
 	it('gives an error when a non-existing skill is given (bad request)', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `{skill(skillId: "${NONEXISTING_SKILL}") {id skillId}}` })
 		expect(data).toStrictEqual({ skill: null })
@@ -53,7 +53,7 @@ describe('skill', () => {
 
 	it('gives skill data when an appropriate query is given', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId levelData {numPracticed coefficients coefficientsOn highest highestOn createdAt updatedAt} exerciseData {exercises {id}}}}` })
 		expect(errors).toBeUndefined()
@@ -64,7 +64,7 @@ describe('skill', () => {
 
 	it('gives an error when a student accesses other people\'s skills', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}", userId: "${ALEX_ID}") {id skillId}}` })
 		expect(data).toStrictEqual({ skill: null })
@@ -73,7 +73,7 @@ describe('skill', () => {
 
 	it('gives an error when an admin uses a non-existing userId', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}", userId: "${NONEXISTING_ID}") {id skillId}}` })
 		expect(data).toStrictEqual({ skill: null })
@@ -82,7 +82,7 @@ describe('skill', () => {
 
 	it('gives admins access to skill data of other users', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}", userId: "${BOB_ID}") {id skillId exerciseData {exercises {id}}}}` })
 		expect(errors).toBeUndefined()

@@ -1,3 +1,3 @@
 export { default as NotificationBar } from './NotificationBar'
 export { default as OfflineNotification } from './OfflineNotification'
-export { default as RecommendLogIn } from './RecommendLogIn'
+export { default as RecommendSignIn } from './RecommendSignIn'

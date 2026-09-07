@@ -43,7 +43,7 @@ function UserOverviewWithData({ allUsers }) {
 	}, [allUsers])
 
 	return <>
-		<Par>Below you find all users that have ever logged in to Step-Wise, sorted by the date of their last activity.</Par>
+		<Par>Below you find all users that have ever signed in to Step-Wise, sorted by the date of their last activity.</Par>
 		<HorizontalSlider>
 			<Box sx={{
 				display: 'grid',

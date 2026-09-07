@@ -27,17 +27,17 @@ function flattenUserData(user: { sharedData?: Record<string, unknown>; accountDa
 }
 
 describe('Authentication: Session Handling', () => {
-	it('there is no active session without logging in', async () => {
+	it('there is no active session without signing in', async () => {
 		const client = await createClient(seed)
 
 		await expect(client.graphql({ query: `{me {sharedData {email}}}` }).then(({ data }) => flattenUserData(data.me))).resolves.toEqual(null)
 	})
 
-	it('establishes session after login and destroys it after logout', async () => {
+	it('establishes session after sign-in and destroys it after sign-out', async () => {
 		const client = await createClient(seed)
 
 		await expect(
-			client.loginSurfConext(SPECIAL_USER_SURFSUB)
+			client.signInWithSurfConext(SPECIAL_USER_SURFSUB)
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -49,7 +49,7 @@ describe('Authentication: Session Handling', () => {
 		})
 
 		await expect(
-			client.logout()
+			client.signOut()
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -59,7 +59,7 @@ describe('Authentication: Session Handling', () => {
 })
 
 describe('Authentication: SurfConext', () => {
-	it('Updates all user information on every login', async () => {
+	it('Updates all user information on every sign-in', async () => {
 		const client = await createClient(async db => {
 			const user = await db.User.create({
 				id: SPECIAL_USER_ID,
@@ -76,7 +76,7 @@ describe('Authentication: SurfConext', () => {
 		})
 
 		await expect(
-			client.loginSurfConext(SPECIAL_USER_SURFSUB)
+			client.signInWithSurfConext(SPECIAL_USER_SURFSUB)
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -99,7 +99,7 @@ describe('Authentication: SurfConext', () => {
 			await db.SurfConextProfile.create({ id: SPECIAL_USER_SURFSUB, userId: user.id })
 		})
 
-		await client.loginSurfConext(SPECIAL_USER_SURFSUB)
+		await client.signInWithSurfConext(SPECIAL_USER_SURFSUB)
 
 		await expect(
 			client.graphql({ query: '{me {accountData {role}}}' }).then(({ data }) => flattenUserData(data.me))
@@ -110,7 +110,7 @@ describe('Authentication: SurfConext', () => {
 		const client = await createClient()
 
 		await expect(
-			client.loginSurfConext('2222222222222222222222222222222222222222')
+			client.signInWithSurfConext('2222222222222222222222222222222222222222')
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -130,7 +130,7 @@ describe('Authentication: SurfConext', () => {
 		const client = await createClient()
 
 		await expect(
-			client.loginSurfConext('1111111111111111111111111111111111111111')
+			client.signInWithSurfConext('1111111111111111111111111111111111111111')
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -146,14 +146,14 @@ describe('Authentication: SurfConext', () => {
 		})
 	})
 
-	it('doesn’t login users with invalid credentials', async () => {
+	it('does not sign users in with invalid credentials', async () => {
 		const client = await createClient(seed)
 
 		// This id is not whitelisted in the SurfConext mock data, therefore the authentication will fail.
-		const INVALID_DEV_LOGIN_ID = 'ffffffff-ffff-ffff-ffff-123456789012'
+		const INVALID_DEV_SIGN_IN_ID = 'ffffffff-ffff-ffff-ffff-123456789012'
 
 		await expect(
-			client.loginSurfConext(INVALID_DEV_LOGIN_ID)
+			client.signInWithSurfConext(INVALID_DEV_SIGN_IN_ID)
 		).resolves.toEqual(
 			expect.stringContaining('error=INVALID_AUTHENTICATION')
 		)
@@ -176,7 +176,7 @@ describe('Authentication: SurfConext', () => {
 		})
 
 		await expect(
-			client.loginSurfConext(SPECIAL_USER_SURFSUB)
+			client.signInWithSurfConext(SPECIAL_USER_SURFSUB)
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -198,7 +198,7 @@ describe('Authentication: Google', () => {
 		const client = await createClient(seed)
 
 		await expect(
-			client.loginGoogle('00112233445566778899')
+			client.signInWithGoogle('00112233445566778899')
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -214,11 +214,11 @@ describe('Authentication: Google', () => {
 		})
 	})
 
-	it('does not overwrite SurfConext data when logging in via Google', async () => {
+	it('does not overwrite SurfConext data when signing in via Google', async () => {
 		const client = await createClient(seed)
 
 		await expect(
-			client.loginGoogle('99990000555500001111')
+			client.signInWithGoogle('99990000555500001111')
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -234,11 +234,11 @@ describe('Authentication: Google', () => {
 		})
 	})
 
-	it('updates data when logging in via SurfConext after having logged in via Google', async () => {
+	it('updates data when signing in via SurfConext after having signed in via Google', async () => {
 		const client = await createClient()
 
 		await expect(
-			client.loginGoogle('99990000555500001111')
+			client.signInWithGoogle('99990000555500001111')
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -249,10 +249,10 @@ describe('Authentication: Google', () => {
 			email: 'step@wise.com',
 		})
 
-		await client.logout()
+		await client.signOut()
 
 		await expect(
-			client.loginSurfConext(SPECIAL_USER_SURFSUB)
+			client.signInWithSurfConext(SPECIAL_USER_SURFSUB)
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -268,14 +268,14 @@ describe('Authentication: Google', () => {
 		})
 	})
 
-	it('doesn’t login users with invalid credentials', async () => {
+	it('does not sign users in with invalid credentials', async () => {
 		const client = await createClient(seed)
 
 		// This id is not whitelisted in the Google mock data, therefore the authentication will fail.
-		const INVALID_DEV_LOGIN_ID = 'foobar123'
+		const INVALID_DEV_SIGN_IN_ID = 'foobar123'
 
 		await expect(
-			client.loginGoogle(INVALID_DEV_LOGIN_ID)
+			client.signInWithGoogle(INVALID_DEV_SIGN_IN_ID)
 		).resolves.toEqual(
 			expect.stringContaining('error=INVALID_AUTHENTICATION')
 		)
@@ -293,7 +293,7 @@ describe('Authentication: Redirects', () => {
 		await expect(client.initiate(undefined, identityProvider)).resolves.toEqual(SurfConext.directoryPath)
 	})
 
-	it('redirects users after successful login', async () => {
+	it('redirects users after successful sign-in', async () => {
 		const client = await createClient()
 		const customRedirectPath = '/my/custom/redirect/route'
 
@@ -302,7 +302,7 @@ describe('Authentication: Redirects', () => {
 		).resolves.toEqual(SurfConext.directoryPath)
 
 		await expect(
-			client.loginSurfConext('1111111111111111111111111111111111111111')
+			client.signInWithSurfConext('1111111111111111111111111111111111111111')
 		).resolves.toEqual(defaultConfig.homepageUrl + customRedirectPath)
 	})
 
@@ -315,7 +315,7 @@ describe('Authentication: Redirects', () => {
 		).resolves.toEqual(SurfConext.directoryPath)
 
 		await expect(
-			client.loginSurfConext('1111111111111111111111111111111111111111')
+			client.signInWithSurfConext('1111111111111111111111111111111111111111')
 		).resolves.toEqual(defaultConfig.homepageUrl)
 	})
 })

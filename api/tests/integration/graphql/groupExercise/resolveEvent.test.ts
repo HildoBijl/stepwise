@@ -45,7 +45,7 @@ function inputAction(ans) {
 describe('resolve group exercise:', () => {
 	it('throws an error when not everyone submitted', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Activate the group, start an exercise and submit an action.
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
@@ -62,17 +62,17 @@ describe('resolve group exercise:', () => {
 	it('works when everyone submitted', async () => {
 		const client = await createClient(seed)
 
-		// Sign in as Alex, activate the group, start an exercise, make a wrong action and log out.
-		await client.loginSurfConext(ALEX_SURFSUB)
+		// Sign in as Alex, activate the group, start an exercise, make a wrong action and sign out.
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		const { data: { startGroupExercise: exercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {parameters}}` })
 		const parameters = deserializeData(exercise.parameters) as any
 		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(parameters.x + 1))}){skillId}}` })
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(2)
-		await client.logout()
+		await client.signOut()
 
 		// Sign in as Bob, activate the group and make a wrong action.
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(parameters.x - 1))}){skillId}}` })
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(3)
@@ -85,13 +85,13 @@ describe('resolve group exercise:', () => {
 		expect(resolvedExercise1.history.map(event => event.state === null)).toStrictEqual([false, true])
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(4)
 
-		// Make another wrong action and log out.
+		// Make another wrong action and sign out.
 		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(parameters.x + 1))}){skillId}}` })
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(5)
-		await client.logout()
+		await client.signOut()
 
 		// Sign in as Alex and make a correct action.
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(parameters.x))}){skillId}}` })
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(6)
 
@@ -106,13 +106,13 @@ describe('resolve group exercise:', () => {
 		const client = await createClient(seed)
 
 		// Prepare a pending event with an action from both active members.
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		const { data: { startGroupExercise: exercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {parameters}}` })
 		const parameters = deserializeData(exercise.parameters) as any
 		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(parameters.x + 1))}){skillId}}` })
-		await client.logout()
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signOut()
+		await client.signInWithSurfConext(BOB_SURFSUB)
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(parameters.x - 1))}){skillId}}` })
 
@@ -127,13 +127,13 @@ describe('resolve group exercise:', () => {
 	it('serializes action cancellation against event resolution', async () => {
 		const client = await createClient(seed)
 
-		await client.loginSurfConext(ALEX_SURFSUB)
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		const { data: { startGroupExercise: exercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {parameters}}` })
 		const parameters = deserializeData(exercise.parameters) as any
 		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(parameters.x + 1))}){skillId}}` })
-		await client.logout()
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signOut()
+		await client.signInWithSurfConext(BOB_SURFSUB)
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(parameters.x - 1))}){skillId}}` })
 

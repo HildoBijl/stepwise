@@ -11,7 +11,7 @@ export class Client implements GoogleClient {
 		this.client = new OAuth2Client({ clientId })
 	}
 
-	// Verifies the callback request from Google after the user has logged in. Returns Google's identity payload when verification succeeds, or null when authentication fails.
+	// Verifies the callback request from Google after the user has signed in. Returns Google's identity payload when verification succeeds, or null when authentication fails.
 	async getIdentity(credentials: GoogleCredentialPayload, csrfToken?: string): Promise<GoogleIdentity | null> {
 		// Google puts the same CSRF token in a cookie and callback form field. Check if it matches.
 		if (credentials.g_csrf_token !== csrfToken) return null

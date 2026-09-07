@@ -4,7 +4,7 @@ import { Box, Container, Grid, Button, useTheme } from '@mui/material'
 import { Info as InfoIcon } from '@mui/icons-material'
 
 import { TranslationSection, Translation } from 'i18n'
-import { Student, Teacher, M, LogInButtons } from 'ui/components'
+import { Student, Teacher, M, SignInButtons } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 import { Drawing, useIdentityTransformationSettings, SvgPortal, Element } from 'ui/figures'
 
@@ -38,7 +38,7 @@ export function Blocks() {
 				<TranslationSection entry="getStarted">
 					<Box className="title"><Translation entry="title">Get started</Translation></Box>
 					<Box className="description"><Translation entry="description">Sign in to directly start practicing.</Translation></Box>
-					<LogInButtons />
+					<SignInButtons />
 				</TranslationSection>
 			</Grid>
 			<Grid size={{ xs: 12, md: 6, lg: 4 }} className="block">

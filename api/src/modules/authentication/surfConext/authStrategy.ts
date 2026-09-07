@@ -25,7 +25,7 @@ export class AuthStrategy {
 		const userId = existingUser?.id
 
 		return this._db.transaction(async transaction => {
-			// SurfConext determines student/teacher access on every login. Administrators are assigned locally and retain that role.
+			// SurfConext determines student/teacher access on every sign-in. Administrators are assigned locally and retain that role.
 			const role = existingUser?.role === 'admin' ? 'admin' : getRole(surfRawData)
 			const [user] = await this._db.User.upsert({
 				...(userId || surfRawData.databaseId ? { id: userId || surfRawData.databaseId! } : {}),

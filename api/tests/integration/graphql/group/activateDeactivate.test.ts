@@ -27,7 +27,7 @@ async function seed(db) {
 describe('(de)activating groups:', () => {
 	it('by default has no group active', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		// Query the given group.
 		const { data: { myActiveGroup }, errors: activeGroupErrors } = await client.graphql({ query: `{myActiveGroup{code members{name active}}}` })
@@ -37,7 +37,7 @@ describe('(de)activating groups:', () => {
 
 	it('can activate and deactivate an existing group', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(BOB_SURFSUB)
+		await client.signInWithSurfConext(BOB_SURFSUB)
 
 		// Activate the group.
 		const { data: { activateGroup }, errors: activateErrors } = await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code members{name active}}}` })

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useRoute } from 'ui/routingTools'
-import { ModalManager, OfflineNotification, RecommendLogIn } from 'ui/components'
+import { ModalManager, OfflineNotification, RecommendSignIn } from 'ui/components'
 import { TabProvider } from 'ui/routingTools'
 import { FieldController } from 'ui/form'
 
@@ -35,7 +35,7 @@ function Contents() {
 		<PageWrapper>
 			<Header Indicator={route.Indicator} />
 			<OfflineNotification />
-			<RecommendLogIn recommend={route.recommendLogIn} />
+			<RecommendSignIn recommend={route.recommendSignIn} />
 			{route.Notification ? <route.Notification /> : null}
 			{route.preventPageContainer ? <route.page /> : <PageContainer><route.page /></PageContainer>}
 		</PageWrapper>

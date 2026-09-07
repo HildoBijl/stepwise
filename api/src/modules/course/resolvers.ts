@@ -29,8 +29,8 @@ interface CreateCourseInput {
 }
 
 type UpdateCourseInput = Partial<CreateCourseInput>
-type CourseContext = Pick<ApiContext, 'db' | 'isLoggedIn' | 'loaders' | 'user' | 'userId'>
-type AuthenticatedCourseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'isAdmin' | 'isLoggedIn' | 'loaders' | 'user' | 'userId'>
+type CourseContext = Pick<ApiContext, 'db' | 'isSignedIn' | 'loaders' | 'user' | 'userId'>
+type AuthenticatedCourseContext = Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'isAdmin' | 'isSignedIn' | 'loaders' | 'user' | 'userId'>
 
 interface CourseResolverSource {
 	record: CourseRecord
@@ -39,12 +39,12 @@ interface CourseResolverSource {
 	mayViewStudents: boolean
 }
 
-function createCourseResolverSource(record: CourseRecord, { isLoggedIn, user }: Pick<CourseContext, 'isLoggedIn' | 'user'>): CourseResolverSource {
+function createCourseResolverSource(record: CourseRecord, { isSignedIn, user }: Pick<CourseContext, 'isSignedIn' | 'user'>): CourseResolverSource {
 	return {
 		record,
-		mayViewSubscription: isLoggedIn,
-		mayViewTeachers: isLoggedIn,
-		mayViewStudents: isLoggedIn && (record.courseSubscription?.role === 'teacher' || user?.role === 'admin'),
+		mayViewSubscription: isSignedIn,
+		mayViewTeachers: isSignedIn,
+		mayViewStudents: isSignedIn && (record.courseSubscription?.role === 'teacher' || user?.role === 'admin'),
 	}
 }
 
@@ -97,8 +97,8 @@ export const courseResolvers = {
 	Query: {
 		allCourses: async (_source: unknown, _args: unknown, context: CourseContext) => (await getCourses(context.db, { ...(context.userId ? { userId: context.userId } : {}) })).map(course => createCourseResolverSource(course, context)),
 		myCourses: async (_source: unknown, _args: unknown, context: AuthenticatedCourseContext) => {
-			const { db, ensureLoggedIn, userId } = context
-			ensureLoggedIn()
+			const { db, ensureSignedIn, userId } = context
+			ensureSignedIn()
 			return (await getCourses(db, { userId, onlyOwnCourses: true })).map(course => createCourseResolverSource(course, context))
 		},
 		course: async (_source: unknown, { code }: { code: string }, context: CourseContext) => createCourseResolverSource(await getCourseByCode(context.db, code, { ...(context.userId ? { userId: context.userId } : {}) }), context),
@@ -106,8 +106,8 @@ export const courseResolvers = {
 
 	Mutation: {
 		createCourse: async (_source: unknown, { input }: { input: CreateCourseInput }, context: AuthenticatedCourseContext) => {
-			const { db, ensureLoggedIn, user } = context
-			ensureLoggedIn()
+			const { db, ensureSignedIn, user } = context
+			ensureSignedIn()
 			if (user.role !== 'teacher' && user.role !== 'admin') throw new ForbiddenError('Invalid createCourse call: user does not have the rights to create a new course.')
 			validateCourse(input)
 			const course = await db.transaction(async transaction => {
@@ -121,8 +121,8 @@ export const courseResolvers = {
 		},
 
 		updateCourse: async (_source: unknown, { courseId, input }: { courseId: string; input: UpdateCourseInput }, context: AuthenticatedCourseContext) => {
-			const { db, ensureLoggedIn, user, isAdmin } = context
-			ensureLoggedIn()
+			const { db, ensureSignedIn, user, isAdmin } = context
+			ensureSignedIn()
 			const course = await getCourseById(db, courseId, { userId: user.id })
 			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new ForbiddenError(`Invalid updateCourse call: user does not have the rights to edit the course with courseId "${courseId}".`)
 			validateCourse(input, course)
@@ -138,8 +138,8 @@ export const courseResolvers = {
 			return createCourseResolverSource(updatedCourse, context)
 		},
 
-		deleteCourse: async (_source: unknown, { courseId }: { courseId: string }, { db, ensureLoggedIn, user, isAdmin }: AuthenticatedCourseContext) => {
-			ensureLoggedIn()
+		deleteCourse: async (_source: unknown, { courseId }: { courseId: string }, { db, ensureSignedIn, user, isAdmin }: AuthenticatedCourseContext) => {
+			ensureSignedIn()
 			const course = await getCourseById(db, courseId, { userId: user.id })
 			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new ForbiddenError(`Invalid deleteCourse call: user does not have the rights to remove the course with courseId "${courseId}".`)
 			await course.destroy()
@@ -147,16 +147,16 @@ export const courseResolvers = {
 		},
 
 		subscribeToCourse: async (_source: unknown, { courseId }: { courseId: string }, context: AuthenticatedCourseContext) => {
-			const { db, ensureLoggedIn, userId } = context
-			ensureLoggedIn()
+			const { db, ensureSignedIn, userId } = context
+			ensureSignedIn()
 			const course = await getCourseById(db, courseId, { userId })
 			course.courseSubscription = await db.CourseSubscription.create({ courseId, userId })
 			return createCourseResolverSource(course, context)
 		},
 
 		unsubscribeFromCourse: async (_source: unknown, { courseId }: { courseId: string }, context: AuthenticatedCourseContext) => {
-			const { db, ensureLoggedIn, userId } = context
-			ensureLoggedIn()
+			const { db, ensureSignedIn, userId } = context
+			ensureSignedIn()
 			const course = await getCourseById(db, courseId, { userId })
 			await db.CourseSubscription.destroy({ where: { courseId, userId } })
 			delete course.courseSubscription
@@ -164,8 +164,8 @@ export const courseResolvers = {
 		},
 
 		promoteToTeacher: async (_source: unknown, { courseId, userId }: { courseId: string; userId: string }, context: AuthenticatedCourseContext) => {
-			const { db, ensureLoggedIn, userId: currentUserId, isAdmin } = context
-			ensureLoggedIn()
+			const { db, ensureSignedIn, userId: currentUserId, isAdmin } = context
+			ensureSignedIn()
 			const course = await getCourseById(db, courseId, { userId: currentUserId })
 			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new ForbiddenError(`Promotion to teacher failed: the user with ID "${currentUserId}" does not have the rights to assign teachers for the course with ID "${courseId}".`)
 			const [updatedCount] = await db.CourseSubscription.update({ role: 'teacher' }, { where: { courseId, userId } })
