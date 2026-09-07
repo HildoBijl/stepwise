@@ -4,11 +4,11 @@ import { useStableCallback, useEventListener } from '@step-wise/react-utils'
 // The event handlers will deal with events like key presses, mouse presses and such.
 export function useEventHandlers(fieldTrackerRef, keyboardRef, tabbingOnRef, { activate, blur, incrementTabIndex, decrementTabIndex, getActiveFieldId }) {
 	// Set up listeners for keyboard events.
-	const keyDownHandler = useStableCallback((evt) => handleKeyPress(evt, tabbingOnRef.current, incrementTabIndex, decrementTabIndex), [tabbingOnRef, incrementTabIndex, decrementTabIndex])
+	const keyDownHandler = useStableCallback((evt) => handleKeyPress(evt, tabbingOnRef.current, incrementTabIndex, decrementTabIndex))
 	useEventListener('keydown', keyDownHandler, window)
 
 	// Set up listeners for mouse events.
-	const mouseDownHandler = useStableCallback((evt) => handleMouseDown(evt, fieldTrackerRef, keyboardRef, getActiveFieldId, activate, blur), [fieldTrackerRef, keyboardRef, getActiveFieldId, activate, blur])
+	const mouseDownHandler = useStableCallback((evt) => handleMouseDown(evt, fieldTrackerRef, keyboardRef, getActiveFieldId, activate, blur))
 	useEventListener('mousedown', mouseDownHandler, window)
 }
 

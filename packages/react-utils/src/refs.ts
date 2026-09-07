@@ -1,6 +1,8 @@
-import { type Ref, type RefObject, useEffect, useImperativeHandle, useRef } from 'react'
+import { type Ref, type RefObject, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
 
 import { preserveRefs } from '@step-wise/js-utils'
+
+type AnyFunction = (...args: any[]) => any
 
 export function usePrevious<T>(value: T, initialValue: T): T
 export function usePrevious<T>(value: T): T | undefined
@@ -22,6 +24,11 @@ export function useLatestRef<T>(value: T): RefObject<T> {
 	const ref = useRef(value)
 	ref.current = value
 	return ref
+}
+
+export function useStableCallback<FunctionType extends AnyFunction>(callback: FunctionType): FunctionType {
+	const callbackRef = useLatestRef(callback)
+	return useCallback(((...args: Parameters<FunctionType>) => callbackRef.current(...args)) as FunctionType, [callbackRef])
 }
 
 export function useLastDefinedValue<T>(value: T | null | undefined): T | undefined {

@@ -1,7 +1,7 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react'
+import React, { useEffect, useEffectEvent, useLayoutEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { useReferencePreservingValue, useUpdater } from '@step-wise/react-utils'
+import { useReferencePreservingValue } from '@step-wise/react-utils'
 
 import { TranslationSection } from 'i18n'
 import { VisibleProvider } from 'ui/components'
@@ -42,22 +42,24 @@ export function TabPages({ pages, initialPage, updateUrl = true }) {
 	useTabScrollPositions(contextTab)
 
 	// When the tab mentioned in the URL changes, and when it's something unequal to the context tab, adjust the context tab. (But only when it exists.)
-	useUpdater(() => {
+	const applyUrlTab = useEffectEvent(() => {
 		if (urlTab !== contextTab && tabs.includes(urlTab))
 			setTab(urlTab)
-	}, [urlTab])
+	})
+	useEffect(() => applyUrlTab(), [urlTab])
 
 	// When the tab from the context changes, and when it's different from the tab in the URL, and when we want to update the URL, actually update the URL.
 	const navigate = useNavigate()
 	const params = useParams()
 	const route = useRoute()
-	useUpdater(() => {
+	const updateUrlTab = useEffectEvent(() => {
 		if (contextTab && contextTab !== urlTab && updateUrl) {
 			const path = route.path.includes(':tab') ? route.path : `${route.path}/:tab` // Make sure the route has a "tab" parameter. If it does not exist, add it to the end.
 			const pathWithParams = insertParametersIntoPath({ ...params, tab: contextTab }, path)
 			navigate(pathWithParams, { replace: true })
 		}
-	}, [contextTab])
+	})
+	useEffect(() => updateUrlTab(), [contextTab])
 
 	// If the tab context is not ready, do not display the pages yet. This prevents the wrong page from briefly appearing on start-up.
 	if (tabIndex === undefined)

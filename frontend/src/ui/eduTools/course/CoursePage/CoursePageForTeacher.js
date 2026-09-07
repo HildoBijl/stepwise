@@ -40,7 +40,7 @@ export function CoursePageForTeacher() {
 
 function StudentOverview({ course, overview, students }) {
 	const translate = useTranslator()
-	const [filterInactive, setFilterInactive] = useLocalStorageState(false)
+	const [filterInactive, setFilterInactive] = useLocalStorageState(`hide-inactive-students-${course.code}`, false)
 	const navigate = useNavigate()
 	const paths = usePaths()
 

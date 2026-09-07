@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react'
+import React, { useEffect, useEffectEvent, useState, useRef } from 'react'
 
 import { isPlainObject, preserveRefs } from '@step-wise/js-utils'
-import { useUpdater, useLatestRef } from '@step-wise/react-utils'
+import { useLatestRef } from '@step-wise/react-utils'
 
 import { FormContext } from './context'
 import { useSubscriptionHandlers, useReadHandlers, useWriteHandlers, useValidationHandlers } from './handlers'
@@ -41,7 +41,7 @@ export function Form({ children, initialInput, submit, interpretInput }) {
 
 // useInitialInputUpdating is an effect that is triggered on a change in the initialValue parameter. When this parameter changes, we attempt to implement the new value.
 function useInitialInputUpdating(initialInput, setInput, getFieldData) {
-	useUpdater(() => {
+	const applyInitialInput = useEffectEvent(() => {
 		// Check the initial input.
 		if (initialInput === undefined)
 			return
@@ -72,5 +72,6 @@ function useInitialInputUpdating(initialInput, setInput, getFieldData) {
 			})
 			return preserveRefs(newInput, input)
 		})
-	}, [initialInput])
+	})
+	useEffect(() => applyInitialInput(), [initialInput])
 }

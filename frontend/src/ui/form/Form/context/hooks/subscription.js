@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useEffectEvent } from 'react'
 
 import { mergeDefaults, deepEqual, noop } from '@step-wise/js-utils'
 import { deserializeData, serializeData } from '@step-wise/serialization'
-import { useUpdater } from '@step-wise/react-utils'
 
 import { useFormData } from '../provider'
 
@@ -39,10 +38,11 @@ export function useFormParameter(options = {}) {
 
 	// Subscribe upon mounting and unsubscribe upon unmounting.
 	register(options)
-	useUpdater(() => {
+	const updateSubscription = useEffectEvent(() => {
 		subscribe(id)
 		return () => unsubscribe(id)
-	}, [id])
+	})
+	useEffect(() => updateSubscription(), [id])
 
 	// Return the FI including a handler to reset it, just like the React setState.
 	const FI = (id in input) ? input[id] : functionalize(initialSI)
