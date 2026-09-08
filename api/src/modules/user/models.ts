@@ -13,6 +13,7 @@ export class UserRecord extends Model<InferAttributes<UserRecord>, InferCreation
 	declare language: string | null
 	declare privacyPolicyAcceptedVersion: number | null
 	declare privacyPolicyAcceptedAt: Date | null
+	declare lastActiveAt: Date | null
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 }
@@ -32,6 +33,7 @@ export function createUserModel(sequelize: Sequelize): UserModel {
 		language: { type: DataTypes.STRING(5) },
 		privacyPolicyAcceptedVersion: { type: DataTypes.INTEGER, allowNull: true },
 		privacyPolicyAcceptedAt: { type: DataTypes.DATE, allowNull: true },
+		lastActiveAt: { type: DataTypes.DATE, allowNull: true },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
 	}, { sequelize, modelName: 'user' })

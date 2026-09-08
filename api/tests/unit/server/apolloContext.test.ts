@@ -18,20 +18,22 @@ function createRequest(userId?: string): RequestWithSession {
 
 function setup(user: UserRecord | null) {
 	const findByPk = vi.fn().mockResolvedValue(user)
-	const db = { User: { findByPk } } as unknown as Database
+	const update = vi.fn().mockResolvedValue([1])
+	const db = { User: { findByPk, update } } as unknown as Database
 	const pubsub = { publish: vi.fn() } as unknown as PubSubEngine
 	const loaders = { marker: true } as unknown as ApiLoaders
 	vi.mocked(createLoaders).mockReturnValue(loaders)
-	return { db, findByPk, loaders, provider: createApolloContext(db, pubsub), pubsub }
+	return { db, findByPk, loaders, provider: createApolloContext(db, pubsub), pubsub, update }
 }
 
 describe('Apollo context', () => {
 	beforeEach(() => vi.clearAllMocks())
 
 	it('creates an anonymous context without querying the database', async () => {
-		const { db, findByPk, loaders, provider, pubsub } = setup(null)
+		const { db, findByPk, loaders, provider, pubsub, update } = setup(null)
 		const context = await provider({ req: createRequest() })
 		expect(findByPk).not.toHaveBeenCalled()
+		expect(update).not.toHaveBeenCalled()
 		expect(context).toMatchObject({ db, pubsub, loaders, user: null, isSignedIn: false, isAdmin: false })
 		expect(context.userId).toBeUndefined()
 		expect(() => context.ensureSignedIn()).toThrow(UnauthenticatedError)
@@ -41,9 +43,10 @@ describe('Apollo context', () => {
 
 	it.each(['student', 'teacher'] as const)('creates an authenticated non-admin context for a %s', async role => {
 		const user = { id: 'user-id', role } as UserRecord
-		const { findByPk, provider } = setup(user)
+		const { findByPk, provider, update } = setup(user)
 		const context = await provider({ req: createRequest(user.id) })
 		expect(findByPk).toHaveBeenCalledWith(user.id)
+		expect(update).toHaveBeenCalledOnce()
 		expect(context).toMatchObject({ user, userId: user.id, isSignedIn: true, isAdmin: false })
 		expect(() => context.ensureSignedIn()).not.toThrow()
 		expect(() => context.ensureAdmin()).toThrow(ForbiddenError)

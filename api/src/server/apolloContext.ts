@@ -2,7 +2,7 @@ import type { PubSubEngine } from 'graphql-subscriptions'
 
 import { ForbiddenError, UnauthenticatedError } from '../errors.ts'
 import type { ApiContext, ApiLoaders, LoaderContext } from '../modules/index.ts'
-import type { UserRecord } from '../modules/user/index.ts'
+import { type UserRecord, recordUserActivity } from '../modules/user/index.ts'
 import type { Database } from '../database.ts'
 import { createLoaders } from '../graphql/index.ts'
 
@@ -31,6 +31,7 @@ export function createApolloContext(db: Database, pubsub: PubSubEngine): ApolloC
 		// Determine whether there is a user.
 		const userId = getSessionUserId(req)
 		const user = userId ? await db.User.findByPk(userId) : null
+		if (user) await recordUserActivity(db, user)
 
 		// Set up a context object. Loaders receive the same context object that is returned to Apollo.
 		const context: LoaderContext = {
