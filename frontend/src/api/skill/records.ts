@@ -61,14 +61,3 @@ export type UserWithSkillsRecord = UserRecord & {
 	sharedData: (UserSharedDataRecord & { skills: SkillRecord[] }) | null
 	accountData?: UserAccountDataRecord | null
 }
-
-export type UserSkillActivityRecord = {
-	userId: string
-	skillId: SkillId
-	levelData: { coefficientsOn: string }
-}
-
-export type UserWithSkillActivityRecord = UserRecord & {
-	sharedData: UserSharedDataRecord & { skills: UserSkillActivityRecord[] }
-	accountData: UserAccountDataRecord
-}

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { currentUserRecordToUser, privacyPolicyConsentRecordToConsent } from './conversion.ts'
+import { privacyPolicyConsentRecordToConsent, userWithAccountDataRecordToUser } from './conversion.ts'
 
 describe('privacyPolicyConsentRecordToConsent', () => {
 	it('omits nullable values that are missing', () => {
@@ -10,9 +10,9 @@ describe('privacyPolicyConsentRecordToConsent', () => {
 	})
 })
 
-describe('currentUserRecordToUser', () => {
+describe('userWithAccountDataRecordToUser', () => {
 	it('omits nullable values while retaining present values', () => {
-			expect(currentUserRecordToUser({
+		expect(userWithAccountDataRecordToUser({
 			id: 'user-id',
 			name: 'Ada Lovelace',
 			givenName: null,

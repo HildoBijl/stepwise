@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import type { ExerciseRecord, SkillRecord } from './records.ts'
-import { skillRecordToSkill, userWithSkillActivityRecordToUser, userWithSkillsRecordToUser } from './conversion.ts'
+import { skillRecordToSkill, userWithSkillsRecordToUser } from './conversion.ts'
 
 const date = '2026-01-02T03:04:05.000Z'
 
@@ -80,24 +80,4 @@ describe('skill API conversion', () => {
 		expect(user.skillLevelSet.getSkillLevel('enterInteger').coefficientsOn).toStrictEqual(new Date(date))
 	})
 
-	it('converts lightweight skill activity for the user overview', () => {
-		const user = userWithSkillActivityRecordToUser({
-			id: 'user-id',
-			name: 'Alex',
-			givenName: 'Alex',
-			familyName: null,
-			sharedData: { email: 'alex@example.com', skills: [{ userId: 'user-id', skillId: 'enterInteger', levelData: { coefficientsOn: date } }] },
-			accountData: {
-				role: 'admin',
-				language: null,
-				privacyPolicyConsent: { version: null, acceptedAt: null, isLatestVersion: false },
-				createdAt: date,
-				updatedAt: date,
-				lastActiveAt: date,
-			},
-		})
-
-		expect(user).toMatchObject({ email: 'alex@example.com', role: 'admin', createdAt: new Date(date), updatedAt: new Date(date), lastActiveAt: new Date(date) })
-		expect(user.skillActivities).toEqual([{ skillId: 'enterInteger', lastPracticedAt: new Date(date) }])
-	})
 })

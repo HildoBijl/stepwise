@@ -34,16 +34,6 @@ export type UserWithSkills = User & Partial<Omit<UserWithSharedData & UserWithAc
 	skillLevelSet: SkillLevelSet
 }
 
-export type UserSkillActivity = {
-	skillId: SkillId
-	lastPracticedAt: Date
-}
-
-export type UserWithSkillActivity = UserWithAccountData & {
-	skillActivities: UserSkillActivity[]
-}
-
 export type UseUserWithSkillsResult = ApiQueryResult<'user', UserWithSkills>
-export type UseAllUsersWithSkillActivityResult = ApiQueryResult<'users', UserWithSkillActivity[]>
 export type UseStartExerciseResult = ApiMutationResult<() => Promise<void>>
 export type UseSubmitExerciseActionResult = ApiMutationResult<(action: ExerciseAction) => Promise<void>>

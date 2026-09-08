@@ -1,5 +1,5 @@
-import type { CurrentUserRecord, PrivacyPolicyConsentRecord, UserAccountDataRecord, UserRecord, UserSharedDataRecord } from './records.ts'
-import type { CurrentUser, PrivacyPolicyConsent, User, UserWithAccountData, UserWithSharedData } from './types.ts'
+import type { PrivacyPolicyConsentRecord, UserAccountDataRecord, UserRecord, UserSharedDataRecord, UserWithAccountDataRecord } from './records.ts'
+import type { PrivacyPolicyConsent, User, UserWithAccountData, UserWithSharedData } from './types.ts'
 
 type UserSharedData = Omit<UserWithSharedData, keyof User>
 type UserAccountData = Omit<UserWithAccountData, keyof UserWithSharedData>
@@ -36,7 +36,7 @@ export function userAccountDataRecordToData(record: UserAccountDataRecord): User
 	}
 }
 
-export function currentUserRecordToUser(record: CurrentUserRecord): CurrentUser {
+export function userWithAccountDataRecordToUser(record: UserWithAccountDataRecord): UserWithAccountData {
 	const { sharedData, accountData } = record
 	return {
 		...userRecordToUser(record),

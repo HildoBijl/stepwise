@@ -28,7 +28,7 @@ export type UserAccountDataRecord = {
 	lastActiveAt: string
 }
 
-export type CurrentUserRecord = UserRecord & {
+export type UserWithAccountDataRecord = UserRecord & {
 	sharedData: UserSharedDataRecord
 	accountData: UserAccountDataRecord
 }
