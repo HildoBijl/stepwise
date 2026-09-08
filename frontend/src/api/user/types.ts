@@ -25,8 +25,9 @@ export type UserWithAccountData = UserWithSharedData & {
 	role: UserRole
 	language?: Language
 	privacyPolicyConsent: PrivacyPolicyConsent
-	createdAt: string
-	updatedAt: string
+	createdAt: Date
+	updatedAt: Date
+	lastActiveAt: Date
 }
 
 export type CurrentUser = UserWithAccountData

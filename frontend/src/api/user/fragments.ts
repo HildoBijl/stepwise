@@ -32,6 +32,7 @@ export const USER_ACCOUNT_DATA_FRAGMENT = gql`
 		}
 		createdAt
 		updatedAt
+		lastActiveAt
 	}
 
 	${PRIVACY_POLICY_CONSENT_FRAGMENT}

@@ -30,8 +30,9 @@ export function userAccountDataRecordToData(record: UserAccountDataRecord): User
 		role: record.role,
 		...(record.language === null ? {} : { language: record.language }),
 		privacyPolicyConsent: privacyPolicyConsentRecordToConsent(record.privacyPolicyConsent),
-		createdAt: record.createdAt,
-		updatedAt: record.updatedAt,
+		createdAt: new Date(record.createdAt),
+		updatedAt: new Date(record.updatedAt),
+		lastActiveAt: new Date(record.lastActiveAt),
 	}
 }
 

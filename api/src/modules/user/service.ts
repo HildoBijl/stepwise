@@ -12,11 +12,11 @@ interface RecordUserActivityOptions { now?: Date }
 
 export async function recordUserActivity(db: UserDatabase, user: UserRecord, { now = new Date() }: RecordUserActivityOptions = {}): Promise<void> {
 	const updateBefore = new Date(now.getTime() - USER_ACTIVITY_UPDATE_INTERVAL_MILLISECONDS)
-	if (user.lastActiveAt && user.lastActiveAt >= updateBefore) return
+	if (user.lastActiveAt >= updateBefore) return
 	const [updatedRows] = await db.User.update({ lastActiveAt: now }, {
 		where: {
 			id: user.id,
-			[Op.or]: [{ lastActiveAt: null }, { lastActiveAt: { [Op.lt]: updateBefore } }],
+			lastActiveAt: { [Op.lt]: updateBefore },
 		},
 	})
 	if (updatedRows > 0) user.lastActiveAt = now

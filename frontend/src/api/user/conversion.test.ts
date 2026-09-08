@@ -12,7 +12,7 @@ describe('privacyPolicyConsentRecordToConsent', () => {
 
 describe('currentUserRecordToUser', () => {
 	it('omits nullable values while retaining present values', () => {
-		expect(currentUserRecordToUser({
+			expect(currentUserRecordToUser({
 			id: 'user-id',
 			name: 'Ada Lovelace',
 			givenName: null,
@@ -24,6 +24,7 @@ describe('currentUserRecordToUser', () => {
 				privacyPolicyConsent: { version: null, acceptedAt: null, isLatestVersion: false },
 				createdAt: '2026-01-01T00:00:00.000Z',
 				updatedAt: '2026-01-02T00:00:00.000Z',
+				lastActiveAt: '2026-01-03T12:30:00.000Z',
 			},
 		})).toEqual({
 			id: 'user-id',
@@ -31,8 +32,9 @@ describe('currentUserRecordToUser', () => {
 			familyName: 'Lovelace',
 			role: 'student',
 			privacyPolicyConsent: { isLatestVersion: false },
-			createdAt: '2026-01-01T00:00:00.000Z',
-			updatedAt: '2026-01-02T00:00:00.000Z',
+			createdAt: new Date('2026-01-01T00:00:00.000Z'),
+			updatedAt: new Date('2026-01-02T00:00:00.000Z'),
+			lastActiveAt: new Date('2026-01-03T12:30:00.000Z'),
 		})
 	})
 })

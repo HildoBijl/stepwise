@@ -25,6 +25,7 @@ export type UserAccountDataRecord = {
 	privacyPolicyConsent: PrivacyPolicyConsentRecord
 	createdAt: string
 	updatedAt: string
+	lastActiveAt: string
 }
 
 export type CurrentUserRecord = UserRecord & {

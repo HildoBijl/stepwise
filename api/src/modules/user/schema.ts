@@ -16,6 +16,7 @@ const userAccountDataFields = `
 	language: String
 	createdAt: DateTime!
 	updatedAt: DateTime!
+	lastActiveAt: DateTime!
 	privacyPolicyConsent: PrivacyPolicyConsent!
 `
 

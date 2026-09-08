@@ -6,7 +6,7 @@ import { type UserDatabase, type UserRecord, USER_ACTIVITY_UPDATE_INTERVAL_MILLI
 function setup(updatedRows: number) {
 	const update = vi.fn().mockResolvedValue([updatedRows])
 	const db = { User: { update } } as unknown as UserDatabase
-	const user = { id: 'user-id', lastActiveAt: null } as UserRecord
+	const user = { id: 'user-id', lastActiveAt: new Date('2026-09-08T11:00:00.000Z') } as UserRecord
 	return { db, update, user }
 }
 
@@ -19,10 +19,7 @@ describe('user activity', () => {
 		expect(update).toHaveBeenCalledWith({ lastActiveAt: now }, {
 			where: {
 				id: user.id,
-				[Op.or]: [
-					{ lastActiveAt: null },
-					{ lastActiveAt: { [Op.lt]: new Date(now.getTime() - USER_ACTIVITY_UPDATE_INTERVAL_MILLISECONDS) } },
-				],
+				lastActiveAt: { [Op.lt]: new Date(now.getTime() - USER_ACTIVITY_UPDATE_INTERVAL_MILLISECONDS) },
 			},
 		})
 		expect(user.lastActiveAt).toBe(now)

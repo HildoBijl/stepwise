@@ -71,6 +71,7 @@ describe('skill API conversion', () => {
 				privacyPolicyConsent: { version: null, acceptedAt: null, isLatestVersion: false },
 				createdAt: date,
 				updatedAt: date,
+				lastActiveAt: date,
 			},
 		})
 
@@ -92,10 +93,11 @@ describe('skill API conversion', () => {
 				privacyPolicyConsent: { version: null, acceptedAt: null, isLatestVersion: false },
 				createdAt: date,
 				updatedAt: date,
+				lastActiveAt: date,
 			},
 		})
 
-		expect(user).toMatchObject({ email: 'alex@example.com', role: 'admin', createdAt: date, updatedAt: date })
+		expect(user).toMatchObject({ email: 'alex@example.com', role: 'admin', createdAt: new Date(date), updatedAt: new Date(date), lastActiveAt: new Date(date) })
 		expect(user.skillActivities).toEqual([{ skillId: 'enterInteger', lastPracticedAt: new Date(date) }])
 	})
 })

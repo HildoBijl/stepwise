@@ -57,10 +57,14 @@ describe('allUsers', () => {
 		const client = await createClient(seed)
 		await client.signInWithSurfConext(ALEX_SURFSUB)
 
-		const query = '{allUsers {id name givenName familyName sharedData {email skills {userId skillId levelData {coefficientsOn}}} accountData {role language privacyPolicyConsent {version acceptedAt isLatestVersion} createdAt updatedAt}}}'
+		const query = '{allUsers {id name givenName familyName sharedData {email skills {userId skillId levelData {coefficientsOn}}} accountData {role language privacyPolicyConsent {version acceptedAt isLatestVersion} createdAt updatedAt lastActiveAt}}}'
 		const { data: { allUsers }, errors } = await client.graphql({ query })
 		expect(errors).toBeUndefined()
 		expect(allUsers).toHaveLength(3)
 		expect(allUsers.every(user => Array.isArray(user.sharedData.skills))).toBe(true)
+		expect(allUsers.find(user => user.id === ALEX_ID).accountData.lastActiveAt).not.toBeNull()
+		const bobAccountData = allUsers.find(user => user.id === BOB_ID).accountData
+		expect(bobAccountData.lastActiveAt).toBe(bobAccountData.createdAt)
+		expect(bobAccountData.lastActiveAt).toBe(bobAccountData.updatedAt)
 	})
 })
