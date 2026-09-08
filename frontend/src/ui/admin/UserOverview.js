@@ -2,11 +2,9 @@ import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Box } from '@mui/material'
 
-import { findOptimum, ensureDate, formatDate } from '@step-wise/js-utils'
-
 import { useAllUsersWithSkillActivity } from 'api'
 import { usePaths } from 'ui/routingTools'
-import { Par, HorizontalSlider } from 'ui/components'
+import { Par, HorizontalSlider, TimeAgo } from 'ui/components'
 
 export function UserOverview() {
 	const { users, loading, error } = useAllUsersWithSkillActivity()
@@ -23,21 +21,7 @@ export function UserOverview() {
 }
 
 function UserOverviewWithData({ allUsers }) {
-	// Sort all users by their last activity.
-	const usersWithLastActivity = useMemo(() => {
-		// Find the last activity of each user.
-		const usersWithLastActivity = allUsers.map(user => {
-			const skillActivities = user.skillActivities.map(skill => skill.lastPracticedAt)
-			const activitiesAt = [user.updatedAt, ...skillActivities].map(ensureDate)
-			return {
-				user,
-				lastActivity: findOptimum(activitiesAt, (a, b) => a > b),
-			}
-		})
-
-		// Sort by the last activity.
-		return usersWithLastActivity.sort((a, b) => b.lastActivity - a.lastActivity)
-	}, [allUsers])
+	const sortedUsers = useMemo(() => [...allUsers].sort((a, b) => b.lastActiveAt - a.lastActiveAt), [allUsers])
 
 	return <>
 		<Par>Below you find all users that have ever signed in to Step-Wise, sorted by the date of their last activity.</Par>
@@ -53,29 +37,29 @@ function UserOverviewWithData({ allUsers }) {
 				'& .email': { width: '220px' },
 				'& .role': { width: '80px', textAlign: 'center' },
 				'& .stats': { width: '100px', textAlign: 'center' },
-				'& .updatedAt': { width: '80px', textAlign: 'center' },
+				'& .lastActiveAt': { width: '80px', textAlign: 'center' },
 				'& .createdAt': { width: '80px', textAlign: 'center' },
 			}} className="userOverview">
 				<div className="name head">Name</div>
 				<div className="stats head">Skills</div>
-				<div className="updatedAt head">Last activity</div>
+				<div className="lastActiveAt head">Last activity</div>
 				<div className="createdAt head">First activity</div>
 				<div className="role head">Role</div>
 				<div className="email head">Email address</div>
 
-				{usersWithLastActivity.map(userWithLastActivity => <UserOverviewItem key={userWithLastActivity.user.id} user={userWithLastActivity.user} lastActivity={userWithLastActivity.lastActivity} />)}
+				{sortedUsers.map(user => <UserOverviewItem key={user.id} user={user} />)}
 			</Box>
 		</HorizontalSlider>
 	</>
 }
 
-function UserOverviewItem({ user, lastActivity }) {
+function UserOverviewItem({ user }) {
 	const paths = usePaths()
 	return <>
 		<div className="name"><Link to={paths.userInspection({ userId: user.id })}>{user.name}</Link></div>
 		<div className="stats">{user.skillActivities.length}</div>
-		<div className="updatedAt">{formatDate(lastActivity)}</div>
-		<div className="createdAt">{formatDate(user.createdAt)}</div>
+		<div className="lastActiveAt"><TimeAgo date={user.lastActiveAt} displayMinutes={false} addAgo={true} /></div>
+		<div className="createdAt"><TimeAgo date={user.createdAt} displayMinutes={false} addAgo={true} /></div>
 		<div className="role">{user.role === 'admin' ? 'Admin' : (user.role === 'teacher' ? 'Docent' : 'Student')}</div>
 		<div className="email">{user.email}</div>
 	</>

@@ -9,7 +9,9 @@ const translationEntry = 'timeAgo'
 // TimeAgo takes a time difference - a number in milliseconds - as children (often from subtracting two dates) and renders it as a message "3 minutes", "5 hours", "2 days", "1 week" or similar.
 const daysPerYear = 365.25
 const daysPerMonth = daysPerYear / 12
-export function TimeAgo({ date, ms, displaySeconds = false, addAgo = false }) {
+export function TimeAgo({ date, ms, displayMinutes = true, displaySeconds = false, addAgo = false }) {
+	if (displaySeconds && !displayMinutes) throw new Error('TimeAgo cannot display seconds without displaying minutes.')
+
 	// On an invalid date, show never.
 	if (typeof date === 'string')
 		date = new Date(date)
@@ -21,14 +23,14 @@ export function TimeAgo({ date, ms, displaySeconds = false, addAgo = false }) {
 		ms = new Date() - date
 
 	// Display the text.
-	const timeDisplaySettings = getTimeDisplaySettings(ms, displaySeconds)
+	const timeDisplaySettings = getTimeDisplaySettings(ms, displayMinutes, displaySeconds)
 	const time = <Time displaySettings={timeDisplaySettings} />
 	if (!addAgo || timeDisplaySettings.type === 'now')
 		return time
 	return <Ago>{time}</Ago>
 }
 
-function getTimeDisplaySettings(ms, displaySeconds) {
+function getTimeDisplaySettings(ms, displayMinutes, displaySeconds) {
 	// Calculate quantities.
 	const sec = ms / 1000
 	const min = sec / 60
@@ -49,7 +51,7 @@ function getTimeDisplaySettings(ms, displaySeconds) {
 		return { type: 'day', value: Math.round(d) }
 	if (min >= 59.5)
 		return { type: 'hour', value: Math.round(h) }
-	if (sec >= 59.5)
+	if (sec >= 59.5 && displayMinutes)
 		return { type: 'minute', value: Math.round(min) }
 	if (sec >= 1 && displaySeconds)
 		return { type: 'second', value: Math.max(Math.round(sec), 1) }
