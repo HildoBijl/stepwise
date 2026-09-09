@@ -22,7 +22,7 @@ export function skillRecordToSkill({ exerciseData, ...record }: SkillIdentityRec
 		skillId: record.skillId,
 		...(exerciseData ? {
 			exercises: exerciseData.exercises.map(exerciseRecordToExercise),
-			...(exerciseData.activeExercise ? { activeExercise: exerciseRecordToExercise(exerciseData.activeExercise) } : {}),
+			...(exerciseData.latestExercise ? { latestExercise: exerciseRecordToExercise(exerciseData.latestExercise) } : {}),
 		} : {}),
 	}
 }

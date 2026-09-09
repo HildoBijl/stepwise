@@ -38,10 +38,10 @@ function createSkillRecord(options: Partial<SkillRecord> = {}): SkillRecord {
 describe('skill API conversion', () => {
 	it('flattens and converts exercise data', () => {
 		const exercise = createExerciseRecord()
-		const skill = skillRecordToSkill(createSkillRecord({ exerciseData: { exercises: [exercise], activeExercise: exercise } }))
+		const skill = skillRecordToSkill(createSkillRecord({ exerciseData: { exercises: [exercise], latestExercise: exercise } }))
 
 		expect(skill.exercises?.[0]?.startedAt).toStrictEqual(new Date(date))
-		expect(skill.activeExercise?.startedAt).toStrictEqual(new Date(date))
+		expect(skill.latestExercise?.startedAt).toStrictEqual(new Date(date))
 		expect(skill).not.toHaveProperty('coefficients')
 		expect(skill).not.toHaveProperty('levelData')
 	})
@@ -52,10 +52,10 @@ describe('skill API conversion', () => {
 		expect(skill).not.toHaveProperty('exercises')
 	})
 
-	it('omits activeExercise when exercise data is loaded but no exercise is active', () => {
-		const skill = skillRecordToSkill(createSkillRecord({ exerciseData: { exercises: [], activeExercise: null } }))
+	it('omits latestExercise when exercise data is loaded but no exercise exists', () => {
+		const skill = skillRecordToSkill(createSkillRecord({ exerciseData: { exercises: [], latestExercise: null } }))
 		expect(skill.exercises).toStrictEqual([])
-		expect(skill).not.toHaveProperty('activeExercise')
+		expect(skill).not.toHaveProperty('latestExercise')
 	})
 
 	it('flattens user access data and converts its skills', () => {
@@ -64,7 +64,7 @@ describe('skill API conversion', () => {
 			name: 'Alex',
 			givenName: 'Alex',
 			familyName: null,
-			sharedData: { email: 'alex@example.com', skills: [createSkillRecord({ exerciseData: { exercises: [], activeExercise: null } })] },
+			sharedData: { email: 'alex@example.com', skills: [createSkillRecord({ exerciseData: { exercises: [], latestExercise: null } })] },
 			accountData: {
 				role: 'admin',
 				language: null,

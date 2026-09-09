@@ -34,7 +34,7 @@ export const skillExerciseDataFields = `
 		exercises {
 			${exerciseFields}
 		}
-		activeExercise {
+		latestExercise {
 			${exerciseFields}
 		}
 	}

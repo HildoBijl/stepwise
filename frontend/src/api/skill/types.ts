@@ -24,7 +24,7 @@ export type Skill = {
 	userId: string
 	skillId: SkillId
 	exercises?: Exercise[]
-	activeExercise?: Exercise
+	latestExercise?: Exercise
 }
 
 export type UseSkillResult = ApiQueryResult<'skill', Skill>
