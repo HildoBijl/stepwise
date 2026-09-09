@@ -1,7 +1,20 @@
 {
 	"name": "@step-wise/browser-utils",
 	"version": "0.1.0",
-	"private": true,
+	"description": "Browser-specific utilities for colors, DOM interactions, environment detection, and local storage.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HildoBijl/stepwise.git",
+		"directory": "packages/browser-utils"
+	},
+	"bugs": {
+		"url": "https://github.com/HildoBijl/stepwise/issues"
+	},
+	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/browser-utils#readme",
+	"publishConfig": {
+		"access": "public"
+	},
 	"engines": {
 		"node": ">=24.12.0"
 	},
@@ -21,8 +34,9 @@
 	],
 	"scripts": {
 		"build": "tsc -b tsconfig.build.json",
-		"test": "vitest run --configLoader runner --config vitest.config.ts",
-		"watch": "tsc -b tsconfig.build.json --watch"
+		"watch": "tsc -b tsconfig.build.json --watch",
+		"test": "vitest run",
+		"test:watch": "vitest"
 	},
 	"dependencies": {
 		"@step-wise/geometry": "^0.1.0"

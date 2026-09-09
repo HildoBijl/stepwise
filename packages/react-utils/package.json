@@ -1,7 +1,20 @@
 {
 	"name": "@step-wise/react-utils",
 	"version": "0.1.0",
-	"private": true,
+	"description": "Reusable React hooks and components for browser events, measurements, references, scheduling, and storage.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HildoBijl/stepwise.git",
+		"directory": "packages/react-utils"
+	},
+	"bugs": {
+		"url": "https://github.com/HildoBijl/stepwise/issues"
+	},
+	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/react-utils#readme",
+	"publishConfig": {
+		"access": "public"
+	},
 	"engines": {
 		"node": ">=24.12.0"
 	},
@@ -21,8 +34,9 @@
 	],
 	"scripts": {
 		"build": "tsc -b tsconfig.build.json",
-		"test": "vitest run --configLoader runner --config vitest.config.ts",
-		"watch": "tsc -b tsconfig.build.json --watch"
+		"watch": "tsc -b tsconfig.build.json --watch",
+		"test": "vitest run",
+		"test:watch": "vitest"
 	},
 	"dependencies": {
 		"@step-wise/browser-utils": "^0.1.0",
