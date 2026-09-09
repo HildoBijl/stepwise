@@ -1,6 +1,7 @@
 {
 	"name": "step-wise",
 	"version": "1.0.0",
+	"type": "module",
 	"engines": {
 		"node": ">=24.15.0"
 	},
