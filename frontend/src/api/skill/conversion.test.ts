@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import type { ExerciseRecord, SkillRecord } from './records.ts'
-import { skillRecordToSkill, userWithSkillsRecordToUser } from './conversion.ts'
+import type { ExerciseRecord, SkillWithExerciseHistoryRecord, SkillWithLatestExerciseRecord } from './records.ts'
+import { skillWithLatestExerciseRecordToSkill, userWithSkillsRecordToUser } from './conversion.ts'
 
 const date = '2026-01-02T03:04:05.000Z'
 
@@ -19,7 +19,7 @@ function createExerciseRecord(): ExerciseRecord {
 	}
 }
 
-function createSkillRecord(options: Partial<SkillRecord> = {}): SkillRecord {
+function createSkillLevelRecord() {
 	return {
 		id: 'skill-id',
 		userId: 'user-id',
@@ -31,30 +31,42 @@ function createSkillRecord(options: Partial<SkillRecord> = {}): SkillRecord {
 			highest: [1],
 			highestOn: date,
 		},
-		...options,
+	}
+}
+
+function createLatestExerciseSkillRecord(exerciseData: SkillWithLatestExerciseRecord['exerciseData']): SkillWithLatestExerciseRecord {
+	return {
+		id: 'skill-id',
+		userId: 'user-id',
+		skillId: 'enterInteger',
+		exerciseData,
+	}
+}
+
+function createExerciseHistorySkillRecord(exerciseData: SkillWithExerciseHistoryRecord['exerciseData']): SkillWithExerciseHistoryRecord {
+	return {
+		...createSkillLevelRecord(),
+		exerciseData,
 	}
 }
 
 describe('skill API conversion', () => {
 	it('flattens and converts exercise data', () => {
 		const exercise = createExerciseRecord()
-		const skill = skillRecordToSkill(createSkillRecord({ exerciseData: { exercises: [exercise], latestExercise: exercise } }))
+		const skill = skillWithLatestExerciseRecordToSkill(createLatestExerciseSkillRecord({ latestExercise: exercise }))
 
-		expect(skill.exercises?.[0]?.startedAt).toStrictEqual(new Date(date))
 		expect(skill.latestExercise?.startedAt).toStrictEqual(new Date(date))
 		expect(skill).not.toHaveProperty('coefficients')
 		expect(skill).not.toHaveProperty('levelData')
 	})
 
 	it('does not expose the transport-only exerciseData property when access is denied', () => {
-		const skill = skillRecordToSkill(createSkillRecord({ exerciseData: null }))
+		const skill = skillWithLatestExerciseRecordToSkill(createLatestExerciseSkillRecord(null))
 		expect(skill).not.toHaveProperty('exerciseData')
-		expect(skill).not.toHaveProperty('exercises')
 	})
 
 	it('omits latestExercise when exercise data is loaded but no exercise exists', () => {
-		const skill = skillRecordToSkill(createSkillRecord({ exerciseData: { exercises: [], latestExercise: null } }))
-		expect(skill.exercises).toStrictEqual([])
+		const skill = skillWithLatestExerciseRecordToSkill(createLatestExerciseSkillRecord({ latestExercise: null }))
 		expect(skill).not.toHaveProperty('latestExercise')
 	})
 
@@ -64,7 +76,7 @@ describe('skill API conversion', () => {
 			name: 'Alex',
 			givenName: 'Alex',
 			familyName: null,
-			sharedData: { email: 'alex@example.com', skills: [createSkillRecord({ exerciseData: { exercises: [], latestExercise: null } })] },
+			sharedData: { email: 'alex@example.com', skills: [createExerciseHistorySkillRecord({ exercises: [] })] },
 			accountData: {
 				role: 'admin',
 				language: null,

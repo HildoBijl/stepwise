@@ -15,7 +15,7 @@ type UserWithSkillsQueryVariables = { userId: string }
 const USER_WITH_SKILLS_QUERY: TypedDocumentNode<UserWithSkillsQueryData, UserWithSkillsQueryVariables> = gql`
 	query userWithSkills($userId: ID!) {
 		user(userId: $userId) {
-			${userWithSkillsFields(true)}
+			${userWithSkillsFields}
 		}
 	}
 	${USER_FRAGMENTS}

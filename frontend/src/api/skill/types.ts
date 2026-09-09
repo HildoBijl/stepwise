@@ -19,18 +19,24 @@ export type Exercise = Omit<SoloExerciseInstance, 'history'> & {
 	history: ExerciseEvent[]
 }
 
-export type Skill = {
+type SkillIdentity = {
 	id: string
 	userId: string
 	skillId: SkillId
-	exercises?: Exercise[]
+}
+
+export type Skill = SkillIdentity & {
 	latestExercise?: Exercise
+}
+
+export type SkillWithExerciseHistory = SkillIdentity & {
+	exercises: Exercise[]
 }
 
 export type UseSkillResult = ApiQueryResult<'skill', Skill>
 
 export type UserWithSkills = User & Partial<Omit<UserWithSharedData & UserWithAccountData, keyof User>> & {
-	skills: Skill[]
+	skills: SkillWithExerciseHistory[]
 	skillLevelSet: SkillLevelSet
 }
 
