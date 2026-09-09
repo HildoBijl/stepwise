@@ -1,6 +1,6 @@
 {
 	"name": "@step-wise/js-utils",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Composable JavaScript and TypeScript utilities with explicit validation and predictable behavior.",
 	"license": "MIT",
 	"repository": {

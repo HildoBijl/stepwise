@@ -190,9 +190,8 @@ getSpreadsheetColumnLabel(703) // 'aaa'
 
 | Function | Behavior |
 | --- | --- |
-| `first(array, options?)` | Returns the first element. |
-| `last(array, options?)` | Returns the last element. |
-| `secondLast(array, options?)` | Returns the second-last element. |
+| `first(array, options?)` | Returns the first element, shifted right by the non-negative integer `offset` when supplied. |
+| `last(array, options?)` | Returns the last element, shifted left by the non-negative integer `offset` when supplied. |
 | `isIn(value, options)` | Checks list membership and narrows the value type. |
 | `findWithValue(array, mapper)` | Returns the first `{ index, element, value }` whose mapped value is not `undefined`. |
 | `findValue(array, mapper)` | Returns only the first mapped value that is not `undefined`. |
@@ -200,7 +199,7 @@ getSpreadsheetColumnLabel(703) // 'aaa'
 | `findOptimumIndex(array, isBetter)` | Returns the best index, or `-1` for an empty array. |
 | `findOptimum(array, isBetter)` | Returns the best element, or `undefined` for an empty array. |
 
-`first`, `last` and `secondLast` throw for undersized arrays by default. Pass `{ allowOutOfBounds: true }` to receive `undefined`.
+`first` and `last` use an `offset` of `0` by default. They throw for out-of-bounds reads; pass `{ allowOutOfBounds: true }` to receive `undefined` instead.
 
 ```ts
 findIndexPath([1, [2, [3]]], 3) // [1, 1, 0]
