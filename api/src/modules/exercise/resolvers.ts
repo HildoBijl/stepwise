@@ -28,9 +28,9 @@ export const exerciseResolvers = {
 
 	SkillExerciseData: {
 		exercises: (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => loaders.exercisesForSkill.load(skill.id),
-		activeExercise: async (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => {
-			const exercises = await loaders.exercisesForSkill.load(skill.id)
-			return exercises.find(exercise => exercise.active && !!getExercise(skill.skillId, exercise.exerciseId)) ?? null
+		latestExercise: async (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => {
+			const exercise = await loaders.latestExerciseForSkill.load(skill.id)
+			return exercise && getExercise(skill.skillId, exercise.exerciseId) ? exercise : null
 		},
 	},
 

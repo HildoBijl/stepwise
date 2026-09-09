@@ -12,7 +12,7 @@ export const exerciseTypeDefs = gql`
 
 	type SkillExerciseData {
 		exercises: [Exercise!]!
-		activeExercise: Exercise
+		latestExercise: Exercise
 	}
 
 	extend type Mutation {
