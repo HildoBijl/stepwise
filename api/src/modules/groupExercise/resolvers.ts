@@ -13,7 +13,7 @@ import { ensureActiveGroupMembership, ensureGroupMembership, getGroup, groupEven
 import { type UserSkillObservationInput, type UserSkillRecord, applySkillObservations, skillEvents } from '../skill/index.ts'
 
 import { type GroupExerciseActionRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents } from './models.ts'
-import { type GroupExerciseDatabase, type GroupExerciseUpdatedPayload, getCurrentGroupExerciseState, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, getGroupWithAllExercises, groupExerciseEvents } from './service.ts'
+import { type GroupExerciseDatabase, type GroupExerciseUpdatedPayload, getCurrentGroupExerciseState, getGroupExerciseById, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, getGroupWithAllExercises, getLatestGroupExercise, groupExerciseEvents } from './service.ts'
 
 type GroupExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'pubsub' | 'userId'>
 
@@ -46,11 +46,21 @@ export const groupExerciseResolvers = {
 	},
 
 	Query: {
-		activeGroupExercises: async (_source: unknown, { code }: { code: string }, { db, ensureSignedIn, userId }: GroupExerciseContext) => {
+		latestGroupExercise: async (_source: unknown, { code, skillId }: { code: string; skillId: string }, { db, ensureSignedIn, userId }: GroupExerciseContext) => {
 			ensureSignedIn()
-			const group = await getGroupWithActiveExercises(db, code)
-			ensureActiveGroupMembership(group, userId)
-			return group.exercises
+			const group = await getGroup(db, code, { includeMembers: true })
+			ensureGroupMembership(group, userId)
+			const exercise = await getLatestGroupExercise(db, group.id, skillId)
+			return exercise && getExercise(exercise.skillId, exercise.exerciseId) ? exercise : null
+		},
+		groupExercise: async (_source: unknown, { id }: { id: string }, { db, ensureSignedIn, userId }: GroupExerciseContext) => {
+			ensureSignedIn()
+			const exercise = await getGroupExerciseById(db, id)
+			if (!exercise) return null
+			const group = await db.Group.findByPk(exercise.groupId, { include: { association: 'members' } })
+			if (group && !hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
+			ensureGroupMembership(group, userId)
+			return getExercise(exercise.skillId, exercise.exerciseId) ? exercise : null
 		},
 	},
 

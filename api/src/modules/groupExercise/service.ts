@@ -6,7 +6,7 @@ import { getExercise } from '@step-wise/exercises'
 import type { ServiceOptions } from '../types.ts'
 import { type GroupDatabase, hasLoadedGroupMembers } from '../group/index.ts'
 
-import { type GroupExerciseActionModel, type GroupExerciseEventModel, type GroupExerciseEventRecord, type GroupExerciseSampleModel, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, type GroupWithLoadedExercises, hasLoadedGroupExercises } from './models.ts'
+import { type GroupExerciseActionModel, type GroupExerciseEventModel, type GroupExerciseEventRecord, type GroupExerciseSampleModel, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, type GroupWithLoadedExercises, hasLoadedGroupExerciseEvents, hasLoadedGroupExercises } from './models.ts'
 
 export interface GroupExerciseDatabase extends GroupDatabase {
 	GroupExerciseAction: GroupExerciseActionModel
@@ -31,6 +31,30 @@ function getLatestResolvedGroupEvent(exercise: GroupExerciseSampleRecord): Group
 
 export function getCurrentGroupExerciseState(exercise: GroupExerciseSampleRecord): ExerciseState {
 	return getLatestResolvedGroupEvent(exercise)?.state ?? exercise.initialState
+}
+
+function ensureLoadedGroupExerciseEvents(exercise: GroupExerciseSampleRecord | null): GroupExerciseSampleWithEvents | null {
+	if (!exercise) return null
+	if (!hasLoadedGroupExerciseEvents(exercise)) throw new Error(`Failed to load events and actions for group exercise "${exercise.id}".`)
+	return exercise
+}
+
+export async function getGroupExerciseById(db: GroupExerciseDatabase, id: string, options: ServiceOptions = {}): Promise<GroupExerciseSampleWithEvents | null> {
+	const exercise = await db.GroupExerciseSample.findByPk(id, {
+		...(options.transaction ? { transaction: options.transaction } : {}),
+		include: [{ association: 'events', required: false, include: [{ association: 'actions', required: false }] }],
+	})
+	return ensureLoadedGroupExerciseEvents(exercise)
+}
+
+export async function getLatestGroupExercise(db: GroupExerciseDatabase, groupId: string, skillId: SkillId, options: ServiceOptions = {}): Promise<GroupExerciseSampleWithEvents | null> {
+	const exercise = await db.GroupExerciseSample.findOne({
+		...(options.transaction ? { transaction: options.transaction } : {}),
+		where: { groupId, skillId },
+		order: [['createdAt', 'DESC'], ['id', 'DESC']],
+		include: [{ association: 'events', required: false, include: [{ association: 'actions', required: false }] }],
+	})
+	return ensureLoadedGroupExerciseEvents(exercise)
 }
 
 async function deactivateUnavailableGroupExercises(group: GroupWithLoadedExercises | null, { transaction }: ServiceOptions = {}): Promise<GroupWithLoadedExercises | null> {
