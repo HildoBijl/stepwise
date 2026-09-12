@@ -36,7 +36,8 @@
       "solveStepWise": "Schrittweise lösen:",
       "submissionsReceived": "Alle Eingaben sind eingereicht.",
       "allGaveUp": "Alle haben aufgegeben.",
-      "allStepWise": "Alle stimmen für eine Schrittweise lösung."
+      "allStepWise": "Alle stimmen für eine Schrittweise lösung.",
+      "newGroupExercise": "Ein anderes Gruppenmitglied hat eine neuere Übung gestartet."
     },
     "buttons": {
       "sendSubmission": "Einreichen",
@@ -47,7 +48,8 @@
       "submitTheSame": "Auch einreichen",
       "checkSubmissions": "Einreichungen überprüfen",
       "confirmGivingUp": "Aufgeben bestätigen",
-      "comfirmSolvingStepWise": "Schrittweise lösung bestätigen"
+      "comfirmSolvingStepWise": "Schrittweise lösung bestätigen",
+      "newGroupExercise": "Neueste Übung öffnen"
     },
     "unequalSolutionWarning": "Der obige Eingabe entspricht nicht der von dir eingereichten Antwort.",
     "notEnoughSubmissions": "Beim gemeinsamen Üben sind mindestens zwei Einsendungen erforderlich, damit eine Übung überprüft werden kann. Lade einen Kommilitonen ein."

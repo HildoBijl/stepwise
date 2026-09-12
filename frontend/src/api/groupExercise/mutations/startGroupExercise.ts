@@ -28,6 +28,10 @@ export function useStartGroupExercise(code: string, skillId: SkillId): UseStartG
 			if (data?.startGroupExercise) updateLatestGroupExerciseInCache(cache, code, skillId, data.startGroupExercise)
 		},
 	})
-	const startGroupExercise = useCallback(async () => { await mutate() }, [mutate])
+	const startGroupExercise = useCallback(async () => {
+		const { data } = await mutate()
+		if (!data) throw new Error('Starting the group exercise returned no data.')
+		return data.startGroupExercise.id
+	}, [mutate])
 	return [startGroupExercise, { loading, error }]
 }

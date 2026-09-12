@@ -36,7 +36,8 @@
       "solveStepWise": "Solve Step-Wise:",
       "submissionsReceived": "All submissions have been received.",
       "allGaveUp": "Everyone gave up.",
-      "allStepWise": "Everyone votes for solving this Step-Wise."
+      "allStepWise": "Everyone votes for solving this Step-Wise.",
+      "newGroupExercise": "Another group member has started a newer exercise."
     },
     "buttons": {
       "sendSubmission": "Send submission",
@@ -47,7 +48,8 @@
       "submitTheSame": "Submit the same",
       "checkSubmissions": "Check submissions",
       "confirmGivingUp": "Confirm giving up",
-      "comfirmSolvingStepWise": "Confirm solving Step-Wise"
+      "comfirmSolvingStepWise": "Confirm solving Step-Wise",
+      "newGroupExercise": "Open latest exercise"
     },
     "unequalSolutionWarning": "The above input is not equal to your submitted solution.",
     "notEnoughSubmissions": "When practicing together, at least two submissions are needed to complete an exercise. Invite a fellow student."
