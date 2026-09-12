@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useEffectEvent, useMemo, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
 import { getCurrentStep, getLastRawInput } from '@step-wise/input-exercises'
@@ -6,7 +6,7 @@ import { getCurrentStep, getLastRawInput } from '@step-wise/input-exercises'
 import { useUserId } from 'api'
 import { TranslationSection } from 'i18n'
 import { useVisible } from 'ui/components'
-import { Form, FeedbackProvider } from 'ui/form'
+import { Form, FeedbackProvider, useFormData } from 'ui/form'
 
 import { useExerciseData } from '../containers'
 import { useFormSubmitAction } from '../util'
@@ -41,6 +41,7 @@ export function ExerciseWrapper({ getFeedback, children }) {
 	return <div ref={exerciseRef}>
 		<ExerciseScrollingContext.Provider value={scrollToExercisePart}>
 			<Form submit={submit} initialInput={initialInput} interpretInput={exerciseData.valueOperations.interpretInput}>
+				{exerciseData.mode === 'solo' ? <ExerciseInputSynchronizer input={initialInput} /> : null}
 				<TranslationWrapper>
 					<SolutionProvider>
 						<FeedbackWrapper getFeedback={getFeedback}>
@@ -51,6 +52,13 @@ export function ExerciseWrapper({ getFeedback, children }) {
 			</Form>
 		</ExerciseScrollingContext.Provider>
 	</div>
+}
+
+function ExerciseInputSynchronizer({ input }) {
+	const { setAllInputSI } = useFormData()
+	const synchronizeInput = useEffectEvent(() => { if (input !== undefined) setAllInputSI(input) })
+	useEffect(() => synchronizeInput(), [input])
+	return null
 }
 
 function useExercisePartScrolling(exerciseRef) {
