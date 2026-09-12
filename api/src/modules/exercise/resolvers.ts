@@ -91,7 +91,7 @@ export const exerciseResolvers = {
 				})
 				if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${updatedExercise.exerciseId}" due to an error in updating the exercise state.`)
 				updatedSkills = await applySkillObservationsForUser(db, userId, skillObservations, transaction)
-				updatedExercise.events.push(await db.ExerciseEvent.create({ exerciseSampleId: updatedExercise.id, action, state }, { transaction }))
+				updatedExercise.events.push(await db.ExerciseEvent.create({ exerciseSampleId: updatedExercise.id, eventIndex: updatedExercise.events.length, action, state }, { transaction }))
 				if (isStateDone(state)) {
 					await updatedExercise.update({ active: false }, { transaction })
 					updatedExercise.active = false

@@ -17,6 +17,7 @@ export class GroupExerciseActionRecord extends Model<InferAttributes<GroupExerci
 export class GroupExerciseEventRecord extends Model<InferAttributes<GroupExerciseEventRecord>, InferCreationAttributes<GroupExerciseEventRecord>> {
 	declare id: CreationOptional<string>
 	declare groupExerciseSampleId: string
+	declare eventIndex: number
 	declare state: ExerciseState | null
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
@@ -87,10 +88,15 @@ export function createGroupExerciseEventModel(sequelize: Sequelize): GroupExerci
 	GroupExerciseEvent.init({
 		id: { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 		groupExerciseSampleId: { type: DataTypes.UUID, allowNull: false },
+		eventIndex: { type: DataTypes.INTEGER, allowNull: false, validate: { min: 0 } },
 		state: { type: DataTypes.JSON, allowNull: true },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
-	}, { sequelize, modelName: 'groupExerciseEvent' })
+	}, {
+		sequelize,
+		modelName: 'groupExerciseEvent',
+		indexes: [{ fields: ['groupExerciseSampleId', 'eventIndex'], name: 'groupExerciseEvents_groupExerciseSampleId_eventIndex_unique', unique: true }],
+	})
 	return GroupExerciseEvent
 }
 

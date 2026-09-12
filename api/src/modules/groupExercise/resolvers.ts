@@ -126,7 +126,7 @@ export const groupExerciseResolvers = {
 			try {
 				loadedExercise = await db.transaction(async transaction => {
 					const exercise = await db.GroupExerciseSample.create({ groupId: group.id, skillId, exerciseId: newExercise.exerciseId, parameters: newExercise.parameters, initialState: newExercise.initialState, active: true }, { transaction })
-					const activeEvent = await db.GroupExerciseEvent.create({ groupExerciseSampleId: exercise.id, state: null }, { transaction })
+					const activeEvent = await db.GroupExerciseEvent.create({ groupExerciseSampleId: exercise.id, eventIndex: 0, state: null }, { transaction })
 					activeEvent.actions = []
 					if (!hasLoadedGroupExerciseActions(activeEvent)) throw new Error('Failed to initialize group exercise event actions.')
 					exercise.events = [activeEvent]
@@ -249,7 +249,7 @@ export const groupExerciseResolvers = {
 					await activeExercise.update({ active: false }, { transaction })
 					activeExercise.active = false
 				} else {
-					const newActiveEvent = await activeExercise.createEvent({ state: null }, { transaction })
+					const newActiveEvent = await activeExercise.createEvent({ eventIndex: lockedEvent.eventIndex + 1, state: null }, { transaction })
 					newActiveEvent.actions = []
 					if (!hasLoadedGroupExerciseActions(newActiveEvent)) throw new Error('Failed to initialize group exercise event actions.')
 					activeExercise.events = [...activeExercise.events, newActiveEvent]

@@ -5,6 +5,7 @@ import type { ExerciseAction, ExerciseParameters, ExerciseState } from '@step-wi
 export class ExerciseEventRecord extends Model<InferAttributes<ExerciseEventRecord>, InferCreationAttributes<ExerciseEventRecord>> {
 	declare id: CreationOptional<string>
 	declare exerciseSampleId: string
+	declare eventIndex: number
 	declare action: ExerciseAction
 	declare state: ExerciseState
 	declare createdAt: CreationOptional<Date>
@@ -60,10 +61,15 @@ export function createExerciseEventModel(sequelize: Sequelize): ExerciseEventMod
 	ExerciseEvent.init({
 		id: { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 		exerciseSampleId: { type: DataTypes.UUID, allowNull: false },
+		eventIndex: { type: DataTypes.INTEGER, allowNull: false, validate: { min: 0 } },
 		action: { type: DataTypes.JSON, allowNull: false },
 		state: { type: DataTypes.JSON, allowNull: false },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
-	}, { sequelize, modelName: 'exerciseEvent' })
+	}, {
+		sequelize,
+		modelName: 'exerciseEvent',
+		indexes: [{ fields: ['exerciseSampleId', 'eventIndex'], name: 'exerciseEvents_exerciseSampleId_eventIndex_unique', unique: true }],
+	})
 	return ExerciseEvent
 }

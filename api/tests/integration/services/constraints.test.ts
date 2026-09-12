@@ -42,6 +42,19 @@ describe('database constraints', () => {
 		await expect(db.GroupExerciseSample.create({ groupId: group.id, skillId: ENTER_INTEGER, exerciseId: 'second', parameters: {} })).rejects.toMatchObject({ name: 'SequelizeUniqueConstraintError' })
 	})
 
+	it('requires unique event indexes within each exercise', async () => {
+		const user = await createUser('event-index@example.com')
+		const skill = await db.UserSkill.create({ userId: user.id, skillId: ENTER_INTEGER })
+		const exercise = await db.ExerciseSample.create({ userSkillId: skill.id, exerciseId: 'sample', parameters: {} })
+		await exercise.createEvent({ eventIndex: 0, action: { type: 'start' }, state: {} })
+		await expect(exercise.createEvent({ eventIndex: 0, action: { type: 'start' }, state: {} })).rejects.toMatchObject({ name: 'SequelizeUniqueConstraintError' })
+
+		const group = await db.Group.create({ code: 'EVNT' })
+		const groupExercise = await db.GroupExerciseSample.create({ groupId: group.id, skillId: ENTER_INTEGER, exerciseId: 'sample', parameters: {} })
+		await groupExercise.createEvent({ eventIndex: 0, state: null })
+		await expect(groupExercise.createEvent({ eventIndex: 0, state: null })).rejects.toMatchObject({ name: 'SequelizeUniqueConstraintError' })
+	})
+
 	it('enforces non-null foreign keys and referential integrity', async () => {
 		const unknownId = '00000000-0000-0000-0000-000000000000'
 		await expect(db.UserSkill.create({ userId: unknownId, skillId: ENTER_INTEGER })).rejects.toMatchObject({ name: 'SequelizeForeignKeyConstraintError' })
@@ -53,7 +66,7 @@ describe('database constraints', () => {
 		const user = await createUser('cascade@example.com')
 		const skill = await db.UserSkill.create({ userId: user.id, skillId: ENTER_INTEGER })
 		const exercise = await db.ExerciseSample.create({ userSkillId: skill.id, exerciseId: 'sample', parameters: {} })
-		await exercise.createEvent({ action: { type: 'start' }, state: {} })
+		await exercise.createEvent({ eventIndex: 0, action: { type: 'start' }, state: {} })
 
 		await user.destroy()
 		expect(await db.UserSkill.count()).toBe(0)
