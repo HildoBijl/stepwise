@@ -1,60 +1,36 @@
 import { UniqueConstraintError } from 'sequelize'
 
-import { ForbiddenError, InvalidInputError } from '../../errors.ts'
+import { InvalidInputError } from '../../../errors.ts'
 
-import type { ApiContext } from '../types.ts'
-import type { AuthenticatedContext } from '../user/index.ts'
-import { createSubscriptionResolver } from '../subscriptions.ts'
+import { hasLoadedGroupMembers } from '../models.ts'
+import { createRandomGroupCode, deactivateUserGroupMemberships, ensureGroupMembership, getGroup, getUserWithGroups, groupEvents, publishDeactivatedGroupMemberships } from '../service.ts'
+import type { AuthenticatedGroupContext, CleanUpGroupMember } from './types.ts'
 
-import type { GroupMemberRecord, GroupRecord } from './models.ts'
-import { type GroupUpdatedPayload, createRandomGroupCode, deactivateUserGroupMemberships, ensureGroupMembership, getGroup, getUserGroups, getUserWithGroups, groupEvents, publishDeactivatedGroupMemberships } from './service.ts'
-
-type GroupContext = Pick<ApiContext, 'db'>
-type AuthenticatedGroupContext = Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'pubsub' | 'userId'>
-
-export const groupResolvers = {
-	Group: {
-		members: (group: GroupRecord) => group.members ?? group.getMembers(),
-	},
-
-	GroupMember: {
-		groupId: (member: GroupMemberRecord) => member.groupMembership.groupId, // This is needed for efficient caching.
-		userId: (member: GroupMemberRecord) => member.id,
-		active: (member: GroupMemberRecord) => member.groupMembership.active,
-		lastActivity: (member: GroupMemberRecord) => member.groupMembership.updatedAt,
-	},
-
-	Query: {
-		myGroups: async (_source: unknown, _args: unknown, { db, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
+export function createGroupMutationResolvers(cleanUpGroupMember: CleanUpGroupMember) {
+	return {
+		leaveGroup: async (_source: unknown, { code }: { code: string }, { db, pubsub, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
 			ensureSignedIn()
-			return getUserGroups(db, userId)
+			const result = await db.transaction(async transaction => {
+				const group = await getGroup(db, code, { transaction, lock: transaction.LOCK.UPDATE })
+				group.members = await group.getMembers({ transaction })
+				if (!hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
+				ensureGroupMembership(group, userId)
+				group.members = group.members.filter(member => member.id !== userId)
+				if (group.members.length === 0) {
+					await group.destroy({ transaction })
+					return { group, publishCleanup: undefined }
+				}
+
+				const publishCleanup = await cleanUpGroupMember(db, group, userId, transaction, pubsub)
+				await group.removeMember(userId, { transaction })
+				return { group, publishCleanup }
+			})
+
+			await result.publishCleanup?.()
+			await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId, removedForUser: true })
+			return true
 		},
 
-		groupExists: async (_source: unknown, { code }: { code: string }, { db }: GroupContext) => {
-			try {
-				await getGroup(db, code)
-				return true
-			} catch (error) {
-				if (error instanceof InvalidInputError) return false
-				throw error
-			}
-		},
-
-		myActiveGroup: async (_source: unknown, _args: unknown, { db, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
-			ensureSignedIn()
-			return (await getUserGroups(db, userId, { onlyActive: true }))[0]
-		},
-
-		group: async (_source: unknown, { code }: { code: string }, { db, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
-			ensureSignedIn()
-			const group = await getGroup(db, code, { includeMembers: true })
-			const member = group.members.find(member => member.id === userId)
-			if (!member) throw new ForbiddenError('Failed to load group data: only members have access.')
-			return group
-		},
-	},
-
-	Mutation: {
 		createGroup: async (_source: unknown, _args: unknown, { db, pubsub, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
 			ensureSignedIn()
 
@@ -79,7 +55,7 @@ export const groupResolvers = {
 			})()
 
 			await publishDeactivatedGroupMemberships(pubsub, result.deactivatedGroups, userId)
-			await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId, action: 'create' })
+			await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId })
 			return result.group
 		},
 
@@ -101,17 +77,17 @@ export const groupResolvers = {
 						existingMember.groupMembership = await existingMembership.update({ active: true }, { transaction })
 						existingGroup.members = await existingGroup.getMembers({ transaction })
 					}
-					return { group: existingGroup, deactivatedGroups, action: activated ? 'activate' as const : undefined }
+					return { group: existingGroup, deactivatedGroups, updated: activated }
 				}
 
 				// Add the user to the group.
 				await group.addMember(userId, { through: { active: true }, transaction })
 				group.members = await group.getMembers({ transaction })
-				return { group, deactivatedGroups, action: 'join' as const }
+				return { group, deactivatedGroups, updated: true }
 			})
 
 			await publishDeactivatedGroupMemberships(pubsub, result.deactivatedGroups, userId)
-			if (result.action) await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId, action: result.action })
+			if (result.updated) await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId })
 			return result.group
 		},
 
@@ -134,7 +110,7 @@ export const groupResolvers = {
 			})
 
 			await publishDeactivatedGroupMemberships(pubsub, result.deactivatedGroups, userId)
-			if (result.activated) await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId, action: 'activate' })
+			if (result.activated) await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: result.group, userId })
 			return result.group
 		},
 
@@ -150,29 +126,5 @@ export const groupResolvers = {
 			await publishDeactivatedGroupMemberships(pubsub, result.deactivatedGroups, userId)
 			return result.activeGroup
 		},
-	},
-
-	Subscription: {
-		...createSubscriptionResolver('groupUpdated', [groupEvents.groupUpdated], ({ updatedGroup }: GroupUpdatedPayload, { code }: { code: string }) => {
-			// Only pass on when the code matches.
-			if (updatedGroup.code === code.toUpperCase()) return updatedGroup
-		}, async ({ code }: { code: string }, { db, ensureSignedIn, userId }: AuthenticatedGroupContext) => {
-			ensureSignedIn()
-			ensureGroupMembership(await getGroup(db, code, { includeMembers: true }), userId)
-		}),
-
-		...createSubscriptionResolver('myActiveGroupUpdated', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }: GroupUpdatedPayload, _args: unknown, { userId }: AuthenticatedGroupContext) => {
-			// If the user caused this update, always pass the group on. The client can incorporate the data appropriately.
-			if (userId === eventUserId && action === 'deactivate') return updatedGroup
-
-			// If this is the user's active group, also pass it on.
-			const member = updatedGroup.members.find(member => member.id === userId)
-			if (member && member.groupMembership.active) return updatedGroup
-		}),
-
-		...createSubscriptionResolver('myGroupsUpdated', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId }: GroupUpdatedPayload, _args: unknown, { userId }: AuthenticatedGroupContext) => {
-			// Only pass on the updated group when the user caused this event (like deactivated) or when the user is a member.
-			if (userId === eventUserId || updatedGroup.members.some(member => member.id === userId)) return updatedGroup
-		}),
-	},
+	}
 }

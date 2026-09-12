@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import type { GroupExerciseSampleWithEvents } from '../../../../src/modules/groupExercise/models.ts'
 import type { GroupActionUpdatedPayload, GroupEventResolvedPayload, GroupExerciseStartedPayload } from '../../../../src/modules/groupExercise/service.ts'
-import { selectGroupActionUpdate, selectGroupEventResolution, selectStartedGroupExercise } from '../../../../src/modules/groupExercise/resolvers.ts'
+import { selectGroupActionUpdate, selectGroupEventResolution, selectStartedGroupExercise } from '../../../../src/modules/groupExercise/resolvers/subscriptions.ts'
 
 const exercise = { id: 'exercise-id', skillId: 'enterInteger' } as GroupExerciseSampleWithEvents
 const context = { userId: 'user-id' } as Parameters<typeof selectGroupActionUpdate>[2]

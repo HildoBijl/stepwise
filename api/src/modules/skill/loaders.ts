@@ -27,6 +27,7 @@ declare module '../types.ts' {
 export function createSkillLoaders(context: LoaderContext, { coursesWithStudent }: Partial<ApiLoaders>): SkillLoaders {
 	if (!coursesWithStudent) throw new Error('Cannot create skill loaders before course loaders.')
 	const { db } = context
+
 	return {
 		permittedSkillsForStudent: new DataLoader<string, SkillPermission>(async studentIds => {
 			const coursesPerStudent = await coursesWithStudent.loadMany(studentIds)
@@ -51,6 +52,7 @@ export function createSkillLoaders(context: LoaderContext, { coursesWithStudent 
 				return { withExercises: [...withExercises], withoutExercises: [...withoutExercises] }
 			})
 		}),
+
 		allSkillsForUser: new DataLoader<string, UserSkillRecord[]>(async userIds => {
 			const skills = await db.UserSkill.findAll({ where: { userId: { [Op.in]: userIds } } })
 			const skillsPerUser: Record<string, UserSkillRecord[]> = {}
@@ -60,6 +62,7 @@ export function createSkillLoaders(context: LoaderContext, { coursesWithStudent 
 			})
 			return userIds.map(userId => skillsPerUser[userId] ?? [])
 		}),
+
 		skillForUser: new DataLoader<{ userId: string; skillId: SkillId }, UserSkillRecord | null>(async combinations => {
 			const skills = await db.UserSkill.findAll({ where: { [Op.or]: [...combinations] } })
 			const skillsPerUser: Record<string, Record<string, UserSkillRecord>> = {}

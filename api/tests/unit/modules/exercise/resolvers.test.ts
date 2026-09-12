@@ -3,7 +3,8 @@ import { describe, expect, it } from 'vitest'
 import { type UserSkillRecord, createSkillResolverSource } from '../../../../src/modules/skill/index.ts'
 import type { ExerciseSampleRecord } from '../../../../src/modules/exercise/models.ts'
 import type { ExerciseUpdatedPayload } from '../../../../src/modules/exercise/service.ts'
-import { exerciseResolvers, selectExerciseUpdate, selectStartedExercise } from '../../../../src/modules/exercise/resolvers.ts'
+import { exerciseResolvers } from '../../../../src/modules/exercise/resolvers/index.ts'
+import { selectExerciseUpdate, selectStartedExercise } from '../../../../src/modules/exercise/resolvers/subscriptions.ts'
 
 describe('exercise resolvers', () => {
 	it('only exposes exercise data when the skill grants access', () => {
@@ -15,7 +16,7 @@ describe('exercise resolvers', () => {
 })
 
 const exercise = { id: 'exercise-id' } as ExerciseSampleRecord
-const payload: ExerciseUpdatedPayload = { updatedExercise: exercise, userId: 'user-id', skillId: 'enterInteger', action: 'submitAction' }
+const payload: ExerciseUpdatedPayload = { updatedExercise: exercise, userId: 'user-id', skillId: 'enterInteger' }
 const context = { userId: 'user-id' } as Parameters<typeof selectExerciseUpdate>[2]
 
 describe('exercise subscriptions', () => {

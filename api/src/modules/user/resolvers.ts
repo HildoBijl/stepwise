@@ -41,11 +41,13 @@ const userResolvers = {
 			await user!.update({ language })
 			return user
 		},
+
 		acceptLatestPrivacyPolicy: async (_source: unknown, _args: unknown, { ensureSignedIn, user }: UserContext) => {
 			ensureSignedIn()
 			if (!user!.privacyPolicyAcceptedVersion || user!.privacyPolicyAcceptedVersion < currentPrivacyPolicyVersion) await user!.update({ privacyPolicyAcceptedVersion: currentPrivacyPolicyVersion, privacyPolicyAcceptedAt: new Date() })
 			return user
 		},
+
 		deleteAccount: async (_source: unknown, { confirmEmail }: { confirmEmail: string }, { ensureSignedIn, user }: UserContext) => {
 			ensureSignedIn()
 			if (user!.email !== confirmEmail) throw new InvalidInputError('User shutdown denied: the confirmation email does not match.')

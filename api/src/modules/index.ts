@@ -4,8 +4,8 @@ import { authenticationModule } from './authentication/index.ts'
 import { canViewStudentSharedData, courseModule } from './course/index.ts'
 import { skillModule } from './skill/index.ts'
 import { exerciseModule } from './exercise/index.ts'
-import { groupModule } from './group/index.ts'
-import { groupExerciseModule } from './groupExercise/index.ts'
+import { createGroupModule } from './group/index.ts'
+import { groupExerciseModule, prepareGroupMemberDeparture } from './groupExercise/index.ts'
 
 // Modules are registered in dependency order. Foundational modules come first.
 export const apiModules: ApiModule[] = [
@@ -14,7 +14,7 @@ export const apiModules: ApiModule[] = [
 	courseModule,
 	skillModule,
 	exerciseModule,
-	groupModule,
+	createGroupModule(prepareGroupMemberDeparture),
 	groupExerciseModule,
 ]
 

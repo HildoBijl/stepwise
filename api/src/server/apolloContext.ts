@@ -1,7 +1,7 @@
 import type { PubSubEngine } from 'graphql-subscriptions'
 
 import { ForbiddenError, UnauthenticatedError } from '../errors.ts'
-import type { ApiContext, ApiLoaders, LoaderContext } from '../modules/index.ts'
+import type { ApiContext, LoaderContext } from '../modules/index.ts'
 import { type UserRecord, recordUserActivity } from '../modules/user/index.ts'
 import type { Database } from '../database.ts'
 import { createLoaders } from '../graphql/index.ts'

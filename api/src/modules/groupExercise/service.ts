@@ -1,10 +1,13 @@
-import { last } from '@step-wise/js-utils'
+import type { PubSubEngine } from 'graphql-subscriptions'
+import { type Transaction, Op } from 'sequelize'
+
 import type { ExerciseState } from '@step-wise/exercise-definition'
+import { last } from '@step-wise/js-utils'
 import type { SkillId } from '@step-wise/skill-definition'
 import { getExercise } from '@step-wise/exercises'
 
 import type { ServiceOptions } from '../types.ts'
-import { type GroupDatabase, hasLoadedGroupMembers } from '../group/index.ts'
+import { type GroupDatabase, type GroupWithMembers, hasLoadedGroupMembers } from '../group/index.ts'
 
 import { type GroupExerciseActionModel, type GroupExerciseActionRecord, type GroupExerciseEventModel, type GroupExerciseEventRecord, type GroupExerciseSampleModel, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, type GroupWithLoadedExercises, hasLoadedGroupExerciseEvents, hasLoadedGroupExercises } from './models.ts'
 
@@ -120,4 +123,38 @@ export function getGroupWithAllExercises(db: GroupExerciseDatabase, code: string
 }
 export function getGroupWithActiveSkillExercise(db: GroupExerciseDatabase, code: string, skillId: SkillId, options: ServiceOptions = {}): Promise<GroupWithLoadedExercises | null> {
 	return getGroupWithExercises(db, code, { ...options, where: { skillId, active: true } })
+}
+
+interface PendingGroupActionRemoval {
+	exerciseId: string
+	eventIndex: number
+}
+
+async function cleanUpGroupExerciseActionsForLeavingMember(db: GroupExerciseDatabase, group: GroupWithMembers, userId: string, transaction: Transaction): Promise<PendingGroupActionRemoval[]> {
+	// Reload all exercises of the group.
+	const groupWithExercises = await getGroupWithAllExercises(db, group.code, { transaction })
+	if (!groupWithExercises) throw new Error(`Failed to reload group "${group.code}" with exercises.`)
+	const eventIds = groupWithExercises.exercises.flatMap(exercise => exercise.events.map(event => event.id)).sort()
+	if (eventIds.length === 0) return []
+
+	// Find all events of the group that have actions by the leaving member, and delete those actions.
+	await db.GroupExerciseEvent.findAll({ where: { id: { [Op.in]: eventIds } }, order: [['id', 'ASC']], transaction, lock: transaction.LOCK.UPDATE })
+	const userActions = await db.GroupExerciseAction.findAll({ where: { userId, groupExerciseEventId: { [Op.in]: eventIds } }, transaction })
+	const affectedEventIds = new Set(userActions.map(action => action.groupExerciseEventId))
+	if (userActions.length > 0) await db.GroupExerciseAction.destroy({ where: { userId, id: { [Op.in]: userActions.map(action => action.id) } }, transaction })
+
+	// Return the exercise IDs and event indices of the events that were affected by the action deletions, for possible subscriptions.
+	return groupWithExercises.exercises.flatMap(exercise => exercise.events
+		.filter(event => event.state === null && affectedEventIds.has(event.id))
+		.map(event => ({ exerciseId: exercise.id, eventIndex: event.eventIndex })))
+}
+
+export async function prepareGroupMemberDeparture(db: GroupExerciseDatabase, group: GroupWithMembers, userId: string, transaction: Transaction, pubsub: PubSubEngine): Promise<() => Promise<void>> {
+	const pendingRemovals = await cleanUpGroupExerciseActionsForLeavingMember(db, group, userId, transaction)
+	const memberIds = group.members.map(member => member.id)
+	return async () => {
+		await Promise.all(pendingRemovals.map(async ({ exerciseId, eventIndex }) => {
+			await pubsub.publish(groupExerciseEvents.groupActionUpdated, { exerciseId, eventIndex, userId, action: null, memberIds })
+		}))
+	}
 }

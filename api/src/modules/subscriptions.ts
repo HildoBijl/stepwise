@@ -6,7 +6,13 @@ type SubscriptionContext = Pick<ApiContext, 'pubsub'>
 type SubscriptionResultSelector<Payload, Args, Context, Result> = (payload: Payload, args: Args, context: Context) => Result | Promise<Result>
 type SubscriptionAuthorizer<Args, Context> = (args: Args, context: Context) => void | Promise<void>
 
-export function createSubscriptionResolver<Payload, Args, Context extends SubscriptionContext, Result>(fieldName: string, eventNames: string[], selectResult: SubscriptionResultSelector<Payload, Args, Context, Result>, authorizeSubscription?: SubscriptionAuthorizer<Args, Context>, resolverOptions: Record<string, unknown> = {}) {
+export function createSubscriptionResolver<Payload, Args, Context extends SubscriptionContext, Result>(
+	fieldName: string,
+	eventNames: string[],
+	selectResult: SubscriptionResultSelector<Payload, Args, Context, Result>,
+	authorizeSubscription?: SubscriptionAuthorizer<Args, Context>,
+	resolverOptions: Record<string, unknown> = {},
+) {
 	return {
 		[fieldName]: {
 			...resolverOptions,

@@ -35,7 +35,7 @@ export const skillResolvers = {
 		createdAt: (skill: UserSkillRecord) => skill.createdAt,
 		updatedAt: (skill: UserSkillRecord) => skill.updatedAt,
 	},
-	
+
 	UserSharedData: { skills: userSkills },
 
 	Query: {

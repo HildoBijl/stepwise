@@ -1,11 +1,11 @@
-import type { IncludeOptions } from 'sequelize'
+import type { IncludeOptions, Transaction } from 'sequelize'
 
 import { last } from '@step-wise/js-utils'
 import type { SkillId } from '@step-wise/skill-definition'
 import type { ExerciseState } from '@step-wise/exercise-definition'
 import { getExercise } from '@step-wise/exercises'
 
-import { InvalidInputError } from '../../errors.ts'
+import { ForbiddenError, InvalidInputError } from '../../errors.ts'
 
 import type { ServiceOptions } from '../types.ts'
 import type { SkillDatabase, UserSkillRecord } from '../skill/index.ts'
@@ -25,7 +25,6 @@ export interface ExerciseUpdatedPayload {
 	updatedExercise: ExerciseSampleRecord
 	userId: string
 	skillId: SkillId
-	action: ExerciseUpdateAction
 }
 
 export interface GetUserSkillWithExercisesOptions extends ServiceOptions {
@@ -55,6 +54,17 @@ export function getLatestExerciseEvent(exercise: ExerciseSampleRecord): Exercise
 
 export function getExerciseEventIndex(exercise: ExerciseSampleRecord): number {
 	return (getLatestExerciseEvent(exercise)?.eventIndex ?? -1) + 1
+}
+
+export async function lockActiveExercise(db: ExerciseDatabase, exerciseId: string, userId: string, transaction: Transaction): Promise<{ exercise: ExerciseSampleWithEvents; skill: UserSkillRecord }> {
+	const exercise = await db.ExerciseSample.findByPk(exerciseId, { transaction, lock: transaction.LOCK.UPDATE })
+	if (!exercise || !exercise.active) throw new InvalidInputError(`Cannot submit action: exercise "${exerciseId}" is not active.`)
+	const skill = await db.UserSkill.findByPk(exercise.userSkillId, { transaction })
+	if (!skill) throw new Error(`Failed to load the skill for exercise "${exerciseId}".`)
+	if (skill.userId !== userId) throw new ForbiddenError(`Cannot submit action: exercise "${exerciseId}" does not belong to the signed-in user.`)
+	exercise.events = await db.ExerciseEvent.findAll({ where: { exerciseSampleId: exercise.id }, order: [['eventIndex', 'ASC']], transaction })
+	if (!hasLoadedExerciseEvents(exercise)) throw new Error(`Failed to load events for exercise "${exercise.id}".`)
+	return { exercise, skill }
 }
 
 export function getCurrentExerciseState(exercise: ExerciseSampleRecord): ExerciseState {

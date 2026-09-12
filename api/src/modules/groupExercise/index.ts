@@ -1,7 +1,7 @@
 import { defineApiModule } from '../types.ts'
 
 import { type GroupExerciseActionModel, type GroupExerciseEventModel, type GroupExerciseSampleModel, createGroupExerciseActionModel, createGroupExerciseEventModel, createGroupExerciseSampleModel } from './models.ts'
-import { groupExerciseResolvers } from './resolvers.ts'
+import { groupExerciseResolvers } from './resolvers/index.ts'
 import { groupExerciseTypeDefs } from './schema.ts'
 
 declare module '../types.ts' {
@@ -27,7 +27,8 @@ export const groupExerciseModule = defineApiModule({
 		models.GroupExerciseAction.belongsTo(models.GroupExerciseEvent, { onDelete: 'CASCADE' })
 		models.GroupExerciseAction.belongsTo(models.User, { onDelete: 'CASCADE' })
 	},
-	typeDefs: groupExerciseTypeDefs, resolvers: groupExerciseResolvers,
+	typeDefs: groupExerciseTypeDefs,
+	resolvers: groupExerciseResolvers,
 })
 
 export * from './models.ts'

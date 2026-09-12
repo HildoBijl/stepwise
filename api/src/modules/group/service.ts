@@ -16,12 +16,10 @@ export interface GroupDatabase extends UserDatabase {
 
 export const groupEvents = { groupUpdated: 'GROUP_UPDATED' } as const
 
-export type GroupUpdateAction = 'activate' | 'create' | 'deactivate' | 'destroy' | 'join' | 'leave'
-
 export interface GroupUpdatedPayload {
 	updatedGroup: GroupWithMembers
 	userId: string
-	action: GroupUpdateAction
+	removedForUser?: boolean
 }
 
 export function ensureGroupMembership(group: GroupWithMembers | null, userId: string): asserts group is GroupWithMembers {
@@ -77,7 +75,7 @@ export async function deactivateUserGroupMemberships(user: UserWithGroups, { exc
 }
 
 export async function publishDeactivatedGroupMemberships(pubsub: PubSubEngine, groups: GroupWithMembers[], userId: string): Promise<void> {
-	await Promise.all(groups.map(async updatedGroup => await pubsub.publish(groupEvents.groupUpdated, { updatedGroup, userId, action: 'deactivate' })))
+	await Promise.all(groups.map(async updatedGroup => await pubsub.publish(groupEvents.groupUpdated, { updatedGroup, userId, removedForUser: true })))
 }
 
 export interface GetGroupOptions extends LockingServiceOptions {

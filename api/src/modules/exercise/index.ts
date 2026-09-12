@@ -3,7 +3,7 @@ import { defineApiModule } from '../types.ts'
 import { exerciseTypeDefs } from './schema.ts'
 import { type ExerciseEventModel, type ExerciseSampleModel, createExerciseEventModel, createExerciseSampleModel } from './models.ts'
 import { createExerciseLoaders } from './loaders.ts'
-import { exerciseResolvers } from './resolvers.ts'
+import { exerciseResolvers } from './resolvers/index.ts'
 
 declare module '../types.ts' {
 	interface ApiModels {
