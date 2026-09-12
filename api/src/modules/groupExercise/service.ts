@@ -84,9 +84,6 @@ async function getGroupWithExercises(db: GroupExerciseDatabase, code: string, { 
 	return group
 }
 
-export function getGroupWithActiveExercises(db: GroupExerciseDatabase, code: string, options: ServiceOptions = {}): Promise<GroupWithLoadedExercises | null> {
-	return getGroupWithExercises(db, code, { ...options, where: { active: true } })
-}
 export function getGroupWithAllExercises(db: GroupExerciseDatabase, code: string, options: ServiceOptions = {}): Promise<GroupWithLoadedExercises | null> {
 	return getGroupWithExercises(db, code, options)
 }

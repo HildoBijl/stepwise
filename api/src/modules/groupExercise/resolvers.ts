@@ -13,9 +13,14 @@ import { ensureActiveGroupMembership, ensureGroupMembership, getGroup, groupEven
 import { type UserSkillObservationInput, type UserSkillRecord, applySkillObservations, skillEvents } from '../skill/index.ts'
 
 import { type GroupExerciseActionRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents } from './models.ts'
-import { type GroupExerciseDatabase, type GroupExerciseUpdatedPayload, getCurrentGroupExerciseState, getGroupExerciseById, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, getGroupWithAllExercises, getLatestGroupExercise, groupExerciseEvents } from './service.ts'
+import { type GroupExerciseDatabase, type GroupExerciseUpdatedPayload, getCurrentGroupExerciseState, getGroupExerciseById, getGroupWithActiveSkillExercise, getGroupWithAllExercises, getLatestGroupExercise, groupExerciseEvents } from './service.ts'
 
 type GroupExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'pubsub' | 'userId'>
+type LatestGroupExerciseUpdatedArgs = { code: string; skillId: string }
+
+export function selectLatestGroupExerciseUpdate({ updatedGroupExercise, code: eventCode }: GroupExerciseUpdatedPayload, { code, skillId }: LatestGroupExerciseUpdatedArgs): GroupExerciseSampleWithEvents | undefined {
+	if (eventCode === code.toUpperCase() && updatedGroupExercise.skillId === skillId) return updatedGroupExercise
+}
 
 function getGroupEventPerformedAt(event: GroupExerciseEventWithActions): Date {
 	return findOptimum(event.actions.map(userAction => userAction.updatedAt), (a, b) => a.getTime() > b.getTime()) ?? event.updatedAt
@@ -261,12 +266,9 @@ export const groupExerciseResolvers = {
 	},
 
 	Subscription: {
-		...createSubscriptionResolver('activeGroupExercisesUpdated', [groupExerciseEvents.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }: GroupExerciseUpdatedPayload, { code: codeOfFollowedGroup }: { code: string }) => {
-			// Only pass on when the code matches.
-			if (codeOfEvent === codeOfFollowedGroup.toUpperCase()) return updatedGroupExercise
-		}, async ({ code }: { code: string }, { db, ensureSignedIn, userId }: GroupExerciseContext) => {
+		...createSubscriptionResolver('latestGroupExerciseUpdated', [groupExerciseEvents.groupExerciseUpdated], selectLatestGroupExerciseUpdate, async ({ code }: LatestGroupExerciseUpdatedArgs, { db, ensureSignedIn, userId }: GroupExerciseContext) => {
 			ensureSignedIn()
-			ensureActiveGroupMembership(await getGroupWithActiveExercises(db, code), userId)
+			ensureGroupMembership(await getGroup(db, code, { includeMembers: true }), userId)
 		}),
 	},
 }
