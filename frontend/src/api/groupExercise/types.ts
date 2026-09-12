@@ -10,12 +10,14 @@ export type GroupExerciseAction = UserExerciseAction & {
 
 export type GroupExerciseEvent = GroupExerciseHistoryEvent & {
 	id: string
+	eventIndex: number
 	performedAt: Date
 	actions: GroupExerciseAction[]
 }
 
 export type GroupExercise = Omit<GroupExerciseInstance, 'history'> & {
 	id: string
+	eventIndex: number
 	skillId: SkillId
 	exerciseId: string
 	active: boolean
@@ -25,9 +27,9 @@ export type GroupExercise = Omit<GroupExerciseInstance, 'history'> & {
 }
 
 export type UseStartGroupExerciseResult = ApiMutationResult<() => Promise<string>>
-export type UseSubmitGroupActionResult = ApiMutationResult<(action: ExerciseAction) => Promise<void>>
-export type UseCancelGroupActionResult = ApiMutationResult<() => Promise<void>>
-export type UseResolveGroupEventResult = ApiMutationResult<() => Promise<void>>
+export type UseSubmitGroupActionResult = ApiMutationResult<(action: ExerciseAction, eventIndex: number) => Promise<void>>
+export type UseCancelGroupActionResult = ApiMutationResult<(eventIndex: number) => Promise<void>>
+export type UseResolveGroupEventResult = ApiMutationResult<(eventIndex: number) => Promise<void>>
 
 export type UseLatestGroupExerciseResult = ApiQueryResult<'exercise', GroupExercise>
 export type UseGroupExerciseResult = ApiQueryResult<'exercise', GroupExercise>

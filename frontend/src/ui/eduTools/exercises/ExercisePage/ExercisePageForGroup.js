@@ -36,8 +36,17 @@ export function ExercisePageForGroup({ skillId }) {
 	}, [setDisplayedExerciseId, skillId, startNewExerciseOnServer])
 	const submitAction = useCallback((action, processGroupActions) => {
 		// ToDo later: use processGroupActions to set up an optimistic response.
-		submitActionToServer(action).catch(() => { })
-	}, [submitActionToServer])
+		if (!displayedExercise) return
+		submitActionToServer(action, displayedExercise.eventIndex).catch(() => { })
+	}, [displayedExercise, submitActionToServer])
+	const cancelCurrentAction = useCallback(() => {
+		if (!displayedExercise) return
+		return cancelAction(displayedExercise.eventIndex)
+	}, [cancelAction, displayedExercise])
+	const resolveCurrentEvent = useCallback(() => {
+		if (!displayedExercise) return
+		return resolveEvent(displayedExercise.eventIndex)
+	}, [displayedExercise, resolveEvent])
 
 	// Initially display the latest exercise. If none exists yet, start one.
 	useEffect(() => {
@@ -78,6 +87,6 @@ export function ExercisePageForGroup({ skillId }) {
 		>
 			{translate('Another group member has started a newer exercise.', 'groupExercise.status.newGroupExercise')}
 		</Alert>}
-		<ExerciseContainer key={displayedExercise.startedAt} skillId={skillId} exercise={displayedExercise} groupExercise={true} submitting={resolveLoading} submitAction={submitAction} cancelAction={cancelAction} resolveEvent={resolveEvent} startNewExercise={startNewExercise} />
+		<ExerciseContainer key={displayedExercise.startedAt} skillId={skillId} exercise={displayedExercise} groupExercise={true} submitting={resolveLoading} submitAction={submitAction} cancelAction={cancelCurrentAction} resolveEvent={resolveCurrentEvent} startNewExercise={startNewExercise} />
 	</>
 }

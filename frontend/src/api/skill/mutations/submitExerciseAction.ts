@@ -15,11 +15,11 @@ type SubmitExerciseActionData = {
 		updatedSkills: SkillLevelRecord[]
 	}
 }
-type SubmitExerciseActionVariables = { skillId: SkillId; action: ExerciseAction }
+type SubmitExerciseActionVariables = { skillId: SkillId; eventIndex: number; action: ExerciseAction }
 
 const SUBMIT_EXERCISE_ACTION: TypedDocumentNode<SubmitExerciseActionData, SubmitExerciseActionVariables> = gql`
-	mutation submitExerciseAction($skillId: String!, $action: JSON!) {
-		submitExerciseAction(skillId: $skillId, action: $action) {
+	mutation submitExerciseAction($skillId: String!, $eventIndex: Int!, $action: JSON!) {
+		submitExerciseAction(skillId: $skillId, eventIndex: $eventIndex, action: $action) {
 			updatedExercise {
 				${exerciseFields}
 			}
@@ -32,6 +32,8 @@ const SUBMIT_EXERCISE_ACTION: TypedDocumentNode<SubmitExerciseActionData, Submit
 
 export function useSubmitExerciseAction(skillId: SkillId): UseSubmitExerciseActionResult {
 	const [mutate, { loading, error }] = useMutation(SUBMIT_EXERCISE_ACTION)
-	const submitExerciseAction = useCallback(async (action: ExerciseAction) => { await mutate({ variables: { skillId, action } }) }, [mutate, skillId])
+	const submitExerciseAction = useCallback(async (action: ExerciseAction, eventIndex: number) => {
+		await mutate({ variables: { skillId, eventIndex, action } })
+	}, [mutate, skillId])
 	return [submitExerciseAction, { loading, error }]
 }

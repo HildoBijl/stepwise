@@ -10,6 +10,7 @@ export type GroupExerciseActionRecord = {
 
 export type GroupExerciseEventRecord = {
 	id: string
+	eventIndex: number
 	state: ExerciseState | null
 	performedAt: string
 	actions: GroupExerciseActionRecord[]
@@ -18,6 +19,7 @@ export type GroupExerciseEventRecord = {
 export type GroupExerciseRecord = {
 	__typename: 'GroupExercise'
 	id: string
+	eventIndex: number
 	skillId: SkillId
 	exerciseId: string
 	mode: 'group'

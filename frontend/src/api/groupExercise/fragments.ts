@@ -1,6 +1,7 @@
 export const groupExerciseFields = `
 	__typename
 	id
+	eventIndex
 	skillId
 	exerciseId
 	mode
@@ -11,6 +12,7 @@ export const groupExerciseFields = `
 	state
 	history {
 		id
+		eventIndex
 		performedAt
 		state
 		actions {

@@ -11,11 +11,11 @@ import { groupExerciseFields } from '../fragments.ts'
 import { updateLatestGroupExerciseInCache } from './cache.ts'
 
 type ResolveGroupEventData = { resolveGroupEvent: GroupExerciseRecord }
-type ResolveGroupEventVariables = { code: string; skillId: SkillId }
+type ResolveGroupEventVariables = { code: string; skillId: SkillId; eventIndex: number }
 
 const RESOLVE_GROUP_EVENT_MUTATION: TypedDocumentNode<ResolveGroupEventData, ResolveGroupEventVariables> = gql`
-	mutation resolveGroupEvent($code: String!, $skillId: String!) {
-		resolveGroupEvent(code: $code, skillId: $skillId) {
+	mutation resolveGroupEvent($code: String!, $skillId: String!, $eventIndex: Int!) {
+		resolveGroupEvent(code: $code, skillId: $skillId, eventIndex: $eventIndex) {
 			${groupExerciseFields}
 		}
 	}
@@ -23,11 +23,12 @@ const RESOLVE_GROUP_EVENT_MUTATION: TypedDocumentNode<ResolveGroupEventData, Res
 
 export function useResolveGroupEvent(code: string, skillId: SkillId): UseResolveGroupEventResult {
 	const [mutate, { loading, error }] = useMutation(RESOLVE_GROUP_EVENT_MUTATION, {
-		variables: { code, skillId },
 		update(cache, { data }) {
 			if (data?.resolveGroupEvent) updateLatestGroupExerciseInCache(cache, code, skillId, data.resolveGroupEvent)
 		},
 	})
-	const resolveGroupEvent = useCallback(async () => { await mutate() }, [mutate])
+	const resolveGroupEvent = useCallback(async (eventIndex: number) => {
+		await mutate({ variables: { code, skillId, eventIndex } })
+	}, [code, mutate, skillId])
 	return [resolveGroupEvent, { loading, error }]
 }

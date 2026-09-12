@@ -12,11 +12,11 @@ import { groupExerciseFields } from '../fragments.ts'
 import { updateLatestGroupExerciseInCache } from './cache.ts'
 
 type SubmitGroupActionData = { submitGroupAction: GroupExerciseRecord }
-type SubmitGroupActionVariables = { code: string; skillId: SkillId; action: ExerciseAction }
+type SubmitGroupActionVariables = { code: string; skillId: SkillId; eventIndex: number; action: ExerciseAction }
 
 const SUBMIT_GROUP_ACTION_MUTATION: TypedDocumentNode<SubmitGroupActionData, SubmitGroupActionVariables> = gql`
-	mutation submitGroupAction($code: String!, $skillId: String!, $action: JSON!) {
-		submitGroupAction(code: $code, skillId: $skillId, action: $action) {
+	mutation submitGroupAction($code: String!, $skillId: String!, $eventIndex: Int!, $action: JSON!) {
+		submitGroupAction(code: $code, skillId: $skillId, eventIndex: $eventIndex, action: $action) {
 			${groupExerciseFields}
 		}
 	}
@@ -24,9 +24,9 @@ const SUBMIT_GROUP_ACTION_MUTATION: TypedDocumentNode<SubmitGroupActionData, Sub
 
 export function useSubmitGroupAction(code: string, skillId: SkillId): UseSubmitGroupActionResult {
 	const [mutate, { loading, error }] = useMutation(SUBMIT_GROUP_ACTION_MUTATION)
-	const submitGroupAction = useCallback(async (action: ExerciseAction) => {
+	const submitGroupAction = useCallback(async (action: ExerciseAction, eventIndex: number) => {
 		await mutate({
-			variables: { code, skillId, action },
+			variables: { code, skillId, eventIndex, action },
 			update(cache, { data }) {
 				if (data?.submitGroupAction) updateLatestGroupExerciseInCache(cache, code, skillId, data.submitGroupAction)
 			},

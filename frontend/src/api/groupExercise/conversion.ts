@@ -8,6 +8,7 @@ function groupExerciseActionRecordToAction(record: GroupExerciseActionRecord): G
 function groupExerciseEventRecordToEvent(record: GroupExerciseEventRecord): GroupExerciseEvent {
 	return {
 		id: record.id,
+		eventIndex: record.eventIndex,
 		...(record.state === null ? {} : { state: record.state }),
 		performedAt: new Date(record.performedAt),
 		actions: record.actions.map(groupExerciseActionRecordToAction),
@@ -17,6 +18,7 @@ function groupExerciseEventRecordToEvent(record: GroupExerciseEventRecord): Grou
 export function groupExerciseRecordToExercise(record: GroupExerciseRecord): GroupExercise {
 	return {
 		id: record.id,
+		eventIndex: record.eventIndex,
 		skillId: record.skillId,
 		exerciseId: record.exerciseId,
 		mode: record.mode,

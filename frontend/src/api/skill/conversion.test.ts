@@ -8,6 +8,7 @@ const date = '2026-01-02T03:04:05.000Z'
 function createExerciseRecord(): ExerciseRecord {
 	return {
 		id: 'exercise-id',
+		eventIndex: 2,
 		exerciseId: 'integerInput',
 		mode: 'solo',
 		parameters: {},
@@ -56,6 +57,7 @@ describe('skill API conversion', () => {
 		const skill = skillWithLatestExerciseRecordToSkill(createLatestExerciseSkillRecord({ latestExercise: exercise }))
 
 		expect(skill.latestExercise?.startedAt).toStrictEqual(new Date(date))
+		expect(skill.latestExercise?.eventIndex).toBe(2)
 		expect(skill).not.toHaveProperty('coefficients')
 		expect(skill).not.toHaveProperty('levelData')
 	})

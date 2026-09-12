@@ -6,6 +6,7 @@ import type { UserAccountDataRecord, UserRecord, UserSharedDataRecord } from '..
 
 export type ExerciseEventRecord = {
 	id: string
+	eventIndex: number
 	action: ExerciseAction
 	state: ExerciseState
 	performedAt: string
@@ -13,6 +14,7 @@ export type ExerciseEventRecord = {
 
 export type ExerciseRecord = {
 	id: string
+	eventIndex: number
 	exerciseId: string
 	mode: 'solo'
 	parameters: ExerciseParameters

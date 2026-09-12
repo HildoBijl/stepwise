@@ -1,5 +1,6 @@
 export const exerciseFields = `
 	id
+	eventIndex
 	exerciseId
 	mode
 	parameters
@@ -9,6 +10,7 @@ export const exerciseFields = `
 	state
 	history {
 		id
+		eventIndex
 		action
 		state
 		performedAt

@@ -11,11 +11,11 @@ import { groupExerciseFields } from '../fragments.ts'
 import { updateLatestGroupExerciseInCache } from './cache.ts'
 
 type CancelGroupActionData = { cancelGroupAction: GroupExerciseRecord }
-type CancelGroupActionVariables = { code: string; skillId: SkillId }
+type CancelGroupActionVariables = { code: string; skillId: SkillId; eventIndex: number }
 
 const CANCEL_GROUP_ACTION_MUTATION: TypedDocumentNode<CancelGroupActionData, CancelGroupActionVariables> = gql`
-	mutation cancelGroupAction($code: String!, $skillId: String!) {
-		cancelGroupAction(code: $code, skillId: $skillId) {
+	mutation cancelGroupAction($code: String!, $skillId: String!, $eventIndex: Int!) {
+		cancelGroupAction(code: $code, skillId: $skillId, eventIndex: $eventIndex) {
 			${groupExerciseFields}
 		}
 	}
@@ -23,11 +23,12 @@ const CANCEL_GROUP_ACTION_MUTATION: TypedDocumentNode<CancelGroupActionData, Can
 
 export function useCancelGroupAction(code: string, skillId: SkillId): UseCancelGroupActionResult {
 	const [mutate, { loading, error }] = useMutation(CANCEL_GROUP_ACTION_MUTATION, {
-		variables: { code, skillId },
 		update(cache, { data }) {
 			if (data?.cancelGroupAction) updateLatestGroupExerciseInCache(cache, code, skillId, data.cancelGroupAction)
 		},
 	})
-	const cancelGroupAction = useCallback(async () => { await mutate() }, [mutate])
+	const cancelGroupAction = useCallback(async (eventIndex: number) => {
+		await mutate({ variables: { code, skillId, eventIndex } })
+	}, [code, mutate, skillId])
 	return [cancelGroupAction, { loading, error }]
 }

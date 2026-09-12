@@ -7,11 +7,13 @@ import type { User, UserWithAccountData, UserWithSharedData } from '../user/type
 
 export type ExerciseEvent = SoloExerciseHistoryEvent & {
 	id: string
+	eventIndex: number
 	performedAt: Date
 }
 
 export type Exercise = Omit<SoloExerciseInstance, 'history'> & {
 	id: string
+	eventIndex: number
 	exerciseId: string
 	startedAt: Date
 	active: boolean
@@ -42,4 +44,4 @@ export type UserWithSkills = User & Partial<Omit<UserWithSharedData & UserWithAc
 
 export type UseUserWithSkillsResult = ApiQueryResult<'user', UserWithSkills>
 export type UseStartExerciseResult = ApiMutationResult<() => Promise<void>>
-export type UseSubmitExerciseActionResult = ApiMutationResult<(action: ExerciseAction) => Promise<void>>
+export type UseSubmitExerciseActionResult = ApiMutationResult<(action: ExerciseAction, eventIndex: number) => Promise<void>>
