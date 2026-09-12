@@ -7,13 +7,33 @@ import { getExercise, getExercises } from '@step-wise/exercises'
 
 import { ForbiddenError, InvalidInputError } from '../../errors.ts'
 
+import { createSubscriptionResolver } from '../subscriptions.ts'
 import type { AuthenticatedContext } from '../user/index.ts'
 import { type SkillObservationInput, type SkillResolverSource, type UserSkillRecord, applySkillObservationsForUser, createSkillResolverSource, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
 
 import { type ExerciseEventRecord, type ExerciseSampleRecord, type ExerciseSampleWithEvents, hasLoadedExerciseEvents } from './models.ts'
-import { type ExerciseDatabase, getCurrentExerciseState, getExerciseEventIndex, getLatestExerciseEvent, getUserSkillWithExercises } from './service.ts'
+import { type ExerciseDatabase, type ExerciseUpdatedPayload, exerciseEvents, getCurrentExerciseState, getExerciseEventIndex, getLatestExerciseEvent, getUserSkillWithExercises } from './service.ts'
 
 type ExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'loaders' | 'pubsub' | 'userId'>
+type LatestExerciseUpdatedArgs = { skillId: string }
+type ExerciseUpdatedArgs = { exerciseId: string }
+
+export function selectLatestExerciseUpdate({ updatedExercise, userId, skillId }: ExerciseUpdatedPayload, args: LatestExerciseUpdatedArgs, context: ExerciseContext): ExerciseSampleRecord | undefined {
+	if (userId === context.userId && skillId === args.skillId) return updatedExercise
+}
+
+export function selectExerciseUpdate({ updatedExercise, userId }: ExerciseUpdatedPayload, { exerciseId }: ExerciseUpdatedArgs, context: ExerciseContext): ExerciseSampleRecord | undefined {
+	if (userId === context.userId && updatedExercise.id === exerciseId) return updatedExercise
+}
+
+async function authorizeExerciseSubscription({ exerciseId }: ExerciseUpdatedArgs, { db, ensureSignedIn, userId }: ExerciseContext): Promise<void> {
+	ensureSignedIn()
+	const exercise = await db.ExerciseSample.findByPk(exerciseId)
+	if (!exercise) throw new InvalidInputError(`No exercise with ID "${exerciseId}" exists.`)
+	const skill = await db.UserSkill.findByPk(exercise.userSkillId)
+	if (!skill) throw new Error(`Failed to load the skill for exercise "${exerciseId}".`)
+	if (skill.userId !== userId) throw new ForbiddenError(`Access to exercise "${exerciseId}" is not allowed.`)
+}
 
 async function lockActiveExercise(db: ExerciseDatabase, exerciseId: string, userId: string, transaction: Transaction): Promise<{ exercise: ExerciseSampleWithEvents; skill: UserSkillRecord }> {
 	const exercise = await db.ExerciseSample.findByPk(exerciseId, { transaction, lock: transaction.LOCK.UPDATE })
@@ -51,7 +71,7 @@ export const exerciseResolvers = {
 	ExerciseEvent: { performedAt: (event: ExerciseEventRecord) => event.createdAt },
 
 	Mutation: {
-		startExercise: async (_source: unknown, { skillId: rawSkillId }: { skillId: string }, { db, ensureSignedIn, userId }: ExerciseContext) => {
+		startExercise: async (_source: unknown, { skillId: rawSkillId }: { skillId: string }, { db, pubsub, ensureSignedIn, userId }: ExerciseContext) => {
 			ensureSignedIn()
 			const skillId = ensureSkillId(rawSkillId)
 			const skillData = await getUserSkillWithExercises(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true, createIfNoneExists: true })
@@ -60,7 +80,9 @@ export const exerciseResolvers = {
 			if (!definitions) throw new Error(`Cannot start an exercise for skill "${skillId}": no exercises are available.`)
 			const generated = await generateSkillBasedExerciseInstance(definitions, ids => getUserSkillLevelSet(db, userId, ids), skillData.exercises)
 			try {
-				return await db.ExerciseSample.create({ userSkillId: skillData.skill.id, exerciseId: generated.exerciseId, parameters: generated.parameters, initialState: generated.initialState, active: true })
+				const exercise = await db.ExerciseSample.create({ userSkillId: skillData.skill.id, exerciseId: generated.exerciseId, parameters: generated.parameters, initialState: generated.initialState, active: true })
+				await pubsub.publish(exerciseEvents.exerciseUpdated, { updatedExercise: exercise, userId, skillId, action: 'startExercise' })
+				return exercise
 			} catch (error) {
 				if (error instanceof UniqueConstraintError) throw new InvalidInputError(`There is still an active exercise for skill "${skillId}".`)
 				throw error
@@ -72,7 +94,7 @@ export const exerciseResolvers = {
 			const action = ensureExerciseAction(rawAction)
 
 			// Lock and verify the exact exercise before calculating its next state, then apply all changes atomically.
-			const { updatedExercise, updatedSkills } = await db.transaction(async transaction => {
+			const { updatedExercise, updatedSkills, skillId } = await db.transaction(async transaction => {
 				const locked = await lockActiveExercise(db, exerciseId, userId, transaction)
 				const updatedExercise = locked.exercise
 				const skillId = locked.skill.skillId
@@ -95,12 +117,18 @@ export const exerciseResolvers = {
 					await updatedExercise.update({ active: false }, { transaction })
 					updatedExercise.active = false
 				}
-				return { updatedExercise, updatedSkills }
+				return { updatedExercise, updatedSkills, skillId }
 			})
 
 			// Publish the outcome.
+			await pubsub.publish(exerciseEvents.exerciseUpdated, { updatedExercise, userId, skillId, action: 'submitAction' })
 			await pubsub.publish(skillEvents.skillsUpdated, { userId, updatedSkills })
 			return { updatedExercise, updatedSkills: updatedSkills.map(skill => createSkillResolverSource(skill, true)) }
 		},
+	},
+
+	Subscription: {
+		...createSubscriptionResolver('latestExerciseUpdated', [exerciseEvents.exerciseUpdated], selectLatestExerciseUpdate, (_args: LatestExerciseUpdatedArgs, { ensureSignedIn }: ExerciseContext) => ensureSignedIn()),
+		...createSubscriptionResolver('exerciseUpdated', [exerciseEvents.exerciseUpdated], selectExerciseUpdate, authorizeExerciseSubscription),
 	},
 }

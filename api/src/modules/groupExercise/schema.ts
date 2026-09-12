@@ -15,6 +15,7 @@ export const groupExerciseTypeDefs = gql`
 
 	extend type Subscription {
 		latestGroupExerciseUpdated(code: String!, skillId: String!): GroupExercise!
+		groupExerciseUpdated(exerciseId: ID!): GroupExercise!
 	}
 
 	type GroupExercise {

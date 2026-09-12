@@ -17,6 +17,17 @@ export interface ExerciseDatabase extends SkillDatabase {
 	ExerciseSample: ExerciseSampleModel
 }
 
+export const exerciseEvents = { exerciseUpdated: 'EXERCISE_UPDATED' } as const
+
+export type ExerciseUpdateAction = 'startExercise' | 'submitAction'
+
+export interface ExerciseUpdatedPayload {
+	updatedExercise: ExerciseSampleRecord
+	userId: string
+	skillId: SkillId
+	action: ExerciseUpdateAction
+}
+
 export interface GetUserSkillWithExercisesOptions extends ServiceOptions {
 	includeActiveExercise?: boolean
 	includeExercises?: boolean

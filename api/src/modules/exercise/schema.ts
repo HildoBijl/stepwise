@@ -20,6 +20,11 @@ export const exerciseTypeDefs = gql`
 		submitExerciseAction(exerciseId: ID!, eventIndex: Int!, action: JSON!): ExerciseActionResult!
 	}
 
+	extend type Subscription {
+		latestExerciseUpdated(skillId: String!): Exercise!
+		exerciseUpdated(exerciseId: ID!): Exercise!
+	}
+
 	type Exercise {
 		id: ID!
 		exerciseId: String!

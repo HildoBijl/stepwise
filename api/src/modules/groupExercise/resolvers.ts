@@ -17,9 +17,23 @@ import { type GroupExerciseDatabase, type GroupExerciseUpdatedPayload, getCurren
 
 type GroupExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'pubsub' | 'userId'>
 type LatestGroupExerciseUpdatedArgs = { code: string; skillId: string }
+type GroupExerciseUpdatedArgs = { exerciseId: string }
 
 export function selectLatestGroupExerciseUpdate({ updatedGroupExercise, code: eventCode }: GroupExerciseUpdatedPayload, { code, skillId }: LatestGroupExerciseUpdatedArgs): GroupExerciseSampleWithEvents | undefined {
 	if (eventCode === code.toUpperCase() && updatedGroupExercise.skillId === skillId) return updatedGroupExercise
+}
+
+export function selectGroupExerciseUpdate({ updatedGroupExercise }: GroupExerciseUpdatedPayload, { exerciseId }: GroupExerciseUpdatedArgs): GroupExerciseSampleWithEvents | undefined {
+	if (updatedGroupExercise.id === exerciseId) return updatedGroupExercise
+}
+
+async function authorizeGroupExerciseSubscription({ exerciseId }: GroupExerciseUpdatedArgs, { db, ensureSignedIn, userId }: GroupExerciseContext): Promise<void> {
+	ensureSignedIn()
+	const exercise = await getGroupExerciseById(db, exerciseId)
+	if (!exercise) throw new InvalidInputError(`No group exercise with ID "${exerciseId}" exists.`)
+	const group = await db.Group.findByPk(exercise.groupId, { include: { association: 'members' } })
+	if (group && !hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
+	ensureGroupMembership(group, userId)
 }
 
 function getGroupEventPerformedAt(event: GroupExerciseEventWithActions): Date {
@@ -276,5 +290,6 @@ export const groupExerciseResolvers = {
 			ensureSignedIn()
 			ensureGroupMembership(await getGroup(db, code, { includeMembers: true }), userId)
 		}),
+		...createSubscriptionResolver('groupExerciseUpdated', [groupExerciseEvents.groupExerciseUpdated], selectGroupExerciseUpdate, authorizeGroupExerciseSubscription),
 	},
 }

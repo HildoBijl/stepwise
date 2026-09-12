@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 
 import { type UserSkillRecord, createSkillResolverSource } from '../../../../src/modules/skill/index.ts'
-import { exerciseResolvers } from '../../../../src/modules/exercise/resolvers.ts'
+import type { ExerciseSampleRecord } from '../../../../src/modules/exercise/models.ts'
+import type { ExerciseUpdatedPayload } from '../../../../src/modules/exercise/service.ts'
+import { exerciseResolvers, selectExerciseUpdate, selectLatestExerciseUpdate } from '../../../../src/modules/exercise/resolvers.ts'
 
 describe('exercise resolvers', () => {
 	it('only exposes exercise data when the skill grants access', () => {
@@ -9,5 +11,23 @@ describe('exercise resolvers', () => {
 
 		expect(exerciseResolvers.Skill.exerciseData(createSkillResolverSource(skill, false))).toBeNull()
 		expect(exerciseResolvers.Skill.exerciseData(createSkillResolverSource(skill, true))).toBe(skill)
+	})
+})
+
+const exercise = { id: 'exercise-id' } as ExerciseSampleRecord
+const payload: ExerciseUpdatedPayload = { updatedExercise: exercise, userId: 'user-id', skillId: 'enterInteger', action: 'submitAction' }
+const context = { userId: 'user-id' } as Parameters<typeof selectExerciseUpdate>[2]
+
+describe('exercise subscriptions', () => {
+	it('selects latest-exercise updates for the signed-in user and requested skill', () => {
+		expect(selectLatestExerciseUpdate(payload, { skillId: 'enterInteger' }, context)).toBe(exercise)
+		expect(selectLatestExerciseUpdate(payload, { skillId: 'enterFloat' }, context)).toBeUndefined()
+		expect(selectLatestExerciseUpdate(payload, { skillId: 'enterInteger' }, { ...context, userId: 'other-user' })).toBeUndefined()
+	})
+
+	it('selects exact-exercise updates for the signed-in owner', () => {
+		expect(selectExerciseUpdate(payload, { exerciseId: 'exercise-id' }, context)).toBe(exercise)
+		expect(selectExerciseUpdate(payload, { exerciseId: 'other-exercise' }, context)).toBeUndefined()
+		expect(selectExerciseUpdate(payload, { exerciseId: 'exercise-id' }, { ...context, userId: 'other-user' })).toBeUndefined()
 	})
 })
