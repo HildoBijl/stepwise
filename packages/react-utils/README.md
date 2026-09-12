@@ -1,6 +1,6 @@
 # @step-wise/react-utils
 
-`@step-wise/react-utils` provides reusable React hooks and small components for references, lifecycle state, browser events, element measurement, pointer tracking, animation scheduling, portals, and synchronized local-storage state. Browser-only functionality builds on `@step-wise/browser-utils`; general data manipulation remains in `@step-wise/js-utils`.
+`@step-wise/react-utils` provides reusable React hooks and small components for references, lifecycle state, browser events, element measurement, pointer tracking, animation scheduling, portals, and synchronized web-storage state. Browser-only functionality builds on `@step-wise/browser-utils`; general data manipulation remains in `@step-wise/js-utils`.
 
 
 ## Installation
@@ -119,16 +119,18 @@ Measurement hooks return undefined while no element is available. Keep object-re
 The first animation callback after starting or continuing receives an undefined delta. Elapsed time is retained while inactive, so paused time is not included.
 
 
-## Local-storage state
+## Web-storage state
 
 | Export | Behavior |
 | --- | --- |
 | `useLocalStorageState(key, initialState?, options?)` | Reads, updates, and subscribes to a JSON-compatible local-storage value. |
 | `LocalStorageStateOptions` | Provides an optional parser for validating or converting stored data. |
+| `useSessionStorageState(key, initialState?, options?)` | Reads, updates, and subscribes to a JSON-compatible session-storage value. |
+| `SessionStorageStateOptions` | Provides an optional parser for validating or converting stored data. |
 
-Updates are synchronized between hook instances in the same document through an internal event and between documents through the browser's `storage` event. Changing the key switches the subscription and reads the new entry. Externally received values are not written back automatically.
+Updates are synchronized between hook instances in the same document through an internal event and between applicable documents through the browser's `storage` event. Changing the key switches the subscription and reads the new entry. Externally received values are not written back automatically. Session storage is scoped to the current top-level browser tab, making it suitable for state that should survive refreshes without being shared between tabs.
 
-Local storage is an untyped persistence boundary. Supply a parser when the stored value's shape matters.
+Web storage is an untyped persistence boundary. Supply a parser when the stored value's shape matters.
 
 
 ## Related packages

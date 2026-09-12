@@ -1,6 +1,6 @@
 # @step-wise/browser-utils
 
-`@step-wise/browser-utils` provides small browser-specific utilities for colors, DOM coordinates and elements, environment detection, and local storage. It does not depend on React. React components and hooks belong in `@step-wise/react-utils`, which may build on this package.
+`@step-wise/browser-utils` provides small browser-specific utilities for colors, DOM coordinates and elements, environment detection, and web storage. It does not depend on React. React components and hooks belong in `@step-wise/react-utils`, which may build on this package.
 
 
 ## Installation
@@ -26,7 +26,7 @@ document.addEventListener('pointerdown', event => {
 })
 ```
 
-The package requires a browser environment for APIs such as `window`, `HTMLElement`, and `localStorage`. `getEventClientPosition` returns a `Vector` from `@step-wise/geometry`.
+The package requires a browser environment for APIs such as `window`, `HTMLElement`, `localStorage`, and `sessionStorage`. `getEventClientPosition` returns a `Vector` from `@step-wise/geometry`.
 
 
 ## Colors
@@ -65,13 +65,15 @@ Colors use normalized channel values between `0` and `1`. `RgbColor` contains re
 `isLocalhost()` checks whether the current browser hostname is `localhost`, the IPv6 loopback address, or an IPv4 loopback address in the `127.0.0.0/8` range.
 
 
-## Local storage
+## Web storage
 
 | Function | Behavior |
 | --- | --- |
 | `readLocalStorageValue(key, backup?)` | Reads a value and parses JSON when possible. It returns the original string when parsing fails and the backup when the key is absent. |
 | `writeLocalStorageValue(key, value)` | Serializes a value as JSON. Passing `null` or `undefined` removes the stored entry. |
+| `readSessionStorageValue(key, backup?)` | Session-storage counterpart of `readLocalStorageValue`. |
+| `writeSessionStorageValue(key, value)` | Session-storage counterpart of `writeLocalStorageValue`. |
 
-Local-storage values cross an untyped persistence boundary. Consumers should validate values before relying on their shape.
+Web-storage values cross an untyped persistence boundary. Consumers should validate values before relying on their shape. Local storage persists across browser sessions and is shared by documents on the same origin. Session storage lasts for the current page session and is scoped to its top-level browser tab.
 
-React applications can use `useLocalStorageState` from `@step-wise/react-utils` to subscribe to these values and synchronize updates between components and browser documents.
+React applications can use `useLocalStorageState` and `useSessionStorageState` from `@step-wise/react-utils` to subscribe to these values and synchronize updates between components.
