@@ -25,9 +25,9 @@ export function ExercisePageForGroup({ skillId }) {
 
 	// Get mutation functions.
 	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartGroupExercise(group.code, skillId)
-	const [submitActionToServer, { error: actionError }] = useSubmitGroupAction(group.code, skillId)
-	const [cancelAction, { error: cancelError }] = useCancelGroupAction(group.code, skillId)
-	const [resolveEvent, { loading: resolveLoading, error: resolveError }] = useResolveGroupEvent(group.code, skillId)
+	const [submitActionToServer, { error: actionError }] = useSubmitGroupAction()
+	const [cancelAction, { error: cancelError }] = useCancelGroupAction()
+	const [resolveEvent, { loading: resolveLoading, error: resolveError }] = useResolveGroupEvent()
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
@@ -37,15 +37,15 @@ export function ExercisePageForGroup({ skillId }) {
 	const submitAction = useCallback((action, processGroupActions) => {
 		// ToDo later: use processGroupActions to set up an optimistic response.
 		if (!displayedExercise) return
-		submitActionToServer(action, displayedExercise.eventIndex).catch(() => { })
+		submitActionToServer(displayedExercise.id, displayedExercise.eventIndex, action).catch(() => { })
 	}, [displayedExercise, submitActionToServer])
 	const cancelCurrentAction = useCallback(() => {
 		if (!displayedExercise) return
-		return cancelAction(displayedExercise.eventIndex)
+		return cancelAction(displayedExercise.id, displayedExercise.eventIndex)
 	}, [cancelAction, displayedExercise])
 	const resolveCurrentEvent = useCallback(() => {
 		if (!displayedExercise) return
-		return resolveEvent(displayedExercise.eventIndex)
+		return resolveEvent(displayedExercise.id, displayedExercise.eventIndex)
 	}, [displayedExercise, resolveEvent])
 
 	// Initially display the latest exercise. If none exists yet, start one.

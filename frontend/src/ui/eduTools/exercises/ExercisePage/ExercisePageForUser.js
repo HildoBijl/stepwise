@@ -16,7 +16,7 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 
 	// Get mutation functions.
 	const [startExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartExercise(skillId)
-	const [submitExerciseAction, { loading: actionLoading, error: actionError }] = useSubmitExerciseAction(skillId)
+	const [submitExerciseAction, { loading: actionLoading, error: actionError }] = useSubmitExerciseAction()
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
@@ -28,7 +28,7 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 	const submitAction = useCallback((action, processSoloAction) => {
 		// ToDo later: use processSoloAction to set up an optimistic response.
 		if (!skill?.latestExercise) return
-		submitExerciseAction(action, skill.latestExercise.eventIndex)
+		submitExerciseAction(skill.latestExercise.id, skill.latestExercise.eventIndex, action)
 	}, [skill, submitExerciseAction])
 
 	// If there is no exercise, start one.

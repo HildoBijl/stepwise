@@ -9,7 +9,7 @@ import { InvalidInputError } from '../../errors.ts'
 
 import { createSubscriptionResolver } from '../subscriptions.ts'
 import type { AuthenticatedContext } from '../user/index.ts'
-import { ensureActiveGroupMembership, ensureGroupMembership, getGroup, groupEvents, hasLoadedGroupMembers } from '../group/index.ts'
+import { type GroupWithMembers, ensureActiveGroupMembership, ensureGroupMembership, getGroup, groupEvents, hasLoadedGroupMembers } from '../group/index.ts'
 import { type UserSkillObservationInput, type UserSkillRecord, applySkillObservations, skillEvents } from '../skill/index.ts'
 
 import { type GroupExerciseActionRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents } from './models.ts'
@@ -32,6 +32,15 @@ async function lockPendingGroupEvent(db: GroupExerciseDatabase, eventId: string,
 	event.actions = await db.GroupExerciseAction.findAll({ where: { groupExerciseEventId: event.id }, transaction })
 	if (!hasLoadedGroupExerciseActions(event)) throw new Error(`Failed to load actions for group exercise event "${event.id}".`)
 	return event
+}
+
+async function getActiveGroupExercise(db: GroupExerciseDatabase, exerciseId: string, userId: string): Promise<{ exercise: GroupExerciseSampleWithEvents; group: GroupWithMembers }> {
+	const exercise = await getGroupExerciseById(db, exerciseId)
+	if (!exercise || !exercise.active) throw new InvalidInputError(`Cannot update group exercise: exercise "${exerciseId}" is not active.`)
+	const group = await db.Group.findByPk(exercise.groupId, { include: { association: 'members' } })
+	if (group && !hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
+	ensureActiveGroupMembership(group, userId)
+	return { exercise, group }
 }
 
 export const groupExerciseResolvers = {
@@ -149,14 +158,11 @@ export const groupExerciseResolvers = {
 			return loadedExercise
 		},
 
-		submitGroupAction: async (_source: unknown, { code, skillId, eventIndex, action: rawAction }: { code: string; skillId: string; eventIndex: number; action: unknown }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
+		submitGroupAction: async (_source: unknown, { exerciseId, eventIndex, action: rawAction }: { exerciseId: string; eventIndex: number; action: unknown }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
 			// Load and verify data.
 			ensureSignedIn()
 			const action = ensureExerciseAction(rawAction)
-			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
-			ensureActiveGroupMembership(group, userId)
-			const activeExercise = group.exercises[0]
-			if (!activeExercise) throw new InvalidInputError(`Could not submit group action. The group ${group.code} does not have an active exercise.`)
+			const { exercise: activeExercise, group } = await getActiveGroupExercise(db, exerciseId, userId)
 
 			const activeEvent = activeExercise.events.find(event => event.state === null)
 			if (!activeEvent) throw new InvalidInputError(`Could not submit group action. The group ${group.code} does not have an active event.`)
@@ -180,13 +186,10 @@ export const groupExerciseResolvers = {
 			return activeExercise
 		},
 
-		cancelGroupAction: async (_source: unknown, { code, skillId, eventIndex }: { code: string; skillId: string; eventIndex: number }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
+		cancelGroupAction: async (_source: unknown, { exerciseId, eventIndex }: { exerciseId: string; eventIndex: number }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
 			// Load and verify data.
 			ensureSignedIn()
-			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
-			ensureActiveGroupMembership(group, userId)
-			const activeExercise = group.exercises[0]
-			if (!activeExercise) throw new InvalidInputError(`Could not cancel group action. The group ${group.code} does not have an active exercise.`)
+			const { exercise: activeExercise, group } = await getActiveGroupExercise(db, exerciseId, userId)
 			const activeEvent = activeExercise.events.find(event => event.state === null)
 			if (!activeEvent) throw new InvalidInputError(`Could not cancel group action. The group ${group.code} does not have an active event.`)
 
@@ -209,16 +212,14 @@ export const groupExerciseResolvers = {
 			return activeExercise
 		},
 
-		resolveGroupEvent: async (_source: unknown, { code, skillId, eventIndex }: { code: string; skillId: string; eventIndex: number }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
+		resolveGroupEvent: async (_source: unknown, { exerciseId, eventIndex }: { exerciseId: string; eventIndex: number }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
 			// Load and verify data.
 			ensureSignedIn()
-			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
-			ensureActiveGroupMembership(group, userId)
-			const activeExercise = group.exercises[0]
-			if (!activeExercise) throw new InvalidInputError(`Could not resolve group event. The group ${group.code} does not have an active exercise.`)
+			const { exercise: activeExercise, group } = await getActiveGroupExercise(db, exerciseId, userId)
 			const activeEvent = activeExercise.events.find(event => event.state === null)
 			if (!activeEvent) throw new InvalidInputError(`Could not resolve group event. The group ${group.code} does not have an active event.`)
 
+			const skillId = activeExercise.skillId
 			const exercise = getExercise(skillId, activeExercise.exerciseId)
 			if (!exercise) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
 			if (!exercise.processGroupActions) throw new Error(`Unsupported exercise mode: exercise "${activeExercise.exerciseId}" does not support group actions.`)

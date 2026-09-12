@@ -44,4 +44,4 @@ export type UserWithSkills = User & Partial<Omit<UserWithSharedData & UserWithAc
 
 export type UseUserWithSkillsResult = ApiQueryResult<'user', UserWithSkills>
 export type UseStartExerciseResult = ApiMutationResult<() => Promise<void>>
-export type UseSubmitExerciseActionResult = ApiMutationResult<(action: ExerciseAction, eventIndex: number) => Promise<void>>
+export type UseSubmitExerciseActionResult = ApiMutationResult<(exerciseId: string, eventIndex: number, action: ExerciseAction) => Promise<void>>

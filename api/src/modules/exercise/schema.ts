@@ -17,7 +17,7 @@ export const exerciseTypeDefs = gql`
 
 	extend type Mutation {
 		startExercise(skillId: String!): Exercise!
-		submitExerciseAction(skillId: String!, eventIndex: Int!, action: JSON!): ExerciseActionResult!
+		submitExerciseAction(exerciseId: ID!, eventIndex: Int!, action: JSON!): ExerciseActionResult!
 	}
 
 	type Exercise {

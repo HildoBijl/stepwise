@@ -8,9 +8,9 @@ export const groupExerciseTypeDefs = gql`
 
 	extend type Mutation {
 		startGroupExercise(code: String!, skillId: String!): GroupExercise!
-		submitGroupAction(code: String!, skillId: String!, eventIndex: Int!, action: JSON!): GroupExercise!
-		cancelGroupAction(code: String!, skillId: String!, eventIndex: Int!): GroupExercise!
-		resolveGroupEvent(code: String!, skillId: String!, eventIndex: Int!): GroupExercise!
+		submitGroupAction(exerciseId: ID!, eventIndex: Int!, action: JSON!): GroupExercise!
+		cancelGroupAction(exerciseId: ID!, eventIndex: Int!): GroupExercise!
+		resolveGroupEvent(exerciseId: ID!, eventIndex: Int!): GroupExercise!
 	}
 
 	extend type Subscription {
