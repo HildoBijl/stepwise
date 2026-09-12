@@ -60,5 +60,5 @@ export function ExamplePage({ skillId }) {
 		return <LoadingNote text={getTranslation('loadingNotes.generatingNewExercise', 'eduTools/pages/skillPage')} />
 
 	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
-	return <ExerciseContainer key={exercise.startedAt} skillId={skillId} exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} example={true} />
+	return <ExerciseContainer key={exercise.startedAt} skillId={skillId} exercise={exercise} submitting={false} submitAction={submitAction} processActionsLocally={true} startNewExercise={startNewExercise} example={true} />
 }

@@ -34,8 +34,7 @@ export function ExercisePageForGroup({ skillId }) {
 		if (!hasExercises(skillId)) return
 		startNewExerciseOnServer().then(setDisplayedExerciseId).catch(() => { })
 	}, [setDisplayedExerciseId, skillId, startNewExerciseOnServer])
-	const submitAction = useCallback((action, processGroupActions) => {
-		// ToDo later: use processGroupActions to set up an optimistic response.
+	const submitAction = useCallback(action => {
 		submitActionToServer(action).catch(() => { })
 	}, [submitActionToServer])
 
