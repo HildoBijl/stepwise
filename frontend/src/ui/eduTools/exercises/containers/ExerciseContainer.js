@@ -13,7 +13,7 @@ const exerciseModules = import.meta.glob('/src/ui/eduContent/**/exercises/*.js')
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.
 
-export function ExerciseContainer({ skillId, exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise, example, inspection, historyIndex }) {
+export function ExerciseContainer({ skillId, exercise, groupExercise, submitting, submitAction, processActionsLocally, cancelAction, resolveEvent, startNewExercise, example, inspection, historyIndex }) {
 	const translate = useTranslator()
 	const { exerciseId, parameters } = exercise
 	const mode = exercise.mode ?? (groupExercise ? 'group' : 'solo')
@@ -61,6 +61,8 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 		return <LoadingNote text={translate('Loading exercise component...', 'loadingNotes.loadingExerciseComponent', 'eduTools/pages/skillPage')} />
 
 	// Set up data for the exercise and put it in a context around the exercise.
+	const actionProcessor = mode === 'group' ? ExerciseShared.current.processGroupActions : ExerciseShared.current.processSoloAction
+	const processedSubmitAction = processActionsLocally ? action => submitAction(action, actionProcessor) : submitAction
 	const exerciseData = {
 		instance,
 		skillId,
@@ -75,7 +77,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 		history: exercise.history,
 		state,
 		submitting,
-		submitAction: (action) => submitAction(action, mode === 'group' ? ExerciseShared.current.processGroupActions : ExerciseShared.current.processSoloAction), // Incorporate the reducer for Stranger-mode and for optimistic responses.
+		submitAction: processedSubmitAction,
 		cancelAction,
 		resolveEvent,
 		startNewExercise,

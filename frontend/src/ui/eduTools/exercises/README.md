@@ -18,7 +18,7 @@ There are various parameters in the `ExerciseData`. These are:
 - `state`: the latest `state` object for the exercise.
 - `history`: an array `[{action: { ... }, state: { ... }}, ...]` of earlier actions with resulting state objects. The initial `state` is always an empty object `{}` so this is not in the history. The last `state` object from the `history` array of course equals the current `state` parameter.
 - `submitting`: a boolean that is set to true when an action has been submitted to the server and we're still waiting for a response.
-- `submitAction`: the function used to submit an action to the server. Just call `submitAction(action)` to send an action to the appropriate mode-specific reducer.
+- `submitAction`: the function used to submit an action. For authenticated exercises it sends the action to the server; stranger, example and blank exercises process it locally. Call `submitAction(action)` in either case.
 - `startNewExercise`: the function used to start up a new exercise. This can only be called when the exercise is done. Then call `startNewExercise()`. (No input is required.)
 - `shared`: all the objects exported from the `shared` file for this exercise, including `metadata`, `generateParameters` and the mode-specific reducers, but also anything else that's exported, like potentially `getSolution` and `checkInput`.
 - `metadata`: for easy reference the `metadata` is also pulled out of the `shared` parameter.
@@ -32,6 +32,8 @@ Using this data, your React component should render the exercise appropriately. 
 - If the exercise is done, allow the student to start a new exercise.
 
 If you do all that, you have a valid Exercise!
+
+Authenticated exercises only display grading and skill-level results after the authoritative server response. The frontend deliberately does not apply optimistic grading, keeping exercise feedback and skill-level updates synchronized.
 
 
 ## Specific types of exercises
