@@ -11,14 +11,14 @@ import type { AuthenticatedContext } from '../user/index.ts'
 import { type SkillObservationInput, type SkillResolverSource, type UserSkillRecord, applySkillObservationsForUser, createSkillResolverSource, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
 
 import { type ExerciseEventRecord, type ExerciseSampleRecord, type ExerciseSampleWithEvents, hasLoadedExerciseEvents } from './models.ts'
-import { type ExerciseDatabase, getCurrentExerciseState, getLatestExerciseEvent, getUserSkillWithExercises } from './service.ts'
+import { type ExerciseDatabase, getCurrentExerciseState, getExerciseEventIndex, getLatestExerciseEvent, getUserSkillWithExercises } from './service.ts'
 
 type ExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'loaders' | 'pubsub' | 'userId'>
 
 async function lockActiveExercise(db: ExerciseDatabase, exerciseId: string, skillId: string, transaction: Transaction): Promise<ExerciseSampleWithEvents> {
 	const exercise = await db.ExerciseSample.findByPk(exerciseId, { transaction, lock: transaction.LOCK.UPDATE })
 	if (!exercise || !exercise.active) throw new InvalidInputError(`Cannot submit action: there is no longer an active exercise for skill "${skillId}".`)
-	exercise.events = await db.ExerciseEvent.findAll({ where: { exerciseSampleId: exercise.id }, order: [['createdAt', 'ASC']], transaction })
+	exercise.events = await db.ExerciseEvent.findAll({ where: { exerciseSampleId: exercise.id }, order: [['eventIndex', 'ASC']], transaction })
 	if (!hasLoadedExerciseEvents(exercise)) throw new Error(`Failed to load events for exercise "${exercise.id}".`)
 	return exercise
 }
@@ -38,6 +38,7 @@ export const exerciseResolvers = {
 		mode: () => 'solo',
 		startedAt: (exercise: ExerciseSampleRecord) => exercise.createdAt,
 		state: getCurrentExerciseState,
+		eventIndex: getExerciseEventIndex,
 		lastAction: (exercise: ExerciseSampleRecord) => getLatestExerciseEvent(exercise)?.action ?? null,
 		lastActionAt: (exercise: ExerciseSampleRecord) => getLatestExerciseEvent(exercise)?.createdAt ?? null,
 		history: (exercise: ExerciseSampleRecord) => exercise.events ?? [],
@@ -63,7 +64,7 @@ export const exerciseResolvers = {
 			}
 		},
 
-		submitExerciseAction: async (_source: unknown, { skillId: rawSkillId, action: rawAction }: { skillId: string; action: unknown }, { db, pubsub, ensureSignedIn, userId }: ExerciseContext) => {
+		submitExerciseAction: async (_source: unknown, { skillId: rawSkillId, eventIndex, action: rawAction }: { skillId: string; eventIndex: number; action: unknown }, { db, pubsub, ensureSignedIn, userId }: ExerciseContext) => {
 			ensureSignedIn()
 			const skillId = ensureSkillId(rawSkillId)
 			const action = ensureExerciseAction(rawAction)
@@ -82,6 +83,8 @@ export const exerciseResolvers = {
 			let updatedSkills: UserSkillRecord[] = []
 			await db.transaction(async transaction => {
 				updatedExercise = await lockActiveExercise(db, activeExercise.id, skillId, transaction)
+				const currentEventIndex = getExerciseEventIndex(updatedExercise)
+				if (eventIndex !== currentEventIndex) throw new InvalidInputError(`Cannot submit action: exercise event index ${eventIndex} is stale; the current index is ${currentEventIndex}.`)
 				const skillObservations: SkillObservationInput[] = []
 				const state = processSoloAction({
 					parameters: updatedExercise.parameters,
@@ -91,7 +94,7 @@ export const exerciseResolvers = {
 				})
 				if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${updatedExercise.exerciseId}" due to an error in updating the exercise state.`)
 				updatedSkills = await applySkillObservationsForUser(db, userId, skillObservations, transaction)
-				updatedExercise.events.push(await db.ExerciseEvent.create({ exerciseSampleId: updatedExercise.id, eventIndex: updatedExercise.events.length, action, state }, { transaction }))
+				updatedExercise.events.push(await db.ExerciseEvent.create({ exerciseSampleId: updatedExercise.id, eventIndex, action, state }, { transaction }))
 				if (isStateDone(state)) {
 					await updatedExercise.update({ active: false }, { transaction })
 					updatedExercise.active = false

@@ -10,14 +10,14 @@ const groupExerciseSampleIndex = 'groupExerciseEvents_groupExerciseSampleId'
 export async function up({ context: queryInterface }: MigrationParameters): Promise<void> {
 	await queryInterface.addColumn('exerciseEvents', 'eventIndex', { type: DataTypes.INTEGER, allowNull: true })
 	await queryInterface.sequelize.query(`
-		WITH indexed_events AS (
+		WITH "indexedEvents" AS (
 			SELECT id, (ROW_NUMBER() OVER (PARTITION BY "exerciseSampleId" ORDER BY "createdAt", id) - 1)::INTEGER AS "eventIndex"
 			FROM "exerciseEvents"
 		)
 		UPDATE "exerciseEvents"
-		SET "eventIndex" = indexed_events."eventIndex"
-		FROM indexed_events
-		WHERE "exerciseEvents".id = indexed_events.id
+		SET "eventIndex" = "indexedEvents"."eventIndex"
+		FROM "indexedEvents"
+		WHERE "exerciseEvents".id = "indexedEvents".id
 	`)
 	await queryInterface.changeColumn('exerciseEvents', 'eventIndex', { type: DataTypes.INTEGER, allowNull: false })
 	await queryInterface.addIndex('exerciseEvents', {
@@ -29,14 +29,14 @@ export async function up({ context: queryInterface }: MigrationParameters): Prom
 
 	await queryInterface.addColumn('groupExerciseEvents', 'eventIndex', { type: DataTypes.INTEGER, allowNull: true })
 	await queryInterface.sequelize.query(`
-		WITH indexed_events AS (
+		WITH "indexedEvents" AS (
 			SELECT id, (ROW_NUMBER() OVER (PARTITION BY "groupExerciseSampleId" ORDER BY "createdAt", id) - 1)::INTEGER AS "eventIndex"
 			FROM "groupExerciseEvents"
 		)
 		UPDATE "groupExerciseEvents"
-		SET "eventIndex" = indexed_events."eventIndex"
-		FROM indexed_events
-		WHERE "groupExerciseEvents".id = indexed_events.id
+		SET "eventIndex" = "indexedEvents"."eventIndex"
+		FROM "indexedEvents"
+		WHERE "groupExerciseEvents".id = "indexedEvents".id
 	`)
 	await queryInterface.changeColumn('groupExerciseEvents', 'eventIndex', { type: DataTypes.INTEGER, allowNull: false })
 	await queryInterface.addIndex('groupExerciseEvents', {

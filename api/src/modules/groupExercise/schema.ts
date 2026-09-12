@@ -8,9 +8,9 @@ export const groupExerciseTypeDefs = gql`
 
 	extend type Mutation {
 		startGroupExercise(code: String!, skillId: String!): GroupExercise!
-		submitGroupAction(code: String!, skillId: String!, action: JSON!): GroupExercise!
-		cancelGroupAction(code: String!, skillId: String!): GroupExercise!
-		resolveGroupEvent(code: String!, skillId: String!): GroupExercise!
+		submitGroupAction(code: String!, skillId: String!, eventIndex: Int!, action: JSON!): GroupExercise!
+		cancelGroupAction(code: String!, skillId: String!, eventIndex: Int!): GroupExercise!
+		resolveGroupEvent(code: String!, skillId: String!, eventIndex: Int!): GroupExercise!
 	}
 
 	extend type Subscription {
@@ -24,6 +24,7 @@ export const groupExerciseTypeDefs = gql`
 		mode: ExerciseMode!
 		parameters: JSON!
 		initialState: JSON!
+		eventIndex: Int!
 		active: Boolean!
 		startedAt: DateTime!
 		state: JSON
@@ -32,6 +33,7 @@ export const groupExerciseTypeDefs = gql`
 
 	type GroupEvent {
 		id: ID!
+		eventIndex: Int!
 		state: JSON
 		performedAt: DateTime!
 		actions: [GroupExerciseAction!]!

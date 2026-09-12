@@ -17,7 +17,7 @@ export const exerciseTypeDefs = gql`
 
 	extend type Mutation {
 		startExercise(skillId: String!): Exercise!
-		submitExerciseAction(skillId: String!, action: JSON!): ExerciseActionResult!
+		submitExerciseAction(skillId: String!, eventIndex: Int!, action: JSON!): ExerciseActionResult!
 	}
 
 	type Exercise {
@@ -26,6 +26,7 @@ export const exerciseTypeDefs = gql`
 		mode: ExerciseMode!
 		parameters: JSON!
 		initialState: JSON!
+		eventIndex: Int!
 		active: Boolean!
 		startedAt: DateTime!
 		state: JSON!
@@ -41,6 +42,7 @@ export const exerciseTypeDefs = gql`
 
 	type ExerciseEvent {
 		id: ID!
+		eventIndex: Int!
 		action: JSON!
 		state: JSON!
 		performedAt: DateTime!

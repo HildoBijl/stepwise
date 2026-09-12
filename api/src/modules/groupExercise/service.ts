@@ -26,11 +26,15 @@ export interface GroupExerciseUpdatedPayload {
 
 function getLatestResolvedGroupEvent(exercise: GroupExerciseSampleRecord): GroupExerciseEventRecord | null {
 	const events = (exercise.events ?? []).filter(event => event.state !== null)
-	return findOptimum(events, (a, b) => a.updatedAt.getTime() > b.updatedAt.getTime()) ?? null
+	return findOptimum(events, (a, b) => a.eventIndex > b.eventIndex) ?? null
 }
 
 export function getCurrentGroupExerciseState(exercise: GroupExerciseSampleRecord): ExerciseState {
 	return getLatestResolvedGroupEvent(exercise)?.state ?? exercise.initialState
+}
+
+export function getGroupExerciseEventIndex(exercise: GroupExerciseSampleRecord): number {
+	return findOptimum(exercise.events ?? [], (a, b) => a.eventIndex > b.eventIndex)?.eventIndex ?? 0
 }
 
 function ensureLoadedGroupExerciseEvents(exercise: GroupExerciseSampleRecord | null): GroupExerciseSampleWithEvents | null {

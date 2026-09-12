@@ -19,7 +19,7 @@ export function createExerciseLoaders(context: LoaderContext): ExerciseLoaders {
 	const { db } = context
 	return {
 		exercisesForSkill: new DataLoader<string, ExerciseSampleWithEvents[]>(async userSkillIds => {
-			const exercises = await db.ExerciseSample.findAll({ where: { userSkillId: userSkillIds }, include: [{ association: 'events', order: [['createdAt', 'ASC']], separate: true }] })
+			const exercises = await db.ExerciseSample.findAll({ where: { userSkillId: userSkillIds }, include: [{ association: 'events', order: [['eventIndex', 'ASC']], separate: true }] })
 			if (!exercises.every(hasLoadedExerciseEvents)) throw new Error('Failed to load exercise events for one or more exercise samples.')
 			const groupedExercises: Record<string, ExerciseSampleWithEvents[]> = fromKeys(userSkillIds, () => [])
 			exercises.forEach(exercise => {
@@ -46,7 +46,7 @@ export function createExerciseLoaders(context: LoaderContext): ExerciseLoaders {
 			const exerciseIds = exercises.map(exercise => exercise.id)
 			const events = exerciseIds.length === 0 ? [] : await db.ExerciseEvent.findAll({
 				where: { exerciseSampleId: exerciseIds },
-				order: [['exerciseSampleId', 'ASC'], ['createdAt', 'ASC']],
+				order: [['exerciseSampleId', 'ASC'], ['eventIndex', 'ASC']],
 			})
 
 			// Couple events to exercises.

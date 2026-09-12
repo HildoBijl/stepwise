@@ -42,6 +42,10 @@ export function getLatestExerciseEvent(exercise: ExerciseSampleRecord): Exercise
 	return events.length > 0 ? last(events) : null
 }
 
+export function getExerciseEventIndex(exercise: ExerciseSampleRecord): number {
+	return (getLatestExerciseEvent(exercise)?.eventIndex ?? -1) + 1
+}
+
 export function getCurrentExerciseState(exercise: ExerciseSampleRecord): ExerciseState {
 	return getLatestExerciseEvent(exercise)?.state ?? exercise.initialState
 }
@@ -52,7 +56,7 @@ export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: st
 	const exerciseInclude: IncludeOptions | undefined = loadExercises ? {
 		association: 'exercises', ...(includeExercises ? {} : { where: { active: true } }), required: false,
 		order: [['createdAt', 'ASC']], separate: true,
-		include: [{ association: 'events', required: false, order: [['createdAt', 'ASC']], separate: true }],
+		include: [{ association: 'events', required: false, order: [['eventIndex', 'ASC']], separate: true }],
 	} : undefined
 
 	// Load in the skill.

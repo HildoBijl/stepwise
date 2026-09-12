@@ -13,7 +13,7 @@ import { ensureActiveGroupMembership, ensureGroupMembership, getGroup, groupEven
 import { type UserSkillObservationInput, type UserSkillRecord, applySkillObservations, skillEvents } from '../skill/index.ts'
 
 import { type GroupExerciseActionRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, hasLoadedGroupExerciseActions, hasLoadedGroupExerciseEvents } from './models.ts'
-import { type GroupExerciseDatabase, type GroupExerciseUpdatedPayload, getCurrentGroupExerciseState, getGroupExerciseById, getGroupWithActiveSkillExercise, getGroupWithAllExercises, getLatestGroupExercise, groupExerciseEvents } from './service.ts'
+import { type GroupExerciseDatabase, type GroupExerciseUpdatedPayload, getCurrentGroupExerciseState, getGroupExerciseById, getGroupExerciseEventIndex, getGroupWithActiveSkillExercise, getGroupWithAllExercises, getLatestGroupExercise, groupExerciseEvents } from './service.ts'
 
 type GroupExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'pubsub' | 'userId'>
 type LatestGroupExerciseUpdatedArgs = { code: string; skillId: string }
@@ -39,7 +39,8 @@ export const groupExerciseResolvers = {
 		mode: () => 'group',
 		startedAt: (exercise: GroupExerciseSampleRecord) => exercise.createdAt,
 		state: (exercise: GroupExerciseSampleRecord) => getCurrentGroupExerciseState(exercise),
-		history: (exercise: GroupExerciseSampleRecord) => [...(exercise.events ?? [])].sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime()), // Sort the history ascending by date.
+		eventIndex: getGroupExerciseEventIndex,
+		history: (exercise: GroupExerciseSampleRecord) => [...(exercise.events ?? [])].sort((a, b) => a.eventIndex - b.eventIndex),
 	},
 
 	GroupEvent: {
@@ -147,7 +148,7 @@ export const groupExerciseResolvers = {
 			return loadedExercise
 		},
 
-		submitGroupAction: async (_source: unknown, { code, skillId, action: rawAction }: { code: string; skillId: string; action: unknown }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
+		submitGroupAction: async (_source: unknown, { code, skillId, eventIndex, action: rawAction }: { code: string; skillId: string; eventIndex: number; action: unknown }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
 			// Load and verify data.
 			ensureSignedIn()
 			const action = ensureExerciseAction(rawAction)
@@ -161,6 +162,7 @@ export const groupExerciseResolvers = {
 
 			await db.transaction(async transaction => {
 				const lockedEvent = await lockPendingGroupEvent(db, activeEvent.id, group.code, transaction)
+				if (eventIndex !== lockedEvent.eventIndex) throw new InvalidInputError(`Cannot submit group action: exercise event index ${eventIndex} is stale; the current index is ${lockedEvent.eventIndex}.`)
 				const currentUserAction = lockedEvent.actions.find(userAction => userAction.userId === userId)
 				if (currentUserAction) {
 					const newUserAction = await currentUserAction.update({ action }, { transaction })
@@ -177,7 +179,7 @@ export const groupExerciseResolvers = {
 			return activeExercise
 		},
 
-		cancelGroupAction: async (_source: unknown, { code, skillId }: { code: string; skillId: string }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
+		cancelGroupAction: async (_source: unknown, { code, skillId, eventIndex }: { code: string; skillId: string; eventIndex: number }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
 			// Load and verify data.
 			ensureSignedIn()
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
@@ -190,6 +192,7 @@ export const groupExerciseResolvers = {
 			// Lock the pending event before deleting an action, so resolution cannot process stale actions.
 			const actionWasCanceled = await db.transaction(async transaction => {
 				const lockedEvent = await lockPendingGroupEvent(db, activeEvent.id, group.code, transaction)
+				if (eventIndex !== lockedEvent.eventIndex) throw new InvalidInputError(`Cannot cancel group action: exercise event index ${eventIndex} is stale; the current index is ${lockedEvent.eventIndex}.`)
 				const currentUserAction = lockedEvent.actions.find(userAction => userAction.userId === userId)
 				if (!currentUserAction) return false
 				await currentUserAction.destroy({ transaction })
@@ -205,7 +208,7 @@ export const groupExerciseResolvers = {
 			return activeExercise
 		},
 
-		resolveGroupEvent: async (_source: unknown, { code, skillId }: { code: string; skillId: string }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
+		resolveGroupEvent: async (_source: unknown, { code, skillId, eventIndex }: { code: string; skillId: string; eventIndex: number }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
 			// Load and verify data.
 			ensureSignedIn()
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
@@ -224,6 +227,7 @@ export const groupExerciseResolvers = {
 			let updatedSkillsPerUser: Record<string, UserSkillRecord[]> = {}
 			await db.transaction(async transaction => {
 				const lockedEvent = await lockPendingGroupEvent(db, activeEvent.id, group.code, transaction)
+				if (eventIndex !== lockedEvent.eventIndex) throw new InvalidInputError(`Cannot resolve group event: exercise event index ${eventIndex} is stale; the current index is ${lockedEvent.eventIndex}.`)
 				activeExercise.events = activeExercise.events.map(event => event.id === lockedEvent.id ? lockedEvent : event)
 
 				// Resolution requires at least two active members and an action from every active member.

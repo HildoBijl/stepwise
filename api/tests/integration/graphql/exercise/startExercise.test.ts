@@ -34,8 +34,9 @@ describe('startExercise', () => {
 		expect(skillBefore).toBe(null)
 
 		// Then we start an exercise.
-		const { data: { startExercise: exercise }, errors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId parameters initialState active startedAt state lastAction lastActionAt history {action state performedAt}}}` })
+		const { data: { startExercise: exercise }, errors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId parameters initialState eventIndex active startedAt state lastAction lastActionAt history {eventIndex action state performedAt}}}` })
 		expect(errors).toBeUndefined()
+		expect(exercise.eventIndex).toBe(0)
 		expect(exercise).toMatchObject({
 			active: true,
 			initialState: {},
@@ -44,7 +45,7 @@ describe('startExercise', () => {
 		})
 
 		// After this the skill should exist.
-		const { data: { skill: skillAfter }, errors: skillAfterErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId exerciseData {latestExercise {id exerciseId parameters initialState active startedAt state lastAction lastActionAt history {action state performedAt}} exercises {id}}}}` })
+		const { data: { skill: skillAfter }, errors: skillAfterErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId exerciseData {latestExercise {id exerciseId parameters initialState eventIndex active startedAt state lastAction lastActionAt history {eventIndex action state performedAt}} exercises {id}}}}` })
 		expect(skillAfterErrors).toBeUndefined()
 		expect(skillAfter.skillId).toBe(SAMPLE_SKILL)
 		expect(skillAfter.exerciseData.latestExercise).toMatchObject(exercise)
