@@ -6,7 +6,7 @@ import { getExercise } from '@step-wise/exercises'
 import type { ServiceOptions } from '../types.ts'
 import { type GroupDatabase, hasLoadedGroupMembers } from '../group/index.ts'
 
-import { type GroupExerciseActionModel, type GroupExerciseEventModel, type GroupExerciseEventRecord, type GroupExerciseSampleModel, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, type GroupWithLoadedExercises, hasLoadedGroupExerciseEvents, hasLoadedGroupExercises } from './models.ts'
+import { type GroupExerciseActionModel, type GroupExerciseActionRecord, type GroupExerciseEventModel, type GroupExerciseEventRecord, type GroupExerciseSampleModel, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, type GroupWithLoadedExercises, hasLoadedGroupExerciseEvents, hasLoadedGroupExercises } from './models.ts'
 
 export interface GroupExerciseDatabase extends GroupDatabase {
 	GroupExerciseAction: GroupExerciseActionModel
@@ -14,14 +14,34 @@ export interface GroupExerciseDatabase extends GroupDatabase {
 	GroupExerciseSample: GroupExerciseSampleModel
 }
 
-export const groupExerciseEvents = { groupExerciseUpdated: 'GROUP_EXERCISE_UPDATED' } as const
+export const groupExerciseEvents = {
+	groupActionUpdated: 'GROUP_ACTION_UPDATED',
+	groupEventResolved: 'GROUP_EVENT_RESOLVED',
+	groupExerciseStarted: 'GROUP_EXERCISE_STARTED',
+} as const
 
-export type GroupExerciseUpdateAction = 'cancelAction' | 'resolveEvent' | 'startExercise' | 'submitAction'
+type GroupExerciseSubscriptionPayload = {
+	exerciseId: string
+	memberIds: string[]
+}
 
-export interface GroupExerciseUpdatedPayload {
-	updatedGroupExercise: GroupExerciseSampleWithEvents
+export type GroupExerciseStartedPayload = {
+	exercise: GroupExerciseSampleWithEvents
 	code: string
-	action: GroupExerciseUpdateAction
+	memberIds: string[]
+}
+
+export type GroupActionUpdatedPayload = GroupExerciseSubscriptionPayload & {
+	eventIndex: number
+	userId: string
+	action: GroupExerciseActionRecord | null
+}
+
+export type GroupEventResolvedPayload = GroupExerciseSubscriptionPayload & {
+	eventIndex: number
+	state: ExerciseState
+	active: boolean
+	nextEvent: GroupExerciseEventRecord | null
 }
 
 function getLatestResolvedGroupEvent(exercise: GroupExerciseSampleRecord): GroupExerciseEventRecord | null {

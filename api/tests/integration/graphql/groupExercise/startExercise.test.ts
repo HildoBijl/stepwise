@@ -39,7 +39,7 @@ describe('start group exercise:', () => {
 		const { data, errors } = await client.graphql({ query: `mutation{startGroupExercise(code: "${OTHER_GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {skillId exerciseId parameters active}}` })
 		expect(errors).not.toBeUndefined()
 		expect(data).toBe(null)
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(0)
+		expect(client.countEvents('GROUP_EXERCISE_STARTED')).toStrictEqual(0)
 	})
 
 	it('throws an error when not active in the group', async () => {
@@ -49,7 +49,7 @@ describe('start group exercise:', () => {
 		const { data, errors } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {skillId}}` })
 		expect(errors).not.toBeUndefined()
 		expect(data).toBe(null)
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(0)
+		expect(client.countEvents('GROUP_EXERCISE_STARTED')).toStrictEqual(0)
 	})
 
 	it('starts an exercise when being an active member of the group', async () => {
@@ -67,14 +67,14 @@ describe('start group exercise:', () => {
 		expect(startErrors).toBeUndefined()
 		expect(exercise).toStrictEqual({ skillId: SAMPLE_SKILL, initialState: {}, eventIndex: 0, state: {}, active: true })
 		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(1)
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
-		expect(client.eventsFor('GROUP_EXERCISE_UPDATED')).toMatchObject([{ code: GROUP_CODE }])
+		expect(client.countEvents('GROUP_EXERCISE_STARTED')).toStrictEqual(1)
+		expect(client.eventsFor('GROUP_EXERCISE_STARTED')).toMatchObject([{ code: GROUP_CODE }])
 
 		// Starting an exercise again should not give an error, but should return the same exercise.
 		const { data: { startGroupExercise: restartExercise }, errors: restartErrors } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {skillId initialState eventIndex state active}}` })
 		expect(restartErrors).toBeUndefined()
 		expect(restartExercise).toStrictEqual(exercise)
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
+		expect(client.countEvents('GROUP_EXERCISE_STARTED')).toStrictEqual(1)
 	})
 
 	it('returns the same exercise for concurrent start requests', async () => {
@@ -86,6 +86,6 @@ describe('start group exercise:', () => {
 		const responses = await Promise.all([client.graphql(query), client.graphql(query)])
 		expect(responses.every(response => response.errors === undefined)).toStrictEqual(true)
 		expect(responses[0].data.startGroupExercise.id).toStrictEqual(responses[1].data.startGroupExercise.id)
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
+		expect(client.countEvents('GROUP_EXERCISE_STARTED')).toStrictEqual(1)
 	})
 })

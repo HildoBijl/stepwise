@@ -15,15 +15,15 @@ import { type ExerciseEventRecord, type ExerciseSampleRecord, type ExerciseSampl
 import { type ExerciseDatabase, type ExerciseUpdatedPayload, exerciseEvents, getCurrentExerciseState, getExerciseEventIndex, getLatestExerciseEvent, getUserSkillWithExercises } from './service.ts'
 
 type ExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureSignedIn' | 'loaders' | 'pubsub' | 'userId'>
-type LatestExerciseUpdatedArgs = { skillId: string }
+type ExerciseStartedArgs = { skillId: string }
 type ExerciseUpdatedArgs = { exerciseId: string }
 
-export function selectLatestExerciseUpdate({ updatedExercise, userId, skillId }: ExerciseUpdatedPayload, args: LatestExerciseUpdatedArgs, context: ExerciseContext): ExerciseSampleRecord | undefined {
+export function selectStartedExercise({ updatedExercise, userId, skillId }: ExerciseUpdatedPayload, args: ExerciseStartedArgs, context: ExerciseContext): ExerciseSampleRecord | undefined {
 	if (userId === context.userId && skillId === args.skillId) return updatedExercise
 }
 
-export function selectExerciseUpdate({ updatedExercise, userId }: ExerciseUpdatedPayload, { exerciseId }: ExerciseUpdatedArgs, context: ExerciseContext): ExerciseSampleRecord | undefined {
-	if (userId === context.userId && updatedExercise.id === exerciseId) return updatedExercise
+export function selectExerciseUpdate(payload: ExerciseUpdatedPayload, { exerciseId }: ExerciseUpdatedArgs, context: ExerciseContext): ExerciseUpdatedPayload | undefined {
+	if (payload.userId === context.userId && payload.updatedExercise.id === exerciseId) return payload
 }
 
 async function authorizeExerciseSubscription({ exerciseId }: ExerciseUpdatedArgs, { db, ensureSignedIn, userId }: ExerciseContext): Promise<void> {
@@ -70,6 +70,12 @@ export const exerciseResolvers = {
 	
 	ExerciseEvent: { performedAt: (event: ExerciseEventRecord) => event.createdAt },
 
+	ExerciseEventUpdate: {
+		exerciseId: ({ updatedExercise }: ExerciseUpdatedPayload) => updatedExercise.id,
+		active: ({ updatedExercise }: ExerciseUpdatedPayload) => updatedExercise.active,
+		event: ({ updatedExercise }: ExerciseUpdatedPayload) => getLatestExerciseEvent(updatedExercise),
+	},
+
 	Mutation: {
 		startExercise: async (_source: unknown, { skillId: rawSkillId }: { skillId: string }, { db, pubsub, ensureSignedIn, userId }: ExerciseContext) => {
 			ensureSignedIn()
@@ -81,7 +87,7 @@ export const exerciseResolvers = {
 			const generated = await generateSkillBasedExerciseInstance(definitions, ids => getUserSkillLevelSet(db, userId, ids), skillData.exercises)
 			try {
 				const exercise = await db.ExerciseSample.create({ userSkillId: skillData.skill.id, exerciseId: generated.exerciseId, parameters: generated.parameters, initialState: generated.initialState, active: true })
-				await pubsub.publish(exerciseEvents.exerciseUpdated, { updatedExercise: exercise, userId, skillId, action: 'startExercise' })
+				await pubsub.publish(exerciseEvents.exerciseStarted, { updatedExercise: exercise, userId, skillId, action: 'startExercise' })
 				return exercise
 			} catch (error) {
 				if (error instanceof UniqueConstraintError) throw new InvalidInputError(`There is still an active exercise for skill "${skillId}".`)
@@ -128,7 +134,7 @@ export const exerciseResolvers = {
 	},
 
 	Subscription: {
-		...createSubscriptionResolver('latestExerciseUpdated', [exerciseEvents.exerciseUpdated], selectLatestExerciseUpdate, (_args: LatestExerciseUpdatedArgs, { ensureSignedIn }: ExerciseContext) => ensureSignedIn()),
+		...createSubscriptionResolver('exerciseStarted', [exerciseEvents.exerciseStarted], selectStartedExercise, (_args: ExerciseStartedArgs, { ensureSignedIn }: ExerciseContext) => ensureSignedIn()),
 		...createSubscriptionResolver('exerciseUpdated', [exerciseEvents.exerciseUpdated], selectExerciseUpdate, authorizeExerciseSubscription),
 	},
 }

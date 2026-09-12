@@ -17,7 +17,7 @@ export interface ExerciseDatabase extends SkillDatabase {
 	ExerciseSample: ExerciseSampleModel
 }
 
-export const exerciseEvents = { exerciseUpdated: 'EXERCISE_UPDATED' } as const
+export const exerciseEvents = { exerciseStarted: 'EXERCISE_STARTED', exerciseUpdated: 'EXERCISE_UPDATED' } as const
 
 export type ExerciseUpdateAction = 'startExercise' | 'submitAction'
 

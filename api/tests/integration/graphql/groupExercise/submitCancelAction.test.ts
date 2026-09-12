@@ -56,13 +56,13 @@ describe('submit group action:', () => {
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		const { data: { startGroupExercise: exercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {id skillId active}}` })
 		await client.graphql({ query: `mutation {deactivateGroup{code}}` })
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(0)
 
 		// Submit an exercise action.
 		const { data, errors } = await client.graphql({ query: `mutation{submitGroupAction(exerciseId: "${exercise.id}", eventIndex: 0, action: ${stringifyGraphQLInput(inputAction(42))}){skillId active}}` })
 		expect(errors).not.toBeUndefined()
 		expect(data).toBe(null)
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(0)
 	})
 
 	it('allows submitting, resubmitting and canceling actions', async () => {
@@ -72,7 +72,8 @@ describe('submit group action:', () => {
 		// Activate the group and start an exercise.
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		const { data: { startGroupExercise: exercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {id skillId active}}` })
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
+		expect(client.countEvents('GROUP_EXERCISE_STARTED')).toStrictEqual(1)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(0)
 
 		// Submit a first action.
 		const action1 = inputAction(42)
@@ -82,7 +83,7 @@ describe('submit group action:', () => {
 		expect(submitExercise.eventIndex).toBe(0)
 		expect(submitExercise.history[0].eventIndex).toBe(0)
 		expect(submitExercise.history[0].actions[0].action).toStrictEqual(action1)
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(2)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(1)
 
 		// Submit a second action.
 		const action2 = inputAction(28)
@@ -90,13 +91,13 @@ describe('submit group action:', () => {
 		expect(resubmitErrors).toBeUndefined()
 		expect(resubmitExercise.history[0].actions.length).toStrictEqual(1)
 		expect(resubmitExercise.history[0].actions[0].action).toStrictEqual(action2)
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(3)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(2)
 
 		// Cancel the action.
 		const { data: { cancelGroupAction: cancelExercise }, errors: cancelErrors } = await client.graphql({ query: `mutation{cancelGroupAction(exerciseId: "${exercise.id}", eventIndex: 0){skillId history{actions{userId action}}}}` })
 		expect(cancelErrors).toBeUndefined()
 		expect(cancelExercise.history[0].actions.length).toStrictEqual(0)
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(4)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(3)
 	})
 })
 
@@ -108,12 +109,13 @@ describe('cancel group action:', () => {
 		// Activate the group and start an exercise.
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		const { data: { startGroupExercise: startedExercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {id skillId active}}` })
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
+		expect(client.countEvents('GROUP_EXERCISE_STARTED')).toStrictEqual(1)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(0)
 
 		// Cancel the action.
 		const { data: { cancelGroupAction: exercise }, errors } = await client.graphql({ query: `mutation{cancelGroupAction(exerciseId: "${startedExercise.id}", eventIndex: 0){skillId}}` })
 		expect(errors).toBeUndefined()
 		expect(exercise).toStrictEqual({ skillId: SAMPLE_SKILL })
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(0)
 	})
 })

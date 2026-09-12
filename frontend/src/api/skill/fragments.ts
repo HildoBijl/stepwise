@@ -17,6 +17,18 @@ export const exerciseFields = `
 	}
 `
 
+export const exerciseUpdateFields = `
+	exerciseId
+	active
+	event {
+		id
+		eventIndex
+		action
+		state
+		performedAt
+	}
+`
+
 export const skillIdentityFields = `
 	id
 	userId

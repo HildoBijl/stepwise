@@ -6,7 +6,7 @@ import type { GroupExerciseQueryData, GroupExerciseQueryVariables } from '../rec
 import type { UseGroupExerciseResult } from '../types.ts'
 import { groupExerciseFields } from '../fragments.ts'
 import { groupExerciseRecordToExercise } from '../conversion.ts'
-import { useGroupExerciseSubscription } from '../subscriptions/index.ts'
+import { useGroupExerciseSubscriptions } from '../subscriptions/index.ts'
 
 export const GROUP_EXERCISE_QUERY: TypedDocumentNode<GroupExerciseQueryData, GroupExerciseQueryVariables> = gql`
 	query groupExercise($id: ID!) {
@@ -17,11 +17,11 @@ export const GROUP_EXERCISE_QUERY: TypedDocumentNode<GroupExerciseQueryData, Gro
 `
 
 export function useGroupExercise(id?: string): UseGroupExerciseResult {
-	const { data, loading, error, subscribeToMore } = useQuery(GROUP_EXERCISE_QUERY, {
+	const { data, loading, error, subscribeToMore, refetch } = useQuery(GROUP_EXERCISE_QUERY, {
 		variables: { id: id ?? '' },
 		skip: !id,
 	})
-	useGroupExerciseSubscription(id, subscribeToMore, !!id)
+	useGroupExerciseSubscriptions(id, subscribeToMore, refetch, !!id)
 	const record = data?.groupExercise
 	const exercise = useMemo(() => record ? groupExerciseRecordToExercise(record) : undefined, [record])
 	return { exercise, loading, error }

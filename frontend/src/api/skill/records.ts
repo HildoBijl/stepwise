@@ -58,6 +58,12 @@ export type SkillWithLatestExerciseRecord = SkillIdentityRecord & {
 	exerciseData: SkillLatestExerciseDataRecord | null
 }
 
+export type ExerciseUpdateRecord = {
+	exerciseId: string
+	active: boolean
+	event: ExerciseEventRecord
+}
+
 export type SkillWithExerciseHistoryRecord = SkillLevelRecord & {
 	exerciseData: SkillExerciseHistoryDataRecord | null
 }

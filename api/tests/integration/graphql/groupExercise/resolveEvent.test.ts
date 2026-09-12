@@ -51,7 +51,9 @@ describe('resolve group exercise:', () => {
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		const { data: { startGroupExercise: exercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {id skillId active}}` })
 		await client.graphql({ query: `mutation{submitGroupAction(exerciseId: "${exercise.id}", eventIndex: 0, action: ${stringifyGraphQLInput(inputAction(42))}){skillId}}` })
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(2)
+		expect(client.countEvents('GROUP_EXERCISE_STARTED')).toStrictEqual(1)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(1)
+		expect(client.countEvents('GROUP_EVENT_RESOLVED')).toStrictEqual(0)
 
 		// Resolving the event fails.
 		const { data, errors } = await client.graphql({ query: `mutation{resolveGroupEvent(exerciseId: "${exercise.id}", eventIndex: 0){skillId history{actions{userId action}}}}` })
@@ -68,14 +70,15 @@ describe('resolve group exercise:', () => {
 		const { data: { startGroupExercise: exercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {id parameters}}` })
 		const parameters = deserializeData(exercise.parameters) as any
 		await client.graphql({ query: `mutation{submitGroupAction(exerciseId: "${exercise.id}", eventIndex: 0, action: ${stringifyGraphQLInput(inputAction(parameters.x + 1))}){skillId}}` })
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(2)
+		expect(client.countEvents('GROUP_EXERCISE_STARTED')).toStrictEqual(1)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(1)
 		await client.signOut()
 
 		// Sign in as Bob, activate the group and make a wrong action.
 		await client.signInWithSurfConext(BOB_SURFSUB)
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		await client.graphql({ query: `mutation{submitGroupAction(exerciseId: "${exercise.id}", eventIndex: 0, action: ${stringifyGraphQLInput(inputAction(parameters.x - 1))}){skillId}}` })
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(3)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(2)
 
 		// Resolve the event.
 		const { data: { resolveGroupEvent: resolvedExercise1 }, errors: errors1 } = await client.graphql({ query: `mutation{resolveGroupEvent(exerciseId: "${exercise.id}", eventIndex: 0){skillId eventIndex active history {__typename eventIndex state}}}` })
@@ -85,29 +88,29 @@ describe('resolve group exercise:', () => {
 		expect(resolvedExercise1.history.map(event => event.eventIndex)).toStrictEqual([0, 1])
 		expect(resolvedExercise1.history.map(event => event.__typename)).toStrictEqual(['GroupEvent', 'GroupEvent'])
 		expect(resolvedExercise1.history.map(event => event.state === null)).toStrictEqual([false, true])
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(4)
+		expect(client.countEvents('GROUP_EVENT_RESOLVED')).toStrictEqual(1)
 
 		// Reject an action submitted for the resolved group event.
 		const { data: staleData, errors: staleErrors } = await client.graphql({ query: `mutation{submitGroupAction(exerciseId: "${exercise.id}", eventIndex: 0, action: ${stringifyGraphQLInput(inputAction(parameters.x + 1))}){skillId}}` })
 		expect(staleData).toBe(null)
 		expect(staleErrors[0].extensions).toStrictEqual({ code: 'BAD_USER_INPUT' })
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(4)
+		expect(client.countEvents('GROUP_EVENT_RESOLVED')).toStrictEqual(1)
 
 		// Make another wrong action and sign out.
 		await client.graphql({ query: `mutation{submitGroupAction(exerciseId: "${exercise.id}", eventIndex: 1, action: ${stringifyGraphQLInput(inputAction(parameters.x + 1))}){skillId}}` })
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(5)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(3)
 		await client.signOut()
 
 		// Sign in as Alex and make a correct action.
 		await client.signInWithSurfConext(ALEX_SURFSUB)
 		await client.graphql({ query: `mutation{submitGroupAction(exerciseId: "${exercise.id}", eventIndex: 1, action: ${stringifyGraphQLInput(inputAction(parameters.x))}){skillId}}` })
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(6)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(4)
 
 		// Resolve the event.
 		const { data: { resolveGroupEvent: resolvedExercise2 }, errors: errors2 } = await client.graphql({ query: `mutation{resolveGroupEvent(exerciseId: "${exercise.id}", eventIndex: 1){skillId active}}` })
 		expect(errors2).toBeUndefined()
 		expect(resolvedExercise2).toStrictEqual({ skillId: SAMPLE_SKILL, active: false })
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(7)
+		expect(client.countEvents('GROUP_EVENT_RESOLVED')).toStrictEqual(2)
 
 		// Reject an action for the completed exercise rather than applying it to a newly started exercise.
 		const { data: { startGroupExercise: nextExercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {id}}` })
@@ -137,7 +140,8 @@ describe('resolve group exercise:', () => {
 		expect(responses.filter(response => response.errors === undefined)).toHaveLength(1)
 		const failedResponse = responses.find(response => response.errors !== undefined)
 		expect(failedResponse.errors[0].extensions).toStrictEqual({ code: 'BAD_USER_INPUT' })
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(4)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(2)
+		expect(client.countEvents('GROUP_EVENT_RESOLVED')).toStrictEqual(1)
 	})
 
 	it('serializes action cancellation against event resolution', async () => {
@@ -159,6 +163,6 @@ describe('resolve group exercise:', () => {
 		])
 		expect(responses.filter(response => response.errors === undefined)).toHaveLength(1)
 		expect(responses.filter(response => response.errors !== undefined)).toHaveLength(1)
-		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(4)
+		expect(client.countEvents('GROUP_ACTION_UPDATED') + client.countEvents('GROUP_EVENT_RESOLVED')).toStrictEqual(3)
 	})
 })

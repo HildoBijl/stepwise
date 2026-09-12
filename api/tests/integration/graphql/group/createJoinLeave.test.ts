@@ -171,15 +171,31 @@ describe('leaving groups', () => {
 		await client.graphql({ query: `mutation {joinGroup(code: "${GROUP_CODE}"){code}}` })
 		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(1)
 
+		// Submit a pending action so leaving must remove it from both the database and live clients.
+		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
+		const { data: { startGroupExercise: exercise } } = await client.graphql({ query: `mutation {startGroupExercise(code: "${GROUP_CODE}", skillId: "enterInteger"){id}}` })
+		await client.graphql({ query: `mutation {submitGroupAction(exerciseId: "${exercise.id}", eventIndex: 0, action: {type: "input"}){id}}` })
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(1)
+
 		// Leave the group.
 		const { errors: leaveErrors } = await client.graphql({ query: `mutation {leaveGroup(code: "${GROUP_CODE}")}` })
 		expect(leaveErrors).toBeUndefined()
 		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(2)
+		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(2)
+		expect(client.eventsFor('GROUP_ACTION_UPDATED').at(-1)).toMatchObject({ exerciseId: exercise.id, eventIndex: 0, userId: ALEX_ID, action: null, memberIds: [BOB_ID] })
 
 		// Query the group.
 		const { data: { myGroups }, errors: getErrors } = await client.graphql({ query: `{myGroups{code}}` })
 		expect(getErrors).toBeUndefined()
 		expect(myGroups).toHaveLength(0)
+
+		// The pending action was also removed from persistent history.
+		await client.signOut()
+		await client.signInWithSurfConext(BOB_SURFSUB)
+		const { data: { groupExercise } } = await client.graphql({ query: `{groupExercise(id: "${exercise.id}"){history {actions {userId}}}}` })
+		expect(groupExercise.history).toStrictEqual([{ actions: [] }])
+		await client.signOut()
+		await client.signInWithSurfConext(ALEX_SURFSUB)
 
 		// Join the group again. (It is still there, since there is another member.)
 		const { errors: rejoinErrors } = await client.graphql({ query: `mutation {joinGroup(code: "${GROUP_CODE}"){code}}` })

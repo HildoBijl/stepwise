@@ -23,3 +23,28 @@ export const groupExerciseFields = `
 		}
 	}
 `
+
+export const groupActionUpdateFields = `
+	exerciseId
+	eventIndex
+	userId
+	action {
+		id
+		userId
+		action
+		performedAt
+	}
+`
+
+export const groupEventResolutionFields = `
+	exerciseId
+	eventIndex
+	state
+	active
+	nextEvent {
+		id
+		eventIndex
+		state
+		performedAt
+	}
+`

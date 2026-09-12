@@ -8,7 +8,7 @@ import type { LatestGroupExerciseQueryData, LatestGroupExerciseQueryVariables } 
 import type { UseLatestGroupExerciseResult } from '../types.ts'
 import { groupExerciseFields } from '../fragments.ts'
 import { groupExerciseRecordToExercise } from '../conversion.ts'
-import { useLatestGroupExerciseSubscription } from '../subscriptions/index.ts'
+import { useGroupExerciseStartedSubscription, useLatestGroupExerciseSubscriptions } from '../subscriptions/index.ts'
 
 export const LATEST_GROUP_EXERCISE_QUERY: TypedDocumentNode<LatestGroupExerciseQueryData, LatestGroupExerciseQueryVariables> = gql`
 	query latestGroupExercise($code: String!, $skillId: String!) {
@@ -20,13 +20,13 @@ export const LATEST_GROUP_EXERCISE_QUERY: TypedDocumentNode<LatestGroupExerciseQ
 
 export function useLatestGroupExercise(code: string | undefined, skillId: SkillId, apply = true): UseLatestGroupExerciseResult {
 	const skip = !apply || !code
-	const { data, loading, error, subscribeToMore } = useQuery(LATEST_GROUP_EXERCISE_QUERY, {
+	const { data, loading, error, subscribeToMore, refetch } = useQuery(LATEST_GROUP_EXERCISE_QUERY, {
 		variables: { code: code ?? '', skillId },
 		skip,
 	})
-	useLatestGroupExerciseSubscription(code, skillId, subscribeToMore, !skip)
-
 	const record = data?.latestGroupExercise
+	useGroupExerciseStartedSubscription(code, skillId, subscribeToMore, !skip)
+	useLatestGroupExerciseSubscriptions(record?.id, subscribeToMore, refetch, !skip)
 	const exercise = useMemo(() => record ? groupExerciseRecordToExercise(record) : undefined, [record])
 	return { exercise, loading, error }
 }

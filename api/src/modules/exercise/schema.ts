@@ -21,8 +21,14 @@ export const exerciseTypeDefs = gql`
 	}
 
 	extend type Subscription {
-		latestExerciseUpdated(skillId: String!): Exercise!
-		exerciseUpdated(exerciseId: ID!): Exercise!
+		exerciseStarted(skillId: String!): Exercise!
+		exerciseUpdated(exerciseId: ID!): ExerciseEventUpdate!
+	}
+
+	type ExerciseEventUpdate {
+		exerciseId: ID!
+		active: Boolean!
+		event: ExerciseEvent!
 	}
 
 	type Exercise {

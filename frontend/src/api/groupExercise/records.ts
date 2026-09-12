@@ -36,3 +36,18 @@ export type LatestGroupExerciseQueryVariables = { code: string; skillId: SkillId
 
 export type GroupExerciseQueryData = { groupExercise: GroupExerciseRecord | null }
 export type GroupExerciseQueryVariables = { id: string }
+
+export type GroupActionUpdateRecord = {
+	exerciseId: string
+	eventIndex: number
+	userId: string
+	action: GroupExerciseActionRecord | null
+}
+
+export type GroupEventResolutionRecord = {
+	exerciseId: string
+	eventIndex: number
+	state: ExerciseState
+	active: boolean
+	nextEvent: Omit<GroupExerciseEventRecord, 'actions'> | null
+}
