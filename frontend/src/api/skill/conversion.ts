@@ -4,8 +4,8 @@ import { expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-
 
 import { userAccountDataRecordToData, userRecordToUser, userSharedDataRecordToData } from '../user/conversion.ts'
 
-import type { ExerciseRecord, SkillIdentityRecord, SkillLevelRecord, SkillRecord, UserWithSkillsRecord } from './records.ts'
-import type { Exercise, Skill, UserWithSkills } from './types.ts'
+import type { ExerciseRecord, SkillLevelRecord, SkillWithExerciseHistoryRecord, SkillWithLatestExerciseRecord, UserWithSkillsRecord } from './records.ts'
+import type { Exercise, Skill, SkillWithExerciseHistory, UserWithSkills } from './types.ts'
 
 export function exerciseRecordToExercise(record: ExerciseRecord): Exercise {
 	return {
@@ -15,15 +15,21 @@ export function exerciseRecordToExercise(record: ExerciseRecord): Exercise {
 	}
 }
 
-export function skillRecordToSkill({ exerciseData, ...record }: SkillIdentityRecord & Pick<SkillRecord, 'exerciseData'>): Skill {
+export function skillWithLatestExerciseRecordToSkill({ exerciseData, ...record }: SkillWithLatestExerciseRecord): Skill {
 	return {
 		id: record.id,
 		userId: record.userId,
 		skillId: record.skillId,
-		...(exerciseData ? {
-			exercises: exerciseData.exercises.map(exerciseRecordToExercise),
-			...(exerciseData.activeExercise ? { activeExercise: exerciseRecordToExercise(exerciseData.activeExercise) } : {}),
-		} : {}),
+		...(exerciseData?.latestExercise ? { latestExercise: exerciseRecordToExercise(exerciseData.latestExercise) } : {}),
+	}
+}
+
+export function skillWithExerciseHistoryRecordToSkill({ exerciseData, ...record }: SkillWithExerciseHistoryRecord): SkillWithExerciseHistory {
+	return {
+		id: record.id,
+		userId: record.userId,
+		skillId: record.skillId,
+		exercises: exerciseData?.exercises.map(exerciseRecordToExercise) ?? [],
 	}
 }
 
@@ -51,7 +57,7 @@ export function userWithSkillsRecordToUser({ sharedData, accountData, ...user }:
 		...userRecordToUser(user),
 		...(sharedData ? userSharedDataRecordToData(sharedData) : {}),
 		...(accountData ? userAccountDataRecordToData(accountData) : {}),
-		skills: sharedData?.skills.map(skillRecordToSkill) ?? [],
+		skills: sharedData?.skills.map(skillWithExerciseHistoryRecordToSkill) ?? [],
 		skillLevelSet: skillLevelRecordsToSet(sharedData?.skills ?? []),
 	}
 }

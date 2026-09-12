@@ -8,7 +8,7 @@ import type { GroupExerciseRecord } from '../records.ts'
 import type { UseStartGroupExerciseResult } from '../types.ts'
 import { groupExerciseFields } from '../fragments.ts'
 
-import { updateGroupExerciseInCache } from './cache.ts'
+import { updateLatestGroupExerciseInCache } from './cache.ts'
 
 type StartGroupExerciseData = { startGroupExercise: GroupExerciseRecord }
 type StartGroupExerciseVariables = { code: string; skillId: SkillId }
@@ -25,9 +25,13 @@ export function useStartGroupExercise(code: string, skillId: SkillId): UseStartG
 	const [mutate, { loading, error }] = useMutation(START_GROUP_EXERCISE_MUTATION, {
 		variables: { code, skillId },
 		update(cache, { data }) {
-			if (data?.startGroupExercise) updateGroupExerciseInCache(cache, code, data.startGroupExercise)
+			if (data?.startGroupExercise) updateLatestGroupExerciseInCache(cache, code, skillId, data.startGroupExercise)
 		},
 	})
-	const startGroupExercise = useCallback(async () => { await mutate() }, [mutate])
+	const startGroupExercise = useCallback(async () => {
+		const { data } = await mutate()
+		if (!data) throw new Error('Starting the group exercise returned no data.')
+		return data.startGroupExercise.id
+	}, [mutate])
 	return [startGroupExercise, { loading, error }]
 }

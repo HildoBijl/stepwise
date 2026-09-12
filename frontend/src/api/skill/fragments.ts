@@ -29,12 +29,17 @@ export const skillLevelDataFields = `
 	highestOn
 `
 
-export const skillExerciseDataFields = `
+export const skillLatestExerciseDataFields = `
 	exerciseData {
-		exercises {
+		latestExercise {
 			${exerciseFields}
 		}
-		activeExercise {
+	}
+`
+
+export const skillExerciseHistoryDataFields = `
+	exerciseData {
+		exercises {
 			${exerciseFields}
 		}
 	}
@@ -47,22 +52,22 @@ export const skillLevelFields = `
 	}
 `
 
-export const skillExerciseFields = `
+export const skillLatestExerciseFields = `
 	${skillIdentityFields}
-	${skillExerciseDataFields}
+	${skillLatestExerciseDataFields}
 `
 
-export const skillFields = (addExerciseFields: boolean): string => `
+export const skillWithExerciseHistoryFields = `
 	${skillLevelFields}
-	${addExerciseFields ? skillExerciseDataFields : ''}
+	${skillExerciseHistoryDataFields}
 `
 
-export const userWithSkillsFields = (addExercises: boolean): string => `
+export const userWithSkillsFields = `
 		...UserPublicFields
 		sharedData {
 			...UserSharedDataFields
 			skills {
-				${skillFields(addExercises)}
+				${skillWithExerciseHistoryFields}
 			}
 		}
 		accountData {

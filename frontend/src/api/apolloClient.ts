@@ -81,6 +81,11 @@ export function createApolloClient(): ApolloClient {
 				GroupMember: { keyFields: ['groupId', 'userId'] },
 				Query: {
 					fields: {
+						groupExercise: {
+							read(existing, { args, toReference }) {
+								return existing ?? (args?.id ? toReference({ __typename: 'GroupExercise', id: args.id }) : undefined)
+							},
+						},
 						myGroups: { merge: false },
 					},
 				},

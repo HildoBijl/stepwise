@@ -44,20 +44,23 @@ export type SkillLevelRecord = SkillIdentityRecord & {
 export type SkillLevelRecordsQueryData = { skills: SkillLevelRecord[] }
 export type SkillLevelRecordsQueryVariables = { skillIds: SkillId[] }
 
-export type SkillExerciseDataRecord = {
+export type SkillLatestExerciseDataRecord = {
+	latestExercise: ExerciseRecord | null
+}
+
+export type SkillExerciseHistoryDataRecord = {
 	exercises: ExerciseRecord[]
-	activeExercise: ExerciseRecord | null
 }
 
-export type SkillWithExercisesRecord = SkillIdentityRecord & {
-	exerciseData: SkillExerciseDataRecord | null
+export type SkillWithLatestExerciseRecord = SkillIdentityRecord & {
+	exerciseData: SkillLatestExerciseDataRecord | null
 }
 
-export type SkillRecord = SkillLevelRecord & {
-	exerciseData?: SkillExerciseDataRecord | null
+export type SkillWithExerciseHistoryRecord = SkillLevelRecord & {
+	exerciseData: SkillExerciseHistoryDataRecord | null
 }
 
 export type UserWithSkillsRecord = UserRecord & {
-	sharedData: (UserSharedDataRecord & { skills: SkillRecord[] }) | null
+	sharedData: (UserSharedDataRecord & { skills: SkillWithExerciseHistoryRecord[] }) | null
 	accountData?: UserAccountDataRecord | null
 }

@@ -36,7 +36,8 @@
       "solveStepWise": "Stapsgewijs oplossen:",
       "submissionsReceived": "Alle inzendingen zijn binnen.",
       "allGaveUp": "Iedereen heeft het opgegeven.",
-      "allStepWise": "Iedereen stemt voor stapsgewijs oplossen."
+      "allStepWise": "Iedereen stemt voor stapsgewijs oplossen.",
+      "newGroupExercise": "Een ander groepslid is aan een nieuwere opgave begonnen."
     },
     "buttons": {
       "sendSubmission": "Insturen",
@@ -47,7 +48,8 @@
       "submitTheSame": "Ook insturen",
       "checkSubmissions": "Controleer inzendingen",
       "confirmGivingUp": "Opgeven bevestigen",
-      "comfirmSolvingStepWise": "Stapsgewijs oplossen bevestigen"
+      "comfirmSolvingStepWise": "Stapsgewijs oplossen bevestigen",
+      "newGroupExercise": "Nieuwste opgave openen"
     },
     "unequalSolutionWarning": "De invoer hierboven is niet gelijk aan je ingezonden antwoord.",
     "notEnoughSubmissions": "In de samenwerkingsmodus zijn minimaal twee inzendingen nodig om een opgave na te laten kijken. Nodig een studiegenoot uit."

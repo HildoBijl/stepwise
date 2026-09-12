@@ -8,7 +8,7 @@ import type { GroupExerciseRecord } from '../records.ts'
 import type { UseCancelGroupActionResult } from '../types.ts'
 import { groupExerciseFields } from '../fragments.ts'
 
-import { updateGroupExerciseInCache } from './cache.ts'
+import { updateLatestGroupExerciseInCache } from './cache.ts'
 
 type CancelGroupActionData = { cancelGroupAction: GroupExerciseRecord }
 type CancelGroupActionVariables = { code: string; skillId: SkillId }
@@ -25,7 +25,7 @@ export function useCancelGroupAction(code: string, skillId: SkillId): UseCancelG
 	const [mutate, { loading, error }] = useMutation(CANCEL_GROUP_ACTION_MUTATION, {
 		variables: { code, skillId },
 		update(cache, { data }) {
-			if (data?.cancelGroupAction) updateGroupExerciseInCache(cache, code, data.cancelGroupAction)
+			if (data?.cancelGroupAction) updateLatestGroupExerciseInCache(cache, code, skillId, data.cancelGroupAction)
 		},
 	})
 	const cancelGroupAction = useCallback(async () => { await mutate() }, [mutate])

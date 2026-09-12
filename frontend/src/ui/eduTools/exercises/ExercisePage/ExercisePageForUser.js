@@ -31,7 +31,7 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 	}, [submitExerciseAction])
 
 	// If there is no exercise, start one.
-	const exercise = skill?.activeExercise
+	const exercise = skill?.latestExercise
 	useEffect(() => {
 		if (!loading && !exercise) startNewExercise()
 	}, [loading, exercise, startNewExercise])

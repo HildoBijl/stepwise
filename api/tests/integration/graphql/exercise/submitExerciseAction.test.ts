@@ -96,10 +96,10 @@ describe('submitExerciseAction', () => {
 		expect(updatedExercise.state).toMatchObject({ done: true })
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 
-		// Check that no exercise is active.
-		const { data: { skill: skillAfterSolving }, errors: skillAfterSolvingErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId exerciseData {activeExercise {id exerciseId parameters active}}}}` })
+		// Check that the completed exercise remains the latest exercise.
+		const { data: { skill: skillAfterSolving }, errors: skillAfterSolvingErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId exerciseData {latestExercise {id exerciseId parameters active}}}}` })
 		expect(skillAfterSolvingErrors).toBeUndefined()
-		expect(skillAfterSolving.exerciseData.activeExercise).toBe(null)
+		expect(skillAfterSolving.exerciseData.latestExercise).toMatchObject({ id: updatedExercise.id, active: false })
 
 		// Start a new exercise and check that we can start it.
 		const { data: { startExercise: secondExercise }, errors: secondExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId parameters active}}` })
@@ -107,10 +107,10 @@ describe('submitExerciseAction', () => {
 		expect(secondExercise).toMatchObject({ active: true })
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 
-		// Check that the right exercise is active.
-		const { data: { skill: skillAfterRestart }, errors: skillAfterRestartErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId exerciseData {activeExercise {id exerciseId parameters active} exercises {id}}}}` })
+		// Check that the new exercise is now the latest exercise.
+		const { data: { skill: skillAfterRestart }, errors: skillAfterRestartErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId exerciseData {latestExercise {id exerciseId parameters active} exercises {id}}}}` })
 		expect(skillAfterRestartErrors).toBeUndefined()
-		expect(skillAfterRestart.exerciseData.activeExercise).toMatchObject(secondExercise)
+		expect(skillAfterRestart.exerciseData.latestExercise).toMatchObject(secondExercise)
 		expect(skillAfterRestart.exerciseData.exercises).toHaveLength(2)
 	})
 

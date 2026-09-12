@@ -8,6 +8,7 @@ const loaderNames = defineRegistryKeys<ApiLoaders>()(
 	'allSkillsForUser',
 	'skillForUser',
 	'exercisesForSkill',
+	'latestExerciseForSkill',
 )
 
 export function createLoaders(context: LoaderContext): ApiLoaders {

@@ -1,19 +1,27 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react'
+import React, { useEffect, useCallback } from 'react'
+import { Alert } from '@mui/material'
 
 import { hasExercises } from '@step-wise/exercises'
+import { useSessionStorageState } from '@step-wise/react-utils'
 
-import { useActiveGroup, useActiveGroupExercisesState, useActiveGroupExercise, useStartGroupExercise, useSubmitGroupAction, useCancelGroupAction, useResolveGroupEvent } from 'api'
-import { useGetTranslation } from 'i18n'
-import { ErrorNote, LoadingNote } from 'ui/components'
+import { useActiveGroup, useGroupExercise, useLatestGroupExercise, useStartGroupExercise, useSubmitGroupAction, useCancelGroupAction, useResolveGroupEvent } from 'api'
+import { useGetTranslation, useTranslator } from 'i18n'
+import { Button, ErrorNote, LoadingNote } from 'ui/components'
 
 import { ExerciseContainer } from '../containers'
 
 export function ExercisePageForGroup({ skillId }) {
 	const getTranslation = useGetTranslation()
+	const translate = useTranslator('eduTools/exercises')
 
-	// Load in the skill and its exercises.
+	// Load the latest exercise and remember which exercise this browser tab is displaying.
 	const group = useActiveGroup()
-	const [requestedNextExercise, setRequestedNextExercise] = useState(false)
+	const storageKey = `step-wise:displayed-group-exercise:${group.code}:${skillId}`
+	const [displayedExerciseId, setDisplayedExerciseId] = useSessionStorageState(storageKey, undefined, { parse: value => typeof value === 'string' ? value : undefined })
+	const { exercise: latestExercise, loading: latestExerciseLoading, error: latestExerciseError } = useLatestGroupExercise(group.code, skillId)
+	const loadDisplayedExercise = !!displayedExerciseId && displayedExerciseId !== latestExercise?.id
+	const { exercise: storedExercise, loading: storedExerciseLoading, error: storedExerciseError } = useGroupExercise(loadDisplayedExercise ? displayedExerciseId : undefined)
+	const displayedExercise = loadDisplayedExercise ? storedExercise : latestExercise
 
 	// Get mutation functions.
 	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartGroupExercise(group.code, skillId)
@@ -23,51 +31,53 @@ export function ExercisePageForGroup({ skillId }) {
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
-		if (hasExercises(skillId)) {
-			setRequestedNextExercise(true)
-			startNewExerciseOnServer().catch(() => {})
-		}
-	}, [skillId, startNewExerciseOnServer])
+		if (!hasExercises(skillId)) return
+		startNewExerciseOnServer().then(setDisplayedExerciseId).catch(() => { })
+	}, [setDisplayedExerciseId, skillId, startNewExerciseOnServer])
 	const submitAction = useCallback((action, processGroupActions) => {
 		// ToDo later: use processGroupActions to set up an optimistic response.
-		submitActionToServer(action).catch(() => {})
+		submitActionToServer(action).catch(() => { })
 	}, [submitActionToServer])
 
-	// If there is no exercise, start one.
-	const { loading, error } = useActiveGroupExercisesState()
-	const exercise = useActiveGroupExercise(skillId)
+	// Initially display the latest exercise. If none exists yet, start one.
 	useEffect(() => {
-		if (!loading && !exercise)
-			startNewExercise()
-	}, [loading, exercise, startNewExercise])
+		if (!displayedExerciseId && latestExercise) setDisplayedExerciseId(latestExercise.id)
+		else if (!latestExerciseLoading && !latestExercise && !newExerciseLoading) startNewExercise()
+	}, [displayedExerciseId, latestExercise, latestExerciseLoading, newExerciseLoading, setDisplayedExerciseId, startNewExercise])
 
-	// Even when there is a new exercise, still show the previous exercise until the user requested the next exercise.
-	const displayExerciseRef = useRef()
-	if (exercise && (!displayExerciseRef.current || displayExerciseRef.current.id === exercise.id))
-		displayExerciseRef.current = exercise
+	// Recover from an obsolete stored ID by falling back to the latest available exercise.
 	useEffect(() => {
-		if (requestedNextExercise && displayExerciseRef.current !== exercise) {
-			displayExerciseRef.current = exercise
-			setRequestedNextExercise(false)
-		}
-	}, [requestedNextExercise, displayExerciseRef, exercise])
-	const displayExercise = requestedNextExercise ? exercise : displayExerciseRef.current
+		if (loadDisplayedExercise && !storedExerciseLoading && !storedExercise && latestExercise)
+			setDisplayedExerciseId(latestExercise.id)
+	}, [latestExercise, loadDisplayedExercise, setDisplayedExerciseId, storedExercise, storedExerciseLoading])
 
 	// Are there simply no exercises?
 	if (!hasExercises(skillId))
 		return <div>{getTranslation('loadingNotes.noExercises', 'eduTools/pages/skillPage')}</div>
 
 	// Any errors we should notify the user of?
-	const presentError = error || newExerciseError || actionError || cancelError || resolveError
+	const presentError = latestExerciseError || storedExerciseError || newExerciseError || actionError || cancelError || resolveError
 	if (presentError)
 		return <ErrorNote error={presentError} />
 
 	// Anything still loading?
-	if (loading)
+	if (latestExerciseLoading || storedExerciseLoading)
 		return <LoadingNote text={getTranslation('loadingNotes.loadingExerciseData', 'eduTools/pages/skillPage')} />
-	if (newExerciseLoading || !displayExercise)
+	if (newExerciseLoading || !displayedExercise)
 		return <LoadingNote text={getTranslation('loadingNotes.generatingNewExercise', 'eduTools/pages/skillPage')} />
 
 	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
-	return <ExerciseContainer key={displayExercise.startedAt} skillId={skillId} exercise={displayExercise} groupExercise={true} submitting={resolveLoading} submitAction={submitAction} cancelAction={cancelAction} resolveEvent={resolveEvent} startNewExercise={startNewExercise} />
+	const newerExerciseAvailable = !!latestExercise && latestExercise.id !== displayedExercise.id
+	return <>
+		{newerExerciseAvailable && <Alert
+			severity={'warning'}
+			action={<Button color={'inherit'} size={'small'} onClick={() => setDisplayedExerciseId(latestExercise.id)}>
+				{translate('Open latest exercise', 'groupExercise.buttons.newGroupExercise')}
+			</Button>}
+			sx={{ marginBottom: 2 }}
+		>
+			{translate('Another group member has started a newer exercise.', 'groupExercise.status.newGroupExercise')}
+		</Alert>}
+		<ExerciseContainer key={displayedExercise.startedAt} skillId={skillId} exercise={displayedExercise} groupExercise={true} submitting={resolveLoading} submitAction={submitAction} cancelAction={cancelAction} resolveEvent={resolveEvent} startNewExercise={startNewExercise} />
+	</>
 }

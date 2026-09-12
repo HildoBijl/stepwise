@@ -1,15 +1,16 @@
 import type { ApolloCache } from '@apollo/client'
 
-import type { GroupExerciseRecord } from '../records.ts'
-import { upsertGroupExerciseRecord } from '../recordLists.ts'
-import { ACTIVE_GROUP_EXERCISES_QUERY } from '../queries/useActiveGroupExercisesQuery.ts'
+import type { SkillId } from '@step-wise/skill-definition'
 
-export function updateGroupExerciseInCache(cache: ApolloCache, code: string, updatedExercise: GroupExerciseRecord): void {
-	const exercises = cache.readQuery({ query: ACTIVE_GROUP_EXERCISES_QUERY, variables: { code } })?.activeGroupExercises
-	if (!exercises) return
+import type { GroupExerciseRecord } from '../records.ts'
+import { LATEST_GROUP_EXERCISE_QUERY } from '../queries/index.ts'
+
+export function updateLatestGroupExerciseInCache(cache: ApolloCache, code: string, skillId: SkillId, updatedExercise: GroupExerciseRecord): void {
+	const variables = { code, skillId }
+	if (!cache.readQuery({ query: LATEST_GROUP_EXERCISE_QUERY, variables })) return
 	cache.writeQuery({
-		query: ACTIVE_GROUP_EXERCISES_QUERY,
-		variables: { code },
-		data: { activeGroupExercises: upsertGroupExerciseRecord(updatedExercise, exercises) },
+		query: LATEST_GROUP_EXERCISE_QUERY,
+		variables,
+		data: { latestGroupExercise: updatedExercise },
 	})
 }

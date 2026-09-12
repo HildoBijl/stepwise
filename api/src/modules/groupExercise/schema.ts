@@ -2,7 +2,8 @@ import { gql } from 'graphql-tag'
 
 export const groupExerciseTypeDefs = gql`
 	extend type Query {
-		activeGroupExercises(code: String!): [GroupExercise!]!
+		latestGroupExercise(code: String!, skillId: String!): GroupExercise
+		groupExercise(id: ID!): GroupExercise
 	}
 
 	extend type Mutation {
@@ -13,7 +14,7 @@ export const groupExerciseTypeDefs = gql`
 	}
 
 	extend type Subscription {
-		activeGroupExercisesUpdated(code: String!): GroupExercise!
+		latestGroupExerciseUpdated(code: String!, skillId: String!): GroupExercise!
 	}
 
 	type GroupExercise {

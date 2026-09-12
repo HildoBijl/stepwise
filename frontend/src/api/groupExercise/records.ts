@@ -29,5 +29,8 @@ export type GroupExerciseRecord = {
 	history: GroupExerciseEventRecord[]
 }
 
-export type ActiveGroupExercisesQueryData = { activeGroupExercises: GroupExerciseRecord[] }
-export type ActiveGroupExercisesQueryVariables = { code: string }
+export type LatestGroupExerciseQueryData = { latestGroupExercise: GroupExerciseRecord | null }
+export type LatestGroupExerciseQueryVariables = { code: string; skillId: SkillId }
+
+export type GroupExerciseQueryData = { groupExercise: GroupExerciseRecord | null }
+export type GroupExerciseQueryVariables = { id: string }
