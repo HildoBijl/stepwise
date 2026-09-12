@@ -40,7 +40,7 @@ export const groupExerciseResolvers = {
 		startedAt: (exercise: GroupExerciseSampleRecord) => exercise.createdAt,
 		state: (exercise: GroupExerciseSampleRecord) => getCurrentGroupExerciseState(exercise),
 		eventIndex: getGroupExerciseEventIndex,
-		history: (exercise: GroupExerciseSampleRecord) => [...(exercise.events ?? [])].sort((a, b) => a.eventIndex - b.eventIndex),
+		history: (exercise: GroupExerciseSampleRecord) => exercise.events ?? [],
 	},
 
 	GroupEvent: {
@@ -87,6 +87,7 @@ export const groupExerciseResolvers = {
 					return { group, activeExercises: [], action: 'destroy' as const }
 				}
 
+				// If the group still has members, remove the user and their actions from all exercises and events. To do this safely, reload the group with all exercises and events, then lock all events before removing the user's actions.
 				const groupWithExercises = await getGroupWithAllExercises(db, group.code, { transaction })
 				if (!groupWithExercises) throw new Error(`Failed to reload group "${group.code}" with exercises.`)
 				const eventIds = groupWithExercises.exercises.flatMap(exercise => exercise.events.map(event => event.id)).sort()

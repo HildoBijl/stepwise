@@ -1,4 +1,4 @@
-import { findOptimum } from '@step-wise/js-utils'
+import { last } from '@step-wise/js-utils'
 import type { ExerciseState } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/skill-definition'
 import { getExercise } from '@step-wise/exercises'
@@ -25,8 +25,7 @@ export interface GroupExerciseUpdatedPayload {
 }
 
 function getLatestResolvedGroupEvent(exercise: GroupExerciseSampleRecord): GroupExerciseEventRecord | null {
-	const events = (exercise.events ?? []).filter(event => event.state !== null)
-	return findOptimum(events, (a, b) => a.eventIndex > b.eventIndex) ?? null
+	return exercise.events?.findLast(event => event.state !== null) ?? null
 }
 
 export function getCurrentGroupExerciseState(exercise: GroupExerciseSampleRecord): ExerciseState {
@@ -34,13 +33,18 @@ export function getCurrentGroupExerciseState(exercise: GroupExerciseSampleRecord
 }
 
 export function getGroupExerciseEventIndex(exercise: GroupExerciseSampleRecord): number {
-	return findOptimum(exercise.events ?? [], (a, b) => a.eventIndex > b.eventIndex)?.eventIndex ?? 0
+	return exercise.events?.length ? last(exercise.events).eventIndex : 0
+}
+
+function sortGroupExerciseEvents(exercise: GroupExerciseSampleWithEvents): GroupExerciseSampleWithEvents {
+	exercise.events.sort((a, b) => a.eventIndex - b.eventIndex)
+	return exercise
 }
 
 function ensureLoadedGroupExerciseEvents(exercise: GroupExerciseSampleRecord | null): GroupExerciseSampleWithEvents | null {
 	if (!exercise) return null
 	if (!hasLoadedGroupExerciseEvents(exercise)) throw new Error(`Failed to load events and actions for group exercise "${exercise.id}".`)
-	return exercise
+	return sortGroupExerciseEvents(exercise)
 }
 
 export async function getGroupExerciseById(db: GroupExerciseDatabase, id: string, options: ServiceOptions = {}): Promise<GroupExerciseSampleWithEvents | null> {
@@ -76,13 +80,16 @@ async function getGroupWithExercises(db: GroupExerciseDatabase, code: string, { 
 		...(transaction ? { transaction } : {}),
 		where: { code: code.toUpperCase() },
 		include: [{ association: 'members' }, {
-			association: 'exercises', ...(where ? { where } : {}), required: false,
+			association: 'exercises',
+			...(where ? { where } : {}),
+			required: false,
 			include: [{ association: 'events', required: false, include: [{ association: 'actions', required: false }] }],
 		}],
 	})
 	if (!group) return null
 	if (!hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
 	if (!hasLoadedGroupExercises(group)) throw new Error(`Failed to load exercises, events, and actions of group "${group.code}".`)
+	group.exercises.forEach(sortGroupExerciseEvents)
 	await deactivateUnavailableGroupExercises(group, { ...(transaction ? { transaction } : {}) })
 	if (where?.active) group.exercises = group.exercises.filter(exercise => exercise.active)
 	return group

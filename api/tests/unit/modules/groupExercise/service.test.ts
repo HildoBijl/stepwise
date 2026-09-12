@@ -10,11 +10,11 @@ describe('group-exercise state helpers', () => {
 		expect(getCurrentGroupExerciseState({ initialState, events: [{ state: null }] } as unknown as GroupExerciseSampleRecord)).toBe(initialState)
 	})
 
-	it('uses the resolved event with the highest index and ignores pending events', () => {
+	it('uses the final resolved event in the loaded event sequence and ignores pending events', () => {
 		const older = { eventIndex: 0, state: { step: 1 } } as unknown as GroupExerciseEventRecord
 		const latest = { eventIndex: 1, state: { step: 2 } } as unknown as GroupExerciseEventRecord
 		const pending = { eventIndex: 2, state: null } as unknown as GroupExerciseEventRecord
-		const exercise = { initialState: {}, events: [older, pending, latest] } as unknown as GroupExerciseSampleRecord
+		const exercise = { initialState: {}, events: [older, latest, pending] } as unknown as GroupExerciseSampleRecord
 		expect(getCurrentGroupExerciseState(exercise)).toBe(latest.state)
 		expect(getGroupExerciseEventIndex(exercise)).toBe(2)
 	})

@@ -54,8 +54,11 @@ export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: st
 	const { includeActiveExercise = false, includeExercises = false, requireActiveExercise = false, requireNoActiveExercise = false, createIfNoneExists = false, transaction } = options
 	const loadExercises = includeActiveExercise || includeExercises || requireActiveExercise || requireNoActiveExercise
 	const exerciseInclude: IncludeOptions | undefined = loadExercises ? {
-		association: 'exercises', ...(includeExercises ? {} : { where: { active: true } }), required: false,
-		order: [['createdAt', 'ASC']], separate: true,
+		association: 'exercises',
+		...(includeExercises ? {} : { where: { active: true } }),
+		required: false,
+		separate: true,
+		order: [['createdAt', 'ASC']],
 		include: [{ association: 'events', required: false, order: [['eventIndex', 'ASC']], separate: true }],
 	} : undefined
 
