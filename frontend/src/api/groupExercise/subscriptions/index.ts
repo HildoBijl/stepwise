@@ -1,1 +1,1 @@
-export * from './useActiveGroupExercisesSubscription.ts'
+export * from './useLatestGroupExerciseSubscription.ts'

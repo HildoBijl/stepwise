@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react'
 
 import { hasExercises } from '@step-wise/exercises'
 
-import { useActiveGroup, useActiveGroupExercisesState, useActiveGroupExercise, useStartGroupExercise, useSubmitGroupAction, useCancelGroupAction, useResolveGroupEvent } from 'api'
+import { useActiveGroup, useLatestGroupExercise, useStartGroupExercise, useSubmitGroupAction, useCancelGroupAction, useResolveGroupEvent } from 'api'
 import { useGetTranslation } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
 
@@ -34,8 +34,7 @@ export function ExercisePageForGroup({ skillId }) {
 	}, [submitActionToServer])
 
 	// If there is no exercise, start one.
-	const { loading, error } = useActiveGroupExercisesState()
-	const exercise = useActiveGroupExercise(skillId)
+	const { exercise, loading, error } = useLatestGroupExercise(group.code, skillId)
 	useEffect(() => {
 		if (!loading && !exercise)
 			startNewExercise()

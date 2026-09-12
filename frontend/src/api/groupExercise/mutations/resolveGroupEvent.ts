@@ -8,7 +8,7 @@ import type { GroupExerciseRecord } from '../records.ts'
 import type { UseResolveGroupEventResult } from '../types.ts'
 import { groupExerciseFields } from '../fragments.ts'
 
-import { updateGroupExerciseInCache } from './cache.ts'
+import { updateLatestGroupExerciseInCache } from './cache.ts'
 
 type ResolveGroupEventData = { resolveGroupEvent: GroupExerciseRecord }
 type ResolveGroupEventVariables = { code: string; skillId: SkillId }
@@ -25,7 +25,7 @@ export function useResolveGroupEvent(code: string, skillId: SkillId): UseResolve
 	const [mutate, { loading, error }] = useMutation(RESOLVE_GROUP_EVENT_MUTATION, {
 		variables: { code, skillId },
 		update(cache, { data }) {
-			if (data?.resolveGroupEvent) updateGroupExerciseInCache(cache, code, data.resolveGroupEvent)
+			if (data?.resolveGroupEvent) updateLatestGroupExerciseInCache(cache, code, skillId, data.resolveGroupEvent)
 		},
 	})
 	const resolveGroupEvent = useCallback(async () => { await mutate() }, [mutate])

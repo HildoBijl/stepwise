@@ -3,7 +3,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material'
 import { ApolloProvider } from '@apollo/client/react'
 import { HelmetProvider } from 'react-helmet-async'
 
-import { useUser, ActiveGroupProvider, ActiveGroupExerciseProvider, SkillLevelProvider } from 'api'
+import { useUser, ActiveGroupProvider, SkillLevelProvider } from 'api'
 import { I18nProvider, useLanguageSetting } from 'i18n'
 import theme from 'ui/theme'
 
@@ -28,11 +28,9 @@ export function App({ apolloClient }) {
 							<div id="appInner">
 								<PrivacyPolicyWrapper>
 									<ActiveGroupProvider>
-										<ActiveGroupExerciseProvider>
-											<SkillLevelProvider>
-												<Routing />
-											</SkillLevelProvider>
-										</ActiveGroupExerciseProvider>
+										<SkillLevelProvider>
+											<Routing />
+										</SkillLevelProvider>
 									</ActiveGroupProvider>
 								</PrivacyPolicyWrapper>
 							</div>

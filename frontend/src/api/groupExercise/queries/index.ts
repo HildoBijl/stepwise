@@ -1,1 +1,2 @@
-export * from './useActiveGroupExercisesQuery.ts'
+export * from './useGroupExercise.ts'
+export * from './useLatestGroupExercise.ts'

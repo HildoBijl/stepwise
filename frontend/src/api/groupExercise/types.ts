@@ -29,4 +29,5 @@ export type UseSubmitGroupActionResult = ApiMutationResult<(action: ExerciseActi
 export type UseCancelGroupActionResult = ApiMutationResult<() => Promise<void>>
 export type UseResolveGroupEventResult = ApiMutationResult<() => Promise<void>>
 
-export type ActiveGroupExercisesState = ApiQueryResult<'exercises', GroupExercise[]>
+export type UseLatestGroupExerciseResult = ApiQueryResult<'exercise', GroupExercise>
+export type UseGroupExerciseResult = ApiQueryResult<'exercise', GroupExercise>
