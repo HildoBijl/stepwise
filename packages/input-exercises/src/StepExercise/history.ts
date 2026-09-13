@@ -26,15 +26,18 @@ export function getLastRawInputAtStep(instance: InputExerciseHistoryData<StepExe
 			}
 			return undefined
 
-		case 'group':
+		case 'group': {
 			if (userId === undefined) throw new TypeError(`A userId is required when retrieving input from a group exercise history.`)
+			let historyUserId = userId
 			for (let index = instance.history.length - 1; index >= 0; index--) {
 				const event = instance.history[index]
-				const userAction = (!resolvedOnly || 'state' in event) ? event.actions.find(userAction => userAction.userId === userId)?.action : undefined
+				const userAction = event.actions.find(userAction => userAction.userId === historyUserId)?.action
 				if (!userAction || userAction.type !== 'input') continue
-				if (getCurrentStep(getStateBeforeEvent(instance, index)) === step) return userAction.input
+				if ((!resolvedOnly || 'state' in event) && getCurrentStep(getStateBeforeEvent(instance, index)) === step) return userAction.input
+				historyUserId = userAction.adoptUserHistory ?? historyUserId
 			}
 			return undefined
+		}
 
 		default:
 			return throwUnsupportedMode(mode)

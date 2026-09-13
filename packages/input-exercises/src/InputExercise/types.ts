@@ -13,7 +13,7 @@ export type InputExerciseMetadata = ExerciseMetadata & { comparisons?: Record<st
 
 // Actions: only allow input and giveUp actions.
 export type InputExerciseRawInput = Record<string, InputValue>
-export type InputExerciseAction = { type: 'input', input: InputExerciseRawInput } | { type: 'giveUp' }
+export type InputExerciseAction = { type: 'input', input: InputExerciseRawInput, adoptUserHistory?: string } | { type: 'giveUp' }
 export type InputExerciseActionType = InputExerciseAction['type']
 
 // Parameters and input: runtime objects obtained after deserialization and interpretation.

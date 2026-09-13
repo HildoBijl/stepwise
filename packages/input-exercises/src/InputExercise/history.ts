@@ -27,14 +27,18 @@ export function getLastRawInput(instance: InputExerciseHistoryData, userId?: str
 				if (action.type === 'input') return action.input
 			}
 			return undefined
-		case 'group':
+		case 'group': {
 			if (userId === undefined) throw new TypeError(`A userId is required when retrieving input from a group exercise history.`)
+			let historyUserId = userId
 			for (let index = instance.history.length - 1; index >= 0; index--) {
 				const event = instance.history[index]
-				const action = (!resolvedOnly || 'state' in event) ? event.actions.find(userAction => userAction.userId === userId)?.action : undefined
-				if (action?.type === 'input') return action.input
+				const action = event.actions.find(userAction => userAction.userId === historyUserId)?.action
+				if (action?.type !== 'input') continue
+				if (!resolvedOnly || 'state' in event) return action.input
+				historyUserId = action.adoptUserHistory ?? historyUserId
 			}
 			return undefined
+		}
 		default:
 			return throwUnsupportedMode(mode)
 	}
@@ -58,15 +62,23 @@ export function getAccumulatedRawInput(instance: InputExerciseHistoryData, userI
 	// Depending on the mode, walk through the actions and add respective inputs.
 	switch (mode) {
 		case 'solo':
-			for (let index = 0; index <= lastIndex; index++)
-				addInput(instance.history[index].action)
+			for (let index = 0; index <= lastIndex; index++) addInput(instance.history[index].action)
 			break
 
 		case 'group':
 			if (userId === undefined) throw new TypeError(`A userId is required when retrieving input from a group exercise history.`)
-			for (let index = 0; index <= lastIndex; index++) {
+			let historyUserId = userId
+			for (let index = lastIndex; index >= 0; index--) {
 				const event = instance.history[index]
-				addInput((!resolvedOnly || 'state' in event) ? event.actions.find(userAction => userAction.userId === userId)?.action : undefined)
+				const action = event.actions.find(userAction => userAction.userId === historyUserId)?.action
+				if (action?.type !== 'input') continue
+				if (!resolvedOnly || 'state' in event) {
+					Object.entries(action.input).forEach(([id, value]) => {
+						if (!(id in input)) input[id] = value
+					})
+					hasInput = true
+				}
+				historyUserId = action.adoptUserHistory ?? historyUserId
 			}
 			break
 

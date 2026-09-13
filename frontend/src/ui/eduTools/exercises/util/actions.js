@@ -9,10 +9,13 @@ import { useSubmitCall } from 'ui/form'
 
 import { useExerciseData } from '../containers'
 
+import { useInputHistoryAdoption } from './historyAdoption'
+
 // useFormSubmitAction gives a function that is given to a Form, to be called whenever the form is submitted.
 export function useFormSubmitAction() {
 	const { instance, submitting, submitAction } = useExerciseData()
 	const userId = useUserId()
+	const { adoptUserHistory } = useInputHistoryAdoption()
 
 	const instanceRef = useLatestRef(instance)
 	const disabledRef = useLatestRef(submitting)
@@ -25,15 +28,15 @@ export function useFormSubmitAction() {
 		// Check if the input is the same as for the previous action. If so, do nothing.
 		const { getFieldData } = formData
 		const lastAction = getLastAction(instanceRef.current, userId)
-		if (lastAction && lastAction.type === 'input') {
+		if (lastAction && lastAction.type === 'input' && lastAction.adoptUserHistory === adoptUserHistory) {
 			const fieldIds = Object.keys(input)
 			if (fieldIds.length === Object.keys(lastAction.input).length && fieldIds.every(id => getFieldData(id).equals(input[id], lastAction.input[id])))
 				return
 		}
 
 		// All checks are fine. Submit the input!
-		return submitAction({ type: 'input', input: input })
-	}, [instanceRef, disabledRef, submitAction, userId])
+		return submitAction({ type: 'input', input, ...(adoptUserHistory === undefined ? {} : { adoptUserHistory }) })
+	}, [instanceRef, disabledRef, submitAction, userId, adoptUserHistory])
 }
 
 export function useSubmitAction(part) {

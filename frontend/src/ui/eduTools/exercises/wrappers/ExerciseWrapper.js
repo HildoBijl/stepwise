@@ -9,7 +9,7 @@ import { useVisible } from 'ui/components'
 import { Form, FeedbackProvider, useFormData } from 'ui/form'
 
 import { useExerciseData } from '../containers'
-import { useFormSubmitAction } from '../util'
+import { InputHistoryAdoptionProvider, useFormSubmitAction, useInputHistoryAdoption } from '../util'
 
 import { SolutionProvider, useSolution } from './SolutionProvider'
 
@@ -23,13 +23,19 @@ export function useExerciseScrolling() {
 }
 
 // ExerciseWrapper wraps an exercise in a Form and getFeedback function, providing support functionalities to exercises.
-export function ExerciseWrapper({ getFeedback, children }) {
+export function ExerciseWrapper(props) {
+	return <InputHistoryAdoptionProvider><ExerciseWrapperInner {...props} /></InputHistoryAdoptionProvider>
+}
+
+function ExerciseWrapperInner({ getFeedback, children }) {
 	const submit = useFormSubmitAction()
 
 	// Determine the initial input for the form. (And overwrite it if this updates, for instance in a group exercise through a websocket connection.) In inspection mode, get the requested one, and otherwise the latest one.
 	const userId = useUserId()
 	const exerciseData = useExerciseData()
 	const { instance, history, inspection, historyIndex } = exerciseData
+	const { setAdoptUserHistory } = useInputHistoryAdoption()
+	useEffect(() => setAdoptUserHistory(undefined), [history.length, setAdoptUserHistory])
 	const initialInput = useMemo(() => getAccumulatedRawInput(instance, userId, {
 		throughEventIndex: inspection ? historyIndex : undefined,
 	}), [instance, history, inspection, historyIndex, userId])

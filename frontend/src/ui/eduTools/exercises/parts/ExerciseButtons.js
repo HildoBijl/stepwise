@@ -16,7 +16,7 @@ import { useTestContext } from 'ui/admin'
 
 import { useCourseData } from '../../course/components/CourseProvider'
 
-import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, canResolveGroupEvent } from '../util'
+import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, useInputHistoryAdoption, canResolveGroupEvent } from '../util'
 import { useExerciseData } from '../containers'
 import { useSolution } from '../wrappers'
 
@@ -247,6 +247,7 @@ function GiveUpAndSubmitButtons({ stepwise, part, currentAction }) {
 	const { instance, submitting } = useExerciseData()
 	const userId = useUserId()
 	const { isAllInputEqual, getAllInputSI, getPartInputSI } = useFormData()
+	const { adoptUserHistory } = useInputHistoryAdoption()
 	const currentInput = part === undefined ? getAllInputSI() : getPartInputSI(part)
 
 	// Set up button handlers.
@@ -263,8 +264,8 @@ function GiveUpAndSubmitButtons({ stepwise, part, currentAction }) {
 
 	// Determine if the input is the same as the previous or current action.
 	const lastAction = getLastAction(instance, userId)
-	const isAllInputEqualToLastInput = lastAction && lastAction.type === 'input' && isAllInputEqual(lastAction.input, currentInput)
-	const isAllInputEqualToCurrentAction = currentAction && currentAction.type === 'input' && isAllInputEqual(currentAction.input, currentInput)
+	const isAllInputEqualToLastInput = lastAction && lastAction.type === 'input' && lastAction.adoptUserHistory === adoptUserHistory && isAllInputEqual(lastAction.input, currentInput)
+	const isAllInputEqualToCurrentAction = currentAction && currentAction.type === 'input' && currentAction.adoptUserHistory === adoptUserHistory && isAllInputEqual(currentAction.input, currentInput)
 
 	// Determine the give-up button text.
 	let giveUpText = getTranslation('buttons.giveUp')
@@ -288,16 +289,16 @@ function CurrentActions(derivedProperties) {
 function CurrentActionRow({ actionList, submitting, index, part }) {
 	const translate = useTranslator(translationPath, 'groupExercise')
 	const exerciseData = useExerciseData()
-	const { history } = exerciseData
+	const { history, submitAction } = exerciseData
 	const userId = useUserId()
 	const activeGroup = useActiveGroup()
-	const { getAllInputSI, getPartInputSI, setAllInputSI, isAllInputEqual } = useFormData()
+	const { getAllInputSI, getPartInputSI, setAllInputSI, getFieldData, getFieldIds, isAllInputEqual } = useFormData()
 	const currentInput = part === undefined ? getAllInputSI() : getPartInputSI(part)
 	const { updateFeedback } = useFeedbackContext()
+	const { adoptUserHistory, setAdoptUserHistory } = useInputHistoryAdoption()
 
 	// Set up button handlers.
 	const cancel = useCancelAction()
-	const submit = useSubmitAction(part)
 
 	// Register the buttons to tab control.
 	const viewButtonRef = useRef(), copyCancelButtonRef = useRef()
@@ -312,18 +313,24 @@ function CurrentActionRow({ actionList, submitting, index, part }) {
 	// Set up handlers to put the input into the form and possibly submit it.
 	const historyRef = useLatestRef(history), actionListRef = useLatestRef(actionList)
 	const setFormInput = useCallback(() => {
-		// Find the previous input action of the user and show the feedback on this.
-		updateFeedback(getAccumulatedRawInput({ ...exerciseData.instance, history: historyRef.current }, last(actionListRef.current).userId, { resolvedOnly: true }) || {}) // Show feedback on the last resolved input.
-		setAllInputSI(last(actionListRef.current).action.input) // Show the input of the last action.
-	}, [exerciseData, historyRef, actionListRef, updateFeedback, setAllInputSI])
+		const historyUserId = last(actionListRef.current).userId
+		const instance = { ...exerciseData.instance, history: historyRef.current }
+		updateFeedback(getAccumulatedRawInput(instance, historyUserId, { resolvedOnly: true }) || {})
+		const historyInput = getAccumulatedRawInput(instance, historyUserId) || {}
+		setAllInputSI(fromKeys(getFieldIds(), id => historyInput[id] ?? getFieldData(id).initialSI))
+		setAdoptUserHistory(historyUserId === userId ? undefined : historyUserId)
+	}, [exerciseData, historyRef, actionListRef, updateFeedback, setAllInputSI, setAdoptUserHistory, getFieldData, getFieldIds, userId])
 	const setAndSubmitFormInput = useCallback(() => {
 		setFormInput()
-		submit()
-	}, [setFormInput, submit])
+		const userAction = last(actionListRef.current)
+		submitAction({ ...userAction.action, adoptUserHistory: userAction.userId })
+	}, [setFormInput, actionListRef, submitAction])
 
 	// Show the buttons. Which exact button depends on whether the user itself is in the list.
+	const historyUserId = last(actionList).userId
 	const actionInput = last(actionList).action.input
-	const isEqual = isAllInputEqual(actionInput, currentInput)
+	const selectedAdoption = historyUserId === userId ? undefined : historyUserId
+	const isEqual = adoptUserHistory === selectedAdoption && isAllInputEqual(actionInput, currentInput)
 	return <>
 		<div className="inBetween" />
 		<div className="description1">{translate('Submitted:', 'status.submitted')}</div>
@@ -445,7 +452,7 @@ function groupActions(actions, userId, isAllInputEqual) {
 	// Walk through the input actions and group them based on equality. If there is an earlier user action with equal input, group them together.
 	const groupedInputActions = []
 	inputActions.forEach(userAction => {
-		const index = groupedInputActions.findIndex(actionList => isAllInputEqual(actionList[0].action.input, userAction.action.input))
+		const index = groupedInputActions.findIndex(actionList => actionList[0].action.adoptUserHistory === userAction.action.adoptUserHistory && isAllInputEqual(actionList[0].action.input, userAction.action.input))
 		if (index !== -1)
 			groupedInputActions[index].push(userAction)
 		else

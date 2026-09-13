@@ -184,7 +184,7 @@ async function prepareInputActions<TParameters extends InputExerciseParameters, 
 	return await Promise.all(actions.map(async ({ action, userId }) => {
 		if (action.type !== 'input') return undefined
 		const input = valueOperations.interpretInput(action.input)
-		const previousInputDependency = getInputDependency<TInputDependency>(state, mode, valueOperations, userId)
+		const previousInputDependency = getInputDependency<TInputDependency>(state, mode, valueOperations, mode === 'group' ? action.adoptUserHistory ?? userId : userId)
 		const inputDependency = await resolveUpdatedInputDependency(spec, { parameters, previousInputDependency, staticSolution, input, step })
 		const solution = await resolveSolution(spec, parameters, inputDependency, staticSolution)
 		return { rawInput: action.input, input, inputDependency, solution }
