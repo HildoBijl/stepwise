@@ -32,10 +32,10 @@ const exercise: Exercise<{}, Action, State, Parameters> = {
 }
 ```
 
-Reducers should return a new state without modifying the old one:
+Reducers should return a new state without modifying the old one. They may return that state immediately or through a promise, so consumers should always await reducer calls:
 
 ```ts
-const state = exercise.processSoloAction!({
+const state = await exercise.processSoloAction!({
 	parameters: { target: 6 },
 	state: { attempts: 0 },
 	action: { type: 'answer', value: 6 },
@@ -49,7 +49,7 @@ const state = exercise.processSoloAction!({
 At its core, an exercise is a state transition:
 
 ```text
-current state + action -> new state
+current state + action -> new state or promise of new state
 ```
 
 `processSoloAction` receives the fixed exercise parameters, the current state, and one action, and returns the resulting state. Its input may also provide an `updateSkills` callback.
@@ -71,9 +71,9 @@ The package distinguishes three kinds of exercise data:
 
 All three use plain data objects so they can be stored and transferred safely. Every action must have a string `type` property.
 
-`generateParameters(example)` creates the parameters for a new exercise. The boolean `example` flag allows a generator to distinguish (possibly simplified) examples from regular exercises.
+`generateParameters(example)` creates the parameters for a new exercise. The boolean `example` flag allows a generator to distinguish (possibly simplified) examples from regular exercises. Parameter generators may return their parameters immediately or through a promise, so consumers should always await them.
 
-`getInitialState(parameters)` derives the state before the first action.
+`getInitialState(parameters)` synchronously derives the state before the first action. Keeping this step synchronous makes initialization predictable once parameter generation has completed.
 
 When defining a higher-level exercise specification, both factories may be omitted, in which case they default to `() => ({})`.
 
@@ -88,7 +88,7 @@ processSoloAction: ({
 	state,
 	action,
 	updateSkills,
-}) => newState
+}) => Awaitable<newState>
 ```
 
 Each solo history event stores the processed action and resulting state:
@@ -111,7 +111,7 @@ processGroupActions: ({
 	state,
 	actions,
 	updateSkills,
-}) => newState
+}) => Awaitable<newState>
 ```
 
 Every item in `actions` is a `UserExerciseAction` containing the user attribution and raw exercise action:

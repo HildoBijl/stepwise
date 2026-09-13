@@ -33,9 +33,9 @@ const addition = buildMonoExercise<Parameters, Solution>({
 An input exercise specification commonly contains:
 
 - `metadata` includes the practiced `skill` or a more involved skill `setup`.
-- `generateParameters(example)` creates the fixed problem parameters. It generally uses randomization.
-- `getSolution` uses the parameters to build a solution, as well as other useful info for the exercise.
-- `checkInput(data)` decides whether the interpreted learner input is correct.
+- `generateParameters(example)` creates the fixed problem parameters. It generally uses randomization and may be synchronous or asynchronous.
+- `getSolution` uses the parameters to build a solution, as well as other useful info for the exercise. Whole, static, input-dependency, and dynamic solution callbacks may all be asynchronous.
+- `checkInput(data)` decides whether the interpreted learner input is correct and may return its boolean immediately or through a promise.
 
 Only `metadata` and `checkInput` are required. Omitting `generateParameters` uses an empty object.
 

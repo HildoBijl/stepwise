@@ -52,7 +52,7 @@ describe('Check all exercises:', () => {
 						const Exercise = (await loadExercise(skill, exerciseId)).default
 
 						// Emulate the ExerciseContainer.
-						const storedParameters = shared.generateParameters()
+						const storedParameters = await shared.generateParameters(false)
 						const parameters = shared.valueOperations.deserializeParameters(storedParameters)
 						const initialState = shared.getInitialState(storedParameters)
 						const exerciseData = {
@@ -67,7 +67,7 @@ describe('Check all exercises:', () => {
 							submitAction: noop,
 							startNewExercise: noop,
 							shared: shared,
-							solution: shared.getSolution && resolveSolution(shared.getSolution, parameters),
+							solution: shared.getSolution && await resolveSolution(shared.getSolution, parameters),
 						}
 						expect(() => render(
 							<MockedProvider mocks={apolloMocks}>

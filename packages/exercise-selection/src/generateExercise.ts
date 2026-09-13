@@ -14,15 +14,15 @@ export async function generateSkillBasedExerciseInstance(exercises: ExerciseColl
 }
 
 // Get a random exercise (ignores skill data).
-export function generateRandomExerciseInstance(exercises: ExerciseCollection, mode: ExerciseMode, example = false): ExerciseInstance {
+export async function generateRandomExerciseInstance(exercises: ExerciseCollection, mode: ExerciseMode, example = false): Promise<ExerciseInstance> {
 	const exerciseId = selectRandomExercise(exercises, mode)
 	return createExerciseInstance(exerciseId, exercises[exerciseId], mode, ensureBoolean(example))
 }
 
 // Build an exercise instance from an exerciseId.
-function createExerciseInstance(exerciseId: ExerciseId, exercise: Exercise, mode: ExerciseMode, example = false): ExerciseInstance {
+async function createExerciseInstance(exerciseId: ExerciseId, exercise: Exercise, mode: ExerciseMode, example = false): Promise<ExerciseInstance> {
 	const { generateParameters, getInitialState } = exercise
-	const parameters = resolveExerciseParameters(generateParameters, example)
+	const parameters = await resolveExerciseParameters(generateParameters, example)
 	return {
 		exerciseId,
 		mode,

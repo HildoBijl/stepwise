@@ -425,4 +425,4 @@ Requesting `includeSeconds` without `includeTime` throws a `RangeError`.
 
 The package includes TypeScript declarations. Its `is...` functions narrow values where possible, readonly inputs are accepted by utilities that do not mutate their arguments, and option types are exported alongside their functions.
 
-Useful exported structural types include `NestedArray`, `NestedValue`, `PropertyPath`, `TypeGuard`, `PlainDataValue`, `PlainDataArray`, `PlainDataObject`, `OneToOneMatching`, `NumberEqualityOptions` and the various function-specific option interfaces.
+Useful exported structural types include `Awaitable`, `NestedArray`, `NestedValue`, `PropertyPath`, `TypeGuard`, `PlainDataValue`, `PlainDataArray`, `PlainDataObject`, `OneToOneMatching`, `NumberEqualityOptions` and the various function-specific option interfaces. `Awaitable<T>` represents either an immediate `T` or a `Promise<T>`.

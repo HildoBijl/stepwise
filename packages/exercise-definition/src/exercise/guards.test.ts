@@ -6,6 +6,8 @@ const generateParameters = () => ({})
 const getInitialState = () => ({})
 const processSoloAction = () => ({})
 const processGroupActions = () => ({})
+const processSoloActionAsync = async () => ({})
+const processGroupActionsAsync = async () => ({})
 
 describe('isExerciseSpec', () => {
 	it('accepts a minimal exercise specification', () => {
@@ -42,6 +44,11 @@ describe('isExercise', () => {
 
 	it('accepts an exercise supporting both modes', () => {
 		expect(isExercise({ ...baseExercise, processSoloAction, processGroupActions })).toBe(true)
+	})
+
+	it('accepts asynchronous reducers', () => {
+		expect(isExercise({ ...baseExercise, processSoloAction: processSoloActionAsync })).toBe(true)
+		expect(isExercise({ ...baseExercise, processGroupActions: processGroupActionsAsync })).toBe(true)
 	})
 
 	it('rejects an exercise without a reducer', () => {

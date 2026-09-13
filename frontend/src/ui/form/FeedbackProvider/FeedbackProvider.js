@@ -32,11 +32,13 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 	const [feedback, setFeedback] = useState({ result: {}, input: {} })
 	const feedbackRef = useLatestRef(feedback)
 	const stateRef = useRef()
+	const updateIndexRef = useRef(0)
 
 	// Set up an updateFeedback handler.
 	const { isAllInputEqual } = useFormData()
 	const exerciseDataRef = useLatestRef(exerciseData)
-	const updateFeedback = useStableCallback((input = {}, state = {}) => {
+	const updateFeedback = useStableCallback(async (input = {}, state = {}) => {
+		const updateIndex = ++updateIndexRef.current
 		// Compare the new input with the previous input. When they are equal, and the state is equal too, do not evaluate.
 		const { result: previousResult, input: previousInput } = feedbackRef.current
 		if (isAllInputEqual(input, previousInput) && deepEqual(state, stateRef.current))
@@ -52,7 +54,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 			const { interpretInput, areValuesEqual } = exerciseDataRef.current.valueOperations
 			const inputFO = interpretInput(input)
 			const previousInputFO = interpretInput(previousInput)
-			let result = getFeedback({
+			let result = await getFeedback({
 				...pickKeys(exerciseDataRef.current, ['history', 'state', 'metadata', 'shared', 'solution', 'parameters', 'example']),
 				input: inputFO,
 				rawInput: input,
@@ -64,17 +66,19 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 			})
 			if (!result || !isPlainObject(result))
 				throw new Error(`Invalid feedback: a feedback was returned which is not an object. Instead, we received "${result}". Possibly the getFeedback function forgot to return anything sensible?`)
+			if (updateIndex !== updateIndexRef.current)
+				return
 			result = mapValues(result, fieldFeedback => processFeedback(fieldFeedback, theme))
 			setFeedback({ result: result, input })
 		}
 	})
 
 	// When the input to be given feedback on changes, update the feedback. Also update on state changes, since some fields (like MultipleChoice) base their feedback on whether an exercise done to show the right answer.
-	const { state } = exerciseData
+	const { state, solution } = exerciseData
 	useEffect(() => {
 		if (input)
-			updateFeedback(input, state)
-	}, [input, state, updateFeedback])
+			void updateFeedback(input, state)
+	}, [input, state, solution, updateFeedback])
 
 	// Wrap a provider around the contents. Also export the updateFeedback, so instances may manually call for a change here, for instance when viewing submissions made by other students in the coop mode.
 	return <FeedbackContext.Provider value={{ ...feedback, updateFeedback }}>{children}</FeedbackContext.Provider>

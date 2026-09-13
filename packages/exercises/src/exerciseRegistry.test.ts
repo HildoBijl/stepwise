@@ -69,10 +69,10 @@ describe('exercise registry', () => {
 								}
 							})
 
-							it(`generates valid ${example ? 'example' : 'exercise'} data`, () => {
+							it(`generates valid ${example ? 'example' : 'exercise'} data`, async () => {
 								expect(isExercise(exercise)).toBe(true)
 								if (!isExercise(exercise)) return
-								const storedParameters = exercise.generateParameters(example)
+								const storedParameters = await exercise.generateParameters(example)
 								expect(isPlainObject(storedParameters)).toBe(true)
 								const initialState = exercise.getInitialState(storedParameters)
 								expect(isPlainObject(initialState)).toBe(true)
@@ -81,7 +81,7 @@ describe('exercise registry', () => {
 									const parameters = exercise.valueOperations.deserializeParameters(storedParameters)
 									expect(isPlainObject(parameters)).toBe(true)
 									if (!isPlainObject(parameters)) return
-									const solution = resolveSolution(exercise.getSolution, parameters)
+									const solution = await resolveSolution(exercise.getSolution, parameters)
 									expect(isPlainObject(solution)).toBe(true)
 								}
 							})
