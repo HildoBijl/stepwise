@@ -139,7 +139,11 @@ export const groupExerciseMutationResolvers = {
 				if (setup) skillObservations.push({ setup, correct, userId: givenUserId || userId })
 			}
 			const previousState = getCurrentGroupExerciseState(activeExercise)
-			const state = await processGroupActions({ parameters: activeExercise.parameters, state: previousState, actions: lockedEvent.actions, updateSkills })
+			const actions = lockedEvent.actions.map(({ userId, action }) => {
+				if (!userId) throw new Error(`A pending group exercise action cannot have an anonymous author.`)
+				return { userId, action }
+			})
+			const state = await processGroupActions({ parameters: activeExercise.parameters, state: previousState, actions, updateSkills })
 			if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise state.`)
 			await lockedEvent.update({ state }, { transaction })
 			lockedEvent.state = state

@@ -7,7 +7,8 @@ import type { GroupWithMembers } from '../group/index.ts'
 
 export class GroupExerciseActionRecord extends Model<InferAttributes<GroupExerciseActionRecord>, InferCreationAttributes<GroupExerciseActionRecord>> {
 	declare id: CreationOptional<string>
-	declare userId: string
+	declare userId: string | null
+	declare anonymousUserId: string | null
 	declare groupExerciseEventId: string
 	declare action: ExerciseAction
 	declare createdAt: CreationOptional<Date>
@@ -37,6 +38,12 @@ export class GroupExerciseSampleRecord extends Model<InferAttributes<GroupExerci
 	declare updatedAt: CreationOptional<Date>
 	declare events?: NonAttribute<GroupExerciseEventRecord[]>
 	declare createEvent: NonAttribute<HasManyCreateAssociationMixin<GroupExerciseEventRecord, 'groupExerciseSampleId'>>
+}
+
+export function getGroupExerciseActionUserId(action: GroupExerciseActionRecord): string {
+	const userId = action.userId ?? action.anonymousUserId
+	if (!userId) throw new Error(`Group exercise action "${action.id}" has no author identifier.`)
+	return userId
 }
 
 export type GroupExerciseEventWithActions = Omit<GroupExerciseEventRecord, 'actions'> & { actions: GroupExerciseActionRecord[] }
@@ -104,7 +111,8 @@ export function createGroupExerciseActionModel(sequelize: Sequelize): GroupExerc
 	class GroupExerciseAction extends GroupExerciseActionRecord { }
 	GroupExerciseAction.init({
 		id: { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
-		userId: { type: DataTypes.UUID, allowNull: false },
+		userId: { type: DataTypes.UUID, allowNull: true },
+		anonymousUserId: { type: DataTypes.UUID, allowNull: true },
 		groupExerciseEventId: { type: DataTypes.UUID, allowNull: false },
 		action: { type: DataTypes.JSON, allowNull: false },
 		createdAt: { type: DataTypes.DATE, allowNull: false },

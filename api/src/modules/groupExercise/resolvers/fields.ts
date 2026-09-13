@@ -1,6 +1,6 @@
 import { findOptimum } from '@step-wise/js-utils'
 
-import type { GroupExerciseActionRecord, GroupExerciseEventWithActions, GroupExerciseSampleRecord } from '../models.ts'
+import { type GroupExerciseActionRecord, type GroupExerciseEventWithActions, type GroupExerciseSampleRecord, getGroupExerciseActionUserId } from '../models.ts'
 import { getCurrentGroupExerciseState, getGroupExerciseEventIndex } from '../service.ts'
 
 export const groupExerciseFieldResolvers = {
@@ -13,6 +13,7 @@ export const groupExerciseFieldResolvers = {
 	}, GroupEvent: {
 		performedAt: getGroupEventPerformedAt,
 	}, GroupExerciseAction: {
+		userId: getGroupExerciseActionUserId,
 		performedAt: (userAction: GroupExerciseActionRecord) => userAction.updatedAt,
 	}
 }

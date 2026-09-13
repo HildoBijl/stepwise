@@ -1,7 +1,8 @@
+import { randomUUID } from 'node:crypto'
 import type { PubSubEngine } from 'graphql-subscriptions'
 import { type Transaction, Op } from 'sequelize'
 
-import type { ExerciseState } from '@step-wise/exercise-definition'
+import type { ExerciseAction, ExerciseState } from '@step-wise/exercise-definition'
 import { last } from '@step-wise/js-utils'
 import type { SkillId } from '@step-wise/skill-definition'
 import { getExercise } from '@step-wise/exercises'
@@ -125,36 +126,107 @@ export function getGroupWithActiveSkillExercise(db: GroupExerciseDatabase, code:
 	return getGroupWithExercises(db, code, { ...options, where: { skillId, active: true } })
 }
 
+interface GroupExerciseDepartureChanges {
+	pendingRemovals: PendingGroupActionRemoval[]
+	historyUpdates: { exerciseId: string, eventIndex: number }[]
+}
+
 interface PendingGroupActionRemoval {
 	exerciseId: string
 	eventIndex: number
 }
 
-async function cleanUpGroupExerciseActionsForLeavingMember(db: GroupExerciseDatabase, group: GroupWithMembers, userId: string, transaction: Transaction): Promise<PendingGroupActionRemoval[]> {
-	// Reload all exercises of the group.
+async function cleanUpGroupExerciseActionsForLeavingMember(db: GroupExerciseDatabase, group: GroupWithMembers, userId: string, transaction: Transaction): Promise<GroupExerciseDepartureChanges> {
 	const groupWithExercises = await getGroupWithAllExercises(db, group.code, { transaction })
 	if (!groupWithExercises) throw new Error(`Failed to reload group "${group.code}" with exercises.`)
-	const eventIds = groupWithExercises.exercises.flatMap(exercise => exercise.events.map(event => event.id)).sort()
-	if (eventIds.length === 0) return []
+	const events = groupWithExercises.exercises.flatMap(exercise => exercise.events)
+	if (events.length === 0) return { pendingRemovals: [], historyUpdates: [] }
 
-	// Find all events of the group that have actions by the leaving member, and delete those actions.
+	// Lock all events before changing their actions and states, matching the lock order used by event resolution.
+	const eventIds = events.map(event => event.id).sort()
 	await db.GroupExerciseEvent.findAll({ where: { id: { [Op.in]: eventIds } }, order: [['id', 'ASC']], transaction, lock: transaction.LOCK.UPDATE })
-	const userActions = await db.GroupExerciseAction.findAll({ where: { userId, groupExerciseEventId: { [Op.in]: eventIds } }, transaction })
-	const affectedEventIds = new Set(userActions.map(action => action.groupExerciseEventId))
-	if (userActions.length > 0) await db.GroupExerciseAction.destroy({ where: { userId, id: { [Op.in]: userActions.map(action => action.id) } }, transaction })
 
-	// Return the exercise IDs and event indices of the events that were affected by the action deletions, for possible subscriptions.
-	return groupWithExercises.exercises.flatMap(exercise => exercise.events
-		.filter(event => event.state === null && affectedEventIds.has(event.id))
-		.map(event => ({ exerciseId: exercise.id, eventIndex: event.eventIndex })))
+	const anonymousUserId = randomUUID()
+	const pendingRemovals: PendingGroupActionRemoval[] = []
+	const historyUpdates: { exerciseId: string, eventIndex: number }[] = []
+	for (const exercise of groupWithExercises.exercises) {
+		let historyChanged = false
+		for (const event of exercise.events) {
+			if (event.state === null) {
+				const pendingAction = event.actions.find(action => action.userId === userId)
+				if (pendingAction) {
+					await pendingAction.destroy({ transaction })
+					pendingRemovals.push({ exerciseId: exercise.id, eventIndex: event.eventIndex })
+				}
+			}
+
+			for (const action of event.actions) {
+				if (event.state === null && action.userId === userId) continue
+				const updatedAction = replaceAdoptedUser(action.action, userId, anonymousUserId)
+				const anonymizesAuthor = action.userId === userId
+				if (!anonymizesAuthor && updatedAction === action.action) continue
+				await action.update({
+					...(anonymizesAuthor ? { userId: null, anonymousUserId } : {}),
+					...(updatedAction === action.action ? {} : { action: updatedAction }),
+				}, { transaction, silent: true })
+				historyChanged = true
+			}
+
+			if (event.state !== null) {
+				const state = replaceUserInExerciseState(event.state, userId, anonymousUserId)
+				if (state !== event.state) {
+					await event.update({ state }, { transaction, silent: true })
+					historyChanged = true
+				}
+			}
+		}
+		if (historyChanged) {
+			const resolvedEvent = exercise.events.find(event => event.state !== null)
+			if (resolvedEvent) historyUpdates.push({ exerciseId: exercise.id, eventIndex: resolvedEvent.eventIndex })
+		}
+	}
+	return { pendingRemovals, historyUpdates }
+}
+
+function replaceAdoptedUser(action: ExerciseAction, userId: string, anonymousUserId: string): ExerciseAction {
+	return action.adoptUserHistory === userId ? { ...action, adoptUserHistory: anonymousUserId } : action
+}
+
+function replaceUserInExerciseState(value: ExerciseState, userId: string, anonymousUserId: string): ExerciseState {
+	let changed = false
+	const state = Object.fromEntries(Object.entries(value).map(([key, entry]) => {
+		if (key === 'attemptedBy' && Array.isArray(entry)) {
+			const replacement = entry.map(item => item === userId ? anonymousUserId : item)
+			if (replacement.some((item, index) => item !== entry[index])) changed = true
+			return [key, replacement]
+		}
+		if (key === 'inputDependencies' && entry && typeof entry === 'object' && !Array.isArray(entry) && userId in entry) {
+			const { [userId]: dependency, ...otherDependencies } = entry
+			changed = true
+			return [key, { ...otherDependencies, [anonymousUserId]: dependency }]
+		}
+		if (entry && typeof entry === 'object' && !Array.isArray(entry)) {
+			const replacement = replaceUserInExerciseState(entry as ExerciseState, userId, anonymousUserId)
+			if (replacement !== entry) changed = true
+			return [key, replacement]
+		}
+		return [key, entry]
+	}))
+	return changed ? state : value
 }
 
 export async function prepareGroupMemberDeparture(db: GroupExerciseDatabase, group: GroupWithMembers, userId: string, transaction: Transaction, pubsub: PubSubEngine): Promise<() => Promise<void>> {
-	const pendingRemovals = await cleanUpGroupExerciseActionsForLeavingMember(db, group, userId, transaction)
+	const { pendingRemovals, historyUpdates } = await cleanUpGroupExerciseActionsForLeavingMember(db, group, userId, transaction)
 	const memberIds = group.members.map(member => member.id)
 	return async () => {
-		await Promise.all(pendingRemovals.map(async ({ exerciseId, eventIndex }) => {
-			await pubsub.publish(groupExerciseEvents.groupActionUpdated, { exerciseId, eventIndex, userId, action: null, memberIds })
-		}))
+		await Promise.all([
+			...pendingRemovals.map(async ({ exerciseId, eventIndex }) => {
+				await pubsub.publish(groupExerciseEvents.groupActionUpdated, { exerciseId, eventIndex, userId, action: null, memberIds })
+			}),
+			...historyUpdates.map(async ({ exerciseId, eventIndex }) => {
+				// A resolved-event action update deliberately makes connected clients refetch the anonymized history.
+				await pubsub.publish(groupExerciseEvents.groupActionUpdated, { exerciseId, eventIndex, userId, action: null, memberIds })
+			}),
+		])
 	}
 }

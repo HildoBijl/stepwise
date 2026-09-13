@@ -306,7 +306,11 @@ function CurrentActionRow({ actionList, submitting, index, part }) {
 	useFieldRegistration({ id: `copyCancelButton${index}`, element: copyCancelButtonRef, focusRefOnActive: true })
 
 	// Determine the members and their names for display purposes.
-	const actionMembers = actionList.map(userAction => activeGroup.members.find(member => member.userId === userAction.userId))
+	const actionMembers = actionList.map(userAction => {
+		const member = activeGroup.members.find(member => member.userId === userAction.userId)
+		if (!member) throw new Error(`Could not find the group member for unresolved action author "${userAction.userId}".`)
+		return member
+	})
 	const membersSorted = useSortedGroupMembers(actionMembers)
 	const isSelfPresent = actionMembers.some(member => member.userId === userId)
 
