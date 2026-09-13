@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react'
 import { Box, alpha } from '@mui/material'
 
-import { HorizontalSlider } from '../layout'
+import { HorizontalScroller } from '@step-wise/react-components'
 
 export default function Table({ fields, rowHeads, colHeads, rowHeadAlign = 'l', colHeadAlign = 'c', rowAlign = 'c', colAlign = rowHeads ? 'c' : 'lc', className, style }) {
 	// Check what has been given.
@@ -17,7 +17,7 @@ export default function Table({ fields, rowHeads, colHeads, rowHeadAlign = 'l', 
 	const [hover, setHover] = useState()
 
 	// Render the table.
-	return <HorizontalSlider>
+	return <HorizontalScroller>
 		<Box className={className} style={style} sx={theme => ({
 			display: 'grid',
 			gridGap: '0.3rem',
@@ -58,7 +58,7 @@ export default function Table({ fields, rowHeads, colHeads, rowHeadAlign = 'l', 
 				{rowFields.map((field, col) => <Cell key={col} row={row} col={col} horizontalAlign={colAlign[col]} verticalAlign={rowAlign[row]} hover={hover} setHover={setHover}>{field}</Cell>)}
 			</Fragment>)}
 		</Box>
-	</HorizontalSlider>
+	</HorizontalScroller>
 }
 
 function Cell({ row, col, horizontalAlign, verticalAlign, children, hover, setHover }) {

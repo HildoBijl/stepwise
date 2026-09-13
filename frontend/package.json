@@ -29,6 +29,7 @@
 		"@step-wise/mechanics-exercises": "^0.1.0",
 		"@step-wise/physics-core": "^0.1.0",
 		"@step-wise/physics-data": "^0.1.0",
+		"@step-wise/react-components": "^0.1.0",
 		"@step-wise/react-utils": "^0.1.0",
 		"@step-wise/serialization": "^0.1.0",
 		"@step-wise/settings": "^0.1.0",

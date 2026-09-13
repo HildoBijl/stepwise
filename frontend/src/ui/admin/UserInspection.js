@@ -3,10 +3,11 @@ import { useParams } from 'react-router-dom'
 import { Box } from '@mui/material'
 
 import { formatDate } from '@step-wise/js-utils'
+import { HorizontalScroller } from '@step-wise/react-components'
 import { skillTree } from '@step-wise/skill-tree'
 
 import { useUserWithSkills } from 'api'
-import { Par, HorizontalSlider } from 'ui/components'
+import { Par } from 'ui/components'
 import { TitleItem } from 'ui/routingTools'
 import { SkillFlask } from 'ui/eduTools'
 
@@ -27,7 +28,7 @@ function UserInspectionForUser({ user }) {
 	const skillsList = useSkillsLevelsList(user)
 	return <>
 		<Par>Below you see all the skills that {user.name} has practiced, with the most recent one on top.</Par>
-		<HorizontalSlider>
+		<HorizontalScroller>
 			<Box sx={{
 				display: 'grid',
 				gridGap: '0.8rem 0.8rem',
@@ -47,7 +48,7 @@ function UserInspectionForUser({ user }) {
 				<div className="lastPracticed head">Last activity</div>
 				{skillsList.map(skillLevel => <UserInspectionItem key={skillLevel.skillId} skillId={skillLevel.skillId} skillLevel={skillLevel} />)}
 			</Box>
-		</HorizontalSlider>
+		</HorizontalScroller>
 	</>
 }
 

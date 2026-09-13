@@ -4,7 +4,7 @@ import 'katex/dist/katex.min.css'
 import { Box } from '@mui/material'
 import clsx from 'clsx'
 
-import { HorizontalSlider } from './layout'
+import { HorizontalScroller } from '@step-wise/react-components'
 
 // Inline math equation.
 export function M(props) {
@@ -16,9 +16,9 @@ M.translation = false
 // Block math equation.
 export function BM(props) {
 	return (
-		<HorizontalSlider sliderInside={true} padding={12}>
+		<HorizontalScroller scrollbarOverlay={true} edgePadding={12}>
 			<RBM {...props} />
-		</HorizontalSlider>
+		</HorizontalScroller>
 	)
 }
 BM.tag = 'block-math'
@@ -32,9 +32,9 @@ export function RBM(props) {
 // A list of block math equations.
 export function BMList(props) {
 	return (
-		<HorizontalSlider sliderInside={true} padding={12}>
+		<HorizontalScroller scrollbarOverlay={true} edgePadding={12}>
 			{props.children}
-		</HorizontalSlider>
+		</HorizontalScroller>
 	)
 }
 BMList.tag = 'math-list'

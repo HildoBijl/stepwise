@@ -2,9 +2,11 @@ import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Box } from '@mui/material'
 
+import { HorizontalScroller } from '@step-wise/react-components'
+
 import { useAllUsers } from 'api'
 import { usePaths } from 'ui/routingTools'
-import { Par, HorizontalSlider, TimeAgo } from 'ui/components'
+import { Par, TimeAgo } from 'ui/components'
 
 export function UserOverview() {
 	const { users, loading, error } = useAllUsers()
@@ -25,7 +27,7 @@ function UserOverviewWithData({ allUsers }) {
 
 	return <>
 		<Par>Below you find all users that have ever signed in to Step-Wise, sorted by the date of their last activity.</Par>
-		<HorizontalSlider>
+		<HorizontalScroller>
 			<Box sx={{
 				display: 'grid',
 				gridGap: '0.5rem 0.8rem',
@@ -47,7 +49,7 @@ function UserOverviewWithData({ allUsers }) {
 
 				{sortedUsers.map(user => <UserOverviewItem key={user.id} user={user} />)}
 			</Box>
-		</HorizontalSlider>
+		</HorizontalScroller>
 	</>
 }
 
