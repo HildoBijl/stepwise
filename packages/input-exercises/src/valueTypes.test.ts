@@ -53,7 +53,7 @@ function isCustomData(value: unknown): value is CustomInputValue {
 }
 
 describe('input-exercise value types', () => {
-	it('uses custom adapters for MonoExercise parameters, input, and checking data', () => {
+	it('uses custom adapters for MonoExercise parameters, input, and checking data', async () => {
 		const exercise = buildMonoExercise<{ answer: CustomValue }, { answer: CustomValue }>({
 			metadata: {},
 			valueTypes,
@@ -66,21 +66,21 @@ describe('input-exercise value types', () => {
 				return true
 			},
 		})
-		const parameters = exercise.generateParameters(false)
+		const parameters = await exercise.generateParameters(false)
 		expect(parameters).toEqual({ answer: { type: CustomType, value: 'correct' } })
-		expect(exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput('correct') } })).toMatchObject({ solved: true, done: true })
-		expect(exercise.processGroupActions({ parameters, state: {}, actions: [{ userId: 'user', action: { type: 'input', input: rawInput('correct') } }] })).toMatchObject({ solved: true, done: true })
+		expect(await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput('correct') } })).toMatchObject({ solved: true, done: true })
+		expect(await exercise.processGroupActions({ parameters, state: {}, actions: [{ userId: 'user', action: { type: 'input', input: rawInput('correct') } }] })).toMatchObject({ solved: true, done: true })
 	})
 
-	it('uses custom adapters throughout a StepExercise', () => {
+	it('uses custom adapters throughout a StepExercise', async () => {
 		const exercise = buildStepExercise<{ answer: CustomValue }>({
 			metadata: createStepExerciseMetadata(['custom-step']),
 			valueTypes,
 			generateParameters: () => ({ answer: new CustomValue('correct') }),
 			checkInput: ({ parameters, input, areValuesEqual }) => parameters.answer instanceof CustomValue && input.answer instanceof CustomValue && areValuesEqual(CustomType, input.answer, parameters.answer),
 		})
-		const parameters = exercise.generateParameters(false)
-		expect(exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput('correct') } })).toMatchObject({ solved: true, done: true })
+		const parameters = await exercise.generateParameters(false)
+		expect(await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput('correct') } })).toMatchObject({ solved: true, done: true })
 	})
 
 	it('uses the exercise value types when interpreting history', () => {

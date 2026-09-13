@@ -15,77 +15,78 @@ function buildExercise(steps: StepExerciseSteps = ['step-one', 'step-two']) {
 }
 
 describe('buildStepExercise', () => {
-	it('solves the main problem directly', () => {
+	it('solves the main problem directly', async () => {
 		const exercise = buildExercise()
-		const parameters = exercise.generateParameters(false)
+		const parameters = await exercise.generateParameters(false)
 		expect(exercise.getInitialState(parameters)).toEqual({})
-		expect(exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(0) } })).toEqual({ attempted: true, solved: true, done: true })
+		expect(await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(0) } })).toEqual({ attempted: true, solved: true, done: true })
 	})
 
-	it('splits on give-up and advances through ordinary steps', () => {
+	it('splits on give-up and advances through ordinary steps', async () => {
 		const exercise = buildExercise()
-		const parameters = exercise.generateParameters(false)
-		let state = exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })
+		const parameters = await exercise.generateParameters(false)
+		let state = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })
 		expect(state).toEqual({ split: true, step: 1, 1: {} })
 
-		state = exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(1) } })
+		state = await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(1) } })
 		expect(state).toMatchObject({ split: true, step: 2, 1: { attempted: true, solved: true, done: true }, 2: {} })
 
-		state = exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(2) } })
+		state = await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(2) } })
 		expect(state).toMatchObject({ done: true, 2: { attempted: true, solved: true, done: true } })
 	})
 
-	it('tracks incorrect attempts at the current step', () => {
+	it('tracks incorrect attempts at the current step', async () => {
 		const exercise = buildExercise()
-		const parameters = exercise.generateParameters(false)
-		const splitState = exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })
-		const state = exercise.processSoloAction({ parameters, state: splitState, action: { type: 'input', input: rawInput(9) } })
+		const parameters = await exercise.generateParameters(false)
+		const splitState = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })
+		const state = await exercise.processSoloAction({ parameters, state: splitState, action: { type: 'input', input: rawInput(9) } })
 		expect(state).toMatchObject({ step: 1, 1: { attempted: true } })
 	})
 
-	it('solves substeps in sequence without storing attempts per substep', () => {
+	it('solves substeps in sequence without storing attempts per substep', async () => {
 		const exercise = buildExercise([['sub-one', 'sub-two']] as const)
-		const parameters = exercise.generateParameters(false)
-		let state = exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })
-		state = exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(1) } })
+		const parameters = await exercise.generateParameters(false)
+		let state = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })
+		state = await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(1) } })
 		expect(state).toMatchObject({ step: 1, 1: { attempted: true, 1: true } })
 		expect((state as StepExerciseSplitState)['1']).not.toHaveProperty('2')
 
-		state = exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(2) } })
+		state = await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(2) } })
 		expect(state).toMatchObject({ done: true, 1: { attempted: true, 1: true, 2: true, solved: true, done: true } })
 	})
 
-	it('does not penalize giving up at a step after an attempt', () => {
+	it('does not penalize giving up at a step after an attempt', async () => {
 		const exercise = buildExercise(['step-one'])
-		const parameters = exercise.generateParameters(false)
+		const parameters = await exercise.generateParameters(false)
 		const updateSkills = vi.fn()
-		let state = exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' }, updateSkills })
-		state = exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(9) }, updateSkills })
+		let state = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' }, updateSkills })
+		state = await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(9) }, updateSkills })
 		updateSkills.mockClear()
-		exercise.processSoloAction({ parameters, state, action: { type: 'giveUp' }, updateSkills })
+		await exercise.processSoloAction({ parameters, state, action: { type: 'giveUp' }, updateSkills })
 		expect(updateSkills).not.toHaveBeenCalled()
 	})
 
-	it('tracks group attempts per user', () => {
+	it('tracks group attempts per user', async () => {
 		const exercise = buildExercise()
-		const parameters = exercise.generateParameters(false)
-		const state = exercise.processGroupActions({ parameters, state: {}, actions: [
+		const parameters = await exercise.generateParameters(false)
+		const state = await exercise.processGroupActions({ parameters, state: {}, actions: [
 			{ userId: 'one', action: { type: 'input', input: rawInput(9) } },
 			{ userId: 'two', action: { type: 'input', input: rawInput(9) } },
 		] })
 		expect(state).toEqual({ attemptedBy: ['one', 'two'] })
 	})
 
-	it('rejects empty group actions and invalid substeps', () => {
+	it('rejects empty group actions and invalid substeps', async () => {
 		const exercise = buildExercise()
-		expect(() => exercise.processGroupActions({ parameters: exercise.generateParameters(false), state: {}, actions: [] })).toThrow()
+		const parameters = await exercise.generateParameters(false)
+		expect(() => exercise.processGroupActions({ parameters, state: {}, actions: [] })).toThrow()
 		expect(() => buildExercise([['only-one']] as never)).toThrow()
 	})
 
-	it('returns completed state unchanged', () => {
+	it('returns completed state unchanged', async () => {
 		const exercise = buildExercise()
-		const parameters = exercise.generateParameters(false)
+		const parameters = await exercise.generateParameters(false)
 		const state = { done: true } as const
-		expect(exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(0) } })).toBe(state)
+		expect(await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(0) } })).toBe(state)
 	})
 })

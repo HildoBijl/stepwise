@@ -14,7 +14,7 @@ export function buildMonoExercise<TParameters extends InputExerciseParameters = 
 		...definition,
 		valueOperations,
 		type: 'mono',
-		generateParameters: example => serializeParameters(resolveExerciseParameters(spec.generateParameters, example)),
+		generateParameters: async example => serializeParameters(await resolveExerciseParameters(spec.generateParameters, example)),
 		getInitialState: () => ({}),
 		processSoloAction: buildMonoExerciseSoloReducer(spec, valueOperations),
 		processGroupActions: buildMonoExerciseGroupReducer(spec, valueOperations),

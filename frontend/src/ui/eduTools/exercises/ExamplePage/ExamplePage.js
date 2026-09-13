@@ -16,10 +16,10 @@ export function ExamplePage({ skillId }) {
 
 	// Track the exercise data. Generate new data on a change in skill ID.
 	const [exercise, setExercise] = useState(null)
-	const startNewExercise = useCallback(() => {
+	const startNewExercise = useCallback(async () => {
 		if (!hasExamples(skillId))
 			throw new Error(`Invalid startNewExercise call: the skill ${skillId} has no example exercises.`)
-		const newExercise = generateRandomExerciseInstance(getExamples(skillId), 'solo')
+		const newExercise = await generateRandomExerciseInstance(getExamples(skillId), 'solo')
 		const exercise = { // Emulate the exercise object that we otherwise get from the server.
 			...newExercise,
 			id: uuidv4(), // Just generate a random one.
@@ -31,16 +31,16 @@ export function ExamplePage({ skillId }) {
 	}, [skillId])
 
 	// Start a new exercise whenever the skillId changes.
-	useEffect(startNewExercise, [startNewExercise, skillId])
+	useEffect(() => { void startNewExercise() }, [startNewExercise, skillId])
 
 	// On a submit handle the process as would happen on the server: find the new state and incorporate it into the exercise data and its history.
-	const submitAction = useCallback((action, processSoloAction) => {
+	const submitAction = useCallback(async (action, processSoloAction) => {
 		// Determine the new state.
 		let state
 		if (action?.type === 'setState') // An override only used by example exercises.
 			state = action.newState
 		else
-			state = processSoloAction({ parameters: exercise.parameters, state: exercise.state, action, updateSkills: noop })
+			state = await processSoloAction({ parameters: exercise.parameters, state: exercise.state, action, updateSkills: noop })
 
 		// Use it to adjust the exercise.
 		setExercise({

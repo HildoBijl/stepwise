@@ -26,7 +26,7 @@ export const groupExerciseMutationResolvers = {
 		// Select a new exercise, store it, and right away add an empty event to couple actions to.
 		const skillExercises = getExercises(skillId)
 		if (!skillExercises) throw new InvalidInputError(`Cannot start group exercise: no exercises exist for skill "${skillId}".`)
-		const newExercise = generateRandomExerciseInstance(skillExercises, 'group')
+		const newExercise = await generateRandomExerciseInstance(skillExercises, 'group')
 		let loadedExercise: GroupExerciseSampleWithEvents
 		try {
 			loadedExercise = await db.transaction(async transaction => {
@@ -139,7 +139,7 @@ export const groupExerciseMutationResolvers = {
 				if (setup) skillObservations.push({ setup, correct, userId: givenUserId || userId })
 			}
 			const previousState = getCurrentGroupExerciseState(activeExercise)
-			const state = processGroupActions({ parameters: activeExercise.parameters, state: previousState, actions: lockedEvent.actions, updateSkills })
+			const state = await processGroupActions({ parameters: activeExercise.parameters, state: previousState, actions: lockedEvent.actions, updateSkills })
 			if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise state.`)
 			await lockedEvent.update({ state }, { transaction })
 			lockedEvent.state = state

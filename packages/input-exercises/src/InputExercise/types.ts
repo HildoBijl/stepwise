@@ -1,4 +1,4 @@
-import type { PlainDataObject } from '@step-wise/js-utils'
+import type { Awaitable, PlainDataObject } from '@step-wise/js-utils'
 import type { BaseExerciseInstanceByMode, Exercise, ExerciseMetadata, ExerciseMode, ExerciseState, GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
 import type { InputValue } from '@step-wise/input-interpretation'
 import type { ValueTypes } from '@step-wise/value-types'
@@ -63,7 +63,7 @@ export type SolutionDefinition<TParameters extends InputExerciseParameters = Inp
 export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = {
 	metadata: TMetadata
 	valueTypes?: ValueTypes
-	generateParameters?: (example: boolean) => TParameters
+	generateParameters?: (example: boolean) => Awaitable<TParameters>
 	getSolution?: SolutionDefinition<TParameters, TSolution>
 }
 
@@ -78,7 +78,7 @@ export type ValueOperations = {
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized parameters.
 export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution>, 'generateParameters' | 'valueTypes'> & {
 	valueOperations: ValueOperations
-	generateParameters: (example: boolean) => PlainDataObject
+	generateParameters: (example: boolean) => Promise<PlainDataObject>
 	getInitialState: (parameters: PlainDataObject) => TState
 	processSoloAction: SoloExerciseReducer<TAction, TState>
 	processGroupActions: GroupExerciseReducer<TAction, TState>

@@ -69,10 +69,10 @@ describe('exercise registry', () => {
 								}
 							})
 
-							it(`generates valid ${example ? 'example' : 'exercise'} data`, () => {
+							it(`generates valid ${example ? 'example' : 'exercise'} data`, async () => {
 								expect(isExercise(exercise)).toBe(true)
 								if (!isExercise(exercise)) return
-								const storedParameters = exercise.generateParameters(example)
+								const storedParameters = await exercise.generateParameters(example)
 								expect(isPlainObject(storedParameters)).toBe(true)
 								const initialState = exercise.getInitialState(storedParameters)
 								expect(isPlainObject(initialState)).toBe(true)

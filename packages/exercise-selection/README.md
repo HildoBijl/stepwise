@@ -36,7 +36,7 @@ const exercises = {
 	},
 } satisfies ExerciseCollection
 
-const instance = generateRandomExerciseInstance(exercises, 'solo')
+const instance = await generateRandomExerciseInstance(exercises, 'solo')
 ```
 
 The result contains everything needed to start the exercise:
@@ -69,14 +69,14 @@ Selection is random but respects `metadata.weight`. An exercise with weight `2` 
 To select and immediately instantiate an exercise, use:
 
 ```ts
-const instance = generateRandomExerciseInstance(
+const instance = await generateRandomExerciseInstance(
 	exercises,
 	'group',
 	false,
 )
 ```
 
-The optional third argument is the `example` flag passed to the selected exercise's parameter generator. It defaults to `false`.
+The optional third argument is the `example` flag passed to the selected exercise's parameter generator. It defaults to `false`. Instance generation is asynchronous because exercise parameter generators may be asynchronous.
 
 
 ## Skill-based selection

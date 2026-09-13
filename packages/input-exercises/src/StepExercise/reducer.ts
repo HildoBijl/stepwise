@@ -18,7 +18,7 @@ export function buildStepExercise<TParameters extends InputExerciseParameters = 
 		...definition,
 		valueOperations,
 		type: 'step',
-		generateParameters: example => serializeParameters(resolveExerciseParameters(spec.generateParameters, example)),
+		generateParameters: async example => serializeParameters(await resolveExerciseParameters(spec.generateParameters, example)),
 		getInitialState: () => ({}),
 		processSoloAction: buildStepExerciseSoloReducer(spec, valueOperations),
 		processGroupActions: buildStepExerciseGroupReducer(spec, valueOperations),
