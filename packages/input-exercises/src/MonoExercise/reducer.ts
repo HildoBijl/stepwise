@@ -51,7 +51,7 @@ async function reduceActions<TParameters extends InputExerciseParameters, TSolut
 		if (userAction.action.type !== 'input') return { correct: false }
 		const exerciseInput = valueOperations.interpretInput(userAction.action.input)
 		const previousInputDependency = getInputDependency<TInputDependency>(state, mode, valueOperations, userAction.userId)
-		const inputDependency = await resolveUpdatedInputDependency(spec, { parameters, previousInputDependency, input: exerciseInput, step: 0 })
+		const inputDependency = await resolveUpdatedInputDependency(spec, { parameters, previousInputDependency, staticSolution, input: exerciseInput, step: 0 })
 		const solution = await resolveSolution(spec, parameters, inputDependency, staticSolution)
 		const correct = await checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution, areValuesEqual: valueOperations.areValuesEqual })
 		return { correct, inputDependency }

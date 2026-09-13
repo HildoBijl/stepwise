@@ -185,7 +185,7 @@ async function prepareInputActions<TParameters extends InputExerciseParameters, 
 		if (action.type !== 'input') return undefined
 		const input = valueOperations.interpretInput(action.input)
 		const previousInputDependency = getInputDependency<TInputDependency>(state, mode, valueOperations, userId)
-		const inputDependency = await resolveUpdatedInputDependency(spec, { parameters, previousInputDependency, input, step })
+		const inputDependency = await resolveUpdatedInputDependency(spec, { parameters, previousInputDependency, staticSolution, input, step })
 		const solution = await resolveSolution(spec, parameters, inputDependency, staticSolution)
 		return { rawInput: action.input, input, inputDependency, solution }
 	}))

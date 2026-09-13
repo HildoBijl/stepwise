@@ -3,14 +3,14 @@ import { reverseLoad } from '@step-wise/engineering-mechanics'
 
 import { getLoadDirectionIndices } from './support.ts'
 
-export function getInputDependency(input: any, solution: any): boolean[] {
+export function getLoadDirectionDependency(input: any, solution: any): boolean[] {
 	return getLoadDirectionIndices(input.loads, solution.loads)
 }
 
-export function getDynamicSolution(inputDependency: unknown, solution: any) {
-	const directionIndices = inputDependency as boolean[]
+export function getLoadAdjustedSolution(inputDependency: boolean[] | undefined, solution: any) {
+	const directionIndices = inputDependency ?? solution.loads.map(() => true)
 	const hasAdjustedSolution = directionIndices.includes(false)
 	const loads = solution.loads.map((load: any, index: number) => directionIndices[index] ? load : reverseLoad(load))
 	const loadValues = solution.loadValues.map((value: any, index: number) => directionIndices[index] ? value : value.negate())
-	return { ...solution, directionIndices, hasAdjustedSolution, loads, loadValues, ...fromKeysAndValues(solution.loadNames, loadValues) }
+	return { directionIndices, hasAdjustedSolution, loads, loadValues, ...fromKeysAndValues(solution.loadNames, loadValues) }
 }

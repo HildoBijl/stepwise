@@ -1,5 +1,5 @@
 import { sample } from '@step-wise/js-utils'
-import { expressionComparisons } from '@step-wise/cas'
+import { type Expression, expressionComparisons } from '@step-wise/cas'
 import { compareInputs } from '@step-wise/exercise-grading'
 
 import { buildStepExercise, createStepExerciseMetadata } from '#mathematicsExerciseBuilding'
@@ -25,37 +25,34 @@ export default buildStepExercise({
 		return { f, g1, g2 }
 	},
 
-	getSolution: {
-		dependentFields: ['f', 'g'],
+	getStaticSolution(parameters) {
+		const { f, g1, g2 } = parameters
+		const method = 0
+		const x = f.collectVariables()[0]
+		const g = g1.substitute(x, g2).flatten()
+		const h = f.multiply(g).flatten()
+		return { ...parameters, method, x, f, g, h }
+	},
 
-		getStaticSolution(parameters) {
-			const { f, g1, g2 } = parameters
-			const method = 0
-			const x = f.collectVariables()[0]
-			const g = g1.substitute(x, g2).flatten()
-			const h = f.multiply(g).flatten()
-			return { ...parameters, method, x, f, g, h }
-		},
+	// The input dependency is whether or not f and g are switched.
+	updateInputDependency({ previousInputDependency, staticSolution, input }): boolean | undefined {
+		if (input.f === undefined && input.g === undefined) return previousInputDependency
+		if (!staticSolution.f || !staticSolution.g) throw new Error('Expected the product-rule static solution to contain functions f and g.')
+		const inputF = input.f as Expression | undefined
+		const inputG = input.g as Expression | undefined
+		return !!(inputF && inputG && areEquivalent(inputF, staticSolution.g) && areEquivalent(inputG, staticSolution.f))
+	},
 
-		// The input dependency is whether or not f and g are switched.
-		getInputDependency(input, solution) {
-			const f = input.f as typeof solution.f
-			const g = input.g as typeof solution.g
-			return !!(f && g && solution.f && solution.g && areEquivalent(f, solution.g) && areEquivalent(g, solution.f))
-		},
-
-		getDynamicSolution(inputDependency, solution) {
-			if (!solution.f || !solution.g) throw new Error('Expected the product-rule solution to contain functions f and g.')
-			const switched = inputDependency as boolean
-			const f = switched ? solution.g : solution.f
-			const g = switched ? solution.f : solution.g
-			const solutionAdjusted = { ...solution, f, g }
-			const fDerivative = f.differentiate().combine()
-			const gDerivative = g.differentiate().combine()
-			const derivativeRaw = fDerivative.multiply(g).add(f.multiply(gDerivative))
-			const derivative = derivativeRaw.normalize([], ['cancelPolynomialFactors', 'expandPowersOfSums']).format()
-			return { ...solutionAdjusted, switched, fDerivative, gDerivative, derivativeRaw, derivative }
-		},
+	getSolution(_, inputDependency, staticSolution) {
+		if (!staticSolution.f || !staticSolution.g) throw new Error('Expected the product-rule solution to contain functions f and g.')
+		const switched = inputDependency ?? false
+		const f = switched ? staticSolution.g : staticSolution.f
+		const g = switched ? staticSolution.f : staticSolution.g
+		const fDerivative = f.differentiate().combine()
+		const gDerivative = g.differentiate().combine()
+		const derivativeRaw = fDerivative.multiply(g).add(f.multiply(gDerivative))
+		const derivative = derivativeRaw.normalize([], ['cancelPolynomialFactors', 'expandPowersOfSums']).format()
+		return { switched, f, g, fDerivative, gDerivative, derivativeRaw, derivative }
 	},
 
 	checkInput(data, step, substep) {

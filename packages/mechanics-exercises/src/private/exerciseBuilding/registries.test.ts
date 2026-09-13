@@ -10,7 +10,8 @@ describe('mechanics exercise value operations', () => {
 
 		expect(mechanicsExercises).toHaveLength(15)
 		mechanicsExercises.forEach(exercise => {
-			expect(typeof exercise.valueOperations.deserializeParameters).toBe('function')
+			expect(typeof exercise.valueOperations.serialize).toBe('function')
+			expect(typeof exercise.valueOperations.deserialize).toBe('function')
 			expect(typeof exercise.valueOperations.interpretInput).toBe('function')
 			expect(typeof exercise.valueOperations.toInputValue).toBe('function')
 			expect(typeof exercise.valueOperations.areValuesEqual).toBe('function')

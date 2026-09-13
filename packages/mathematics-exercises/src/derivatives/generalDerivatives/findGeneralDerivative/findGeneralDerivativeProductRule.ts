@@ -10,6 +10,8 @@ const { areEquivalent, areConstantMultiples } = expressionComparisons
 
 const variableSet = ['x', 'y', 't']
 
+type DerivativeInputDependency = { f?: Expression, g?: Expression, adjusted?: boolean }
+
 function checkF(func: Expression | undefined, solution: { f: Expression, g: Expression }): boolean {
 	return !!func && (areConstantMultiples(func, solution.f) || areConstantMultiples(func, solution.g))
 }
@@ -33,35 +35,32 @@ export default buildStepExercise({
 		return { c, fRaw, g }
 	},
 
-	getSolution: {
-		dependentFields: ['f', 'g'],
+	getStaticSolution(parameters) {
+		const { c, fRaw, g } = parameters
+		const method = 0
+		const f = fRaw.multiplyLeft(c).cancel()
+		const h = f.multiply(g).flatten()
+		const x = h.collectVariables()[0]
+		return { ...parameters, method, x, f, h }
+	},
 
-		getStaticSolution(parameters) {
-			const { c, fRaw, g } = parameters
-			const method = 0
-			const f = fRaw.multiplyLeft(c).cancel()
-			const h = f.multiply(g).flatten()
-			const x = h.collectVariables()[0]
-			return { ...parameters, method, x, f, h }
-		},
+	// The input dependency is the functions f and g when correctly given, and otherwise an empty object.
+	updateInputDependency({ previousInputDependency, staticSolution, input }): DerivativeInputDependency | undefined {
+		if (input.f === undefined && input.g === undefined) return previousInputDependency
+		const selectedInput = pickKeys(input, ['f', 'g']) as { f?: Expression, g?: Expression }
+		return checkFAndG(selectedInput, staticSolution) ? { f: selectedInput.f, g: selectedInput.g, adjusted: true } : {}
+	},
 
-		// The input dependency is the functions f and g when correctly given, and otherwise an empty object.
-		getInputDependency(input, solution) {
-			const selectedInput = pickKeys(input, ['f', 'g']) as { f?: Expression, g?: Expression }
-			const functionsCorrect = checkFAndG(selectedInput, solution)
-			return functionsCorrect ? { f: selectedInput.f, g: selectedInput.g, adjusted: true } : {}
-		},
-
-		getDynamicSolution(inputDependency, solution) {
-			const solutionMerged = { ...solution, ...(inputDependency as { f?: Expression, g?: Expression, adjusted?: boolean }) }
-			const { f, g } = solutionMerged
-			if (!f || !g) throw new Error('Expected the product-rule solution to contain functions f and g.')
-			const fDerivative = f.differentiate().combine()
-			const gDerivative = g.differentiate().combine()
-			const derivativeRaw = fDerivative.multiply(g).add(f.multiply(gDerivative))
-			const derivative = derivativeRaw.normalize([], ['cancelPolynomialFactors', 'expandPowersOfSums']).format()
-			return { ...solutionMerged, fDerivative, gDerivative, derivativeRaw, derivative }
-		},
+	getSolution(_, inputDependency, staticSolution) {
+		const adjustedSolution = inputDependency ?? {}
+		const f = adjustedSolution.f ?? staticSolution.f
+		const g = adjustedSolution.g ?? staticSolution.g
+		if (!f || !g) throw new Error('Expected the product-rule solution to contain functions f and g.')
+		const fDerivative = f.differentiate().combine()
+		const gDerivative = g.differentiate().combine()
+		const derivativeRaw = fDerivative.multiply(g).add(f.multiply(gDerivative))
+		const derivative = derivativeRaw.normalize([], ['cancelPolynomialFactors', 'expandPowersOfSums']).format()
+		return { ...adjustedSolution, f, g, fDerivative, gDerivative, derivativeRaw, derivative }
 	},
 
 	checkInput(data, step) {

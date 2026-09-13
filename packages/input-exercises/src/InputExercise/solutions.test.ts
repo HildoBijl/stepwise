@@ -1,18 +1,19 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import { resolveSolution, resolveStaticSolution, resolveUpdatedInputDependency } from './solutions.ts'
+import type { UpdateInputDependencyData } from './types.ts'
 
 describe('resolveUpdatedInputDependency', () => {
 	it('preserves the previous dependency when no updater is defined', async () => {
 		await expect(resolveUpdatedInputDependency({}, {
-			parameters: { value: 3 }, previousInputDependency: 2, input: {}, step: 0,
+			parameters: { value: 3 }, previousInputDependency: 2, staticSolution: {}, input: {}, step: 0,
 		})).resolves.toBe(2)
 	})
 
 	it('passes the complete update context to an asynchronous updater', async () => {
-		const updateInputDependency = vi.fn(async ({ input }: { input: Record<string, unknown> }) => input.selected)
+		const data: UpdateInputDependencyData<{ value: number }, { base: number }, number> = { parameters: { value: 3 }, previousInputDependency: 1, staticSolution: { base: 4 }, input: { selected: 2 }, step: 2 }
+		const updateInputDependency = vi.fn(async ({ input }: UpdateInputDependencyData<{ value: number }, { base: number }, number>) => input.selected as number)
 		const definition = { updateInputDependency }
-		const data = { parameters: { value: 3 }, previousInputDependency: 1, input: { selected: 2 }, step: 2 }
 		await expect(resolveUpdatedInputDependency(definition, data)).resolves.toBe(2)
 		expect(updateInputDependency).toHaveBeenCalledWith(data)
 	})

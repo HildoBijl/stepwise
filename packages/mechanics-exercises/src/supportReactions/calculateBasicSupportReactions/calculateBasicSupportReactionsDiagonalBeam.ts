@@ -6,7 +6,7 @@ import { createForce, createMoment, freeBodyDiagramComparisonOptions } from '@st
 
 import { mechanicsExerciseBuilders, createStepExerciseMetadata } from '#mechanicsExerciseBuilding'
 
-import { getDynamicSolution, getInputDependency } from './common.ts'
+import { getLoadAdjustedSolution, getLoadDirectionDependency } from './common.ts'
 
 const { buildStepExercise } = mechanicsExerciseBuilders.freeBodyDiagramPhysics
 
@@ -58,12 +58,10 @@ export default buildStepExercise({
 		M: getRandomQuantity({ min: 5, max: 30, decimals: 0, unit: 'kN*m' }).setSignificantDigits(2),
 		clockwise: randomBoolean(),
 	}),
-	getSolution: {
-		dependentFields: ['loads'],
-		getStaticSolution,
-		getInputDependency,
-		getDynamicSolution,
-	},
+	getStaticSolution,
+	updateInputDependency: ({ previousInputDependency, staticSolution, input }): boolean[] | undefined =>
+		input.loads === undefined ? previousInputDependency : getLoadDirectionDependency(input, staticSolution),
+	getSolution: (_, inputDependency, staticSolution) => getLoadAdjustedSolution(inputDependency, staticSolution),
 	checkInput(data, step) {
 		switch (step) {
 			case 1: return compareInputs('loads', data)

@@ -4,7 +4,7 @@ import { isObject, isPlainObject } from '@step-wise/js-utils'
 import type { Skill } from '@step-wise/skill-definition'
 import { isExercise } from '@step-wise/exercise-definition'
 import { isExerciseCollection } from '@step-wise/exercise-bundling'
-import { isInputExercise, resolveSolution } from '@step-wise/input-exercises'
+import { isInputExercise, resolveSolution, resolveStaticSolution } from '@step-wise/input-exercises'
 import { skillTree } from '@step-wise/skill-tree'
 
 import * as exerciseRegistry from './exerciseRegistry.ts'
@@ -81,7 +81,8 @@ describe('exercise registry', () => {
 									const parameters = exercise.valueOperations.deserialize(storedParameters)
 									expect(isPlainObject(parameters)).toBe(true)
 									if (!isPlainObject(parameters)) return
-									const solution = await resolveSolution(exercise.getSolution, parameters)
+									const staticSolution = await resolveStaticSolution(exercise, parameters)
+									const solution = await resolveSolution(exercise, parameters, undefined, staticSolution)
 									expect(isPlainObject(solution)).toBe(true)
 								}
 							})

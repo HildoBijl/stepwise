@@ -181,8 +181,8 @@ getSolution: (parameters, solveFor, staticSolution) => {
 
 The lifecycle consists of three optional callbacks. The input dependency initially is `undefined`:
 
-- `updateInputDependency({ parameters, previousInputDependency, input, step })` updates it from the input submitted for the current step. The unsplit main problem uses step `0`.
 - `getStaticSolution(parameters)` calculates a reusable, input-independent partial solution.
+- `updateInputDependency({ parameters, previousInputDependency, staticSolution, input, step })` updates the dependency from the input submitted for the current step. The unsplit main problem uses step `0`.
 - `getSolution(parameters, inputDependency, staticSolution)` calculates the dynamic portion of the solution. The framework merges this over the static portion.
 
 All three callbacks may be synchronous or asynchronous. The runtime definition checks enforce these relationships:

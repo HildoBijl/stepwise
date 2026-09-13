@@ -26,13 +26,14 @@ export type InputExerciseInput = Record<string, unknown>
 
 // Updating input dependencies: the part of the state depending on the input that may change the solution.
 export type InputDependency = unknown
-export type UpdateInputDependencyData<TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency> = {
+export type UpdateInputDependencyData<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = {
 	parameters: TParameters
 	previousInputDependency: TInputDependency | undefined
+	staticSolution: Partial<TSolution>
 	input: InputExerciseInput
 	step: number
 }
-export type UpdateInputDependency<TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency> = (data: UpdateInputDependencyData<TParameters, TInputDependency>) => Awaitable<TInputDependency | undefined>
+export type UpdateInputDependency<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = (data: UpdateInputDependencyData<TParameters, TSolution, TInputDependency>) => Awaitable<TInputDependency | undefined>
 
 // Generating the solution: a useful object for checking input and rendering exercises.
 export type InputExerciseSolution = Record<string, unknown>
@@ -48,7 +49,7 @@ export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParamete
 	metadata: TMetadata
 	valueTypes?: ValueTypes
 	generateParameters?: (example: boolean) => Awaitable<TParameters>
-	updateInputDependency?: UpdateInputDependency<TParameters, TInputDependency>
+	updateInputDependency?: UpdateInputDependency<TParameters, TSolution, TInputDependency>
 	getStaticSolution?: GetStaticSolution<TParameters, TSolution>
 	getSolution?: GetSolution<TParameters, TSolution, TInputDependency>
 }

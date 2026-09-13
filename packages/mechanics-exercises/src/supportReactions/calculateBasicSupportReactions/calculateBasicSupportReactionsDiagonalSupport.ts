@@ -6,7 +6,7 @@ import { createForce, freeBodyDiagramComparisonOptions, reverseLoad } from '@ste
 
 import { mechanicsExerciseBuilders, createStepExerciseMetadata } from '#mechanicsExerciseBuilding'
 
-import { getInputDependency } from './common.ts'
+import { getLoadDirectionDependency } from './common.ts'
 
 const { buildStepExercise } = mechanicsExerciseBuilders.freeBodyDiagramPhysics
 
@@ -50,12 +50,12 @@ function getStaticSolution(parameters: any) {
 	return { ...parameters, points, l, angleRad, anglePoints: [Vector.fromPolar(1, -angleRad), Vector.zero, Vector.fromPolar(1, 0)], loads, externalLoad: loads[0], loadNames, loadNameDefinitions, loadsToCheck: loadNames.slice(1), loadValues: [P, FAx, FAy, FC] }
 }
 
-function getDynamicSolution(inputDependency: unknown, solution: any) {
-	const directionIndices = inputDependency as boolean[]
+function getLoadAdjustedSolution(inputDependency: boolean[] | undefined, solution: any) {
+	const directionIndices = inputDependency ?? solution.loads.map(() => true)
 	const loads = solution.loads.map((load: any, index: number) => directionIndices[index] ? load : reverseLoad(load))
 	const loadValues = solution.loadValues.map((value: any, index: number) => directionIndices[index] ? value : value.negate())
 	const [, FAx, FAy, FC] = loadValues
-	return { ...solution, directionIndices, hasAdjustedSolution: directionIndices.includes(false), loads, loadValues, ...fromKeysAndValues(solution.loadNames, loadValues), FAx, FAy, FC, FCx: FC.multiply(Math.sin(solution.angleRad)), FCy: FC.multiply(Math.cos(solution.angleRad)) }
+	return { directionIndices, hasAdjustedSolution: directionIndices.includes(false), loads, loadValues, ...fromKeysAndValues(solution.loadNames, loadValues), FAx, FAy, FC, FCx: FC.multiply(Math.sin(solution.angleRad)), FCy: FC.multiply(Math.cos(solution.angleRad)) }
 }
 
 export default buildStepExercise({
@@ -66,12 +66,10 @@ export default buildStepExercise({
 		P: getRandomQuantity({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),
 		angle: randomInteger(4, 14) * 5,
 	}),
-	getSolution: {
-		dependentFields: ['loads'],
-		getStaticSolution,
-		getInputDependency,
-		getDynamicSolution,
-	},
+	getStaticSolution,
+	updateInputDependency: ({ previousInputDependency, staticSolution, input }): boolean[] | undefined =>
+		input.loads === undefined ? previousInputDependency : getLoadDirectionDependency(input, staticSolution),
+	getSolution: (_, inputDependency, staticSolution) => getLoadAdjustedSolution(inputDependency, staticSolution),
 	checkInput(data, step) {
 		switch (step) {
 			case 1: return compareInputs('loads', data)

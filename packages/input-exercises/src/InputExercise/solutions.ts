@@ -8,7 +8,7 @@ export async function resolveStaticSolution<TParameters extends InputExercisePar
 }
 
 // Update the dependency with the input submitted for the current exercise step.
-export async function resolveUpdatedInputDependency<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency>(definition: SolutionCallbacks<TParameters, TSolution, TInputDependency>, data: UpdateInputDependencyData<TParameters, TInputDependency>): Promise<TInputDependency | undefined> {
+export async function resolveUpdatedInputDependency<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency>(definition: SolutionCallbacks<TParameters, TSolution, TInputDependency>, data: UpdateInputDependencyData<TParameters, TSolution, TInputDependency>): Promise<TInputDependency | undefined> {
 	return definition.updateInputDependency === undefined ? data.previousInputDependency : await definition.updateInputDependency(data)
 }
 
