@@ -17,6 +17,19 @@ function reshapeCharacterElements(elements, characterShape) {
 	return result
 }
 
+// Split the text of a KaTeX leaf into separately measurable character elements. KaTeX otherwise combines adjacent characters, such as the digits in "23", into one element.
+function splitCombinedCharacterElement(element) {
+	const characters = [...element.textContent]
+	if (characters.filter(character => character.replace(zeroWidthSpaceRegExp, '') !== '').length <= 1) return [element]
+	const characterElements = characters.map(character => {
+		const characterElement = document.createElement('span')
+		characterElement.textContent = character
+		return characterElement
+	})
+	element.replaceChildren(...characterElements)
+	return characterElements.filter(isCharElement)
+}
+
 // matchCharElements takes an expression and finds all the DOM elements related to all characters.
 export function matchCharElements(equationElement, latexChars) {
 	// Get all the chars that should be there. Compare this with all the chars that are rendered to check if this matches out. (If not, the whole plan fails.)
@@ -27,7 +40,7 @@ export function matchCharElements(equationElement, latexChars) {
 
 	// Extract all DOM elements (leafs) with a character and match them appropriately.
 	const allElements = [...equationElement.getElementsByTagName('*')]
-	const charElementList = allElements.filter(isCharElement)
+	const charElementList = allElements.filter(isCharElement).flatMap(splitCombinedCharacterElement)
 	const charElements = reshapeCharacterElements(charElementList, latexChars)
 	return charElements
 }

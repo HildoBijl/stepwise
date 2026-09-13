@@ -14,20 +14,20 @@ const SolutionContext = createContext(null)
 export function SolutionProvider({ children }) {
 	const { parameters, shared } = useExerciseData()
 	const { getSolution } = shared
-	if (getSolution !== undefined && typeof getSolution !== 'function' && !isPlainObject(getSolution))
-		throw new Error(`Invalid getSolution parameter: received a parameter of type ${typeof getSolution}.`)
 
-	const dependentFields = isPlainObject(getSolution) && getSolution.getDynamicSolution ? getSolution.dependentFields : []
-	const input = useStableValue(useInputObject(dependentFields), shallowEqualObjects)
+	if (getSolution === undefined) return <SolutionContext.Provider value={undefined}>{children}</SolutionContext.Provider>
+	if (typeof getSolution === 'function' || (isPlainObject(getSolution) && !getSolution.getDynamicSolution))
+		return <ResolvedSolutionProvider getSolution={getSolution} parameters={parameters}>{children}</ResolvedSolutionProvider>
+	if (isPlainObject(getSolution))
+		return <DynamicSolutionProvider getSolution={getSolution} parameters={parameters}>{children}</DynamicSolutionProvider>
+	throw new Error(`Invalid getSolution parameter: received a parameter of type ${typeof getSolution}.`)
+}
+
+function ResolvedSolutionProvider({ children, getSolution, parameters, input }) {
 	const [resolved, setResolved] = useState({ solution: undefined, error: undefined })
 
 	useEffect(() => {
 		let active = true
-		if (getSolution === undefined) {
-			setResolved({ solution: undefined, error: undefined })
-			return () => { active = false }
-		}
-
 		resolveSolution(getSolution, parameters, input)
 			.then(solution => { if (active) setResolved({ solution, error: undefined }) })
 			.catch(error => { if (active) setResolved({ solution: undefined, error }) })
@@ -35,8 +35,13 @@ export function SolutionProvider({ children }) {
 	}, [getSolution, parameters, input])
 
 	if (resolved.error) throw resolved.error
-	if (getSolution !== undefined && resolved.solution === undefined) return null
+	if (resolved.solution === undefined) return null
 	return <SolutionContext.Provider value={resolved.solution}>{children}</SolutionContext.Provider>
+}
+
+function DynamicSolutionProvider({ children, getSolution, parameters }) {
+	const input = useStableValue(useInputObject(getSolution.dependentFields), shallowEqualObjects)
+	return <ResolvedSolutionProvider getSolution={getSolution} parameters={parameters} input={input}>{children}</ResolvedSolutionProvider>
 }
 
 // useSolution is the hook used by exercises to extract the solution from the provider.
