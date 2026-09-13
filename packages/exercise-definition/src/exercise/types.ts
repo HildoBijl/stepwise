@@ -18,7 +18,7 @@ export type ResolvedExerciseMetadata<TMetadata extends ExerciseMetadata = Exerci
 }
 
 export type GenerateExerciseParameters<TParameters extends ExerciseParameters = ExerciseParameters> = (example: boolean) => Awaitable<TParameters>
-export type GetInitialState<TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState> = (parameters: TParameters) => TState
+export type GetInitialState<TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState> = (parameters: TParameters) => Awaitable<TState>
 export type UpdateSkills = (setup: SkillSetupLike, correct: boolean, userId?: string) => void
 
 type ExerciseReducerRequiredInput<TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = {

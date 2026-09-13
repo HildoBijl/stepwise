@@ -74,7 +74,7 @@ describe('exercise registry', () => {
 								if (!isExercise(exercise)) return
 								const storedParameters = await exercise.generateParameters(example)
 								expect(isPlainObject(storedParameters)).toBe(true)
-								const initialState = exercise.getInitialState(storedParameters)
+								const initialState = await exercise.getInitialState(storedParameters)
 								expect(isPlainObject(initialState)).toBe(true)
 
 								if (isInputExercise(exercise) && exercise.getSolution !== undefined) {

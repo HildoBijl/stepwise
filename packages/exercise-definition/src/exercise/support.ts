@@ -8,8 +8,8 @@ export async function resolveExerciseParameters<TParameters extends Record<strin
 	return parameters as TParameters
 }
 
-export function resolveInitialState<TParameters extends Record<string, unknown> = ExerciseParameters, TState extends ExerciseState = ExerciseState>(getInitialState: ((parameters: TParameters) => TState) | undefined, parameters: TParameters): TState {
-	const initialState = getInitialState === undefined ? {} : getInitialState(parameters)
+export async function resolveInitialState<TParameters extends Record<string, unknown> = ExerciseParameters, TState extends ExerciseState = ExerciseState>(getInitialState: ((parameters: TParameters) => Awaitable<TState>) | undefined, parameters: TParameters): Promise<TState> {
+	const initialState = getInitialState === undefined ? {} : await getInitialState(parameters)
 	if (!isPlainObject(initialState)) throw new TypeError(`Invalid initial exercise state: expected getInitialState to return a plain object but received something of type "${typeof initialState}".`)
 	return initialState as TState
 }

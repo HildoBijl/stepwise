@@ -27,7 +27,7 @@ async function createExerciseInstance(exerciseId: ExerciseId, exercise: Exercise
 		exerciseId,
 		mode,
 		parameters,
-		initialState: resolveInitialState(getInitialState, parameters),
+		initialState: await resolveInitialState(getInitialState, parameters),
 		history: [],
 	}
 }

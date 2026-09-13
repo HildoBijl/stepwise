@@ -37,7 +37,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 	const startNewExercise = useCallback(async () => {
 		if (exerciseDefinition) {
 			const parameters = await exerciseDefinition.generateParameters(false)
-			const initialState = exerciseDefinition.getInitialState(parameters)
+			const initialState = await exerciseDefinition.getInitialState(parameters)
 			setExercise({ // Emulate the exercise object that we otherwise get from the server.
 				exerciseId: exerciseId,
 				mode: 'solo',

@@ -54,7 +54,7 @@ describe('Check all exercises:', () => {
 						// Emulate the ExerciseContainer.
 						const storedParameters = await shared.generateParameters(false)
 						const parameters = shared.valueOperations.deserializeParameters(storedParameters)
-						const initialState = shared.getInitialState(storedParameters)
+						const initialState = await shared.getInitialState(storedParameters)
 						const exerciseData = {
 							exerciseId,
 							mode: 'solo',

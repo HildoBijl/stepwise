@@ -76,7 +76,7 @@ const instance = await generateRandomExerciseInstance(
 )
 ```
 
-The optional third argument is the `example` flag passed to the selected exercise's parameter generator. It defaults to `false`. Instance generation is asynchronous because exercise parameter generators may be asynchronous.
+The optional third argument is the `example` flag passed to the selected exercise's parameter generator. It defaults to `false`. Instance generation is asynchronous because both parameter generators and initial-state functions may be asynchronous.
 
 
 ## Skill-based selection

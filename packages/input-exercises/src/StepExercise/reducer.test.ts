@@ -18,7 +18,7 @@ describe('buildStepExercise', () => {
 	it('solves the main problem directly', async () => {
 		const exercise = buildExercise()
 		const parameters = await exercise.generateParameters(false)
-		expect(exercise.getInitialState(parameters)).toEqual({})
+		expect(await exercise.getInitialState(parameters)).toEqual({})
 		expect(await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(0) } })).toEqual({ attempted: true, solved: true, done: true })
 	})
 

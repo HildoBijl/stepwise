@@ -20,14 +20,14 @@ describe('buildMonoExercise', () => {
 		const exercise = buildExercise()
 		const parameters = await exercise.generateParameters(false)
 		expect(parameters).toEqual({ answer: 2 })
-		expect(exercise.getInitialState(parameters)).toEqual({})
+		expect(await exercise.getInitialState(parameters)).toEqual({})
 	})
 
 	it('uses empty parameters and state when their generators are omitted', async () => {
 		const exercise = buildMonoExercise({ metadata: {}, checkInput: () => false })
 		const parameters = await exercise.generateParameters(false)
 		expect(parameters).toEqual({})
-		expect(exercise.getInitialState(parameters)).toEqual({})
+		expect(await exercise.getInitialState(parameters)).toEqual({})
 	})
 
 	it('tracks incorrect solo input and completes on correct input', async () => {

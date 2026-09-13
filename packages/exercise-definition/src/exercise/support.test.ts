@@ -25,19 +25,24 @@ describe('resolveExerciseParameters', () => {
 })
 
 describe('resolveInitialState', () => {
-	it('uses an empty object when no initializer is provided', () => {
-		expect(resolveInitialState(undefined, { value: 2 })).toEqual({})
+	it('uses an empty object when no initializer is provided', async () => {
+		await expect(resolveInitialState(undefined, { value: 2 })).resolves.toEqual({})
 	})
 
-	it('passes the parameters to the initializer and returns its result', () => {
+	it('passes the parameters to a synchronous initializer and returns its result', async () => {
 		const parameters = { value: 2 }
 		const initialState = { remaining: 2 }
 		const getInitialState = vi.fn(() => initialState)
-		expect(resolveInitialState(getInitialState, parameters)).toBe(initialState)
+		await expect(resolveInitialState(getInitialState, parameters)).resolves.toBe(initialState)
 		expect(getInitialState).toHaveBeenCalledWith(parameters)
 	})
 
-	it.each([undefined, null, [], 3, 'state', new Date()])('rejects a non-plain initial state: %p', initialState => {
-		expect(() => resolveInitialState(() => initialState as never, {})).toThrow(TypeError)
+	it('awaits an asynchronous initializer', async () => {
+		const initialState = { remaining: 2 }
+		await expect(resolveInitialState(async () => initialState, {})).resolves.toBe(initialState)
+	})
+
+	it.each([undefined, null, [], 3, 'state', new Date()])('rejects a non-plain initial state: %p', async initialState => {
+		await expect(resolveInitialState(() => initialState as never, {})).rejects.toThrow(TypeError)
 	})
 })

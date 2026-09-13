@@ -73,7 +73,7 @@ All three use plain data objects so they can be stored and transferred safely. E
 
 `generateParameters(example)` creates the parameters for a new exercise. The boolean `example` flag allows a generator to distinguish (possibly simplified) examples from regular exercises. Parameter generators may return their parameters immediately or through a promise, so consumers should always await them.
 
-`getInitialState(parameters)` synchronously derives the state before the first action. Keeping this step synchronous makes initialization predictable once parameter generation has completed.
+`getInitialState(parameters)` derives the state before the first action. It may return that state immediately or through a promise, so consumers should always await it.
 
 When defining a higher-level exercise specification, both factories may be omitted, in which case they default to `() => ({})`.
 

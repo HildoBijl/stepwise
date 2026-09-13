@@ -48,11 +48,11 @@ describe('generateRandomExerciseInstance', () => {
 		await expect(generateRandomExerciseInstance({ sample: exercise }, 'solo')).rejects.toThrow(TypeError)
 	})
 
-	it('awaits asynchronous parameter generation before deriving initial state', async () => {
+	it('awaits asynchronous parameter generation and initial-state derivation', async () => {
 		const exercise = {
 			metadata: {},
 			generateParameters: async () => ({ value: 2 }),
-			getInitialState: parameters => ({ value: parameters.value }),
+			getInitialState: async parameters => ({ value: parameters.value }),
 			processSoloAction: () => ({}),
 		} satisfies Exercise
 

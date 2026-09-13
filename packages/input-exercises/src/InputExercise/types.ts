@@ -79,7 +79,7 @@ export type ValueOperations = {
 export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution>, 'generateParameters' | 'valueTypes'> & {
 	valueOperations: ValueOperations
 	generateParameters: (example: boolean) => Promise<PlainDataObject>
-	getInitialState: (parameters: PlainDataObject) => TState
+	getInitialState: (parameters: PlainDataObject) => Awaitable<TState>
 	processSoloAction: SoloExerciseReducer<TAction, TState>
 	processGroupActions: GroupExerciseReducer<TAction, TState>
 }
