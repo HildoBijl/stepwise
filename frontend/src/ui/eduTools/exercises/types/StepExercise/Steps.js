@@ -50,7 +50,7 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 
 	return <>
 		<ProblemContainer activeProblem={step === exerciseStep} problemStep={step} display={!!display} step={step}>
-			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!doneWithStep}>
+			<FormPart part={step} readOnly={readOnly} showInputSpace={showInputSpace} showHints={!doneWithStep}>
 				<VerticalAdjuster>
 					<TranslationSection entry={`step${step}.problem`}>
 						<Problem {...parameters} translate={addSection(translate, `step${step}.problem`)} />

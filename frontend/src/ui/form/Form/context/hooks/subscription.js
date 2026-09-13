@@ -5,6 +5,8 @@ import { deserializeData, serializeData } from '@step-wise/serialization'
 
 import { useFormData } from '../provider'
 
+import { useFormPartSettings } from '../../../FormPart'
+
 /* useFormParameter gives a tuple [FI, setFI] for a single input parameter with the given id. An options object may be passed along with the following options. (Defaults defined below.)
  * - initialSI: the initial Stored Input (SI) value for the input field.
  * - validate: a function that receives the Functional Object (FO). It then either returns undefined (on all OK) or an error message (on a problem).
@@ -29,6 +31,7 @@ export const defaultUseFormParameterOptions = {
 export function useFormParameter(options = {}) {
 	options = mergeDefaults(options, defaultUseFormParameterOptions)
 	const { id, initialSI, functionalize } = options
+	const { part } = useFormPartSettings()
 
 	const { input, setInputFI, register, subscribe, unsubscribe } = useFormData()
 
@@ -39,10 +42,10 @@ export function useFormParameter(options = {}) {
 	// Subscribe upon mounting and unsubscribe upon unmounting.
 	register(options)
 	const updateSubscription = useEffectEvent(() => {
-		subscribe(id)
-		return () => unsubscribe(id)
+		subscribe(id, part)
+		return () => unsubscribe(id, part)
 	})
-	useEffect(() => updateSubscription(), [id])
+	useEffect(() => updateSubscription(), [id, part])
 
 	// Return the FI including a handler to reset it, just like the React setState.
 	const FI = (id in input) ? input[id] : functionalize(initialSI)

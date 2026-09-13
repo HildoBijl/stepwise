@@ -8,15 +8,15 @@ export function useSubmitRef() {
 }
 
 // useSubmitCall gives a stable function that can be called to call whatever submit function is registered at the form.
-export function useSubmitCall() {
+export function useSubmitCall(part) {
 	// Pull all data out of the form.
 	const formData = useFormData()
-	const { submitRef, isInputValid, getAllInputSI } = formData
+	const { submitRef, isInputValid, isPartInputValid, getAllInputSI, getPartInputSI } = formData
 
 	// Give a submit call function.
 	return useStableCallback(() => {
 		// If the input is not valid, do not submit.
-		if (!isInputValid())
+		if (!(part === undefined ? isInputValid() : isPartInputValid(part)))
 			return
 
 		// Check if a submit function is present.
@@ -24,7 +24,7 @@ export function useSubmitCall() {
 			throw new Error(`Invalid Form submission: tried to submit a form, but there is no registered submission function.`)
 
 		// Call the submit function with the SI and all formData in case it's needed.
-		const SI = getAllInputSI()
+		const SI = part === undefined ? getAllInputSI() : getPartInputSI(part)
 		submitRef.current(SI, formData)
 	})
 }

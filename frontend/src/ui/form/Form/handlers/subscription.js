@@ -17,6 +17,7 @@ export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
 		fieldsRef.current[id] = {
 			...options,
 			subscriptions: 0,
+			subscriptionsByPart: {},
 			SI: initialSI,
 			recentSI: true,
 			FO: undefined,
@@ -25,7 +26,7 @@ export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
 	})
 
 	// subscribe tells the Form that an input field is using an input with the given ID. Multiple input fields can be connected to the same ID. While subscribe is not instantaneous (it is called through an effect) it does update the state.
-	const subscribe = useStableCallback(id => {
+	const subscribe = useStableCallback((id, part) => {
 		setInput(input => {
 			// When calling subscribe, the field is required to be registered already.
 			if (!fieldsRef.current[id])
@@ -33,6 +34,8 @@ export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
 
 			// Update the subscription count.
 			fieldsRef.current[id].subscriptions++
+			if (part !== undefined)
+				fieldsRef.current[id].subscriptionsByPart[part] = (fieldsRef.current[id].subscriptionsByPart[part] || 0) + 1
 
 			// If there is an input value, no further actions are needed.
 			if (input[id] !== undefined)
@@ -50,7 +53,7 @@ export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
 	})
 
 	// unsubscribe tells the Form that an input field stopped using an input with the given ID. This usually means the field is not on the page anymore (it unmounted).
-	const unsubscribe = useStableCallback(id => {
+	const unsubscribe = useStableCallback((id, part) => {
 		// Delay calls to unsubscribe, to ensure all subscribe calls are finished.
 		setTimeout(() => {
 			// When the Form has dismounted, do not do anything anymore.
@@ -60,6 +63,14 @@ export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
 			// Based on the subscription numbers, check if the input field needs to be removed. If so, remove it. Use the latest input value to do so.
 			setInput(input => {
 				const field = fieldsRef.current[id]
+				if (!field)
+					return input
+				if (part !== undefined) {
+					if (field.subscriptionsByPart[part] <= 1)
+						delete field.subscriptionsByPart[part]
+					else
+						field.subscriptionsByPart[part]--
+				}
 				if (field.subscriptions === 1 && !field.persistent) {
 					delete fieldsRef.current[id]
 					const newInput = { ...input }
@@ -88,6 +99,12 @@ export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
 		return Object.keys(fields).filter(id => fields[id].subscriptions > 0)
 	})
 
+	// getFieldIdsForPart returns the active field IDs registered within the given form part.
+	const getFieldIdsForPart = useStableCallback(part => {
+		const fields = fieldsRef.current
+		return Object.keys(fields).filter(id => fields[id].subscriptionsByPart[part] > 0)
+	})
+
 	// Handlers are set up! Return them.
-	return { register, subscribe, unsubscribe, getFieldData, getFieldIds }
+	return { register, subscribe, unsubscribe, getFieldData, getFieldIds, getFieldIdsForPart }
 }

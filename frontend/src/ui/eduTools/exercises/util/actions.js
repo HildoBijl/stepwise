@@ -36,8 +36,8 @@ export function useFormSubmitAction() {
 	}, [instanceRef, disabledRef, submitAction, userId])
 }
 
-export function useSubmitAction() {
-	return useSubmitCall()
+export function useSubmitAction(part) {
+	return useSubmitCall(part)
 }
 
 export function useGiveUpAction() {

@@ -3,7 +3,7 @@ import { useLatestRef, useStableCallback } from '@step-wise/react-utils'
 import { useFieldControllerContext } from '../../FieldController'
 
 // The validation handlers compare and evaluate the full form input.
-export function useValidationHandlers(validation, setValidation, { getFieldIds, getFieldData, getInputSI, getAllInputSI, getAllInputFO }) {
+export function useValidationHandlers(validation, setValidation, { getFieldIds, getFieldIdsForPart, getFieldData, getInputSI, getAllInputSI, getAllInputFO }) {
 	const { activateFirst } = useFieldControllerContext()
 	const validationRef = useLatestRef(validation)
 
@@ -29,37 +29,38 @@ export function useValidationHandlers(validation, setValidation, { getFieldIds, 
 		return bKeys.every(key => isInputEqual(key, a[key], b[key]))
 	})
 
-	// isInputValid returns a boolean: are all fields valid? To determine this, it runs all field validation checks. (Unless 'false' is provided: in this case the checks are not run, but the latest result is returned.)
-	const isInputValid = useStableCallback((check = true) => {
-		// If we do not need to check, return the latest result.
-		if (!check)
-			return isValidationValid(validationRef.current.result)
-
-		// Get the SIs and the FOs to make sure that all fields are interpreted.
+	// validateFields checks the requested fields. All form values remain available to cross-field validation functions.
+	const validateFields = useStableCallback(fieldIds => {
 		const inputSI = getAllInputSI()
 		const inputFO = getAllInputFO()
-
-		// Walk through the fields and check first interpretation and then validation.
 		const result = {}
-		getFieldIds().forEach(id => { // Walk through all validation functions and run them.
+		fieldIds.forEach(id => {
 			const fieldData = getFieldData(id)
-			if (fieldData.error) { // On an error in the interpretation get a corresponding message.
+			if (fieldData.error) {
 				result[id] = fieldData.errorToMessage(fieldData.error)
-			} else { // On a correct interpretation run the given validation function.
+			} else {
 				const fieldResult = fieldData.validate(inputFO[id], inputFO)
 				if (fieldResult)
 					result[id] = fieldResult
 			}
 		})
 		setValidation({ result, input: inputSI })
-
-		// All checks are done. Finalize matters.
-		activateFirst(Object.keys(result)) // Put the cursor in the first non-valid field.
+		activateFirst(Object.keys(result))
 		return isValidationValid(result)
 	})
 
+	// isInputValid returns whether all active fields are valid. Passing false returns the latest result without checking again.
+	const isInputValid = useStableCallback((check = true) => {
+		if (!check)
+			return isValidationValid(validationRef.current.result)
+		return validateFields(getFieldIds())
+	})
+
+	// isPartInputValid validates only the active fields belonging to the given form part.
+	const isPartInputValid = useStableCallback(part => validateFields(getFieldIdsForPart(part)))
+
 	// All handlers are set up. Return them!
-	return { isInputEqual, isAllInputEqual, isInputValid }
+	return { isInputEqual, isAllInputEqual, isInputValid, isPartInputValid }
 }
 
 // isValidationValid checks whether everything is OK with a given validation result object. Returns a boolean.

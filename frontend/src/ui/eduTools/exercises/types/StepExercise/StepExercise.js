@@ -51,7 +51,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 
 	return <>
 		<ProblemContainer activeProblem={!state.split} problemStep={0} example={example} refresh={example && startNewExercise}>
-			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!doneWithMainProblem}>
+			<FormPart part={0} readOnly={readOnly} showInputSpace={showInputSpace} showHints={!doneWithMainProblem}>
 				<VerticalAdjuster>
 					<TranslationSection entry="mainProblem">
 						<MainProblem {...parameters} translate={addSection(translate, 'mainProblem')} />

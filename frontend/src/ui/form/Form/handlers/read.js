@@ -3,7 +3,7 @@ import { interpretInputData } from '@step-wise/input-interpretation'
 import { useLatestRef, useStableCallback } from '@step-wise/react-utils'
 
 // The read handlers allow the extraction of parameters from the Form.
-export function useReadHandlers(input, { getFieldData, getFieldIds }, interpretInput = interpretInputData) {
+export function useReadHandlers(input, { getFieldData, getFieldIds, getFieldIdsForPart }, interpretInput = interpretInputData) {
 	const inputRef = useLatestRef(input)
 
 	// getInputFI takes a field ID or an array of field IDs and gives the FI value of the given field. If the field value has not been registered yet, it tries to derive it regardless.
@@ -47,6 +47,11 @@ export function useReadHandlers(input, { getFieldData, getFieldIds }, interpretI
 		return fromKeys(fieldIds, id => getInputSI(id))
 	})
 
+	// getPartInputSI gives the SI values of the active fields in a given form part.
+	const getPartInputSI = useStableCallback(part => {
+		return fromKeys(getFieldIdsForPart(part), id => getInputSI(id))
+	})
+
 	// getInputFO takes a field ID or an array of field IDs and gives the FO value of the given fields.
 	const getInputFO = useStableCallback((id) => {
 		if (Array.isArray(id))
@@ -77,5 +82,5 @@ export function useReadHandlers(input, { getFieldData, getFieldIds }, interpretI
 	})
 
 	// All handlers are defined! Return them.
-	return { getFieldData, getInputFI, getAllInputFI, getInputSI, getAllInputSI, getInputFO, getAllInputFO }
+	return { getFieldData, getInputFI, getAllInputFI, getInputSI, getAllInputSI, getPartInputSI, getInputFO, getAllInputFO }
 }

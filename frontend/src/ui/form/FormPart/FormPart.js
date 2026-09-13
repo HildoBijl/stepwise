@@ -1,4 +1,5 @@
 /* FormPart is a wrapper used to tell input fields inside of it what the status of this part of the Form is. Various settings can be applied.
+ * - part (default undefined): an optional identifier used to read, validate and submit only the fields in this form part.
  * - readOnly (default false): make all input fields in this form part read-only.
 * - showInputSpace (default true): set to true when there's something in the input space to show. So that's when the problem is still active, or when a previous submission has been made.
  * - showHints (default true): set to true when a problem (part) has been solved. 
@@ -11,6 +12,7 @@ import { mergeDefaults } from '@step-wise/js-utils'
 
 const defaultFormPartParameters = {
 	children: null,
+	part: undefined,
 	readOnly: false,
 	showInputSpace: true,
 	showHints: true,

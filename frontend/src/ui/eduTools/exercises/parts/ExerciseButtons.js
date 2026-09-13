@@ -31,7 +31,7 @@ export function ExerciseButtons(props) {
 
 function SingleUserExerciseButtons({ stepwise = false }) {
 	const translate = useTranslator(translationPath)
-	const { isAllInputEqual, getAllInputSI, setAllInputSI, getFieldIds } = useFormData()
+	const { isAllInputEqual, getAllInputSI, getPartInputSI, setAllInputSI, getFieldIds, getFieldIdsForPart } = useFormData()
 	const { instance, state, history, submitting, example, inspection, valueOperations } = useExerciseData()
 	const solution = useSolution(false)
 	const inTestContext = useTestContext()
@@ -39,8 +39,14 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	const courseData = useCourseData()
 	const isTeacher = isAdmin || courseData?.course?.subscription?.role === 'teacher'
 
+	// The main problem is part 0. Mono exercises leave the part undefined and submit the full form.
+	const step = getCurrentStep(state)
+	const part = stepwise ? step : undefined
+	const currentInput = part === undefined ? getAllInputSI() : getPartInputSI(part)
+	const fieldIds = part === undefined ? getFieldIds() : getFieldIdsForPart(part)
+
 	// Set up button handlers.
-	const submit = useSubmitAction()
+	const submit = useSubmitAction(part)
 	const giveUp = useGiveUpAction()
 
 	// Include the buttons in the tabbing.
@@ -69,11 +75,10 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 
 	// Determine if the input is the same as previously.
 	const lastAction = getLastAction(instance)
-	const inputIsEqualToLastInput = lastAction && lastAction.type === 'input' && isAllInputEqual(lastAction.input)
+	const inputIsEqualToLastInput = lastAction && lastAction.type === 'input' && isAllInputEqual(lastAction.input, currentInput)
 
 	// If the exercise is not done, we need the submit and give-up buttons. First set up the text.
 	let giveUpText = translate('I give up', 'buttons.giveUp')
-	const step = getCurrentStep(state)
 	if (stepwise) {
 		if (example)
 			giveUpText = translate('Show steps', 'buttons.showSteps')
@@ -94,8 +99,8 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 
 	// Set up a function to insert the solution into the input fields.
 	const insertSolution = () => {
-		const oldInput = getAllInputSI()
-		const newInput = fromKeys(getFieldIds(), (key) => {
+		const oldInput = currentInput
+		const newInput = fromKeys(fieldIds, (key) => {
 			if (solution[key] === undefined)
 				return oldInput[key]
 			const type = oldInput[key]?.type
@@ -174,9 +179,10 @@ function StepSelect() {
 
 function GroupExerciseButtons({ stepwise = false }) {
 	const { state } = useExerciseData()
+	const part = stepwise ? getCurrentStep(state) : undefined
 
 	// Determine the status of the exercise.
-	const derivedParameters = useDerivedParameters()
+	const derivedParameters = useDerivedParameters(part)
 
 	// Is the exercise done? Then return the restart button.
 	if (state.done)
@@ -235,15 +241,16 @@ function GroupExerciseButtons({ stepwise = false }) {
 	</Box>
 }
 
-function GiveUpAndSubmitButtons({ stepwise, currentAction }) {
+function GiveUpAndSubmitButtons({ stepwise, part, currentAction }) {
 	const getTranslation = useGetTranslation(translationPath)
 	const translate = useTranslator(translationPath, 'groupExercise')
-	const { instance, state, submitting } = useExerciseData()
+	const { instance, submitting } = useExerciseData()
 	const userId = useUserId()
-	const { isAllInputEqual } = useFormData()
+	const { isAllInputEqual, getAllInputSI, getPartInputSI } = useFormData()
+	const currentInput = part === undefined ? getAllInputSI() : getPartInputSI(part)
 
 	// Set up button handlers.
-	const submit = useSubmitAction()
+	const submit = useSubmitAction(part)
 	const giveUp = useGiveUpAction()
 
 	// Determine whether the user has given up.
@@ -256,14 +263,13 @@ function GiveUpAndSubmitButtons({ stepwise, currentAction }) {
 
 	// Determine if the input is the same as the previous or current action.
 	const lastAction = getLastAction(instance, userId)
-	const isAllInputEqualToLastInput = lastAction && lastAction.type === 'input' && isAllInputEqual(lastAction.input)
-	const isAllInputEqualToCurrentAction = currentAction && currentAction.type === 'input' && isAllInputEqual(currentAction.input)
+	const isAllInputEqualToLastInput = lastAction && lastAction.type === 'input' && isAllInputEqual(lastAction.input, currentInput)
+	const isAllInputEqualToCurrentAction = currentAction && currentAction.type === 'input' && isAllInputEqual(currentAction.input, currentInput)
 
 	// Determine the give-up button text.
 	let giveUpText = getTranslation('buttons.giveUp')
-	const step = getCurrentStep(state)
 	if (stepwise)
-		giveUpText = step ? getTranslation('buttons.giveUpStep') : getTranslation('buttons.solveStepWise')
+		giveUpText = part ? getTranslation('buttons.giveUpStep') : getTranslation('buttons.solveStepWise')
 
 	// Render the buttons.
 	const WarningIcon = getIcon('warning')
@@ -279,18 +285,19 @@ function CurrentActions(derivedProperties) {
 	return groupedActions.input.map((actionList, index) => <CurrentActionRow key={index} {...{ ...derivedProperties, index, actionList }} />)
 }
 
-function CurrentActionRow({ actionList, submitting, index }) {
+function CurrentActionRow({ actionList, submitting, index, part }) {
 	const translate = useTranslator(translationPath, 'groupExercise')
 	const exerciseData = useExerciseData()
 	const { history } = exerciseData
 	const userId = useUserId()
 	const activeGroup = useActiveGroup()
-	const { setAllInputSI, isAllInputEqual } = useFormData()
+	const { getAllInputSI, getPartInputSI, setAllInputSI, isAllInputEqual } = useFormData()
+	const currentInput = part === undefined ? getAllInputSI() : getPartInputSI(part)
 	const { updateFeedback } = useFeedbackContext()
 
 	// Set up button handlers.
 	const cancel = useCancelAction()
-	const submit = useSubmitAction()
+	const submit = useSubmitAction(part)
 
 	// Register the buttons to tab control.
 	const viewButtonRef = useRef(), copyCancelButtonRef = useRef()
@@ -316,7 +323,7 @@ function CurrentActionRow({ actionList, submitting, index }) {
 
 	// Show the buttons. Which exact button depends on whether the user itself is in the list.
 	const actionInput = last(actionList).action.input
-	const isEqual = isAllInputEqual(actionInput)
+	const isEqual = isAllInputEqual(actionInput, currentInput)
 	return <>
 		<div className="inBetween" />
 		<div className="description1">{translate('Submitted:', 'status.submitted')}</div>
@@ -405,12 +412,12 @@ function ResolveNote({ stepwise, hasUserAction, canResolve, allGaveUp, submittin
 }
 
 // useDerivedParameters takes the exercise data and extracts a variety of parameters that can be used to display the right buttons.
-function useDerivedParameters() {
+function useDerivedParameters(part) {
 	const { history } = useExerciseData()
 	const activeGroup = useActiveGroup()
 	const userId = useUserId()
-	const { isAllInputEqual, getFieldIds } = useFormData()
-	const fieldIds = useReferencePreservingValue(getFieldIds())
+	const { isAllInputEqual, getFieldIds, getFieldIdsForPart } = useFormData()
+	const fieldIds = useReferencePreservingValue(part === undefined ? getFieldIds() : getFieldIdsForPart(part))
 
 	// Determine the status of the exercise.	
 	return useMemo(() => {
@@ -424,9 +431,9 @@ function useDerivedParameters() {
 		const canResolve = canResolveGroupEvent(activeGroup, history)
 		const allGaveUp = canResolve && currentEvent.actions.every(userAction => userAction.action.type === 'giveUp')
 		const groupedActions = groupActions(currentActions, userId, isAllInputEqual)
-		return { currentEvent, currentActions, currentAction, gaveUp, hasUserAction, numActions, membersWithoutActions, canResolve, allGaveUp, groupedActions }
+		return { part, currentEvent, currentActions, currentAction, gaveUp, hasUserAction, numActions, membersWithoutActions, canResolve, allGaveUp, groupedActions }
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [activeGroup, history, userId, isAllInputEqual, fieldIds]) // The fieldIds dependency is needed because, only after the fields get loaded into the form, can isAllInputEqual function properly.
+	}, [activeGroup, history, userId, isAllInputEqual, fieldIds, part]) // The fieldIds dependency is needed because, only after the fields get loaded into the form, can isAllInputEqual function properly.
 }
 
 // groupActions takes a set of actions and groups them based on their type. The result is an object of the form { input: [[ ...identical actions...], ]}
