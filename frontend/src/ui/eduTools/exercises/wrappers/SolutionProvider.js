@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-import { isPlainObject } from '@step-wise/js-utils'
+import { isPlainObject, shallowEqualObjects } from '@step-wise/js-utils'
 import { resolveSolution } from '@step-wise/input-exercises'
-import { useReferencePreservingValue } from '@step-wise/react-utils'
+import { useStableValue } from '@step-wise/react-utils'
 
 import { useInputObject } from 'ui/form'
 
@@ -17,8 +17,8 @@ export function SolutionProvider({ children }) {
 	if (getSolution !== undefined && typeof getSolution !== 'function' && !isPlainObject(getSolution))
 		throw new Error(`Invalid getSolution parameter: received a parameter of type ${typeof getSolution}.`)
 
-	const dependentFields = isPlainObject(getSolution) && getSolution.getDynamicSolution ? getSolution.dependentFields : undefined
-	const input = useReferencePreservingValue(useInputObject(dependentFields))
+	const dependentFields = isPlainObject(getSolution) && getSolution.getDynamicSolution ? getSolution.dependentFields : []
+	const input = useStableValue(useInputObject(dependentFields), shallowEqualObjects)
 	const [resolved, setResolved] = useState({ solution: undefined, error: undefined })
 
 	useEffect(() => {
