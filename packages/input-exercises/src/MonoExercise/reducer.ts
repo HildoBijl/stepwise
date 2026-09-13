@@ -22,36 +22,36 @@ export function buildMonoExercise<TParameters extends InputExerciseParameters = 
 }
 
 function buildMonoExerciseSoloReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, valueOperations: ValueOperations): SoloExerciseReducer<InputExerciseAction, MonoExerciseState> {
-	return input => {
+	return async input => {
 		const runtimeInput = { ...input, parameters: valueOperations.deserializeParameters<TParameters>(input.parameters) }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
-		return reduceActions(spec, { ...runtimeInput, mode: 'solo', actions: [{ action: input.action }] }, valueOperations)
+		return await reduceActions(spec, { ...runtimeInput, mode: 'solo', actions: [{ action: input.action }] }, valueOperations)
 	}
 }
 
 function buildMonoExerciseGroupReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, valueOperations: ValueOperations): GroupExerciseReducer<InputExerciseAction, MonoExerciseState> {
-	return input => {
+	return async input => {
 		if (input.actions.length === 0) throw new Error(`Cannot resolve a group exercise without actions.`)
 		const runtimeInput = { ...input, parameters: valueOperations.deserializeParameters<TParameters>(input.parameters), mode: 'group' as const }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
-		return reduceActions(spec, runtimeInput, valueOperations)
+		return await reduceActions(spec, runtimeInput, valueOperations)
 	}
 }
 
 // Reduce a normalized set of solo or group actions.
-function reduceActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, MonoExerciseState, TParameters>, valueOperations: ValueOperations): MonoExerciseState {
+async function reduceActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, MonoExerciseState, TParameters>, valueOperations: ValueOperations): Promise<MonoExerciseState> {
 	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const newState = addAttemptsToState(state, mode, actions.filter(userAction => userAction.action.type === 'input').map(userAction => userAction.userId))
 
-	const staticSolution = actions.some(userAction => userAction.action.type === 'input') && typeof getSolution === 'function' ? getSolution(parameters) : undefined
+	const staticSolution = actions.some(userAction => userAction.action.type === 'input') && typeof getSolution === 'function' ? await resolveSolution(getSolution, parameters) : undefined
 
-	const correct = actions.map(userAction => {
+	const correct = await Promise.all(actions.map(async userAction => {
 		if (userAction.action.type !== 'input') return false
 		const exerciseInput = valueOperations.interpretInput(userAction.action.input)
-		const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
-		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution, areValuesEqual: valueOperations.areValuesEqual })
-	})
+		const solution = staticSolution ?? (getSolution ? await resolveSolution(getSolution, parameters, exerciseInput) : undefined)
+		return await checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution, areValuesEqual: valueOperations.areValuesEqual })
+	}))
 
 	const someCorrect = correct.some(isCorrect => isCorrect)
 	const allGaveUp = actions.every(userAction => userAction.action.type === 'giveUp')

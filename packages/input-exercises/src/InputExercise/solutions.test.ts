@@ -3,17 +3,17 @@ import { describe, expect, it, vi } from 'vitest'
 import { resolveSolution } from './solutions.ts'
 
 describe('resolveSolution', () => {
-	it('resolves a solution generator with the parameters', () => {
-		expect(resolveSolution(({ value }: { value: number }) => ({ answer: value * 2 }), { value: 3 })).toEqual({ answer: 6 })
+	it('resolves a solution generator with the parameters', async () => {
+		await expect(resolveSolution(({ value }: { value: number }) => ({ answer: value * 2 }), { value: 3 })).resolves.toEqual({ answer: 6 })
 	})
 
-	it('returns a static solution when no dynamic generator exists', () => {
-		expect(resolveSolution({ getStaticSolution: () => ({ fixed: 2 }) }, {})).toEqual({ fixed: 2 })
+	it('returns a static solution when no dynamic generator exists', async () => {
+		await expect(resolveSolution({ getStaticSolution: () => ({ fixed: 2 }) }, {})).resolves.toEqual({ fixed: 2 })
 	})
 
-	it('combines static and dynamic fields and lets dynamic fields override', () => {
+	it('combines static and dynamic fields and lets dynamic fields override', async () => {
 		const getInputDependency = vi.fn((input: Record<string, unknown>) => input.selected)
-		const solution = resolveSolution({
+		const solution = await resolveSolution({
 			getStaticSolution: ({ base }: { base: number }) => ({ base, answer: 0 }),
 			dependentFields: ['selected'],
 			getInputDependency,
@@ -24,8 +24,8 @@ describe('resolveSolution', () => {
 		expect(solution).toEqual({ base: 2, answer: 7 })
 	})
 
-	it('uses the filtered input directly when no dependency resolver is supplied', () => {
-		const solution = resolveSolution({
+	it('uses the filtered input directly when no dependency resolver is supplied', async () => {
+		const solution = await resolveSolution({
 			getStaticSolution: () => ({}),
 			dependentFields: ['answer'],
 			getDynamicSolution: input => ({ answer: (input as { answer: number }).answer }),
@@ -33,8 +33,16 @@ describe('resolveSolution', () => {
 		expect(solution).toEqual({ answer: 5 })
 	})
 
-	it('rejects malformed solution definitions', () => {
-		expect(() => resolveSolution(null as never, {})).toThrow()
-		expect(() => resolveSolution({} as never, {})).toThrow()
+	it('awaits every stage of a dynamic solution', async () => {
+		await expect(resolveSolution({
+			getStaticSolution: async () => ({ base: 2 }),
+			getInputDependency: async input => input.answer,
+			getDynamicSolution: async (answer, staticSolution) => ({ answer: Number(answer) + Number(staticSolution.base) }),
+		}, {}, { answer: 3 })).resolves.toEqual({ base: 2, answer: 5 })
+	})
+
+	it('rejects malformed solution definitions', async () => {
+		await expect(resolveSolution(null as never, {})).rejects.toThrow()
+		await expect(resolveSolution({} as never, {})).rejects.toThrow()
 	})
 })

@@ -67,7 +67,7 @@ describe('Check all exercises:', () => {
 							submitAction: noop,
 							startNewExercise: noop,
 							shared: shared,
-							solution: shared.getSolution && resolveSolution(shared.getSolution, parameters),
+							solution: shared.getSolution && await resolveSolution(shared.getSolution, parameters),
 						}
 						expect(() => render(
 							<MockedProvider mocks={apolloMocks}>

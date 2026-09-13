@@ -68,7 +68,7 @@ function MonoExerciseInner({ Problem, Solution }) {
 	</>
 }
 
-function monoExerciseGetFeedback(data) {
+async function monoExerciseGetFeedback(data) {
 	const { shared } = data
 	const { getSolution, checkInput } = shared || {}
 
@@ -78,7 +78,7 @@ function monoExerciseGetFeedback(data) {
 
 	// If there's only a checkInput (which is in the remaining cases) then use it for a main feedback display.
 	if (checkInput)
-		return { main: checkInput(data) }
+		return { main: await checkInput(data) }
 
 	// There is nothing to give feedback based on. (Should never happen.)
 	return {}

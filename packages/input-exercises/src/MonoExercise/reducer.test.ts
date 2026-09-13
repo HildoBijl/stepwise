@@ -71,7 +71,7 @@ describe('buildMonoExercise', () => {
 	it('rejects an empty group action set', async () => {
 		const exercise = buildExercise()
 		const parameters = await exercise.generateParameters(false)
-		expect(() => exercise.processGroupActions({ parameters, state: {}, actions: [] })).toThrow()
+		await expect(exercise.processGroupActions({ parameters, state: {}, actions: [] })).rejects.toThrow()
 	})
 
 	it('updates a configured setup and does nothing when no skill information exists', async () => {
@@ -95,5 +95,15 @@ describe('buildMonoExercise', () => {
 		const exercise = buildExercise({ generateParameters: async () => ({ answer: 3 }) })
 
 		await expect(exercise.generateParameters(false)).resolves.toEqual({ answer: 3 })
+	})
+
+	it('awaits asynchronous solution generation and input checking', async () => {
+		const exercise = buildExercise({
+			getSolution: async ({ answer }) => ({ answer }),
+			checkInput: async ({ input, solution }) => input.answer === solution.answer,
+		})
+		const parameters = await exercise.generateParameters(false)
+
+		expect(await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(2) } })).toMatchObject({ solved: true, done: true })
 	})
 })

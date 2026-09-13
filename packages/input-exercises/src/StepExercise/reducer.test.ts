@@ -79,7 +79,7 @@ describe('buildStepExercise', () => {
 	it('rejects empty group actions and invalid substeps', async () => {
 		const exercise = buildExercise()
 		const parameters = await exercise.generateParameters(false)
-		expect(() => exercise.processGroupActions({ parameters, state: {}, actions: [] })).toThrow()
+		await expect(exercise.processGroupActions({ parameters, state: {}, actions: [] })).rejects.toThrow()
 		expect(() => buildExercise([['only-one']] as never)).toThrow()
 	})
 

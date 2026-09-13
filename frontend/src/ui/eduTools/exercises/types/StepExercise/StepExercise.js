@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 
-import { last, repeat } from '@step-wise/js-utils'
+import { last } from '@step-wise/js-utils'
 import { getPreviousState } from '@step-wise/exercise-definition'
 import { getCurrentStep, hasPreviousInputAtStep } from '@step-wise/input-exercises'
 
@@ -67,7 +67,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	</>
 }
 
-function stepExerciseGetFeedback(data) {
+async function stepExerciseGetFeedback(data) {
 	const { state, history, shared } = data
 
 	// If a getSolution parameter is present (which is for most exercises) then give input on each individual field.
@@ -78,15 +78,14 @@ function stepExerciseGetFeedback(data) {
 	if (shared.checkInput) {
 		// If the exercise is not split, only do so for the main problem.
 		if (!state.split)
-			return { main: shared.checkInput(data, 0) }
+			return { main: await shared.checkInput(data, 0) }
 
 		// If the exercise is split, give main feedback to each step that has just been submitted.
 		const feedback = {}
 		const previousState = getPreviousState(data.instance)
 		const step = getCurrentStep(previousState)
-		repeat(step, (index) => {
-			feedback[`step${index + 1}main`] = shared.checkInput(data, index + 1)
-		})
+		for (let index = 0; index < step; index++)
+			feedback[`step${index + 1}main`] = await shared.checkInput(data, index + 1)
 		return feedback
 	}
 

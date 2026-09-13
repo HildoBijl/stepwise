@@ -81,7 +81,7 @@ describe('exercise registry', () => {
 									const parameters = exercise.valueOperations.deserializeParameters(storedParameters)
 									expect(isPlainObject(parameters)).toBe(true)
 									if (!isPlainObject(parameters)) return
-									const solution = resolveSolution(exercise.getSolution, parameters)
+									const solution = await resolveSolution(exercise.getSolution, parameters)
 									expect(isPlainObject(solution)).toBe(true)
 								}
 							})
