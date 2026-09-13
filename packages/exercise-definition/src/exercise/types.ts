@@ -1,3 +1,4 @@
+import type { Awaitable } from '@step-wise/js-utils'
 import type { SkillId, SkillSetup, SkillSetupLike } from '@step-wise/skill-setup'
 
 import type { ExerciseAction, ExerciseState, ExerciseParameters } from '../atomTypes.ts'
@@ -16,7 +17,7 @@ export type ResolvedExerciseMetadata<TMetadata extends ExerciseMetadata = Exerci
 	repeatAfter: number
 }
 
-export type GenerateExerciseParameters<TParameters extends ExerciseParameters = ExerciseParameters> = (example: boolean) => TParameters
+export type GenerateExerciseParameters<TParameters extends ExerciseParameters = ExerciseParameters> = (example: boolean) => Awaitable<TParameters>
 export type GetInitialState<TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState> = (parameters: TParameters) => TState
 export type UpdateSkills = (setup: SkillSetupLike, correct: boolean, userId?: string) => void
 
@@ -35,8 +36,8 @@ export type GroupExerciseReducerInput<TAction extends ExerciseAction, TState ext
 	updateSkills?: UpdateSkills
 }
 
-export type SoloExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = (input: SoloExerciseReducerInput<TAction, TState, TParameters>) => TState
-export type GroupExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = (input: GroupExerciseReducerInput<TAction, TState, TParameters>) => TState
+export type SoloExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = (input: SoloExerciseReducerInput<TAction, TState, TParameters>) => Awaitable<TState>
+export type GroupExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = (input: GroupExerciseReducerInput<TAction, TState, TParameters>) => Awaitable<TState>
 
 export type ExerciseSpec<TMetadata extends ExerciseMetadata, TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState> = {
 	metadata: TMetadata
