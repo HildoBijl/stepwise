@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { M, BM } from '@step-wise/math-display'
+
 import { Translation, Check } from 'i18n'
-import { Par, M, BM, Emp } from 'ui/components'
+import { Par, Emp } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, equationChecks } from 'ui/eduTools'

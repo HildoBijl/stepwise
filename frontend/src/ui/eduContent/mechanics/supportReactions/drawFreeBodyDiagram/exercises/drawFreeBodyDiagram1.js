@@ -4,8 +4,9 @@ import { ensureNumber, ensureString, getOneToOneMatching, invertOneToOneMatching
 import { Vector } from '@step-wise/geometry'
 import { Quantity } from '@step-wise/physics-core'
 import { freeBodyDiagramComparisonOptions, loadsEqual, isLoadAtPoint } from '@step-wise/engineering-mechanics'
+import { M } from '@step-wise/math-display'
 
-import { Par, M } from 'ui/components'
+import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { useCurrentBackgroundColor } from 'ui/inputs'

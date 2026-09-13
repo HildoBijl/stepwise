@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { Quantity } from '@step-wise/physics-core'
+import { M, BM } from '@step-wise/math-display'
 
-import { Head, Par, List, M, BM, Term, Info, Warning } from 'ui/components'
+import { Head, Par, List, Term, Info, Warning } from 'ui/components'
 
 const p80 = new Quantity('80%')
 const p100 = new Quantity('100%')

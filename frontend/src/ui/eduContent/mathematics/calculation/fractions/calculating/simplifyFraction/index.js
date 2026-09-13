@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { M } from '@step-wise/math-display'
+
 import { Translation } from 'i18n'
-import { Par, Term, M } from 'ui/components'
+import { Par, Term } from 'ui/components'
 
 export function Meta() {
 	return <Translation entry="learningGoals">

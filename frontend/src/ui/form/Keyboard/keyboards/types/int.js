@@ -1,7 +1,7 @@
 import React from 'react'
 import { useMediaQuery } from '@mui/material'
 
-import { M } from 'ui/components'
+import { M } from '@step-wise/math-display'
 
 import { KeyboardLayout } from '../KeyboardLayout'
 

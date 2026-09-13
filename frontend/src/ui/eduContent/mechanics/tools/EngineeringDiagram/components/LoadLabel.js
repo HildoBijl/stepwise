@@ -2,8 +2,8 @@ import { ensureNumber } from '@step-wise/js-utils'
 import { asExpression } from '@step-wise/cas'
 import { ForceType, MomentType, createLoad } from '@step-wise/engineering-mechanics'
 import { loadNameToVariable } from '@step-wise/mechanics-exercises'
+import { M } from '@step-wise/math-display'
 
-import { M } from 'ui/components'
 import { Label } from 'ui/figures'
 
 import { defaultGraphicalForceLength, defaultGraphicalMomentRadius } from '../../support'

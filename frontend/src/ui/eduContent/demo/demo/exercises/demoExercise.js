@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { Par, M } from 'ui/components'
+import { M } from '@step-wise/math-display'
+
+import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { IntegerInput } from 'ui/inputs'
 import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
@@ -21,7 +23,6 @@ function Problem({ x }) {
 function Solution({ x }) {
 	return <Par>Je klikt op het invoervak en typt <M>{x}</M> in. {x < 0 ? `Het minteken kun je eventueel ook intypen na het getal. Het invoerveld snapt vanzelf dat dit minteken ervoor moet staan.` : ''}</Par>
 }
-
 
 function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, {

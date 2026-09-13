@@ -2,9 +2,10 @@ import React from 'react'
 
 import { upperFirst } from '@step-wise/js-utils'
 import { gasProperties } from '@step-wise/physics-data'
+import { M } from '@step-wise/math-display'
 
 import { Dutch } from 'ui/lang/gases'
-import { Head, Par, Table, M } from 'ui/components'
+import { Head, Par, Table } from 'ui/components'
 
 const gasKeys = Object.keys(gasProperties).sort((a, b) => Dutch[a].localeCompare(Dutch[b]))
 

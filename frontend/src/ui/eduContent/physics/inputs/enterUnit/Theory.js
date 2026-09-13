@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { Unit } from '@step-wise/physics-core'
+import { M } from '@step-wise/math-display'
 
 import { Translation } from 'i18n'
-import { Head, Par, List, Term, Info, M } from 'ui/components'
+import { Head, Par, List, Term, Info } from 'ui/components'
 
 const mps = new Unit('m/s')
 const kmps = new Unit('km/s')

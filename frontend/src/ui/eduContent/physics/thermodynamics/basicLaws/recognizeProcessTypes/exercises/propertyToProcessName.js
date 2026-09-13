@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { Par, M } from 'ui/components'
+import { M } from '@step-wise/math-display'
+
+import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
 import { MonoExercise, getMCFeedback } from 'ui/eduTools'

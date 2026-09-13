@@ -1,6 +1,5 @@
 import { flattenDeep } from '@step-wise/js-utils'
-
-import { zeroWidthSpaceRegExp } from 'ui/components'
+import { zeroWidthSpaceRegExp } from '@step-wise/math-display'
 
 import { emptyElementChar } from '../settings'
 

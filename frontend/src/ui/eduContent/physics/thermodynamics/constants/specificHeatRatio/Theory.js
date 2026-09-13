@@ -2,8 +2,9 @@ import React from 'react'
 
 import { PrecisionNumber } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
+import { M } from '@step-wise/math-display'
 
-import { Head, Par, List, M, Term } from 'ui/components'
+import { Head, Par, List, Term } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export default function Component() {

@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { expressionComparisons } from '@step-wise/cas'
+import { M, BM, BMList, BMPart } from '@step-wise/math-display'
 
-import { Par, M, BM, BMList, BMPart } from 'ui/components'
+import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, Substep, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'

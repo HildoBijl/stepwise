@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { M } from '@step-wise/math-display'
+
 import { Dutch } from 'ui/lang/gases'
-import { Par, M } from 'ui/components'
+import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'

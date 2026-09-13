@@ -1,8 +1,7 @@
 import React from 'react'
 
 import { integerRange } from '@step-wise/js-utils'
-
-import { M } from 'ui/components'
+import { M } from '@step-wise/math-display'
 
 import { KeyboardLayout } from '../KeyboardLayout'
 

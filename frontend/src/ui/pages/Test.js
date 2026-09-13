@@ -4,11 +4,12 @@ import { Button } from '@mui/material'
 import * as c from '@step-wise/cas'
 import * as m from '@step-wise/math-input-value'
 import { Unit, PrecisionNumber, Quantity } from '@step-wise/physics-core'
+import { M, BM } from '@step-wise/math-display'
 
 // import { getHexColor } from 'ui/theme'
 import { useUser } from 'api'
 import { apiAddress } from 'settings'
-import { Par, Head, M, BM } from 'ui/components'
+import { Par, Head } from 'ui/components'
 
 window.c = c
 window.m = m

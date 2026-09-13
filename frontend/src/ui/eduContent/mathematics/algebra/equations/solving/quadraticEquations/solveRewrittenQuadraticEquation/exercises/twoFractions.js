@@ -2,9 +2,10 @@ import React from 'react'
 
 import { integerRange } from '@step-wise/js-utils'
 import { expressionComparisons } from '@step-wise/cas'
+import { M, BM } from '@step-wise/math-display'
 
 import { Translation, Check, Plurals } from 'i18n'
-import { Par, M, BM } from 'ui/components'
+import { Par } from 'ui/components'
 import { InputSpace, useInput, selectRandomIncorrect } from 'ui/form'
 import { ExpressionInput, EquationInput, MultipleChoice } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, getFieldInputListFeedback, getMCFeedback, equationChecks, CrossExerciseTranslation } from 'ui/eduTools'

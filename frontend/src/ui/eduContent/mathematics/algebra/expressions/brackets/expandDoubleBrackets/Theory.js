@@ -2,10 +2,11 @@ import React from 'react'
 import { alpha } from '@mui/material'
 
 import { repeatMultidimensional } from '@step-wise/js-utils'
+import { M, BM } from '@step-wise/math-display'
 
 import { Translation } from 'i18n'
 import { usePrimaryColor } from 'ui/theme'
-import { Head, Par, List, Term, M, BM } from 'ui/components'
+import { Head, Par, List, Term } from 'ui/components'
 import { useIdentityTransformationSettings, Drawing, Rectangle, Element } from 'ui/figures'
 import { SkillLink } from 'ui/eduTools'
 

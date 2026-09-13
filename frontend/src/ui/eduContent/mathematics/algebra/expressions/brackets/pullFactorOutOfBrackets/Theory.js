@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { M, BM } from '@step-wise/math-display'
+
 import { Translation, useTextTranslation } from 'i18n'
-import { Head, Par, List, Term, M, BM } from 'ui/components'
+import { Head, Par, List, Term } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {

@@ -1,6 +1,6 @@
 import { expressionComparisons } from '@step-wise/cas'
+import { M } from '@step-wise/math-display'
 
-import { M } from 'ui/components'
 import { equationChecks } from 'ui/eduTools'
 
 const { areEqualExceptOrder, areEquivalent: equivalent } = expressionComparisons

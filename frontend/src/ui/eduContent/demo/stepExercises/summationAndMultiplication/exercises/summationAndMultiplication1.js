@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { M } from '@step-wise/math-display'
+
 import { Translation } from 'i18n'
-import { Par, M } from 'ui/components'
+import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { IntegerInput, MultipleChoice } from 'ui/inputs'
 import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'

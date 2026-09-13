@@ -6,11 +6,12 @@ import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@m
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { skill } from '@step-wise/skill-setup'
 import { applySkillLevelDecay } from '@step-wise/skill-tracking'
+import { M } from '@step-wise/math-display'
 
 import { useIsSignedIn } from 'api'
 import { TranslationSection, Translation, Check } from 'i18n'
 import { usePaths } from 'ui/routingTools'
-import { Par, Head, SubHead, Button, M } from 'ui/components'
+import { Par, Head, SubHead, Button } from 'ui/components'
 import { Drawing, useIdentityTransformationSettings, SvgPortal, Element } from 'ui/figures'
 import { SkillFlask } from 'ui/eduTools'
 

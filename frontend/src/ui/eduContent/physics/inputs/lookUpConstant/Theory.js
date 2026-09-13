@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { Quantity } from '@step-wise/physics-core'
+import { M } from '@step-wise/math-display'
 
 import { Translation } from 'i18n'
-import { Head, Par, List, Term, M } from 'ui/components'
+import { Head, Par, List, Term } from 'ui/components'
 
 const dist = new Quantity('2.3 km')
 const temp = new Quantity('18 °C')

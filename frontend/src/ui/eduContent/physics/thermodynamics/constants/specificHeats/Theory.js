@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { gasProperties } from '@step-wise/physics-data'
+import { M, BMList, BMPart } from '@step-wise/math-display'
 
-import { Head, Par, List, M, BMList, BMPart, Term } from 'ui/components'
+import { Head, Par, List, Term } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export default function Component() {

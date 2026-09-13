@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { Unit, Quantity } from '@step-wise/physics-core'
+import { M, BM } from '@step-wise/math-display'
 
-import { Head, Par, List, M, BM, Term } from 'ui/components'
+import { Head, Par, List, Term } from 'ui/components'
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
 
 import { MaximumHumidityPlot } from './MaximumHumidityPlot'

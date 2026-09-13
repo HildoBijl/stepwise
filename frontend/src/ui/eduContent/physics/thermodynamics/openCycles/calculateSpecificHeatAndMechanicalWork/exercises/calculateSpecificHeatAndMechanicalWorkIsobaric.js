@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { Par, M, BMList, BMPart } from 'ui/components'
+import { M, BMList, BMPart } from '@step-wise/math-display'
+
+import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'

@@ -1,6 +1,5 @@
 import { expressionComparisons } from '@step-wise/cas'
-
-import { M } from 'ui/components'
+import { M } from '@step-wise/math-display'
 
 const { areEquivalent: equivalent } = expressionComparisons
 

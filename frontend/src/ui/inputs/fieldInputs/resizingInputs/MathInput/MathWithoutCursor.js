@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react'
 
-import { RBM } from 'ui/components'
+import { MathContent } from '@step-wise/math-display'
 
 import { useInputData } from '../../../Input'
 
@@ -29,5 +29,5 @@ export function MathWithoutCursor({ FI }) {
 	}, [inputFieldRef, storeCharElements, latex, chars])
 
 	// Render the equation.
-	return <RBM>{latex}</RBM>
+	return <MathContent displayMode={true}>{latex}</MathContent>
 }

@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { Quantity } from '@step-wise/physics-core'
+import { M } from '@step-wise/math-display'
 
-import { Head, Par, List, M, Term, Emp, Info } from 'ui/components'
+import { Head, Par, List, Term, Emp, Info } from 'ui/components'
 
 const Tm5dC = new Quantity('-5 dC')
 const T5dC = new Quantity('5 dC')

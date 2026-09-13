@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { M, BM, BMList, BMPart } from '@step-wise/math-display'
+
 import { Dutch } from 'ui/lang/gases'
-import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
+import { Par, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'

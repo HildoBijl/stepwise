@@ -2,8 +2,7 @@ import React from 'react'
 
 import { isNumber } from '@step-wise/js-utils'
 import { defaultDecimalSeparator } from '@step-wise/settings'
-
-import { latexMinus } from 'ui/components'
+import { latexMinus } from '@step-wise/math-display'
 
 import { InlineCursor } from './InlineCursor'
 

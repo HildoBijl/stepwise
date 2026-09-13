@@ -1,12 +1,13 @@
 import React from 'react'
 
-import { Head, SubHead, Par, List, M, BM, BMList, BMPart, Term } from 'ui/components'
+import { M, BM, BMList, BMPart } from '@step-wise/math-display'
+
+import { Head, SubHead, Par, List, Term } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export default function Component() {
 	return <>
 		<Par>Er zijn twee veel-voorkomende dingen die we met een gas kunnen doen: er arbeid op uitoefen of warmte aan toevoeren. Hier bekijken we hoe we de hoeveelheid arbeid/warmte uit kunnen rekenen.</Par>
-
 
 		<Head>De hoeveelheid arbeid <M>W</M> berekenen</Head>
 		<Par>Stel je de lucht in de zuiger van een benzinemotor voor. Als deze lucht onder hoge druk staat, dan kan de lucht de zuiger wegduwen. Zo verricht de lucht <Term>arbeid</Term>: het duwt iets weg! Immers, arbeid is kracht maal afstand: <M>W = Fs.</M> Maar hoe kunnen we hiermee rekenen?</Par>
@@ -36,7 +37,6 @@ export default function Component() {
 		<Par>In de omgekeerde situatie oefenen wij vanuit de omgeving juist arbeid uit op het gas. Denk aan het indrukken van een fietspomp. In dit geval wordt het gas gecomprimeerd (afname in volume) en gaat de pijl in het <M>p</M>-<M>V</M>-diagram juist van rechts naar links. Dit is <Term>negatieve arbeid</Term>.</Par>
 		<Par>Alle bovenstaande formules hebben deze afspraak geïmplementeerd. Als je een arbeid berekent, dan geeft de betreffende formule je automatisch het juiste teken, uiteraard mits goed toegepast.</Par>
 
-
 		<Head>De hoeveelheid warmte <M>Q</M> berekenen</Head>
 		<Par>Na arbeid bekijken we warmte. Stel je de lucht in de zuiger van een benzinemotor voor, zowel vlak voordat het brandstof ontbrand is als vlak nadat het brandstof ontbrand is. Het verschil tussen deze twee situaties is: er is <Term>warmte</Term> toegevoerd, via het ontbranden van brandstof. Maar hoeveel?</Par>
 
@@ -65,7 +65,6 @@ export default function Component() {
 
 		<SubHead>Tekenconventie</SubHead>
 		<Par>Net als bij arbeid hebben we ook bij warmte een tekenconventie. We nemen altijd aan dat wij zelf van buitenaf warmte toevoeren aan een gas. Als dit het geval is, dan rekenen we de toegevoerde warmte <M>Q</M> als <Term>positieve warmtestroom</Term>. Is het andersom, en is het zo dat het gas warmte afstaat aan de omgeving? Dan rekenen we de toegevoerde warmte <M>Q</M> juist als <Term>negatieve warmtestroom</Term>. Alle formules zijn op deze afspraak ingesteld, dus als je de formules toepast, dan gaat dit (mits correct uitgevoerd) vanzelf goed.</Par>
-
 
 		<Head>De stappen</Head>
 		<Par>Om een hoeveelheid arbeid en/of warmte te berekenen volg je de volgende stappen.</Par>

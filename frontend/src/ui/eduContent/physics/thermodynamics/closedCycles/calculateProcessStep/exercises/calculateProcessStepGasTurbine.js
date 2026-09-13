@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { barToPascalFactor as pConversion } from '@step-wise/physics-data'
+import { M, BM } from '@step-wise/math-display'
 
-import { Par, M, BM, InputTable } from 'ui/components'
+import { Par, InputTable } from 'ui/components'
 import { useInput, AntiInputSpace, InputSpace } from 'ui/form'
 import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'

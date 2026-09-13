@@ -2,8 +2,9 @@ import React from 'react'
 
 import { serializeData } from '@step-wise/serialization'
 import { compareInputs } from '@step-wise/exercise-grading'
+import { M } from '@step-wise/math-display'
 
-import { Par, M } from 'ui/components'
+import { Par } from 'ui/components'
 import { useIdentityTransformationSettings, Circle } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { DrawingInput, DragMarker, useInputValue, useDrawingInputData, IntegerInput } from 'ui/inputs'
@@ -26,7 +27,6 @@ function Problem({ x }) {
 function Solution({ x }) {
 	return <Par>Je klikt op het invoervak en typt <M>{x}</M> in. {x < 0 ? `Het minteken kun je eventueel ook intypen na het getal. Het invoerveld snapt vanzelf dat dit minteken ervoor moet staan.` : ''}</Par>
 }
-
 
 function getFeedback(data) {
 	const correct = compareInputs('ans', data)

@@ -4,8 +4,9 @@ import { degreesToRadians, roundToDigits, integerRange } from '@step-wise/js-uti
 import { asExpression } from '@step-wise/cas'
 import { Vector } from '@step-wise/geometry'
 import { PrecisionNumber } from '@step-wise/physics-core'
+import { M, BM, BMList, BMPart } from '@step-wise/math-display'
 
-import { Par, M, BM, BMList, BMPart } from 'ui/components'
+import { Par } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'

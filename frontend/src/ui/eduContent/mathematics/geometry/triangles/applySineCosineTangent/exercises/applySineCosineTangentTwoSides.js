@@ -2,8 +2,9 @@ import React from 'react'
 
 import { Vector } from '@step-wise/geometry'
 import { expressionComparisons } from '@step-wise/cas'
+import { M, BM } from '@step-wise/math-display'
 
-import { Par, M, BM } from 'ui/components'
+import { Par } from 'ui/components'
 import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'

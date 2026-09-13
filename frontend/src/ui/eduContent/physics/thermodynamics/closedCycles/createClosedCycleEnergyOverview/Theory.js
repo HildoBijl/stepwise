@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { Head, Par, List, M, Term } from 'ui/components'
+import { M } from '@step-wise/math-display'
+
+import { Head, Par, List, Term } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export default function Component() {

@@ -3,9 +3,10 @@ import React from 'react'
 import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
 import { Quantity } from '@step-wise/physics-core'
 import { maximumHumidityByTemperature } from '@step-wise/physics-data'
+import { M } from '@step-wise/math-display'
 
 import { useColor } from 'ui/theme'
-import { Head, Par, List, M, Term, Emp } from 'ui/components'
+import { Head, Par, List, Term, Emp } from 'ui/components'
 import { Curve, Line, Circle } from 'ui/figures'
 import { SkillLink } from 'ui/eduTools'
 

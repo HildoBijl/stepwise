@@ -2,8 +2,8 @@ import { isNumber, isNumeric, isLetter, removeAt, insertAt, first } from '@step-
 import { defaultDecimalSeparator as decimalSeparator } from '@step-wise/settings'
 import { accentNames, constructTypes, textFunctions } from '@step-wise/cas'
 import { getHorizontalClickSide } from '@step-wise/browser-utils'
+import { latexMinus } from '@step-wise/math-display'
 
-import { latexMinus } from 'ui/components'
 import { greekAlphabet } from 'ui/form'
 
 import { emptyElementChar, emptyElementCharLatex } from '../settings'

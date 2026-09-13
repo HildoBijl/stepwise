@@ -2,9 +2,10 @@ import React from 'react'
 
 import { upperFirst } from '@step-wise/js-utils'
 import { c, g, R, e, k, G } from '@step-wise/physics-data'
+import { M } from '@step-wise/math-display'
 
 import { Translation, useTextTranslator } from 'i18n'
-import { Par, Table, M } from 'ui/components'
+import { Par, Table } from 'ui/components'
 
 export const tableValues = {
 	c: { symbol: 'c', value: c, name: 'the speed of light' },

@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { M, BM } from '@step-wise/math-display'
+
 import { Translation, Check } from 'i18n'
-import { Par, M, BM } from 'ui/components'
+import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, equationChecks } from 'ui/eduTools'
@@ -72,4 +74,3 @@ function getFeedback(exerciseData) {
 		ans: [invertedFraction, nonEquivalentSolution, hasFractionWithinFraction, unsimplifiedFractionNumbers, equivalentExpression],
 	})
 }
-

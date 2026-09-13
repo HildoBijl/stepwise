@@ -4,10 +4,11 @@ import { alpha } from '@mui/material'
 import { repeat } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 import { Vector } from '@step-wise/geometry'
+import { M, BM, BMList, BMPart } from '@step-wise/math-display'
 
 import { Translation, useTextTranslation } from 'i18n'
 import { usePrimaryColor } from 'ui/theme'
-import { Head, Par, List, Term, M, BM, BMList, BMPart } from 'ui/components'
+import { Head, Par, List, Term } from 'ui/components'
 import { useIdentityTransformationSettings, Drawing, Circle, Rectangle, Polygon, Element } from 'ui/figures'
 import { SkillLink } from 'ui/eduTools'
 

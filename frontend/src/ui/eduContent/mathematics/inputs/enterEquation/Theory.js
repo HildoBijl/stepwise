@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { M } from '@step-wise/math-display'
+
 import { Translation } from 'i18n'
-import { Head, Par, Term, M } from 'ui/components'
+import { Head, Par, Term } from 'ui/components'
 
 export function Theory() {
 	return <>

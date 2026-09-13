@@ -2,8 +2,9 @@ import React from 'react'
 
 import { roundTo } from '@step-wise/js-utils'
 import { PrecisionNumber } from '@step-wise/physics-core'
+import { M, BM } from '@step-wise/math-display'
 
-import { Par, M, BM } from 'ui/components'
+import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { IntegerInput, PrecisionNumberInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'

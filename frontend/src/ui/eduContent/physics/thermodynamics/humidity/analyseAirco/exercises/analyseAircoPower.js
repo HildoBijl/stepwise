@@ -2,8 +2,9 @@ import React from 'react'
 
 import { Unit } from '@step-wise/physics-core'
 import { maximumHumidityByTemperature } from '@step-wise/physics-data'
+import { M, BM } from '@step-wise/math-display'
 
-import { Par, M, BM } from 'ui/components'
+import { Par } from 'ui/components'
 import { useColor } from 'ui/theme'
 import { Line, Circle, Curve } from 'ui/figures'
 import { InputSpace } from 'ui/form'

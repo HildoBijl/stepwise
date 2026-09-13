@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { Box, Container, Grid, Button, useTheme } from '@mui/material'
 import { Info as InfoIcon } from '@mui/icons-material'
 
+import { M } from '@step-wise/math-display'
+
 import { TranslationSection, Translation } from 'i18n'
-import { Student, Teacher, M, SignInButtons } from 'ui/components'
+import { Student, Teacher, SignInButtons } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 import { Drawing, useIdentityTransformationSettings, SvgPortal, Element } from 'ui/figures'
 

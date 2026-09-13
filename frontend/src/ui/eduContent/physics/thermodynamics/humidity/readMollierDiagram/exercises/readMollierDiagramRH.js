@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { M, BM } from '@step-wise/math-display'
+
 import { useColor } from 'ui/theme'
-import { Par, M, BM } from 'ui/components'
+import { Par } from 'ui/components'
 import { Line, Circle } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { QuantityInput } from 'ui/inputs'

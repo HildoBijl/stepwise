@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { celsiusToKelvinOffset as TConversion } from '@step-wise/physics-data'
+import { M, BM, BMList, BMPart } from '@step-wise/math-display'
 
 import { Dutch } from 'ui/lang/gases'
-import { Par, M, BM, BMList, BMPart } from 'ui/components'
+import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'

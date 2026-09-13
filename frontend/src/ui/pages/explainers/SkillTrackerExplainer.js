@@ -8,8 +8,9 @@ import { and, repeat, skill } from '@step-wise/skill-setup'
 import { defaultSkillThresholdOptions } from '@step-wise/skill-definition'
 import { applySkillLevelDecay } from '@step-wise/skill-tracking'
 import { getSelectionProbabilities } from '@step-wise/exercise-selection'
+import { M } from '@step-wise/math-display'
 
-import { Par, Head, Button, M } from 'ui/components'
+import { Par, Head, Button } from 'ui/components'
 import { SkillFlask } from 'ui/eduTools'
 
 const labelsWithoutLast = ['A', 'B']

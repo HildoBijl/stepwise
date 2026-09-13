@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { Quantity } from '@step-wise/physics-core'
+import { M, BM, BMList, BMPart } from '@step-wise/math-display'
 
-import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
+import { Par, SubHead } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'

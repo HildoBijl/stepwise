@@ -1,8 +1,8 @@
 import { isPlainObject } from '@step-wise/js-utils'
 import { asExpression } from '@step-wise/cas'
+import { M } from '@step-wise/math-display'
 
 import { Translation } from 'i18n'
-import { M } from 'ui/components'
 
 export function any() { }
 

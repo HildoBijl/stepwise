@@ -1,6 +1,5 @@
 export * from './layout'
 export * from './text'
-export * from './math'
 export * from './tables'
 export * from './misc'
 export * from './icons'

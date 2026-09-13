@@ -1,9 +1,9 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
 import { expressionChecks, expressionComparisons } from '@step-wise/cas'
+import { M } from '@step-wise/math-display'
 
 import { Translation, CountingWord } from 'i18n'
-import { M } from 'ui/components'
 
 const { areEqualExceptOrder, areEquivalent: equivalent, areConstantMultiples } = expressionComparisons
 

@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { M } from '@step-wise/math-display'
+
 import { Translation } from 'i18n'
-import { Par, M } from 'ui/components'
+import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { PrecisionNumberInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'

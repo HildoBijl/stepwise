@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { subdivideRange } from '@step-wise/js-utils'
+import { M, BM } from '@step-wise/math-display'
 
 import { Translation } from 'i18n'
-import { Head, Par, List, Term, Emp, M, BM, Info } from 'ui/components'
+import { Head, Par, List, Term, Emp, Info } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 import { Drawing, usePlotTransformationSettings, Axes, Group, Curve } from 'ui/figures'
 

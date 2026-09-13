@@ -1,5 +1,7 @@
+import { M, BM } from '@step-wise/math-display'
+
 import { Translation } from 'i18n'
-import { Head, Par, Term, M, BM, Warning } from 'ui/components'
+import { Head, Par, Term, Warning } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {

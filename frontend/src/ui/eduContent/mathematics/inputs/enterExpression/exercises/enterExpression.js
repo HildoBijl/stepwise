@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { expressionComparisons } from '@step-wise/cas'
+import { M } from '@step-wise/math-display'
 
 import { Translation } from 'i18n'
-import { Par, M } from 'ui/components'
+import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'

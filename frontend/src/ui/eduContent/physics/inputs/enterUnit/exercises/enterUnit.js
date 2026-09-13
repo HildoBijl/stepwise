@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { Unit } from '@step-wise/physics-core'
+import { M } from '@step-wise/math-display'
 
 import { Translation } from 'i18n'
-import { Par, List, M } from 'ui/components'
+import { Par, List } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { UnitInput } from 'ui/inputs'
 import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'

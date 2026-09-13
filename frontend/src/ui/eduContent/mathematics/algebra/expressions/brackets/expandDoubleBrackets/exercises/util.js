@@ -1,7 +1,6 @@
 import { count } from '@step-wise/js-utils'
 import { expressionComparisons } from '@step-wise/cas'
-
-import { M } from 'ui/components'
+import { M } from '@step-wise/math-display'
 
 export const wrongBracketsExpanded = (input, correct, { factor2 }, isCorrect, { translateCrossExercise }) => !isCorrect && input.some(term => term.isProduct() && term.factors.some(factor => factor.isSum() && !expressionComparisons.areEquivalent(factor, factor2))) && translateCrossExercise(<>Make sure to expand all brackets, except for <M>\left({factor2}\right)</M>.</>, 'wrongBracketsExpanded')
 

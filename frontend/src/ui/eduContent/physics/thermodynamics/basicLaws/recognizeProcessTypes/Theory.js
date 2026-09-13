@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { PrecisionNumber } from '@step-wise/physics-core'
+import { M, BM } from '@step-wise/math-display'
 
-import { Head, Par, List, M, BM, Term, Emp, Warning } from 'ui/components'
+import { Head, Par, List, Term, Emp, Warning } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 import ProcessTypeDrawing from './ProcessTypeDrawing'

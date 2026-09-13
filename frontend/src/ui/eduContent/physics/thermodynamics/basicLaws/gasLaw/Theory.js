@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { Unit } from '@step-wise/physics-core'
+import { M, BM } from '@step-wise/math-display'
 
-import { Head, Par, List, M, BM, Term, Emp } from 'ui/components'
+import { Head, Par, List, Term, Emp } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 const Pa = new Unit('Pa')

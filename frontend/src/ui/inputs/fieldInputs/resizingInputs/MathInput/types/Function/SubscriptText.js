@@ -1,7 +1,7 @@
 
 import { isNumeric, isLetter, removeAt } from '@step-wise/js-utils'
+import { latexMinus } from '@step-wise/math-display'
 
-import { latexMinus } from 'ui/components'
 import { greekAlphabet } from 'ui/form'
 
 import { emptyElementChar, emptyElementCharLatex } from '../..'

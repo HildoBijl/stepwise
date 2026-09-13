@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { repeat, fromKeysAndValues } from '@step-wise/js-utils'
+import { M, BM, BMList, BMPart } from '@step-wise/math-display'
 
 import { Translation, WordList } from 'i18n'
-import { Par, M, BM, BMList, BMPart } from 'ui/components'
+import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, IntegerInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'

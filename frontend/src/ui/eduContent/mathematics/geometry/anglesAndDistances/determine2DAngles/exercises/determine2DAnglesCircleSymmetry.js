@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { Vector, Line } from '@step-wise/geometry'
+import { M, BM } from '@step-wise/math-display'
 
-import { Par, M, BM } from 'ui/components'
+import { Par } from 'ui/components'
 import { Drawing, Circle, BoundedLine, Line as SvgLine, RightAngle, CornerLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
