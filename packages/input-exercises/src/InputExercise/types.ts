@@ -1,5 +1,6 @@
 import type { Awaitable, PlainDataObject } from '@step-wise/js-utils'
 import type { BaseExerciseInstanceByMode, Exercise, ExerciseMetadata, ExerciseMode, ExerciseState, GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
+import type { SerializedData } from '@step-wise/serialization'
 import type { InputValue } from '@step-wise/input-interpretation'
 import type { ValueTypes } from '@step-wise/value-types'
 
@@ -27,57 +28,50 @@ export type InputExerciseHistoryInstance<TState extends ExerciseState = Exercise
 }[ExerciseMode]
 
 /*
- * Solution definition
+ * Solution generation
  */
 
-// A solution generator derives the full solution from the parameters.
-export type InputExerciseSolution = Record<string, unknown>
-export type SolutionGenerator<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (parameters: TParameters) => Awaitable<TSolution>
-
-// An object definition either provides a complete static solution or combines static and input-dependent fields.
-export type StaticSolutionDefinition<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = {
-	getStaticSolution: SolutionGenerator<TParameters, TSolution>
-	dependentFields?: never
-	getInputDependency?: never
-	getDynamicSolution?: never
-}
-export type PartialSolutionGenerator<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (parameters: TParameters) => Awaitable<Partial<TSolution>>
 export type InputDependency = unknown
-export type InputDependencyResolver<TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = (input: InputExerciseInput, staticSolution: Partial<TSolution>) => Awaitable<TInputDependency>
-export type DynamicSolutionGenerator<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = (inputDependency: TInputDependency, staticSolution: Partial<TSolution>, parameters: TParameters) => Awaitable<Partial<TSolution>>
-export type DynamicSolutionDefinition<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = {
-	getStaticSolution: PartialSolutionGenerator<TParameters, TSolution>
-	dependentFields?: string[]
-	getInputDependency?: InputDependencyResolver<TSolution, TInputDependency>
-	getDynamicSolution: DynamicSolutionGenerator<TParameters, TSolution, TInputDependency>
+export type GetInitialInputDependency<TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency> = (parameters: TParameters) => Awaitable<TInputDependency | undefined>
+export type UpdateInputDependencyData<TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency> = {
+	parameters: TParameters
+	previousInputDependency: TInputDependency | undefined
+	input: InputExerciseInput
+	step: number
 }
+export type UpdateInputDependency<TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency> = (data: UpdateInputDependencyData<TParameters, TInputDependency>) => Awaitable<TInputDependency | undefined>
 
-// A solution can be defined by a generator function or a static/dynamic object definition.
-export type SolutionDefinition<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = SolutionGenerator<TParameters, TSolution> | StaticSolutionDefinition<TParameters, TSolution> | DynamicSolutionDefinition<TParameters, TSolution, TInputDependency>
+export type InputExerciseSolution = Record<string, unknown>
+export type GetStaticSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (parameters: TParameters) => Awaitable<Partial<TSolution>>
+export type GetSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = (parameters: TParameters, inputDependency: TInputDependency | undefined, staticSolution: Partial<TSolution>) => Awaitable<TSolution>
 
 /*
  * Full exercise definition
  */
 
 // Input exercise spec: what authors define before a concrete exercise builder adds the mode-specific reducers.
-export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = {
+export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = {
 	metadata: TMetadata
 	valueTypes?: ValueTypes
 	generateParameters?: (example: boolean) => Awaitable<TParameters>
-	getSolution?: SolutionDefinition<TParameters, TSolution>
+	getInitialInputDependency?: GetInitialInputDependency<TParameters, TInputDependency>
+	updateInputDependency?: UpdateInputDependency<TParameters, TInputDependency>
+	getStaticSolution?: GetStaticSolution<TParameters, TSolution>
+	getSolution?: GetSolution<TParameters, TSolution, TInputDependency>
 }
 
 // Operations for handling different value types in the exercise.
-export type ValueOperations = {
-	deserializeParameters: <TParameters extends InputExerciseParameters = InputExerciseParameters>(parameters: PlainDataObject) => TParameters
+export type InputExerciseValueOperations = {
+	serialize: (value: unknown) => SerializedData
+	deserialize: (value: unknown) => unknown
 	interpretInput: (input: InputExerciseRawInput) => InputExerciseInput
 	toInputValue: (value: unknown, type: string) => InputValue
 	areValuesEqual: (type: string, inputValue: unknown, expectedValue: unknown, options?: unknown) => boolean
 }
 
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized parameters.
-export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution>, 'generateParameters' | 'valueTypes'> & {
-	valueOperations: ValueOperations
+export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution, TInputDependency>, 'generateParameters' | 'valueTypes'> & {
+	valueOperations: InputExerciseValueOperations
 	generateParameters: (example: boolean) => Promise<PlainDataObject>
 	getInitialState: (parameters: PlainDataObject) => Awaitable<TState>
 	processSoloAction: SoloExerciseReducer<TAction, TState>
@@ -94,5 +88,5 @@ export type CheckInputData<TMetadata extends InputExerciseMetadata = InputExerci
 	rawInput: InputExerciseRawInput
 	input: InputExerciseInput
 	solution?: TSolution
-	areValuesEqual: ValueOperations['areValuesEqual']
+	areValuesEqual: InputExerciseValueOperations['areValuesEqual']
 }

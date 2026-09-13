@@ -1,7 +1,7 @@
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters } from '@step-wise/exercise-definition'
 
-import { type InputExerciseAction, type InputExerciseParameters, type InputExerciseSolution, type ValueOperations, resolveSolution } from '../InputExercise/index.ts'
+import { type InputExerciseAction, type InputExerciseParameters, type InputExerciseSolution, type InputExerciseValueOperations, resolveSolution } from '../InputExercise/index.ts'
 import { createValueInfrastructure } from '../InputExercise/valueOperations.ts'
 import { type InputExerciseReducerActionsInput, addAttemptsToState, hasAttempted } from '../reducerSupport.ts'
 
@@ -25,30 +25,30 @@ export function buildStepExercise<TParameters extends InputExerciseParameters = 
 	}
 }
 
-function buildStepExerciseSoloReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, valueOperations: ValueOperations): SoloExerciseReducer<InputExerciseAction, StepExerciseState> {
+function buildStepExerciseSoloReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, valueOperations: InputExerciseValueOperations): SoloExerciseReducer<InputExerciseAction, StepExerciseState> {
 	return async input => {
-		const runtimeInput = { ...input, parameters: valueOperations.deserializeParameters<TParameters>(input.parameters) }
+		const runtimeInput = { ...input, parameters: valueOperations.deserialize(input.parameters) as TParameters }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
 		return await reduceActions(spec, { ...runtimeInput, mode: 'solo', actions: [{ action: input.action }] }, valueOperations)
 	}
 }
 
-function buildStepExerciseGroupReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, valueOperations: ValueOperations): GroupExerciseReducer<InputExerciseAction, StepExerciseState> {
+function buildStepExerciseGroupReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, valueOperations: InputExerciseValueOperations): GroupExerciseReducer<InputExerciseAction, StepExerciseState> {
 	return async input => {
 		if (input.actions.length === 0) throw new Error(`Cannot resolve a group exercise without actions.`)
-		const runtimeInput = { ...input, parameters: valueOperations.deserializeParameters<TParameters>(input.parameters), mode: 'group' as const }
+		const runtimeInput = { ...input, parameters: valueOperations.deserialize(input.parameters) as TParameters, mode: 'group' as const }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
 		return await reduceActions(spec, runtimeInput, valueOperations)
 	}
 }
 
 // Reduce a normalized set of solo or group actions.
-async function reduceActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueOperations: ValueOperations): Promise<StepExerciseState> {
+async function reduceActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueOperations: InputExerciseValueOperations): Promise<StepExerciseState> {
 	return ('split' in input.state && input.state.split) ? await reduceCurrentStep(spec, input, valueOperations) : await reduceMainProblem(spec, input, valueOperations)
 }
 
 // Reduce a set of actions for the main problem.
-async function reduceMainProblem<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueOperations: ValueOperations): Promise<StepExerciseState> {
+async function reduceMainProblem<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueOperations: InputExerciseValueOperations): Promise<StepExerciseState> {
 	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const newState = addAttemptsToState(state, mode, getAttemptingUserIds(actions))
@@ -93,7 +93,7 @@ async function reduceMainProblem<TParameters extends InputExerciseParameters = I
 }
 
 // Reduce a set of actions for a step.
-async function reduceCurrentStep<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueOperations: ValueOperations): Promise<StepExerciseState> {
+async function reduceCurrentStep<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueOperations: InputExerciseValueOperations): Promise<StepExerciseState> {
 	const { metadata } = spec
 	const { state } = input
 	const step = getCurrentStep(state)
@@ -102,7 +102,7 @@ async function reduceCurrentStep<TParameters extends InputExerciseParameters = I
 	return await reduceStepWithoutSubsteps(spec, input, valueOperations, skill)
 }
 
-async function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueOperations: ValueOperations, skill: SkillSetupLike | undefined): Promise<StepExerciseState> {
+async function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueOperations: InputExerciseValueOperations, skill: SkillSetupLike | undefined): Promise<StepExerciseState> {
 	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const step = getCurrentStep(state)
@@ -146,7 +146,7 @@ async function reduceStepWithoutSubsteps<TParameters extends InputExerciseParame
 	return { ...state, [step]: newStepState }
 }
 
-async function reduceStepWithSubsteps<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueOperations: ValueOperations): Promise<StepExerciseState> {
+async function reduceStepWithSubsteps<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>, valueOperations: InputExerciseValueOperations): Promise<StepExerciseState> {
 	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const step = getCurrentStep(state)

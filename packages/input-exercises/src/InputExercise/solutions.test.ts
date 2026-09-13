@@ -1,48 +1,56 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { resolveSolution } from './solutions.ts'
+import { resolveInitialInputDependency, resolveSolution, resolveStaticSolution, resolveUpdatedInputDependency } from './solutions.ts'
 
-describe('resolveSolution', () => {
-	it('resolves a solution generator with the parameters', async () => {
-		await expect(resolveSolution(({ value }: { value: number }) => ({ answer: value * 2 }), { value: 3 })).resolves.toEqual({ answer: 6 })
+describe('resolveInitialInputDependency', () => {
+	it('returns undefined when no initializer is defined', async () => {
+		await expect(resolveInitialInputDependency({}, { value: 3 })).resolves.toBeUndefined()
 	})
 
-	it('returns a static solution when no dynamic generator exists', async () => {
-		await expect(resolveSolution({ getStaticSolution: () => ({ fixed: 2 }) }, {})).resolves.toEqual({ fixed: 2 })
+	it('awaits the configured initializer', async () => {
+		const definition = { getInitialInputDependency: async ({ selected }: { selected: number }) => selected }
+		await expect(resolveInitialInputDependency(definition, { selected: 3 })).resolves.toBe(3)
+	})
+})
+
+describe('resolveUpdatedInputDependency', () => {
+	it('preserves the previous dependency when no updater is defined', async () => {
+		await expect(resolveUpdatedInputDependency({}, {
+			parameters: { value: 3 }, previousInputDependency: 2, input: {}, step: 0,
+		})).resolves.toBe(2)
 	})
 
-	it('combines static and dynamic fields and lets dynamic fields override', async () => {
-		const getInputDependency = vi.fn((input: Record<string, unknown>) => input.selected)
-		const solution = await resolveSolution({
-			getStaticSolution: ({ base }: { base: number }) => ({ base, answer: 0 }),
-			dependentFields: ['selected'],
-			getInputDependency,
-			getDynamicSolution: (selected, staticSolution, parameters) => ({ answer: Number(selected) + Number(staticSolution.base) + parameters.base }),
-		}, { base: 2 }, { selected: 3, ignored: 9 })
+	it('passes the complete update context to an asynchronous updater', async () => {
+		const updateInputDependency = vi.fn(async ({ input }: { input: Record<string, unknown> }) => input.selected)
+		const definition = { updateInputDependency }
+		const data = { parameters: { value: 3 }, previousInputDependency: 1, input: { selected: 2 }, step: 2 }
+		await expect(resolveUpdatedInputDependency(definition, data)).resolves.toBe(2)
+		expect(updateInputDependency).toHaveBeenCalledWith(data)
+	})
+})
 
-		expect(getInputDependency).toHaveBeenCalledWith({ selected: 3 }, { base: 2, answer: 0 })
-		expect(solution).toEqual({ base: 2, answer: 7 })
+describe('solution resolution', () => {
+	it('returns an empty static solution when no static generator is defined', async () => {
+		await expect(resolveStaticSolution({}, { value: 3 })).resolves.toEqual({})
 	})
 
-	it('uses the filtered input directly when no dependency resolver is supplied', async () => {
-		const solution = await resolveSolution({
-			getStaticSolution: () => ({}),
-			dependentFields: ['answer'],
-			getDynamicSolution: input => ({ answer: (input as { answer: number }).answer }),
-		}, {}, { answer: 5, ignored: 8 })
-		expect(solution).toEqual({ answer: 5 })
+	it('resolves synchronous and asynchronous static solution generators', async () => {
+		await expect(resolveStaticSolution({ getStaticSolution: ({ value }: { value: number }) => ({ doubled: value * 2 }) }, { value: 3 })).resolves.toEqual({ doubled: 6 })
+		await expect(resolveStaticSolution({ getStaticSolution: async () => ({ base: 7 }) }, {})).resolves.toEqual({ base: 7 })
 	})
 
-	it('awaits every stage of a dynamic solution', async () => {
-		await expect(resolveSolution({
-			getStaticSolution: async () => ({ base: 2 }),
-			getInputDependency: async input => input.answer,
-			getDynamicSolution: async (answer, staticSolution) => ({ answer: Number(answer) + Number(staticSolution.base) }),
-		}, {}, { answer: 3 })).resolves.toEqual({ base: 2, answer: 5 })
+	it('returns undefined when no solution generator is defined', async () => {
+		await expect(resolveSolution({}, { value: 3 }, undefined, {})).resolves.toBeUndefined()
 	})
 
-	it('rejects malformed solution definitions', async () => {
-		await expect(resolveSolution(null as never, {})).rejects.toThrow()
-		await expect(resolveSolution({} as never, {})).rejects.toThrow()
+	it('passes the parameters, dependency and static solution as separate arguments', async () => {
+		const getSolution = vi.fn(async (parameters: { extra: number }, inputDependency: number | undefined, staticSolution: { base?: number }) => ({
+			answer: Number(staticSolution.base) + Number(inputDependency) + parameters.extra,
+		}))
+		const definition = { getStaticSolution: () => ({ base: 2 }), getSolution }
+		const parameters = { extra: 4 }
+		const staticSolution = await resolveStaticSolution(definition, parameters)
+		await expect(resolveSolution(definition, parameters, 3, staticSolution)).resolves.toEqual({ answer: 9 })
+		expect(getSolution).toHaveBeenCalledWith(parameters, 3, staticSolution)
 	})
 })

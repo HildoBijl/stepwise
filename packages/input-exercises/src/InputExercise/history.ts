@@ -1,4 +1,4 @@
-import type { InputExerciseHistoryInstance, InputExerciseInput, InputExerciseRawInput, ValueOperations } from './types.ts'
+import type { InputExerciseHistoryInstance, InputExerciseInput, InputExerciseRawInput, InputExerciseValueOperations } from './types.ts'
 
 export type LastInputOptions = {
 	resolvedOnly?: boolean
@@ -28,7 +28,7 @@ export function getLastRawInput(instance: InputExerciseHistoryInstance, userId?:
 }
 
 // Get the last given input from the user and interpret all its values.
-export function getLastInput(exercise: { valueOperations: ValueOperations }, instance: InputExerciseHistoryInstance, userId?: string, options: LastInputOptions = {}): InputExerciseInput | undefined {
+export function getLastInput(exercise: { valueOperations: InputExerciseValueOperations }, instance: InputExerciseHistoryInstance, userId?: string, options: LastInputOptions = {}): InputExerciseInput | undefined {
 	const rawInput = getLastRawInput(instance, userId, options)
 	return rawInput === undefined ? undefined : exercise.valueOperations.interpretInput(rawInput)
 }

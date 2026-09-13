@@ -1,6 +1,6 @@
 import type { Awaitable } from '@step-wise/js-utils'
 
-import type { InputExerciseMetadata, InputExerciseAction, InputExerciseAttemptState, InputExerciseParameters, CheckInputData, InputExercise, InputExerciseSpec, InputExerciseSolution } from '../InputExercise/index.ts'
+import type { InputExerciseMetadata, InputExerciseAction, InputExerciseAttemptState, InputExerciseParameters, CheckInputData, InputDependency, InputExercise, InputExerciseSpec, InputExerciseSolution } from '../InputExercise/index.ts'
 
 export type MonoExerciseMetadata = InputExerciseMetadata
 
@@ -11,7 +11,7 @@ export type MonoExerciseState = InputExerciseAttemptState & Partial<{ solved: tr
 export type MonoExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (data: CheckInputData<MonoExerciseMetadata, TParameters, TSolution>) => Awaitable<boolean>
 
 // Author-facing definition before the mode-specific reducers are added.
-export type MonoExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExerciseSpec<MonoExerciseMetadata, TParameters, TSolution> & { checkInput: MonoExerciseCheckInput<TParameters, TSolution> }
+export type MonoExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = InputExerciseSpec<MonoExerciseMetadata, TParameters, TSolution, TInputDependency> & { checkInput: MonoExerciseCheckInput<TParameters, TSolution> }
 
 // Runtime exercise after the mode-specific reducers are added.
-export type MonoExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExercise<MonoExerciseMetadata, InputExerciseAction, MonoExerciseState, TParameters, TSolution> & Omit<MonoExerciseSpec<TParameters, TSolution>, 'generateParameters' | 'valueTypes'> & { type: 'mono' }
+export type MonoExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = InputExercise<MonoExerciseMetadata, InputExerciseAction, MonoExerciseState, TParameters, TSolution, TInputDependency> & Omit<MonoExerciseSpec<TParameters, TSolution, TInputDependency>, 'generateParameters' | 'valueTypes'> & { type: 'mono' }

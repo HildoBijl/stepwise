@@ -34,7 +34,7 @@ An input exercise specification commonly contains:
 
 - `metadata` includes the practiced `skill` or a more involved skill `setup`.
 - `generateParameters(example)` creates the fixed problem parameters. It generally uses randomization and may be synchronous or asynchronous.
-- `getSolution` uses the parameters to build a solution, as well as other useful info for the exercise. Whole, static, input-dependency, and dynamic solution callbacks may all be asynchronous.
+- `getSolution(parameters, inputDependency, staticSolution)` builds the solution. Exercises without input dependencies normally use only `parameters`.
 - `checkInput(data)` decides whether the interpreted learner input is correct and may return its boolean immediately or through a promise.
 
 Only `metadata` and `checkInput` are required. Omitting `generateParameters` uses an empty object.
@@ -107,7 +107,7 @@ const exercise = buildMonoExercise({
 })
 ```
 
-The builders combine the supplied registry with the fundamental Integer and MultipleChoice value types, validate it, and capture its adapters privately. The built exercise exposes `valueOperations` with `deserializeParameters`, `interpretInput`, `toInputValue`, and `areValuesEqual`; consumers never need the registry or its adapters. Generated parameters and submitted actions use the same captured operations internally. An omitted registry therefore still provides Integer and MultipleChoice interpretation and equality without exercise-level configuration.
+The builders combine the supplied registry with the fundamental Integer and MultipleChoice value types, validate it, and capture its adapters privately. The built exercise exposes `valueOperations` with `serialize`, `deserialize`, `interpretInput`, `toInputValue`, and `areValuesEqual`; consumers never need the registry or its adapters. Generated parameters and submitted actions use the same captured operations internally. An omitted registry therefore still provides Integer and MultipleChoice interpretation and equality without exercise-level configuration.
 
 Use `combineValueTypes` from [@step-wise/value-types](https://www.npmjs.com/package/@step-wise/value-types) when an exercise needs more than one domain. Duplicate type names and incomplete adapters throw instead of being silently overwritten.
 
@@ -150,7 +150,7 @@ Both helpers throw when a field is missing or has an unexpected type. Interpreta
 checkInput: ({ input, parameters }) => input.answer === parameters.left + parameters.right
 ```
 
-For most exercises, `getSolution` can be a function that derives the full solution from the parameters:
+Most exercises derive their complete solution directly from the parameters:
 
 ```ts
 getSolution: parameters => ({
@@ -158,46 +158,54 @@ getSolution: parameters => ({
 })
 ```
 
-This keeps answer derivation separate from input checking and lets other consumers display or inspect the solution. The solution can also contain other parameters that are useful to render the exercise.
+The framework always calls `getSolution(parameters, inputDependency, staticSolution)`. Ordinary exercises can omit unused arguments. This keeps simple definitions short while giving input-dependent exercises access to the complete lifecycle.
 
 
-## Solutions that depend on the input
+## Solutions that depend on earlier input
 
-Sometimes the appropriate solution depends on how the learner approached the problem. For example, a learner may choose which unknown to calculate, select a coordinate system, or enter an equivalent intermediate form. In that situation, `getSolution` can be a dynamic object definition:
+Sometimes the appropriate solution depends on how the learner approached the problem. Such exercises can maintain an input dependency in their state:
 
 ```ts
-getSolution: {
-	getStaticSolution: parameters => ({
-		total: parameters.left + parameters.right,
-	}),
-	dependentFields: ['solveFor'],
-	getInputDependency: input => input.solveFor as 'left' | 'right',
-	getDynamicSolution: (solveFor, staticSolution, parameters) => {
-		if (solveFor === 'left') return {
-			left: staticSolution.total! - parameters.right,
-		}
-		return {
-			right: staticSolution.total! - parameters.left,
-		}
-	},
-}
+updateInputDependency: ({ previousInputDependency, input }) =>
+	input.solveFor === undefined ? previousInputDependency : input.solveFor as 'left' | 'right',
+
+getStaticSolution: parameters => ({
+	total: parameters.left + parameters.right,
+}),
+
+getSolution: (parameters, solveFor, staticSolution) => {
+	if (solveFor === 'left') return {
+		...staticSolution,
+		left: staticSolution.total! - parameters.right,
+	}
+	return {
+		...staticSolution,
+		right: staticSolution.total! - parameters.left,
+	}
+},
 ```
 
-The fields returned by `getDynamicSolution` are merged into the static solution and must jointly form the complete solution. Dynamic fields take precedence if both objects contain the same key.
+The lifecycle consists of four optional callbacks:
 
-An object containing only `getStaticSolution` is also allowed, but that function must then return the complete solution. Input-dependency options are only valid when `getDynamicSolution` is present.
+- `getInitialInputDependency(parameters)` optionally derives the dependency before the first action. If it returns `undefined`, no dependency is stored.
+- `updateInputDependency({ parameters, previousInputDependency, input, step })` updates it from the input submitted for the current step. The unsplit main problem uses step `0`.
+- `getStaticSolution(parameters)` calculates a reusable, input-independent partial solution.
+- `getSolution(parameters, inputDependency, staticSolution)` calculates the complete solution.
 
-The object form has four parts:
+All four callbacks may be synchronous or asynchronous. The runtime definition checks enforce these relationships:
 
-- `getStaticSolution(parameters)` is required and computes everything independent of the learner's input.
-- `dependentFields` optionally selects the interpreted input fields relevant to the solution. (Default: all input fields.)
-- `getInputDependency(input, staticSolution)` optionally converts those fields into a smaller or more meaningful dependency. (Default: all values of dependent fields.)
-- `getDynamicSolution(inputDependency, staticSolution, parameters)` is required for a dynamic object definition and computes the input-dependent solution fields.
+- `getInitialInputDependency` requires `updateInputDependency`.
+- `getStaticSolution` requires `updateInputDependency`.
+- `updateInputDependency` requires `getSolution`.
 
-The idea is that the input dependency is only recalculated when one of the dependent fields change, and the dynamic solution is only recalculated when the input dependency changes. This can save expensive computations.
+If no updater exists, the resolution helper preserves the previous dependency. If no static generator exists, it supplies `{}` as the static solution.
 
-Use the exported `resolveSolution(getSolution, parameters, input?)` helper when another consumer needs to resolve either form of solution definition directly.
+The package exports focused helpers for consumers implementing the lifecycle:
 
+- `resolveInitialInputDependency(definition, parameters)`
+- `resolveUpdatedInputDependency(definition, data)`
+- `resolveStaticSolution(definition, parameters)`
+- `resolveSolution(definition, parameters, inputDependency, staticSolution)`
 
 ## Looking up previous input
 
@@ -223,9 +231,9 @@ The main author-facing types are:
 - `StepExerciseSpec` and `StepExercise` for guided exercises.
 - `InputExerciseParameters`, `InputExerciseInput`, and `InputExerciseSolution` for exercise-specific data.
 - `CheckInputData` for the object supplied to `checkInput`, including the exercise-bound `areValuesEqual` operation.
-- `ValueTypes` for optional domain capabilities on an exercise specification, and `ValueOperations` for the operations exposed by a built exercise.
-- `SolutionDefinition` and `DynamicSolutionDefinition` for solution declarations.
+- `ValueTypes` for optional domain capabilities on an exercise specification, and `InputExerciseValueOperations` for the operations exposed by a built exercise.
+- `GetSolution`, `GetStaticSolution`, `GetInitialInputDependency`, and `UpdateInputDependency` for solution generation.
 - `StepExerciseSteps`, `StepExerciseState`, and `StepExerciseMetadata` for step structures.
 - `InputExerciseAction` and `InputExerciseRawInput` for stored learner actions.
 
-Prefer supplying concrete parameter and solution types to the builders. This gives `generateParameters`, `getSolution`, and `checkInput` a shared inferred contract.
+Prefer supplying concrete parameter and solution types to the builders. This gives `generateParameters`, the solution callbacks, and `checkInput` a shared inferred contract.

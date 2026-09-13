@@ -1,26 +1,23 @@
-import { pickKeys, isPlainObject } from '@step-wise/js-utils'
+import type { InputDependency, InputExerciseMetadata, InputExerciseParameters, InputExerciseSolution, InputExerciseSpec, UpdateInputDependencyData } from './types.ts'
 
-import type { InputExerciseInput, InputExerciseParameters, InputExerciseSolution, SolutionDefinition } from './types.ts'
+type SolutionCallbacks<TParameters extends InputExerciseParameters, TSolution extends InputExerciseSolution, TInputDependency> = Pick<InputExerciseSpec<InputExerciseMetadata, TParameters, TSolution, TInputDependency>, 'getInitialInputDependency' | 'updateInputDependency' | 'getStaticSolution' | 'getSolution'>
 
-// Assemble a solution object from a getSolution function or object.
-export async function resolveSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(getSolution: SolutionDefinition<TParameters, TSolution>, parameters: TParameters, input: InputExerciseInput = {}): Promise<TSolution> {
-	// If getSolution is a function, just run it.
-	if (typeof getSolution === 'function') return await getSolution(parameters)
+// Resolve the dependency used before any learner input has been submitted.
+export async function resolveInitialInputDependency<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency>(definition: SolutionCallbacks<TParameters, TSolution, TInputDependency>, parameters: TParameters): Promise<TInputDependency | undefined> {
+	return definition.getInitialInputDependency === undefined ? undefined : await definition.getInitialInputDependency(parameters)
+}
 
-	// So getSolution should be an object.
-	if (!isPlainObject(getSolution)) throw new Error(`Invalid getSolution parameter: expected either a getSolution function or a getSolution object. Got a parameter of type ${typeof getSolution}.`)
-	const { getStaticSolution, getInputDependency, dependentFields, getDynamicSolution } = getSolution
+// Update the dependency with the input submitted for the current exercise step.
+export async function resolveUpdatedInputDependency<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency>(definition: SolutionCallbacks<TParameters, TSolution, TInputDependency>, data: UpdateInputDependencyData<TParameters, TInputDependency>): Promise<TInputDependency | undefined> {
+	return definition.updateInputDependency === undefined ? data.previousInputDependency : await definition.updateInputDependency(data)
+}
 
-	// Get the complete static solution when no dynamic generator is present.
-	if (typeof getStaticSolution !== 'function') throw new Error(`Invalid resolveSolution call: could not find a getStaticSolution function in the solution definition.`)
-	if (getDynamicSolution === undefined) return await getStaticSolution(parameters)
+// Resolve the reusable input-independent portion of a solution.
+export async function resolveStaticSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency>(definition: SolutionCallbacks<TParameters, TSolution, TInputDependency>, parameters: TParameters): Promise<Partial<TSolution>> {
+	return definition.getStaticSolution === undefined ? {} : await definition.getStaticSolution(parameters)
+}
 
-	// Get the input dependency and combine the static and dynamic parts of the solution.
-	const staticSolution = await getStaticSolution(parameters)
-	const filteredInput = dependentFields ? pickKeys(input, dependentFields) : input
-	const inputDependency = getInputDependency ? await getInputDependency(filteredInput, staticSolution) : filteredInput
-	const dynamicSolution = await getDynamicSolution(inputDependency, staticSolution, parameters)
-
-	// The definition contract requires both partial results to jointly form TSolution.
-	return { ...staticSolution, ...dynamicSolution } as TSolution
+// Resolve the complete solution from the parameters, current dependency and static portion.
+export async function resolveSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency>(definition: SolutionCallbacks<TParameters, TSolution, TInputDependency>, parameters: TParameters, inputDependency: TInputDependency | undefined, staticSolution: Partial<TSolution>): Promise<TSolution | undefined> {
+	return definition.getSolution === undefined ? undefined : await definition.getSolution(parameters, inputDependency, staticSolution)
 }

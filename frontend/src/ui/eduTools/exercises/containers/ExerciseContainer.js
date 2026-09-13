@@ -52,7 +52,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	const exerciseLoaded = !loading && loadedIdentity?.skillId === skillId && loadedIdentity.exerciseId === exerciseId
 
 	// Assemble stored parameters as domain values once the shared exercise has loaded.
-	const parametersFO = useMemo(() => exerciseLoaded ? ExerciseShared.current.valueOperations.deserializeParameters(parameters) : undefined, [exerciseLoaded, parameters, exerciseId])
+	const parametersFO = useMemo(() => exerciseLoaded ? ExerciseShared.current.valueOperations.deserialize(parameters) : undefined, [exerciseLoaded, parameters, exerciseId])
 
 	// Ensure that the state has a consistent reference.
 	const state = useReferencePreservingValue(inspection ? (exercise.history[historyIndex]?.state ?? exercise.initialState) : getCurrentState(instance))

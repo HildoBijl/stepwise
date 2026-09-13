@@ -1,6 +1,6 @@
 import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters } from '@step-wise/exercise-definition'
 
-import { type InputExerciseAction, type InputExerciseParameters, type InputExerciseSolution, type ValueOperations, resolveSolution } from '../InputExercise/index.ts'
+import { type InputExerciseAction, type InputExerciseParameters, type InputExerciseSolution, type InputExerciseValueOperations, resolveSolution } from '../InputExercise/index.ts'
 import { createValueInfrastructure } from '../InputExercise/valueOperations.ts'
 import { type InputExerciseReducerActionsInput, addAttemptsToState, hasAttempted } from '../reducerSupport.ts'
 
@@ -21,25 +21,25 @@ export function buildMonoExercise<TParameters extends InputExerciseParameters = 
 	}
 }
 
-function buildMonoExerciseSoloReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, valueOperations: ValueOperations): SoloExerciseReducer<InputExerciseAction, MonoExerciseState> {
+function buildMonoExerciseSoloReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, valueOperations: InputExerciseValueOperations): SoloExerciseReducer<InputExerciseAction, MonoExerciseState> {
 	return async input => {
-		const runtimeInput = { ...input, parameters: valueOperations.deserializeParameters<TParameters>(input.parameters) }
+		const runtimeInput = { ...input, parameters: valueOperations.deserialize(input.parameters) as TParameters }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
 		return await reduceActions(spec, { ...runtimeInput, mode: 'solo', actions: [{ action: input.action }] }, valueOperations)
 	}
 }
 
-function buildMonoExerciseGroupReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, valueOperations: ValueOperations): GroupExerciseReducer<InputExerciseAction, MonoExerciseState> {
+function buildMonoExerciseGroupReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, valueOperations: InputExerciseValueOperations): GroupExerciseReducer<InputExerciseAction, MonoExerciseState> {
 	return async input => {
 		if (input.actions.length === 0) throw new Error(`Cannot resolve a group exercise without actions.`)
-		const runtimeInput = { ...input, parameters: valueOperations.deserializeParameters<TParameters>(input.parameters), mode: 'group' as const }
+		const runtimeInput = { ...input, parameters: valueOperations.deserialize(input.parameters) as TParameters, mode: 'group' as const }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
 		return await reduceActions(spec, runtimeInput, valueOperations)
 	}
 }
 
 // Reduce a normalized set of solo or group actions.
-async function reduceActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, MonoExerciseState, TParameters>, valueOperations: ValueOperations): Promise<MonoExerciseState> {
+async function reduceActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, MonoExerciseState, TParameters>, valueOperations: InputExerciseValueOperations): Promise<MonoExerciseState> {
 	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const newState = addAttemptsToState(state, mode, actions.filter(userAction => userAction.action.type === 'input').map(userAction => userAction.userId))

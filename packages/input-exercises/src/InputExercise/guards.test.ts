@@ -9,18 +9,15 @@ const inputExerciseProperties = {
 	processSoloAction: () => ({}),
 	processGroupActions: () => ({}),
 	checkInput: () => true,
-	valueOperations: { deserializeParameters: () => ({}), interpretInput: () => ({}), toInputValue: () => ({ type: 'Integer', value: '0' }), areValuesEqual: () => true },
+	valueOperations: { serialize: value => value, deserialize: value => value, interpretInput: () => ({}), toInputValue: () => ({ type: 'Integer', value: '0' }), areValuesEqual: () => true },
 }
 
 describe('hasInputExerciseProperties', () => {
-	it('recognizes the properties shared by input exercises', () => {
+	it('recognizes exercises without a solution and with ordinary or input-dependent solutions', () => {
 		expect(hasInputExerciseProperties(inputExerciseProperties)).toBe(true)
-	})
-
-	it('accepts function, static object and dynamic solution definitions', () => {
-		expect(hasInputExerciseProperties({ ...inputExerciseProperties, getSolution: () => ({}) })).toBe(true)
-		expect(hasInputExerciseProperties({ ...inputExerciseProperties, getSolution: { getStaticSolution: () => ({}) } })).toBe(true)
-		expect(hasInputExerciseProperties({ ...inputExerciseProperties, getSolution: { getStaticSolution: () => ({}), dependentFields: ['answer'], getInputDependency: () => undefined, getDynamicSolution: () => ({}) } })).toBe(true)
+		expect(hasInputExerciseProperties({ ...inputExerciseProperties, getSolution: () => ({ answer: 1 }) })).toBe(true)
+		expect(hasInputExerciseProperties({ ...inputExerciseProperties, updateInputDependency: () => undefined, getSolution: () => ({ answer: 1 }) })).toBe(true)
+		expect(hasInputExerciseProperties({ ...inputExerciseProperties, getInitialInputDependency: () => 1, updateInputDependency: () => 1, getStaticSolution: () => ({}), getSolution: () => ({ answer: 1 }) })).toBe(true)
 	})
 
 	it.each([
@@ -29,10 +26,16 @@ describe('hasInputExerciseProperties', () => {
 		{ ...inputExerciseProperties, checkInput: undefined },
 		{ ...inputExerciseProperties, processSoloAction: undefined },
 		{ ...inputExerciseProperties, processGroupActions: undefined },
-		{ ...inputExerciseProperties, getSolution: {} },
-		{ ...inputExerciseProperties, getSolution: { getStaticSolution: () => ({}), dependentFields: ['answer'] } },
-		{ ...inputExerciseProperties, getSolution: { getStaticSolution: () => ({}), getInputDependency: () => undefined } },
+		{ ...inputExerciseProperties, getInitialInputDependency: true },
+		{ ...inputExerciseProperties, updateInputDependency: true },
+		{ ...inputExerciseProperties, getStaticSolution: true },
+		{ ...inputExerciseProperties, getSolution: true },
+		{ ...inputExerciseProperties, getInitialInputDependency: () => undefined },
+		{ ...inputExerciseProperties, getStaticSolution: () => ({}) },
+		{ ...inputExerciseProperties, updateInputDependency: () => undefined },
 		{ ...inputExerciseProperties, valueOperations: undefined },
+		{ ...inputExerciseProperties, valueOperations: { ...inputExerciseProperties.valueOperations, serialize: undefined } },
+		{ ...inputExerciseProperties, valueOperations: { ...inputExerciseProperties.valueOperations, deserialize: undefined } },
 		{ ...inputExerciseProperties, valueOperations: { ...inputExerciseProperties.valueOperations, interpretInput: undefined } },
 	])('rejects values missing valid input-exercise properties: %p', value => {
 		expect(hasInputExerciseProperties(value)).toBe(false)

@@ -53,7 +53,7 @@ describe('Check all exercises:', () => {
 
 						// Emulate the ExerciseContainer.
 						const storedParameters = await shared.generateParameters(false)
-						const parameters = shared.valueOperations.deserializeParameters(storedParameters)
+						const parameters = shared.valueOperations.deserialize(storedParameters)
 						const initialState = await shared.getInitialState(storedParameters)
 						const exerciseData = {
 							exerciseId,
