@@ -4,7 +4,7 @@ import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 
 import { last, fromKeys, isPlainObject, repeat } from '@step-wise/js-utils'
 import { getLastAction } from '@step-wise/exercise-definition'
-import { getLastRawInput, getCurrentStep } from '@step-wise/input-exercises'
+import { getAccumulatedRawInput, getCurrentStep } from '@step-wise/input-exercises'
 import { useLatestRef, useReferencePreservingValue } from '@step-wise/react-utils'
 
 import { useUserId, useIsAdmin, useActiveGroup, useSortedGroupMembers } from 'api'
@@ -313,7 +313,7 @@ function CurrentActionRow({ actionList, submitting, index, part }) {
 	const historyRef = useLatestRef(history), actionListRef = useLatestRef(actionList)
 	const setFormInput = useCallback(() => {
 		// Find the previous input action of the user and show the feedback on this.
-		updateFeedback(getLastRawInput({ ...exerciseData, history: historyRef.current }, last(actionListRef.current).userId, { resolvedOnly: true }) || {}) // Show feedback on the last resolved input.
+		updateFeedback(getAccumulatedRawInput({ ...exerciseData.instance, history: historyRef.current }, last(actionListRef.current).userId, { resolvedOnly: true }) || {}) // Show feedback on the last resolved input.
 		setAllInputSI(last(actionListRef.current).action.input) // Show the input of the last action.
 	}, [exerciseData, historyRef, actionListRef, updateFeedback, setAllInputSI])
 	const setAndSubmitFormInput = useCallback(() => {

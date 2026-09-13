@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useEffectEvent, useMemo, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
-import { getCurrentStep, getLastRawInput } from '@step-wise/input-exercises'
+import { getAccumulatedRawInput, getCurrentStep } from '@step-wise/input-exercises'
 
 import { useUserId } from 'api'
 import { TranslationSection } from 'i18n'
@@ -29,8 +29,10 @@ export function ExerciseWrapper({ getFeedback, children }) {
 	// Determine the initial input for the form. (And overwrite it if this updates, for instance in a group exercise through a websocket connection.) In inspection mode, get the requested one, and otherwise the latest one.
 	const userId = useUserId()
 	const exerciseData = useExerciseData()
-	const { history, inspection, historyIndex } = exerciseData
-	const initialInput = inspection ? history[historyIndex]?.action?.input : getLastRawInput(exerciseData, userId)
+	const { instance, history, inspection, historyIndex } = exerciseData
+	const initialInput = useMemo(() => getAccumulatedRawInput(instance, userId, {
+		throughEventIndex: inspection ? historyIndex : undefined,
+	}), [instance, history, inspection, historyIndex, userId])
 	const exerciseRef = useRef()
 	const scrollToExercisePart = useExercisePartScrolling(exerciseRef)
 	const visible = useVisible()
@@ -169,9 +171,12 @@ function FeedbackWrapper({ getFeedback, children }) {
 	const mergedExerciseData = useMemo(() => solution === undefined ? exerciseData : ({ ...exerciseData, solution }), [exerciseData, solution])
 
 	// Determine both the input to show (usually the last submitted (possibly unresolved) input) and the last input which feedback was given on.
-	const { inspection, history, historyIndex } = exerciseData
+	const { instance, inspection, history, historyIndex } = exerciseData
 	const userId = useUserId()
-	const feedbackInput = inspection ? history[historyIndex]?.action?.input : getLastRawInput(exerciseData, userId, { resolvedOnly: true })
+	const feedbackInput = useMemo(() => getAccumulatedRawInput(instance, userId, {
+		resolvedOnly: true,
+		throughEventIndex: inspection ? historyIndex : undefined,
+	}), [instance, history, inspection, historyIndex, userId])
 
 	// Render the FeedbackProvider.
 	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} exerciseData={mergedExerciseData}>

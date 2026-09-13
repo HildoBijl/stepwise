@@ -12,6 +12,10 @@ export type LastInputOptions = {
 	resolvedOnly?: boolean
 }
 
+export type AccumulatedInputOptions = LastInputOptions & {
+	throughEventIndex?: number
+}
+
 // Get the last given raw input from the user. For group exercises, this may be an unresolved action input unless resolvedOnly is true.
 export function getLastRawInput(instance: InputExerciseHistoryData, userId?: string, options: LastInputOptions = {}): InputExerciseRawInput | undefined {
 	const { mode } = instance
@@ -34,6 +38,49 @@ export function getLastRawInput(instance: InputExerciseHistoryData, userId?: str
 		default:
 			return throwUnsupportedMode(mode)
 	}
+}
+
+// Combine a user's input actions through the requested history event. Later values overwrite earlier values with the same field ID.
+export function getAccumulatedRawInput(instance: InputExerciseHistoryData, userId?: string, options: AccumulatedInputOptions = {}): InputExerciseRawInput | undefined {
+	const { mode } = instance
+	const { resolvedOnly = false, throughEventIndex = instance.history.length - 1 } = options
+	const lastIndex = Math.min(throughEventIndex, instance.history.length - 1)
+
+	// Set up accumulators.
+	const input: InputExerciseRawInput = {}
+	let hasInput = false
+	const addInput = (action: InputExerciseAction | undefined) => {
+		if (action?.type !== 'input') return
+		Object.assign(input, action.input)
+		hasInput = true
+	}
+
+	// Depending on the mode, walk through the actions and add respective inputs.
+	switch (mode) {
+		case 'solo':
+			for (let index = 0; index <= lastIndex; index++)
+				addInput(instance.history[index].action)
+			break
+
+		case 'group':
+			if (userId === undefined) throw new TypeError(`A userId is required when retrieving input from a group exercise history.`)
+			for (let index = 0; index <= lastIndex; index++) {
+				const event = instance.history[index]
+				addInput((!resolvedOnly || 'state' in event) ? event.actions.find(userAction => userAction.userId === userId)?.action : undefined)
+			}
+			break
+
+		default:
+			return throwUnsupportedMode(mode)
+	}
+
+	return hasInput ? input : undefined
+}
+
+// Combine and interpret a user's input actions through the requested history event.
+export function getAccumulatedInput(exercise: { valueOperations: InputExerciseValueOperations }, instance: InputExerciseHistoryData, userId?: string, options: AccumulatedInputOptions = {}): InputExerciseInput | undefined {
+	const rawInput = getAccumulatedRawInput(instance, userId, options)
+	return rawInput === undefined ? undefined : exercise.valueOperations.interpretInput(rawInput)
 }
 
 // Get the last given input from the user and interpret all its values.

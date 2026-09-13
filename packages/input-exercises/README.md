@@ -205,13 +205,15 @@ The history helpers accept either solo or group exercise instances:
 
 - `getLastRawInput(instance, userId?, options?)` returns stored input values.
 - `getLastInput(exercise, instance, userId?, options?)` returns interpreted values using the exercise's value types.
+- `getAccumulatedRawInput(instance, userId?, options?)` combines partial input actions, with later values replacing earlier values for repeated fields.
+- `getAccumulatedInput(exercise, instance, userId?, options?)` provides the interpreted version of that combined input.
 - `hasPreviousInput(instance, userId?)` reports whether an input exists.
 - `getLastRawInputAtStep`, `getLastInputAtStep(exercise, instance, step, userId?, options?)`, and `hasPreviousInputAtStep` provide the corresponding operations for one step.
 
-For group histories, `userId` is required. By default, lookups may return input from a pending group event. Pass `{ resolvedOnly: true }` to ignore pending actions:
+For group histories, `userId` is required. By default, lookups may return input from a pending group event. Pass `{ resolvedOnly: true }` to ignore pending actions. The accumulated helpers also accept `throughEventIndex` to reconstruct input at an earlier point in the history:
 
 ```ts
-const input = getLastInput(exercise, instance, userId, { resolvedOnly: true })
+const input = getAccumulatedInput(exercise, instance, userId, { resolvedOnly: true, throughEventIndex: 4 })
 ```
 
 
