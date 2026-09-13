@@ -1,6 +1,6 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, expectTypeOf, it, vi } from 'vitest'
 
-import { ensureFunction, identity, noop } from './fundamentals.ts'
+import { type Awaitable, ensureFunction, identity, noop } from './fundamentals.ts'
 
 describe('function fundamentals', () => {
 	it('provides noop and identity helpers', () => {
@@ -13,5 +13,10 @@ describe('function fundamentals', () => {
 		const fn = vi.fn()
 		expect(ensureFunction(fn)).toBe(fn)
 		expect(() => ensureFunction(1)).toThrow(TypeError)
+	})
+
+	it('defines synchronous values and promises as awaitable', () => {
+		expectTypeOf<number>().toExtend<Awaitable<number>>()
+		expectTypeOf<Promise<number>>().toExtend<Awaitable<number>>()
 	})
 })

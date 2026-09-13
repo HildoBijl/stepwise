@@ -7,6 +7,7 @@ export function identity<T>(x: T): T {
 }
 
 export type Callable = (...args: never[]) => unknown
+export type Awaitable<T> = T | Promise<T>
 
 // Ensure the given value is a function.
 export function ensureFunction<T extends Callable>(fn: T): T
