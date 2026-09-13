@@ -10,6 +10,7 @@ import { getLastInput } from './InputExercise/history.ts'
 import { buildMonoExercise } from './MonoExercise/reducer.ts'
 import { buildStepExercise } from './StepExercise/reducer.ts'
 import { createStepExerciseMetadata } from './StepExercise/preprocessing.ts'
+
 const CustomType = 'CustomValue'
 type CustomInputValue = { type: typeof CustomType, value: string }
 type SerializedCustomValue = { type: typeof CustomType, value: string }

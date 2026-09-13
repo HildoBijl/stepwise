@@ -1,4 +1,4 @@
-import { hasInputExerciseProperties } from '../InputExercise/index.ts'
+import { hasInputExerciseProperties } from '../InputExercise/guards.ts'
 
 import type { MonoExercise } from './types.ts'
 

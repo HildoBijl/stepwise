@@ -174,38 +174,30 @@ getStaticSolution: parameters => ({
 }),
 
 getSolution: (parameters, solveFor, staticSolution) => {
-	if (solveFor === 'left') return {
-		...staticSolution,
-		left: staticSolution.total! - parameters.right,
-	}
-	return {
-		...staticSolution,
-		right: staticSolution.total! - parameters.left,
-	}
+	if (solveFor === 'left') return { left: staticSolution.total! - parameters.right }
+	return { right: staticSolution.total! - parameters.left }
 },
 ```
 
-The lifecycle consists of four optional callbacks:
+The lifecycle consists of three optional callbacks. The input dependency initially is `undefined`:
 
-- `getInitialInputDependency(parameters)` optionally derives the dependency before the first action. If it returns `undefined`, no dependency is stored.
 - `updateInputDependency({ parameters, previousInputDependency, input, step })` updates it from the input submitted for the current step. The unsplit main problem uses step `0`.
 - `getStaticSolution(parameters)` calculates a reusable, input-independent partial solution.
-- `getSolution(parameters, inputDependency, staticSolution)` calculates the complete solution.
+- `getSolution(parameters, inputDependency, staticSolution)` calculates the dynamic portion of the solution. The framework merges this over the static portion.
 
-All four callbacks may be synchronous or asynchronous. The runtime definition checks enforce these relationships:
+All three callbacks may be synchronous or asynchronous. The runtime definition checks enforce these relationships:
 
-- `getInitialInputDependency` requires `updateInputDependency`.
 - `getStaticSolution` requires `updateInputDependency`.
 - `updateInputDependency` requires `getSolution`.
 
-If no updater exists, the resolution helper preserves the previous dependency. If no static generator exists, it supplies `{}` as the static solution.
+If no updater exists, the resolution helper preserves the previous dependency. Returning `undefined` removes the dependency from state. If no static generator exists, the package supplies `{}` as the static solution. Static fields are automatically included in the final solution; dynamic fields with the same names override them. The builder stores dependencies through the exercise's generic serialization operation, so they may contain registered domain values while persisted exercise state remains plain data. Group mode stores a separate dependency for each participant.
 
 The package exports focused helpers for consumers implementing the lifecycle:
 
-- `resolveInitialInputDependency(definition, parameters)`
 - `resolveUpdatedInputDependency(definition, data)`
 - `resolveStaticSolution(definition, parameters)`
 - `resolveSolution(definition, parameters, inputDependency, staticSolution)`
+
 
 ## Looking up previous input
 
@@ -232,7 +224,7 @@ The main author-facing types are:
 - `InputExerciseParameters`, `InputExerciseInput`, and `InputExerciseSolution` for exercise-specific data.
 - `CheckInputData` for the object supplied to `checkInput`, including the exercise-bound `areValuesEqual` operation.
 - `ValueTypes` for optional domain capabilities on an exercise specification, and `InputExerciseValueOperations` for the operations exposed by a built exercise.
-- `GetSolution`, `GetStaticSolution`, `GetInitialInputDependency`, and `UpdateInputDependency` for solution generation.
+- `GetSolution`, `GetStaticSolution`, and `UpdateInputDependency` for solution generation.
 - `StepExerciseSteps`, `StepExerciseState`, and `StepExerciseMetadata` for step structures.
 - `InputExerciseAction` and `InputExerciseRawInput` for stored learner actions.
 

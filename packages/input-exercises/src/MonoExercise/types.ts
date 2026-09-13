@@ -1,11 +1,11 @@
 import type { Awaitable } from '@step-wise/js-utils'
 
-import type { InputExerciseMetadata, InputExerciseAction, InputExerciseAttemptState, InputExerciseParameters, CheckInputData, InputDependency, InputExercise, InputExerciseSpec, InputExerciseSolution } from '../InputExercise/index.ts'
+import type { InputExerciseMetadata, InputExerciseAction, InputExerciseAttemptState, InputExerciseDependencyState, InputExerciseParameters, CheckInputData, InputDependency, InputExercise, InputExerciseSpec, InputExerciseSolution } from '../InputExercise/index.ts'
 
 export type MonoExerciseMetadata = InputExerciseMetadata
 
 // Update the state to only allow specific values.
-export type MonoExerciseState = InputExerciseAttemptState & Partial<{ solved: true, givenUp: true, done: true }>
+export type MonoExerciseState = InputExerciseAttemptState & InputExerciseDependencyState & Partial<{ solved: true, givenUp: true, done: true }>
 
 // Input checking: verify whether the given input solves the exercise.
 export type MonoExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (data: CheckInputData<MonoExerciseMetadata, TParameters, TSolution>) => Awaitable<boolean>

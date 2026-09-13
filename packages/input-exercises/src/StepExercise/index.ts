@@ -1,5 +1,5 @@
 export * from './types.ts'
 export * from './guards.ts'
 export { createStepExerciseMetadata } from './preprocessing.ts'
-export * from './support.ts'
+export * from './history.ts'
 export * from './reducer.ts'

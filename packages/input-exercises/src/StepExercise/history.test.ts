@@ -1,15 +1,17 @@
 import { describe, expect, it } from 'vitest'
 
-import { createValueInfrastructure } from '../InputExercise/valueOperations.ts'
+import { createInputExerciseValueOperations } from '../InputExercise/valueOperations.ts'
 
-import { getCurrentStep, getLastInputAtStep, getLastRawInputAtStep, hasPreviousInputAtStep } from './support.ts'
+import { getCurrentStep, getLastInputAtStep, getLastRawInputAtStep, hasPreviousInputAtStep } from './history.ts'
 
-describe('step-exercise support', () => {
-	const exercise = { valueOperations: createValueInfrastructure().valueOperations }
+describe('getCurrentStep', () => {
 	it('gets the current main problem or step', () => {
 		expect(getCurrentStep({})).toBe(0)
 		expect(getCurrentStep({ split: true, step: 2, 1: {}, 2: {} })).toBe(2)
 	})
+})
+describe('step-exercise history', () => {
+	const exercise = { valueOperations: createInputExerciseValueOperations() }
 
 	it('finds and interprets solo inputs at their respective steps', () => {
 		const mainInput = { answer: { type: 'Integer', value: '0' } }
@@ -38,6 +40,16 @@ describe('step-exercise support', () => {
 		expect(getLastRawInputAtStep(instance, 0, userId, { resolvedOnly: true })).toBe(resolvedInput)
 	})
 
+	it('rejects consecutive unresolved group events', () => {
+		const userId = 'user-1'
+		const input = { answer: { type: 'Text', value: 'pending' } }
+		const instance = { mode: 'group', initialState: {}, history: [
+			{ actions: [{ userId, action: { type: 'input', input } }] },
+			{ actions: [{ userId, action: { type: 'input', input } }] },
+		] } as const
+
+		expect(() => getLastRawInputAtStep(instance, 0, userId)).toThrow('preceding event is unresolved')
+	})
 	it('requires a userId for group histories', () => {
 		const instance = { mode: 'group', initialState: {}, history: [] } as const
 		expect(() => getLastRawInputAtStep(instance, 0)).toThrow(TypeError)

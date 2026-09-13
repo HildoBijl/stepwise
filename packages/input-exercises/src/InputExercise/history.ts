@@ -1,39 +1,48 @@
-import type { InputExerciseHistoryInstance, InputExerciseInput, InputExerciseRawInput, InputExerciseValueOperations } from './types.ts'
+import type { BaseExerciseInstanceByMode, ExerciseMode, ExerciseState } from '@step-wise/exercise-definition'
+
+import type { InputExerciseAction, InputExerciseInput, InputExerciseRawInput, InputExerciseValueOperations } from './types.ts'
+import { throwUnsupportedMode } from './modes.ts'
+
+// Define a type with the minimally expected entries needed by history-inspecting functions.
+export type InputExerciseHistoryData<TState extends ExerciseState = ExerciseState> = {
+	[Mode in ExerciseMode]: Pick<BaseExerciseInstanceByMode<InputExerciseAction, TState>[Mode], 'mode' | 'initialState' | 'history'>
+}[ExerciseMode]
 
 export type LastInputOptions = {
 	resolvedOnly?: boolean
 }
 
 // Get the last given raw input from the user. For group exercises, this may be an unresolved action input unless resolvedOnly is true.
-export function getLastRawInput(instance: InputExerciseHistoryInstance, userId?: string, options: LastInputOptions = {}): InputExerciseRawInput | undefined {
+export function getLastRawInput(instance: InputExerciseHistoryData, userId?: string, options: LastInputOptions = {}): InputExerciseRawInput | undefined {
+	const { mode } = instance
 	const { resolvedOnly = false } = options
-	if (instance.mode === 'solo') for (let index = instance.history.length - 1; index >= 0; index--) {
-		const userAction = instance.history[index].action
-		if (userAction.type === 'input') return userAction.input
+	switch (mode) {
+		case 'solo':
+			for (let index = instance.history.length - 1; index >= 0; index--) {
+				const action = instance.history[index].action
+				if (action.type === 'input') return action.input
+			}
+			return undefined
+		case 'group':
+			if (userId === undefined) throw new TypeError(`A userId is required when retrieving input from a group exercise history.`)
+			for (let index = instance.history.length - 1; index >= 0; index--) {
+				const event = instance.history[index]
+				const action = (!resolvedOnly || 'state' in event) ? event.actions.find(userAction => userAction.userId === userId)?.action : undefined
+				if (action?.type === 'input') return action.input
+			}
+			return undefined
+		default:
+			return throwUnsupportedMode(mode)
 	}
-
-	if (instance.mode === 'group') {
-		if (userId === undefined) throw new TypeError(`A userId is required when retrieving input from a group exercise history.`)
-		for (let index = instance.history.length - 1; index >= 0; index--) {
-			// Determine the action of the user in this piece of history.
-			const event = instance.history[index]
-			const userAction = (!resolvedOnly || 'state' in event) ? event.actions.find(userAction => userAction.userId === userId)?.action : undefined
-
-			// If there is no valid input action, keep looking. Otherwise give the input.
-			if (!userAction || userAction.type !== 'input') continue
-			return userAction.input
-		}
-	}
-	return undefined
 }
 
 // Get the last given input from the user and interpret all its values.
-export function getLastInput(exercise: { valueOperations: InputExerciseValueOperations }, instance: InputExerciseHistoryInstance, userId?: string, options: LastInputOptions = {}): InputExerciseInput | undefined {
+export function getLastInput(exercise: { valueOperations: InputExerciseValueOperations }, instance: InputExerciseHistoryData, userId?: string, options: LastInputOptions = {}): InputExerciseInput | undefined {
 	const rawInput = getLastRawInput(instance, userId, options)
 	return rawInput === undefined ? undefined : exercise.valueOperations.interpretInput(rawInput)
 }
 
 // Check if a user has made a previous input at the given step.
-export function hasPreviousInput(instance: InputExerciseHistoryInstance, userId?: string): boolean {
+export function hasPreviousInput(instance: InputExerciseHistoryData, userId?: string): boolean {
 	return getLastRawInput(instance, userId) !== undefined
 }

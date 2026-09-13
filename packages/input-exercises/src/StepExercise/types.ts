@@ -1,7 +1,7 @@
 import type { Awaitable } from '@step-wise/js-utils'
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 
-import type { CheckInputData, InputDependency, InputExerciseAction, InputExerciseAttemptState, InputExerciseMetadata, InputExerciseParameters, InputExercise, InputExerciseSpec, InputExerciseSolution } from '../InputExercise/index.ts'
+import type { CheckInputData, InputDependency, InputExerciseAction, InputExerciseAttemptState, InputExerciseDependencyState, InputExerciseMetadata, InputExerciseParameters, InputExercise, InputExerciseSpec, InputExerciseSolution } from '../InputExercise/index.ts'
 
 // Add exercise steps and substeps to meta data.
 export type StepExerciseStep = SkillSetupLike | undefined
@@ -14,8 +14,8 @@ export type StepId = `${number}`
 export type SubstepId = `${number}`
 export type StepExerciseSubstepState = true
 export type StepExerciseStepState = InputExerciseAttemptState & { [subStepId: SubstepId]: StepExerciseSubstepState } & Partial<{ solved: true, givenUp: true, done: true }>
-export type StepExerciseSplitState = InputExerciseAttemptState & { split: true, step: number, done?: true } & { [stepId: StepId]: StepExerciseStepState }
-export type StepExerciseState = (InputExerciseAttemptState & Partial<{ solved: true, done: true }>) | StepExerciseSplitState
+export type StepExerciseSplitState = InputExerciseAttemptState & InputExerciseDependencyState & { split: true, step: number, done?: true } & { [stepId: StepId]: StepExerciseStepState }
+export type StepExerciseState = (InputExerciseAttemptState & InputExerciseDependencyState & Partial<{ solved: true, done: true }>) | StepExerciseSplitState
 
 // Extend the CheckInput function to include steps and substeps.
 export type StepExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (data: CheckInputData<StepExerciseMetadata, TParameters, TSolution>, step: number, substep?: number) => Awaitable<boolean>

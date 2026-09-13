@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
 import { getLastInput, getLastRawInput, hasPreviousInput } from './history.ts'
-import { createValueInfrastructure } from './valueOperations.ts'
+import { createInputExerciseValueOperations } from './valueOperations.ts'
 
 describe('input-exercise history', () => {
-	const exercise = { valueOperations: createValueInfrastructure().valueOperations }
+	const exercise = { valueOperations: createInputExerciseValueOperations() }
 	const userId = 'user-1'
 	const resolvedInput = { answer: { type: 'Text', value: 'resolved' } }
 	const pendingInput = { answer: { type: 'Text', value: 'pending' } }

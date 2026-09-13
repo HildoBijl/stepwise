@@ -1,5 +1,5 @@
 import type { Awaitable, PlainDataObject } from '@step-wise/js-utils'
-import type { BaseExerciseInstanceByMode, Exercise, ExerciseMetadata, ExerciseMode, ExerciseState, GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
+import type { Exercise, ExerciseMetadata, ExerciseState, GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
 import type { SerializedData } from '@step-wise/serialization'
 import type { InputValue } from '@step-wise/input-interpretation'
 import type { ValueTypes } from '@step-wise/value-types'
@@ -19,20 +19,13 @@ export type InputExerciseActionType = InputExerciseAction['type']
 // Parameters and input: runtime objects obtained after deserialization and interpretation.
 export type InputExerciseParameters = Record<string, unknown>
 export type InputExerciseInput = Record<string, unknown>
-export type InputExerciseAttemptState = Partial<{
-	attempted: true
-	attemptedBy: string[]
-}>
-export type InputExerciseHistoryInstance<TState extends ExerciseState = ExerciseState> = {
-	[Mode in ExerciseMode]: Pick<BaseExerciseInstanceByMode<InputExerciseAction, TState>[Mode], 'mode' | 'initialState' | 'history'>
-}[ExerciseMode]
 
 /*
  * Solution generation
  */
 
+// Updating input dependencies: the part of the state depending on the input that may change the solution.
 export type InputDependency = unknown
-export type GetInitialInputDependency<TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency> = (parameters: TParameters) => Awaitable<TInputDependency | undefined>
 export type UpdateInputDependencyData<TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency> = {
 	parameters: TParameters
 	previousInputDependency: TInputDependency | undefined
@@ -41,9 +34,10 @@ export type UpdateInputDependencyData<TParameters extends InputExerciseParameter
 }
 export type UpdateInputDependency<TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency> = (data: UpdateInputDependencyData<TParameters, TInputDependency>) => Awaitable<TInputDependency | undefined>
 
+// Generating the solution: a useful object for checking input and rendering exercises.
 export type InputExerciseSolution = Record<string, unknown>
 export type GetStaticSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (parameters: TParameters) => Awaitable<Partial<TSolution>>
-export type GetSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = (parameters: TParameters, inputDependency: TInputDependency | undefined, staticSolution: Partial<TSolution>) => Awaitable<TSolution>
+export type GetSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = (parameters: TParameters, inputDependency: TInputDependency | undefined, staticSolution: Partial<TSolution>) => Awaitable<Partial<TSolution>>
 
 /*
  * Full exercise definition
@@ -54,7 +48,6 @@ export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParamete
 	metadata: TMetadata
 	valueTypes?: ValueTypes
 	generateParameters?: (example: boolean) => Awaitable<TParameters>
-	getInitialInputDependency?: GetInitialInputDependency<TParameters, TInputDependency>
 	updateInputDependency?: UpdateInputDependency<TParameters, TInputDependency>
 	getStaticSolution?: GetStaticSolution<TParameters, TSolution>
 	getSolution?: GetSolution<TParameters, TSolution, TInputDependency>

@@ -11,7 +11,7 @@ const commonExerciseProperties = {
 	processSoloAction: () => ({}),
 	processGroupActions: () => ({}),
 	checkInput: () => true,
-	valueOperations: { serialize: value => value as never, deserialize: value => value, interpretInput: () => ({}), toInputValue: () => ({ type: 'Integer', value: '0' }), areValuesEqual: () => true },
+	valueOperations: { serialize: (value: unknown) => value as never, deserialize: (value: unknown) => value, interpretInput: () => ({}), toInputValue: () => ({ type: 'Integer', value: '0' }), areValuesEqual: () => true },
 }
 
 const monoExercise = {

@@ -3,10 +3,11 @@ import { describe, expect, it, vi } from 'vitest'
 import { skill } from '@step-wise/skill-setup'
 
 import { buildMonoExercise } from './reducer.ts'
+import type { MonoExerciseSpec } from './types.ts'
 
 const rawInput = (answer: number) => ({ answer: { type: 'Integer', value: `${answer}` } })
 
-function buildExercise(overrides = {}) {
+function buildExercise(overrides: Partial<MonoExerciseSpec<{ answer: number }, { answer: number }>> = {}) {
 	return buildMonoExercise({
 		metadata: { skill: 'main-skill' },
 		generateParameters: example => ({ answer: example ? 1 : 2 }),
@@ -100,10 +101,66 @@ describe('buildMonoExercise', () => {
 	it('awaits asynchronous solution generation and input checking', async () => {
 		const exercise = buildExercise({
 			getSolution: async ({ answer }) => ({ answer }),
-			checkInput: async ({ input, solution }) => input.answer === solution.answer,
+			checkInput: async ({ input, solution }) => input.answer === solution?.answer,
 		})
 		const parameters = await exercise.generateParameters(false)
 
 		expect(await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(2) } })).toMatchObject({ solved: true, done: true })
+	})
+	it('updates an input dependency before generating and checking the solution', async () => {
+		const updateInputDependency = vi.fn(({ previousInputDependency, input, step }) => {
+			expect(step).toBe(0)
+			return Number(previousInputDependency ?? 0) + Number(input.increment)
+		})
+		const exercise = buildMonoExercise<{ base: number }, { answer: number }, number>({
+			metadata: {},
+			generateParameters: () => ({ base: 4 }),
+			updateInputDependency,
+			getStaticSolution: ({ base }) => ({ answer: base }),
+			getSolution: (_, inputDependency, staticSolution) => ({ answer: staticSolution.answer! + inputDependency! }),
+			checkInput: ({ input, solution }) => input.answer === solution?.answer,
+		})
+		const parameters = await exercise.generateParameters(false)
+		const initialState = await exercise.getInitialState(parameters)
+		expect(initialState).toEqual({})
+
+		const state = await exercise.processSoloAction({ parameters, state: initialState, action: { type: 'input', input: { increment: { type: 'Integer', value: '2' }, answer: { type: 'Integer', value: '6' } } } })
+		expect(state).toEqual({ inputDependency: 2, attempted: true, solved: true, done: true })
+		expect(updateInputDependency).toHaveBeenCalledOnce()
+	})
+
+	it('stores separate input dependencies for participants in group mode', async () => {
+		const exercise = buildMonoExercise<{}, { answer: number }, number>({
+			metadata: {},
+			updateInputDependency: ({ previousInputDependency, input }) => (previousInputDependency ?? 0) + Number(input.increment),
+			getSolution: (_, inputDependency) => ({ answer: inputDependency! }),
+			checkInput: ({ input, solution }) => input.answer === solution?.answer,
+		})
+		const parameters = await exercise.generateParameters(false)
+		const initialState = await exercise.getInitialState(parameters)
+		const state = await exercise.processGroupActions({ parameters, state: initialState, actions: [
+			{ userId: 'one', action: { type: 'input', input: { increment: { type: 'Integer', value: '1' }, answer: { type: 'Integer', value: '0' } } } },
+			{ userId: 'two', action: { type: 'input', input: { increment: { type: 'Integer', value: '2' }, answer: { type: 'Integer', value: '0' } } } },
+		] })
+		expect(state).toMatchObject({ inputDependencies: { one: 1, two: 2 } })
+	})
+	it('removes undefined group dependencies', async () => {
+		const previousDependencies: (number | undefined)[] = []
+		const exercise = buildMonoExercise<{}, {}, number>({
+			metadata: {},
+			updateInputDependency: ({ previousInputDependency }) => {
+				previousDependencies.push(previousInputDependency)
+				return undefined
+			},
+			getSolution: () => ({}),
+			checkInput: () => false,
+		})
+		const parameters = await exercise.generateParameters(false)
+		let state = await exercise.getInitialState(parameters)
+		state = await exercise.processGroupActions({ parameters, state, actions: [{ userId: 'user', action: { type: 'input', input: {} } }] })
+		expect(state).not.toHaveProperty('inputDependencies')
+		state = await exercise.processGroupActions({ parameters, state, actions: [{ userId: 'user', action: { type: 'input', input: {} } }] })
+		expect(state).not.toHaveProperty('inputDependencies')
+		expect(previousDependencies).toEqual([undefined, undefined])
 	})
 })

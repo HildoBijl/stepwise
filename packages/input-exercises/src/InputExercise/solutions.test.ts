@@ -1,17 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { resolveInitialInputDependency, resolveSolution, resolveStaticSolution, resolveUpdatedInputDependency } from './solutions.ts'
-
-describe('resolveInitialInputDependency', () => {
-	it('returns undefined when no initializer is defined', async () => {
-		await expect(resolveInitialInputDependency({}, { value: 3 })).resolves.toBeUndefined()
-	})
-
-	it('awaits the configured initializer', async () => {
-		const definition = { getInitialInputDependency: async ({ selected }: { selected: number }) => selected }
-		await expect(resolveInitialInputDependency(definition, { selected: 3 })).resolves.toBe(3)
-	})
-})
+import { resolveSolution, resolveStaticSolution, resolveUpdatedInputDependency } from './solutions.ts'
 
 describe('resolveUpdatedInputDependency', () => {
 	it('preserves the previous dependency when no updater is defined', async () => {
@@ -43,14 +32,15 @@ describe('solution resolution', () => {
 		await expect(resolveSolution({}, { value: 3 }, undefined, {})).resolves.toBeUndefined()
 	})
 
-	it('passes the parameters, dependency and static solution as separate arguments', async () => {
-		const getSolution = vi.fn(async (parameters: { extra: number }, inputDependency: number | undefined, staticSolution: { base?: number }) => ({
+	it('passes the inputs separately and merges the static and dynamic solutions', async () => {
+		type Solution = { base: number, answer: number }
+		const getSolution = vi.fn(async (parameters: { extra: number }, inputDependency: number | undefined, staticSolution: Partial<Solution>): Promise<Partial<Solution>> => ({
 			answer: Number(staticSolution.base) + Number(inputDependency) + parameters.extra,
 		}))
 		const definition = { getStaticSolution: () => ({ base: 2 }), getSolution }
 		const parameters = { extra: 4 }
 		const staticSolution = await resolveStaticSolution(definition, parameters)
-		await expect(resolveSolution(definition, parameters, 3, staticSolution)).resolves.toEqual({ answer: 9 })
+		await expect(resolveSolution(definition, parameters, 3, staticSolution)).resolves.toEqual({ base: 2, answer: 9 })
 		expect(getSolution).toHaveBeenCalledWith(parameters, 3, staticSolution)
 	})
 })

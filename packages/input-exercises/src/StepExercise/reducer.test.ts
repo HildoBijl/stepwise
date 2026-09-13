@@ -89,4 +89,23 @@ describe('buildStepExercise', () => {
 		const state = { done: true } as const
 		expect(await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(0) } })).toBe(state)
 	})
+	it('updates dependencies with the current step before checking its solution', async () => {
+		const steps: number[] = []
+		const exercise = buildStepExercise<{}, { answer: number }, number>({
+			metadata: createStepExerciseMetadata(['step-one']),
+			updateInputDependency: ({ previousInputDependency, input, step }) => {
+				steps.push(step)
+				return (previousInputDependency ?? 0) + Number(input.increment)
+			},
+			getSolution: (_, inputDependency) => ({ answer: inputDependency! }),
+			checkInput: ({ input, solution }) => input.answer === solution?.answer,
+		})
+		const parameters = await exercise.generateParameters(false)
+		let state = await exercise.getInitialState(parameters)
+		state = await exercise.processSoloAction({ parameters, state, action: { type: 'giveUp' } })
+		state = await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: { increment: { type: 'Integer', value: '2' }, answer: { type: 'Integer', value: '2' } } } })
+
+		expect(steps).toEqual([1])
+		expect(state).toMatchObject({ inputDependency: 2, done: true })
+	})
 })

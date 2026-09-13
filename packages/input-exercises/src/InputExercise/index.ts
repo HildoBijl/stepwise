@@ -1,5 +1,5 @@
 export * from './types.ts'
-export * from './guards.ts'
+export type { GroupInputExerciseAttemptState, GroupInputExerciseDependencyState, InputExerciseAttemptState, InputExerciseDependencyState, InputExerciseReducerInput, SoloInputExerciseAttemptState, SoloInputExerciseDependencyState } from './reducerSupport.ts'
 export * from './getInput.ts'
 export * from './history.ts'
 export * from './solutions.ts'
