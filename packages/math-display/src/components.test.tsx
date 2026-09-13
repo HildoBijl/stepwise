@@ -19,6 +19,19 @@ describe('mathematics components', () => {
 		expect(container.querySelector('.katex-display')).not.toBeNull()
 	})
 
+	it('preserves augmented KaTeX elements when its rendering inputs have not changed', () => {
+		const { container, rerender } = render(<MathContent displayMode={true}>23</MathContent>)
+		const characterElement = [...container.querySelectorAll('.katex-html *')]
+			.find(element => element.childElementCount === 0 && element.textContent)
+		if (!characterElement) throw new Error('Could not find a KaTeX character element.')
+		characterElement.setAttribute('data-augmented', 'true')
+
+		rerender(<MathContent displayMode={true}>23</MathContent>)
+
+		expect(characterElement.isConnected).toBe(true)
+		expect(characterElement.getAttribute('data-augmented')).toBe('true')
+	})
+
 	it('renders block mathematics and lists inside horizontal scrollers', () => {
 		const block = render(<BM>x</BM>)
 		expect(block.container.querySelector('.horizontalScroller')).not.toBeNull()

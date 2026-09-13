@@ -14,8 +14,8 @@ export function MathContent({ children, className, displayMode = false, style }:
 	const latex = prepareLatex(children)
 	const html = useMemo(() => katex.renderToString(latex, { displayMode, throwOnError: true }), [latex, displayMode])
 	const equationClassName = className ? `equation ${className}` : 'equation'
-	return <span
+	return useMemo(() => <span
 		className={equationClassName}
 		style={{ ...style, fontSize: displayMode ? '1.1em' : '0.95em' }}
-		dangerouslySetInnerHTML={{ __html: html }} />
+		dangerouslySetInnerHTML={{ __html: html }} />, [html, equationClassName, displayMode, style])
 }
