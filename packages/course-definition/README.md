@@ -18,27 +18,31 @@ Create a `CourseDefinition` by passing it a processed `SkillTree` and a `CourseS
 
 ```ts
 import { CourseDefinition, validateCourseDiagnostics } from '@step-wise/course-definition'
-import { createSkillTree } from '@step-wise/skill-definition'
+import { createModuleTree } from '@step-wise/skill-definition'
 
-const skillTree = createSkillTree({
+const moduleTree = createModuleTree({
 	arithmeticBasics: {
+		type: 'skill',
 		name: 'Understand arithmetic basics',
 	},
 	addNumbers: {
+		type: 'skill',
 		name: 'Add numbers',
 		prerequisites: ['arithmeticBasics'],
 	},
 	multiplyNumbers: {
+		type: 'skill',
 		name: 'Multiply numbers',
 		prerequisites: ['arithmeticBasics'],
 	},
 	solveMixedCalculations: {
+		type: 'skill',
 		name: 'Solve mixed calculations',
 		prerequisites: ['addNumbers', 'multiplyNumbers'],
 	},
 })
 
-const courseDefinition = new CourseDefinition(skillTree, {
+const courseDefinition = new CourseDefinition(moduleTree, {
 	startingPointIds: ['arithmeticBasics'],
 	learningGoalIds: ['solveMixedCalculations'],
 })
@@ -72,7 +76,7 @@ Starting-point and learning-goal arrays must not contain duplicate IDs. Empty co
 A starting point is included in the course contents. Its prerequisites are considered prior knowledge unless another starting point causes those prerequisites to be taught within the course.
 
 ```ts
-const courseDefinition = new CourseDefinition(skillTree, {
+const courseDefinition = new CourseDefinition(moduleTree, {
 	startingPointIds: ['addNumbers', 'multiplyNumbers'],
 	learningGoalIds: ['solveMixedCalculations'],
 })
@@ -85,7 +89,7 @@ The analysis removes starting points that are already reached from another start
 Learning-goal weights are optional course-specification data; they are not derived from the learning goals. When weights are supplied, their number must equal the number of learning goals. Every weight must be finite and non-negative, and their sum must be positive. Individual zero weights are allowed.
 
 ```ts
-const courseDefinition = new CourseDefinition(skillTree, {
+const courseDefinition = new CourseDefinition(moduleTree, {
 	startingPointIds: ['arithmeticBasics'],
 	learningGoalIds: ['addNumbers', 'multiplyNumbers'],
 	learningGoalWeights: [1, 2],
@@ -99,7 +103,7 @@ Weights can be used for an "Open Practice" mode where students get exercises ran
 Block goals are optional course-specification data. When supplied, they divide the course into consecutive sections, with each inner array explicitly listing the goals of one block.
 
 ```ts
-const courseDefinition = new CourseDefinition(skillTree, {
+const courseDefinition = new CourseDefinition(moduleTree, {
 	startingPointIds: ['arithmeticBasics'],
 	learningGoalIds: ['solveMixedCalculations'],
 	blockLearningGoalIds: [
@@ -118,7 +122,7 @@ The optional setup describes the target level at the end of the course, such as 
 ```ts
 import { and } from '@step-wise/skill-setup'
 
-const courseDefinition = new CourseDefinition(skillTree, {
+const courseDefinition = new CourseDefinition(moduleTree, {
 	startingPointIds: ['addNumbers', 'multiplyNumbers'],
 	learningGoalIds: ['solveMixedCalculations'],
 	setup: and('addNumbers', 'multiplyNumbers', 'solveMixedCalculations'),

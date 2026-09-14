@@ -5,7 +5,7 @@ import { mathematicsTree } from './mathematicsTree.ts'
 import { mechanicsTree } from './mechanicsTree.ts'
 import { physicsTree } from './physicsTree.ts'
 
-export const skillTreeDefinition: SkillTreeDefinition = {
+export const moduleTreeDefinition: SkillTreeDefinition = {
 	demo: demoTree,
 	mathematics: mathematicsTree,
 	mechanics: mechanicsTree,

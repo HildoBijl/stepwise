@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Tooltip, Box, alpha } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/skill-tree'
 
 import { useTranslator, Translation, Plurals } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
@@ -76,7 +76,7 @@ export function StudentTile({ course, skillsTotal, skillsDone, recommendation })
 			tooltip = translate('You have all skills on a sufficient level! The next step is the free practice mode.', 'freePracticeRecommendation')
 			break
 		default:
-			const skill = skillTree[recommendation]
+			const skill = moduleTree[recommendation]
 			tooltip = <>{translate(`Our practice recommendation:`, 'skillRecommendation')} {translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}</>
 			break
 	}

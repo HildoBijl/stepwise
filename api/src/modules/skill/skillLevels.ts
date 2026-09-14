@@ -4,7 +4,7 @@ import { ensureBoolean, fromKeysAndValues, fromKeys, mapValues, union } from '@s
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 import type { SkillId } from '@step-wise/skill-definition'
 import { type SkillObservation, SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
-import { ensureSkillIds, expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
+import { ensureSkillIds, expandSkillIdsWithDirectPrerequisitesAndLinks, moduleTree } from '@step-wise/skill-tree'
 
 import type { UserSkillRecord } from './models.ts'
 import { type SkillDatabase, getUserSkills } from './service.ts'
@@ -23,7 +23,7 @@ export async function getUserSkillLevelSet(db: SkillDatabase, userId: string, sk
 	const storedSkills = await getUserSkills(db, userId, { skillIds: allSkillIds })
 	const skillsAsObject = fromKeysAndValues(storedSkills.map(skill => skill.skillId), storedSkills.map(skill => ensureSkillLevel(skill.get({ plain: true }))))
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
-	return new SkillLevelSet(skillTree, skills)
+	return new SkillLevelSet(moduleTree, skills)
 }
 
 export async function applySkillObservations(db: SkillDatabase, observations: readonly UserSkillObservationInput[], transaction: Transaction): Promise<Record<string, UserSkillRecord[]>> {
@@ -53,7 +53,7 @@ export async function applySkillObservationsForUser(db: SkillDatabase, userId: s
 	const skillsAsObject = fromKeysAndValues(skills.map(skill => skill.skillId), skills)
 	const skillLevels = mapValues(skillsAsObject, skill => ensureSkillLevel(skill.get({ plain: true })))
 	const storedSkillLevelSet = fromKeys(skillsToLoad, skillId => skillLevels[skillId] ?? getInitialSkillLevel())
-	const updates = new SkillLevelSet(skillTree, storedSkillLevelSet).applyObservations(observations)
+	const updates = new SkillLevelSet(moduleTree, storedSkillLevelSet).applyObservations(observations)
 
 	const result: UserSkillRecord[] = []
 	for (const skillId of Object.keys(updates)) {

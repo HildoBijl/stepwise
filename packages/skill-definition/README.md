@@ -1,6 +1,6 @@
 # @step-wise/skill-definition
 
-`@step-wise/skill-definition` provides the data structures and utilities needed to define, validate and search a skill tree. It does not contain a concrete tree and does not manage learner state; applications create their own tree and pass it to this package or to consumers such as `@step-wise/course-definition` and `@step-wise/skill-tracking`.
+`@step-wise/skill-definition` provides the data structures and utilities needed to define, validate and search a tree of educational modules. Modules are either concepts or skills. The package does not contain a concrete tree and does not manage learner state.
 
 
 ## Installation
@@ -14,13 +14,13 @@ npm install @step-wise/skill-definition @step-wise/skill-setup
 
 ## Quick start
 
-Creating a skill tree has two stages: write a nested raw definition, then pass it to `createSkillTree` to obtain the validated and fully connected `SkillTree` used at runtime.
+Creating a module tree has two stages: write a nested definition, then pass it to `createModuleTree` to obtain the validated and fully connected `ModuleTree` used at runtime.
 
 ```ts
 import { and } from '@step-wise/skill-setup'
-import { createSkillTree } from '@step-wise/skill-definition'
+import { createModuleTree } from '@step-wise/skill-definition'
 
-const rawSkillTree = {
+const moduleTreeDefinition = {
 	mathematics: {
 		arithmetic: {
 			addNumbers: {
@@ -48,27 +48,27 @@ const rawSkillTree = {
 	},
 }
 
-const skillTree = createSkillTree(rawSkillTree)
+const moduleTree = createModuleTree(moduleTreeDefinition)
 ```
 
 The result is a flat, ID-keyed record. Prerequisite references are validated, setup skills are added to the prerequisites, continuation IDs are derived, and links are made symmetric.
 
 ```ts
-skillTree.multiplyNumbers.prerequisiteIds // ['addNumbers']
-skillTree.addNumbers.continuationIds // ['multiplyNumbers', 'solveLinearEquation']
-skillTree.solveLinearEquation.linkedSkillIds // ['rearrangeFormula']
-skillTree.rearrangeFormula.linkedSkillIds // ['solveLinearEquation']
+moduleTree.multiplyNumbers.prerequisiteIds // ['addNumbers']
+moduleTree.addNumbers.continuationIds // ['multiplyNumbers', 'solveLinearEquation']
+moduleTree.solveLinearEquation.linkedSkillIds // ['rearrangeFormula']
+moduleTree.rearrangeFormula.linkedSkillIds // ['solveLinearEquation']
 ```
 
 
-## Defining a raw skill tree
+## Defining a module tree
 
-A `SkillTreeDefinition` is a nested record. Every property is either another group or a `SkillDefinition`. Groups may be nested to any depth, while every skill ID must be unique throughout the complete tree regardless of casing.
+A `ModuleTreeDefinition` is a nested record. Every property is either another group, a `ConceptDefinition` or a `SkillDefinition`. Groups may be nested to any depth, while every module ID must be unique throughout the complete tree regardless of casing.
 
 ```ts
-import type { SkillTreeDefinition } from '@step-wise/skill-definition'
+import type { ModuleTreeDefinition } from '@step-wise/skill-definition'
 
-const rawSkillTree: SkillTreeDefinition = {
+const moduleTreeDefinition: ModuleTreeDefinition = {
 	subject: {
 		category: {
 			firstSkill: { type: 'skill', name: 'First skill' },
@@ -78,15 +78,16 @@ const rawSkillTree: SkillTreeDefinition = {
 }
 ```
 
-### Raw skill properties
+### Module properties
 
 | Property | Required | Behavior |
 | --- | --- | --- |
-| `name` | Yes | Non-empty display name for the skill. |
-| `setup` | No | A setup from `@step-wise/skill-setup`. Every referenced skill is also added as a prerequisite. |
-| `prerequisites` | No | Direct prerequisite skill IDs. Defaults to an empty list. |
-| `links` | No | One link or a list of link definitions. Defaults to no links. |
-| `thresholds` | No | Partial per-skill threshold options. Omitted values are resolved from the package defaults. |
+| `type` | Yes | Either `concept` or `skill`. |
+| `name` | Yes | Non-empty display name for the module. |
+| `prerequisites` | No | Direct prerequisite module IDs. Concepts cannot depend on skills. |
+| `setup` | Skills only | A setup from `@step-wise/skill-setup`. Every referenced skill is also added as a prerequisite. |
+| `links` | Skills only | One link or a list of link definitions. |
+| `thresholds` | Skills only | Partial per-skill threshold options. |
 
 Explicit and setup-derived prerequisites are combined and deduplicated in first-occurrence order.
 
@@ -95,7 +96,7 @@ Explicit and setup-derived prerequisites are combined and deduplicated in first-
 Every threshold is a success probability between zero and one. Raw definitions may provide any subset of the options:
 
 ```ts
-const rawSkillTree: SkillTreeDefinition = {
+const moduleTreeDefinition: ModuleTreeDefinition = {
 	advancedSkill: {
 		type: 'skill',
 		name: 'Advanced skill',
@@ -119,7 +120,7 @@ Recap thresholds cannot exceed their corresponding mastery thresholds. The proce
 
 ## Links
 
-Links describe symmetric relationships between skills. Declaring a relationship at one participant is sufficient; `createSkillTree` adds the corresponding processed link to every participant.
+Links describe symmetric relationships between skills. Declaring a relationship at one participant is sufficient; `createModuleTree` adds the corresponding processed link to every participant.
 
 ### Shorthand forms
 
@@ -140,80 +141,104 @@ links: [{ skillId: 'skillA' }, { skillId: 'skillB' }]
 
 Use `skillId` for one linked skill and `skillIds` for a multi-skill relationship. Supplying both is invalid. A correlation is optional and, when provided, must be a finite number strictly between zero and one.
 
-Self-links, repeated participants, unknown IDs, duplicate reciprocal declarations and conflicting correlations are rejected. Processed participants, structured links and `linkedSkillIds` are ordered canonically according to skill-tree order.
+Self-links, repeated participants, concept IDs, unknown IDs, duplicate reciprocal declarations and conflicting correlations are rejected. Processed participants, structured links and `linkedSkillIds` are ordered canonically according to module-tree order.
 
 
 ## Creating the processed tree
 
-### `createSkillTree(rawSkillTree)`
+### `createModuleTree(moduleTreeDefinition)`
 
-Returns a validated `SkillTree` whose keys are the original skill IDs. The tree uses a null prototype so IDs such as `constructor`, `toString` and `__proto__` are safe.
+Returns a validated `ModuleTree` whose keys are the original module IDs. An all-skill `SkillTreeDefinition` produces the narrower `SkillTree` type. The tree uses a null prototype so IDs such as `constructor`, `toString` and `__proto__` are safe.
 
-Each processed `Skill` contains:
+Every processed `Module` contains:
 
 | Property | Behavior |
 | --- | --- |
-| `id` | Canonical skill ID taken from the raw-tree key. |
-| `name` | Display name from the raw definition. |
+| `id` | Canonical module ID taken from the definition key. |
+| `type` | Either `concept` or `skill`. |
+| `name` | Display name from the definition. |
 | `groupPath` | Group path from the root to the containing group. |
-| `groupSkillIds` | All skills directly contained in the same group, including the skill itself. |
+| `groupModuleIds` | All modules directly contained in the same group, including the module itself. |
+| `prerequisiteIds` | Direct prerequisite modules. |
+| `continuationIds` | Modules that directly name this module as a prerequisite. |
+
+Processed skills additionally contain:
+
+| Property | Behavior |
+| --- | --- |
 | `setup` | Original optional setup. |
-| `prerequisiteIds` | Deduplicated explicit and setup-derived direct prerequisites. |
-| `continuationIds` | Skills that directly name this skill as a prerequisite. |
 | `links` | Canonical `SkillLink` relationships, each containing `skillIds` and an optional `correlation`. |
 | `linkedSkillIds` | Deduplicated IDs occurring across the skill's links. |
 | `thresholds` | Fully resolved `SkillThresholdOptions`, including all four thresholds. |
 
-Creation rejects malformed entries, empty IDs or names, exact and case-insensitive ID collisions, unknown references, prerequisite cycles and inconsistent links. The error identifies the relevant skill or relationship where possible.
+Creation rejects malformed entries, empty IDs or names, exact and case-insensitive ID collisions, unknown references, prerequisite cycles, concepts depending on skills and inconsistent links.
 
 
-## Searching a skill tree
+## Searching a module tree
 
-All search and validation functions receive a processed `SkillTree` as their first argument.
+All search and validation functions receive a processed `ModuleTree` as their first argument. Module-aware functions accept concepts and skills. Their skill-specific counterparts validate that every supplied endpoint is a skill and omit concepts from returned collections.
 
-### `ensureSkillId(skillTree, skillId, options?)`
+### `ensureModuleId(moduleTree, moduleId, options?)`
 
-Returns the known skill ID when it matches exactly. Unknown IDs and casing differences throw by default. Set `allowCaseInsensitiveMatch` to `true` at boundaries where casing cannot be trusted, such as IDs read from URLs; the canonical ID from the tree is then returned.
+Returns the canonical ID of a known concept or skill. Unknown IDs and casing differences throw by default. Set `allowCaseInsensitiveMatch` to `true` at boundaries where casing cannot be trusted.
+
+### `ensureModuleIds(moduleTree, moduleIds, options?)`
+
+Validates a readonly array of concept and skill IDs while preserving their supplied order.
+
+### `ensureSkillId(moduleTree, skillId, options?)`
+
+Returns the known skill ID when it matches exactly. It rejects unknown IDs and IDs belonging to concepts. Set `allowCaseInsensitiveMatch` to `true` at boundaries where casing cannot be trusted, such as IDs read from URLs; the canonical ID from the tree is then returned.
 
 ```ts
-ensureSkillId(skillTree, 'addNumbers') // 'addNumbers'
-ensureSkillId(skillTree, 'ADDNUMBERS', { allowCaseInsensitiveMatch: true }) // 'addNumbers'
+ensureSkillId(moduleTree, 'addNumbers') // 'addNumbers'
+ensureSkillId(moduleTree, 'ADDNUMBERS', { allowCaseInsensitiveMatch: true }) // 'addNumbers'
 ```
 
-### `ensureSkillIds(skillTree, skillIds, options?)`
+### `ensureSkillIds(moduleTree, skillIds, options?)`
 
 Accepts a readonly array and returns a new array containing the validated IDs in the supplied order. It supports the same `allowCaseInsensitiveMatch` option. Use `ensureSkillId` for a single ID.
 
-### `ensureSkillSetup(skillTree, setup)`
+### `ensureSkillSetup(moduleTree, setup)`
 
 Normalizes a setup through `@step-wise/skill-setup`, verifies that every referenced skill exists and returns the resulting setup.
 
-### `isSkillPrerequisiteOf(skillTree, prerequisiteId, skillId)`
+### `isSkillPrerequisiteOf(moduleTree, prerequisiteId, skillId)`
 
-Checks whether the first skill is a direct or transitive prerequisite of the second. A skill is considered a prerequisite of itself for reachability calculations.
+Checks whether the first skill is a direct or transitive prerequisite of the second. Traversal may pass through concepts, but both supplied endpoints must be skills. A skill is considered a prerequisite of itself for reachability calculations.
 
-### `expandSkillIdsWithDirectPrerequisites(skillTree, skillIds)`
+### `isModulePrerequisiteOf(moduleTree, prerequisiteId, moduleId)`
 
-Accepts a readonly array and returns the requested canonical IDs and their direct prerequisites. It does not recurse.
+The module-aware variant accepts concepts or skills as either endpoint.
 
-### `expandSkillIdsWithDirectPrerequisitesAndLinks(skillTree, skillIds)`
+### `expandModuleIdsWithDirectPrerequisites(moduleTree, moduleIds)`
+
+Returns the requested modules and their direct prerequisites, including concepts and skills. It does not recurse.
+
+### `expandSkillIdsWithDirectPrerequisites(moduleTree, skillIds)`
+
+Accepts a readonly array of skill IDs and returns the requested canonical IDs and their direct skill prerequisites. Concept prerequisites are omitted. It does not recurse.
+
+### `expandSkillIdsWithDirectPrerequisitesAndLinks(moduleTree, skillIds)`
 
 Accepts a readonly array and returns the requested canonical IDs, their direct prerequisites and their directly linked skills. It does not recurse through either relationship.
 
-### `getSkillIdsBetweenGoalsAndPriorKnowledge(skillTree, goals, priorKnowledge)`
+### `getSkillIdsBetweenGoalsAndPriorKnowledge(moduleTree, goals, priorKnowledge)`
 
-Returns the goals and their recursive prerequisites while excluding prior-knowledge skills and everything reached only by traversing beyond those boundaries.
+Returns the goals and their recursive skill prerequisites while excluding concepts, prior-knowledge skills and everything reached only by traversing beyond those boundaries.
 
 ```ts
-getSkillIdsBetweenGoalsAndPriorKnowledge(skillTree, ['solveLinearEquation'], ['addNumbers'])
+getSkillIdsBetweenGoalsAndPriorKnowledge(moduleTree, ['solveLinearEquation'], ['addNumbers'])
 // ['solveLinearEquation', 'multiplyNumbers']
 ```
 
-### `sortSkillIdsByTreeOrder(skillTree, skillIds)`
+### `sortSkillIdsByTreeOrder(moduleTree, skillIds)`
 
-Validates the supplied IDs, then returns a new array sorted by their order in the processed skill tree. Duplicate IDs are preserved.
+Validates the supplied skill IDs, then returns a new array sorted by their order in the processed module tree. Duplicate IDs are preserved.
+
+The corresponding `getModuleIdsBetweenGoalsAndPriorKnowledge` and `sortModuleIdsByTreeOrder` functions retain both concepts and skills.
 
 
 ## TypeScript
 
-The package includes TypeScript declarations. Its principal exported types are `SkillId`, `SkillDefinition`, `SkillTreeDefinition`, `RawSkillLink`, `Skill`, `SkillTree`, `SkillLink`, `SkillThresholdOptions` and `SkillThresholdOptionsInput`.
+The package includes TypeScript declarations. Its principal exported types include `ModuleId`, `ModuleType`, `ModuleDefinition`, `ConceptDefinition`, `SkillDefinition`, `ModuleTreeDefinition`, `Module`, `Concept`, `Skill`, `ModuleTree`, `SkillTree`, `EnsureModuleIdOptions`, `SkillLinkDefinition` and `SkillLink`.

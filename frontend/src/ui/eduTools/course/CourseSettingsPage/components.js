@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/skill-tree'
 
 import { useSubscribeToCourse, useUnsubscribeFromCourse } from 'api'
 import { TranslationFile, TranslationSection, Translation, Plurals, WordList } from 'i18n'
@@ -50,7 +50,7 @@ export function CourseLearningGoals({ course }) {
 			<Head><Translation entry="learningGoals.title">Learning goals</Translation></Head>
 			<Par><Translation entry="learningGoals.description">The course has the following final <Plurals value={course.courseDefinition.learningGoalIds.length}><Plurals.One>goal</Plurals.One><Plurals.NotOne>goals</Plurals.NotOne></Plurals>.</Translation></Par>
 			<List items={course.courseDefinition.learningGoalIds.map(goalId => {
-				const skill = skillTree[goalId]
+				const skill = moduleTree[goalId]
 				return <Link to={paths.skill({ skillId: goalId })}><Translation path="eduContent/skillNames" entry={`${skill.groupPath.join('.')}.${skill.id}`}>{skill.name}</Translation></Link>
 			})} />
 		</TranslationSection>

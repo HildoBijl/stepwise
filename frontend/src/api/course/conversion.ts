@@ -1,6 +1,6 @@
 import { deserializeSetup } from '@step-wise/skill-setup'
 import { CourseDefinition } from '@step-wise/course-definition'
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/skill-tree'
 
 import type { UserRecord } from '../user/records.ts'
 import type { User } from '../user/types.ts'
@@ -30,7 +30,7 @@ function convertCourseRecord<StudentRecord extends UserRecord, Student extends U
 		blockNames: record.blocks.map(block => block.name),
 		createdAt: new Date(record.createdAt),
 		updatedAt: new Date(record.updatedAt),
-		courseDefinition: new CourseDefinition(skillTree, {
+		courseDefinition: new CourseDefinition(moduleTree, {
 			learningGoalIds: record.goals,
 			startingPointIds: record.startingPoints,
 			...(record.goalWeights === null ? {} : { learningGoalWeights: record.goalWeights }),

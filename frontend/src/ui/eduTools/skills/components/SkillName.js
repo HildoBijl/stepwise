@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/skill-tree'
 
 import { TitleItem } from 'ui/routingTools'
 
@@ -8,7 +8,7 @@ import { useSkillId } from '../util'
 
 export function SkillName() {
 	const skillId = useSkillId()
-	const skill = skillTree[skillId]
+	const skill = moduleTree[skillId]
 	const skillNames = 'eduContent/skillNames'
 	if (!skill || !skill.name)
 		return <TitleItem path={skillNames} entry={`miscellaneous.unknownSkill`} name="Unknown skill" />

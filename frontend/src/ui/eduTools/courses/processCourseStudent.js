@@ -5,9 +5,9 @@ import { getInitialSkillLevel } from '@step-wise/skill-tracking'
 import { analyzeCourseProgress } from './courseAnalysis'
 
 export function processStudentForCourse(student, courseDefinition) {
-	const { skillTree } = courseDefinition
-	const skills = student.skills.filter(skill => !!skillTree[skill.skillId])
-	const requiredSkillIds = expandSkillIdsWithDirectPrerequisitesAndLinks(skillTree, courseDefinition.allSkillIds)
+	const { moduleTree } = courseDefinition
+	const skills = student.skills.filter(skill => !!moduleTree[skill.skillId])
+	const requiredSkillIds = expandSkillIdsWithDirectPrerequisitesAndLinks(moduleTree, courseDefinition.allSkillIds)
 	const skillLevelSet = student.skillLevelSet
 	const missingSkillIds = requiredSkillIds.filter(skillId => !skillLevelSet.hasSkillLevel(skillId))
 	skillLevelSet.applyUpdates(fromKeys(missingSkillIds, () => getInitialSkillLevel()))

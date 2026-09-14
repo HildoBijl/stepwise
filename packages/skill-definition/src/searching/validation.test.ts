@@ -2,17 +2,17 @@ import { describe, expect, it } from 'vitest'
 
 import { and } from '@step-wise/skill-setup'
 
-import { createSkillTree } from '../creation/index.ts'
+import { createModuleTree } from '../creation/index.ts'
 
-import { ensureSkillId, ensureSkillIds, ensureSkillSetup } from './validation.ts'
+import { ensureModuleId, ensureModuleIds, ensureSkillId, ensureSkillIds, ensureSkillSetup } from './validation.ts'
 
-const tree = createSkillTree({ Alpha: { name: 'Alpha' }, beta: { name: 'Beta' } })
+const tree = createModuleTree({ Alpha: { type: 'skill', name: 'Alpha' }, beta: { type: 'skill', name: 'Beta' } })
 
 describe('ensureSkillId', () => {
 	it('returns exact IDs and rejects different casing by default', () => {
 		expect(ensureSkillId(tree, 'Alpha')).toBe('Alpha')
-		expect(() => ensureSkillId(tree, 'ALPHA')).toThrow(/Unknown skill ID/)
-		expect(() => ensureSkillId(tree, 'BeTa')).toThrow(/Unknown skill ID/)
+		expect(() => ensureSkillId(tree, 'ALPHA')).toThrow(/Unknown module ID/)
+		expect(() => ensureSkillId(tree, 'BeTa')).toThrow(/Unknown module ID/)
 	})
 
 	it('optionally resolves canonical casing', () => {
@@ -22,14 +22,28 @@ describe('ensureSkillId', () => {
 	})
 
 	it('supports special object-property IDs without accepting inherited properties', () => {
-		const specialTree = createSkillTree({ constructor: { name: 'Constructor' }, toString: { name: 'To string' } })
+		const specialTree = createModuleTree({ constructor: { type: 'skill', name: 'Constructor' }, toString: { type: 'skill', name: 'To string' } })
 		expect(ensureSkillId(specialTree, 'CONSTRUCTOR', { allowCaseInsensitiveMatch: true })).toBe('constructor')
 		expect(ensureSkillId(specialTree, 'toString')).toBe('toString')
-		expect(() => ensureSkillId(specialTree, 'valueOf')).toThrow(/Unknown skill ID/)
+		expect(() => ensureSkillId(specialTree, 'valueOf')).toThrow(/Unknown module ID/)
 	})
 
 	it('rejects unknown IDs', () => {
-		expect(() => ensureSkillId(tree, 'missing')).toThrow(/Unknown skill ID/)
+		expect(() => ensureSkillId(tree, 'missing')).toThrow(/Unknown module ID/)
+	})
+})
+
+describe('module and skill validation', () => {
+	const mixedTree = createModuleTree({ concept: { type: 'concept', name: 'Concept' }, skill: { type: 'skill', name: 'Skill' } })
+
+	it('accepts concepts through the module helpers', () => {
+		expect(ensureModuleId(mixedTree, 'concept')).toBe('concept')
+		expect(ensureModuleIds(mixedTree, ['skill', 'concept'])).toEqual(['skill', 'concept'])
+	})
+
+	it('rejects concepts through the skill helpers', () => {
+		expect(() => ensureSkillId(mixedTree, 'concept')).toThrow('identifies a concept')
+		expect(() => ensureSkillIds(mixedTree, ['skill', 'concept'])).toThrow('identifies a concept')
 	})
 })
 

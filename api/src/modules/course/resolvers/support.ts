@@ -1,6 +1,6 @@
 import { deserializeSetup } from '@step-wise/skill-setup'
 import { CourseDefinition, validateCourseDiagnostics } from '@step-wise/course-definition'
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/skill-tree'
 
 import { InvalidInputError } from '../../../errors.ts'
 
@@ -35,5 +35,5 @@ export function validateCourse(input: CreateCourseInput | UpdateCourseInput, cur
 		...(blocks ? { blockLearningGoalIds: blocks.map(block => block.goals) } : {}),
 		...(serializedSetup ? { setup: deserializeSetup(serializedSetup) } : {}),
 	}
-	validateCourseDiagnostics(new CourseDefinition(skillTree, data).diagnostics)
+	validateCourseDiagnostics(new CourseDefinition(moduleTree, data).diagnostics)
 }

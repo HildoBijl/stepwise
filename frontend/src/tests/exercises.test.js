@@ -7,7 +7,7 @@ import ResizeObserver from 'resize-observer-polyfill'
 import { ThemeProvider } from '@mui/material/styles'
 
 import { noop } from '@step-wise/js-utils'
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/skill-tree'
 import { resolveSolution } from '@step-wise/input-exercises'
 import { getAllExercises } from '@step-wise/exercises'
 
@@ -33,7 +33,7 @@ function loadExercise(skill, exerciseId) {
 window.ResizeObserver = ResizeObserver
 
 describe('Check all exercises:', () => {
-	Object.values(skillTree).forEach(skill => {
+	Object.values(moduleTree).forEach(skill => {
 		describe(`Skill ${skill.id}`, () => {
 			const exercises = getAllExercises(skill.id)
 			if (Object.keys(exercises).length === 0) {

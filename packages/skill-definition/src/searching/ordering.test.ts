@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import { createSkillTree } from '../creation/index.ts'
+import { createModuleTree } from '../creation/index.ts'
 
-import { sortSkillIdsByTreeOrder } from './ordering.ts'
+import { sortModuleIdsByTreeOrder, sortSkillIdsByTreeOrder } from './ordering.ts'
 
-const tree = createSkillTree({ Alpha: { name: 'Alpha' }, beta: { name: 'Beta' }, gamma: { name: 'Gamma' } })
+const tree = createModuleTree({ Alpha: { type: 'skill', name: 'Alpha' }, beta: { type: 'skill', name: 'Beta' }, gamma: { type: 'skill', name: 'Gamma' } })
 
 describe('sortSkillIdsByTreeOrder', () => {
 	it('sorts IDs by tree order while preserving duplicates', () => {
@@ -25,5 +25,12 @@ describe('sortSkillIdsByTreeOrder', () => {
 	it('rejects unknown IDs', () => {
 		expect(() => sortSkillIdsByTreeOrder(tree, ['missing'])).toThrow(/missing/)
 		expect(() => sortSkillIdsByTreeOrder(tree, ['ALPHA'])).toThrow(/ALPHA/)
+	})
+})
+
+describe('sortModuleIdsByTreeOrder', () => {
+	it('sorts concepts and skills together', () => {
+		const mixedTree = createModuleTree({ concept: { type: 'concept', name: 'Concept' }, skill: { type: 'skill', name: 'Skill' } })
+		expect(sortModuleIdsByTreeOrder(mixedTree, ['skill', 'concept'])).toEqual(['concept', 'skill'])
 	})
 })

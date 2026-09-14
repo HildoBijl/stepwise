@@ -1,35 +1,33 @@
-import type { SkillId, SkillTree } from './types.ts'
+import type { ModuleId, ModuleTree } from './types.ts'
 
-// Validate prerequisites and set up the continuation IDs for each skill.
-export function validateAndProcessPrerequisites(skillTree: SkillTree): void {
-	// Validate all prerequisite references before modifying the tree.
-	for (const skill of Object.values(skillTree)) {
-		for (const prerequisiteId of skill.prerequisiteIds) {
-			if (!skillTree[prerequisiteId]) throw new Error(`Invalid prerequisite skill "${prerequisiteId}" given for skill "${skill.id}".`)
+export function validateAndProcessPrerequisites(moduleTree: ModuleTree): void {
+	for (const module of Object.values(moduleTree)) {
+		for (const prerequisiteId of module.prerequisiteIds) {
+			const prerequisite = moduleTree[prerequisiteId]
+			if (!prerequisite) throw new Error(`Invalid prerequisite module "${prerequisiteId}" given for module "${module.id}".`)
+			if (module.type === 'concept' && prerequisite.type === 'skill') throw new Error(`Invalid prerequisite module "${prerequisiteId}" given for concept "${module.id}": concepts cannot depend on skills.`)
 		}
 	}
 
-	// Reject cyclic prerequisite graphs.
-	const states = new Map<SkillId, 'visiting' | 'visited'>()
-	const path: SkillId[] = []
-	const visit = (skillId: SkillId): void => {
-		const state = states.get(skillId)
+	const states = new Map<ModuleId, 'visiting' | 'visited'>()
+	const path: ModuleId[] = []
+	const visit = (moduleId: ModuleId): void => {
+		const state = states.get(moduleId)
 		if (state === 'visited') return
 		if (state === 'visiting') {
-			const cycleStart = path.indexOf(skillId)
-			const cycle = [...path.slice(cycleStart), skillId]
-			throw new Error(`Invalid skill prerequisites: detected cycle ${cycle.map(id => `"${id}"`).join(' -> ')}.`)
+			const cycleStart = path.indexOf(moduleId)
+			const cycle = [...path.slice(cycleStart), moduleId]
+			throw new Error(`Invalid module prerequisites: detected cycle ${cycle.map(id => `"${id}"`).join(' -> ')}.`)
 		}
-		states.set(skillId, 'visiting')
-		path.push(skillId)
-		for (const prerequisiteId of skillTree[skillId].prerequisiteIds) visit(prerequisiteId)
+		states.set(moduleId, 'visiting')
+		path.push(moduleId)
+		for (const prerequisiteId of moduleTree[moduleId].prerequisiteIds) visit(prerequisiteId)
 		path.pop()
-		states.set(skillId, 'visited')
+		states.set(moduleId, 'visited')
 	}
-	for (const skillId of Object.keys(skillTree)) visit(skillId)
+	for (const moduleId of Object.keys(moduleTree)) visit(moduleId)
 
-	// Set up the reverse prerequisite references.
-	for (const skill of Object.values(skillTree)) {
-		for (const prerequisiteId of skill.prerequisiteIds) skillTree[prerequisiteId].continuationIds.push(skill.id)
+	for (const module of Object.values(moduleTree)) {
+		for (const prerequisiteId of module.prerequisiteIds) moduleTree[prerequisiteId].continuationIds.push(module.id)
 	}
 }

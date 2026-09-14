@@ -5,11 +5,11 @@ import type { Skill } from '@step-wise/skill-definition'
 import { isExercise } from '@step-wise/exercise-definition'
 import { isExerciseCollection } from '@step-wise/exercise-bundling'
 import { isInputExercise, resolveSolution, resolveStaticSolution } from '@step-wise/input-exercises'
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/skill-tree'
 
 import * as exerciseRegistry from './exerciseRegistry.ts'
 
-const skillsByPath = new Map(Object.values(skillTree).map(skill => [[...skill.groupPath, skill.id].join('/'), skill] as const))
+const skillsByPath = new Map(Object.values(moduleTree).map(skill => [[...skill.groupPath, skill.id].join('/'), skill] as const))
 const skillExerciseExports: { path: string[], skill: Skill, bundle: unknown }[] = []
 
 function collectSkillExerciseBundles(value: unknown, path: string[] = []): void {

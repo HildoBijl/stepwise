@@ -1,6 +1,6 @@
 import { fromKeys, fromKeysAndValues } from '@step-wise/js-utils'
 import { type SkillLevelData, SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
-import { expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
+import { expandSkillIdsWithDirectPrerequisitesAndLinks, moduleTree } from '@step-wise/skill-tree'
 
 import { userAccountDataRecordToData, userRecordToUser, userSharedDataRecordToData } from '../user/conversion.ts'
 
@@ -45,11 +45,11 @@ export function skillLevelRecordToData({ skillId, levelData }: SkillLevelRecord)
 }
 
 export function skillLevelRecordsToSet(records: SkillLevelRecord[]): SkillLevelSet {
-	const validRecords = records.filter(record => !!skillTree[record.skillId])
+	const validRecords = records.filter(record => !!moduleTree[record.skillId])
 	const skillLevelsById = fromKeysAndValues(validRecords.map(record => record.skillId), validRecords.map(skillLevelRecordToData))
 	const expandedSkillIds = expandSkillIdsWithDirectPrerequisitesAndLinks(validRecords.map(record => record.skillId))
 	const storedSkillLevels = fromKeys(expandedSkillIds, skillId => skillLevelsById[skillId] ?? getInitialSkillLevel(new Date(0)))
-	return new SkillLevelSet(skillTree, storedSkillLevels)
+	return new SkillLevelSet(moduleTree, storedSkillLevels)
 }
 
 export function userWithSkillsRecordToUser({ sharedData, accountData, ...user }: UserWithSkillsRecord): UserWithSkills {

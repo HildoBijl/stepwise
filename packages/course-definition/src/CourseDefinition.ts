@@ -6,18 +6,18 @@ import { ensureCourseSpecification } from './dataValidation.ts'
 import { analyzeCourse } from './analyzeCourse.ts'
 
 export class CourseDefinition {
-	readonly skillTree: SkillTree
+	readonly moduleTree: SkillTree
 	readonly specification: CourseSpecification
 
 	private _analysis?: CourseAnalysis
 
-	constructor(skillTree: SkillTree, specification: CourseSpecification) {
-		this.skillTree = skillTree
+	constructor(moduleTree: SkillTree, specification: CourseSpecification) {
+		this.moduleTree = moduleTree
 		this.specification = ensureCourseSpecification(specification)
 	}
 
 	get analysis(): CourseAnalysis {
-		return this._analysis ??= analyzeCourse(this.skillTree, this.specification)
+		return this._analysis ??= analyzeCourse(this.moduleTree, this.specification)
 	}
 
 	/*

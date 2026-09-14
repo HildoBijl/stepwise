@@ -1,12 +1,15 @@
 import { sortBy } from '@step-wise/js-utils'
 
-import type { SkillId, SkillTree } from '../creation/index.ts'
+import type { ModuleId, ModuleTree, SkillId } from '../creation/index.ts'
 
-import { ensureSkillIds } from './validation.ts'
+import { ensureModuleIds, ensureSkillIds } from './validation.ts'
 
-// Sort a given list of skill IDs by the order defined by the Skill Tree.
-export function sortSkillIdsByTreeOrder(skillTree: SkillTree, skillIds: readonly SkillId[]): SkillId[] {
-	const ensuredSkillIds = ensureSkillIds(skillTree, skillIds)
-	const skillOrder = new Map(Object.keys(skillTree).map((skillId, index) => [skillId, index]))
-	return sortBy(ensuredSkillIds, ensuredSkillIds.map(skillId => skillOrder.get(skillId)!))
+export function sortModuleIdsByTreeOrder(moduleTree: ModuleTree, moduleIds: readonly ModuleId[]): ModuleId[] {
+	const ensuredModuleIds = ensureModuleIds(moduleTree, moduleIds)
+	const moduleOrder = new Map(Object.keys(moduleTree).map((moduleId, index) => [moduleId, index]))
+	return sortBy(ensuredModuleIds, ensuredModuleIds.map(moduleId => moduleOrder.get(moduleId)!))
+}
+
+export function sortSkillIdsByTreeOrder(moduleTree: ModuleTree, skillIds: readonly SkillId[]): SkillId[] {
+	return sortModuleIdsByTreeOrder(moduleTree, ensureSkillIds(moduleTree, skillIds)) as SkillId[]
 }

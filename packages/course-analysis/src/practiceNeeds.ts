@@ -30,12 +30,12 @@ export function getCoursePracticeNeeds(courseDefinition: CourseDefinition, skill
 	if (courseDefinition.allSkillIds.some(skillId => !skillLevelSet.hasRequiredDataFor(skillId))) return undefined
 
 	const practiceNeeds: PracticeNeeds = {}
-	courseDefinition.learningGoalIds.forEach(goalId => collectPracticeNeeds(courseDefinition.skillTree, goalId, skillLevelSet, courseDefinition.priorKnowledgeIds, practiceNeeds))
+	courseDefinition.learningGoalIds.forEach(goalId => collectPracticeNeeds(courseDefinition.moduleTree, goalId, skillLevelSet, courseDefinition.priorKnowledgeIds, practiceNeeds))
 	return practiceNeeds
 }
 
-function collectPracticeNeeds(skillTree: SkillTree, skillId: SkillId, skillLevelSet: SkillLevelSet, priorKnowledge: readonly SkillId[], practiceNeeds: PracticeNeeds, maximumPracticeNeed?: PracticeNeed): void {
-	const skill = skillTree[skillId]
+function collectPracticeNeeds(moduleTree: SkillTree, skillId: SkillId, skillLevelSet: SkillLevelSet, priorKnowledge: readonly SkillId[], practiceNeeds: PracticeNeeds, maximumPracticeNeed?: PracticeNeed): void {
+	const skill = moduleTree[skillId]
 	if (!skill) throw new Error(`Invalid skill: could not find "${skillId}" when processing course data.`)
 
 	const isPriorKnowledge = priorKnowledge.includes(skillId)
@@ -44,5 +44,5 @@ function collectPracticeNeeds(skillTree: SkillTree, skillId: SkillId, skillLevel
 
 	if (practiceNeeds[skillId] !== undefined && practiceNeeds[skillId] <= practiceNeed) return
 	practiceNeeds[skillId] = practiceNeed
-	if (!isPriorKnowledge) skill.prerequisiteIds.forEach(prerequisiteId => collectPracticeNeeds(skillTree, prerequisiteId, skillLevelSet, priorKnowledge, practiceNeeds, practiceNeed))
+	if (!isPriorKnowledge) skill.prerequisiteIds.forEach(prerequisiteId => collectPracticeNeeds(moduleTree, prerequisiteId, skillLevelSet, priorKnowledge, practiceNeeds, practiceNeed))
 }

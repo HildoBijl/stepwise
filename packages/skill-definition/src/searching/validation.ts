@@ -1,32 +1,37 @@
 import { type SkillSetup, type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 
-import type { SkillId, SkillTree } from '../creation/index.ts'
+import type { ModuleId, ModuleTree, SkillId } from '../creation/index.ts'
 
-export type EnsureSkillIdOptions = {
+export type EnsureModuleIdOptions = {
 	allowCaseInsensitiveMatch?: boolean
 }
 
-// Check whether a skill ID exists and return its canonical form.
-export function ensureSkillId(skillTree: SkillTree, skillId: SkillId, options: EnsureSkillIdOptions = {}): SkillId {
-	// Check for direct matches.
-	if (Object.hasOwn(skillTree, skillId)) return skillId
-	if (!options.allowCaseInsensitiveMatch) throw new Error(`Unknown skill ID: "${skillId}" is not known in the skill tree.`)
+export function ensureModuleId(moduleTree: ModuleTree, moduleId: ModuleId, options: EnsureModuleIdOptions = {}): ModuleId {
+	if (Object.hasOwn(moduleTree, moduleId)) return moduleId
+	if (!options.allowCaseInsensitiveMatch) throw new Error(`Unknown module ID: "${moduleId}" is not known in the module tree.`)
 
-	// Run an optional case-insensitive match.
-	const skillIdLower = skillId.toLowerCase()
-	const adjustedSkillId = Object.keys(skillTree).find(id => id.toLowerCase() === skillIdLower)
-	if (adjustedSkillId) return adjustedSkillId as SkillId
-	throw new Error(`Unknown skill ID: "${skillId}" is not known in the skill tree.`)
+	const moduleIdLower = moduleId.toLowerCase()
+	const adjustedModuleId = Object.keys(moduleTree).find(id => id.toLowerCase() === moduleIdLower)
+	if (adjustedModuleId) return adjustedModuleId
+	throw new Error(`Unknown module ID: "${moduleId}" is not known in the module tree.`)
 }
 
-// Make sure the given skill IDs exist.
-export function ensureSkillIds(skillTree: SkillTree, skillIds: readonly SkillId[], options: EnsureSkillIdOptions = {}): SkillId[] {
-	return skillIds.map(skillId => ensureSkillId(skillTree, skillId, options))
+export function ensureModuleIds(moduleTree: ModuleTree, moduleIds: readonly ModuleId[], options: EnsureModuleIdOptions = {}): ModuleId[] {
+	return moduleIds.map(moduleId => ensureModuleId(moduleTree, moduleId, options))
 }
 
-// Make sure the set-up is valid for the Skill Tree.
-export function ensureSkillSetup(skillTree: SkillTree, setup: SkillSetupLike): SkillSetup {
+export function ensureSkillId(moduleTree: ModuleTree, skillId: SkillId, options: EnsureModuleIdOptions = {}): SkillId {
+	const moduleId = ensureModuleId(moduleTree, skillId, options)
+	if (moduleTree[moduleId].type !== 'skill') throw new Error(`Invalid skill ID: "${skillId}" identifies a concept rather than a skill.`)
+	return moduleId as SkillId
+}
+
+export function ensureSkillIds(moduleTree: ModuleTree, skillIds: readonly SkillId[], options: EnsureModuleIdOptions = {}): SkillId[] {
+	return skillIds.map(skillId => ensureSkillId(moduleTree, skillId, options))
+}
+
+export function ensureSkillSetup(moduleTree: ModuleTree, setup: SkillSetupLike): SkillSetup {
 	const checkedSetup = ensureSetup(setup)
-	ensureSkillIds(skillTree, checkedSetup.getSkillList())
+	ensureSkillIds(moduleTree, checkedSetup.getSkillList())
 	return checkedSetup
 }

@@ -1,25 +1,57 @@
-import { type EnsureSkillIdOptions, type SkillId, ensureSkillId as agnosticEnsureSkillId, ensureSkillIds as agnosticEnsureSkillIds, expandSkillIdsWithDirectPrerequisites as agnosticExpandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks as agnosticExpandSkillIdsWithDirectPrerequisitesAndLinks, isSkillPrerequisiteOf as agnosticIsSkillPrerequisiteOf } from '@step-wise/skill-definition'
+import * as agnostic from '@step-wise/skill-definition'
 
-import { skillTree } from './skillTree.ts'
+import { moduleTree } from './moduleTree.ts'
 
-export type { EnsureSkillIdOptions, SkillId, SkillTree } from '@step-wise/skill-definition'
+export type { EnsureModuleIdOptions, ModuleId, ModuleTree, SkillId, SkillTree } from '@step-wise/skill-definition'
 
-export function ensureSkillId(skillId: SkillId, options: EnsureSkillIdOptions = {}): SkillId {
-	return agnosticEnsureSkillId(skillTree, skillId, options)
+export function ensureModuleId(moduleId: agnostic.ModuleId, options: agnostic.EnsureModuleIdOptions = {}): agnostic.ModuleId {
+	return agnostic.ensureModuleId(moduleTree, moduleId, options)
 }
 
-export function ensureSkillIds(skillIds: readonly SkillId[], options: EnsureSkillIdOptions = {}): SkillId[] {
-	return agnosticEnsureSkillIds(skillTree, skillIds, options)
+export function ensureModuleIds(moduleIds: readonly agnostic.ModuleId[], options: agnostic.EnsureModuleIdOptions = {}): agnostic.ModuleId[] {
+	return agnostic.ensureModuleIds(moduleTree, moduleIds, options)
 }
 
-export function expandSkillIdsWithDirectPrerequisites(skillIds: readonly SkillId[]): SkillId[] {
-	return agnosticExpandSkillIdsWithDirectPrerequisites(skillTree, skillIds)
+export function ensureSkillId(skillId: agnostic.SkillId, options: agnostic.EnsureModuleIdOptions = {}): agnostic.SkillId {
+	return agnostic.ensureSkillId(moduleTree, skillId, options)
 }
 
-export function expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds: readonly SkillId[]): SkillId[] {
-	return agnosticExpandSkillIdsWithDirectPrerequisitesAndLinks(skillTree, skillIds)
+export function ensureSkillIds(skillIds: readonly agnostic.SkillId[], options: agnostic.EnsureModuleIdOptions = {}): agnostic.SkillId[] {
+	return agnostic.ensureSkillIds(moduleTree, skillIds, options)
 }
 
-export function isSkillPrerequisiteOf(prerequisiteId: SkillId, skillId: SkillId): boolean {
-	return agnosticIsSkillPrerequisiteOf(skillTree, prerequisiteId, skillId)
+export function expandModuleIdsWithDirectPrerequisites(moduleIds: readonly agnostic.ModuleId[]): agnostic.ModuleId[] {
+	return agnostic.expandModuleIdsWithDirectPrerequisites(moduleTree, moduleIds)
+}
+
+export function expandSkillIdsWithDirectPrerequisites(skillIds: readonly agnostic.SkillId[]): agnostic.SkillId[] {
+	return agnostic.expandSkillIdsWithDirectPrerequisites(moduleTree, skillIds)
+}
+
+export function expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds: readonly agnostic.SkillId[]): agnostic.SkillId[] {
+	return agnostic.expandSkillIdsWithDirectPrerequisitesAndLinks(moduleTree, skillIds)
+}
+
+export function getModuleIdsBetweenGoalsAndPriorKnowledge(goals: agnostic.ModuleId[], priorKnowledge: agnostic.ModuleId[]): agnostic.ModuleId[] {
+	return agnostic.getModuleIdsBetweenGoalsAndPriorKnowledge(moduleTree, goals, priorKnowledge)
+}
+
+export function getSkillIdsBetweenGoalsAndPriorKnowledge(goals: agnostic.SkillId[], priorKnowledge: agnostic.SkillId[]): agnostic.SkillId[] {
+	return agnostic.getSkillIdsBetweenGoalsAndPriorKnowledge(moduleTree, goals, priorKnowledge)
+}
+
+export function isModulePrerequisiteOf(prerequisiteId: agnostic.ModuleId, moduleId: agnostic.ModuleId): boolean {
+	return agnostic.isModulePrerequisiteOf(moduleTree, prerequisiteId, moduleId)
+}
+
+export function isSkillPrerequisiteOf(prerequisiteId: agnostic.SkillId, skillId: agnostic.SkillId): boolean {
+	return agnostic.isSkillPrerequisiteOf(moduleTree, prerequisiteId, skillId)
+}
+
+export function sortModuleIdsByTreeOrder(moduleIds: readonly agnostic.ModuleId[]): agnostic.ModuleId[] {
+	return agnostic.sortModuleIdsByTreeOrder(moduleTree, moduleIds)
+}
+
+export function sortSkillIdsByTreeOrder(skillIds: readonly agnostic.SkillId[]): agnostic.SkillId[] {
+	return agnostic.sortSkillIdsByTreeOrder(moduleTree, skillIds)
 }

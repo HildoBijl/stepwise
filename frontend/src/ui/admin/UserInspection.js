@@ -4,7 +4,7 @@ import { Box } from '@mui/material'
 
 import { formatDate } from '@step-wise/js-utils'
 import { HorizontalScroller } from '@step-wise/react-components'
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/skill-tree'
 
 import { useUserWithSkills } from 'api'
 import { Par } from 'ui/components'
@@ -55,7 +55,7 @@ function UserInspectionForUser({ user }) {
 function UserInspectionItem({ skillId, skillLevel }) {
 	return <>
 		<div className="flask"><SkillFlask skillId={skillId} coef={skillLevel.coefficients} size={40} /></div>
-		<div className="name">{skillTree[skillLevel.skillId].name}</div>
+		<div className="name">{moduleTree[skillLevel.skillId].name}</div>
 		<div className="numPracticed">{skillLevel.numPracticed}</div>
 		<div className="lastPracticed">{formatDate(skillLevel.coefficientsOn, { includeTime: true })}</div>
 	</>
@@ -81,7 +81,7 @@ function getUserNameFromResult({ user, loading, error }) {
 function useSkillsLevelsList(user) {
 	return useMemo(() => {
 		const skillLevelSet = user.skillLevelSet
-		const skillIds = user.skills.map(skill => skill.skillId).filter(skillId => !!skillTree[skillId])
+		const skillIds = user.skills.map(skill => skill.skillId).filter(skillId => !!moduleTree[skillId])
 		const skillLevels = skillIds.map(skillId => skillLevelSet.getSkillLevel(skillId))
 		return skillLevels.sort((a, b) => b.coefficientsOn - a.coefficientsOn) // Sort with latest first.
 	}, [user])

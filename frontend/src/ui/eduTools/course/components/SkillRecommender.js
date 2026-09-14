@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Box, Button, darken } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/skill-tree'
 
 import { useGetTranslation } from 'i18n'
 import { linkStyleReset } from 'ui/theme'
@@ -25,7 +25,7 @@ export function SkillRecommender({ courseCode, recommendation }) {
 		message = getTranslation('freePracticeRecommendation', 'eduTools/pages/coursesPage')
 	} else {
 		link = paths.courseSkill({ courseCode, skillId: recommendation })
-		const skill = skillTree[recommendation]
+		const skill = moduleTree[recommendation]
 		message = `${getTranslation('skillRecommendation', 'eduTools/pages/coursesPage')} ${getTranslation(`${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}`
 	}
 

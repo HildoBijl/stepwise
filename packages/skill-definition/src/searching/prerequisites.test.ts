@@ -1,16 +1,35 @@
 import { describe, expect, it } from 'vitest'
 
-import { createSkillTree } from '../creation/index.ts'
+import { createModuleTree } from '../creation/index.ts'
 
-import { getSkillIdsBetweenGoalsAndPriorKnowledge, expandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, isSkillPrerequisiteOf } from './prerequisites.ts'
+import { expandModuleIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, getModuleIdsBetweenGoalsAndPriorKnowledge, getSkillIdsBetweenGoalsAndPriorKnowledge, isModulePrerequisiteOf, isSkillPrerequisiteOf } from './prerequisites.ts'
 
-const tree = createSkillTree({
-	a: { name: 'A' },
-	b: { name: 'B', prerequisites: ['a'] },
-	c: { name: 'C', prerequisites: ['a'], links: 'd' },
-	d: { name: 'D' },
-	e: { name: 'E', prerequisites: ['b', 'c'] },
-	f: { name: 'F' },
+const tree = createModuleTree({
+	a: { type: 'skill', name: 'A' },
+	b: { type: 'skill', name: 'B', prerequisites: ['a'] },
+	c: { type: 'skill', name: 'C', prerequisites: ['a'], links: 'd' },
+	d: { type: 'skill', name: 'D' },
+	e: { type: 'skill', name: 'E', prerequisites: ['b', 'c'] },
+	f: { type: 'skill', name: 'F' },
+})
+
+describe('module prerequisite helpers', () => {
+	const mixedTree = createModuleTree({
+		foundation: { type: 'concept', name: 'Foundation' },
+		method: { type: 'skill', name: 'Method', prerequisites: ['foundation'] },
+		application: { type: 'skill', name: 'Application', prerequisites: ['method'] },
+	})
+
+	it('traverses prerequisites of either module type', () => {
+		expect(isModulePrerequisiteOf(mixedTree, 'foundation', 'application')).toBe(true)
+		expect(expandModuleIdsWithDirectPrerequisites(mixedTree, ['method'])).toEqual(['method', 'foundation'])
+		expect(getModuleIdsBetweenGoalsAndPriorKnowledge(mixedTree, ['application'], [])).toEqual(['application', 'method', 'foundation'])
+	})
+
+	it('keeps concepts out of skill-only expansions', () => {
+		expect(expandSkillIdsWithDirectPrerequisites(mixedTree, ['method'])).toEqual(['method'])
+		expect(expandSkillIdsWithDirectPrerequisitesAndLinks(mixedTree, ['method'])).toEqual(['method'])
+	})
 })
 
 describe('isSkillPrerequisiteOf', () => {

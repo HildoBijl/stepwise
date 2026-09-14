@@ -14,7 +14,7 @@ export type SkillThresholdOptions = {
 	priorKnowledgeRecap: number
 }
 export type SkillThresholdOptionsInput = Partial<SkillThresholdOptions>
-export type RawSkillLink = string | string[] | { skillId?: SkillId | SkillId[]; skillIds?: SkillId[]; correlation?: number }
+export type SkillLinkDefinition = string | string[] | { skillId?: SkillId | SkillId[]; skillIds?: SkillId[]; correlation?: number }
 export type BaseModuleDefinition = {
 	name: string
 	prerequisites?: ModuleId[]
@@ -27,7 +27,7 @@ export type ConceptDefinition = BaseModuleDefinition & {
 export type SkillDefinition = BaseModuleDefinition & {
 	type: 'skill'
 	setup?: SkillSetup<unknown>
-	links?: RawSkillLink | RawSkillLink[]
+	links?: SkillLinkDefinition | SkillLinkDefinition[]
 	thresholds?: SkillThresholdOptionsInput
 }
 export type ModuleDefinition = ConceptDefinition | SkillDefinition
@@ -49,7 +49,6 @@ export type Concept = BaseModule & {
 export type Skill = BaseModule & {
 	id: SkillId
 	type: 'skill'
-	groupModuleIds: SkillId[]
 	setup?: SkillSetup<unknown>
 	links: SkillLink[]
 	linkedSkillIds: SkillId[]

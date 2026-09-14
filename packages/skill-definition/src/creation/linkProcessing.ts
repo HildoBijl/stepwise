@@ -1,9 +1,9 @@
 import { deduplicate, ensureNumber, isPlainObject, sortBy } from '@step-wise/js-utils'
 
-import type { RawSkillLink, SkillId, SkillLink, SkillTree } from './types.ts'
+import type { ModuleTree, Skill, SkillId, SkillLink, SkillLinkDefinition } from './types.ts'
 
 // Take a raw set of links and turn it into a processed SkillLink object.
-export function normalizeSkillLinks(links?: RawSkillLink | RawSkillLink[]): SkillLink[] {
+export function normalizeSkillLinks(links?: SkillLinkDefinition | SkillLinkDefinition[]): SkillLink[] {
 	// Ensure the links attribute is an array of links.
 	if (Array.isArray(links) && links.length === 0) return []
 	const list = links === undefined ? [] : Array.isArray(links) && !links.every(link => typeof link === 'string') ? links : [links]
@@ -34,9 +34,10 @@ export function normalizeSkillLinks(links?: RawSkillLink | RawSkillLink[]): Skil
 	})
 }
 
-// For a skill tree, set up the links and linked skill IDs for every skill.
-export function validateAndProcessLinks(skillTree: SkillTree): void {
-	const skillIds = Object.keys(skillTree)
+// Set up the links and linked skill IDs for every skill.
+export function validateAndProcessLinks(moduleTree: ModuleTree): void {
+	const skills = Object.values(moduleTree).filter((module): module is Skill => module.type === 'skill')
+	const skillIds = skills.map(skill => skill.id)
 	const skillOrder = new Map(skillIds.map((skillId, index) => [skillId, index]))
 	const relationships = new Map<string, { participants: SkillId[]; correlation?: number }>()
 	const compareSkillIdLists = (list1: SkillId[], list2: SkillId[]): number => {
@@ -48,10 +49,10 @@ export function validateAndProcessLinks(skillTree: SkillTree): void {
 	}
 
 	// Validate and canonicalize every declared relationship.
-	for (const skill of Object.values(skillTree)) {
+	for (const skill of skills) {
 		for (const link of skill.links) {
 			for (const linkedSkillId of link.skillIds) {
-				if (!skillTree[linkedSkillId]) throw new Error(`Invalid skill link: received unknown skill ID "${linkedSkillId}" in skill "${skill.id}".`)
+				if (moduleTree[linkedSkillId]?.type !== 'skill') throw new Error(`Invalid skill link: received unknown skill ID "${linkedSkillId}" in skill "${skill.id}".`)
 				if (linkedSkillId === skill.id) throw new Error(`Invalid skill link: skill "${skill.id}" cannot link to itself.`)
 			}
 			if (new Set(link.skillIds).size !== link.skillIds.length) throw new Error(`Invalid skill link in skill "${skill.id}": linked skill IDs must not be repeated.`)
@@ -69,16 +70,17 @@ export function validateAndProcessLinks(skillTree: SkillTree): void {
 	}
 
 	// Rebuild all derived links from the canonical relationships.
-	for (const skill of Object.values(skillTree)) {
+	for (const skill of skills) {
 		skill.links = []
 		skill.linkedSkillIds = []
 	}
 	for (const relationship of relationships.values()) {
 		for (const participant of relationship.participants) {
-			skillTree[participant].links.push({ skillIds: relationship.participants.filter(skillId => skillId !== participant), ...(relationship.correlation === undefined ? {} : { correlation: relationship.correlation }) })
+			const skill = moduleTree[participant] as Skill
+			skill.links.push({ skillIds: relationship.participants.filter(skillId => skillId !== participant), ...(relationship.correlation === undefined ? {} : { correlation: relationship.correlation }) })
 		}
 	}
-	for (const skill of Object.values(skillTree)) {
+	for (const skill of skills) {
 		skill.links.sort((link1, link2) => compareSkillIdLists(link1.skillIds, link2.skillIds))
 		const linkedSkillIds = deduplicate(skill.links.flatMap(link => link.skillIds))
 		skill.linkedSkillIds = sortBy(linkedSkillIds, linkedSkillIds.map(skillId => skillOrder.get(skillId)!))

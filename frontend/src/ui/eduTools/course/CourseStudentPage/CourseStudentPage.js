@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
 
 import { last, repeat, count } from '@step-wise/js-utils'
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/skill-tree'
 import { hasExercises } from '@step-wise/exercises'
 
 import { useUserWithSkills } from 'api'
@@ -70,7 +70,7 @@ function LastActivity({ processedStudent, course, courseDefinition }) {
 					<TableBody>
 						{repeat(Math.min(numEntries, skills.length), index => {
 							const studentSkill = skills[index]
-							const skill = skillTree[studentSkill.skillId]
+							const skill = moduleTree[studentSkill.skillId]
 							const lastActivity = getLastSkillActivity(studentSkill)
 							return <TableRow key={index} onClick={() => navigate(paths.courseStudentSkill({ courseCode: course.code, studentId: processedStudent.id, skillId: skill.id }))} sx={{ cursor: 'pointer', '&:hover': { backgroundColor: theme => theme.palette.action.hover } }}>
 								<TableCell align="center" sx={{ minWidth: 80, width: 100, fontSize: 12, fontWeight: 450, color: 'primary.main' }}>
@@ -136,7 +136,7 @@ function SkillIndicator({ skillId, student, courseDefinition }) {
 	// When there's no skillId, we are through the skills of this block and don't need to show more.
 	if (!skillId)
 		return null
-	const skill = skillTree[skillId]
+	const skill = moduleTree[skillId]
 
 	// Render the contents.
 	return <Box sx={{ display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', justifyContent: 'flex-start', gap: '4px' }}>

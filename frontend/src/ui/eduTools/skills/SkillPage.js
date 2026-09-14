@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 
 import { lowerFirst, mapValues } from '@step-wise/js-utils'
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/skill-tree'
 import { hasExercises, hasExamples } from '@step-wise/exercises'
 
 import { TranslationFile, useTranslator } from 'i18n'
@@ -27,7 +27,7 @@ export function SkillPageForSkill({ skillId, freePracticeMode = false, onNewExer
 
 	// Whenever the skill ID changes, reload the skill pages.
 	const reload = () => {
-		const { groupPath } = skillTree[skillId]
+		const { groupPath } = moduleTree[skillId]
 		setLoadedForSkillId(undefined)
 		const loadPages = skillPageModules[`/src/ui/eduContent/${groupPath.join('/')}/${skillId}/index.js`]
 		const pagesPromise = loadPages
@@ -90,7 +90,7 @@ export function SkillPageForSkill({ skillId, freePracticeMode = false, onNewExer
 	const pagesFiltered = freePracticeMode ? mapValues(pages, (page, tab) => freePracticeModeTabs.includes(tab) ? page : undefined) : pages
 
 	// Render the pages. Use a key to force a reload on a new skillId.
-	return <TranslationFile path={`eduContent/${skillTree[skillId].groupPath.join('/')}/${skillId}`}>
+	return <TranslationFile path={`eduContent/${moduleTree[skillId].groupPath.join('/')}/${skillId}`}>
 		<TabPages key={skillId} pages={pagesFiltered} initialPage="practice" />
 	</TranslationFile>
 }
