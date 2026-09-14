@@ -4,7 +4,7 @@ import { clamp } from '@step-wise/js-utils'
 import { getClientPosition } from '@step-wise/browser-utils'
 import { useEventListener } from '@step-wise/react-utils'
 
-import { useSubmitCall } from 'ui/form'
+import { useFormPartSettings, useSubmitCall } from 'ui/form'
 
 import { useInputData } from '../../Input'
 
@@ -32,7 +32,8 @@ export function useFieldInputHandlers(options, inputFieldRef) {
 
 // useKeyProcessing uses an effect to listen for key presses. It gets a key press processing function, which should have as arguments a keyInfo object, an FI object and (optionally) a contentsElement object, and should return a new FI object. This function makes sure that the given processKeyPress function is called.
 export function useKeyProcessing(processKeyPress, apply = true) {
-	const submit = useSubmitCall()
+	const { part } = useFormPartSettings()
+	const submit = useSubmitCall(part)
 	const keyDownHandler = useCallback(event => {
 		// Prevent browser-back-behavior (backspace), automatic scrolling on keys (home/end and arrows), and the Firefox quick-search button (slash) as well as the Firefox auto-search-on-type functionality.
 		if (!event.key.match(/^F[0-9]$/))
