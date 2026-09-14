@@ -24,6 +24,7 @@ export type InputExerciseInput = Record<string, unknown>
 export type InputExerciseReport = PlainDataObject
 export type SoloInputExerciseReport = InputExerciseReport
 export type GroupInputExerciseReport = Record<string, InputExerciseReport>
+export type CheckInputResult = boolean | { correct: boolean, report?: InputExerciseReport }
 
 /*
  * Solution generation
@@ -69,12 +70,12 @@ export type InputExerciseValueOperations = {
 }
 
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized parameters.
-export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution, TInputDependency>, 'generateParameters' | 'valueTypes'> & {
+export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = Exercise<TMetadata, TAction, TState, PlainDataObject, SoloInputExerciseReport, GroupInputExerciseReport> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution, TInputDependency>, 'generateParameters' | 'valueTypes'> & {
 	valueOperations: InputExerciseValueOperations
 	generateParameters: (example: boolean) => Promise<PlainDataObject>
 	getInitialState: (parameters: PlainDataObject) => Awaitable<TState>
-	processSoloAction: SoloExerciseReducer<TAction, TState>
-	processGroupActions: GroupExerciseReducer<TAction, TState>
+	processSoloAction: SoloExerciseReducer<TAction, TState, PlainDataObject, SoloInputExerciseReport>
+	processGroupActions: GroupExerciseReducer<TAction, TState, PlainDataObject, GroupInputExerciseReport>
 }
 
 /*

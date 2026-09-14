@@ -35,9 +35,20 @@ An input exercise specification commonly contains:
 - `metadata` includes the practiced `skill` or a more involved skill `setup`.
 - `generateParameters(example)` creates the fixed problem parameters. It generally uses randomization and may be synchronous or asynchronous.
 - `getSolution(parameters, inputDependency, staticSolution)` builds the solution. Exercises without input dependencies normally use only `parameters`.
-- `checkInput(data)` decides whether the interpreted learner input is correct and may return its boolean immediately or through a promise.
+- `checkInput(data)` decides whether the interpreted learner input is correct. It may return either a boolean or `{ correct, report? }`, immediately or through a promise.
 
 Only `metadata` and `checkInput` are required. Omitting `generateParameters` uses an empty object.
+
+Returning a structured result lets grading retain plain-data details about the transition without putting them in the exercise state:
+
+```ts
+checkInput: data => ({
+	correct: getInput('answer', data, 'number') === data.solution?.answer,
+	report: { unitCorrect: true },
+})
+```
+
+Existing boolean checks are normalized to `{ correct }` and therefore produce no report. A solo reducer exposes the report directly in its result. A group reducer collects reports by user ID. If `checkInput` omits its report, the reducer result omits it too; an explicit empty object remains an explicit report.
 
 `buildMonoExercise` creates both `processSoloAction` and `processGroupActions`. Consumers therefore do not need separate exercise definitions for solo and group use.
 

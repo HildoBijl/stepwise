@@ -107,6 +107,36 @@ describe('buildMonoExercise', () => {
 
 		expect((await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(2) } })).state).toMatchObject({ solved: true, done: true })
 	})
+
+	it('returns structured check reports for solo and group reducers', async () => {
+		const exercise = buildExercise({ checkInput: ({ input, parameters }) => ({ correct: input.answer === parameters.answer, report: { answer: input.answer } }) })
+		const parameters = await exercise.generateParameters(false)
+
+		await expect(exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(1) } })).resolves.toMatchObject({ report: { answer: 1 } })
+		await expect(exercise.processGroupActions({ parameters, state: {}, actions: [
+			{ userId: 'one', action: { type: 'input', input: rawInput(1) } },
+			{ userId: 'two', action: { type: 'input', input: rawInput(2) } },
+		] })).resolves.toMatchObject({ report: { one: { answer: 1 }, two: { answer: 2 } } })
+	})
+
+	it('distinguishes an omitted report from an explicit empty report', async () => {
+		const parameters = await buildExercise().generateParameters(false)
+		const withoutReport = buildExercise({ checkInput: () => ({ correct: false }) })
+		const withEmptyReport = buildExercise({ checkInput: () => ({ correct: false, report: {} }) })
+
+		expect(await withoutReport.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(1) } })).not.toHaveProperty('report')
+		expect(await withEmptyReport.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(1) } })).toHaveProperty('report', {})
+	})
+
+	it('rejects invalid structured check results and reports', async () => {
+		const parameters = await buildExercise().generateParameters(false)
+		const invalidResult = buildExercise({ checkInput: () => ({ correct: 'yes' }) as never })
+		const invalidReport = buildExercise({ checkInput: () => ({ correct: false, report: new Date() }) as never })
+
+		await expect(invalidResult.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(1) } })).rejects.toThrow(/checkInput result/)
+		await expect(invalidReport.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(1) } })).rejects.toThrow(/checkInput report/)
+	})
+
 	it('updates an input dependency before generating and checking the solution', async () => {
 		const updateInputDependency = vi.fn(({ previousInputDependency, input, step }) => {
 			expect(step).toBe(0)

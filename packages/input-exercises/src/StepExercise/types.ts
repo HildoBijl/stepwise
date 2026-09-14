@@ -1,7 +1,7 @@
 import type { Awaitable } from '@step-wise/js-utils'
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 
-import type { CheckInputData, InputDependency, InputExerciseAction, InputExerciseAttemptState, InputExerciseDependencyState, InputExerciseMetadata, InputExerciseParameters, InputExercise, InputExerciseSpec, InputExerciseSolution } from '../InputExercise/index.ts'
+import type { CheckInputData, CheckInputResult, InputDependency, InputExerciseAction, InputExerciseAttemptState, InputExerciseDependencyState, InputExerciseMetadata, InputExerciseParameters, InputExercise, InputExerciseSpec, InputExerciseSolution } from '../InputExercise/index.ts'
 
 // Add exercise steps and substeps to meta data.
 export type StepExerciseStep = SkillSetupLike | undefined
@@ -18,7 +18,7 @@ export type StepExerciseSplitState = InputExerciseAttemptState & InputExerciseDe
 export type StepExerciseState = (InputExerciseAttemptState & InputExerciseDependencyState & Partial<{ solved: true, done: true }>) | StepExerciseSplitState
 
 // Extend the CheckInput function to include steps and substeps.
-export type StepExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (data: CheckInputData<StepExerciseMetadata, TParameters, TSolution>, step: number, substep?: number) => Awaitable<boolean>
+export type StepExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (data: CheckInputData<StepExerciseMetadata, TParameters, TSolution>, step: number, substep?: number) => Awaitable<CheckInputResult>
 
 // Author-facing definition before the mode-specific reducers are added.
 export type StepExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = InputExerciseSpec<StepExerciseMetadata, TParameters, TSolution, TInputDependency> & { checkInput: StepExerciseCheckInput<TParameters, TSolution> }

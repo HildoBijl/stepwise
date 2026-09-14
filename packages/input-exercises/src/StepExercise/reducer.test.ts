@@ -55,6 +55,19 @@ describe('buildStepExercise', () => {
 		expect(state).toMatchObject({ done: true, 1: { attempted: true, 1: true, 2: true, solved: true, done: true } })
 	})
 
+	it('combines reports from substep checks for each action', async () => {
+		const exercise = buildStepExercise({
+			metadata: createStepExerciseMetadata([['sub-one', 'sub-two']]),
+			checkInput: (_, _step, substep) => ({ correct: true, report: { [`substep${substep}`]: true } }),
+		})
+		const parameters = await exercise.generateParameters(false)
+		const splitState = (await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })).state
+
+		await expect(exercise.processSoloAction({ parameters, state: splitState, action: { type: 'input', input: {} } })).resolves.toMatchObject({
+			report: { substep1: true, substep2: true },
+		})
+	})
+
 	it('does not penalize giving up at a step after an attempt', async () => {
 		const exercise = buildExercise(['step-one'])
 		const parameters = await exercise.generateParameters(false)
