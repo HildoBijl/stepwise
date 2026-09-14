@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { flattenRawSkillTree } from './flattening.ts'
+import { flattenSkillTreeDefinition } from './flattening.ts'
 import { normalizeSkillLinks, validateAndProcessLinks } from './linkProcessing.ts'
 import type { RawSkillLink } from './types.ts'
 
@@ -42,7 +42,7 @@ describe('normalizeSkillLinks', () => {
 
 describe('validateAndProcessLinks', () => {
 	it('creates reciprocal links and linked skill IDs', () => {
-		const tree = flattenRawSkillTree({ a: { name: 'A', links: { skillId: 'b', correlation: 0.5 } }, b: { name: 'B' } })
+		const tree = flattenSkillTreeDefinition({ a: { name: 'A', links: { skillId: 'b', correlation: 0.5 } }, b: { name: 'B' } })
 		validateAndProcessLinks(tree)
 		expect(tree.a.links).toEqual([{ skillIds: ['b'], correlation: 0.5 }])
 		expect(tree.b.links).toEqual([{ skillIds: ['a'], correlation: 0.5 }])
@@ -51,7 +51,7 @@ describe('validateAndProcessLinks', () => {
 	})
 
 	it('creates symmetric, tree-ordered multi-skill relationships', () => {
-		const tree = flattenRawSkillTree({ a: { name: 'A' }, b: { name: 'B', links: ['c', 'a'] }, c: { name: 'C' } })
+		const tree = flattenSkillTreeDefinition({ a: { name: 'A' }, b: { name: 'B', links: ['c', 'a'] }, c: { name: 'C' } })
 		validateAndProcessLinks(tree)
 		expect(tree.a.links).toEqual([{ skillIds: ['b', 'c'] }])
 		expect(tree.b.links).toEqual([{ skillIds: ['a', 'c'] }])
@@ -60,7 +60,7 @@ describe('validateAndProcessLinks', () => {
 
 	it('canonicalizes structured links and linked skill IDs independently of declaration order', () => {
 		const create = (links: RawSkillLink[]) => {
-			const tree = flattenRawSkillTree({ a: { name: 'A', links }, b: { name: 'B' }, c: { name: 'C' }, d: { name: 'D' } })
+			const tree = flattenSkillTreeDefinition({ a: { name: 'A', links }, b: { name: 'B' }, c: { name: 'C' }, d: { name: 'D' } })
 			validateAndProcessLinks(tree)
 			return tree.a
 		}
@@ -72,24 +72,24 @@ describe('validateAndProcessLinks', () => {
 	})
 
 	it('rejects unknown skills without rebuilding any links', () => {
-		const tree = flattenRawSkillTree({ a: { name: 'A', links: 'missing' } })
+		const tree = flattenSkillTreeDefinition({ a: { name: 'A', links: 'missing' } })
 		const originalLinks = tree.a.links
 		expect(() => validateAndProcessLinks(tree)).toThrow(/missing.*a/)
 		expect(tree.a.links).toBe(originalLinks)
 	})
 
 	it('rejects self-links and repeated participant IDs', () => {
-		expect(() => validateAndProcessLinks(flattenRawSkillTree({ a: { name: 'A', links: 'a' } }))).toThrow(/cannot link to itself/)
-		expect(() => validateAndProcessLinks(flattenRawSkillTree({ a: { name: 'A', links: ['b', 'b'] }, b: { name: 'B' } }))).toThrow(/must not be repeated/)
+		expect(() => validateAndProcessLinks(flattenSkillTreeDefinition({ a: { name: 'A', links: 'a' } }))).toThrow(/cannot link to itself/)
+		expect(() => validateAndProcessLinks(flattenSkillTreeDefinition({ a: { name: 'A', links: ['b', 'b'] }, b: { name: 'B' } }))).toThrow(/must not be repeated/)
 	})
 
 	it('rejects duplicate reciprocal declarations', () => {
-		const tree = flattenRawSkillTree({ a: { name: 'A', links: 'b' }, b: { name: 'B', links: 'a' } })
+		const tree = flattenSkillTreeDefinition({ a: { name: 'A', links: 'b' }, b: { name: 'B', links: 'a' } })
 		expect(() => validateAndProcessLinks(tree)).toThrow(/Duplicate skill link/)
 	})
 
 	it('rejects conflicting correlations', () => {
-		const tree = flattenRawSkillTree({ a: { name: 'A', links: { skillId: 'b', correlation: 0.4 } }, b: { name: 'B', links: { skillId: 'a', correlation: 0.6 } } })
+		const tree = flattenSkillTreeDefinition({ a: { name: 'A', links: { skillId: 'b', correlation: 0.4 } }, b: { name: 'B', links: { skillId: 'a', correlation: 0.6 } } })
 		expect(() => validateAndProcessLinks(tree)).toThrow(/Conflicting skill link/)
 	})
 })

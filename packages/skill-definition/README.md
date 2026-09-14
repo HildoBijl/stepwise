@@ -24,20 +24,24 @@ const rawSkillTree = {
 	mathematics: {
 		arithmetic: {
 			addNumbers: {
+				type: 'skill',
 				name: 'Add numbers',
 			},
 			multiplyNumbers: {
+				type: 'skill',
 				name: 'Multiply numbers',
 				prerequisites: ['addNumbers'],
 			},
 		},
 		algebra: {
 			solveLinearEquation: {
+				type: 'skill',
 				name: 'Solve a linear equation',
 				setup: and('addNumbers', 'multiplyNumbers'),
 				links: { skillId: 'rearrangeFormula', correlation: 0.6 },
 			},
 			rearrangeFormula: {
+				type: 'skill',
 				name: 'Rearrange a formula',
 			},
 		},
@@ -59,16 +63,16 @@ skillTree.rearrangeFormula.linkedSkillIds // ['solveLinearEquation']
 
 ## Defining a raw skill tree
 
-A `RawSkillTree` is a nested record. Every property is either another group or a `RawSkillDefinition`. Groups may be nested to any depth, while every skill ID must be unique throughout the complete tree regardless of casing.
+A `SkillTreeDefinition` is a nested record. Every property is either another group or a `SkillDefinition`. Groups may be nested to any depth, while every skill ID must be unique throughout the complete tree regardless of casing.
 
 ```ts
-import type { RawSkillTree } from '@step-wise/skill-definition'
+import type { SkillTreeDefinition } from '@step-wise/skill-definition'
 
-const rawSkillTree: RawSkillTree = {
+const rawSkillTree: SkillTreeDefinition = {
 	subject: {
 		category: {
-			firstSkill: { name: 'First skill' },
-			secondSkill: { name: 'Second skill' },
+			firstSkill: { type: 'skill', name: 'First skill' },
+			secondSkill: { type: 'skill', name: 'Second skill' },
 		},
 	},
 }
@@ -91,8 +95,9 @@ Explicit and setup-derived prerequisites are combined and deduplicated in first-
 Every threshold is a success probability between zero and one. Raw definitions may provide any subset of the options:
 
 ```ts
-const rawSkillTree: RawSkillTree = {
+const rawSkillTree: SkillTreeDefinition = {
 	advancedSkill: {
+		type: 'skill',
 		name: 'Advanced skill',
 		thresholds: {
 			mastery: 0.6,
@@ -211,4 +216,4 @@ Validates the supplied IDs, then returns a new array sorted by their order in th
 
 ## TypeScript
 
-The package includes TypeScript declarations. Its principal exported types are `SkillId`, `RawSkillDefinition`, `RawSkillTree`, `RawSkillLink`, `Skill`, `SkillTree`, `SkillLink`, `SkillThresholdOptions` and `SkillThresholdOptionsInput`.
+The package includes TypeScript declarations. Its principal exported types are `SkillId`, `SkillDefinition`, `SkillTreeDefinition`, `RawSkillLink`, `Skill`, `SkillTree`, `SkillLink`, `SkillThresholdOptions` and `SkillThresholdOptionsInput`.

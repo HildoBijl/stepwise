@@ -2,7 +2,11 @@ import type { SkillId, SkillSetup } from '@step-wise/skill-setup'
 
 export type { SkillId } from '@step-wise/skill-setup'
 
-// Raw skills.
+// Fundamentals.
+export type ModuleId = string
+export type ModuleType = 'concept' | 'skill'
+
+// Parameter types.
 export type SkillThresholdOptions = {
 	mastery: number
 	recap: number
@@ -11,29 +15,50 @@ export type SkillThresholdOptions = {
 }
 export type SkillThresholdOptionsInput = Partial<SkillThresholdOptions>
 export type RawSkillLink = string | string[] | { skillId?: SkillId | SkillId[]; skillIds?: SkillId[]; correlation?: number }
-export type RawSkillDefinition = {
+export type BaseModuleDefinition = {
 	name: string
+	prerequisites?: ModuleId[]
+}
+
+// Module definitions.
+export type ConceptDefinition = BaseModuleDefinition & {
+	type: 'concept'
+}
+export type SkillDefinition = BaseModuleDefinition & {
+	type: 'skill'
 	setup?: SkillSetup<unknown>
-	prerequisites?: SkillId[]
 	links?: RawSkillLink | RawSkillLink[]
 	thresholds?: SkillThresholdOptionsInput
 }
-export type RawSkillTree = { [key: string]: RawSkillDefinition | RawSkillTree }
+export type ModuleDefinition = ConceptDefinition | SkillDefinition
 
-// Processed skills.
+// Processed modules.
 export type SkillLink = { skillIds: SkillId[]; correlation?: number }
-export type Skill = {
-	id: SkillId
+export type BaseModule = {
+	id: ModuleId
+	type: ModuleType
 	name: string
 	groupPath: string[]
-	groupSkillIds: SkillId[]
+	groupModuleIds: ModuleId[]
+	prerequisiteIds: ModuleId[]
+	continuationIds: ModuleId[]
+}
+export type Concept = BaseModule & {
+	type: 'concept'
+}
+export type Skill = BaseModule & {
+	id: SkillId
+	type: 'skill'
+	groupModuleIds: SkillId[]
 	setup?: SkillSetup<unknown>
-	prerequisiteIds: SkillId[]
-	continuationIds: SkillId[]
 	links: SkillLink[]
 	linkedSkillIds: SkillId[]
 	thresholds: SkillThresholdOptions
 }
+export type Module = Concept | Skill
 
-// Skill containers.
+// Module containers.
+export type ModuleTreeDefinition = { [key: string]: ModuleDefinition | ModuleTreeDefinition }
+export type SkillTreeDefinition = { [key: string]: SkillDefinition | SkillTreeDefinition }
+export type ModuleTree = Record<ModuleId, Module>
 export type SkillTree = Record<SkillId, Skill>

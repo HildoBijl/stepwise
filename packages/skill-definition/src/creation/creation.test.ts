@@ -12,7 +12,7 @@ describe('createSkillTree', () => {
 			advanced: { name: 'Advanced', prerequisites: ['intermediate'], links: { skillId: 'foundation', correlation: 0.5 } },
 		})
 		expect(Object.getPrototypeOf(tree)).toBeNull()
-		expect(tree.foundation).toMatchObject({ groupPath: ['basics'], groupSkillIds: ['foundation', 'intermediate'], continuationIds: ['intermediate'], linkedSkillIds: ['advanced'], thresholds: { mastery: 0.6 } })
+		expect(tree.foundation).toMatchObject({ groupPath: ['basics'], groupModuleIds: ['foundation', 'intermediate'], continuationIds: ['intermediate'], linkedSkillIds: ['advanced'], thresholds: { mastery: 0.6 } })
 		expect(tree.intermediate).toMatchObject({ prerequisiteIds: ['foundation'], continuationIds: ['advanced'] })
 		expect(tree.advanced).toMatchObject({ prerequisiteIds: ['intermediate'], links: [{ skillIds: ['foundation'], correlation: 0.5 }] })
 	})

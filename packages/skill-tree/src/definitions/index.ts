@@ -1,11 +1,11 @@
-import type { RawSkillTree } from '@step-wise/skill-definition'
+import type { SkillTreeDefinition } from '@step-wise/skill-definition'
 
 import { demoTree } from './demoTree.ts'
 import { mathematicsTree } from './mathematicsTree.ts'
 import { mechanicsTree } from './mechanicsTree.ts'
 import { physicsTree } from './physicsTree.ts'
 
-export const rawSkillTree: RawSkillTree = {
+export const skillTreeDefinition: SkillTreeDefinition = {
 	demo: demoTree,
 	mathematics: mathematicsTree,
 	mechanics: mechanicsTree,
