@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 
 import type { SkillWithLatestExerciseRecord } from '../records.ts'
 import type { UseSkillResult } from '../types.ts'

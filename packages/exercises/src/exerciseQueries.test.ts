@@ -2,12 +2,12 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { type Exercise } from '@step-wise/exercise-definition'
 import { getByPath, isPlainObject } from '@step-wise/js-utils'
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 import * as exerciseRegistry from './exerciseRegistry.ts'
 import { getAllExercises, getExamples, getExercise, getExercises, hasExamples, hasExercises } from './exerciseQueries.ts'
 
-const skillsAndBundles = Object.values(skillTree).map(skill => ({
+const skillsAndBundles = Object.values(moduleTree).map(skill => ({
 	skill,
 	bundle: getByPath(exerciseRegistry, [...skill.groupPath, skill.id]),
 }))

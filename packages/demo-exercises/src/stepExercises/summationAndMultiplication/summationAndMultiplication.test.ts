@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import type { InputExerciseSolution, StepExerciseMetadata } from '@step-wise/input-exercises'
-import { areValuesEqual } from '@step-wise/value-equality'
+import { areValuesEqualFromAdapter } from '@step-wise/value-equality'
 import { IntegerType, integerEqualityAdapter } from '@step-wise/value-types'
 
 import summationAndMultiplication1 from './summationAndMultiplication1.ts'
@@ -17,7 +17,7 @@ function createCheckInputData<TParameters extends Record<string, unknown>, TSolu
 		solution,
 		areValuesEqual: (type: string, inputValue: unknown, expectedValue: unknown, options?: unknown) => {
 			if (type !== IntegerType) throw new Error(`Unknown value type: ${type}`)
-			return areValuesEqual(integerEqualityAdapter, inputValue, expectedValue, options)
+			return areValuesEqualFromAdapter(integerEqualityAdapter, inputValue, expectedValue, options)
 		},
 	}
 }

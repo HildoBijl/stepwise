@@ -1,6 +1,7 @@
 import { deserializeData, serializeData } from '@step-wise/serialization'
 import { interpretInputData, toInputValue } from '@step-wise/input-interpretation'
-import { type ValueTypes, combineValueTypes, createAreValuesEqual, extractValueTypeAdapters, fundamentalValueTypes } from '@step-wise/value-types'
+import { createAreValuesEqual } from '@step-wise/value-equality'
+import { type ValueTypes, combineValueTypes, extractValueTypeAdapters, fundamentalValueTypes } from '@step-wise/value-types'
 
 import type { InputExerciseInput, InputExerciseValueOperations } from './types.ts'
 

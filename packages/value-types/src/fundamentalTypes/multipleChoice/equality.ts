@@ -2,6 +2,7 @@ import { ensureInteger, hasDuplicates, isInteger } from '@step-wise/js-utils'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
 
 import type { MultipleChoiceSelection } from './inputValue.ts'
+
 export function areMultipleChoiceSelectionsEqual(inputValue: MultipleChoiceSelection, expectedValue: MultipleChoiceSelection): boolean {
 	const inputList = ensureMultipleChoiceSelection(inputValue)
 	const expectedList = ensureMultipleChoiceSelection(expectedValue)

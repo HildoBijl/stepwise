@@ -4,7 +4,7 @@ import { Tooltip, Box } from '@mui/material'
 import { resolveFunctionValuesDeep, integerRange, clamp, repeat } from '@step-wise/js-utils'
 import { interpolateGrid } from '@step-wise/interpolation'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 import { colorToCss, mixColors, shiftColorBrightness } from '@step-wise/browser-utils'
 
 import { Translation, Check } from 'i18n'
@@ -30,7 +30,7 @@ export function SkillFlask(props) {
 	const id = useId()
 
 	// If a skillId is given, calculate and display the target.
-	const thresholds = skillId ? skillTree[skillId].thresholds : undefined
+	const thresholds = skillId ? moduleTree[skillId].thresholds : undefined
 	const target = thresholds && (isPriorKnowledge ? thresholds.priorKnowledgeMastery : thresholds.mastery)
 
 	// Calculate style elements and pass them to the useStyles function.

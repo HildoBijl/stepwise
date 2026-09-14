@@ -1,0 +1,35 @@
+{
+	"name": "@step-wise/module-tree",
+	"version": "0.1.0",
+	"private": true,
+	"engines": {
+		"node": ">=24.12.0"
+	},
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"development": "./src/index.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"scripts": {
+		"build": "tsc -b tsconfig.build.json",
+		"watch": "tsc -b tsconfig.build.json --watch",
+		"test": "vitest run",
+		"test:watch": "vitest"
+	},
+	"dependencies": {
+		"@step-wise/module-tree-definition": "^0.1.0",
+		"@step-wise/skill-setup": "^0.1.0"
+	},
+	"devDependencies": {
+		"vitest": "^5.0.0"
+	}
+}

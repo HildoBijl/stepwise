@@ -1,5 +1,5 @@
 import type { ExerciseAction, ExerciseState, GroupExerciseHistoryEvent, GroupExerciseInstance, UserExerciseAction } from '@step-wise/exercise-definition'
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 
 import type { ApiMutationResult, ApiQueryResult } from '../types.ts'
 

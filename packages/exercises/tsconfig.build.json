@@ -17,8 +17,8 @@
     { "path": "../mechanics-exercises/tsconfig.build.json" },
     { "path": "../physics-exercises/tsconfig.build.json" },
 	{ "path": "../serialization/tsconfig.build.json" },
-    { "path": "../skill-definition/tsconfig.build.json" },
-    { "path": "../skill-tree/tsconfig.build.json" },
+    { "path": "../module-tree-definition/tsconfig.build.json" },
+    { "path": "../module-tree/tsconfig.build.json" },
     { "path": "../js-utils/tsconfig.build.json" }
   ],
   "include": ["src"]

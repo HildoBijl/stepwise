@@ -1,5 +1,5 @@
 import type { ExerciseAction, ExerciseParameters, ExerciseState, GroupExerciseReport } from '@step-wise/exercise-definition'
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 
 export type GroupExerciseActionRecord = {
 	id: string

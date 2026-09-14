@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises } from '@step-wise/exercises'
 
 import { TranslationFile, Translation, Check, Plurals, CountingWord } from 'i18n'
@@ -24,7 +24,7 @@ export function MetaWrapper({ skillId, empty, children }) {
 }
 
 function Prerequisites({ skillId }) {
-	const skill = skillTree[skillId]
+	const skill = moduleTree[skillId]
 	const numPrerequisities = skill.prerequisiteIds.length
 	if (numPrerequisities === 0)
 		return <Par><Translation entry="noPrerequisites">This skill has no <strong>prerequisites</strong>.</Translation></Par>
@@ -35,7 +35,7 @@ function Prerequisites({ skillId }) {
 }
 
 function Links({ skillId }) {
-	const skill = skillTree[skillId]
+	const skill = moduleTree[skillId]
 	const numLinks = skill.linkedSkillIds.length
 	if (numLinks === 0)
 		return null
@@ -46,7 +46,7 @@ function Links({ skillId }) {
 }
 
 function Continuations({ skillId }) {
-	const skill = skillTree[skillId]
+	const skill = moduleTree[skillId]
 	const numContinuations = skill.continuationIds.length
 	if (numContinuations === 0)
 		return <Par><Translation entry="noContinuations">It is an <strong>end goal</strong>: it is not needed for any other skills.</Translation></Par>
@@ -57,7 +57,7 @@ function Continuations({ skillId }) {
 }
 
 function SameGroup({ skillId }) {
-	const skill = skillTree[skillId]
+	const skill = moduleTree[skillId]
 	const numSkillsInGroup = skill.groupSkillIds.length
 	if (numSkillsInGroup <= 1)
 		return null

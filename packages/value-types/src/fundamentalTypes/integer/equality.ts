@@ -1,5 +1,6 @@
 import { type NumberEqualityOptionsInput, ensureInteger, isInteger, isNumberEqualityOptionsInput, numbersEqual, resolveNumberEqualityOptions } from '@step-wise/js-utils'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
+
 export function areIntegersEqual(inputValue: number, expectedValue: number, options: NumberEqualityOptionsInput = {}): boolean {
 	inputValue = ensureInteger(inputValue)
 	expectedValue = ensureInteger(expectedValue)

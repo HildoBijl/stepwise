@@ -2,6 +2,7 @@ import { type PlainDataValue, isPlainObject } from '@step-wise/js-utils'
 
 import type { InputValue } from './types.ts'
 
+// Wraps the given type and value into an InputValue object.
 export function createInputValue<TType extends string, TValue extends PlainDataValue>(type: TType, value: TValue): InputValue<TType, TValue> {
 	return { type, value }
 }

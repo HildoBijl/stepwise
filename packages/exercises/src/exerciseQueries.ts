@@ -1,8 +1,8 @@
 import { getByPath, isPlainObject } from '@step-wise/js-utils'
-import { type SkillId } from '@step-wise/skill-definition'
+import { type SkillId } from '@step-wise/module-tree-definition'
 import { type Exercise } from '@step-wise/exercise-definition'
 import { type ExerciseId, type ExerciseCollection, isExerciseCollection, isEmptyExerciseCollection } from '@step-wise/exercise-bundling'
-import { getSkill } from '@step-wise/skill-tree'
+import { getSkill } from '@step-wise/module-tree'
 
 import * as exerciseRegistry from './exerciseRegistry.ts'
 

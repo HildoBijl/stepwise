@@ -3,7 +3,7 @@ import { type BernsteinCoefficients, getBernsteinMoment, multiplyBernsteinCoeffi
 import { ensureInteger, repeat } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 import type { SkillSetup } from '@step-wise/skill-setup'
-import type { Skill } from '@step-wise/skill-definition'
+import type { Skill } from '@step-wise/module-tree-definition'
 
 import { defaultInferenceOrder, defaultSkillLinkCorrelation } from './settings.ts'
 

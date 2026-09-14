@@ -3,17 +3,23 @@ import { isPlainObject, mapValues } from '@step-wise/js-utils'
 import type { InputValueAdapters } from './types.ts'
 import { getInputValueAdapter } from './adapters.ts'
 
+// Turn a given input value of a given type into a domain value.
 export function interpretInputValue<DomainValue = unknown>(inputValue: unknown, inputValueAdapters?: InputValueAdapters): DomainValue {
 	if (!isPlainObject(inputValue) || typeof inputValue.type !== 'string' || !Object.hasOwn(inputValue, 'value')) throw new Error(`Invalid input value: expected an object with a type and value.`)
 	ensureValidStructure(inputValue, new WeakSet())
+
+	// Load the respective adapters.
 	const adapter = getInputValueAdapter(inputValue.type, inputValueAdapters)
 	if (adapter === undefined) throw new Error(`Invalid input value: unknown type "${inputValue.type}".`)
 	if (!adapter.isInputValue(inputValue)) throw new Error(`Invalid input value: value does not match type "${inputValue.type}".`)
+
+	// Apply the adapters and check the resulting domain value.
 	const domainValue = adapter.interpret(inputValue as never)
 	if (!adapter.isDomainValue(domainValue)) throw new Error(`Invalid input value adapter for type "${inputValue.type}": returned an invalid domain value.`)
 	return domainValue as DomainValue
 }
 
+// Turn an object/array/other shape with input values into the respective domain values.
 export function interpretInputData(value: Record<string, unknown>, inputValueAdapters?: InputValueAdapters): Record<string, unknown>
 export function interpretInputData(value: unknown, inputValueAdapters?: InputValueAdapters): unknown
 export function interpretInputData(value: unknown, inputValueAdapters?: InputValueAdapters): unknown {
@@ -21,7 +27,10 @@ export function interpretInputData(value: unknown, inputValueAdapters?: InputVal
 }
 
 function interpretValue(value: unknown, ancestors: WeakSet<object>, inputValueAdapters?: InputValueAdapters): unknown {
+	// Handle fundamental types.
 	if (value === null || value === undefined || typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') return value
+
+	// Handle arrays/plain objects.
 	if (Array.isArray(value) || isPlainObject(value)) {
 		if (ancestors.has(value)) throw new Error(`Invalid interpretInputData call: cannot interpret circular data.`)
 		ancestors.add(value)
@@ -36,6 +45,8 @@ function interpretValue(value: unknown, ancestors: WeakSet<object>, inputValueAd
 			ancestors.delete(value)
 		}
 	}
+
+	// Unknown type.
 	throw new Error(`Invalid interpretInputData call: cannot interpret value of type "${typeof value}". Only plain objects, arrays and basic types are expected.`)
 }
 

@@ -2,41 +2,41 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { analyzeCourseProgress } from './courseProgress.ts'
 import { freePracticeRecommendation } from './types.ts'
-import { courseDefinition, createSkillLevelSet, now, skillTree } from './testUtils.ts'
+import { courseDefinition, createSkillLevelSet, now, moduleTree } from './testUtils.ts'
 
 beforeEach(() => vi.useFakeTimers().setSystemTime(now))
 afterEach(() => vi.useRealTimers())
 
 describe('analyzeCourseProgress', () => {
 	it('prioritizes required prior knowledge over required course content', () => {
-		const skillLevelSet = createSkillLevelSet(skillTree, { foundation: 2, basic: 2, intermediate: 2, advanced: 2 })
+		const skillLevelSet = createSkillLevelSet(moduleTree, { foundation: 2, basic: 2, intermediate: 2, advanced: 2 })
 		expect(analyzeCourseProgress(courseDefinition, skillLevelSet)?.recommendation).toBe('foundation')
 	})
 
 	it('prioritizes required practice over recommended practice', () => {
-		const skillLevelSet = createSkillLevelSet(skillTree, { foundation: 1, basic: 2, intermediate: 2, advanced: 2 })
+		const skillLevelSet = createSkillLevelSet(moduleTree, { foundation: 1, basic: 2, intermediate: 2, advanced: 2 })
 		expect(analyzeCourseProgress(courseDefinition, skillLevelSet)?.recommendation).toBe('basic')
 	})
 
 	it('recommends optional practice when no skill requires practice', () => {
-		const skillLevelSet = createSkillLevelSet(skillTree, { foundation: 1, basic: 1, intermediate: 1, advanced: 1 })
+		const skillLevelSet = createSkillLevelSet(moduleTree, { foundation: 1, basic: 1, intermediate: 1, advanced: 1 })
 		expect(analyzeCourseProgress(courseDefinition, skillLevelSet)?.recommendation).toBe('basic')
 	})
 
 	it('falls back to free practice when the course is mastered', () => {
-		const skillLevelSet = createSkillLevelSet(skillTree)
+		const skillLevelSet = createSkillLevelSet(moduleTree)
 		expect(analyzeCourseProgress(courseDefinition, skillLevelSet)?.recommendation).toBe(freePracticeRecommendation)
 	})
 
 	it('skips skills without exercises when choosing a recommendation', () => {
-		const skillLevelSet = createSkillLevelSet(skillTree, { foundation: 2, basic: 2, intermediate: 2, advanced: 2 })
+		const skillLevelSet = createSkillLevelSet(moduleTree, { foundation: 2, basic: 2, intermediate: 2, advanced: 2 })
 		const hasExercises = (skillId: string) => skillId !== 'foundation' && skillId !== 'basic'
 
 		expect(analyzeCourseProgress(courseDefinition, skillLevelSet, hasExercises)?.recommendation).toBe('intermediate')
 	})
 
 	it('counts completed content skills for the course and its blocks', () => {
-		const skillLevelSet = createSkillLevelSet(skillTree, { advanced: 2 })
+		const skillLevelSet = createSkillLevelSet(moduleTree, { advanced: 2 })
 		const analysis = analyzeCourseProgress(courseDefinition, skillLevelSet)
 
 		expect(analysis?.numCompleted).toBe(2)
@@ -44,7 +44,7 @@ describe('analyzeCourseProgress', () => {
 	})
 
 	it('returns undefined when the course data is incomplete', () => {
-		const skillLevelSet = createSkillLevelSet(skillTree, {}, ['intermediate'])
+		const skillLevelSet = createSkillLevelSet(moduleTree, {}, ['intermediate'])
 		expect(analyzeCourseProgress(courseDefinition, skillLevelSet)).toBeUndefined()
 	})
 })

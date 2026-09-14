@@ -4,9 +4,9 @@ import { compareNumberArrays } from '@step-wise/js-utils'
 import { and, or, part, pick, repeat, skill } from '@step-wise/skill-setup'
 
 import { SkillLevelSet } from './SkillLevelSet.ts'
-import { coefficientsToStoredSkillLevel, effectivelyInfinitePracticeCount, now, skillTree } from './testUtils.ts'
+import { coefficientsToStoredSkillLevel, effectivelyInfinitePracticeCount, now, moduleTree } from './testUtils.ts'
 
-const createLevels = () => new SkillLevelSet(skillTree, {
+const createLevels = () => new SkillLevelSet(moduleTree, {
 	a: coefficientsToStoredSkillLevel([1], now, effectivelyInfinitePracticeCount),
 	b: coefficientsToStoredSkillLevel([0, 1], now, effectivelyInfinitePracticeCount),
 })
@@ -41,7 +41,7 @@ describe('individual observations', () => {
 	})
 
 	it('rejects observations whose required skill data is unavailable', () => {
-		const levels = new SkillLevelSet(skillTree, { a: coefficientsToStoredSkillLevel([1]) })
+		const levels = new SkillLevelSet(moduleTree, { a: coefficientsToStoredSkillLevel([1]) })
 		expect(() => levels.applyObservation({ setup: skill('b'), correct: true })).toThrow(/not been loaded/)
 	})
 })
@@ -74,7 +74,7 @@ describe('observation batches', () => {
 	})
 
 	it('compares only the final batch result with the previous highest level', () => {
-		const levels = new SkillLevelSet(skillTree, { a: coefficientsToStoredSkillLevel([1], now, effectivelyInfinitePracticeCount) })
+		const levels = new SkillLevelSet(moduleTree, { a: coefficientsToStoredSkillLevel([1], now, effectivelyInfinitePracticeCount) })
 		const result = levels.applyObservations([
 			{ setup: skill('a'), correct: true },
 			{ setup: skill('a'), correct: false },
@@ -84,7 +84,7 @@ describe('observation batches', () => {
 	})
 
 	it('stores and returns a genuinely new highest level', () => {
-		const levels = new SkillLevelSet(skillTree, { a: coefficientsToStoredSkillLevel([1], now, effectivelyInfinitePracticeCount) })
+		const levels = new SkillLevelSet(moduleTree, { a: coefficientsToStoredSkillLevel([1], now, effectivelyInfinitePracticeCount) })
 		const result = levels.applyObservation({ setup: skill('a'), correct: true })
 		expect(result.a.highest).toBeDefined()
 		expect(result.a.highestOn).toEqual(now)

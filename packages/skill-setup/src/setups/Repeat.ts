@@ -20,6 +20,7 @@ export class Repeat extends SkillItemSetup<RepeatStorageValue> {
 	override toStorageValue(): RepeatStorageValue {
 		return { ...super.getSkillItemStorageValue(), repeat: this.repeat }
 	}
+	
 	static fromStorageValue(storageValue: RepeatStorageValue, deserialize: (setup: unknown) => SkillSetup): Repeat {
 		const { skill } = ensureSkillItemStorageValue(storageValue)
 		return new Repeat(deserialize(skill), storageValue.repeat)

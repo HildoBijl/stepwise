@@ -1,29 +1,29 @@
 import { describe, expect, it } from 'vitest'
 
 import { and } from '@step-wise/skill-setup'
-import { type SkillTree, createSkillTree } from '@step-wise/skill-definition'
+import { type ModuleTree, createModuleTree } from '@step-wise/module-tree-definition'
 
 import { analyzeCourse } from './analyzeCourse.ts'
 
-const skillTree = createSkillTree({
-	a: { name: 'A' },
-	b: { name: 'B', prerequisites: ['a'] },
-	c: { name: 'C', prerequisites: ['b'] },
-	d: { name: 'D' },
-	e: { name: 'E', prerequisites: ['c', 'd'] },
-	f: { name: 'F', prerequisites: ['b'] },
+const moduleTree = createModuleTree({
+	a: { type: 'skill', name: 'A' },
+	b: { type: 'skill', name: 'B', prerequisites: ['a'] },
+	c: { type: 'skill', name: 'C', prerequisites: ['b'] },
+	d: { type: 'skill', name: 'D' },
+	e: { type: 'skill', name: 'E', prerequisites: ['c', 'd'] },
+	f: { type: 'skill', name: 'F', prerequisites: ['b'] },
 })
 
 describe('analyzeCourse', () => {
 	it('resolves a linear course', () => {
-		const { resolution, diagnostics } = analyzeCourse(skillTree, { startingPointIds: ['a'], learningGoalIds: ['c'] })
+		const { resolution, diagnostics } = analyzeCourse(moduleTree, { startingPointIds: ['a'], learningGoalIds: ['c'] })
 
 		expect(resolution).toMatchObject({ priorKnowledgeIds: [], startingPointIds: ['a'], contentSkillIds: ['a', 'b', 'c'], allSkillIds: ['a', 'b', 'c'], learningGoalIds: ['c'], learningGoalWeights: [1] })
 		expect(diagnostics.missingStartingPointIds).toEqual([])
 	})
 
 	it('derives prior knowledge before a starting point', () => {
-		const { resolution } = analyzeCourse(skillTree, { startingPointIds: ['b'], learningGoalIds: ['c'] })
+		const { resolution } = analyzeCourse(moduleTree, { startingPointIds: ['b'], learningGoalIds: ['c'] })
 
 		expect(resolution.priorKnowledgeIds).toEqual(['a'])
 		expect(resolution.contentSkillIds).toEqual(['b', 'c'])
@@ -31,7 +31,7 @@ describe('analyzeCourse', () => {
 	})
 
 	it('diagnoses a branch not reached by a starting point', () => {
-		const { resolution, diagnostics } = analyzeCourse(skillTree, { startingPointIds: ['a'], learningGoalIds: ['e'] })
+		const { resolution, diagnostics } = analyzeCourse(moduleTree, { startingPointIds: ['a'], learningGoalIds: ['e'] })
 
 		expect(diagnostics.missingStartingPointIds).toEqual(['e'])
 		expect(resolution.startingPointIds).toEqual(['a', 'e'])
@@ -39,29 +39,29 @@ describe('analyzeCourse', () => {
 	})
 
 	it('diagnoses an unreachable top-level goal and an unrelated starting point', () => {
-		const { diagnostics } = analyzeCourse(skillTree, { startingPointIds: ['d'], learningGoalIds: ['c'] })
+		const { diagnostics } = analyzeCourse(moduleTree, { startingPointIds: ['d'], learningGoalIds: ['c'] })
 
 		expect(diagnostics.missingStartingPointIds).toEqual(['c'])
 		expect(diagnostics.externalStartingPointIds).toEqual(['d'])
 	})
 
 	it('diagnoses redundant starting points', () => {
-		const { resolution, diagnostics } = analyzeCourse(skillTree, { startingPointIds: ['a', 'b'], learningGoalIds: ['c'] })
+		const { resolution, diagnostics } = analyzeCourse(moduleTree, { startingPointIds: ['a', 'b'], learningGoalIds: ['c'] })
 
 		expect(diagnostics.redundantStartingPointIds).toEqual(['b'])
 		expect(resolution.startingPointIds).toEqual(['a'])
 	})
 
 	it('diagnoses redundant learning goals independently of their order', () => {
-		const first = analyzeCourse(skillTree, { startingPointIds: ['a'], learningGoalIds: ['b', 'c'] })
-		const second = analyzeCourse(skillTree, { startingPointIds: ['a'], learningGoalIds: ['c', 'b'] })
+		const first = analyzeCourse(moduleTree, { startingPointIds: ['a'], learningGoalIds: ['b', 'c'] })
+		const second = analyzeCourse(moduleTree, { startingPointIds: ['a'], learningGoalIds: ['c', 'b'] })
 
 		expect(first.diagnostics.redundantLearningGoalIds).toEqual(['b'])
 		expect(second.diagnostics.redundantLearningGoalIds).toEqual(['b'])
 	})
 
 	it('filters unknown endpoints and retains the weights of known goals', () => {
-		const { resolution, diagnostics } = analyzeCourse(skillTree, { startingPointIds: ['a', 'unknownStart'], learningGoalIds: ['unknownGoal', 'c'], learningGoalWeights: [2, 3] })
+		const { resolution, diagnostics } = analyzeCourse(moduleTree, { startingPointIds: ['a', 'unknownStart'], learningGoalIds: ['unknownGoal', 'c'], learningGoalWeights: [2, 3] })
 
 		expect(diagnostics.unknownStartingPointIds).toEqual(['unknownStart'])
 		expect(diagnostics.unknownLearningGoalIds).toEqual(['unknownGoal'])
@@ -69,8 +69,21 @@ describe('analyzeCourse', () => {
 		expect(resolution.learningGoalWeights).toEqual([3])
 	})
 
+	it('does not treat concepts as course skills', () => {
+		const mixedTree = createModuleTree({
+			concept: { type: 'concept', name: 'Concept' },
+			a: { type: 'skill', name: 'A' },
+			b: { type: 'skill', name: 'B', prerequisites: ['concept', 'a'] },
+		})
+		const { resolution, diagnostics } = analyzeCourse(mixedTree, { startingPointIds: ['a', 'concept'], learningGoalIds: ['b', 'concept'] })
+
+		expect(resolution.contentSkillIds).toEqual(['a', 'b'])
+		expect(diagnostics.unknownStartingPointIds).toEqual(['concept'])
+		expect(diagnostics.unknownLearningGoalIds).toEqual(['concept'])
+	})
+
 	it('sorts course contents into blocks', () => {
-		const { resolution, diagnostics } = analyzeCourse(skillTree, { startingPointIds: ['a'], learningGoalIds: ['c'], blockLearningGoalIds: [['b'], ['c']] })
+		const { resolution, diagnostics } = analyzeCourse(moduleTree, { startingPointIds: ['a'], learningGoalIds: ['c'], blockLearningGoalIds: [['b'], ['c']] })
 
 		expect(resolution.blocks).toEqual([
 			{ learningGoalIds: ['b'], contentSkillIds: ['a', 'b'] },
@@ -81,26 +94,26 @@ describe('analyzeCourse', () => {
 	})
 
 	it('diagnoses invalid and redundant block learning goals', () => {
-		const { diagnostics } = analyzeCourse(skillTree, { startingPointIds: ['a'], learningGoalIds: ['c'], blockLearningGoalIds: [['b'], ['b', 'd', 'unknown'], ['c']] })
+		const { diagnostics } = analyzeCourse(moduleTree, { startingPointIds: ['a'], learningGoalIds: ['c'], blockLearningGoalIds: [['b'], ['b', 'd', 'unknown'], ['c']] })
 
 		expect(diagnostics.blockDiagnostics?.[1]).toEqual({ unknownLearningGoalIds: ['unknown'], externalLearningGoalIds: ['d'], redundantLearningGoalIds: ['b'] })
 	})
 
 	it('diagnoses learning goals not covered by blocks', () => {
-		const { diagnostics } = analyzeCourse(skillTree, { startingPointIds: ['a'], learningGoalIds: ['c'], blockLearningGoalIds: [['b']] })
+		const { diagnostics } = analyzeCourse(moduleTree, { startingPointIds: ['a'], learningGoalIds: ['c'], blockLearningGoalIds: [['b']] })
 
 		expect(diagnostics.uncoveredLearningGoalIds).toEqual(['c'])
 	})
 
 	it('diagnoses unknown and external setup skills', () => {
-		const { diagnostics } = analyzeCourse(skillTree, { startingPointIds: ['a'], learningGoalIds: ['c'], setup: and('b', 'd', 'unknown') })
+		const { diagnostics } = analyzeCourse(moduleTree, { startingPointIds: ['a'], learningGoalIds: ['c'], setup: and('b', 'd', 'unknown') })
 
 		expect(diagnostics.unknownSetupSkillIds).toEqual(['unknown'])
 		expect(diagnostics.externalSetupSkillIds).toEqual(['d'])
 	})
 
 	it('does not treat inherited object properties as skills', () => {
-		const ordinaryTree = { a: skillTree.a } as SkillTree
+		const ordinaryTree = { a: moduleTree.a } as ModuleTree
 		const { diagnostics } = analyzeCourse(ordinaryTree, { startingPointIds: [], learningGoalIds: ['constructor'] })
 
 		expect(diagnostics.unknownLearningGoalIds).toEqual(['constructor'])

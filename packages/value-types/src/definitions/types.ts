@@ -1,6 +1,11 @@
 import type { AnySerializationAdapter, SerializationAdapters } from '@step-wise/serialization'
 import type { AnyInputValueAdapter, InputValueAdapters } from '@step-wise/input-interpretation'
 import type { AnyValueEqualityAdapter, ValueEqualityAdapters } from '@step-wise/value-equality'
+
+/*
+ * Single-type containers.
+ */
+
 export type ValueType<
 	TInputValueAdapter extends AnyInputValueAdapter = AnyInputValueAdapter,
 	TSerializationAdapter extends AnySerializationAdapter = AnySerializationAdapter,
@@ -12,6 +17,10 @@ export type ValueType<
 }
 
 export type ValueTypes = Record<string, ValueType>
+
+/*
+ * Aggregated containers.
+ */
 
 export type ValueTypeAdapters = {
 	inputValueAdapters: InputValueAdapters

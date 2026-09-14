@@ -39,7 +39,7 @@
 		"watch": "tsc -b tsconfig.build.json --watch"
 	},
 	"dependencies": {
-		"@step-wise/skill-definition": "^0.1.0",
+		"@step-wise/module-tree-definition": "^0.1.0",
 		"@step-wise/skill-setup": "^0.1.0",
 		"@step-wise/js-utils": "^0.1.0"
 	},

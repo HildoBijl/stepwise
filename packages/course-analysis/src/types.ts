@@ -1,4 +1,4 @@
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 
 export const freePracticeRecommendation = 'StepWiseFreePracticeMode' as const
 

@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 import { useGetTranslation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
@@ -30,7 +30,7 @@ export function SkillLink({ skillId, tab, children, ...props }) {
 	const path = skillPath(skillId || currentSkillId, tab || currentTab)
 
 	// On no children, get the skill title.
-	const skill = skillTree[skillId]
+	const skill = moduleTree[skillId]
 	const getTranslation = useGetTranslation('eduContent/skillNames')
 	if (!children)
 		children = getTranslation(`${skill.groupPath.join('.')}.${skill.id}`)

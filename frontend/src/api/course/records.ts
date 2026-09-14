@@ -1,4 +1,4 @@
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 import type { SerializedSkillSetup } from '@step-wise/skill-setup'
 
 import type { UserRecord } from '../user/records.ts'

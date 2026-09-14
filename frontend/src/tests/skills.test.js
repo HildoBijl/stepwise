@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 describe('Check all skills:', () => {
-	Object.keys(skillTree).forEach(key => {
-		const skill = skillTree[key]
+	Object.keys(moduleTree).forEach(key => {
+		const skill = moduleTree[key]
 		describe(key, () => {
 			it('has an id matching its key', () => {
-				expect(skillTree[key].id).toBe(key)
+				expect(moduleTree[key].id).toBe(key)
 			})
 
 			it('has a name', () => {
@@ -22,7 +22,7 @@ describe('Check all skills:', () => {
 			it('has prerequisite links, which are mutual', () => {
 				expect(Array.isArray(skill.prerequisiteIds)).toBe(true)
 				skill.prerequisiteIds.forEach(prerequisiteId => {
-					const prerequisite = skillTree[prerequisiteId]
+					const prerequisite = moduleTree[prerequisiteId]
 					expect(typeof prerequisite).toBe('object')
 					expect(prerequisite.continuationIds).toContain(skill.id)
 				})
@@ -31,7 +31,7 @@ describe('Check all skills:', () => {
 			it('has continuation links, which are mutual', () => {
 				expect(Array.isArray(skill.continuationIds)).toBe(true)
 				skill.continuationIds.forEach(continuationId => {
-					const continuation = skillTree[continuationId]
+					const continuation = moduleTree[continuationId]
 					expect(typeof continuation).toBe('object')
 					expect(continuation.prerequisiteIds).toContain(skill.id)
 				})
@@ -55,9 +55,9 @@ describe('The skill tree', () => {
 			// Note that we passed it. Then check all the children and see if we passed one already during this cycle.
 			inRecursionTree[skill.id] = true
 			examined[skill.id] = true
-			skill.continuationIds.forEach(continuationId => examine(skillTree[continuationId]))
+			skill.continuationIds.forEach(continuationId => examine(moduleTree[continuationId]))
 			inRecursionTree[skill.id] = false // If we get here, we didn't find a cycle. Mark the node as safe again.
 		}
-		Object.values(skillTree).forEach(skill => examine(skill))
+		Object.values(moduleTree).forEach(skill => examine(skill))
 	})
 })

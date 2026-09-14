@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { type SubscribeToMoreFunction, type TypedDocumentNode, gql } from '@apollo/client'
 
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 
 import type { ExerciseRecord, SkillWithLatestExerciseRecord } from '../records.ts'
 import { exerciseFields } from '../fragments.ts'

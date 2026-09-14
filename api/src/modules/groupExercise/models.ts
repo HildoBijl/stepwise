@@ -1,7 +1,7 @@
 import { type CreationOptional, type HasManyCreateAssociationMixin, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
 
-import type { SkillId } from '@step-wise/skill-definition'
 import type { ExerciseAction, ExerciseParameters, ExerciseState, GroupExerciseReport } from '@step-wise/exercise-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 
 import type { GroupWithMembers } from '../group/index.ts'
 

@@ -1,63 +1,33 @@
 import { isPlainObject } from '@step-wise/js-utils'
-import type { SerializationAdapters } from '@step-wise/serialization'
-import type { InputValueAdapters } from '@step-wise/input-interpretation'
-import { type ValueEqualityAdapters, areValuesEqual } from '@step-wise/value-equality'
 
-import { isValueType } from './checks.ts'
-import type { ValueType, ValueTypeAdapters, ValueTypes } from './types.ts'
+import type { ValueTypeAdapters, ValueTypes } from './types.ts'
+import { isValueType } from './guards.ts'
+
+// Combine a set of ValueTypes registries into one, ensuring there are no duplicates. (Unless the ValueTypes are identical.)
 export function combineValueTypes(...registries: readonly ValueTypes[]): ValueTypes {
 	const combined: ValueTypes = Object.create(null)
 	for (const registry of registries) {
 		validateValueTypes(registry)
 		for (const [type, valueType] of Object.entries(registry)) {
-			if (Object.hasOwn(combined, type)) throw new TypeError(`Cannot combine value types: duplicate type "${type}".`)
+			if (Object.hasOwn(combined, type) && combined[type] !== valueType) throw new TypeError(`Cannot combine value types: duplicate type "${type}".`)
 			combined[type] = valueType
 		}
 	}
 	return combined
 }
 
-export function extractValueTypeAdapters(valueTypes: ValueTypes): ValueTypeAdapters {
-	validateValueTypes(valueTypes)
+// Turn a list of ValueTypes registries into an aggregated ValueTypeAdapters object.
+export function extractValueTypeAdapters(registries: ValueTypes): ValueTypeAdapters {
+	validateValueTypes(registries)
 	const adapters: ValueTypeAdapters = {
 		serializationAdapters: Object.create(null),
 		inputValueAdapters: Object.create(null),
 		equalityAdapters: Object.create(null),
 	}
-	for (const [type, valueType] of Object.entries(valueTypes)) {
+	for (const [type, valueType] of Object.entries(registries)) {
 		if (valueType.serialization !== undefined) adapters.serializationAdapters[type] = valueType.serialization
 		if (valueType.inputValue !== undefined) adapters.inputValueAdapters[type] = valueType.inputValue
 		if (valueType.equality !== undefined) adapters.equalityAdapters[type] = valueType.equality
-	}
-	return adapters
-}
-
-export function extractSerializationAdapters(valueTypes: ValueTypes): SerializationAdapters {
-	return extractAdapters(valueTypes, 'serialization')
-}
-
-export function extractInputValueAdapters(valueTypes: ValueTypes): InputValueAdapters {
-	return extractAdapters(valueTypes, 'inputValue')
-}
-
-export function extractValueEqualityAdapters(valueTypes: ValueTypes): ValueEqualityAdapters {
-	return extractAdapters(valueTypes, 'equality')
-}
-
-export function createAreValuesEqual(equalityAdapters: ValueEqualityAdapters) {
-	return (type: string, inputValue: unknown, expectedValue: unknown, options?: unknown): boolean => {
-		const adapter = Object.hasOwn(equalityAdapters, type) ? equalityAdapters[type] : undefined
-		if (adapter === undefined) throw new Error(`Cannot compare values: no equality adapter found for type "${type}".`)
-		return areValuesEqual(adapter, inputValue, expectedValue, options)
-	}
-}
-
-function extractAdapters<TKey extends keyof ValueType>(valueTypes: ValueTypes, key: TKey): Record<string, NonNullable<ValueType[TKey]>> {
-	validateValueTypes(valueTypes)
-	const adapters: Record<string, NonNullable<ValueType[TKey]>> = Object.create(null)
-	for (const [type, valueType] of Object.entries(valueTypes)) {
-		const adapter = valueType[key]
-		if (adapter !== undefined) adapters[type] = adapter
 	}
 	return adapters
 }

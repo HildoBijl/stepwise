@@ -1,6 +1,6 @@
 import { isPlainObject } from '@step-wise/js-utils'
 import type { BernsteinCoefficients } from '@step-wise/bernstein-polynomials'
-import type { Skill } from '@step-wise/skill-definition'
+import type { Skill } from '@step-wise/module-tree-definition'
 
 import type { StoredSkillLevel, StoredSkillLevelUpdate } from './types.ts'
 import { inferenceCacheDuration } from './settings.ts'

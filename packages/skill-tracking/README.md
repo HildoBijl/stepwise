@@ -13,7 +13,7 @@ The underlying model is described in the [paper on probabilistic skill tracking]
 npm install @step-wise/skill-tracking
 ```
 
-A processed `SkillTree` from [`@step-wise/skill-definition`](../skill-definition/) is required. Exercise requirements are represented by setups from [`@step-wise/skill-setup`](../skill-setup/).
+A processed `ModuleTree` from [`@step-wise/module-tree-definition`](../module-tree-definition/) is required. Skill levels are maintained only for its skills; concepts are not assigned skill-level data. Exercise requirements are represented by setups from [`@step-wise/skill-setup`](../skill-setup/).
 
 Use [`@step-wise/course-analysis`](../course-analysis/) to interpret tracked skill levels within a resolved course and derive progress or practice recommendations.
 
@@ -23,13 +23,14 @@ Use [`@step-wise/course-analysis`](../course-analysis/) to interpret tracked ski
 Create a `SkillLevelSet` from a skill tree and the learner's stored skill-level data. Use `getInitialSkillLevel` when a learner has no existing data for a skill.
 
 ```ts
-import { createSkillTree } from '@step-wise/skill-definition'
+import { createModuleTree } from '@step-wise/module-tree-definition'
 import { and } from '@step-wise/skill-setup'
 import { SkillLevelSet, getInitialSkillLevel } from '@step-wise/skill-tracking'
 
-const skillTree = createSkillTree({
-	addition: { name: 'Addition' },
+const moduleTree = createModuleTree({
+	addition: { type: 'skill', name: 'Addition' },
 	multiplication: {
+		type: 'skill',
 		name: 'Multiplication',
 		prerequisites: ['addition'],
 	},
@@ -41,7 +42,7 @@ const storedSkillLevels = {
 	multiplication: getInitialSkillLevel(startedOn),
 }
 
-const skillLevels = new SkillLevelSet(skillTree, storedSkillLevels)
+const skillLevels = new SkillLevelSet(moduleTree, storedSkillLevels)
 const setup = and('addition', 'multiplication')
 
 skillLevels.getExpectedSuccessRate('addition') // 0.5 for the initial uniform distribution

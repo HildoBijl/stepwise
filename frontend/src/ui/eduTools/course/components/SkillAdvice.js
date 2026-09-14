@@ -4,7 +4,7 @@ import { Box, Button } from '@mui/material'
 import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArrow, VerticalAlignBottom as DownArrow } from '@mui/icons-material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
-import { skillTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 import { usePrevious } from '@step-wise/react-utils'
 
 import { TranslationFile, Translation, useTranslator } from 'i18n'
@@ -41,7 +41,7 @@ function SkillNotification() {
 	if (adviceType === 'notInCourse') {
 		if (recommendation === freePracticeRecommendation)
 			return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.freePracticeRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>. If you want to practice for this course, it's best to use the <Link to={paths.freePractice({ courseCode })}>free practice mode</Link>.</Translation></NotificationBar>
-		const recommendedSkill = skillTree[recommendation]
+		const recommendedSkill = moduleTree[recommendation]
 		return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.skillRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>. If you want to practice for this course, it's best to work on <Link to={paths.courseSkill({ courseCode, skillId: recommendedSkill.id })}>{{ skill: translate(recommendedSkill.name, `${recommendedSkill.groupPath.join('.')}.${recommendedSkill.id}`, 'eduContent/skillNames') }}</Link>.</Translation></NotificationBar>
 	}
 
@@ -50,14 +50,14 @@ function SkillNotification() {
 		case 'moveOnward': // This skill is already mastered. Show a recommendation.
 			if (recommendation === freePracticeRecommendation)
 				return <NotificationBar type="info"><Translation entry="notifications.alreadyMastered.freePracticeRecommendation">You have already sufficiently mastered this skill! It is more effective for the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link> to use the <Link to={paths.freePractice({ courseCode })}>free practice mode</Link>.</Translation></NotificationBar>
-			const skill = skillTree[recommendation]
+			const skill = moduleTree[recommendation]
 			return <NotificationBar type="info"><Translation entry="notifications.alreadyMastered.skillRecommendation">You have already sufficiently mastered this skill! It is more effective for the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link> if you practice <Link to={paths.courseSkill({ courseCode, skillId: recommendation })}>{{ skill: translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames') }}</Link>.</Translation></NotificationBar>
 
 		case 'stay': // This skill is reasonable to practice. Don't show a warning.
 			return null
 
 		case 'goBack': // This skill is not mastered. Find a prior skill that requires practice. If there is none, this is a good skill to practice.
-			const recommendedSkill = skillTree[recommendation]
+			const recommendedSkill = moduleTree[recommendation]
 			if (skillId === undefined)
 				return <NotificationBar type="warning"><Translation entry="notifications.notMastered.onFreePracticeMode">You're not ready yet for free practice on the final level of the course. It is wiser to first practice <Link to={paths.courseSkill({ courseCode, skillId: recommendation })}>{{ skill: translate(recommendedSkill.name, `${recommendedSkill.groupPath.join('.')}.${recommendedSkill.id}`, 'eduContent/skillNames') }}</Link>.</Translation></NotificationBar>
 			return <NotificationBar type="warning"><Translation entry="notifications.notMastered.onSkill">You have not yet mastered all the prerequisites for this skill. It is wiser to first practice <Link to={paths.courseSkill({ courseCode, skillId: recommendation })}>{{ skill: translate(recommendedSkill.name, `${recommendedSkill.groupPath.join('.')}.${recommendedSkill.id}`, 'eduContent/skillNames') }}</Link>.</Translation></NotificationBar>
@@ -127,8 +127,8 @@ function useSkillModal() {
 	if (skillLevelsLoaded) {
 		if (adviceType === 'moveOnward') {
 			const message = recommendation === freePracticeRecommendation ?
-				<Translation entry="modals.mastery.toFreePracticeMode">You just mastered <Link to={paths.courseSkill({ courseCode, skillId })} onClick={closeModal}>{{ passedSkill: translate(skillTree[skillId].name, `${skillTree[skillId].groupPath.join('.')}.${skillId}`, 'eduContent/skillNames') }}</Link>, and with that all skills of <Link to={paths.course({ courseCode })} onClick={closeModal}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>! We recommend you to practice with a mixed assortment of exercises in the <Link to={paths.freePractice({ courseCode })} onClick={closeModal}>free practice mode</Link>.</Translation> :
-				<Translation entry="modals.mastery.nextSkill">You just mastered <Link to={paths.courseSkill({ courseCode, skillId })} onClick={closeModal}>{{ passedSkill: translate(skillTree[skillId].name, `${skillTree[skillId].groupPath.join('.')}.${skillId}`, 'eduContent/skillNames') }}</Link>! You can carry on with the next skill: <Link to={paths.courseSkill({ courseCode, skillId: recommendation })} onClick={closeModal}>{{ nextSkill: translate(skillTree[recommendation].name, `${skillTree[recommendation].groupPath.join('.')}.${recommendation}`, 'eduContent/skillNames') }}</Link>.</Translation>
+				<Translation entry="modals.mastery.toFreePracticeMode">You just mastered <Link to={paths.courseSkill({ courseCode, skillId })} onClick={closeModal}>{{ passedSkill: translate(moduleTree[skillId].name, `${moduleTree[skillId].groupPath.join('.')}.${skillId}`, 'eduContent/skillNames') }}</Link>, and with that all skills of <Link to={paths.course({ courseCode })} onClick={closeModal}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>! We recommend you to practice with a mixed assortment of exercises in the <Link to={paths.freePractice({ courseCode })} onClick={closeModal}>free practice mode</Link>.</Translation> :
+				<Translation entry="modals.mastery.nextSkill">You just mastered <Link to={paths.courseSkill({ courseCode, skillId })} onClick={closeModal}>{{ passedSkill: translate(moduleTree[skillId].name, `${moduleTree[skillId].groupPath.join('.')}.${skillId}`, 'eduContent/skillNames') }}</Link>! You can carry on with the next skill: <Link to={paths.courseSkill({ courseCode, skillId: recommendation })} onClick={closeModal}>{{ nextSkill: translate(moduleTree[recommendation].name, `${moduleTree[recommendation].groupPath.join('.')}.${recommendation}`, 'eduContent/skillNames') }}</Link>.</Translation>
 			contents = (
 				<Box sx={modalStyle}>
 					<Box sx={theme => ({ ...titleStyle, color: theme.palette.success.main })}><Translation entry="modals.mastery.title">Amazing!</Translation></Box>
@@ -142,7 +142,7 @@ function useSkillModal() {
 			)
 		}
 		if (adviceType === 'goBack') {
-			const skill = skillTree[recommendation]
+			const skill = moduleTree[recommendation]
 			contents = (
 				<Box sx={modalStyle}>
 					<Box sx={theme => ({ ...titleStyle, color: theme.palette.success.main })}><Translation entry="modals.deficiency.title">Oh, wait ...</Translation></Box>

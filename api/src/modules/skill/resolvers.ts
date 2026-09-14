@@ -1,4 +1,4 @@
-import { ensureSkillId, ensureSkillIds } from '@step-wise/skill-tree'
+import { ensureSkillId, ensureSkillIds } from '@step-wise/module-tree'
 
 import { createSubscriptionResolver } from '../subscriptions.ts'
 import { type AuthenticatedContext, type UserRecord, getUser } from '../user/index.ts'

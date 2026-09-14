@@ -19,13 +19,13 @@ Operational configuration and release tooling live in [`ops`](ops/).
 
 Some useful entry points into the package ecosystem are:
 
-- [`@step-wise/skill-setup`](packages/skill-setup/) and [`@step-wise/skill-definition`](packages/skill-definition/) for defining, validating, and inspecting custom skill trees;
+- [`@step-wise/skill-setup`](packages/skill-setup/) and [`@step-wise/module-tree-definition`](packages/module-tree-definition/) for defining, validating, and inspecting custom module trees;
 - [`@step-wise/exercise-definition`](packages/exercise-definition/), [`@step-wise/input-exercises`](packages/input-exercises/), and [`@step-wise/exercise-grading`](packages/exercise-grading/) for developing generated exercises and checking submitted answers;
 - [`@step-wise/skill-tracking`](packages/skill-tracking/) and [`@step-wise/exercise-selection`](packages/exercise-selection/) for tracking student progress, recommending what to practise, and selecting exercises appropriate to a student's current level;
 - [`@step-wise/physics-core`](packages/physics-core/) and [`@step-wise/physics-data`](packages/physics-data/) for working with physical quantities, units, and related reference data;
 - [`@step-wise/math-input-value`](packages/math-input-value/) and [`@step-wise/cas`](packages/cas/) for intuitive mathematical input and for inspecting, transforming, evaluating, and comparing mathematical expressions and equations;
 - [`@step-wise/geometry`](packages/geometry/) and [`@step-wise/engineering-mechanics`](packages/engineering-mechanics/) for geometry, free-body diagrams, loads, and related engineering-mechanics concepts;
-- [`@step-wise/skill-tree`](packages/skill-tree/) for exploring and using the concrete skill tree that powers the Step-Wise platform.
+- [`@step-wise/module-tree`](packages/module-tree/) for exploring and using the concrete module tree that powers the Step-Wise platform.
 
 Each package has its own README with installation instructions, examples, and API details.
 

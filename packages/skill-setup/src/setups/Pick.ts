@@ -30,6 +30,7 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 			...(!this.weights.every(weight => weight === 1) ? { weights: this.weights } : {}),
 		}
 	}
+	
 	static fromStorageValue(storageValue: PickStorageValue, deserialize: (setup: unknown) => SkillSetup): Pick {
 		const { skills } = ensureSkillListStorageValue(storageValue)
 		return new Pick(skills.map(skill => deserialize(skill)), storageValue.number, storageValue.weights)

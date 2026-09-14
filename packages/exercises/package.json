@@ -32,8 +32,8 @@
 		"@step-wise/mathematics-exercises": "^0.1.0",
 		"@step-wise/mechanics-exercises": "^0.1.0",
 		"@step-wise/physics-exercises": "^0.1.0",
-		"@step-wise/skill-definition": "^0.1.0",
-		"@step-wise/skill-tree": "^0.1.0",
+		"@step-wise/module-tree-definition": "^0.1.0",
+		"@step-wise/module-tree": "^0.1.0",
 		"@step-wise/js-utils": "^0.1.0"
 	},
 	"devDependencies": {

@@ -1,15 +1,16 @@
 import { partition } from '@step-wise/js-utils'
 import { type SkillSetup, ensureSetup } from '@step-wise/skill-setup'
-import { type SkillId, type SkillTree, isSkillPrerequisiteOf, sortSkillIdsByTreeOrder } from '@step-wise/skill-definition'
+import { type ModuleTree, type SkillId, getSkill, isModulePrerequisiteOf, sortModuleIdsByTreeOrder } from '@step-wise/module-tree-definition'
 
 import type { CourseAnalysis, CourseBlockDiagnostics, CourseResolutionBlock, CourseSpecification } from './types.ts'
 
-export function analyzeCourse(skillTree: SkillTree, specification: CourseSpecification): CourseAnalysis {
+export function analyzeCourse(moduleTree: ModuleTree, specification: CourseSpecification): CourseAnalysis {
 	const { learningGoalIds: originalLearningGoalIds, startingPointIds: originalStartingPointIds } = specification
 
 	// Filter out unknown skills.
-	const [learningGoalIdsFiltered, unknownLearningGoalIds] = partition(originalLearningGoalIds, skillId => Object.hasOwn(skillTree, skillId))
-	const [startingPointIdsFiltered, unknownStartingPointIds] = partition(originalStartingPointIds, skillId => Object.hasOwn(skillTree, skillId))
+	const isKnownSkillId = (skillId: SkillId) => Object.hasOwn(moduleTree, skillId) && moduleTree[skillId].type === 'skill'
+	const [learningGoalIdsFiltered, unknownLearningGoalIds] = partition(originalLearningGoalIds, isKnownSkillId)
+	const [startingPointIdsFiltered, unknownStartingPointIds] = partition(originalStartingPointIds, isKnownSkillId)
 
 	// Walk back from the learning goals to derive course contents and starting points.
 	const contentsFound: SkillId[] = []
@@ -17,8 +18,9 @@ export function analyzeCourse(skillTree: SkillTree, specification: CourseSpecifi
 	const missingStartingPointIds: SkillId[] = []
 	const redundantLearningGoalIds: SkillId[] = []
 	const processSkill = (skillId: SkillId, parentId: SkillId | undefined) => {
+		const skill = getSkill(moduleTree, skillId)
 		// If we're out-of-tree (the skill does not follow from any starting point) then add the parent as a missing starting point.
-		if (!startingPointIdsFiltered.some(startingPointId => isSkillPrerequisiteOf(skillTree, startingPointId, skillId))) {
+		if (!startingPointIdsFiltered.some(startingPointId => isModulePrerequisiteOf(moduleTree, startingPointId, skillId, { includeConcepts: false }))) {
 			const missingStartingPoint = parentId ?? skillId
 			if (!missingStartingPointIds.includes(missingStartingPoint)) missingStartingPointIds.push(missingStartingPoint)
 			return
@@ -34,20 +36,25 @@ export function analyzeCourse(skillTree: SkillTree, specification: CourseSpecifi
 		// If we hit a starting point, only continue with those prerequisites that follow from another starting point.
 		if (startingPointIdsFiltered.includes(skillId)) {
 			startingPointIdsFound.push(skillId)
-			skillTree[skillId].prerequisiteIds.forEach(prerequisiteId => {
-				if (startingPointIdsFiltered.some(startingPointId => isSkillPrerequisiteOf(skillTree, startingPointId, prerequisiteId))) processSkill(prerequisiteId, skillId)
+			skill.prerequisiteIds.forEach(prerequisiteId => {
+				if (moduleTree[prerequisiteId].type === 'skill' && startingPointIdsFiltered.some(startingPointId => isModulePrerequisiteOf(moduleTree, startingPointId, prerequisiteId, { includeConcepts: false }))) processSkill(prerequisiteId, skillId)
 			})
 			return
 		}
 
 		// Continue iterating with the prerequisites.
-		skillTree[skillId].prerequisiteIds.forEach(prerequisiteId => processSkill(prerequisiteId, skillId))
+		skill.prerequisiteIds.forEach(prerequisiteId => {
+			if (moduleTree[prerequisiteId].type === 'skill') processSkill(prerequisiteId, skillId)
+		})
 	}
 	learningGoalIdsFiltered.forEach(goalId => processSkill(goalId, undefined))
 
 	// Determine the starting points and the errors in them.
 	const externalStartingPointIds = startingPointIdsFiltered.filter(skillId => !startingPointIdsFound.includes(skillId))
-	const [redundantStartingPointIds, neededStartingPointIds] = partition(startingPointIdsFound, skillId => skillTree[skillId].prerequisiteIds.length > 0 && skillTree[skillId].prerequisiteIds.every(prerequisiteId => contentsFound.includes(prerequisiteId)))
+	const [redundantStartingPointIds, neededStartingPointIds] = partition(startingPointIdsFound, skillId => {
+		const prerequisiteSkillIds = getSkill(moduleTree, skillId).prerequisiteIds.filter(prerequisiteId => moduleTree[prerequisiteId].type === 'skill')
+		return prerequisiteSkillIds.length > 0 && prerequisiteSkillIds.every(prerequisiteId => contentsFound.includes(prerequisiteId))
+	})
 	const startingPointIds = [...neededStartingPointIds, ...missingStartingPointIds]
 
 	// Determine learning goals and the errors in them.
@@ -55,22 +62,22 @@ export function analyzeCourse(skillTree: SkillTree, specification: CourseSpecifi
 	const learningGoalWeights = learningGoalIdsFiltered.map(goalId => specification.learningGoalWeights ? specification.learningGoalWeights[originalLearningGoalIds.indexOf(goalId)] : 1)
 
 	// Determine prior knowledge: direct prerequisites of starting points outside the course.
-	const priorKnowledgeIds = sortSkillIdsByTreeOrder(skillTree, getPriorKnowledgeIds(skillTree, startingPointIds, contentsFound))
+	const priorKnowledgeIds = sortModuleIdsByTreeOrder(moduleTree, getPriorKnowledgeIds(moduleTree, startingPointIds, contentsFound), { includeConcepts: false })
 
 	// Resolve blocks. If no blocks are provided, create one implicit block for the course goals.
 	let blocks: CourseResolutionBlock[] | undefined, contentSkillIds: SkillId[] | undefined, blockDiagnostics: CourseBlockDiagnostics[] | undefined, uncoveredLearningGoalIds: SkillId[] | undefined
 	if (specification.blockLearningGoalIds) {
-		[blocks, blockDiagnostics, uncoveredLearningGoalIds] = analyzeCourseBlocks(skillTree, specification.blockLearningGoalIds, contentsFound, learningGoalIdsFiltered)
+		[blocks, blockDiagnostics, uncoveredLearningGoalIds] = analyzeCourseBlocks(moduleTree, specification.blockLearningGoalIds, contentsFound, learningGoalIdsFiltered)
 		if (uncoveredLearningGoalIds.length === 0) contentSkillIds = blocks.flatMap(block => block.contentSkillIds) // Sort contents by blocks.
 	}
-	if (!contentSkillIds) contentSkillIds = sortSkillIdsByTreeOrder(skillTree, contentsFound) // Sort contents by Skill Tree.
+	if (!contentSkillIds) contentSkillIds = sortModuleIdsByTreeOrder(moduleTree, contentsFound, { includeConcepts: false }) // Sort contents by module-tree order.
 
 	// Check the set-up contents.
 	let setup: SkillSetup | undefined, unknownSetupSkillIds: SkillId[] | undefined, externalSetupSkillIds: SkillId[] | undefined
 	if (specification.setup !== undefined) {
 		setup = ensureSetup(specification.setup)
-		unknownSetupSkillIds = setup.getSkillList().filter(skillId => !Object.hasOwn(skillTree, skillId))
-		externalSetupSkillIds = setup.getSkillList().filter(skillId => Object.hasOwn(skillTree, skillId) && !contentsFound.includes(skillId))
+		unknownSetupSkillIds = setup.getSkillList().filter(skillId => !isKnownSkillId(skillId))
+		externalSetupSkillIds = setup.getSkillList().filter(skillId => isKnownSkillId(skillId) && !contentsFound.includes(skillId))
 	}
 
 	// Assemble the final analysis.
@@ -108,17 +115,17 @@ export function analyzeCourse(skillTree: SkillTree, specification: CourseSpecifi
 }
 
 // Take a Skill Tree, a set of starting points and a set of course contents and determine the prior knowledge.
-function getPriorKnowledgeIds(skillTree: SkillTree, startingPointIds: readonly SkillId[], contentSkillIds: readonly SkillId[]): SkillId[] {
+function getPriorKnowledgeIds(moduleTree: ModuleTree, startingPointIds: readonly SkillId[], contentSkillIds: readonly SkillId[]): SkillId[] {
 	const priorKnowledgeIds: SkillId[] = []
 	startingPointIds.forEach(startingPointId => {
-		skillTree[startingPointId].prerequisiteIds.forEach(prerequisiteId => {
-			if (!contentSkillIds.includes(prerequisiteId) && !priorKnowledgeIds.includes(prerequisiteId)) priorKnowledgeIds.push(prerequisiteId)
+		getSkill(moduleTree, startingPointId).prerequisiteIds.forEach(prerequisiteId => {
+			if (moduleTree[prerequisiteId].type === 'skill' && !contentSkillIds.includes(prerequisiteId) && !priorKnowledgeIds.includes(prerequisiteId)) priorKnowledgeIds.push(prerequisiteId)
 		})
 	})
 	return priorKnowledgeIds
 }
 
-function analyzeCourseBlocks(skillTree: SkillTree, blockLearningGoalIds: readonly (readonly SkillId[])[], allContentSkillIds: readonly SkillId[], courseLearningGoalIds: readonly SkillId[]): [CourseResolutionBlock[], CourseBlockDiagnostics[], SkillId[]] {
+function analyzeCourseBlocks(moduleTree: ModuleTree, blockLearningGoalIds: readonly (readonly SkillId[])[], allContentSkillIds: readonly SkillId[], courseLearningGoalIds: readonly SkillId[]): [CourseResolutionBlock[], CourseBlockDiagnostics[], SkillId[]] {
 	// Walk through all blocks to analyse them.
 	const contentSkillIdsSoFar: SkillId[] = []
 	const blocks: CourseResolutionBlock[] = [], blockDiagnostics: CourseBlockDiagnostics[] = []
@@ -126,17 +133,19 @@ function analyzeCourseBlocks(skillTree: SkillTree, blockLearningGoalIds: readonl
 		// Set up a handler to add to the block contents.
 		const contentSkillIds: SkillId[] = [], unknownLearningGoalIds: SkillId[] = [], externalLearningGoalIds: SkillId[] = [], redundantLearningGoalIds: SkillId[] = []
 		const addSkill = (skillId: SkillId) => {
-			if (!Object.hasOwn(skillTree, skillId)) return
-			const skill = skillTree[skillId]
+			if (!Object.hasOwn(moduleTree, skillId)) return
+			const skill = getSkill(moduleTree, skillId)
 			if (!allContentSkillIds.includes(skillId) || contentSkillIdsSoFar.includes(skillId)) return
 			contentSkillIdsSoFar.push(skillId)
-			skill.prerequisiteIds.forEach(addSkill)
+			skill.prerequisiteIds.forEach(prerequisiteId => {
+				if (moduleTree[prerequisiteId].type === 'skill') addSkill(prerequisiteId)
+			})
 			contentSkillIds.push(skillId)
 		}
 
 		// Walk through the learning goals to check them, and if valid add their contents.
 		learningGoalIds.forEach(learningGoalId => {
-			if (!Object.hasOwn(skillTree, learningGoalId)) unknownLearningGoalIds.push(learningGoalId)
+			if (!Object.hasOwn(moduleTree, learningGoalId)) unknownLearningGoalIds.push(learningGoalId)
 			else if (!allContentSkillIds.includes(learningGoalId)) externalLearningGoalIds.push(learningGoalId)
 			else if (contentSkillIdsSoFar.includes(learningGoalId)) redundantLearningGoalIds.push(learningGoalId)
 			else addSkill(learningGoalId)
