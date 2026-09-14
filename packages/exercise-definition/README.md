@@ -1,6 +1,6 @@
 # @step-wise/exercise-definition
 
-Define educational exercises as reducers. An exercise receives its current state and an action, then returns its next state. The package supplies the shared types and history utilities needed to run this model in solo and group settings.
+Define educational exercises as reducers. An exercise receives its current state and an action, then returns its next state together with an optional report describing that transition. The package supplies the shared types and history utilities needed to run this model in solo and group settings.
 
 
 ## Installation
@@ -26,21 +26,24 @@ const exercise: Exercise<{}, Action, State, Parameters> = {
 	generateParameters: () => ({ target: 6 }),
 	getInitialState: () => ({ attempts: 0 }),
 	processSoloAction: ({ parameters, state, action }) => ({
-		attempts: state.attempts + 1,
-		done: action.value === parameters.target,
+		state: {
+			attempts: state.attempts + 1,
+			done: action.value === parameters.target,
+		},
+		report: { correct: action.value === parameters.target },
 	}),
 }
 ```
 
-Reducers should return a new state without modifying the old one. They may return that state immediately or through a promise, so consumers should always await reducer calls:
+Reducers should return a new state without modifying the old one. They may return their result immediately or through a promise, so consumers should always await reducer calls:
 
 ```ts
-const state = await exercise.processSoloAction!({
+const result = await exercise.processSoloAction!({
 	parameters: { target: 6 },
 	state: { attempts: 0 },
 	action: { type: 'answer', value: 6 },
 })
-// { attempts: 1, done: true }
+// { state: { attempts: 1, done: true }, report: { correct: true } }
 ```
 
 
@@ -49,12 +52,16 @@ const state = await exercise.processSoloAction!({
 At its core, an exercise is a state transition:
 
 ```text
-current state + action -> new state or promise of new state
+current state + action -> { state: new state, report? } or a promise thereof
 ```
 
-`processSoloAction` receives the fixed exercise parameters, the current state, and one action, and returns the resulting state. Its input may also provide an `updateSkills` callback.
+`processSoloAction` receives the fixed exercise parameters, the current state, and one action, and returns the resulting state inside an `ExerciseReducerResult`. Its input may also provide an `updateSkills` callback.
 
 The action describes what happened, while the state stores the consequences. For example, an answer is an action; whether the exercise is complete belongs in the state. An exercise is considered completed when the state satisfies `state.done === true`.
+
+A report contains plain data that only describes how one transition was produced. It can record grading details, generated outcomes, or other transient facts that should remain available in history without becoming part of the accumulated state. Omitting `report` means that the transition produced no report; this is distinct from deliberately returning an empty report object.
+
+`ExerciseReport` is the generic report type. `SoloExerciseReport` and `GroupExerciseReport` provide mode-specific defaults that specialized exercise packages may refine. For example, input exercises can represent a group report as a map containing a separate grading report for each user.
 
 The reducer model is not restricted to solo use. An exercise can supply reducers for other execution modes. The built-in group mode uses `processGroupActions`, which processes a collection of user-attributed actions together. The mode registry and mode-specific history types keep this structure extendable if more modes are introduced later.
 
@@ -88,7 +95,7 @@ processSoloAction: ({
 	state,
 	action,
 	updateSkills,
-}) => Awaitable<newState>
+}) => Awaitable<{ state: newState, report? }>
 ```
 
 Each solo history event stores the processed action and resulting state:
@@ -97,6 +104,7 @@ Each solo history event stores the processed action and resulting state:
 {
 	action: { type: 'answer', value: 6 },
 	state: { attempts: 1, done: true },
+	report: { correct: true },
 }
 ```
 
@@ -111,7 +119,7 @@ processGroupActions: ({
 	state,
 	actions,
 	updateSkills,
-}) => Awaitable<newState>
+}) => Awaitable<{ state: newState, report? }>
 ```
 
 Every item in `actions` is a `UserExerciseAction` containing the user attribution and raw exercise action:
@@ -133,6 +141,7 @@ A pending group history event contains only `actions`. Once the event has been p
 {
 	actions: [{ userId: 'user-1', action: { type: 'answer', value: 6 } }],
 	state: { attempts: 1, done: true },
+	report: { roll: 4 },
 }
 ```
 

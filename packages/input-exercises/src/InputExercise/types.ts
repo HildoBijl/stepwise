@@ -20,6 +20,11 @@ export type InputExerciseActionType = InputExerciseAction['type']
 export type InputExerciseParameters = Record<string, unknown>
 export type InputExerciseInput = Record<string, unknown>
 
+// Reports: solo exercises have one report per transition; group exercises may have one per user.
+export type InputExerciseReport = PlainDataObject
+export type SoloInputExerciseReport = InputExerciseReport
+export type GroupInputExerciseReport = Record<string, InputExerciseReport>
+
 /*
  * Solution generation
  */

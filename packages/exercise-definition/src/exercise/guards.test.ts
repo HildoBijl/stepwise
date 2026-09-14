@@ -4,10 +4,10 @@ import { exerciseSupportsMode, isExercise, isExerciseSpec } from './guards.ts'
 
 const generateParameters = () => ({})
 const getInitialState = () => ({})
-const processSoloAction = () => ({})
-const processGroupActions = () => ({})
-const processSoloActionAsync = async () => ({})
-const processGroupActionsAsync = async () => ({})
+const processSoloAction = () => ({ state: {} })
+const processGroupActions = () => ({ state: {} })
+const processSoloActionAsync = async () => ({ state: {} })
+const processGroupActionsAsync = async () => ({ state: {} })
 
 describe('isExerciseSpec', () => {
 	it('accepts a minimal exercise specification', () => {

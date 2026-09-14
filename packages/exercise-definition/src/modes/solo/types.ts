@@ -1,15 +1,16 @@
-import type { ExerciseParameters, ExerciseAction, ExerciseState } from '../../atomTypes.ts'
+import type { ExerciseParameters, ExerciseAction, ExerciseState, SoloExerciseReport } from '../../atomTypes.ts'
 
-export type SoloExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = {
+export type SoloExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TReport extends SoloExerciseReport = SoloExerciseReport> = {
 	action: TAction
 	state: TState
+	report?: TReport
 }
 
-export type SoloExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = readonly SoloExerciseHistoryEvent<TAction, TState>[]
+export type SoloExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TReport extends SoloExerciseReport = SoloExerciseReport> = readonly SoloExerciseHistoryEvent<TAction, TState, TReport>[]
 
-export type SoloExerciseInstance<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = {
+export type SoloExerciseInstance<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters, TReport extends SoloExerciseReport = SoloExerciseReport> = {
 	mode: 'solo'
 	parameters: TParameters
 	initialState: TState
-	history: SoloExerciseHistory<TAction, TState>
+	history: SoloExerciseHistory<TAction, TState, TReport>
 }
