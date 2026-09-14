@@ -143,10 +143,11 @@ export const groupExerciseMutationResolvers = {
 				if (!userId) throw new Error(`A pending group exercise action cannot have an anonymous author.`)
 				return { userId, action }
 			})
-			const state = await processGroupActions({ parameters: activeExercise.parameters, state: previousState, actions, updateSkills })
+			const { state, report } = await processGroupActions({ parameters: activeExercise.parameters, state: previousState, actions, updateSkills })
 			if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise state.`)
-			await lockedEvent.update({ state }, { transaction })
+			await lockedEvent.update({ state, report: report ?? null }, { transaction })
 			lockedEvent.state = state
+			lockedEvent.report = report ?? null
 
 			// Apply all the skill updates that were collected so far.
 			updatedSkillsPerUser = await applySkillObservations(db, skillObservations, transaction)
@@ -155,13 +156,13 @@ export const groupExerciseMutationResolvers = {
 			if (isStateDone(state)) {
 				await activeExercise.update({ active: false }, { transaction })
 				activeExercise.active = false
-				resolution = { eventIndex: lockedEvent.eventIndex, state, active: false, nextEvent: null }
+				resolution = { eventIndex: lockedEvent.eventIndex, state, report: report ?? null, active: false, nextEvent: null }
 			} else {
 				const newActiveEvent = await activeExercise.createEvent({ eventIndex: lockedEvent.eventIndex + 1, state: null }, { transaction })
 				newActiveEvent.actions = []
 				if (!hasLoadedGroupExerciseActions(newActiveEvent)) throw new Error('Failed to initialize group exercise event actions.')
 				activeExercise.events = [...activeExercise.events, newActiveEvent]
-				resolution = { eventIndex: lockedEvent.eventIndex, state, active: true, nextEvent: newActiveEvent }
+				resolution = { eventIndex: lockedEvent.eventIndex, state, report: report ?? null, active: true, nextEvent: newActiveEvent }
 			}
 		})
 		if (!resolution) throw new Error(`Failed to resolve group exercise event ${eventIndex}.`)

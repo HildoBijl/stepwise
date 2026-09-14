@@ -11,7 +11,7 @@ export function mergeGroupEventResolution(exercise: GroupExerciseRecord | null, 
 		return exercise
 	}
 	const events = new Map(exercise.history.map(event => [event.eventIndex, event]))
-	events.set(resolution.eventIndex, { ...event, state: resolution.state })
+	events.set(resolution.eventIndex, { ...event, state: resolution.state, report: resolution.report })
 	if (resolution.nextEvent) events.set(resolution.nextEvent.eventIndex, { ...resolution.nextEvent, actions: [] })
 	return {
 		...exercise,

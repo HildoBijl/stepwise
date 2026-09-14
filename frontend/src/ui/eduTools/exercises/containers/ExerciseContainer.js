@@ -50,14 +50,15 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	// React renders once before the loading effect runs. Only use the cached modules when they belong to the currently requested exercise.
 	const loadedIdentity = loadedExerciseIdentity.current
 	const exerciseLoaded = !loading && loadedIdentity?.skillId === skillId && loadedIdentity.exerciseId === exerciseId
+	const historyLoaded = Array.isArray(exercise.history)
 
 	// Assemble stored parameters as domain values once the shared exercise has loaded.
 	const parametersFO = useMemo(() => exerciseLoaded ? ExerciseShared.current.valueOperations.deserialize(parameters) : undefined, [exerciseLoaded, parameters, exerciseId])
 
 	// Ensure that the state has a consistent reference.
-	const state = useReferencePreservingValue(inspection ? (exercise.history[historyIndex]?.state ?? exercise.initialState) : getCurrentState(instance))
+	const state = useReferencePreservingValue(historyLoaded ? (inspection ? (exercise.history[historyIndex]?.state ?? exercise.initialState) : getCurrentState(instance)) : undefined)
 
-	if (!exerciseLoaded)
+	if (!exerciseLoaded || !historyLoaded)
 		return <LoadingNote text={translate('Loading exercise component...', 'loadingNotes.loadingExerciseComponent', 'eduTools/pages/skillPage')} />
 
 	// Set up data for the exercise and put it in a context around the exercise.

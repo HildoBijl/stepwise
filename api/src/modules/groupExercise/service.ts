@@ -2,8 +2,8 @@ import { randomUUID } from 'node:crypto'
 import type { PubSubEngine } from 'graphql-subscriptions'
 import { type Transaction, Op } from 'sequelize'
 
-import type { ExerciseAction, ExerciseState } from '@step-wise/exercise-definition'
 import { last } from '@step-wise/js-utils'
+import type { ExerciseAction, ExerciseState, GroupExerciseReport } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/module-tree-definition'
 import { getExercise } from '@step-wise/exercises'
 
@@ -44,6 +44,7 @@ export type GroupActionUpdatedPayload = GroupExerciseSubscriptionPayload & {
 export type GroupEventResolvedPayload = GroupExerciseSubscriptionPayload & {
 	eventIndex: number
 	state: ExerciseState
+	report: GroupExerciseReport | null
 	active: boolean
 	nextEvent: GroupExerciseEventRecord | null
 }

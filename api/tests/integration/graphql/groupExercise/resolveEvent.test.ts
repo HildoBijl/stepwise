@@ -81,13 +81,14 @@ describe('resolve group exercise:', () => {
 		expect(client.countEvents('GROUP_ACTION_UPDATED')).toStrictEqual(2)
 
 		// Resolve the event.
-		const { data: { resolveGroupEvent: resolvedExercise1 }, errors: errors1 } = await client.graphql({ query: `mutation{resolveGroupEvent(exerciseId: "${exercise.id}", eventIndex: 0){skillId eventIndex active history {__typename eventIndex state}}}` })
+		const { data: { resolveGroupEvent: resolvedExercise1 }, errors: errors1 } = await client.graphql({ query: `mutation{resolveGroupEvent(exerciseId: "${exercise.id}", eventIndex: 0){skillId eventIndex active history {__typename eventIndex state report}}}` })
 		expect(errors1).toBeUndefined()
 		expect(resolvedExercise1).toMatchObject({ skillId: SAMPLE_SKILL, active: true })
 		expect(resolvedExercise1.eventIndex).toBe(1)
 		expect(resolvedExercise1.history.map(event => event.eventIndex)).toStrictEqual([0, 1])
 		expect(resolvedExercise1.history.map(event => event.__typename)).toStrictEqual(['GroupEvent', 'GroupEvent'])
 		expect(resolvedExercise1.history.map(event => event.state === null)).toStrictEqual([false, true])
+		expect(resolvedExercise1.history.map(event => event.report)).toStrictEqual([null, null])
 		expect(client.countEvents('GROUP_EVENT_RESOLVED')).toStrictEqual(1)
 
 		// Reject an action submitted for the resolved group event.

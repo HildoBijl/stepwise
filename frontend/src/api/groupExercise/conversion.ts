@@ -10,6 +10,7 @@ function groupExerciseEventRecordToEvent(record: GroupExerciseEventRecord): Grou
 		id: record.id,
 		eventIndex: record.eventIndex,
 		...(record.state === null ? {} : { state: record.state }),
+		...(record.report === null ? {} : { report: record.report }),
 		performedAt: new Date(record.performedAt),
 		actions: record.actions.map(groupExerciseActionRecordToAction),
 	}

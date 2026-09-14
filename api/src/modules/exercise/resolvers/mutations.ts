@@ -46,7 +46,7 @@ export const exerciseMutationResolvers = {
 			if (!definition) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${updatedExercise.exerciseId}".`)
 			if (!definition.processSoloAction) throw new Error(`Unsupported exercise mode: exercise "${updatedExercise.exerciseId}" does not support solo actions.`)
 			const skillObservations: SkillObservationInput[] = []
-			const state = await definition.processSoloAction({
+			const { state, report } = await definition.processSoloAction({
 				parameters: updatedExercise.parameters,
 				state: getCurrentExerciseState(updatedExercise),
 				action,
@@ -54,7 +54,7 @@ export const exerciseMutationResolvers = {
 			})
 			if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${updatedExercise.exerciseId}" due to an error in updating the exercise state.`)
 			const updatedSkills = await applySkillObservationsForUser(db, userId, skillObservations, transaction)
-			updatedExercise.events.push(await db.ExerciseEvent.create({ exerciseSampleId: updatedExercise.id, eventIndex, action, state }, { transaction }))
+			updatedExercise.events.push(await db.ExerciseEvent.create({ exerciseSampleId: updatedExercise.id, eventIndex, action, state, report: report ?? null }, { transaction }))
 			if (isStateDone(state)) {
 				await updatedExercise.update({ active: false }, { transaction })
 				updatedExercise.active = false

@@ -20,6 +20,12 @@ export type InputExerciseActionType = InputExerciseAction['type']
 export type InputExerciseParameters = Record<string, unknown>
 export type InputExerciseInput = Record<string, unknown>
 
+// Reports: solo exercises have one report per transition; group exercises may have one per user.
+export type InputExerciseReport = PlainDataObject
+export type SoloInputExerciseReport = InputExerciseReport
+export type GroupInputExerciseReport = Record<string, InputExerciseReport>
+export type CheckInputResult = boolean | { correct: boolean, report?: InputExerciseReport }
+
 /*
  * Solution generation
  */
@@ -64,23 +70,24 @@ export type InputExerciseValueOperations = {
 }
 
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized parameters.
-export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution, TInputDependency>, 'generateParameters' | 'valueTypes'> & {
+export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = Exercise<TMetadata, TAction, TState, PlainDataObject, SoloInputExerciseReport, GroupInputExerciseReport> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution, TInputDependency>, 'generateParameters' | 'valueTypes'> & {
 	valueOperations: InputExerciseValueOperations
 	generateParameters: (example: boolean) => Promise<PlainDataObject>
 	getInitialState: (parameters: PlainDataObject) => Awaitable<TState>
-	processSoloAction: SoloExerciseReducer<TAction, TState>
-	processGroupActions: GroupExerciseReducer<TAction, TState>
+	processSoloAction: SoloExerciseReducer<TAction, TState, PlainDataObject, SoloInputExerciseReport>
+	processGroupActions: GroupExerciseReducer<TAction, TState, PlainDataObject, GroupInputExerciseReport>
 }
 
 /*
  * Input for the CheckInput function to be implemented by child components
  */
 
-export type CheckInputData<TMetadata extends InputExerciseMetadata = InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = {
+export type CheckInputData<TMetadata extends InputExerciseMetadata = InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency, TSolution extends InputExerciseSolution = InputExerciseSolution> = {
 	metadata: TMetadata
 	parameters: TParameters
 	rawInput: InputExerciseRawInput
 	input: InputExerciseInput
+	inputDependency: TInputDependency | undefined
 	solution?: TSolution
 	areValuesEqual: InputExerciseValueOperations['areValuesEqual']
 }

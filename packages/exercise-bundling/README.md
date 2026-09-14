@@ -29,7 +29,7 @@ const additionExercise = {
 	generateParameters: () => ({ left: 2, right: 3 }),
 	getInitialState: () => ({ done: false }),
 	processSoloAction: ({ action, parameters }) => ({
-		done: action.answer === parameters.left + parameters.right,
+		state: { done: action.answer === parameters.left + parameters.right },
 	}),
 } satisfies Exercise<{}, AdditionAction, AdditionState, AdditionParameters>
 

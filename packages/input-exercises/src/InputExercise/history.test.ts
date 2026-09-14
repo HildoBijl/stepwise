@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getLastInput, getLastRawInput, hasPreviousInput } from './history.ts'
+import { getAccumulatedReport, getLastInput, getLastRawInput, hasPreviousInput } from './history.ts'
 import { createInputExerciseValueOperations } from './valueOperations.ts'
 
 describe('input-exercise history', () => {
@@ -49,5 +49,37 @@ describe('input-exercise history', () => {
 		expect(getLastRawInput(instance, 'other-user')).toBeUndefined()
 		expect(() => getLastRawInput(instance)).toThrow(TypeError)
 		expect(() => hasPreviousInput(instance)).toThrow(TypeError)
+	})
+
+	it('combines reports from resolved solo input events while skipping other actions', () => {
+		const soloInstance = {
+			mode: 'solo', initialState: {}, history: [
+				{ action: { type: 'input', input: resolvedInput }, state: {}, report: { answer: { correct: false }, retained: true } },
+				{ action: { type: 'giveUp' }, state: {} },
+				{ action: { type: 'input', input: pendingInput }, state: {}, report: { answer: { correct: true } } },
+			],
+		} as const
+
+		expect(getAccumulatedReport(soloInstance)).toEqual({ answer: { correct: true }, retained: true })
+	})
+
+	it('combines reports along an adopted group history branch', () => {
+		const groupInstance = {
+			mode: 'group', initialState: {}, history: [
+				{
+					state: {},
+					actions: [{ userId: 'source', action: { type: 'input', input: resolvedInput } }],
+					report: { source: { first: true, shared: 'source' } },
+				},
+				{
+					state: {},
+					actions: [{ userId, action: { type: 'input', input: pendingInput, adoptUserHistory: 'source' } }],
+					report: { [userId]: { second: true, shared: 'current' } },
+				},
+			],
+		} as const
+
+		expect(getAccumulatedReport(groupInstance, userId)).toEqual({ first: true, second: true, shared: 'current' })
+		expect(() => getAccumulatedReport(groupInstance)).toThrow(TypeError)
 	})
 })

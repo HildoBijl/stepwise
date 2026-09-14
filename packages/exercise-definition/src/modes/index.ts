@@ -1,5 +1,5 @@
-export * from './definitions.ts'
+export * from './modeRegistry.ts'
 export * from './solo/index.ts'
 export * from './group/index.ts'
 export * from './types.ts'
-export * from './support.ts'
+export * from './history.ts'

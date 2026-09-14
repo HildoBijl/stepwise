@@ -1,11 +1,15 @@
-import type { BaseExerciseInstanceByMode, ExerciseMode, ExerciseState } from '@step-wise/exercise-definition'
+import { type BaseExerciseInstanceByMode, type ExerciseMode, type ExerciseState, throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
 
-import type { InputExerciseAction, InputExerciseInput, InputExerciseRawInput, InputExerciseValueOperations } from './types.ts'
-import { throwUnsupportedMode } from './modes.ts'
+import type { GroupInputExerciseReport, InputExerciseAction, InputExerciseInput, InputExerciseRawInput, InputExerciseReport, InputExerciseValueOperations, SoloInputExerciseReport } from './types.ts'
 
 // Define a type with the minimally expected entries needed by history-inspecting functions.
 export type InputExerciseHistoryData<TState extends ExerciseState = ExerciseState> = {
-	[Mode in ExerciseMode]: Pick<BaseExerciseInstanceByMode<InputExerciseAction, TState>[Mode], 'mode' | 'initialState' | 'history'>
+	[Mode in ExerciseMode]: Pick<BaseExerciseInstanceByMode<
+		InputExerciseAction,
+		TState,
+		Record<string, never>,
+		Mode extends 'solo' ? SoloInputExerciseReport : GroupInputExerciseReport
+	>[Mode], 'mode' | 'initialState' | 'history'>
 }[ExerciseMode]
 
 export type LastInputOptions = {
@@ -40,7 +44,7 @@ export function getLastRawInput(instance: InputExerciseHistoryData, userId?: str
 			return undefined
 		}
 		default:
-			return throwUnsupportedMode(mode)
+			return throwUnsupportedExerciseMode(mode)
 	}
 }
 
@@ -83,10 +87,56 @@ export function getAccumulatedRawInput(instance: InputExerciseHistoryData, userI
 			break
 
 		default:
-			return throwUnsupportedMode(mode)
+			return throwUnsupportedExerciseMode(mode)
 	}
 
 	return hasInput ? input : undefined
+}
+
+// Combine reports belonging to a user's resolved input actions. Later values overwrite earlier values with the same key.
+export function getAccumulatedReport(instance: InputExerciseHistoryData, userId?: string, options: Pick<AccumulatedInputOptions, 'throughEventIndex'> = {}): InputExerciseReport | undefined {
+	const { mode } = instance
+	const { throughEventIndex = instance.history.length - 1 } = options
+	const lastIndex = Math.min(throughEventIndex, instance.history.length - 1)
+	const report: InputExerciseReport = {}
+	let hasReport = false
+
+	switch (mode) {
+		case 'solo':
+			for (let index = 0; index <= lastIndex; index++) {
+				const event = instance.history[index]
+				if (event.action.type !== 'input' || event.report === undefined) continue
+				Object.assign(report, event.report)
+				hasReport = true
+			}
+			break
+
+		case 'group': {
+			if (userId === undefined) throw new TypeError(`A userId is required when retrieving a report from a group exercise history.`)
+			let historyUserId = userId
+			for (let index = lastIndex; index >= 0; index--) {
+				const event = instance.history[index]
+				const action = event.actions.find(userAction => userAction.userId === historyUserId)?.action
+				if (action?.type !== 'input') continue
+				if ('state' in event) {
+					const eventReport = event.report?.[historyUserId]
+					if (eventReport !== undefined) {
+						Object.entries(eventReport).forEach(([key, value]) => {
+							if (!(key in report)) report[key] = value
+						})
+						hasReport = true
+					}
+				}
+				historyUserId = action.adoptUserHistory ?? historyUserId
+			}
+			break
+		}
+
+		default:
+			return throwUnsupportedExerciseMode(mode)
+	}
+
+	return hasReport ? report : undefined
 }
 
 // Combine and interpret a user's input actions through the requested history event.

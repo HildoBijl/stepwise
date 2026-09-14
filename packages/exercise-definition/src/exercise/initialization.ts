@@ -1,6 +1,6 @@
 import { type Awaitable, isPlainObject } from '@step-wise/js-utils'
 
-import type { ExerciseParameters, ExerciseState } from '../atomTypes.ts'
+import type { ExerciseParameters, ExerciseState } from '../types.ts'
 
 export async function resolveExerciseParameters<TParameters extends Record<string, unknown> = ExerciseParameters>(generateParameters: ((example: boolean) => Awaitable<TParameters>) | undefined, example: boolean): Promise<TParameters> {
 	const parameters = generateParameters === undefined ? {} : await generateParameters(example)

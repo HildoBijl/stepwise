@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useEffectEvent, useMemo, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
-import { getAccumulatedRawInput, getCurrentStep } from '@step-wise/input-exercises'
+import { getAccumulatedRawInput, getAccumulatedReport, getCurrentStep } from '@step-wise/input-exercises'
 
 import { useUserId } from 'api'
 import { TranslationSection } from 'i18n'
@@ -183,9 +183,12 @@ function FeedbackWrapper({ getFeedback, children }) {
 		resolvedOnly: true,
 		throughEventIndex: inspection ? historyIndex : undefined,
 	}), [instance, history, inspection, historyIndex, userId])
+	const report = useMemo(() => getAccumulatedReport(instance, userId, {
+		throughEventIndex: inspection ? historyIndex : undefined,
+	}), [instance, history, inspection, historyIndex, userId])
 
 	// Render the FeedbackProvider.
-	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} exerciseData={mergedExerciseData}>
+	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} report={report} exerciseData={mergedExerciseData}>
 		{children}
 	</FeedbackProvider>
 }

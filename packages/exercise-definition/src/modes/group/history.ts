@@ -1,4 +1,4 @@
-import type { ExerciseAction, ExerciseState } from '../../atomTypes.ts'
+import type { ExerciseAction, ExerciseState } from '../../types.ts'
 
 import type { GroupExerciseHistory } from './types.ts'
 

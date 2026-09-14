@@ -1,4 +1,4 @@
-import type { ExerciseAction, ExerciseParameters, ExerciseState } from '@step-wise/exercise-definition'
+import type { ExerciseAction, ExerciseParameters, ExerciseState, GroupExerciseReport } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/module-tree-definition'
 
 export type GroupExerciseActionRecord = {
@@ -12,6 +12,7 @@ export type GroupExerciseEventRecord = {
 	id: string
 	eventIndex: number
 	state: ExerciseState | null
+	report: GroupExerciseReport | null
 	performedAt: string
 	actions: GroupExerciseActionRecord[]
 }
@@ -48,6 +49,7 @@ export type GroupEventResolutionRecord = {
 	exerciseId: string
 	eventIndex: number
 	state: ExerciseState
+	report: GroupExerciseReport | null
 	active: boolean
 	nextEvent: Omit<GroupExerciseEventRecord, 'actions'> | null
 }

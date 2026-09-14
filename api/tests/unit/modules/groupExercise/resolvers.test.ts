@@ -8,7 +8,7 @@ const exercise = { id: 'exercise-id', skillId: 'enterInteger' } as GroupExercise
 const context = { userId: 'user-id' } as Parameters<typeof selectGroupActionUpdate>[2]
 const startedPayload: GroupExerciseStartedPayload = { exercise, code: 'PHYS', memberIds: ['user-id'] }
 const actionPayload: GroupActionUpdatedPayload = { exerciseId: 'exercise-id', eventIndex: 0, userId: 'user-id', action: null, memberIds: ['user-id'] }
-const resolutionPayload: GroupEventResolvedPayload = { exerciseId: 'exercise-id', eventIndex: 0, state: {}, active: false, nextEvent: null, memberIds: ['user-id'] }
+const resolutionPayload: GroupEventResolvedPayload = { exerciseId: 'exercise-id', eventIndex: 0, state: {}, report: null, active: false, nextEvent: null, memberIds: ['user-id'] }
 
 describe('group exercise started subscription', () => {
 	it('selects starts for a member of the requested group and skill', () => {

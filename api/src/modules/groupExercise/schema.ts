@@ -30,6 +30,7 @@ export const groupExerciseTypeDefs = gql`
 		exerciseId: ID!
 		eventIndex: Int!
 		state: JSON!
+		report: JSON
 		active: Boolean!
 		nextEvent: GroupEvent
 	}
@@ -52,6 +53,7 @@ export const groupExerciseTypeDefs = gql`
 		id: ID!
 		eventIndex: Int!
 		state: JSON
+		report: JSON
 		performedAt: DateTime!
 		actions: [GroupExerciseAction!]!
 	}

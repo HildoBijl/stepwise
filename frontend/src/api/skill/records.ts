@@ -1,5 +1,5 @@
 import type { BernsteinCoefficients } from '@step-wise/bernstein-polynomials'
-import type { ExerciseAction, ExerciseParameters, ExerciseState } from '@step-wise/exercise-definition'
+import type { ExerciseAction, ExerciseParameters, ExerciseState, SoloExerciseReport } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/module-tree-definition'
 
 import type { UserAccountDataRecord, UserRecord, UserSharedDataRecord } from '../user/records.ts'
@@ -9,6 +9,7 @@ export type ExerciseEventRecord = {
 	eventIndex: number
 	action: ExerciseAction
 	state: ExerciseState
+	report: SoloExerciseReport | null
 	performedAt: string
 }
 

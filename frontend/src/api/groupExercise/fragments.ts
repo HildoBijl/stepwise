@@ -15,6 +15,7 @@ export const groupExerciseFields = `
 		eventIndex
 		performedAt
 		state
+		report
 		actions {
 			id
 			userId
@@ -40,11 +41,13 @@ export const groupEventResolutionFields = `
 	exerciseId
 	eventIndex
 	state
+	report
 	active
 	nextEvent {
 		id
 		eventIndex
 		state
+		report
 		performedAt
 	}
 `

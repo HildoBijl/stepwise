@@ -1,8 +1,6 @@
-import { type PlainDataObject, isPlainDataObject } from '@step-wise/js-utils'
+import { isPlainDataObject } from '@step-wise/js-utils'
 
-export type ExerciseParameters = PlainDataObject
-export type ExerciseAction = PlainDataObject & { type: string }
-export type ExerciseState = PlainDataObject
+import type { ExerciseAction } from './types.ts'
 
 export function isExerciseAction(value: unknown): value is ExerciseAction {
 	return isPlainDataObject(value) && typeof value.type === 'string'

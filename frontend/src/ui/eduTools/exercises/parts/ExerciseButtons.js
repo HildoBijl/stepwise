@@ -4,7 +4,7 @@ import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 
 import { last, fromKeys, isPlainObject, repeat } from '@step-wise/js-utils'
 import { getLastAction } from '@step-wise/exercise-definition'
-import { getAccumulatedRawInput, getCurrentStep } from '@step-wise/input-exercises'
+import { getAccumulatedRawInput, getAccumulatedReport, getCurrentStep } from '@step-wise/input-exercises'
 import { useLatestRef, useReferencePreservingValue } from '@step-wise/react-utils'
 
 import { useUserId, useIsAdmin, useActiveGroup, useSortedGroupMembers } from 'api'
@@ -319,7 +319,11 @@ function CurrentActionRow({ actionList, submitting, index, part }) {
 	const setFormInput = useCallback(() => {
 		const historyUserId = last(actionListRef.current).userId
 		const instance = { ...exerciseData.instance, history: historyRef.current }
-		updateFeedback(getAccumulatedRawInput(instance, historyUserId, { resolvedOnly: true }) || {})
+		updateFeedback(
+			getAccumulatedRawInput(instance, historyUserId, { resolvedOnly: true }) || {},
+			exerciseData.state,
+			getAccumulatedReport(instance, historyUserId),
+		)
 		const historyInput = getAccumulatedRawInput(instance, historyUserId) || {}
 		setAllInputSI(fromKeys(getFieldIds(), id => historyInput[id] ?? getFieldData(id).initialSI))
 		setAdoptUserHistory(historyUserId === userId ? undefined : historyUserId)

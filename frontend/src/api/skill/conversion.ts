@@ -11,7 +11,7 @@ export function exerciseRecordToExercise(record: ExerciseRecord): Exercise {
 	return {
 		...record,
 		startedAt: new Date(record.startedAt),
-		history: record.history.map(event => ({ ...event, performedAt: new Date(event.performedAt) })),
+		history: record.history.map(({ report, ...event }) => ({ ...event, ...(report === null ? {} : { report }), performedAt: new Date(event.performedAt) })),
 	}
 }
 

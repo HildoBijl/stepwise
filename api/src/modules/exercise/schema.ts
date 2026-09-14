@@ -56,6 +56,7 @@ export const exerciseTypeDefs = gql`
 		eventIndex: Int!
 		action: JSON!
 		state: JSON!
+		report: JSON
 		performedAt: DateTime!
 	}
 `
