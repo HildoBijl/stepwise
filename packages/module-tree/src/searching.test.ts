@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensureModuleId, ensureSkillId, expandModuleIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, isModulePrerequisiteOf, isSkillPrerequisiteOf, sortModuleIdsByTreeOrder } from './searching.ts'
+import { ensureModuleId, ensureSkillId, expandModuleIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, isModulePrerequisiteOf, sortModuleIdsByTreeOrder } from './searching.ts'
 
 describe('module-tree searching', () => {
 	it('validates IDs against the Step-Wise module tree', () => {
@@ -11,7 +11,6 @@ describe('module-tree searching', () => {
 
 	it('expands IDs with their direct prerequisites', () => {
 		expect(expandModuleIdsWithDirectPrerequisites(['summationAndMultiplication'])).toEqual(['summationAndMultiplication', 'multiplication', 'summation'])
-		expect(expandSkillIdsWithDirectPrerequisites(['summationAndMultiplication'])).toEqual(['summationAndMultiplication', 'multiplication', 'summation'])
 	})
 
 	it('expands IDs with their direct prerequisites and links', () => {
@@ -20,8 +19,7 @@ describe('module-tree searching', () => {
 
 	it('checks transitive prerequisites', () => {
 		expect(isModulePrerequisiteOf('rewritePower', 'expandDoubleBrackets')).toBe(true)
-		expect(isSkillPrerequisiteOf('rewritePower', 'expandDoubleBrackets')).toBe(true)
-		expect(isSkillPrerequisiteOf('expandDoubleBrackets', 'rewritePower')).toBe(false)
+		expect(isModulePrerequisiteOf('expandDoubleBrackets', 'rewritePower')).toBe(false)
 	})
 
 	it('sorts module IDs into tree order', () => {

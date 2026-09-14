@@ -31,6 +31,7 @@ export type SkillDefinition = BaseModuleDefinition & {
 	thresholds?: SkillThresholdOptionsInput
 }
 export type ModuleDefinition = ConceptDefinition | SkillDefinition
+export type ModuleTreeDefinition = { [key: string]: ModuleDefinition | ModuleTreeDefinition }
 
 // Processed modules.
 export type SkillLink = { skillIds: SkillId[]; correlation?: number }
@@ -55,7 +56,4 @@ export type Skill = BaseModule & {
 	thresholds: SkillThresholdOptions
 }
 export type Module = Concept | Skill
-
-// Module containers.
-export type ModuleTreeDefinition = { [key: string]: ModuleDefinition | ModuleTreeDefinition }
 export type ModuleTree = Record<ModuleId, Module>

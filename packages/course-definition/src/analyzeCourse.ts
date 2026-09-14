@@ -1,6 +1,6 @@
 import { partition } from '@step-wise/js-utils'
 import { type SkillSetup, ensureSetup } from '@step-wise/skill-setup'
-import { type ModuleTree, type SkillId, getSkill, isSkillPrerequisiteOf, sortSkillIdsByTreeOrder } from '@step-wise/module-tree-definition'
+import { type ModuleTree, type SkillId, getSkill, isModulePrerequisiteOf, sortModuleIdsByTreeOrder } from '@step-wise/module-tree-definition'
 
 import type { CourseAnalysis, CourseBlockDiagnostics, CourseResolutionBlock, CourseSpecification } from './types.ts'
 
@@ -20,7 +20,7 @@ export function analyzeCourse(moduleTree: ModuleTree, specification: CourseSpeci
 	const processSkill = (skillId: SkillId, parentId: SkillId | undefined) => {
 		const skill = getSkill(moduleTree, skillId)
 		// If we're out-of-tree (the skill does not follow from any starting point) then add the parent as a missing starting point.
-		if (!startingPointIdsFiltered.some(startingPointId => isSkillPrerequisiteOf(moduleTree, startingPointId, skillId))) {
+		if (!startingPointIdsFiltered.some(startingPointId => isModulePrerequisiteOf(moduleTree, startingPointId, skillId, { includeConcepts: false }))) {
 			const missingStartingPoint = parentId ?? skillId
 			if (!missingStartingPointIds.includes(missingStartingPoint)) missingStartingPointIds.push(missingStartingPoint)
 			return
@@ -37,7 +37,7 @@ export function analyzeCourse(moduleTree: ModuleTree, specification: CourseSpeci
 		if (startingPointIdsFiltered.includes(skillId)) {
 			startingPointIdsFound.push(skillId)
 			skill.prerequisiteIds.forEach(prerequisiteId => {
-				if (moduleTree[prerequisiteId].type === 'skill' && startingPointIdsFiltered.some(startingPointId => isSkillPrerequisiteOf(moduleTree, startingPointId, prerequisiteId))) processSkill(prerequisiteId, skillId)
+				if (moduleTree[prerequisiteId].type === 'skill' && startingPointIdsFiltered.some(startingPointId => isModulePrerequisiteOf(moduleTree, startingPointId, prerequisiteId, { includeConcepts: false }))) processSkill(prerequisiteId, skillId)
 			})
 			return
 		}
@@ -62,7 +62,7 @@ export function analyzeCourse(moduleTree: ModuleTree, specification: CourseSpeci
 	const learningGoalWeights = learningGoalIdsFiltered.map(goalId => specification.learningGoalWeights ? specification.learningGoalWeights[originalLearningGoalIds.indexOf(goalId)] : 1)
 
 	// Determine prior knowledge: direct prerequisites of starting points outside the course.
-	const priorKnowledgeIds = sortSkillIdsByTreeOrder(moduleTree, getPriorKnowledgeIds(moduleTree, startingPointIds, contentsFound))
+	const priorKnowledgeIds = sortModuleIdsByTreeOrder(moduleTree, getPriorKnowledgeIds(moduleTree, startingPointIds, contentsFound), { includeConcepts: false })
 
 	// Resolve blocks. If no blocks are provided, create one implicit block for the course goals.
 	let blocks: CourseResolutionBlock[] | undefined, contentSkillIds: SkillId[] | undefined, blockDiagnostics: CourseBlockDiagnostics[] | undefined, uncoveredLearningGoalIds: SkillId[] | undefined
@@ -70,7 +70,7 @@ export function analyzeCourse(moduleTree: ModuleTree, specification: CourseSpeci
 		[blocks, blockDiagnostics, uncoveredLearningGoalIds] = analyzeCourseBlocks(moduleTree, specification.blockLearningGoalIds, contentsFound, learningGoalIdsFiltered)
 		if (uncoveredLearningGoalIds.length === 0) contentSkillIds = blocks.flatMap(block => block.contentSkillIds) // Sort contents by blocks.
 	}
-	if (!contentSkillIds) contentSkillIds = sortSkillIdsByTreeOrder(moduleTree, contentsFound) // Sort contents by Skill Tree.
+	if (!contentSkillIds) contentSkillIds = sortModuleIdsByTreeOrder(moduleTree, contentsFound, { includeConcepts: false }) // Sort contents by module-tree order.
 
 	// Check the set-up contents.
 	let setup: SkillSetup | undefined, unknownSetupSkillIds: SkillId[] | undefined, externalSetupSkillIds: SkillId[] | undefined

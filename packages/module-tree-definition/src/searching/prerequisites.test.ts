@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { createModuleTree } from '../creation/index.ts'
 
-import { expandModuleIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, getModuleIdsBetweenGoalsAndPriorKnowledge, getSkillIdsBetweenGoalsAndPriorKnowledge, isModulePrerequisiteOf, isSkillPrerequisiteOf } from './prerequisites.ts'
+import { expandModuleIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, getModuleIdsBetweenGoalsAndPriorKnowledge, isModulePrerequisiteOf } from './prerequisites.ts'
 
 const tree = createModuleTree({
 	a: { type: 'skill', name: 'A' },
@@ -26,38 +26,39 @@ describe('module prerequisite helpers', () => {
 		expect(getModuleIdsBetweenGoalsAndPriorKnowledge(mixedTree, ['application'], [])).toEqual(['application', 'method', 'foundation'])
 	})
 
-	it('keeps concepts out of skill-only expansions', () => {
-		expect(expandSkillIdsWithDirectPrerequisites(mixedTree, ['method'])).toEqual(['method'])
+	it('can exclude concepts and stop traversing their prerequisites', () => {
+		expect(expandModuleIdsWithDirectPrerequisites(mixedTree, ['method'], { includeConcepts: false })).toEqual(['method'])
+		expect(getModuleIdsBetweenGoalsAndPriorKnowledge(mixedTree, ['application'], [], { includeConcepts: false })).toEqual(['application', 'method'])
 		expect(expandSkillIdsWithDirectPrerequisitesAndLinks(mixedTree, ['method'])).toEqual(['method'])
 	})
 })
 
-describe('isSkillPrerequisiteOf', () => {
+describe('isModulePrerequisiteOf', () => {
 	it('recognizes direct, transitive, and self prerequisites', () => {
-		expect(isSkillPrerequisiteOf(tree, 'a', 'b')).toBe(true)
-		expect(isSkillPrerequisiteOf(tree, 'a', 'e')).toBe(true)
-		expect(isSkillPrerequisiteOf(tree, 'e', 'e')).toBe(true)
+		expect(isModulePrerequisiteOf(tree, 'a', 'b')).toBe(true)
+		expect(isModulePrerequisiteOf(tree, 'a', 'e')).toBe(true)
+		expect(isModulePrerequisiteOf(tree, 'e', 'e')).toBe(true)
 	})
 
-	it('returns false for unrelated or reversed skills', () => {
-		expect(isSkillPrerequisiteOf(tree, 'f', 'e')).toBe(false)
-		expect(isSkillPrerequisiteOf(tree, 'e', 'a')).toBe(false)
+	it('returns false for unrelated or reversed modules', () => {
+		expect(isModulePrerequisiteOf(tree, 'f', 'e')).toBe(false)
+		expect(isModulePrerequisiteOf(tree, 'e', 'a')).toBe(false)
 	})
 
 	it('requires exact casing and rejects unknown IDs', () => {
-		expect(() => isSkillPrerequisiteOf(tree, 'A', 'E')).toThrow(/A/)
-		expect(() => isSkillPrerequisiteOf(tree, 'missing', 'missing')).toThrow(/missing/)
+		expect(() => isModulePrerequisiteOf(tree, 'A', 'E')).toThrow(/A/)
+		expect(() => isModulePrerequisiteOf(tree, 'missing', 'missing')).toThrow(/missing/)
 	})
 })
 
-describe('expandSkillIdsWithDirectPrerequisites', () => {
+describe('expandModuleIdsWithDirectPrerequisites', () => {
 	it('includes requested IDs and only their direct prerequisites', () => {
-		expect(expandSkillIdsWithDirectPrerequisites(tree, ['e'])).toEqual(['e', 'b', 'c'])
-		expect(expandSkillIdsWithDirectPrerequisites(tree, ['e', 'b'])).toEqual(['e', 'b', 'c', 'a'])
+		expect(expandModuleIdsWithDirectPrerequisites(tree, ['e'])).toEqual(['e', 'b', 'c'])
+		expect(expandModuleIdsWithDirectPrerequisites(tree, ['e', 'b'])).toEqual(['e', 'b', 'c', 'a'])
 	})
 
 	it('deduplicates shared prerequisites', () => {
-		expect(expandSkillIdsWithDirectPrerequisites(tree, ['b', 'c'])).toEqual(['b', 'a', 'c'])
+		expect(expandModuleIdsWithDirectPrerequisites(tree, ['b', 'c'])).toEqual(['b', 'a', 'c'])
 	})
 })
 
@@ -72,21 +73,21 @@ describe('expandSkillIdsWithDirectPrerequisitesAndLinks', () => {
 	})
 })
 
-describe('getSkillIdsBetweenGoalsAndPriorKnowledge', () => {
+describe('getModuleIdsBetweenGoalsAndPriorKnowledge', () => {
 	it('includes goals and recursive prerequisites while excluding the prior-knowledge boundary', () => {
-		expect(getSkillIdsBetweenGoalsAndPriorKnowledge(tree, ['e'], ['a'])).toEqual(['e', 'b', 'c'])
+		expect(getModuleIdsBetweenGoalsAndPriorKnowledge(tree, ['e'], ['a'])).toEqual(['e', 'b', 'c'])
 	})
 
 	it('does not traverse beyond an excluded prior-knowledge skill', () => {
-		expect(getSkillIdsBetweenGoalsAndPriorKnowledge(tree, ['e'], ['b'])).toEqual(['e', 'c', 'a'])
+		expect(getModuleIdsBetweenGoalsAndPriorKnowledge(tree, ['e'], ['b'])).toEqual(['e', 'c', 'a'])
 	})
 
 	it('handles multiple goals, shared branches, and duplicates', () => {
-		expect(getSkillIdsBetweenGoalsAndPriorKnowledge(tree, ['e', 'b'], [])).toEqual(['e', 'b', 'a', 'c'])
+		expect(getModuleIdsBetweenGoalsAndPriorKnowledge(tree, ['e', 'b'], [])).toEqual(['e', 'b', 'a', 'c'])
 	})
 
 	it('rejects unknown goals and prior-knowledge IDs', () => {
-		expect(() => getSkillIdsBetweenGoalsAndPriorKnowledge(tree, ['missing'], [])).toThrow(/missing/)
-		expect(() => getSkillIdsBetweenGoalsAndPriorKnowledge(tree, ['e'], ['missing'])).toThrow(/missing/)
+		expect(() => getModuleIdsBetweenGoalsAndPriorKnowledge(tree, ['missing'], [])).toThrow(/missing/)
+		expect(() => getModuleIdsBetweenGoalsAndPriorKnowledge(tree, ['e'], ['missing'])).toThrow(/missing/)
 	})
 })

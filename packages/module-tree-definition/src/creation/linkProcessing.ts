@@ -30,6 +30,7 @@ export function normalizeSkillLinks(links?: SkillLinkDefinition | SkillLinkDefin
 		const correlation = link.correlation === undefined ? undefined : ensureNumber(link.correlation)
 		if (correlation !== undefined && (correlation <= 0 || correlation >= 1)) throw new RangeError(`Invalid skill correlation "${correlation}": expected a value between 0 and 1.`)
 
+		// Return the processed skill link object.
 		return { skillIds, ...(correlation === undefined ? {} : { correlation }) }
 	})
 }

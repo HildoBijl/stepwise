@@ -211,42 +211,32 @@ Returns the corresponding `Skill`, rejecting IDs that identify concepts. This is
 
 Normalizes a setup through `@step-wise/skill-setup`, verifies that every referenced skill exists and returns the resulting setup.
 
-### `isSkillPrerequisiteOf(moduleTree, prerequisiteId, skillId)`
+### `isModulePrerequisiteOf(moduleTree, prerequisiteId, moduleId, options?)`
 
-Checks whether the first skill is a direct or transitive prerequisite of the second. Traversal may pass through concepts, but both supplied endpoints must be skills. A skill is considered a prerequisite of itself for reachability calculations.
+Checks whether the first module is a direct or transitive prerequisite of the second. A module is considered a prerequisite of itself. Set `includeConcepts` to `false` to exclude concepts and stop traversal when one is encountered.
 
-### `isModulePrerequisiteOf(moduleTree, prerequisiteId, moduleId)`
+### `expandModuleIdsWithDirectPrerequisites(moduleTree, moduleIds, options?)`
 
-The module-aware variant accepts concepts or skills as either endpoint.
-
-### `expandModuleIdsWithDirectPrerequisites(moduleTree, moduleIds)`
-
-Returns the requested modules and their direct prerequisites, including concepts and skills. It does not recurse.
-
-### `expandSkillIdsWithDirectPrerequisites(moduleTree, skillIds)`
-
-Accepts a readonly array of skill IDs and returns the requested canonical IDs and their direct skill prerequisites. Concept prerequisites are omitted. It does not recurse.
+Returns the requested modules and their direct prerequisites. It does not recurse. Set `includeConcepts` to `false` to omit concepts from the result.
 
 ### `expandSkillIdsWithDirectPrerequisitesAndLinks(moduleTree, skillIds)`
 
 Accepts a readonly array and returns the requested canonical IDs, their direct prerequisites and their directly linked skills. It does not recurse through either relationship.
 
-### `getSkillIdsBetweenGoalsAndPriorKnowledge(moduleTree, goals, priorKnowledge)`
+### `getModuleIdsBetweenGoalsAndPriorKnowledge(moduleTree, goals, priorKnowledge, options?)`
 
-Returns the goals and their recursive skill prerequisites while excluding concepts, prior-knowledge skills and everything reached only by traversing beyond those boundaries.
+Returns the goals and their recursive prerequisites while excluding prior-knowledge modules and everything reached only by traversing beyond those boundaries. Set `includeConcepts` to `false` to omit concepts and stop traversing their prerequisites.
 
 ```ts
-getSkillIdsBetweenGoalsAndPriorKnowledge(moduleTree, ['solveLinearEquation'], ['addNumbers'])
+getModuleIdsBetweenGoalsAndPriorKnowledge(moduleTree, ['solveLinearEquation'], ['addNumbers'], { includeConcepts: false })
 // ['solveLinearEquation', 'multiplyNumbers']
 ```
 
-### `sortSkillIdsByTreeOrder(moduleTree, skillIds)`
+### `sortModuleIdsByTreeOrder(moduleTree, moduleIds, options?)`
 
-Validates the supplied skill IDs, then returns a new array sorted by their order in the processed module tree. Duplicate IDs are preserved.
-
-The corresponding `getModuleIdsBetweenGoalsAndPriorKnowledge` and `sortModuleIdsByTreeOrder` functions retain both concepts and skills.
+Validates the supplied module IDs, then returns a new array sorted by their order in the processed module tree. Duplicate IDs are preserved. Set `includeConcepts` to `false` to omit concepts.
 
 
 ## TypeScript
 
-The package includes TypeScript declarations. Its principal exported types include `ModuleId`, `ModuleType`, `ModuleDefinition`, `ConceptDefinition`, `SkillDefinition`, `ModuleTreeDefinition`, `Module`, `Concept`, `Skill`, `ModuleTree`, `EnsureModuleIdOptions`, `SkillLinkDefinition` and `SkillLink`.
+The package includes TypeScript declarations. Its principal exported types include `ModuleId`, `ModuleType`, `ModuleDefinition`, `ConceptDefinition`, `SkillDefinition`, `ModuleTreeDefinition`, `Module`, `Concept`, `Skill`, `ModuleTree`, `EnsureModuleIdOptions`, `ModuleSearchOptions`, `SkillLinkDefinition` and `SkillLink`.
