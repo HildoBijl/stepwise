@@ -1,7 +1,7 @@
 import { type CreationOptional, type HasManyCreateAssociationMixin, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
 
 import type { SkillId } from '@step-wise/skill-definition'
-import type { ExerciseAction, ExerciseParameters, ExerciseState } from '@step-wise/exercise-definition'
+import type { ExerciseAction, ExerciseParameters, ExerciseState, GroupExerciseReport } from '@step-wise/exercise-definition'
 
 import type { GroupWithMembers } from '../group/index.ts'
 
@@ -20,6 +20,7 @@ export class GroupExerciseEventRecord extends Model<InferAttributes<GroupExercis
 	declare groupExerciseSampleId: string
 	declare eventIndex: number
 	declare state: ExerciseState | null
+	declare report: CreationOptional<GroupExerciseReport | null>
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 	declare actions?: NonAttribute<GroupExerciseActionRecord[]>
@@ -97,6 +98,7 @@ export function createGroupExerciseEventModel(sequelize: Sequelize): GroupExerci
 		groupExerciseSampleId: { type: DataTypes.UUID, allowNull: false },
 		eventIndex: { type: DataTypes.INTEGER, allowNull: false, validate: { min: 0 } },
 		state: { type: DataTypes.JSON, allowNull: true },
+		report: { type: DataTypes.JSON, allowNull: true, defaultValue: null },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
 	}, {

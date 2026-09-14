@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import type { ExerciseRecord, SkillWithExerciseHistoryRecord, SkillWithLatestExerciseRecord } from './records.ts'
-import { skillWithLatestExerciseRecordToSkill, userWithSkillsRecordToUser } from './conversion.ts'
+import { exerciseRecordToExercise, skillWithLatestExerciseRecordToSkill, userWithSkillsRecordToUser } from './conversion.ts'
 
 const date = '2026-01-02T03:04:05.000Z'
 
@@ -94,4 +94,12 @@ describe('skill API conversion', () => {
 		expect(user.skillLevelSet.getSkillLevel('enterInteger').coefficientsOn).toStrictEqual(new Date(date))
 	})
 
+	it('omits null reports and preserves stored reports', () => {
+		const event = { id: 'event-id', eventIndex: 0, action: { type: 'input' }, state: {}, report: null, performedAt: date }
+		const withoutReport = exerciseRecordToExercise({ ...createExerciseRecord(), history: [event] })
+		const withReport = exerciseRecordToExercise({ ...createExerciseRecord(), history: [{ ...event, report: { correct: false } }] })
+
+		expect('report' in withoutReport.history[0]!).toBe(false)
+		expect(withReport.history[0]?.report).toEqual({ correct: false })
+	})
 })

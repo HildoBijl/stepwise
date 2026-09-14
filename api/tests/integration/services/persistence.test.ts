@@ -53,11 +53,12 @@ describe('skill and exercise services', () => {
 		const skill = await db.UserSkill.create({ userId: user.id, skillId: ENTER_INTEGER })
 		const completed = await db.ExerciseSample.create({ userSkillId: skill.id, exerciseId: 'enterInteger', parameters: { x: 1 }, active: false })
 		const active = await db.ExerciseSample.create({ userSkillId: skill.id, exerciseId: 'enterInteger', parameters: { x: 2 } })
-		await completed.createEvent({ eventIndex: 0, action: { type: 'start' }, state: { attempted: true } })
+		await completed.createEvent({ eventIndex: 0, action: { type: 'start' }, state: { attempted: true }, report: { correct: false } })
 
 		const result = await getUserSkillWithExercises(db, user.id, ENTER_INTEGER, { includeExercises: true, requireActiveExercise: true })
 		expect(result?.exercises.map(exercise => exercise.id)).toStrictEqual([completed.id, active.id])
 		expect(result?.activeExercise?.id).toBe(active.id)
+		expect(result?.exercises[0]?.events?.[0]?.report).toEqual({ correct: false })
 	})
 })
 

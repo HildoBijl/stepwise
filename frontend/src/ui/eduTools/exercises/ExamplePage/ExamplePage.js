@@ -37,17 +37,21 @@ export function ExamplePage({ skillId }) {
 	const submitAction = useCallback(async (action, processSoloAction) => {
 		// Determine the new state.
 		let state
+		let report
 		if (action?.type === 'setState') // An override only used by example exercises.
 			state = action.newState
-		else
-			state = (await processSoloAction({ parameters: exercise.parameters, state: exercise.state, action, updateSkills: noop })).state
+		else {
+			const result = await processSoloAction({ parameters: exercise.parameters, state: exercise.state, action, updateSkills: noop })
+			state = result.state
+			report = result.report
+		}
 
 		// Use it to adjust the exercise.
 		setExercise({
 			...exercise,
 			active: exercise.active && !state.done,
 			state,
-			history: [...exercise.history, { action, state, performedAt: new Date() }],
+			history: [...exercise.history, { action, state, ...(report === undefined ? {} : { report }), performedAt: new Date() }],
 		})
 	}, [exercise, setExercise])
 

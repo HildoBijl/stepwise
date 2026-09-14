@@ -55,12 +55,12 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 
 	// Set up a submit handler. Do the same as would happen on the server: find the new state and incorporate it into the exercise data and its history.
 	const submitAction = useCallback(async (action, processSoloAction) => {
-		const { state } = await processSoloAction({ parameters: exercise.parameters, state: exercise.state, action, updateSkills: noop })
+		const { state, report } = await processSoloAction({ parameters: exercise.parameters, state: exercise.state, action, updateSkills: noop })
 		setExercise({
 			...exercise,
 			active: exercise.active && !state.done,
 			state,
-			history: [...exercise.history, { action, state, performedAt: new Date() }],
+			history: [...exercise.history, { action, state, ...(report === undefined ? {} : { report }), performedAt: new Date() }],
 		})
 	}, [exercise, setExercise])
 

@@ -13,6 +13,7 @@ export const exerciseFields = `
 		eventIndex
 		action
 		state
+		report
 		performedAt
 	}
 `
@@ -25,6 +26,7 @@ export const exerciseUpdateFields = `
 		eventIndex
 		action
 		state
+		report
 		performedAt
 	}
 `

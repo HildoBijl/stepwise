@@ -19,6 +19,7 @@ const exerciseRecord: GroupExerciseRecord = {
 		id: 'event-id',
 		eventIndex: 3,
 		state: null,
+		report: null,
 		performedAt: '2026-01-01T00:01:00.000Z',
 		actions: [{
 			id: 'action-id',
@@ -38,6 +39,13 @@ describe('group-exercise API conversion', () => {
 		expect(exercise.history[0]?.performedAt).toEqual(new Date('2026-01-01T00:01:00.000Z'))
 		expect(exercise.history[0]?.eventIndex).toBe(3)
 		expect('state' in exercise.history[0]!).toBe(false)
+		expect('report' in exercise.history[0]!).toBe(false)
 		expect(exercise.history[0]?.actions[0]?.performedAt).toEqual(new Date('2026-01-01T00:01:00.000Z'))
+	})
+
+	it('preserves a stored report', () => {
+		const history = [{ ...exerciseRecord.history[0]!, state: {}, report: { user: { correct: false } } }]
+		const exercise = groupExerciseRecordToExercise({ ...exerciseRecord, history })
+		expect(exercise.history[0]).toMatchObject({ report: { user: { correct: false } } })
 	})
 })

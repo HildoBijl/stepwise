@@ -62,7 +62,7 @@ describe('submitExerciseAction', () => {
 
 		// Submit a wrong solution.
 		const action = inputAction(parameters.x + 1)
-		const { data: { submitExerciseAction: { updatedExercise } }, errors } = await client.graphql({ query: `mutation{submitExerciseAction(exerciseId: "${exercise.id}", eventIndex: 0, action: ${stringifyGraphQLInput(action)}) {updatedExercise {id exerciseId parameters eventIndex active history {eventIndex action state}}}}` })
+		const { data: { submitExerciseAction: { updatedExercise } }, errors } = await client.graphql({ query: `mutation{submitExerciseAction(exerciseId: "${exercise.id}", eventIndex: 0, action: ${stringifyGraphQLInput(action)}) {updatedExercise {id exerciseId parameters eventIndex active history {eventIndex action state report}}}}` })
 		expect(errors).toBeUndefined()
 		expect(updatedExercise).toMatchObject(exercise)
 		expect(updatedExercise.history).toHaveLength(1)
@@ -70,6 +70,7 @@ describe('submitExerciseAction', () => {
 		expect(updatedExercise.history[0].eventIndex).toBe(0)
 		expect(updatedExercise.history[0].state).toEqual({ attempted: true })
 		expect(updatedExercise.history[0].action).toEqual(action)
+		expect(updatedExercise.history[0].report).toBe(null)
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 
 		// Reject an action submitted for the previous exercise state.

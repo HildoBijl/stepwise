@@ -1,6 +1,6 @@
 import { type CreationOptional, type HasManyCreateAssociationMixin, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
 
-import type { ExerciseAction, ExerciseParameters, ExerciseState } from '@step-wise/exercise-definition'
+import type { ExerciseAction, ExerciseParameters, ExerciseState, SoloExerciseReport } from '@step-wise/exercise-definition'
 
 export class ExerciseEventRecord extends Model<InferAttributes<ExerciseEventRecord>, InferCreationAttributes<ExerciseEventRecord>> {
 	declare id: CreationOptional<string>
@@ -8,6 +8,7 @@ export class ExerciseEventRecord extends Model<InferAttributes<ExerciseEventReco
 	declare eventIndex: number
 	declare action: ExerciseAction
 	declare state: ExerciseState
+	declare report: CreationOptional<SoloExerciseReport | null>
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 }
@@ -64,6 +65,7 @@ export function createExerciseEventModel(sequelize: Sequelize): ExerciseEventMod
 		eventIndex: { type: DataTypes.INTEGER, allowNull: false, validate: { min: 0 } },
 		action: { type: DataTypes.JSON, allowNull: false },
 		state: { type: DataTypes.JSON, allowNull: false },
+		report: { type: DataTypes.JSON, allowNull: true, defaultValue: null },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
 	}, {
