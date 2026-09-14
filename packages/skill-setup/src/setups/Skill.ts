@@ -20,6 +20,7 @@ export class Skill extends SkillSetup<SkillStorageValue> {
 	override toStorageValue(): SkillStorageValue {
 		return this.skill
 	}
+	
 	static fromStorageValue(storageValue: SkillStorageValue): Skill {
 		return new Skill(storageValue)
 	}

@@ -17,6 +17,7 @@ export class Or extends SkillListSetup<OrStorageValue> {
 	override toStorageValue(): OrStorageValue {
 		return super.getSkillListStorageValue()
 	}
+	
 	static fromStorageValue(storageValue: SkillListStorageValue, deserialize: (setup: unknown) => SkillSetup): Or {
 		return new Or(...ensureSkillListStorageValue(storageValue).skills.map(skill => deserialize(skill)))
 	}

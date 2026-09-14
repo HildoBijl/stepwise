@@ -17,6 +17,7 @@ export class And extends SkillListSetup<AndStorageValue> {
 	override toStorageValue(): AndStorageValue {
 		return super.getSkillListStorageValue()
 	}
+	
 	static fromStorageValue(storageValue: SkillListStorageValue, deserialize: (setup: unknown) => SkillSetup): And {
 		return new And(...ensureSkillListStorageValue(storageValue).skills.map(skill => deserialize(skill)))
 	}

@@ -23,6 +23,7 @@ export class Part extends SkillItemSetup<PartStorageValue> {
 	override toStorageValue(): PartStorageValue {
 		return { ...super.getSkillItemStorageValue(), ...(this.part !== 0.5 ? { part: this.part } : {}) }
 	}
+	
 	static fromStorageValue(storageValue: PartStorageValue, deserialize: (setup: unknown) => SkillSetup): Part {
 		const { skill } = ensureSkillItemStorageValue(storageValue)
 		return new Part(deserialize(skill), storageValue.part)
