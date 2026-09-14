@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Box, Button, darken } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 import { useGetTranslation } from 'i18n'
 import { linkStyleReset } from 'ui/theme'

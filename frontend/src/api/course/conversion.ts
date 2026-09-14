@@ -1,6 +1,6 @@
 import { deserializeSetup } from '@step-wise/skill-setup'
 import { CourseDefinition } from '@step-wise/course-definition'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 import type { UserRecord } from '../user/records.ts'
 import type { User } from '../user/types.ts'

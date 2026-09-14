@@ -4,7 +4,7 @@ import { Tooltip, Box } from '@mui/material'
 import { resolveFunctionValuesDeep, integerRange, clamp, repeat } from '@step-wise/js-utils'
 import { interpolateGrid } from '@step-wise/interpolation'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 import { colorToCss, mixColors, shiftColorBrightness } from '@step-wise/browser-utils'
 
 import { Translation, Check } from 'i18n'

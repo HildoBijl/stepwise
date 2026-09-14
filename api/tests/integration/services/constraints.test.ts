@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 
 import { integrationDatabase as db } from '../../support/integrationDatabase.ts'
 

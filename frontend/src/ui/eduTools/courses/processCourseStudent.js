@@ -1,5 +1,5 @@
 import { findOptimum, fromKeys } from '@step-wise/js-utils'
-import { expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
+import { expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/module-tree-definition'
 import { getInitialSkillLevel } from '@step-wise/skill-tracking'
 
 import { analyzeCourseProgress } from './courseAnalysis'

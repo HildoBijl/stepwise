@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { type Exercise } from '@step-wise/exercise-definition'
 import { getByPath, isPlainObject } from '@step-wise/js-utils'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 import * as exerciseRegistry from './exerciseRegistry.ts'
 import { getAllExercises, getExamples, getExercise, getExercises, hasExamples, hasExercises } from './exerciseQueries.ts'

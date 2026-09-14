@@ -2,9 +2,9 @@ import { type PropsWithChildren, useCallback, useEffect, useMemo, useState } fro
 
 import { fromKeys, fromKeysAndValues } from '@step-wise/js-utils'
 import { useConstant } from '@step-wise/react-utils'
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 import { SkillLevelSet, getInitialSkillLevel } from '@step-wise/skill-tracking'
-import { expandSkillIdsWithDirectPrerequisitesAndLinks, moduleTree } from '@step-wise/skill-tree'
+import { expandSkillIdsWithDirectPrerequisitesAndLinks, moduleTree } from '@step-wise/module-tree'
 
 import { useUser } from '../../user/index.ts'
 

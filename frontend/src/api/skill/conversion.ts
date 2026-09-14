@@ -1,6 +1,6 @@
 import { fromKeys, fromKeysAndValues } from '@step-wise/js-utils'
 import { type SkillLevelData, SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
-import { expandSkillIdsWithDirectPrerequisitesAndLinks, moduleTree } from '@step-wise/skill-tree'
+import { expandSkillIdsWithDirectPrerequisitesAndLinks, moduleTree } from '@step-wise/module-tree'
 
 import { userAccountDataRecordToData, userRecordToUser, userSharedDataRecordToData } from '../user/conversion.ts'
 

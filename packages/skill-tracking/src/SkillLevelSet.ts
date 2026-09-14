@@ -3,7 +3,7 @@ import { binomialCoefficient } from '@step-wise/math-tools'
 import { getUnivariatePolynomialCoefficients, substitutePolynomialMoments, oneMinusPolynomial } from '@step-wise/polynomials'
 import { type BernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment, multiplyBernsteinPDFs } from '@step-wise/bernstein-polynomials'
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
-import { type SkillId, type SkillTree, ensureSkillId, expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
+import { type SkillId, type SkillTree, ensureSkillId, expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/module-tree-definition'
 
 import type { StoredSkillLevel, StoredSkillLevelSet, SkillLevelData, SkillObservation, StoredSkillLevelUpdate, StoredSkillLevelUpdateSet } from './types.ts'
 import { inferenceCacheDuration } from './settings.ts'

@@ -1,5 +1,5 @@
 import { type BernsteinCoefficients } from '@step-wise/bernstein-polynomials'
-import { createModuleTree } from '@step-wise/skill-definition'
+import { createModuleTree } from '@step-wise/module-tree-definition'
 
 import type { StoredSkillLevel } from './types.ts'
 

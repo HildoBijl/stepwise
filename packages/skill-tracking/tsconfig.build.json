@@ -12,7 +12,7 @@
     { "path": "../bernstein-polynomials/tsconfig.build.json" },
     { "path": "../math-tools/tsconfig.build.json" },
     { "path": "../polynomials/tsconfig.build.json" },
-    { "path": "../skill-definition/tsconfig.build.json" },
+    { "path": "../module-tree-definition/tsconfig.build.json" },
     { "path": "../js-utils/tsconfig.build.json" }
   ],
   "include": ["src"]

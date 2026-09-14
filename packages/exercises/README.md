@@ -24,7 +24,7 @@ const exercises = getExercises('specificHeatRatio')
 const exercise = getExercise('specificHeatRatio', 'specificHeatRatio')
 ```
 
-Skill IDs are resolved through [@step-wise/skill-tree](https://www.npmjs.com/package/@step-wise/skill-tree). An unknown skill ID throws. A known skill without a corresponding exercise bundle returns `undefined` from `getExamples` and `getExercises`.
+Skill IDs are resolved through [@step-wise/module-tree](https://www.npmjs.com/package/@step-wise/module-tree). An unknown skill ID throws. A known skill without a corresponding exercise bundle returns `undefined` from `getExamples` and `getExercises`.
 
 
 ## Exercise registry
@@ -111,7 +111,7 @@ Returned bundles and collections are frozen. `getAllExercises` creates and freez
 
 ## Adding exercises
 
-Exercise definitions belong in the relevant subject package rather than this aggregate package. Export each skill's `SkillExerciseBundle` at the path described by its skill-tree `groupPath` and skill ID, then expose that subject registry through its package-level `exercises` export.
+Exercise definitions belong in the relevant subject package rather than this aggregate package. Export each skill's `SkillExerciseBundle` at the path described by its module-tree `groupPath` and skill ID, then expose that subject registry through its package-level `exercises` export.
 
 The central registry tests verify that:
 

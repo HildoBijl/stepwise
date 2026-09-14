@@ -1,4 +1,4 @@
-import { getSkill } from '@step-wise/skill-tree'
+import { getSkill } from '@step-wise/module-tree'
 
 import { TranslationFile, TranslationSection } from 'i18n'
 

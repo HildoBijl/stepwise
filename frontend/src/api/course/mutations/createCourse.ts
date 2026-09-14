@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 import { ensureSetup, serializeSetup } from '@step-wise/skill-setup'
 
 import { USER_PUBLIC_FRAGMENT } from '../../user/fragments.ts'

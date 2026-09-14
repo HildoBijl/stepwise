@@ -1,6 +1,6 @@
 import { partition } from '@step-wise/js-utils'
 import { type SkillSetup, ensureSetup } from '@step-wise/skill-setup'
-import { type SkillId, type SkillTree, isSkillPrerequisiteOf, sortSkillIdsByTreeOrder } from '@step-wise/skill-definition'
+import { type SkillId, type SkillTree, isSkillPrerequisiteOf, sortSkillIdsByTreeOrder } from '@step-wise/module-tree-definition'
 
 import type { CourseAnalysis, CourseBlockDiagnostics, CourseResolutionBlock, CourseSpecification } from './types.ts'
 

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { ensureModuleId, ensureSkillId, expandModuleIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, isModulePrerequisiteOf, isSkillPrerequisiteOf, sortModuleIdsByTreeOrder } from './searching.ts'
 
-describe('skill-tree searching', () => {
+describe('module-tree searching', () => {
 	it('validates IDs against the Step-Wise module tree', () => {
 		expect(ensureModuleId('demo')).toBe('demo')
 		expect(ensureSkillId('demo')).toBe('demo')

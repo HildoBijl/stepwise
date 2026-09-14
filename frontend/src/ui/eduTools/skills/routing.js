@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 import { useGetTranslation } from 'i18n'
 import { usePaths } from 'ui/routingTools'

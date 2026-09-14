@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 
 import { ForbiddenError } from '../../../../src/errors.ts'
 import { createSkillResolverSource, loadVisibleSkills } from '../../../../src/modules/skill/skillAccess.ts'

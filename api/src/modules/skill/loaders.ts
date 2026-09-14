@@ -1,8 +1,8 @@
 import DataLoader from 'dataloader'
 import { Op } from 'sequelize'
 
-import type { SkillId } from '@step-wise/skill-definition'
-import { expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
+import type { SkillId } from '@step-wise/module-tree-definition'
+import { expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/module-tree'
 
 import type { ApiLoaders, LoaderContext } from '../types.ts'
 import { createCourseDefinition } from '../course/index.ts'

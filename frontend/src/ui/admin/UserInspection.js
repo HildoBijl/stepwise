@@ -4,7 +4,7 @@ import { Box } from '@mui/material'
 
 import { formatDate } from '@step-wise/js-utils'
 import { HorizontalScroller } from '@step-wise/react-components'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 import { useUserWithSkills } from 'api'
 import { Par } from 'ui/components'

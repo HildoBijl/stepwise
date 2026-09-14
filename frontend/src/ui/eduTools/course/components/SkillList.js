@@ -4,7 +4,7 @@ import { Box, Tooltip, useTheme, alpha } from '@mui/material'
 import { Check, Info } from '@mui/icons-material'
 
 import { getPracticeNeed } from '@step-wise/course-analysis'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises } from '@step-wise/exercises'
 
 import { useSkillLevel } from 'api'

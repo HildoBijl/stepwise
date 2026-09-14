@@ -6,7 +6,7 @@
 ## Installation
 
 ```bash
-npm install @step-wise/course-definition @step-wise/skill-definition
+npm install @step-wise/course-definition @step-wise/module-tree-definition
 ```
 
 Use [`@step-wise/course-analysis`](../course-analysis/) to combine a resolved course with learner data from `@step-wise/skill-tracking` and derive progress or practice recommendations.
@@ -18,7 +18,7 @@ Create a `CourseDefinition` by passing it a processed `SkillTree` and a `CourseS
 
 ```ts
 import { CourseDefinition, validateCourseDiagnostics } from '@step-wise/course-definition'
-import { createModuleTree } from '@step-wise/skill-definition'
+import { createModuleTree } from '@step-wise/module-tree-definition'
 
 const moduleTree = createModuleTree({
 	arithmeticBasics: {
@@ -140,7 +140,7 @@ The `resolution` property contains the complete `CourseResolution`. The same val
 | --- | --- |
 | `priorKnowledgeIds` | Direct prerequisites assumed before the course. |
 | `startingPointIds` | Required starting points after redundant and missing points are resolved. |
-| `contentSkillIds` | Skills taught in the course, ordered by blocks when valid blocks are provided and otherwise by skill-tree order. |
+| `contentSkillIds` | Skills taught in the course, ordered by blocks when valid blocks are provided and otherwise by module-tree order. |
 | `allSkillIds` | Prior-knowledge IDs followed by content skill IDs. |
 | `learningGoalIds` | Known learning goals in their supplied order. |
 | `learningGoalWeights` | Weights corresponding to the resolved learning goals. |

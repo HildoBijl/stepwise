@@ -1,4 +1,4 @@
-import { type SkillId, type SkillTree, createModuleTree } from '@step-wise/skill-definition'
+import { type SkillId, type SkillTree, createModuleTree } from '@step-wise/module-tree-definition'
 import { CourseDefinition } from '@step-wise/course-definition'
 import { type StoredSkillLevel, type StoredSkillLevelSet, SkillLevelSet } from '@step-wise/skill-tracking'
 

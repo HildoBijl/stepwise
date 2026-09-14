@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 
 import { getCourseByCode, getCourses } from '../../../src/modules/course/index.ts'
 import { getUserSkillWithExercises } from '../../../src/modules/exercise/index.ts'

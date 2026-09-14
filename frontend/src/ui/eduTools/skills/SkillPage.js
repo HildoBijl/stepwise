@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 
 import { lowerFirst, mapValues } from '@step-wise/js-utils'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises, hasExamples } from '@step-wise/exercises'
 
 import { TranslationFile, useTranslator } from 'i18n'

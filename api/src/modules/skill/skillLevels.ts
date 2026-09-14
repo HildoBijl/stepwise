@@ -2,9 +2,9 @@ import type { Transaction } from 'sequelize'
 
 import { ensureBoolean, fromKeysAndValues, fromKeys, mapValues, union } from '@step-wise/js-utils'
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 import { type SkillObservation, SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
-import { ensureSkillIds, expandSkillIdsWithDirectPrerequisitesAndLinks, moduleTree } from '@step-wise/skill-tree'
+import { ensureSkillIds, expandSkillIdsWithDirectPrerequisitesAndLinks, moduleTree } from '@step-wise/module-tree'
 
 import type { UserSkillRecord } from './models.ts'
 import { type SkillDatabase, getUserSkills } from './service.ts'

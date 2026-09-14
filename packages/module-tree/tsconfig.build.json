@@ -9,7 +9,7 @@
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "references": [
-    { "path": "../skill-definition/tsconfig.build.json" },
+    { "path": "../module-tree-definition/tsconfig.build.json" },
     { "path": "../skill-setup/tsconfig.build.json" }
   ],
   "include": ["src"]

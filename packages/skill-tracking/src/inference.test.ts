@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { getBernsteinExpectedValue } from '@step-wise/bernstein-polynomials'
 import { approximatelyEqual, compareNumberArrays } from '@step-wise/js-utils'
-import { createModuleTree } from '@step-wise/skill-definition'
+import { createModuleTree } from '@step-wise/module-tree-definition'
 import { and, or, part, pick, repeat, skill } from '@step-wise/skill-setup'
 
 import { SkillLevelSet } from './SkillLevelSet.ts'
@@ -83,7 +83,7 @@ describe('setup inference', () => {
 	})
 })
 
-describe('skill-tree inference', () => {
+describe('module-tree inference', () => {
 	it('infers coefficients from prerequisites', () => {
 		const tree = createModuleTree({ a: { type: 'skill', name: 'A', setup: skill('b') }, b: { type: 'skill', name: 'B' } })
 		const levels = new SkillLevelSet(tree, {

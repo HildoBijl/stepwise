@@ -32,10 +32,10 @@
 		{ "path": "./packages/react-components/tsconfig.build.json" },
 		{ "path": "./packages/serialization/tsconfig.build.json" },
 		{ "path": "./packages/settings/tsconfig.build.json" },
-		{ "path": "./packages/skill-definition/tsconfig.build.json" },
+		{ "path": "./packages/module-tree-definition/tsconfig.build.json" },
 		{ "path": "./packages/skill-setup/tsconfig.build.json" },
 		{ "path": "./packages/skill-tracking/tsconfig.build.json" },
-		{ "path": "./packages/skill-tree/tsconfig.build.json" },
+		{ "path": "./packages/module-tree/tsconfig.build.json" },
 		{ "path": "./packages/value-equality/tsconfig.build.json" },
 		{ "path": "./packages/value-types/tsconfig.build.json" },
 		{ "path": "./packages/js-utils/tsconfig.build.json" }

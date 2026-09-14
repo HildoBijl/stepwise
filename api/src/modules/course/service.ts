@@ -1,6 +1,6 @@
 import { deserializeSetup } from '@step-wise/skill-setup'
 import { CourseDefinition } from '@step-wise/course-definition'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 import type { ServiceOptions } from '../types.ts'
 import type { UserDatabase } from '../user/index.ts'

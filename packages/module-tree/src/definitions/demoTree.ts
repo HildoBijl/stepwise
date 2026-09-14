@@ -1,5 +1,5 @@
 import { and, repeat } from '@step-wise/skill-setup'
-import type { SkillTreeDefinition } from '@step-wise/skill-definition'
+import type { SkillTreeDefinition } from '@step-wise/module-tree-definition'
 
 export const demoTree: SkillTreeDefinition = {
 	demo: {

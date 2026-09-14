@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 describe('Check all skills:', () => {
 	Object.keys(moduleTree).forEach(key => {

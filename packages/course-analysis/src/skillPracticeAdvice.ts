@@ -1,5 +1,5 @@
 import { findValue } from '@step-wise/js-utils'
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 import type { CourseDefinition } from '@step-wise/course-definition'
 
 import { type HasExercises, type PracticeRecommendation, allSkillsHaveExercises, freePracticeRecommendation } from './types.ts'

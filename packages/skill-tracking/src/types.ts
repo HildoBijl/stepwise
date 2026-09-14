@@ -1,6 +1,6 @@
 import type { SkillSetup } from '@step-wise/skill-setup'
 import type { BernsteinCoefficients } from '@step-wise/bernstein-polynomials'
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 
 // Input: how stored SkillLevel data is entered.
 export type StoredSkillLevel = {

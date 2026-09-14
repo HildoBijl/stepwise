@@ -7,7 +7,7 @@ import ResizeObserver from 'resize-observer-polyfill'
 import { ThemeProvider } from '@mui/material/styles'
 
 import { noop } from '@step-wise/js-utils'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 import { resolveSolution } from '@step-wise/input-exercises'
 import { getAllExercises } from '@step-wise/exercises'
 

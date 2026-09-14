@@ -1,11 +1,11 @@
 import { describe, expect, it, test } from 'vitest'
 
 import { isObject, isPlainObject } from '@step-wise/js-utils'
-import type { Skill } from '@step-wise/skill-definition'
+import type { Skill } from '@step-wise/module-tree-definition'
 import { isExercise } from '@step-wise/exercise-definition'
 import { isExerciseCollection } from '@step-wise/exercise-bundling'
 import { isInputExercise, resolveSolution, resolveStaticSolution } from '@step-wise/input-exercises'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 import * as exerciseRegistry from './exerciseRegistry.ts'
 

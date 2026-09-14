@@ -4,7 +4,7 @@ import { type Transaction, Op } from 'sequelize'
 
 import type { ExerciseAction, ExerciseState } from '@step-wise/exercise-definition'
 import { last } from '@step-wise/js-utils'
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 import { getExercise } from '@step-wise/exercises'
 
 import type { ServiceOptions } from '../types.ts'

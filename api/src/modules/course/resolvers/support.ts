@@ -1,6 +1,6 @@
 import { deserializeSetup } from '@step-wise/skill-setup'
 import { CourseDefinition, validateCourseDiagnostics } from '@step-wise/course-definition'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 import { InvalidInputError } from '../../../errors.ts'
 

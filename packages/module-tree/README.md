@@ -1,19 +1,19 @@
-# @step-wise/skill-tree
+# @step-wise/module-tree
 
-`@step-wise/skill-tree` provides the concrete skill tree used by Step-Wise education. It combines the mathematics, mechanics, physics and demonstration definitions into one validated tree and provides convenient search functions that already operate on that tree. Use `@step-wise/skill-definition` instead when defining and processing a different skill tree.
+`@step-wise/module-tree` provides the concrete module tree used by Step-Wise education. It combines the mathematics, mechanics, physics and demonstration definitions into one validated tree and provides convenient search functions that already operate on that tree. Use `@step-wise/module-tree-definition` instead when defining and processing a different module tree.
 
 
 ## Installation
 
 ```bash
-npm install @step-wise/skill-tree
+npm install @step-wise/module-tree
 ```
 
 
 ## Quick start
 
 ```ts
-import { moduleTree, getSkill, isSkillPrerequisiteOf } from '@step-wise/skill-tree'
+import { moduleTree, getSkill, isSkillPrerequisiteOf } from '@step-wise/module-tree'
 
 const skill = getSkill('solveLinearEquation')
 
@@ -25,14 +25,14 @@ isSkillPrerequisiteOf('rewritePower', 'expandDoubleBrackets') // true
 The tree is created and validated when the package is first imported. Invalid definitions, unknown references, prerequisite cycles and inconsistent links therefore prevent an invalid tree from being exported.
 
 
-## The skill tree
+## The module tree
 
 ### `moduleTree`
 
-The processed Step-Wise `SkillTree`, keyed by skill ID. Each skill contains its name, group path, setup, direct prerequisites, direct continuations, links and optional threshold overrides.
+The processed Step-Wise module tree, keyed by module ID. It currently consists entirely of skills, while its public API is ready to expose concepts as they are added.
 
 ```ts
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 const skill = moduleTree.expandDoubleBrackets
 
@@ -120,4 +120,4 @@ isSkillPrerequisiteOf('expandDoubleBrackets', 'rewritePower') // false
 
 ## TypeScript
 
-The package includes TypeScript declarations and re-exports the `ModuleId`, `ModuleTree`, `SkillId`, `SkillTree` and `EnsureModuleIdOptions` types from `@step-wise/skill-definition`.
+The package includes TypeScript declarations and re-exports the `ModuleId`, `ModuleTree`, `SkillId`, `SkillTree` and `EnsureModuleIdOptions` types from `@step-wise/module-tree-definition`.

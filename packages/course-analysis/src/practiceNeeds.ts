@@ -1,4 +1,4 @@
-import type { SkillId, SkillThresholdOptions, SkillTree } from '@step-wise/skill-definition'
+import type { SkillId, SkillThresholdOptions, SkillTree } from '@step-wise/module-tree-definition'
 import type { CourseDefinition } from '@step-wise/course-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 

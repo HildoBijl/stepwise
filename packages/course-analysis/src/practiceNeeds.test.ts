@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { createModuleTree } from '@step-wise/skill-definition'
+import { createModuleTree } from '@step-wise/module-tree-definition'
 import { CourseDefinition } from '@step-wise/course-definition'
 
 import { getCoursePracticeNeeds, getPracticeNeed } from './practiceNeeds.ts'

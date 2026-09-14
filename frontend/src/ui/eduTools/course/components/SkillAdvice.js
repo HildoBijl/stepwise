@@ -4,7 +4,7 @@ import { Box, Button } from '@mui/material'
 import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArrow, VerticalAlignBottom as DownArrow } from '@mui/icons-material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 import { usePrevious } from '@step-wise/react-utils'
 
 import { TranslationFile, Translation, useTranslator } from 'i18n'

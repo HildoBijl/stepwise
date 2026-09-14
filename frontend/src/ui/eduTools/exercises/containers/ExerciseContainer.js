@@ -1,7 +1,7 @@
 import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
 import { getCurrentState } from '@step-wise/exercise-definition'
-import { getSkill } from '@step-wise/skill-tree'
+import { getSkill } from '@step-wise/module-tree'
 import { getExercise } from '@step-wise/exercises'
 import { useReferencePreservingValue } from '@step-wise/react-utils'
 

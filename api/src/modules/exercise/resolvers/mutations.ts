@@ -2,7 +2,7 @@ import { UniqueConstraintError } from 'sequelize'
 
 import { ensureExerciseAction, isStateDone } from '@step-wise/exercise-definition'
 import { generateSkillBasedExerciseInstance } from '@step-wise/exercise-selection'
-import { ensureSkillId } from '@step-wise/skill-tree'
+import { ensureSkillId } from '@step-wise/module-tree'
 import { getExercise, getExercises } from '@step-wise/exercises'
 
 import { InvalidInputError } from '../../../errors.ts'

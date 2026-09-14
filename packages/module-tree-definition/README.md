@@ -1,12 +1,12 @@
-# @step-wise/skill-definition
+# @step-wise/module-tree-definition
 
-`@step-wise/skill-definition` provides the data structures and utilities needed to define, validate and search a tree of educational modules. Modules are either concepts or skills. The package does not contain a concrete tree and does not manage learner state.
+`@step-wise/module-tree-definition` provides the data structures and utilities needed to define, validate and search a tree of educational modules. Modules are either concepts or skills. The package does not contain a concrete tree and does not manage learner state.
 
 
 ## Installation
 
 ```bash
-npm install @step-wise/skill-definition @step-wise/skill-setup
+npm install @step-wise/module-tree-definition @step-wise/skill-setup
 ```
 
 `@step-wise/skill-setup` is only needed when skill definitions use setups.
@@ -18,7 +18,7 @@ Creating a module tree has two stages: write a nested definition, then pass it t
 
 ```ts
 import { and } from '@step-wise/skill-setup'
-import { createModuleTree } from '@step-wise/skill-definition'
+import { createModuleTree } from '@step-wise/module-tree-definition'
 
 const moduleTreeDefinition = {
 	mathematics: {
@@ -66,7 +66,7 @@ moduleTree.rearrangeFormula.linkedSkillIds // ['solveLinearEquation']
 A `ModuleTreeDefinition` is a nested record. Every property is either another group, a `ConceptDefinition` or a `SkillDefinition`. Groups may be nested to any depth, while every module ID must be unique throughout the complete tree regardless of casing.
 
 ```ts
-import type { ModuleTreeDefinition } from '@step-wise/skill-definition'
+import type { ModuleTreeDefinition } from '@step-wise/module-tree-definition'
 
 const moduleTreeDefinition: ModuleTreeDefinition = {
 	subject: {

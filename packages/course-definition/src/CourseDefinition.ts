@@ -1,5 +1,5 @@
 import type { SkillId, SkillSetup } from '@step-wise/skill-setup'
-import type { SkillTree } from '@step-wise/skill-definition'
+import type { SkillTree } from '@step-wise/module-tree-definition'
 
 import type { CourseAnalysis, CourseDiagnostics, CourseResolution, CourseResolutionBlock, CourseSpecification } from './types.ts'
 import { ensureCourseSpecification } from './dataValidation.ts'

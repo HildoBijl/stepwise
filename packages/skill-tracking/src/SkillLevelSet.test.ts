@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { compareNumberArrays } from '@step-wise/js-utils'
-import { createModuleTree } from '@step-wise/skill-definition'
+import { createModuleTree } from '@step-wise/module-tree-definition'
 
 import { SkillLevelSet } from './SkillLevelSet.ts'
 import { coefficientsToStoredSkillLevel, now, moduleTree } from './testUtils.ts'

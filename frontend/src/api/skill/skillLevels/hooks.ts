@@ -1,7 +1,7 @@
 import { useEffect, useSyncExternalStore } from 'react'
 
 import { useReferencePreservingValue } from '@step-wise/react-utils'
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 
 import { useSkillLevelContext } from './context.ts'

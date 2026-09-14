@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises } from '@step-wise/exercises'
 
 import { TranslationFile, Translation, Check, Plurals, CountingWord } from 'i18n'

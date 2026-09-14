@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { type Reference, type TypedDocumentNode, gql } from '@apollo/client'
 import { useApolloClient, useMutation } from '@apollo/client/react'
 
-import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillId } from '@step-wise/module-tree-definition'
 
 import type { ExerciseRecord } from '../records.ts'
 import type { UseStartExerciseResult } from '../types.ts'

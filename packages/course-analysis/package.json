@@ -31,7 +31,7 @@
 	},
 	"dependencies": {
 		"@step-wise/js-utils": "^0.1.0",
-		"@step-wise/skill-definition": "^0.1.0",
+		"@step-wise/module-tree-definition": "^0.1.0",
 		"@step-wise/course-definition": "^0.1.0",
 		"@step-wise/skill-tracking": "^0.1.0"
 	},

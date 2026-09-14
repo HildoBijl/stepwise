@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 import { getExercises, getExamples } from '@step-wise/exercises'
 
 import { useTranslator } from 'i18n'

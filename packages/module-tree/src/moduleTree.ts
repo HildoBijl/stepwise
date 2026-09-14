@@ -1,4 +1,4 @@
-import { type EnsureModuleIdOptions, type Module, type ModuleId, type Skill, type SkillId, createModuleTree, ensureModuleId, ensureSkillId } from '@step-wise/skill-definition'
+import { type EnsureModuleIdOptions, type Module, type ModuleId, type Skill, type SkillId, createModuleTree, ensureModuleId, ensureSkillId } from '@step-wise/module-tree-definition'
 
 import { moduleTreeDefinition } from './definitions/index.ts'
 

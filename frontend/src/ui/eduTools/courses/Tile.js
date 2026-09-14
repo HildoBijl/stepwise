@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Tooltip, Box, alpha } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
-import { moduleTree } from '@step-wise/skill-tree'
+import { moduleTree } from '@step-wise/module-tree'
 
 import { useTranslator, Translation, Plurals } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'

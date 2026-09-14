@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { and } from '@step-wise/skill-setup'
-import { type SkillTree, createModuleTree } from '@step-wise/skill-definition'
+import { type SkillTree, createModuleTree } from '@step-wise/module-tree-definition'
 
 import { analyzeCourse } from './analyzeCourse.ts'
 

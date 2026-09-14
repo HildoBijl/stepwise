@@ -1,4 +1,4 @@
-import type { SkillTreeDefinition } from '@step-wise/skill-definition'
+import type { SkillTreeDefinition } from '@step-wise/module-tree-definition'
 
 import { demoTree } from './demoTree.ts'
 import { mathematicsTree } from './mathematicsTree.ts'
