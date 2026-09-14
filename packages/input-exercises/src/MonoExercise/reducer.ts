@@ -25,8 +25,8 @@ export function buildMonoExercise<TParameters extends InputExerciseParameters = 
 function buildMonoExerciseSoloReducer<TParameters extends InputExerciseParameters, TSolution extends InputExerciseSolution, TInputDependency>(spec: MonoExerciseSpec<TParameters, TSolution, TInputDependency>, valueOperations: InputExerciseValueOperations): SoloExerciseReducer<InputExerciseAction, MonoExerciseState> {
 	return async reducerInput => {
 		const runtimeInput = { ...reducerInput, parameters: deserializeInputExerciseParameters<TParameters>(reducerInput.parameters, valueOperations.deserialize) }
-		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
-		return await reduceActions(spec, { ...runtimeInput, mode: 'solo', actions: [{ action: reducerInput.action }] }, valueOperations)
+		if ('done' in runtimeInput.state && runtimeInput.state.done) return { state: runtimeInput.state }
+		return { state: await reduceActions(spec, { ...runtimeInput, mode: 'solo', actions: [{ action: reducerInput.action }] }, valueOperations) }
 	}
 }
 
@@ -34,8 +34,8 @@ function buildMonoExerciseGroupReducer<TParameters extends InputExerciseParamete
 	return async reducerInput => {
 		if (reducerInput.actions.length === 0) throw new Error(`Cannot resolve a group exercise without actions.`)
 		const runtimeInput = { ...reducerInput, parameters: deserializeInputExerciseParameters<TParameters>(reducerInput.parameters, valueOperations.deserialize), mode: 'group' as const }
-		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
-		return await reduceActions(spec, runtimeInput, valueOperations)
+		if ('done' in runtimeInput.state && runtimeInput.state.done) return { state: runtimeInput.state }
+		return { state: await reduceActions(spec, runtimeInput, valueOperations) }
 	}
 }
 

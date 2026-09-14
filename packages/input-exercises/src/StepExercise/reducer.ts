@@ -29,8 +29,8 @@ export function buildStepExercise<TParameters extends InputExerciseParameters = 
 function buildStepExerciseSoloReducer<TParameters extends InputExerciseParameters, TSolution extends InputExerciseSolution, TInputDependency>(spec: StepExerciseSpec<TParameters, TSolution, TInputDependency>, valueOperations: InputExerciseValueOperations): SoloExerciseReducer<InputExerciseAction, StepExerciseState> {
 	return async input => {
 		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters, valueOperations.deserialize) }
-		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
-		return await reduceActions(spec, { ...runtimeInput, mode: 'solo', actions: [{ action: input.action }] }, valueOperations)
+		if ('done' in runtimeInput.state && runtimeInput.state.done) return { state: runtimeInput.state }
+		return { state: await reduceActions(spec, { ...runtimeInput, mode: 'solo', actions: [{ action: input.action }] }, valueOperations) }
 	}
 }
 
@@ -38,8 +38,8 @@ function buildStepExerciseGroupReducer<TParameters extends InputExerciseParamete
 	return async input => {
 		if (input.actions.length === 0) throw new Error(`Cannot resolve a group exercise without actions.`)
 		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters, valueOperations.deserialize), mode: 'group' as const }
-		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
-		return await reduceActions(spec, runtimeInput, valueOperations)
+		if ('done' in runtimeInput.state && runtimeInput.state.done) return { state: runtimeInput.state }
+		return { state: await reduceActions(spec, runtimeInput, valueOperations) }
 	}
 }
 

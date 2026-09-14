@@ -35,11 +35,11 @@ describe('buildMonoExercise', () => {
 		const exercise = buildExercise()
 		const parameters = await exercise.generateParameters(false)
 		const updateSkills = vi.fn()
-		const attempted = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(1) }, updateSkills })
+		const { state: attempted } = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(1) }, updateSkills })
 		expect(attempted).toEqual({ attempted: true })
 		expect(updateSkills).toHaveBeenLastCalledWith('main-skill', false, undefined)
 
-		const solved = await exercise.processSoloAction({ parameters, state: attempted, action: { type: 'input', input: rawInput(2) }, updateSkills })
+		const { state: solved } = await exercise.processSoloAction({ parameters, state: attempted, action: { type: 'input', input: rawInput(2) }, updateSkills })
 		expect(solved).toEqual({ attempted: true, solved: true, done: true })
 		expect(updateSkills).toHaveBeenLastCalledWith('main-skill', true, undefined)
 	})
@@ -60,7 +60,7 @@ describe('buildMonoExercise', () => {
 		const exercise = buildExercise()
 		const parameters = await exercise.generateParameters(false)
 		const updateSkills = vi.fn()
-		const state = await exercise.processGroupActions({ parameters, state: {}, actions: [
+		const { state } = await exercise.processGroupActions({ parameters, state: {}, actions: [
 			{ userId: 'wrong', action: { type: 'input', input: rawInput(1) } },
 			{ userId: 'correct', action: { type: 'input', input: rawInput(2) } },
 		], updateSkills })
@@ -89,7 +89,7 @@ describe('buildMonoExercise', () => {
 	it('returns an already completed state unchanged', async () => {
 		const exercise = buildExercise()
 		const state = { done: true } as const
-		expect(await exercise.processSoloAction({ parameters: await exercise.generateParameters(false), state, action: { type: 'input', input: rawInput(2) } })).toBe(state)
+		expect((await exercise.processSoloAction({ parameters: await exercise.generateParameters(false), state, action: { type: 'input', input: rawInput(2) } })).state).toBe(state)
 	})
 
 	it('supports asynchronous parameter generators', async () => {
@@ -105,7 +105,7 @@ describe('buildMonoExercise', () => {
 		})
 		const parameters = await exercise.generateParameters(false)
 
-		expect(await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(2) } })).toMatchObject({ solved: true, done: true })
+		expect((await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(2) } })).state).toMatchObject({ solved: true, done: true })
 	})
 	it('updates an input dependency before generating and checking the solution', async () => {
 		const updateInputDependency = vi.fn(({ previousInputDependency, input, step }) => {
@@ -124,7 +124,7 @@ describe('buildMonoExercise', () => {
 		const initialState = await exercise.getInitialState(parameters)
 		expect(initialState).toEqual({})
 
-		const state = await exercise.processSoloAction({ parameters, state: initialState, action: { type: 'input', input: { increment: { type: 'Integer', value: '2' }, answer: { type: 'Integer', value: '6' } } } })
+		const { state } = await exercise.processSoloAction({ parameters, state: initialState, action: { type: 'input', input: { increment: { type: 'Integer', value: '2' }, answer: { type: 'Integer', value: '6' } } } })
 		expect(state).toEqual({ inputDependency: 2, attempted: true, solved: true, done: true })
 		expect(updateInputDependency).toHaveBeenCalledOnce()
 	})
@@ -138,7 +138,7 @@ describe('buildMonoExercise', () => {
 		})
 		const parameters = await exercise.generateParameters(false)
 		const initialState = await exercise.getInitialState(parameters)
-		const state = await exercise.processGroupActions({ parameters, state: initialState, actions: [
+		const { state } = await exercise.processGroupActions({ parameters, state: initialState, actions: [
 			{ userId: 'one', action: { type: 'input', input: { increment: { type: 'Integer', value: '1' }, answer: { type: 'Integer', value: '0' } } } },
 			{ userId: 'two', action: { type: 'input', input: { increment: { type: 'Integer', value: '2' }, answer: { type: 'Integer', value: '0' } } } },
 		] })
@@ -157,9 +157,9 @@ describe('buildMonoExercise', () => {
 		})
 		const parameters = await exercise.generateParameters(false)
 		let state = await exercise.getInitialState(parameters)
-		state = await exercise.processGroupActions({ parameters, state, actions: [{ userId: 'user', action: { type: 'input', input: {} } }] })
+		state = (await exercise.processGroupActions({ parameters, state, actions: [{ userId: 'user', action: { type: 'input', input: {} } }] })).state
 		expect(state).not.toHaveProperty('inputDependencies')
-		state = await exercise.processGroupActions({ parameters, state, actions: [{ userId: 'user', action: { type: 'input', input: {} } }] })
+		state = (await exercise.processGroupActions({ parameters, state, actions: [{ userId: 'user', action: { type: 'input', input: {} } }] })).state
 		expect(state).not.toHaveProperty('inputDependencies')
 		expect(previousDependencies).toEqual([undefined, undefined])
 	})

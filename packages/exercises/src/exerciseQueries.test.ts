@@ -66,7 +66,7 @@ describe('exercise queries', () => {
 			metadata: {},
 			generateParameters: () => ({}),
 			getInitialState: () => ({}),
-			processSoloAction: () => ({}),
+			processSoloAction: () => ({ state: {} }),
 		} satisfies Exercise
 		const example = { ...exercise }
 		const path = [...populatedEntry.skill.groupPath, populatedEntry.skill.id]

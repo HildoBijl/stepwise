@@ -8,8 +8,8 @@ import type { AnyInputExercise } from './types.ts'
 const commonExerciseProperties = {
 	generateParameters: () => ({}),
 	getInitialState: () => ({}),
-	processSoloAction: () => ({}),
-	processGroupActions: () => ({}),
+	processSoloAction: () => ({ state: {} }),
+	processGroupActions: () => ({ state: {} }),
 	checkInput: () => true,
 	valueOperations: { serialize: (value: unknown) => value as never, deserialize: (value: unknown) => value, interpretInput: () => ({}), toInputValue: () => ({ type: 'Integer', value: '0' }), areValuesEqual: () => true },
 }
@@ -56,7 +56,7 @@ describe('input exercise guards', () => {
 			metadata: {},
 			generateParameters: () => ({}),
 			getInitialState: () => ({}),
-			processSoloAction: () => ({}),
+			processSoloAction: () => ({ state: {} }),
 		} satisfies Exercise
 		expect(isInputExercise(exercise)).toBe(false)
 	})

@@ -46,7 +46,7 @@ export const exerciseMutationResolvers = {
 			if (!definition) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${updatedExercise.exerciseId}".`)
 			if (!definition.processSoloAction) throw new Error(`Unsupported exercise mode: exercise "${updatedExercise.exerciseId}" does not support solo actions.`)
 			const skillObservations: SkillObservationInput[] = []
-			const state = await definition.processSoloAction({
+			const { state } = await definition.processSoloAction({
 				parameters: updatedExercise.parameters,
 				state: getCurrentExerciseState(updatedExercise),
 				action,

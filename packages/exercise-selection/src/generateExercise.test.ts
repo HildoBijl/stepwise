@@ -15,7 +15,7 @@ describe('generateRandomExerciseInstance', () => {
 			metadata: {},
 			generateParameters,
 			getInitialState,
-			processSoloAction: ({ state }) => state,
+			processSoloAction: ({ state }) => ({ state }),
 		} satisfies Exercise
 
 		await expect(generateRandomExerciseInstance({ sample: exercise }, 'solo', true)).resolves.toEqual({
@@ -27,14 +27,14 @@ describe('generateRandomExerciseInstance', () => {
 
 	it('creates group instances for group-capable exercises', async () => {
 		const exercise = {
-			metadata: {}, generateParameters: () => ({}), getInitialState: () => ({}), processGroupActions: () => ({}),
+			metadata: {}, generateParameters: () => ({}), getInitialState: () => ({}), processGroupActions: () => ({ state: {} }),
 		} satisfies Exercise
 		await expect(generateRandomExerciseInstance({ sample: exercise }, 'group')).resolves.toMatchObject({ exerciseId: 'sample', mode: 'group', history: [] })
 	})
 
 	it('rejects unsupported modes and invalid example flags', async () => {
 		const exercise = {
-			metadata: {}, generateParameters: () => ({}), getInitialState: () => ({}), processSoloAction: () => ({}),
+			metadata: {}, generateParameters: () => ({}), getInitialState: () => ({}), processSoloAction: () => ({ state: {} }),
 		} satisfies Exercise
 		await expect(generateRandomExerciseInstance({ sample: exercise }, 'group')).rejects.toThrow(/mode "group"/)
 		await expect(generateRandomExerciseInstance({ sample: exercise }, 'solo', 'yes' as never)).rejects.toThrow(TypeError)
@@ -44,7 +44,7 @@ describe('generateRandomExerciseInstance', () => {
 		['parameters', () => [], () => ({})],
 		['initial state', () => ({}), () => []],
 	])('rejects non-plain %s', async (_description, generateParameters, getInitialState) => {
-		const exercise = { metadata: {}, generateParameters, getInitialState, processSoloAction: () => ({}) } as unknown as Exercise
+		const exercise = { metadata: {}, generateParameters, getInitialState, processSoloAction: () => ({ state: {} }) } as unknown as Exercise
 		await expect(generateRandomExerciseInstance({ sample: exercise }, 'solo')).rejects.toThrow(TypeError)
 	})
 
@@ -53,7 +53,7 @@ describe('generateRandomExerciseInstance', () => {
 			metadata: {},
 			generateParameters: async () => ({ value: 2 }),
 			getInitialState: async parameters => ({ value: parameters.value }),
-			processSoloAction: () => ({}),
+			processSoloAction: () => ({ state: {} }),
 		} satisfies Exercise
 
 		await expect(generateRandomExerciseInstance({ sample: exercise }, 'solo')).resolves.toMatchObject({
@@ -66,7 +66,7 @@ describe('generateRandomExerciseInstance', () => {
 describe('generateSkillBasedExerciseInstance', () => {
 	it('creates a solo instance from the selected exercise', async () => {
 		const exercise = {
-			metadata: {}, generateParameters: () => ({ value: 2 }), getInitialState: () => ({ done: false }), processSoloAction: () => ({}),
+			metadata: {}, generateParameters: () => ({ value: 2 }), getInitialState: () => ({ done: false }), processSoloAction: () => ({ state: {} }),
 		} satisfies Exercise
 		const loadSkillLevelSet = vi.fn(async () => ({} as SkillLevelSet))
 

@@ -6,9 +6,9 @@ import type { SkillLevelSet } from '@step-wise/skill-tracking'
 import { getSelectionProbabilities, selectRandomExercise, selectSkillBasedExercise } from './selectExercise.ts'
 
 const baseExercise = { metadata: {}, generateParameters: () => ({}), getInitialState: () => ({}) }
-const soloExercise = { ...baseExercise, processSoloAction: () => ({}) } satisfies Exercise
-const groupExercise = { ...baseExercise, processGroupActions: () => ({}) } satisfies Exercise
-const dualModeExercise = { ...baseExercise, processSoloAction: () => ({}), processGroupActions: () => ({}) } satisfies Exercise
+const soloExercise = { ...baseExercise, processSoloAction: () => ({ state: {} }) } satisfies Exercise
+const groupExercise = { ...baseExercise, processGroupActions: () => ({ state: {} }) } satisfies Exercise
+const dualModeExercise = { ...baseExercise, processSoloAction: () => ({ state: {} }), processGroupActions: () => ({ state: {} }) } satisfies Exercise
 const loadSkillLevelSet = async () => ({ getCombinedSetupExpectedSuccessRate: () => 0.5 }) as unknown as SkillLevelSet
 
 afterEach(() => vi.restoreAllMocks())

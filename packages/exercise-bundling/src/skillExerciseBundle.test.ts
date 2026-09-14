@@ -8,7 +8,7 @@ const exercise = {
 	metadata: {},
 	generateParameters: () => ({}),
 	getInitialState: () => ({}),
-	processSoloAction: () => ({}),
+	processSoloAction: () => ({ state: {} }),
 } satisfies Exercise
 
 describe('withSameExamples', () => {

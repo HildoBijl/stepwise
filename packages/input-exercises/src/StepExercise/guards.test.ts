@@ -5,8 +5,8 @@ import { isStepExercise } from './guards.ts'
 const exercise = {
 	generateParameters: () => ({}),
 	getInitialState: () => ({}),
-	processSoloAction: () => ({}),
-	processGroupActions: () => ({}),
+	processSoloAction: () => ({ state: {} }),
+	processGroupActions: () => ({ state: {} }),
 	checkInput: () => true,
 	valueOperations: { serialize: (value: unknown) => value as never, deserialize: (value: unknown) => value, interpretInput: () => ({}), toInputValue: () => ({ type: 'Integer', value: '0' }), areValuesEqual: () => true },
 }

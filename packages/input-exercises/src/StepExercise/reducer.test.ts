@@ -19,39 +19,39 @@ describe('buildStepExercise', () => {
 		const exercise = buildExercise()
 		const parameters = await exercise.generateParameters(false)
 		expect(await exercise.getInitialState(parameters)).toEqual({})
-		expect(await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(0) } })).toEqual({ attempted: true, solved: true, done: true })
+		expect((await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput(0) } })).state).toEqual({ attempted: true, solved: true, done: true })
 	})
 
 	it('splits on give-up and advances through ordinary steps', async () => {
 		const exercise = buildExercise()
 		const parameters = await exercise.generateParameters(false)
-		let state = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })
+		let { state } = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })
 		expect(state).toEqual({ split: true, step: 1, 1: {} })
 
-		state = await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(1) } })
+		state = (await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(1) } })).state
 		expect(state).toMatchObject({ split: true, step: 2, 1: { attempted: true, solved: true, done: true }, 2: {} })
 
-		state = await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(2) } })
+		state = (await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(2) } })).state
 		expect(state).toMatchObject({ done: true, 2: { attempted: true, solved: true, done: true } })
 	})
 
 	it('tracks incorrect attempts at the current step', async () => {
 		const exercise = buildExercise()
 		const parameters = await exercise.generateParameters(false)
-		const splitState = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })
-		const state = await exercise.processSoloAction({ parameters, state: splitState, action: { type: 'input', input: rawInput(9) } })
+		const { state: splitState } = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })
+		const { state } = await exercise.processSoloAction({ parameters, state: splitState, action: { type: 'input', input: rawInput(9) } })
 		expect(state).toMatchObject({ step: 1, 1: { attempted: true } })
 	})
 
 	it('solves substeps in sequence without storing attempts per substep', async () => {
 		const exercise = buildExercise([['sub-one', 'sub-two']] as const)
 		const parameters = await exercise.generateParameters(false)
-		let state = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })
-		state = await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(1) } })
+		let { state } = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' } })
+		state = (await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(1) } })).state
 		expect(state).toMatchObject({ step: 1, 1: { attempted: true, 1: true } })
 		expect((state as StepExerciseSplitState)['1']).not.toHaveProperty('2')
 
-		state = await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(2) } })
+		state = (await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(2) } })).state
 		expect(state).toMatchObject({ done: true, 1: { attempted: true, 1: true, 2: true, solved: true, done: true } })
 	})
 
@@ -59,8 +59,8 @@ describe('buildStepExercise', () => {
 		const exercise = buildExercise(['step-one'])
 		const parameters = await exercise.generateParameters(false)
 		const updateSkills = vi.fn()
-		let state = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' }, updateSkills })
-		state = await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(9) }, updateSkills })
+		let { state } = await exercise.processSoloAction({ parameters, state: {}, action: { type: 'giveUp' }, updateSkills })
+		state = (await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(9) }, updateSkills })).state
 		updateSkills.mockClear()
 		await exercise.processSoloAction({ parameters, state, action: { type: 'giveUp' }, updateSkills })
 		expect(updateSkills).not.toHaveBeenCalled()
@@ -69,7 +69,7 @@ describe('buildStepExercise', () => {
 	it('tracks group attempts per user', async () => {
 		const exercise = buildExercise()
 		const parameters = await exercise.generateParameters(false)
-		const state = await exercise.processGroupActions({ parameters, state: {}, actions: [
+		const { state } = await exercise.processGroupActions({ parameters, state: {}, actions: [
 			{ userId: 'one', action: { type: 'input', input: rawInput(9) } },
 			{ userId: 'two', action: { type: 'input', input: rawInput(9) } },
 		] })
@@ -87,7 +87,7 @@ describe('buildStepExercise', () => {
 		const exercise = buildExercise()
 		const parameters = await exercise.generateParameters(false)
 		const state = { done: true } as const
-		expect(await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(0) } })).toBe(state)
+		expect((await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: rawInput(0) } })).state).toBe(state)
 	})
 	it('updates dependencies with the current step before checking its solution', async () => {
 		const steps: number[] = []
@@ -102,8 +102,8 @@ describe('buildStepExercise', () => {
 		})
 		const parameters = await exercise.generateParameters(false)
 		let state = await exercise.getInitialState(parameters)
-		state = await exercise.processSoloAction({ parameters, state, action: { type: 'giveUp' } })
-		state = await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: { increment: { type: 'Integer', value: '2' }, answer: { type: 'Integer', value: '2' } } } })
+		state = (await exercise.processSoloAction({ parameters, state, action: { type: 'giveUp' } })).state
+		state = (await exercise.processSoloAction({ parameters, state, action: { type: 'input', input: { increment: { type: 'Integer', value: '2' }, answer: { type: 'Integer', value: '2' } } } })).state
 
 		expect(steps).toEqual([1])
 		expect(state).toMatchObject({ inputDependency: 2, done: true })

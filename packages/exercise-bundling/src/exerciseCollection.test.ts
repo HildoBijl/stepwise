@@ -8,7 +8,7 @@ const exercise = {
 	metadata: {},
 	generateParameters: () => ({}),
 	getInitialState: () => ({}),
-	processSoloAction: () => ({}),
+	processSoloAction: () => ({ state: {} }),
 } satisfies Exercise
 
 describe('isExerciseCollection', () => {
@@ -71,9 +71,9 @@ describe('filterExerciseCollectionByMode', () => {
 		generateParameters: () => ({}),
 		getInitialState: () => ({}),
 	}
-	const soloExercise = { ...baseExercise, processSoloAction: () => ({}) } satisfies Exercise
-	const groupExercise = { ...baseExercise, processGroupActions: () => ({}) } satisfies Exercise
-	const dualModeExercise = { ...baseExercise, processSoloAction: () => ({}), processGroupActions: () => ({}) } satisfies Exercise
+const soloExercise = { ...baseExercise, processSoloAction: () => ({ state: {} }) } satisfies Exercise
+const groupExercise = { ...baseExercise, processGroupActions: () => ({ state: {} }) } satisfies Exercise
+const dualModeExercise = { ...baseExercise, processSoloAction: () => ({ state: {} }), processGroupActions: () => ({ state: {} }) } satisfies Exercise
 	const collection = { soloExercise, groupExercise, dualModeExercise }
 
 	it('keeps solo and dual-mode exercises for solo mode', () => {

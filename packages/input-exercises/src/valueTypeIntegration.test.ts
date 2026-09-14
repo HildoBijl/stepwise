@@ -71,8 +71,8 @@ describe('input-exercise value types', () => {
 		expect(parameters).toEqual({ answer: { type: CustomType, value: 'correct' } })
 		expect(exercise.valueOperations.serialize(new CustomValue('stored'))).toEqual({ type: CustomType, value: 'stored' })
 		expect(exercise.valueOperations.deserialize({ type: CustomType, value: 'stored' })).toEqual(new CustomValue('stored'))
-		expect(await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput('correct') } })).toMatchObject({ solved: true, done: true })
-		expect(await exercise.processGroupActions({ parameters, state: {}, actions: [{ userId: 'user', action: { type: 'input', input: rawInput('correct') } }] })).toMatchObject({ solved: true, done: true })
+		expect((await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput('correct') } })).state).toMatchObject({ solved: true, done: true })
+		expect((await exercise.processGroupActions({ parameters, state: {}, actions: [{ userId: 'user', action: { type: 'input', input: rawInput('correct') } }] })).state).toMatchObject({ solved: true, done: true })
 	})
 
 	it('uses custom adapters throughout a StepExercise', async () => {
@@ -83,7 +83,7 @@ describe('input-exercise value types', () => {
 			checkInput: ({ parameters, input, areValuesEqual }) => parameters.answer instanceof CustomValue && input.answer instanceof CustomValue && areValuesEqual(CustomType, input.answer, parameters.answer),
 		})
 		const parameters = await exercise.generateParameters(false)
-		expect(await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput('correct') } })).toMatchObject({ solved: true, done: true })
+		expect((await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput('correct') } })).state).toMatchObject({ solved: true, done: true })
 	})
 
 	it('uses the exercise value types when interpreting history', () => {
