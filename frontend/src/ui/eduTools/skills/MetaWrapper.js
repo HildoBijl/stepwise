@@ -58,12 +58,13 @@ function Continuations({ skillId }) {
 
 function SameGroup({ skillId }) {
 	const skill = moduleTree[skillId]
-	const numSkillsInGroup = skill.groupSkillIds.length
+	const groupSkillIds = skill.groupModuleIds.filter(moduleId => moduleTree[moduleId].type === 'skill')
+	const numSkillsInGroup = groupSkillIds.length
 	if (numSkillsInGroup <= 1)
 		return null
 	return <>
 		<Par><Translation entry="sameGroup">It is part of the group <strong>{{ group: skill.groupPath.join('/') }}</strong> consisting of <CountingWord>{numSkillsInGroup}</CountingWord> <Plurals value={numSkillsInGroup}><Plurals.One>skill</Plurals.One><Plurals.NotOne>skills</Plurals.NotOne></Plurals> in total.</Translation></Par>
-		<SkillList skillIds={skill.groupSkillIds} />
+		<SkillList skillIds={groupSkillIds} />
 	</>
 }
 
