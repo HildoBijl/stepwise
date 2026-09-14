@@ -40,7 +40,7 @@
 	},
 	"dependencies": {
 		"@step-wise/react-components": "^0.1.0",
-		"katex": "0.12.0"
+		"katex": "0.16.21"
 	},
 	"peerDependencies": {
 		"@emotion/react": "^11.14.0",
