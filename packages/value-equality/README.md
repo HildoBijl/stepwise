@@ -37,12 +37,12 @@ Both values enter the package as `unknown`. Only after `isValue` accepts them do
 
 ## Checking equality
 
-Pass the adapter followed by both values to `areValuesEqual`:
+Pass the adapter followed by both values to `areValuesEqualFromAdapter`:
 
 ```ts
-import { areValuesEqual } from '@step-wise/value-equality'
+import { areValuesEqualFromAdapter } from '@step-wise/value-equality'
 
-const equal = areValuesEqual(
+const equal = areValuesEqualFromAdapter(
 	numberEquality,
 	11,
 	10,
@@ -52,7 +52,7 @@ const equal = areValuesEqual(
 
 When the fourth argument is omitted, the equality operation receives `undefined`. The adapter remains responsible for applying its own defaults.
 
-`areValuesEqual` throws when either value, the options, or the adapter is invalid. An equality operation must return a boolean; any other result also causes a `TypeError`. Errors thrown by the adapter are not hidden.
+`areValuesEqualFromAdapter` throws when either value, the options, or the adapter is invalid. An equality operation must return a boolean; any other result also causes a `TypeError`. Errors thrown by the adapter are not hidden.
 
 Value types without configurable options can omit both the options type and `isOptions`:
 
@@ -64,6 +64,24 @@ const stringEquality: ValueEqualityAdapter<string> = {
 ```
 
 For such adapters, supplying equality options is a runtime error. The public operation accepts unknown boundary data and validates it through the adapter. When an options type is specified, `isOptions` is required.
+
+
+## Selecting adapters from a registry
+
+Use `createAreValuesEqual` to create a type-keyed operation from a `ValueEqualityAdapters` registry:
+
+```ts
+import { createAreValuesEqual } from '@step-wise/value-equality'
+
+const compareValues = createAreValuesEqual({
+	Integer: integerEquality,
+	Expression: expressionEquality,
+})
+
+compareValues('Integer', 11, 10, { tolerance: 1 })
+```
+
+The explicit type is necessary because primitive values do not identify their own adapter, and multiple registered types may accept the same JavaScript representation. An unknown type throws rather than silently applying unsuitable equality semantics.
 
 
 ## Package scope
@@ -87,3 +105,5 @@ The main public types are:
 - `AnyValueEqualityAdapter`, the same contract with concrete types erased for heterogeneous registries.
 - `ValueEqualityAdapters`, a registry of erased equality adapters keyed by value type.
 - `isValueEqualityAdapter`, a runtime guard for a complete erased equality adapter.
+
+The package exports both `areValuesEqualFromAdapter` for direct adapter use and `createAreValuesEqual` for registry-backed use.

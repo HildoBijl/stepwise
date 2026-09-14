@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { isValueType, isValueTypes } from './checks.ts'
+import { isValueType, isValueTypes } from './guards.ts'
 
 const inputValue = { isInputValue: () => true, isDomainValue: () => true, interpret: () => 1, toInputValue: () => ({ type: 'Test', value: 1 }) }
 const serialization = { isDomainValue: () => true, isSerializedValue: () => true, serialize: () => ({ type: 'Test', value: 1 }), deserialize: () => ({ type: 'Test' }) }

@@ -18,7 +18,7 @@ npm install @step-wise/value-types
 import { IntegerType, MultipleChoiceType, fundamentalValueTypes } from '@step-wise/value-types'
 ```
 
-The package also exports the individual `integerValueType` and `multipleChoiceValueType`, their input-value types, and their adapter implementations. Input-exercise builders combine these definitions with the registry supplied by an exercise; duplicate type names are rejected at that boundary.
+The package also exports the individual `integerValueType` and `multipleChoiceValueType`, their input-value types, and their adapter implementations. Input-exercise builders combine these definitions with the registry supplied by an exercise; conflicting definitions with the same type name are rejected at that boundary.
 
 
 ## Multiple-choice mappings
@@ -109,7 +109,7 @@ const valueTypes = combineValueTypes(
 )
 ```
 
-The helper returns a new registry and preserves the value-type definitions themselves. It throws when two registries contain the same type key, even if both keys reference the same definition. This prevents one domain integration from silently overriding another.
+The helper returns a new registry and preserves the value-type definitions themselves. Reusing the same definition is allowed, while conflicting definitions with the same type key throw an error. This prevents one domain integration from silently overriding another.
 
 Malformed registries, unknown capability names, and incomplete adapters are also rejected. `isValueType` and `isValueTypes` expose the same validation as type guards. They delegate each supplied adapter to the guard owned by its capability package, so changes to an adapter contract remain defined in one place.
 
@@ -128,7 +128,7 @@ const {
 } = extractValueTypeAdapters(valueTypes)
 ```
 
-The combined helper validates the complete registry once and includes only value types that provide each requested capability. The individual `extractInputValueAdapters`, `extractSerializationAdapters`, and `extractValueEqualityAdapters` helpers remain available when only one capability is needed. Empty and partial value types are allowed.
+The helper validates the complete registry once and includes only value types that provide each requested capability. Empty and partial value types are allowed. Registry-backed equality operations are created by passing the extracted equality adapters to `createAreValuesEqual` from `@step-wise/value-equality`.
 
 These helpers are intended for orchestration packages such as `input-exercises`. Domain packages should generally define adapters, while orchestration packages decide which adapters are active for a particular exercise.
 
@@ -137,7 +137,7 @@ These helpers are intended for orchestration packages such as `input-exercises`.
 
 `value-types` directly depends only on the three capability packages and generic JavaScript utilities. It does not import the CAS, physics engine, geometry tools, mechanics engine, exercise grading, or input exercises.
 
-Input interpretation and equality remain generic registry consumers; they do not import `value-types` back. The `input-exercises` orchestration layer adds `fundamentalValueTypes`, captures the extracted adapters privately, and exposes only exercise-bound value operations to consumers. This prevents dependency cycles while keeping the fundamental implementations centralized.
+Input interpretation, serialization, and equality remain generic registry consumers; they do not import `value-types` back. The `input-exercises` orchestration layer adds `fundamentalValueTypes`, captures the extracted adapters privately, and exposes only exercise-bound value operations to consumers. This prevents dependency cycles while keeping the fundamental implementations centralized.
 
 
 ## TypeScript types

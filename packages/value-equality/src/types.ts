@@ -1,13 +1,19 @@
 import { hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
 
+/*
+ * Fundamental types.
+ */
+
 export type ValueEqualityOptions = Record<string, unknown>
+
+/*
+ * Adapters.
+ */
 
 export type ValueEqualityAdapter<TValue = unknown, TOptions extends ValueEqualityOptions = never> = {
 	isValue: (value: unknown) => value is TValue
 	areEqual: (inputValue: TValue, expectedValue: TValue, options: TOptions | undefined) => boolean
-} & ([TOptions] extends [never]
-	? { isOptions?: never }
-	: { isOptions: (options: unknown) => options is TOptions })
+} & ([TOptions] extends [never] ? { isOptions?: never } : { isOptions: (options: unknown) => options is TOptions })
 
 export type AnyValueEqualityAdapter = {
 	isValue: (value: unknown) => boolean
@@ -16,6 +22,11 @@ export type AnyValueEqualityAdapter = {
 }
 
 export type ValueEqualityAdapters = Record<string, AnyValueEqualityAdapter>
+
+/*
+ * Guard functions.
+ */
+
 export function isValueEqualityAdapter(value: unknown): value is AnyValueEqualityAdapter {
 	return isPlainObject(value) && hasOnlyKeys(value, ['isValue', 'isOptions', 'areEqual']) && typeof value.isValue === 'function' && (value.isOptions === undefined || typeof value.isOptions === 'function') && typeof value.areEqual === 'function'
 }

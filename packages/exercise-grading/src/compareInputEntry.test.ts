@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { type ValueEqualityAdapter, areValuesEqual } from '@step-wise/value-equality'
+import { type ValueEqualityAdapter, areValuesEqualFromAdapter } from '@step-wise/value-equality'
 import { IntegerType } from '@step-wise/value-types'
 
 import { compareInputEntry } from './compareInputEntry.ts'
@@ -37,14 +37,14 @@ describe('compareInputEntry', () => {
 			rawInput: { x: { type: 'Custom', value: 'VALUE' } }, input: { x: 'VALUE' }, solution: { x: 'value' },
 			areValuesEqual: (type: string, inputValue: unknown, expectedValue: unknown, options?: unknown) => {
 				if (type !== 'Custom') throw new Error(`Unknown value type: ${type}`)
-				return areValuesEqual(customEquality, inputValue, expectedValue, options)
+				return areValuesEqualFromAdapter(customEquality, inputValue, expectedValue, options)
 			},
 		}
 		expect(compareInputEntry('x', 'x', customData)).toBe(true)
 
 		const overrideData = {
 			...makeCheckInputData({ x: { type: IntegerType, value: '1' } }, { x: 1 }),
-			areValuesEqual: (_type: string, inputValue: unknown, expectedValue: unknown, options?: unknown) => areValuesEqual(integerOverride, inputValue, expectedValue, options),
+			areValuesEqual: (_type: string, inputValue: unknown, expectedValue: unknown, options?: unknown) => areValuesEqualFromAdapter(integerOverride, inputValue, expectedValue, options),
 		}
 		expect(compareInputEntry('x', 'x', overrideData)).toBe(false)
 	})

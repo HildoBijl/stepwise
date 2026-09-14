@@ -1,5 +1,6 @@
 import { ensureInteger, hasDuplicates, isInteger, InterpretationError } from '@step-wise/js-utils'
 import { type InputValue, type InputValueAdapter, createInputValue, isInputValueOfType } from '@step-wise/input-interpretation'
+
 export const MultipleChoiceType = 'MultipleChoice'
 export type MultipleChoiceType = typeof MultipleChoiceType
 
