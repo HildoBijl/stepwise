@@ -1,6 +1,6 @@
 import { type SkillSetup, type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 
-import type { ModuleId, ModuleTree, SkillId } from '../creation/index.ts'
+import type { Module, ModuleId, ModuleTree, Skill, SkillId } from '../creation/index.ts'
 
 export type EnsureModuleIdOptions = {
 	allowCaseInsensitiveMatch?: boolean
@@ -20,14 +20,22 @@ export function ensureModuleIds(moduleTree: ModuleTree, moduleIds: readonly Modu
 	return moduleIds.map(moduleId => ensureModuleId(moduleTree, moduleId, options))
 }
 
+export function getModule(moduleTree: ModuleTree, moduleId: ModuleId, options: EnsureModuleIdOptions = {}): Module {
+	return moduleTree[ensureModuleId(moduleTree, moduleId, options)]
+}
+
 export function ensureSkillId(moduleTree: ModuleTree, skillId: SkillId, options: EnsureModuleIdOptions = {}): SkillId {
-	const moduleId = ensureModuleId(moduleTree, skillId, options)
-	if (moduleTree[moduleId].type !== 'skill') throw new Error(`Invalid skill ID: "${skillId}" identifies a concept rather than a skill.`)
-	return moduleId as SkillId
+	return getSkill(moduleTree, skillId, options).id
 }
 
 export function ensureSkillIds(moduleTree: ModuleTree, skillIds: readonly SkillId[], options: EnsureModuleIdOptions = {}): SkillId[] {
 	return skillIds.map(skillId => ensureSkillId(moduleTree, skillId, options))
+}
+
+export function getSkill(moduleTree: ModuleTree, skillId: SkillId, options: EnsureModuleIdOptions = {}): Skill {
+	const module = getModule(moduleTree, skillId, options)
+	if (module.type !== 'skill') throw new Error(`Invalid skill ID: "${skillId}" identifies a concept rather than a skill.`)
+	return module
 }
 
 export function ensureSkillSetup(moduleTree: ModuleTree, setup: SkillSetupLike): SkillSetup {

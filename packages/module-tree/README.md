@@ -120,4 +120,4 @@ isSkillPrerequisiteOf('expandDoubleBrackets', 'rewritePower') // false
 
 ## TypeScript
 
-The package includes TypeScript declarations and re-exports the `ModuleId`, `ModuleTree`, `SkillId`, `SkillTree` and `EnsureModuleIdOptions` types from `@step-wise/module-tree-definition`.
+The package includes TypeScript declarations and re-exports the `ModuleId`, `ModuleTree`, `SkillId` and `EnsureModuleIdOptions` types from `@step-wise/module-tree-definition`.

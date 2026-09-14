@@ -3,7 +3,7 @@ import { binomialCoefficient } from '@step-wise/math-tools'
 import { getUnivariatePolynomialCoefficients, substitutePolynomialMoments, oneMinusPolynomial } from '@step-wise/polynomials'
 import { type BernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment, multiplyBernsteinPDFs } from '@step-wise/bernstein-polynomials'
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
-import { type SkillId, type SkillTree, ensureSkillId, expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/module-tree-definition'
+import { type ModuleTree, type SkillId, ensureSkillId, expandSkillIdsWithDirectPrerequisitesAndLinks, getSkill } from '@step-wise/module-tree-definition'
 
 import type { StoredSkillLevel, StoredSkillLevelSet, SkillLevelData, SkillObservation, StoredSkillLevelUpdate, StoredSkillLevelUpdateSet } from './types.ts'
 import { inferenceCacheDuration } from './settings.ts'
@@ -17,13 +17,12 @@ export class SkillLevelSet {
 	private listeners = new Set<() => void>()
 	private snapshot = {}
 
-	constructor(private readonly moduleTree: SkillTree, storedSkillLevelSet: StoredSkillLevelSet = {}) {
+	constructor(private readonly moduleTree: ModuleTree, storedSkillLevelSet: StoredSkillLevelSet = {}) {
 		if (!isPlainObject(moduleTree)) throw new Error(`Invalid skill tree: expected a plain object but received something of type "${typeof moduleTree}".`)
 		if (!isPlainObject(storedSkillLevelSet)) throw new Error(`Invalid stored skill level set: expected a plain object but received something of type "${typeof storedSkillLevelSet}".`)
 
 		Object.keys(storedSkillLevelSet).forEach(skillId => {
-			const skill = this.moduleTree[skillId]
-			if (!skill) throw new Error(`Invalid skill given: a skill ID "${skillId}" was supplied inside of a stored skill level set, but this skill is not known in the full skill tree.`)
+			const skill = getSkill(this.moduleTree, skillId)
 			this.skillLevels[skillId] = new SkillLevel(skill, storedSkillLevelSet[skillId])
 		})
 	}
@@ -47,7 +46,7 @@ export class SkillLevelSet {
 	}
 
 	hasRequiredDataFor(skillId: SkillId): boolean {
-		const skill = this.moduleTree[this.ensureSkillId(skillId)]
+		const skill = getSkill(this.moduleTree, skillId)
 		const linkedSkillIds = expandSkillIdsWithDirectPrerequisitesAndLinks(this.moduleTree, [skill.id])
 		return linkedSkillIds.every(linkedSkillId => this.hasSkillLevel(linkedSkillId))
 	}
@@ -61,7 +60,7 @@ export class SkillLevelSet {
 	}
 
 	getInferredCoefficients(skillId: SkillId): BernsteinCoefficients {
-		const skill = this.moduleTree[this.ensureSkillId(skillId)]
+		const skill = getSkill(this.moduleTree, skillId)
 		const skillLevel = this.getSkillLevelObject(skillId)
 		if (!this.isCoefficientsCacheValid(skillId)) {
 			skillLevel.cache.inferred = {
@@ -73,7 +72,7 @@ export class SkillLevelSet {
 	}
 
 	private isCoefficientsCacheValid(skillId: SkillId): boolean {
-		const skill = this.moduleTree[this.ensureSkillId(skillId)]
+		const skill = getSkill(this.moduleTree, skillId)
 		const skillLevel = this.getSkillLevelObject(skillId)
 		const cacheEntry = skillLevel.cache.inferred
 		if (!cacheEntry) return false
@@ -119,7 +118,7 @@ export class SkillLevelSet {
 	}
 
 	getInferredHighestCoefficients(skillId: SkillId): BernsteinCoefficients {
-		const skill = this.moduleTree[this.ensureSkillId(skillId)]
+		const skill = getSkill(this.moduleTree, skillId)
 		const skillLevel = this.getSkillLevelObject(skillId)
 		if (!this.isHighestCacheValid(skillId)) {
 			skillLevel.cache.inferredHighest = {
@@ -131,7 +130,7 @@ export class SkillLevelSet {
 	}
 
 	private isHighestCacheValid(skillId: SkillId): boolean {
-		const skill = this.moduleTree[this.ensureSkillId(skillId)]
+		const skill = getSkill(this.moduleTree, skillId)
 		const skillLevel = this.getSkillLevelObject(skillId)
 		const cacheEntry = skillLevel.cache.inferredHighest
 		if (!cacheEntry) return false
@@ -220,7 +219,7 @@ export class SkillLevelSet {
 		// When updates are necessary, set up an updated skillLevels object.
 		this.skillLevels = { ...this.skillLevels }
 		Object.keys(updatesToApply).forEach(skillId => {
-			const skill = this.moduleTree[skillId]
+			const skill = getSkill(this.moduleTree, skillId)
 			const existingSkillLevel = this.skillLevels[skillId]
 			const skillLevelUpdate = updatesToApply[skillId]
 			if (existingSkillLevel) {

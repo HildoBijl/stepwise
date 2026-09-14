@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { and } from '@step-wise/skill-setup'
-import { type SkillTree, createModuleTree } from '@step-wise/module-tree-definition'
+import { type ModuleTree, createModuleTree } from '@step-wise/module-tree-definition'
 
 import { analyzeCourse } from './analyzeCourse.ts'
 
@@ -69,6 +69,19 @@ describe('analyzeCourse', () => {
 		expect(resolution.learningGoalWeights).toEqual([3])
 	})
 
+	it('does not treat concepts as course skills', () => {
+		const mixedTree = createModuleTree({
+			concept: { type: 'concept', name: 'Concept' },
+			a: { type: 'skill', name: 'A' },
+			b: { type: 'skill', name: 'B', prerequisites: ['concept', 'a'] },
+		})
+		const { resolution, diagnostics } = analyzeCourse(mixedTree, { startingPointIds: ['a', 'concept'], learningGoalIds: ['b', 'concept'] })
+
+		expect(resolution.contentSkillIds).toEqual(['a', 'b'])
+		expect(diagnostics.unknownStartingPointIds).toEqual(['concept'])
+		expect(diagnostics.unknownLearningGoalIds).toEqual(['concept'])
+	})
+
 	it('sorts course contents into blocks', () => {
 		const { resolution, diagnostics } = analyzeCourse(moduleTree, { startingPointIds: ['a'], learningGoalIds: ['c'], blockLearningGoalIds: [['b'], ['c']] })
 
@@ -100,7 +113,7 @@ describe('analyzeCourse', () => {
 	})
 
 	it('does not treat inherited object properties as skills', () => {
-		const ordinaryTree = { a: moduleTree.a } as SkillTree
+		const ordinaryTree = { a: moduleTree.a } as ModuleTree
 		const { diagnostics } = analyzeCourse(ordinaryTree, { startingPointIds: [], learningGoalIds: ['constructor'] })
 
 		expect(diagnostics.unknownLearningGoalIds).toEqual(['constructor'])

@@ -1,4 +1,4 @@
-import { type SkillId, type SkillTree, createModuleTree } from '@step-wise/module-tree-definition'
+import { type ModuleTree, type SkillId, createModuleTree } from '@step-wise/module-tree-definition'
 import { CourseDefinition } from '@step-wise/course-definition'
 import { type StoredSkillLevel, type StoredSkillLevelSet, SkillLevelSet } from '@step-wise/skill-tracking'
 
@@ -27,9 +27,9 @@ const coefficientsByPracticeNeed: Record<PracticeNeed, Pick<StoredSkillLevel, 'c
 	2: { coefficients: [1, 0], highest: [1, 0] },
 }
 
-export function createSkillLevelSet(tree: SkillTree, practiceNeeds: Partial<Record<SkillId, PracticeNeed>> = {}, omittedSkillIds: readonly SkillId[] = []): SkillLevelSet {
+export function createSkillLevelSet(tree: ModuleTree, practiceNeeds: Partial<Record<SkillId, PracticeNeed>> = {}, omittedSkillIds: readonly SkillId[] = []): SkillLevelSet {
 	const storedSkillLevels = Object.fromEntries(Object.keys(tree)
-		.filter(skillId => !omittedSkillIds.includes(skillId))
+		.filter(skillId => tree[skillId].type === 'skill' && !omittedSkillIds.includes(skillId))
 		.map(skillId => {
 			const distributions = coefficientsByPracticeNeed[practiceNeeds[skillId] ?? 0]
 			return [skillId, { ...distributions, coefficientsOn: now, highestOn: now, numPracticed: 1 }]

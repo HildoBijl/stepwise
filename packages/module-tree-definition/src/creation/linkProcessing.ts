@@ -2,7 +2,7 @@ import { deduplicate, ensureNumber, isPlainObject, sortBy } from '@step-wise/js-
 
 import type { ModuleTree, Skill, SkillId, SkillLink, SkillLinkDefinition } from './types.ts'
 
-// Take a raw set of links and turn it into a processed SkillLink object.
+// Take a set of link definitions and turn it into a processed SkillLink object.
 export function normalizeSkillLinks(links?: SkillLinkDefinition | SkillLinkDefinition[]): SkillLink[] {
 	// Ensure the links attribute is an array of links.
 	if (Array.isArray(links) && links.length === 0) return []

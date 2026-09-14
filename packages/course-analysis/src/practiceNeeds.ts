@@ -1,4 +1,4 @@
-import type { SkillId, SkillThresholdOptions, SkillTree } from '@step-wise/module-tree-definition'
+import { type ModuleTree, type SkillId, type SkillThresholdOptions, getSkill } from '@step-wise/module-tree-definition'
 import type { CourseDefinition } from '@step-wise/course-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 
@@ -34,9 +34,8 @@ export function getCoursePracticeNeeds(courseDefinition: CourseDefinition, skill
 	return practiceNeeds
 }
 
-function collectPracticeNeeds(moduleTree: SkillTree, skillId: SkillId, skillLevelSet: SkillLevelSet, priorKnowledge: readonly SkillId[], practiceNeeds: PracticeNeeds, maximumPracticeNeed?: PracticeNeed): void {
-	const skill = moduleTree[skillId]
-	if (!skill) throw new Error(`Invalid skill: could not find "${skillId}" when processing course data.`)
+function collectPracticeNeeds(moduleTree: ModuleTree, skillId: SkillId, skillLevelSet: SkillLevelSet, priorKnowledge: readonly SkillId[], practiceNeeds: PracticeNeeds, maximumPracticeNeed?: PracticeNeed): void {
+	const skill = getSkill(moduleTree, skillId)
 
 	const isPriorKnowledge = priorKnowledge.includes(skillId)
 	let practiceNeed = calculatePracticeNeed(skillLevelSet, skillId, { skillThresholds: skill.thresholds, priorKnowledge: isPriorKnowledge })
@@ -44,5 +43,7 @@ function collectPracticeNeeds(moduleTree: SkillTree, skillId: SkillId, skillLeve
 
 	if (practiceNeeds[skillId] !== undefined && practiceNeeds[skillId] <= practiceNeed) return
 	practiceNeeds[skillId] = practiceNeed
-	if (!isPriorKnowledge) skill.prerequisiteIds.forEach(prerequisiteId => collectPracticeNeeds(moduleTree, prerequisiteId, skillLevelSet, priorKnowledge, practiceNeeds, practiceNeed))
+	if (!isPriorKnowledge) skill.prerequisiteIds.forEach(prerequisiteId => {
+		if (moduleTree[prerequisiteId].type === 'skill') collectPracticeNeeds(moduleTree, prerequisiteId, skillLevelSet, priorKnowledge, practiceNeeds, practiceNeed)
+	})
 }

@@ -2,7 +2,7 @@ import * as agnostic from '@step-wise/module-tree-definition'
 
 import { moduleTree } from './moduleTree.ts'
 
-export type { EnsureModuleIdOptions, ModuleId, ModuleTree, SkillId, SkillTree } from '@step-wise/module-tree-definition'
+export type { EnsureModuleIdOptions, ModuleId, ModuleTree, SkillId } from '@step-wise/module-tree-definition'
 
 export function ensureModuleId(moduleId: agnostic.ModuleId, options: agnostic.EnsureModuleIdOptions = {}): agnostic.ModuleId {
 	return agnostic.ensureModuleId(moduleTree, moduleId, options)

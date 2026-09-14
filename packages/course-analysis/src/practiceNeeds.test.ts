@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { createModuleTree } from '@step-wise/module-tree-definition'
+import { createModuleTree, getSkill } from '@step-wise/module-tree-definition'
 import { CourseDefinition } from '@step-wise/course-definition'
 
 import { getCoursePracticeNeeds, getPracticeNeed } from './practiceNeeds.ts'
@@ -16,7 +16,7 @@ describe('getPracticeNeed', () => {
 		[2, 2],
 	] as const)('returns practice need %i for the corresponding skill level', (storedPracticeNeed, expectedPracticeNeed) => {
 		const skillLevelSet = createSkillLevelSet(moduleTree, { basic: storedPracticeNeed })
-		expect(getPracticeNeed('basic', skillLevelSet, { skillThresholds: moduleTree.basic.thresholds })).toBe(expectedPracticeNeed)
+		expect(getPracticeNeed('basic', skillLevelSet, { skillThresholds: getSkill(moduleTree, 'basic').thresholds })).toBe(expectedPracticeNeed)
 	})
 
 	it('uses the prior-knowledge thresholds', () => {
@@ -31,7 +31,7 @@ describe('getPracticeNeed', () => {
 		const linkedTree = createModuleTree({ first: { type: 'skill', name: 'First', links: 'second' }, second: { type: 'skill', name: 'Second' } })
 		const skillLevelSet = createSkillLevelSet(linkedTree, {}, ['second'])
 
-		expect(getPracticeNeed('first', skillLevelSet, { skillThresholds: linkedTree.first.thresholds })).toBeUndefined()
+		expect(getPracticeNeed('first', skillLevelSet, { skillThresholds: getSkill(linkedTree, 'first').thresholds })).toBeUndefined()
 	})
 })
 

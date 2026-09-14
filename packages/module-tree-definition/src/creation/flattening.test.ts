@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 
 import { and } from '@step-wise/skill-setup'
 
+import { getSkill } from '../searching/validation.ts'
+
 import { flattenModuleTreeDefinition } from './flattening.ts'
 import type { ModuleTreeDefinition } from './types.ts'
 
@@ -24,16 +26,17 @@ describe('flattenModuleTreeDefinition', () => {
 	it('combines and deduplicates explicit and setup-derived prerequisites', () => {
 		const setup = and('a', 'b')
 		const tree = flattenModuleTreeDefinition({ a: { type: 'skill', name: 'A' }, b: { type: 'skill', name: 'B' }, c: { type: 'skill', name: 'C', prerequisites: ['a'], setup, thresholds: { mastery: 0.7 } } })
-		expect(tree.c.prerequisiteIds).toEqual(['a', 'b'])
-		expect(tree.c.setup).toBe(setup)
-		expect(tree.c.thresholds).toMatchObject({ mastery: 0.7, recap: 0.63, priorKnowledgeMastery: 0.7 })
-		expect(tree.c.thresholds.priorKnowledgeRecap).toBeCloseTo(0.56)
-		expect(tree.c).toMatchObject({ continuationIds: [], linkedSkillIds: [] })
+		const skill = getSkill(tree, 'c')
+		expect(skill.prerequisiteIds).toEqual(['a', 'b'])
+		expect(skill.setup).toBe(setup)
+		expect(skill.thresholds).toMatchObject({ mastery: 0.7, recap: 0.63, priorKnowledgeMastery: 0.7 })
+		expect(skill.thresholds.priorKnowledgeRecap).toBeCloseTo(0.56)
+		expect(skill).toMatchObject({ continuationIds: [], linkedSkillIds: [] })
 	})
 
 	it('normalizes preliminary links', () => {
 		const tree = flattenModuleTreeDefinition({ a: { type: 'skill', name: 'A', links: { skillId: 'b', correlation: 0.5 } }, b: { type: 'skill', name: 'B' } })
-		expect(tree.a.links).toEqual([{ skillIds: ['b'], correlation: 0.5 }])
+		expect(getSkill(tree, 'a').links).toEqual([{ skillIds: ['b'], correlation: 0.5 }])
 	})
 
 	it('returns a prototype-free tree and supports special skill IDs', () => {
@@ -82,7 +85,8 @@ describe('flattenModuleTreeDefinition', () => {
 	})
 
 	it.each([0, 0.5, 1])('accepts a mastery threshold on the inclusive unit interval: %s', mastery => {
-		expect(flattenModuleTreeDefinition({ a: { type: 'skill', name: 'A', thresholds: { mastery } } }).a.thresholds.mastery).toBe(mastery)
+		const tree = flattenModuleTreeDefinition({ a: { type: 'skill', name: 'A', thresholds: { mastery } } })
+		expect(getSkill(tree, 'a').thresholds.mastery).toBe(mastery)
 	})
 
 	it('rejects malformed group entries with their path', () => {

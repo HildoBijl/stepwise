@@ -1,7 +1,7 @@
 import { and, or, repeat, pick, part } from '@step-wise/skill-setup'
-import type { SkillTreeDefinition } from '@step-wise/module-tree-definition'
+import type { ModuleTreeDefinition } from '@step-wise/module-tree-definition'
 
-export const physicsTree: SkillTreeDefinition = {
+export const physicsTree: ModuleTreeDefinition = {
 	inputs: {
 		enterFloat: {
 			type: 'skill',

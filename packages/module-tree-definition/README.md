@@ -148,7 +148,7 @@ Self-links, repeated participants, concept IDs, unknown IDs, duplicate reciproca
 
 ### `createModuleTree(moduleTreeDefinition)`
 
-Returns a validated `ModuleTree` whose keys are the original module IDs. An all-skill `SkillTreeDefinition` produces the narrower `SkillTree` type. The tree uses a null prototype so IDs such as `constructor`, `toString` and `__proto__` are safe.
+Returns a validated `ModuleTree` whose keys are the original module IDs. Indexing the tree produces a `Module`; use its `type` discriminator or `getSkill` when skill-specific properties are needed. The tree uses a null prototype so IDs such as `constructor`, `toString` and `__proto__` are safe.
 
 Every processed `Module` contains:
 
@@ -186,6 +186,10 @@ Returns the canonical ID of a known concept or skill. Unknown IDs and casing dif
 
 Validates a readonly array of concept and skill IDs while preserving their supplied order.
 
+### `getModule(moduleTree, moduleId, options?)`
+
+Returns the corresponding `Module`. Use its `type` discriminator to distinguish concepts from skills.
+
 ### `ensureSkillId(moduleTree, skillId, options?)`
 
 Returns the known skill ID when it matches exactly. It rejects unknown IDs and IDs belonging to concepts. Set `allowCaseInsensitiveMatch` to `true` at boundaries where casing cannot be trusted, such as IDs read from URLs; the canonical ID from the tree is then returned.
@@ -198,6 +202,10 @@ ensureSkillId(moduleTree, 'ADDNUMBERS', { allowCaseInsensitiveMatch: true }) // 
 ### `ensureSkillIds(moduleTree, skillIds, options?)`
 
 Accepts a readonly array and returns a new array containing the validated IDs in the supplied order. It supports the same `allowCaseInsensitiveMatch` option. Use `ensureSkillId` for a single ID.
+
+### `getSkill(moduleTree, skillId, options?)`
+
+Returns the corresponding `Skill`, rejecting IDs that identify concepts. This is the convenient way to access skill-specific properties from a mixed module tree.
 
 ### `ensureSkillSetup(moduleTree, setup)`
 
@@ -241,4 +249,4 @@ The corresponding `getModuleIdsBetweenGoalsAndPriorKnowledge` and `sortModuleIds
 
 ## TypeScript
 
-The package includes TypeScript declarations. Its principal exported types include `ModuleId`, `ModuleType`, `ModuleDefinition`, `ConceptDefinition`, `SkillDefinition`, `ModuleTreeDefinition`, `Module`, `Concept`, `Skill`, `ModuleTree`, `SkillTree`, `EnsureModuleIdOptions`, `SkillLinkDefinition` and `SkillLink`.
+The package includes TypeScript declarations. Its principal exported types include `ModuleId`, `ModuleType`, `ModuleDefinition`, `ConceptDefinition`, `SkillDefinition`, `ModuleTreeDefinition`, `Module`, `Concept`, `Skill`, `ModuleTree`, `EnsureModuleIdOptions`, `SkillLinkDefinition` and `SkillLink`.

@@ -14,7 +14,7 @@ Use [`@step-wise/course-analysis`](../course-analysis/) to combine a resolved co
 
 ## Quick start
 
-Create a `CourseDefinition` by passing it a processed `SkillTree` and a `CourseSpecification`.
+Create a `CourseDefinition` by passing it a processed `ModuleTree` and a `CourseSpecification`. Course endpoints remain skill IDs; concepts in the module tree are not treated as practiceable course content.
 
 ```ts
 import { CourseDefinition, validateCourseDiagnostics } from '@step-wise/course-definition'

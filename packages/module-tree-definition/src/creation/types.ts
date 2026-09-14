@@ -58,6 +58,4 @@ export type Module = Concept | Skill
 
 // Module containers.
 export type ModuleTreeDefinition = { [key: string]: ModuleDefinition | ModuleTreeDefinition }
-export type SkillTreeDefinition = { [key: string]: SkillDefinition | SkillTreeDefinition }
 export type ModuleTree = Record<ModuleId, Module>
-export type SkillTree = Record<SkillId, Skill>

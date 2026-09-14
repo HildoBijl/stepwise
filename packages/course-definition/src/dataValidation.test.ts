@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
+import { ensureSetup } from '@step-wise/skill-setup'
+
 import type { CourseSpecification } from './types.ts'
 import { ensureCourseSpecification } from './dataValidation.ts'
 
@@ -51,7 +53,7 @@ describe('ensureCourseSpecification', () => {
 	})
 
 	it('normalizes a string setup and rejects invalid setups', () => {
-		expect(ensureCourseSpecification({ startingPointIds: [], learningGoalIds: [], setup: 'a' }).setup?.getSkillList()).toEqual(['a'])
+		expect(ensureSetup(ensureCourseSpecification({ startingPointIds: [], learningGoalIds: [], setup: 'a' }).setup!).getSkillList()).toEqual(['a'])
 		expect(() => ensureCourseSpecification({ startingPointIds: [], learningGoalIds: [], setup: null } as unknown as CourseSpecification)).toThrow()
 		expect(() => ensureCourseSpecification({ startingPointIds: [], learningGoalIds: [], setup: '' })).toThrow()
 	})

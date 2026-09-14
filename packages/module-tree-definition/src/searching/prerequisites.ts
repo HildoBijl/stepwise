@@ -1,6 +1,6 @@
-import type { ModuleId, ModuleTree, Skill, SkillId } from '../creation/index.ts'
+import type { ModuleId, ModuleTree, SkillId } from '../creation/index.ts'
 
-import { ensureModuleIds, ensureSkillIds } from './validation.ts'
+import { ensureModuleIds, ensureSkillIds, getSkill } from './validation.ts'
 
 export function isModulePrerequisiteOf(moduleTree: ModuleTree, prerequisiteId: ModuleId, moduleId: ModuleId): boolean {
 	const [ensuredPrerequisiteId, ensuredModuleId] = ensureModuleIds(moduleTree, [prerequisiteId, moduleId])
@@ -35,7 +35,7 @@ export function expandSkillIdsWithDirectPrerequisites(moduleTree: ModuleTree, sk
 export function expandSkillIdsWithDirectPrerequisitesAndLinks(moduleTree: ModuleTree, skillIds: readonly SkillId[]): SkillId[] {
 	const result = new Set<SkillId>()
 	for (const skillId of ensureSkillIds(moduleTree, skillIds)) {
-		const skill = moduleTree[skillId] as Skill
+		const skill = getSkill(moduleTree, skillId)
 		result.add(skillId)
 		for (const prerequisiteId of skill.prerequisiteIds) {
 			if (moduleTree[prerequisiteId].type === 'skill') result.add(prerequisiteId as SkillId)

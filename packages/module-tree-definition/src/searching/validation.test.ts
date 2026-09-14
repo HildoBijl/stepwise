@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { and } from '@step-wise/skill-setup'
 
-import { createModuleTree } from '../creation/index.ts'
+import { type ModuleTreeDefinition, createModuleTree } from '../creation/index.ts'
 
 import { ensureModuleId, ensureModuleIds, ensureSkillId, ensureSkillIds, ensureSkillSetup } from './validation.ts'
 
@@ -22,7 +22,7 @@ describe('ensureSkillId', () => {
 	})
 
 	it('supports special object-property IDs without accepting inherited properties', () => {
-		const specialTree = createModuleTree({ constructor: { type: 'skill', name: 'Constructor' }, toString: { type: 'skill', name: 'To string' } })
+		const specialTree = createModuleTree({ constructor: { type: 'skill', name: 'Constructor' }, toString: { type: 'skill', name: 'To string' } } as ModuleTreeDefinition)
 		expect(ensureSkillId(specialTree, 'CONSTRUCTOR', { allowCaseInsensitiveMatch: true })).toBe('constructor')
 		expect(ensureSkillId(specialTree, 'toString')).toBe('toString')
 		expect(() => ensureSkillId(specialTree, 'valueOf')).toThrow(/Unknown module ID/)

@@ -1,7 +1,7 @@
 import { and, repeat, pick, part } from '@step-wise/skill-setup'
-import type { SkillTreeDefinition } from '@step-wise/module-tree-definition'
+import type { ModuleTreeDefinition } from '@step-wise/module-tree-definition'
 
-export const mathematicsTree: SkillTreeDefinition = {
+export const mathematicsTree: ModuleTreeDefinition = {
 	inputs: {
 		enterExpression: {
 			type: 'skill',
