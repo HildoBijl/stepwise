@@ -1,22 +1,26 @@
 import { isObject, isPlainObject, mapValues } from '@step-wise/js-utils'
 
-import type { SerializationAdapters, SerializedDomainObject } from './types.ts'
+import type { SerializationAdapters, SerializedData, SerializedDomainObject } from './types.ts'
 import { getSerializationAdapter } from './adapters.ts'
 
-export type SerializedData = null | string | number | boolean | SerializedDomainObject | SerializedData[] | { [key: string]: SerializedData }
-
+// Serialize a given domain value, given a set of serialization adapters.
 export function serializeDomainObject<TSerialized extends SerializedDomainObject = SerializedDomainObject>(domainValue: unknown, serializationAdapters?: SerializationAdapters): TSerialized {
 	if (!isObject(domainValue) || isPlainObject(domainValue)) throw new TypeError(`Invalid serializeDomainObject call: expected a non-plain object with a type.`)
+
+	// Load the respective adapters.
 	const type = Reflect.get(domainValue, 'type')
 	if (typeof type !== 'string') throw new TypeError(`Invalid serializeDomainObject call: expected an object with a string type.`)
 	const adapter = getSerializationAdapter(type, serializationAdapters)
 	if (adapter === undefined) throw new TypeError(`Invalid serializeDomainObject call: unknown type "${type}".`)
 	if (!adapter.isDomainValue(domainValue)) throw new TypeError(`Invalid serializeDomainObject call: value does not match type "${type}".`)
+
+	// Apply the adapters and check the resulting serialized value.
 	const serializedValue = adapter.serialize(domainValue as never)
 	if (!adapter.isSerializedValue(serializedValue)) throw new TypeError(`Invalid serialization adapter for type "${type}": returned an invalid serialized value.`)
 	return serializedValue as TSerialized
 }
 
+// Serialize an object/array/other shape that may contain serializable objects.
 export function serializeData(value: unknown, serializationAdapters?: SerializationAdapters): SerializedData {
 	return serializeValue(value, new WeakSet(), serializationAdapters)
 }

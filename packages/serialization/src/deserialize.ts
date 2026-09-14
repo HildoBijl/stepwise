@@ -3,16 +3,22 @@ import { isPlainObject, mapValues } from '@step-wise/js-utils'
 import type { SerializationAdapters } from './types.ts'
 import { getSerializationAdapter } from './adapters.ts'
 
+// Deserialize a given serialized value, given a set of serialization adapters.
 export function deserializeDomainObject<TDomainValue = unknown>(serializedValue: unknown, serializationAdapters?: SerializationAdapters): TDomainValue {
 	if (!isPlainObject(serializedValue) || typeof serializedValue.type !== 'string' || !Object.hasOwn(serializedValue, 'value')) throw new TypeError(`Invalid serialized domain object: expected an object with a type and value.`)
+
+	// Load the respective adapters.
 	const adapter = getSerializationAdapter(serializedValue.type, serializationAdapters)
 	if (adapter === undefined) throw new TypeError(`Invalid serialized domain object: unknown type "${serializedValue.type}".`)
 	if (!adapter.isSerializedValue(serializedValue)) throw new TypeError(`Invalid serialized domain object: value does not match type "${serializedValue.type}".`)
+
+	// Apply the adapters and check the resulting domain value.
 	const domainValue = adapter.deserialize(serializedValue as never)
 	if (!adapter.isDomainValue(domainValue)) throw new TypeError(`Invalid serialization adapter for type "${serializedValue.type}": returned an invalid domain value.`)
 	return domainValue as TDomainValue
 }
 
+// Deserialize an object/array/other shape that may contain serializable objects.
 export function deserializeData(value: unknown, serializationAdapters?: SerializationAdapters): unknown {
 	return deserializeValue(value, new WeakSet(), serializationAdapters)
 }
