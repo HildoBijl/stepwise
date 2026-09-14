@@ -1,4 +1,4 @@
-import { type ExerciseAction, type ExerciseState } from './atomTypes.ts'
+import { type ExerciseAction, type ExerciseState } from './types.ts'
 import { type BaseExerciseInstance, getCurrentState } from './modes/index.ts'
 
 export function isStateDone(state: ExerciseState): boolean {

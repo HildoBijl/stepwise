@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getCurrentState, getLastAction, getLastResolvedAction, getPreviousState } from './support.ts'
+import { getCurrentState, getLastAction, getLastResolvedAction, getPreviousState } from './history.ts'
 
 describe('solo exercise history support', () => {
 	const firstAction = { type: 'answer', value: 1 }

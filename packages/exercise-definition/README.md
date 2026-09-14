@@ -190,12 +190,9 @@ Reducers may call the optional `updateSkills(setup, correct, userId?)` function 
 See [@step-wise/skill-setup](https://www.npmjs.com/package/@step-wise/skill-setup) for constructing combined skill requirements.
 
 
-## Specifications and validation
+## Exercise validation
 
-`ExerciseSpec` describes author-provided metadata and optional parameter/state factories. `Exercise` represents the resolved form used at runtime: its factories are present and it supplies at least one reducer.
-
-- `isExerciseSpec(value)` checks the specification structure.
-- `isExercise(value)` checks the resolved factories and verifies that a reducer exists for at least one registered mode.
+`Exercise` represents the complete form used at runtime: its parameter and initial-state factories are present and it supplies at least one reducer. `isExercise(value)` validates this structure and verifies that a reducer exists for at least one registered mode.
 
 These guards also validate the standard exercise metadata. Individual exercise types remain responsible for validating their additional metadata, parameters, actions, and state.
 

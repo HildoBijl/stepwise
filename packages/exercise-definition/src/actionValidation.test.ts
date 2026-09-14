@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensureExerciseAction, isExerciseAction } from './atomTypes.ts'
+import { ensureExerciseAction, isExerciseAction } from './actionValidation.ts'
 
 describe('exercise action validation', () => {
 	it('accepts plain data objects with a string type', () => {

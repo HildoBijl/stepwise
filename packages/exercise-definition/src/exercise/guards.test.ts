@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { exerciseSupportsMode, isExercise, isExerciseSpec } from './guards.ts'
+import { exerciseSupportsMode, isExercise } from './guards.ts'
 
 const generateParameters = () => ({})
 const getInitialState = () => ({})
@@ -9,30 +9,16 @@ const processGroupActions = () => ({ state: {} })
 const processSoloActionAsync = async () => ({ state: {} })
 const processGroupActionsAsync = async () => ({ state: {} })
 
-describe('isExerciseSpec', () => {
-	it('accepts a minimal exercise specification', () => {
-		expect(isExerciseSpec({ metadata: {} })).toBe(true)
-	})
+describe('isExercise', () => {
+	const baseExercise = { metadata: {}, generateParameters, getInitialState }
 
-	it('accepts an exercise specification with both factories', () => {
-		expect(isExerciseSpec({ metadata: {}, generateParameters, getInitialState })).toBe(true)
-	})
-
-	it.each([undefined, null, [], 3, 'exercise', () => ({})])('rejects a non-object specification: %p', value => {
-		expect(isExerciseSpec(value)).toBe(false)
+	it.each([undefined, null, [], 3, 'exercise', () => ({})])('rejects a non-object exercise: %p', value => {
+		expect(isExercise(value)).toBe(false)
 	})
 
 	it.each([undefined, null, [], 3, { weight: -1 }, { repeatAfter: 1.5 }, { setup: 'addition' }])('rejects invalid metadata: %p', metadata => {
-		expect(isExerciseSpec({ metadata })).toBe(false)
+		expect(isExercise({ ...baseExercise, metadata, processSoloAction })).toBe(false)
 	})
-
-	it.each(['generateParameters', 'getInitialState'] as const)('rejects a non-function %s property', property => {
-		expect(isExerciseSpec({ metadata: {}, [property]: {} })).toBe(false)
-	})
-})
-
-describe('isExercise', () => {
-	const baseExercise = { metadata: {}, generateParameters, getInitialState }
 
 	it('accepts a solo exercise', () => {
 		expect(isExercise({ ...baseExercise, processSoloAction })).toBe(true)
@@ -56,13 +42,13 @@ describe('isExercise', () => {
 	})
 
 	it.each(['generateParameters', 'getInitialState'] as const)('requires %s to be resolved to a function', property => {
+		expect(isExercise({ ...baseExercise, [property]: {}, processSoloAction })).toBe(false)
 		expect(isExercise({ ...baseExercise, [property]: undefined, processSoloAction })).toBe(false)
 	})
 
 	it.each(['processSoloAction', 'processGroupActions'] as const)('rejects a non-function %s reducer', reducerName => {
 		expect(isExercise({ ...baseExercise, [reducerName]: {} })).toBe(false)
 	})
-
 })
 
 describe('exerciseSupportsMode', () => {

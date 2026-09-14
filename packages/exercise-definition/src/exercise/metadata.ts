@@ -17,12 +17,14 @@ export function isExerciseMetadata(value: unknown): value is ExerciseMetadata {
 export function resolveExerciseMetadata<TMetadata extends ExerciseMetadata>(metadata: TMetadata): ResolvedExerciseMetadata<TMetadata> {
 	if (!isPlainObject(metadata)) throw new TypeError(`Invalid exercise metadata: expected a plain object but received something of type "${typeof metadata}".`)
 
+	// Validate the skill and setup properties if they are provided.
 	if (metadata.skill !== undefined) {
 		if (typeof metadata.skill !== 'string') throw new TypeError(`Invalid exercise skill: expected a string but received something of type "${typeof metadata.skill}".`)
 		if (metadata.skill.length === 0 || metadata.skill.trim() !== metadata.skill) throw new RangeError('Invalid exercise skill: expected a non-empty skill ID without leading or trailing whitespace.')
 	}
 	if (metadata.setup !== undefined && !(metadata.setup instanceof SkillSetup)) throw new TypeError('Invalid exercise setup: expected a SkillSetup instance.')
 
+	// Validate the weight and repeatAfter properties if they are provided.
 	return {
 		...metadata,
 		weight: ensureNumber(metadata.weight ?? 1, { nonNegative: true }),

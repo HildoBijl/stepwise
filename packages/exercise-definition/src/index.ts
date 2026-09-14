@@ -1,4 +1,5 @@
-export * from './atomTypes.ts'
+export * from './types.ts'
+export * from './actionValidation.ts'
 export * from './modes/index.ts'
 export * from './exercise/index.ts'
-export * from './support.ts'
+export * from './completion.ts'

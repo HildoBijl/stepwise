@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { resolveExerciseParameters, resolveInitialState } from './support.ts'
+import { resolveExerciseParameters, resolveInitialState } from './initialization.ts'
 
 describe('resolveExerciseParameters', () => {
 	it('uses an empty object when no generator is provided', async () => {
