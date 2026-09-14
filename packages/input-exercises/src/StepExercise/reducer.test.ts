@@ -111,7 +111,7 @@ describe('buildStepExercise', () => {
 				return (previousInputDependency ?? 0) + Number(input.increment)
 			},
 			getSolution: (_, inputDependency) => ({ answer: inputDependency! }),
-			checkInput: ({ input, solution }) => input.answer === solution?.answer,
+			checkInput: ({ input, inputDependency, solution }) => inputDependency === 2 && input.answer === solution?.answer,
 		})
 		const parameters = await exercise.generateParameters(false)
 		let state = await exercise.getInitialState(parameters)

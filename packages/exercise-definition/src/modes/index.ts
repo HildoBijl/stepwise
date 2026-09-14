@@ -1,4 +1,4 @@
-export * from './registry.ts'
+export * from './modeRegistry.ts'
 export * from './solo/index.ts'
 export * from './group/index.ts'
 export * from './types.ts'

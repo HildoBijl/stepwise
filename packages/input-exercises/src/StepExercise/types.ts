@@ -18,10 +18,10 @@ export type StepExerciseSplitState = InputExerciseAttemptState & InputExerciseDe
 export type StepExerciseState = (InputExerciseAttemptState & InputExerciseDependencyState & Partial<{ solved: true, done: true }>) | StepExerciseSplitState
 
 // Extend the CheckInput function to include steps and substeps.
-export type StepExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (data: CheckInputData<StepExerciseMetadata, TParameters, TSolution>, step: number, substep?: number) => Awaitable<CheckInputResult>
+export type StepExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency, TSolution extends InputExerciseSolution = InputExerciseSolution> = (data: CheckInputData<StepExerciseMetadata, TParameters, TInputDependency, TSolution>, step: number, substep?: number) => Awaitable<CheckInputResult>
 
 // Author-facing definition before the mode-specific reducers are added.
-export type StepExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = InputExerciseSpec<StepExerciseMetadata, TParameters, TSolution, TInputDependency> & { checkInput: StepExerciseCheckInput<TParameters, TSolution> }
+export type StepExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = InputExerciseSpec<StepExerciseMetadata, TParameters, TSolution, TInputDependency> & { checkInput: StepExerciseCheckInput<TParameters, TInputDependency, TSolution> }
 
 // Runtime exercise after the mode-specific reducers are added.
 export type StepExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = InputExercise<StepExerciseMetadata, InputExerciseAction, StepExerciseState, TParameters, TSolution, TInputDependency> & Omit<StepExerciseSpec<TParameters, TSolution, TInputDependency>, 'generateParameters' | 'valueTypes'> & { type: 'step' }

@@ -82,11 +82,12 @@ export type InputExercise<TMetadata extends InputExerciseMetadata, TAction exten
  * Input for the CheckInput function to be implemented by child components
  */
 
-export type CheckInputData<TMetadata extends InputExerciseMetadata = InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = {
+export type CheckInputData<TMetadata extends InputExerciseMetadata = InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency, TSolution extends InputExerciseSolution = InputExerciseSolution> = {
 	metadata: TMetadata
 	parameters: TParameters
 	rawInput: InputExerciseRawInput
 	input: InputExerciseInput
+	inputDependency: TInputDependency | undefined
 	solution?: TSolution
 	areValuesEqual: InputExerciseValueOperations['areValuesEqual']
 }

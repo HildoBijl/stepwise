@@ -148,7 +148,7 @@ describe('buildMonoExercise', () => {
 			updateInputDependency,
 			getStaticSolution: ({ base }) => ({ answer: base }),
 			getSolution: (_, inputDependency, staticSolution) => ({ answer: staticSolution.answer! + inputDependency! }),
-			checkInput: ({ input, solution }) => input.answer === solution?.answer,
+			checkInput: ({ input, inputDependency, solution }) => inputDependency === 2 && input.answer === solution?.answer,
 		})
 		const parameters = await exercise.generateParameters(false)
 		const initialState = await exercise.getInitialState(parameters)

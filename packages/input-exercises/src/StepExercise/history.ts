@@ -1,7 +1,7 @@
 import { ensureInteger } from '@step-wise/js-utils'
+import { throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
 
 import type { InputExerciseHistoryData, LastInputOptions } from '../InputExercise/history.ts'
-import { throwUnsupportedMode } from '../InputExercise/modes.ts'
 import type { InputExerciseInput, InputExerciseRawInput, InputExerciseValueOperations } from '../InputExercise/types.ts'
 
 import type { StepExerciseState } from './types.ts'
@@ -40,7 +40,7 @@ export function getLastRawInputAtStep(instance: InputExerciseHistoryData<StepExe
 		}
 
 		default:
-			return throwUnsupportedMode(mode)
+			return throwUnsupportedExerciseMode(mode)
 	}
 }
 

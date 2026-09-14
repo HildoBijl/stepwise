@@ -1,7 +1,6 @@
-import type { BaseExerciseInstanceByMode, ExerciseMode, ExerciseState } from '@step-wise/exercise-definition'
+import { type BaseExerciseInstanceByMode, type ExerciseMode, type ExerciseState, throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
 
 import type { GroupInputExerciseReport, InputExerciseAction, InputExerciseInput, InputExerciseRawInput, InputExerciseReport, InputExerciseValueOperations, SoloInputExerciseReport } from './types.ts'
-import { throwUnsupportedMode } from './modes.ts'
 
 // Define a type with the minimally expected entries needed by history-inspecting functions.
 export type InputExerciseHistoryData<TState extends ExerciseState = ExerciseState> = {
@@ -45,7 +44,7 @@ export function getLastRawInput(instance: InputExerciseHistoryData, userId?: str
 			return undefined
 		}
 		default:
-			return throwUnsupportedMode(mode)
+			return throwUnsupportedExerciseMode(mode)
 	}
 }
 
@@ -88,7 +87,7 @@ export function getAccumulatedRawInput(instance: InputExerciseHistoryData, userI
 			break
 
 		default:
-			return throwUnsupportedMode(mode)
+			return throwUnsupportedExerciseMode(mode)
 	}
 
 	return hasInput ? input : undefined
@@ -134,7 +133,7 @@ export function getAccumulatedReport(instance: InputExerciseHistoryData, userId?
 		}
 
 		default:
-			return throwUnsupportedMode(mode)
+			return throwUnsupportedExerciseMode(mode)
 	}
 
 	return hasReport ? report : undefined

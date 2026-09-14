@@ -13,6 +13,7 @@ function createCheckInputData<TParameters extends Record<string, unknown>, TSolu
 		parameters,
 		rawInput: { [key]: { type: IntegerType, value: String(value) } },
 		input: { [key]: value },
+		inputDependency: undefined,
 		solution,
 		areValuesEqual: (type: string, inputValue: unknown, expectedValue: unknown, options?: unknown) => {
 			if (type !== IntegerType) throw new Error(`Unknown value type: ${type}`)

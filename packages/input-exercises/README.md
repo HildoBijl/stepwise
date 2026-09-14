@@ -35,7 +35,7 @@ An input exercise specification commonly contains:
 - `metadata` includes the practiced `skill` or a more involved skill `setup`.
 - `generateParameters(example)` creates the fixed problem parameters. It generally uses randomization and may be synchronous or asynchronous.
 - `getSolution(parameters, inputDependency, staticSolution)` builds the solution. Exercises without input dependencies normally use only `parameters`.
-- `checkInput(data)` decides whether the interpreted learner input is correct. It may return either a boolean or `{ correct, report? }`, immediately or through a promise.
+- `checkInput(data)` decides whether the interpreted learner input is correct. Its data includes the raw and interpreted input, current input dependency, and corresponding solution. It may return either a boolean or `{ correct, report? }`, immediately or through a promise.
 
 Only `metadata` and `checkInput` are required. Omitting `generateParameters` uses an empty object.
 

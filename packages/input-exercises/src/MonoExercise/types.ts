@@ -8,10 +8,10 @@ export type MonoExerciseMetadata = InputExerciseMetadata
 export type MonoExerciseState = InputExerciseAttemptState & InputExerciseDependencyState & Partial<{ solved: true, givenUp: true, done: true }>
 
 // Input checking: verify whether the given input solves the exercise.
-export type MonoExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (data: CheckInputData<MonoExerciseMetadata, TParameters, TSolution>) => Awaitable<CheckInputResult>
+export type MonoExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency, TSolution extends InputExerciseSolution = InputExerciseSolution> = (data: CheckInputData<MonoExerciseMetadata, TParameters, TInputDependency, TSolution>) => Awaitable<CheckInputResult>
 
 // Author-facing definition before the mode-specific reducers are added.
-export type MonoExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = InputExerciseSpec<MonoExerciseMetadata, TParameters, TSolution, TInputDependency> & { checkInput: MonoExerciseCheckInput<TParameters, TSolution> }
+export type MonoExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = InputExerciseSpec<MonoExerciseMetadata, TParameters, TSolution, TInputDependency> & { checkInput: MonoExerciseCheckInput<TParameters, TInputDependency, TSolution> }
 
 // Runtime exercise after the mode-specific reducers are added.
 export type MonoExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = InputExercise<MonoExerciseMetadata, InputExerciseAction, MonoExerciseState, TParameters, TSolution, TInputDependency> & Omit<MonoExerciseSpec<TParameters, TSolution, TInputDependency>, 'generateParameters' | 'valueTypes'> & { type: 'mono' }

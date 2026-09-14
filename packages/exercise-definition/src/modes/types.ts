@@ -1,6 +1,6 @@
 import type { ExerciseParameters, ExerciseAction, ExerciseState, ExerciseReport } from '../types.ts'
 
-import type { ExerciseMode } from './registry.ts'
+import type { ExerciseMode } from './modeRegistry.ts'
 import type { SoloExerciseHistory, SoloExerciseInstance } from './solo/index.ts'
 import type { GroupExerciseHistory, GroupExerciseInstance } from './group/index.ts'
 

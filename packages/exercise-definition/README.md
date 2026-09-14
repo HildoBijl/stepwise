@@ -63,7 +63,7 @@ A report contains plain data that only describes how one transition was produced
 
 `ExerciseReport` is the generic report type. `SoloExerciseReport` and `GroupExerciseReport` provide mode-specific defaults that specialized exercise packages may refine. For example, input exercises can represent a group report as a map containing a separate grading report for each user.
 
-The reducer model is not restricted to solo use. An exercise can supply reducers for other execution modes. The built-in group mode uses `processGroupActions`, which processes a collection of user-attributed actions together. The mode registry and mode-specific history types keep this structure extendable if more modes are introduced later.
+The reducer model is not restricted to solo use. An exercise can supply reducers for other execution modes. The built-in group mode uses `processGroupActions`, which processes a collection of user-attributed actions together. The mode registry and mode-specific history types keep this structure extendable if more modes are introduced later. `ensureExerciseMode(value)` validates external mode values, while `throwUnsupportedExerciseMode(mode)` provides the failure branch for exhaustive mode switches.
 
 An exercise must support at least one mode at runtime. It may support solo mode, group mode, or both.
 

@@ -1,8 +1,7 @@
-import type { ExerciseAction, ExerciseMode, ExerciseState, UpdateSkills } from '@step-wise/exercise-definition'
+import { type ExerciseAction, type ExerciseMode, type ExerciseState, type UpdateSkills, throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
 import type { SerializedData } from '@step-wise/serialization'
 
-import type { InputDependency, InputExerciseParameters, InputExerciseValueOperations } from './types.ts'
-import { throwUnsupportedMode } from './modes.ts'
+import type { InputDependency, InputExerciseParameters, InputExerciseReport, InputExerciseValueOperations } from './types.ts'
 
 // Input dependency state: the part of the state depending on the input that may change the solution.
 export type SoloInputExerciseDependencyState = Partial<{ inputDependency: SerializedData }>
@@ -27,6 +26,12 @@ export type InputExerciseReducerInput<TAction extends ExerciseAction, TState ext
 	updateSkills?: UpdateSkills
 }
 
+// Intermediate result before action reports are converted to their solo or group representation.
+export type InputExerciseActionsReduction<TState extends ExerciseState> = {
+	state: TState
+	reports: (InputExerciseReport | undefined)[]
+}
+
 // Check in the state if a user has attempted an exercise (or step).
 export function hasAttempted(state: InputExerciseAttemptState, mode: ExerciseMode, userId?: string): boolean {
 	switch (mode) {
@@ -38,7 +43,7 @@ export function hasAttempted(state: InputExerciseAttemptState, mode: ExerciseMod
 			return state.attemptedBy?.includes(userId) ?? false
 
 		default:
-			return throwUnsupportedMode(mode)
+			return throwUnsupportedExerciseMode(mode)
 	}
 }
 
@@ -59,7 +64,7 @@ export function addAttemptsToState<TState extends InputExerciseAttemptState>(sta
 		}
 
 		default:
-			return throwUnsupportedMode(mode)
+			return throwUnsupportedExerciseMode(mode)
 	}
 }
 
@@ -77,7 +82,7 @@ export function getInputDependency<TInputDependency = InputDependency>(state: In
 		}
 
 		default:
-			return throwUnsupportedMode(mode)
+			return throwUnsupportedExerciseMode(mode)
 	}
 }
 
@@ -105,6 +110,6 @@ export function setInputDependencies<TState extends InputExerciseDependencyState
 		}
 
 		default:
-			return throwUnsupportedMode(mode)
+			return throwUnsupportedExerciseMode(mode)
 	}
 }

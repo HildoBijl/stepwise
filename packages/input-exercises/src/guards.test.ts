@@ -2,8 +2,7 @@ import { describe, expect, expectTypeOf, it } from 'vitest'
 
 import type { Exercise } from '@step-wise/exercise-definition'
 
-import { isInputExercise } from './guards.ts'
-import type { AnyInputExercise } from './types.ts'
+import { type AnyInputExercise, isInputExercise } from './guards.ts'
 
 const commonExerciseProperties = {
 	generateParameters: () => ({}),
