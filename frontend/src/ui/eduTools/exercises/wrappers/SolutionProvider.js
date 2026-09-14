@@ -1,53 +1,67 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-import { isPlainObject, shallowEqualObjects } from '@step-wise/js-utils'
-import { resolveSolution } from '@step-wise/input-exercises'
-import { useStableValue } from '@step-wise/react-utils'
+import { getInputDependency, resolveSolution, resolveStaticSolution } from '@step-wise/input-exercises'
 
-import { useInputObject } from 'ui/form'
+import { useUserId } from 'api'
 
 import { useExerciseData } from '../containers'
+import { useInputHistoryAdoption } from '../util'
 
 const SolutionContext = createContext(null)
 
-// SolutionProvider resolves synchronous and asynchronous whole, static, and dynamic solutions and makes the latest result available to exercise components.
+// SolutionProvider resolves the solution for the input dependency stored in the current exercise state.
 export function SolutionProvider({ children }) {
-	const { parameters, shared } = useExerciseData()
-	const { getSolution } = shared
+	const { mode, parameters, shared, state, valueOperations } = useExerciseData()
+	const userId = useUserId()
+	const { adoptUserHistory } = useInputHistoryAdoption()
 
-	if (getSolution === undefined) return <SolutionContext.Provider value={undefined}>{children}</SolutionContext.Provider>
-	if (typeof getSolution === 'function' || (isPlainObject(getSolution) && !getSolution.getDynamicSolution))
-		return <ResolvedSolutionProvider getSolution={getSolution} parameters={parameters}>{children}</ResolvedSolutionProvider>
-	if (isPlainObject(getSolution))
-		return <DynamicSolutionProvider getSolution={getSolution} parameters={parameters}>{children}</DynamicSolutionProvider>
-	throw new Error(`Invalid getSolution parameter: received a parameter of type ${typeof getSolution}.`)
+	// On no getSolution function, publish undefined as the solution.
+	if (shared.getSolution === undefined) return <SolutionContext.Provider value={undefined}>{children}</SolutionContext.Provider>
+
+	// Calculate the solution, starting with the static one and then incorporating the input dependency.
+	const dependencyUserId = mode === 'group' ? adoptUserHistory ?? userId : userId
+	const inputDependency = getInputDependency(state, mode, valueOperations, dependencyUserId)
+	return <StaticSolutionProvider {...{ children, shared, parameters, inputDependency }} />
 }
 
-function ResolvedSolutionProvider({ children, getSolution, parameters, input }) {
-	const [resolved, setResolved] = useState({ solution: undefined, error: undefined })
+// Calculate the static solution and update it when the exercise or parameters change.
+function StaticSolutionProvider({ children, shared, parameters, inputDependency }) {
+	const [resolved, setResolved] = useState({ shared: undefined, parameters: undefined, staticSolution: undefined, error: undefined })
 
 	useEffect(() => {
 		let active = true
-		resolveSolution(getSolution, parameters, input)
-			.then(solution => { if (active) setResolved({ solution, error: undefined }) })
-			.catch(error => { if (active) setResolved({ solution: undefined, error }) })
+		resolveStaticSolution(shared, parameters)
+			.then(staticSolution => { if (active) setResolved({ shared, parameters, staticSolution, error: undefined }) })
+			.catch(error => { if (active) setResolved({ shared, parameters, staticSolution: undefined, error }) })
 		return () => { active = false }
-	}, [getSolution, parameters, input])
+	}, [shared, parameters])
 
+	if (resolved.shared !== shared || resolved.parameters !== parameters) return null
+	if (resolved.error) throw resolved.error
+	return <ResolvedSolutionProvider {...{ children, shared, parameters, inputDependency, staticSolution: resolved.staticSolution }} />
+}
+
+// Extend the static solution by applying the input dependency.
+function ResolvedSolutionProvider({ children, shared, parameters, inputDependency, staticSolution }) {
+	const [resolved, setResolved] = useState({ staticSolution: undefined, inputDependency: undefined, solution: undefined, error: undefined })
+
+	useEffect(() => {
+		let active = true
+		resolveSolution(shared, parameters, inputDependency, staticSolution)
+			.then(solution => { if (active) setResolved({ staticSolution, inputDependency, solution, error: undefined }) })
+			.catch(error => { if (active) setResolved({ staticSolution, inputDependency, solution: undefined, error }) })
+		return () => { active = false }
+	}, [shared, parameters, inputDependency, staticSolution])
+
+	if (resolved.staticSolution !== staticSolution || resolved.inputDependency !== inputDependency) return null
 	if (resolved.error) throw resolved.error
 	if (resolved.solution === undefined) return null
 	return <SolutionContext.Provider value={resolved.solution}>{children}</SolutionContext.Provider>
 }
 
-function DynamicSolutionProvider({ children, getSolution, parameters }) {
-	const input = useStableValue(useInputObject(getSolution.dependentFields), shallowEqualObjects)
-	return <ResolvedSolutionProvider getSolution={getSolution} parameters={parameters} input={input}>{children}</ResolvedSolutionProvider>
-}
-
 // useSolution is the hook used by exercises to extract the solution from the provider.
 export function useSolution(throwOnMissing = true) {
 	const solution = useContext(SolutionContext)
-	if (solution === undefined && throwOnMissing)
-		throw new Error(`Missing getSolution function: could not find the getSolution or getStaticSolution function in the shared export of the respective exercise.`)
+	if (solution === undefined && throwOnMissing) throw new Error(`Missing getSolution function: could not find the getSolution or getStaticSolution function in the shared export of the respective exercise.`)
 	return solution
 }
