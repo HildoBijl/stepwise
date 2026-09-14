@@ -218,6 +218,7 @@ The history helpers accept either solo or group exercise instances:
 - `getLastInput(exercise, instance, userId?, options?)` returns interpreted values using the exercise's value types.
 - `getAccumulatedRawInput(instance, userId?, options?)` combines partial input actions, with later values replacing earlier values for repeated fields.
 - `getAccumulatedInput(exercise, instance, userId?, options?)` provides the interpreted version of that combined input.
+- `getAccumulatedReport(instance, userId?, options?)` combines reports from the corresponding resolved input actions in the same way.
 - `hasPreviousInput(instance, userId?)` reports whether an input exists.
 - `getLastRawInputAtStep`, `getLastInputAtStep(exercise, instance, step, userId?, options?)`, and `hasPreviousInputAtStep` provide the corresponding operations for one step.
 

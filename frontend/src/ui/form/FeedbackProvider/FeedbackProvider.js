@@ -16,11 +16,11 @@ export const crossExerciseTranslationPath = `practice.crossExercise`
 /* The FeedbackProvider takes the following properties.
  * - children: whatever is shown inside the Provider.
  * - input: the input which feedback should be given on. When it changes, the feedback is automatically updated.
- * - getFeedback: the function that is called when the input changes. When called, it receives current and previous input in both FO (`input`/`previousInput`) and SI (`rawInput`/`previousRawInput`) format, along with `previousFeedback` and any exercise data.
+ * - getFeedback: the function that is called when the input changes. When called, it receives current and previous input in both FO (`input`/`previousInput`) and SI (`rawInput`/`previousRawInput`) format, along with the corresponding report, `previousFeedback` and any exercise data.
  * - data (default {}): an optional extra object with parameters that are then provided to the getFeedback function: see the [...] above. A common data object is { exerciseData: {...}, solution: {...} } but anything can be added.
  * The feedback object then makes the feedback available through the useFeedback(fieldId) hook.
  */
-export function FeedbackProvider({ children, getFeedback, input, exerciseData = {} }) {
+export function FeedbackProvider({ children, getFeedback, input, report, exerciseData = {} }) {
 	const theme = useTheme()
 
 	// Add some useful translation handlers.
@@ -32,18 +32,20 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 	const [feedback, setFeedback] = useState({ result: {}, input: {} })
 	const feedbackRef = useLatestRef(feedback)
 	const stateRef = useRef()
+	const reportRef = useRef()
 	const updateIndexRef = useRef(0)
 
 	// Set up an updateFeedback handler.
 	const { isAllInputEqual } = useFormData()
 	const exerciseDataRef = useLatestRef(exerciseData)
-	const updateFeedback = useStableCallback(async (input = {}, state = {}) => {
+	const updateFeedback = useStableCallback(async (input = {}, state = {}, report) => {
 		const updateIndex = ++updateIndexRef.current
 		// Compare the new input with the previous input. When they are equal, and the state is equal too, do not evaluate.
 		const { result: previousResult, input: previousInput } = feedbackRef.current
-		if (isAllInputEqual(input, previousInput) && deepEqual(state, stateRef.current))
+		if (isAllInputEqual(input, previousInput) && deepEqual(state, stateRef.current) && deepEqual(report, reportRef.current))
 			return
 		stateRef.current = state
+		reportRef.current = report
 
 		// If there is no input, then make sure there is no feedback either.
 		if (!input || Object.keys(input).length === 0)
@@ -61,6 +63,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 				previousFeedback: previousResult,
 				previousInput: previousInputFO,
 				previousRawInput: previousInput,
+				report,
 				areValuesEqual,
 				translate, translateCrossExercise,
 			})
@@ -77,8 +80,8 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 	const { state, solution } = exerciseData
 	useEffect(() => {
 		if (input)
-			void updateFeedback(input, state)
-	}, [input, state, solution, updateFeedback])
+			void updateFeedback(input, state, report)
+	}, [input, state, report, solution, updateFeedback])
 
 	// Wrap a provider around the contents. Also export the updateFeedback, so instances may manually call for a change here, for instance when viewing submissions made by other students in the coop mode.
 	return <FeedbackContext.Provider value={{ ...feedback, updateFeedback }}>{children}</FeedbackContext.Provider>
