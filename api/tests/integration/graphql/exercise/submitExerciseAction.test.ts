@@ -70,7 +70,7 @@ describe('submitExerciseAction', () => {
 		expect(updatedExercise.history[0].eventIndex).toBe(0)
 		expect(updatedExercise.history[0].state).toEqual({ attempted: true })
 		expect(updatedExercise.history[0].action).toEqual(action)
-		expect(updatedExercise.history[0].report).toBe(null)
+		expect(updatedExercise.history[0].report).toEqual({ ans: { correct: false, compare: 1 } })
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 
 		// Reject an action submitted for the previous exercise state.

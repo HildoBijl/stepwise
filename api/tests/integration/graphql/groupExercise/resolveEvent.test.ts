@@ -88,7 +88,13 @@ describe('resolve group exercise:', () => {
 		expect(resolvedExercise1.history.map(event => event.eventIndex)).toStrictEqual([0, 1])
 		expect(resolvedExercise1.history.map(event => event.__typename)).toStrictEqual(['GroupEvent', 'GroupEvent'])
 		expect(resolvedExercise1.history.map(event => event.state === null)).toStrictEqual([false, true])
-		expect(resolvedExercise1.history.map(event => event.report)).toStrictEqual([null, null])
+		expect(resolvedExercise1.history.map(event => event.report)).toStrictEqual([
+			{
+				[ALEX_ID]: { ans: { correct: false, compare: 1 } },
+				[BOB_ID]: { ans: { correct: false, compare: -1 } },
+			},
+			null,
+		])
 		expect(client.countEvents('GROUP_EVENT_RESOLVED')).toStrictEqual(1)
 
 		// Reject an action submitted for the resolved group event.
