@@ -22,7 +22,7 @@ export const exerciseMutationResolvers = {
 		if (!definitions) throw new Error(`Cannot start an exercise for skill "${skillId}": no exercises are available.`)
 		const generated = await generateSkillBasedExerciseInstance(definitions, ids => getUserSkillLevelSet(db, userId, ids), skillData.exercises)
 		try {
-			const exercise = await db.ExerciseSample.create({ userSkillId: skillData.skill.id, exerciseId: generated.exerciseId, parameters: generated.parameters, initialState: generated.initialState, active: true })
+			const exercise = await db.ExerciseSample.create({ userSkillId: skillData.skill.id, exerciseId: generated.exerciseId, exerciseVersion: generated.exerciseVersion, parameters: generated.parameters, initialState: generated.initialState, active: true })
 			await pubsub.publish(exerciseEvents.exerciseStarted, { updatedExercise: exercise, userId, skillId })
 			return exercise
 		} catch (error) {

@@ -44,6 +44,7 @@ The result contains everything needed to start the exercise:
 ```ts
 {
 	exerciseId: 'addition',
+	exerciseVersion: 1,
 	mode: 'solo',
 	parameters: { left: 2, right: 3 },
 	initialState: { done: false },
@@ -194,7 +195,7 @@ generateRandomExerciseInstance(exercises, mode, example?, context?)
 generateSkillBasedExerciseInstance(exercises, loadSkillLevelSet, previousExercises?, context?)
 ```
 
-Generation calls the selected exercise's parameter and initial-state factories. Both results must be plain objects. The returned history is initially empty.
+Generation calls the selected exercise's parameter and initial-state factories. Both results must be plain objects. The generated instance stores the resolved metadata version as `exerciseVersion`, while its history is initially empty.
 
 All functions reject malformed exercise collections. Selection also throws when the collection contains no exercise supporting the required mode.
 
@@ -204,4 +205,4 @@ All functions reject malformed exercise collections. Selection also throws when 
 The package exports two supporting types:
 
 - `PreviousExercise` contains the `exerciseId` and `createdAt` date used for repeat avoidance.
-- `ExerciseInstance` extends `BaseExerciseInstance` with the selected `exerciseId`. Its mode determines the corresponding history type.
+- `ExerciseInstance` extends `BaseExerciseInstance` with the selected `exerciseId` and `exerciseVersion`. Its mode determines the corresponding history type.

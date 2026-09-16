@@ -1,7 +1,7 @@
 import { ensureBoolean } from '@step-wise/js-utils'
 import type { SkillId } from '@step-wise/skill-setup'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
-import { type AnyExercise, type ExerciseMode, resolveExerciseParameters, resolveInitialState } from '@step-wise/exercise-definition'
+import { type AnyExercise, type ExerciseMode, resolveExerciseMetadata, resolveExerciseParameters, resolveInitialState } from '@step-wise/exercise-definition'
 import { type ExerciseId, type ExerciseCollection } from '@step-wise/exercise-bundling'
 
 import type { ExerciseInstance, PreviousExercise } from './types.ts'
@@ -29,6 +29,7 @@ async function createExerciseInstance(exerciseId: ExerciseId, exercise: AnyExerc
 	const parameters = await resolveExerciseParameters(generateParameters, { example, context })
 	return {
 		exerciseId,
+		exerciseVersion: resolveExerciseMetadata(exercise.metadata).version,
 		mode,
 		parameters,
 		initialState: await resolveInitialState(getInitialState, { parameters, context }),

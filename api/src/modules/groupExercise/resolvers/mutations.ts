@@ -30,7 +30,7 @@ export const groupExerciseMutationResolvers = {
 		let loadedExercise: GroupExerciseSampleWithEvents
 		try {
 			loadedExercise = await db.transaction(async transaction => {
-				const exercise = await db.GroupExerciseSample.create({ groupId: group.id, skillId, exerciseId: newExercise.exerciseId, parameters: newExercise.parameters, initialState: newExercise.initialState, active: true }, { transaction })
+				const exercise = await db.GroupExerciseSample.create({ groupId: group.id, skillId, exerciseId: newExercise.exerciseId, exerciseVersion: newExercise.exerciseVersion, parameters: newExercise.parameters, initialState: newExercise.initialState, active: true }, { transaction })
 				const activeEvent = await db.GroupExerciseEvent.create({ groupExerciseSampleId: exercise.id, eventIndex: 0, state: null }, { transaction })
 				activeEvent.actions = []
 				if (!hasLoadedGroupExerciseActions(activeEvent)) throw new Error('Failed to initialize group exercise event actions.')
