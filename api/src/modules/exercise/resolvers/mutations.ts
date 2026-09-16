@@ -9,6 +9,7 @@ import { InvalidInputError } from '../../../errors.ts'
 
 import { type SkillObservationInput, applySkillObservationsForUser, createSkillResolverSource, getUserSkillLevelSet, skillEvents } from '../../skill/index.ts'
 
+import { isExerciseCompatible } from '../compatibility.ts'
 import { exerciseEvents, getCurrentExerciseState, getExerciseEventIndex, getUserSkillWithExercises, lockActiveExercise } from '../service.ts'
 
 import type { ExerciseContext } from './types.ts'
@@ -23,7 +24,14 @@ export const exerciseMutationResolvers = {
 		if (!definitions) throw new Error(`Cannot start an exercise for skill "${skillId}": no exercises are available.`)
 		const generated = await generateSkillBasedExerciseInstance(definitions, ids => getUserSkillLevelSet(db, userId, ids), skillData.exercises)
 		try {
-			const exercise = await db.ExerciseSample.create({ userSkillId: skillData.skill.id, exerciseId: generated.exerciseId, exerciseVersion: generated.exerciseVersion, parameters: generated.parameters, initialState: generated.initialState, active: true })
+			const exercise = await db.transaction(async transaction => {
+				const activeExercise = await db.ExerciseSample.findOne({ where: { userSkillId: skillData.skill.id, active: true }, transaction, lock: transaction.LOCK.UPDATE })
+				if (activeExercise) {
+					if (isExerciseCompatible(skillId, activeExercise)) throw new InvalidInputError(`There is still an active exercise for skill "${skillId}".`)
+					await activeExercise.update({ active: false }, { transaction })
+				}
+				return db.ExerciseSample.create({ userSkillId: skillData.skill.id, exerciseId: generated.exerciseId, exerciseVersion: generated.exerciseVersion, parameters: generated.parameters, initialState: generated.initialState, active: true }, { transaction })
+			})
 			await pubsub.publish(exerciseEvents.exerciseStarted, { updatedExercise: exercise, userId, skillId })
 			return exercise
 		} catch (error) {
