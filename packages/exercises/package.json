@@ -28,16 +28,16 @@
 	"dependencies": {
 		"@step-wise/demo-exercises": "^0.1.0",
 		"@step-wise/exercise-bundling": "^0.1.0",
-		"@step-wise/exercise-definition": "^0.1.0",
+		"@step-wise/exercise-definition": "^0.2.0",
 		"@step-wise/mathematics-exercises": "^0.1.0",
 		"@step-wise/mechanics-exercises": "^0.1.0",
 		"@step-wise/physics-exercises": "^0.1.0",
-		"@step-wise/module-tree-definition": "^0.1.0",
+		"@step-wise/module-tree-definition": "^0.2.0",
 		"@step-wise/module-tree": "^0.1.0",
 		"@step-wise/js-utils": "^0.1.0"
 	},
 	"devDependencies": {
-		"@step-wise/input-exercises": "^0.1.0",
+		"@step-wise/input-exercises": "^0.2.0",
 		"@step-wise/serialization": "^0.1.0",
 		"vitest": "^5.0.0"
 	}

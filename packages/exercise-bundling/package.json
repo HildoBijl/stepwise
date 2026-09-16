@@ -39,7 +39,7 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@step-wise/exercise-definition": "^0.1.0",
+		"@step-wise/exercise-definition": "^0.2.0",
 		"@step-wise/skill-setup": "^0.1.0",
 		"@step-wise/js-utils": "^0.1.0"
 	},

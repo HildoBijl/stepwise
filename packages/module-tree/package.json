@@ -26,7 +26,7 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@step-wise/module-tree-definition": "^0.1.0",
+		"@step-wise/module-tree-definition": "^0.2.0",
 		"@step-wise/skill-setup": "^0.1.0"
 	},
 	"devDependencies": {

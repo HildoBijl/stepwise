@@ -48,7 +48,7 @@
 		"@step-wise/exercise-bundling": "^0.1.0",
 		"@step-wise/exercise-grading": "^0.1.0",
 		"@step-wise/geometry": "^0.1.0",
-		"@step-wise/input-exercises": "^0.1.0",
+		"@step-wise/input-exercises": "^0.2.0",
 		"@step-wise/physics-core": "^0.1.0",
 		"@step-wise/js-utils": "^0.1.0",
 		"@step-wise/mathematics-value-types": "^0.1.0",
