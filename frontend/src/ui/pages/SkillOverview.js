@@ -7,6 +7,7 @@ import { getExercises, getExamples } from '@step-wise/exercises'
 import { useTranslator } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par } from 'ui/components'
+import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
 
 export function SkillOverview() {
 	const translate = useTranslator()
@@ -16,7 +17,7 @@ export function SkillOverview() {
 		<ul>
 			{Object.values(moduleTree).map(skill => (
 				<li key={skill.id}>
-					<Link to={paths.skillInspection({ skillId: skill.id })}>{translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}</Link>
+					<Link to={paths.skillInspection({ skillId: skill.id })}>{translate(moduleCatalog[skill.id].name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}</Link>
 					<ExerciseSkillList skill={skill} />
 				</li>
 			))}

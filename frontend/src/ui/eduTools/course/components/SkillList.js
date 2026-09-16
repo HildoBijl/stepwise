@@ -12,6 +12,7 @@ import { Translation, useTranslator } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
 import { QuickPractice } from 'ui/components/icons'
+import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
 
 import { SkillFlask } from '../../skills'
 
@@ -94,7 +95,7 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 	return <Box component={Link} to={paths.courseSkill({ courseCode, skillId })} sx={skillItemStyle}>
 		{skillLevelSet.hasRequiredDataFor(skillId) ? <SkillFlask skillId={skillId} coef={skillLevelSet.getInferredCoefficients(skillId)} isPriorKnowledge={isPriorKnowledge} size={40} sx={{ flex: '0 0 auto', marginRight: '0.8rem' }} /> : null}
 		<Box sx={{ flex: '1 1 auto' }}>
-			{translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
+			{translate(moduleCatalog[skill.id].name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
 		</Box>
 		{!hasExercises(skillId) ? <Tooltip title={noExercisesText} arrow>
 			<Box sx={iconContainerStyle}>

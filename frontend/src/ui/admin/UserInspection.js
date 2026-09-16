@@ -10,6 +10,7 @@ import { useUserWithSkills } from 'api'
 import { Par } from 'ui/components'
 import { TitleItem } from 'ui/routingTools'
 import { SkillFlask } from 'ui/eduTools'
+import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
 
 export function UserInspection() {
 	const params = useParams()
@@ -55,7 +56,7 @@ function UserInspectionForUser({ user }) {
 function UserInspectionItem({ skillId, skillLevel }) {
 	return <>
 		<div className="flask"><SkillFlask skillId={skillId} coef={skillLevel.coefficients} size={40} /></div>
-		<div className="name">{moduleTree[skillLevel.skillId].name}</div>
+		<div className="name">{moduleCatalog[skillLevel.skillId].name}</div>
 		<div className="numPracticed">{skillLevel.numPracticed}</div>
 		<div className="lastPracticed">{formatDate(skillLevel.coefficientsOn, { includeTime: true })}</div>
 	</>

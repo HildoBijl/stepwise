@@ -9,6 +9,7 @@ import { useTranslator, Translation, Plurals } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
 import { Button, ProgressIndicator, QuickPractice } from 'ui/components'
+import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
 
 import { getOrganization } from '../organizations'
 
@@ -77,7 +78,7 @@ export function StudentTile({ course, skillsTotal, skillsDone, recommendation })
 			break
 		default:
 			const skill = moduleTree[recommendation]
-			tooltip = <>{translate(`Our practice recommendation:`, 'skillRecommendation')} {translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}</>
+			tooltip = <>{translate(`Our practice recommendation:`, 'skillRecommendation')} {translate(moduleCatalog[skill.id].name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}</>
 			break
 	}
 

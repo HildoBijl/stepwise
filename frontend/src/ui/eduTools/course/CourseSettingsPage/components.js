@@ -9,6 +9,7 @@ import { useSubscribeToCourse, useUnsubscribeFromCourse } from 'api'
 import { TranslationFile, TranslationSection, Translation, Plurals, WordList } from 'i18n'
 import { Head, Par, List, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
+import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
 
 import { getOrganization } from '../../organizations'
 
@@ -51,7 +52,7 @@ export function CourseLearningGoals({ course }) {
 			<Par><Translation entry="learningGoals.description">The course has the following final <Plurals value={course.courseDefinition.learningGoalIds.length}><Plurals.One>goal</Plurals.One><Plurals.NotOne>goals</Plurals.NotOne></Plurals>.</Translation></Par>
 			<List items={course.courseDefinition.learningGoalIds.map(goalId => {
 				const skill = moduleTree[goalId]
-				return <Link to={paths.skill({ skillId: goalId })}><Translation path="eduContent/skillNames" entry={`${skill.groupPath.join('.')}.${skill.id}`}>{skill.name}</Translation></Link>
+				return <Link to={paths.skill({ skillId: goalId })}><Translation path="eduContent/skillNames" entry={`${skill.groupPath.join('.')}.${skill.id}`}>{moduleCatalog[skill.id].name}</Translation></Link>
 			})} />
 		</TranslationSection>
 	</TranslationFile>

@@ -10,6 +10,7 @@ import { useUserWithSkills } from 'api'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
 import { Head, Par, TimeAgo, LoadingIndicator, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
+import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
 
 import { SkillFlask } from '../../skills'
 import { processStudentForCourse } from '../../courses'
@@ -80,7 +81,7 @@ function LastActivity({ processedStudent, course, courseDefinition }) {
 									<SkillFlaskWithNumbers skillId={skill.id} student={processedStudent} courseDefinition={courseDefinition} />
 								</TableCell>
 								<TableCell sx={{ minWidth: 140, width: 800 }}>
-									{translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
+									{translate(moduleCatalog[skill.id].name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
 								</TableCell>
 							</TableRow>
 						})}
@@ -142,7 +143,7 @@ function SkillIndicator({ skillId, student, courseDefinition }) {
 	return <Box sx={{ display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', justifyContent: 'flex-start', gap: '4px' }}>
 		<SkillFlaskWithNumbers {...{ skillId, student, courseDefinition }} />
 		<Box sx={{ fontSize: 8, fontWeight: 500 }}>
-			{translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
+			{translate(moduleCatalog[skill.id].name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
 		</Box>
 	</Box>
 }
