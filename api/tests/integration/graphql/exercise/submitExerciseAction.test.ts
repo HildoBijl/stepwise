@@ -4,6 +4,8 @@ import { deserializeData } from '@step-wise/serialization'
 
 import surfConextMockData from '../../../../src/modules/authentication/surfConext/mockData.json' with { type: 'json' }
 
+import type { Database } from '../../../../src/database.ts'
+import type { ExerciseSampleRecord } from '../../../../src/modules/exercise/models.ts'
 import { createClient } from '../../../support/client.ts'
 import { stringifyGraphQLInput } from '../../../support/utils.ts'
 
@@ -48,6 +50,25 @@ describe('submitExerciseAction', () => {
 		expect(data).toBe(null)
 		expect(errors).not.toBeUndefined()
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(0)
+	})
+
+	it('rejects actions for a stale active exercise', async () => {
+		let database: Database | undefined
+		let staleExercise: ExerciseSampleRecord | undefined
+		const client = await createClient(async db => {
+			database = db
+			await seed(db)
+			const skill = await db.UserSkill.create({ userId: ALEX_ID, skillId: SAMPLE_SKILL })
+			staleExercise = await db.ExerciseSample.create({ userSkillId: skill.id, exerciseId: 'enterInteger', exerciseVersion: 999, parameters: {}, active: true })
+		})
+		await client.signInWithSurfConext(ALEX_SURFSUB)
+		if (!database || !staleExercise) throw new Error('Failed to seed a stale exercise.')
+
+		const { data, errors } = await client.graphql({ query: `mutation{submitExerciseAction(exerciseId: "${staleExercise.id}", eventIndex: 0, action: ${stringifyGraphQLInput(inputAction(42))}) {updatedExercise {id}}}` })
+		expect(data).toBe(null)
+		expect(errors[0].extensions).toStrictEqual({ code: 'BAD_USER_INPUT' })
+		expect(await database.ExerciseEvent.count({ where: { exerciseSampleId: staleExercise.id } })).toBe(0)
+		expect(client.countEvents('SKILLS_UPDATED')).toBe(0)
 	})
 
 	it('remembers a wrong submission', async () => {

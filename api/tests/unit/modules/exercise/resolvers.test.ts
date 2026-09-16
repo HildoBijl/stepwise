@@ -1,10 +1,12 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { type UserSkillRecord, createSkillResolverSource } from '../../../../src/modules/skill/index.ts'
 import type { ExerciseSampleRecord } from '../../../../src/modules/exercise/models.ts'
 import type { ExerciseUpdatedPayload } from '../../../../src/modules/exercise/service.ts'
 import { exerciseResolvers } from '../../../../src/modules/exercise/resolvers/index.ts'
 import { selectExerciseUpdate, selectStartedExercise } from '../../../../src/modules/exercise/resolvers/subscriptions.ts'
+
+vi.mock('@step-wise/exercises', () => ({ getExercise: () => ({ metadata: { version: 1 } }) }))
 
 describe('exercise resolvers', () => {
 	it('only exposes exercise data when the skill grants access', () => {

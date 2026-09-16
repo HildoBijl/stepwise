@@ -1,8 +1,10 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import type { GroupExerciseSampleWithEvents } from '../../../../src/modules/groupExercise/models.ts'
 import type { GroupActionUpdatedPayload, GroupEventResolvedPayload, GroupExerciseStartedPayload } from '../../../../src/modules/groupExercise/service.ts'
 import { selectGroupActionUpdate, selectGroupEventResolution, selectStartedGroupExercise } from '../../../../src/modules/groupExercise/resolvers/subscriptions.ts'
+
+vi.mock('@step-wise/exercises', () => ({ getExercise: () => ({ metadata: { version: 1 } }) }))
 
 const exercise = { id: 'exercise-id', skillId: 'enterInteger', exerciseId: 'enterInteger', exerciseVersion: 1 } as GroupExerciseSampleWithEvents
 const context = { userId: 'user-id' } as Parameters<typeof selectGroupActionUpdate>[2]
