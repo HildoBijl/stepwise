@@ -28,7 +28,7 @@ describe('getPracticeNeed', () => {
 	})
 
 	it('returns undefined when required skill-level data is missing', () => {
-		const linkedTree = createModuleTree({ first: { type: 'skill', name: 'First', links: 'second' }, second: { type: 'skill', name: 'Second' } })
+		const linkedTree = createModuleTree({ first: { type: 'skill', links: 'second' }, second: { type: 'skill' } })
 		const skillLevelSet = createSkillLevelSet(linkedTree, {}, ['second'])
 
 		expect(getPracticeNeed('first', skillLevelSet, { skillThresholds: getSkill(linkedTree, 'first').thresholds })).toBeUndefined()

@@ -28,10 +28,9 @@ import { and } from '@step-wise/skill-setup'
 import { SkillLevelSet, getInitialSkillLevel } from '@step-wise/skill-tracking'
 
 const moduleTree = createModuleTree({
-	addition: { type: 'skill', name: 'Addition' },
+	addition: { type: 'skill' },
 	multiplication: {
 		type: 'skill',
-		name: 'Multiplication',
 		prerequisites: ['addition'],
 	},
 })

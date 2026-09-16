@@ -25,24 +25,20 @@ const moduleTreeDefinition = {
 		arithmetic: {
 			addNumbers: {
 				type: 'skill',
-				name: 'Add numbers',
 			},
 			multiplyNumbers: {
 				type: 'skill',
-				name: 'Multiply numbers',
 				prerequisites: ['addNumbers'],
 			},
 		},
 		algebra: {
 			solveLinearEquation: {
 				type: 'skill',
-				name: 'Solve a linear equation',
 				setup: and('addNumbers', 'multiplyNumbers'),
 				links: { skillId: 'rearrangeFormula', correlation: 0.6 },
 			},
 			rearrangeFormula: {
 				type: 'skill',
-				name: 'Rearrange a formula',
 			},
 		},
 	},
@@ -71,8 +67,8 @@ import type { ModuleTreeDefinition } from '@step-wise/module-tree-definition'
 const moduleTreeDefinition: ModuleTreeDefinition = {
 	subject: {
 		category: {
-			firstSkill: { type: 'skill', name: 'First skill' },
-			secondSkill: { type: 'skill', name: 'Second skill' },
+			firstSkill: { type: 'skill' },
+			secondSkill: { type: 'skill' },
 		},
 	},
 }
@@ -83,7 +79,6 @@ const moduleTreeDefinition: ModuleTreeDefinition = {
 | Property | Required | Behavior |
 | --- | --- | --- |
 | `type` | Yes | Either `concept` or `skill`. |
-| `name` | Yes | Non-empty display name for the module. |
 | `prerequisites` | No | Direct prerequisite module IDs. Concepts cannot depend on skills. |
 | `setup` | Skills only | A setup from `@step-wise/skill-setup`. Every referenced skill is also added as a prerequisite. |
 | `links` | Skills only | One link or a list of link definitions. |
@@ -99,7 +94,6 @@ Every threshold is a success probability between zero and one. Raw definitions m
 const moduleTreeDefinition: ModuleTreeDefinition = {
 	advancedSkill: {
 		type: 'skill',
-		name: 'Advanced skill',
 		thresholds: {
 			mastery: 0.6,
 			recap: 0.5,
@@ -156,7 +150,6 @@ Every processed `Module` contains:
 | --- | --- |
 | `id` | Canonical module ID taken from the definition key. |
 | `type` | Either `concept` or `skill`. |
-| `name` | Display name from the definition. |
 | `groupPath` | Group path from the root to the containing group. |
 | `groupModuleIds` | All modules directly contained in the same group, including the module itself. |
 | `prerequisiteIds` | Direct prerequisite modules. |
@@ -171,7 +164,7 @@ Processed skills additionally contain:
 | `linkedSkillIds` | Deduplicated IDs occurring across the skill's links. |
 | `thresholds` | Fully resolved `SkillThresholdOptions`, including all four thresholds. |
 
-Creation rejects malformed entries, empty IDs or names, exact and case-insensitive ID collisions, unknown references, prerequisite cycles, concepts depending on skills and inconsistent links.
+Creation rejects malformed entries, empty IDs, exact and case-insensitive ID collisions, unknown references, prerequisite cycles, concepts depending on skills and inconsistent links. Display names and other presentation content deliberately remain outside the logical module tree.
 
 
 ## Searching a module tree

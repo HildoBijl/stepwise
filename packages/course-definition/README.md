@@ -23,21 +23,17 @@ import { createModuleTree } from '@step-wise/module-tree-definition'
 const moduleTree = createModuleTree({
 	arithmeticBasics: {
 		type: 'skill',
-		name: 'Understand arithmetic basics',
 	},
 	addNumbers: {
 		type: 'skill',
-		name: 'Add numbers',
 		prerequisites: ['arithmeticBasics'],
 	},
 	multiplyNumbers: {
 		type: 'skill',
-		name: 'Multiply numbers',
 		prerequisites: ['arithmeticBasics'],
 	},
 	solveMixedCalculations: {
 		type: 'skill',
-		name: 'Solve mixed calculations',
 		prerequisites: ['addNumbers', 'multiplyNumbers'],
 	},
 })

@@ -16,7 +16,6 @@ export type SkillThresholdOptions = {
 export type SkillThresholdOptionsInput = Partial<SkillThresholdOptions>
 export type SkillLinkDefinition = string | string[] | { skillId?: SkillId | SkillId[]; skillIds?: SkillId[]; correlation?: number }
 export type BaseModuleDefinition = {
-	name: string
 	prerequisites?: ModuleId[]
 }
 
@@ -38,7 +37,6 @@ export type SkillLink = { skillIds: SkillId[]; correlation?: number }
 export type BaseModule = {
 	id: ModuleId
 	type: ModuleType
-	name: string
 	groupPath: string[]
 	groupModuleIds: ModuleId[]
 	prerequisiteIds: ModuleId[]

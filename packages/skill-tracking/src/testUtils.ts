@@ -8,8 +8,8 @@ export const twoMonthsAgo = new Date('2025-11-01T12:00:00.000Z')
 export const effectivelyInfinitePracticeCount = 1_000_000
 
 export const moduleTree = createModuleTree({
-	a: { type: 'skill', name: 'A' },
-	b: { type: 'skill', name: 'B' },
+	a: { type: 'skill' },
+	b: { type: 'skill' },
 })
 
 export const coefficientsToStoredSkillLevel = (coefficients: BernsteinCoefficients, date = now, numPracticed = 0): StoredSkillLevel => ({

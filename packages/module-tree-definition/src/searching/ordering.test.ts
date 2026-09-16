@@ -4,7 +4,7 @@ import { createModuleTree } from '../creation/index.ts'
 
 import { sortModuleIdsByTreeOrder } from './ordering.ts'
 
-const tree = createModuleTree({ Alpha: { type: 'skill', name: 'Alpha' }, beta: { type: 'skill', name: 'Beta' }, gamma: { type: 'skill', name: 'Gamma' } })
+const tree = createModuleTree({ Alpha: { type: 'skill' }, beta: { type: 'skill' }, gamma: { type: 'skill' } })
 
 describe('sortModuleIdsByTreeOrder', () => {
 	it('sorts IDs by tree order while preserving duplicates', () => {
@@ -30,7 +30,7 @@ describe('sortModuleIdsByTreeOrder', () => {
 
 describe('sortModuleIdsByTreeOrder', () => {
 	it('sorts concepts and skills together', () => {
-		const mixedTree = createModuleTree({ concept: { type: 'concept', name: 'Concept' }, skill: { type: 'skill', name: 'Skill' } })
+		const mixedTree = createModuleTree({ concept: { type: 'concept' }, skill: { type: 'skill' } })
 		expect(sortModuleIdsByTreeOrder(mixedTree, ['skill', 'concept'])).toEqual(['concept', 'skill'])
 		expect(sortModuleIdsByTreeOrder(mixedTree, ['skill', 'concept'], { includeConcepts: false })).toEqual(['skill'])
 	})

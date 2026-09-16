@@ -11,7 +11,7 @@ afterEach(() => vi.useRealTimers())
 
 describe('construction and access', () => {
 	it('reports which skill levels and dependencies are loaded', () => {
-		const linkedTree = createModuleTree({ a: { type: 'skill', name: 'A', links: 'b' }, b: { type: 'skill', name: 'B' } })
+		const linkedTree = createModuleTree({ a: { type: 'skill', links: 'b' }, b: { type: 'skill' } })
 		const incomplete = new SkillLevelSet(linkedTree, { a: coefficientsToStoredSkillLevel([1]) })
 		expect(incomplete.hasSkillLevel('a')).toBe(true)
 		expect(incomplete.hasSkillLevel('b')).toBe(false)
@@ -69,7 +69,7 @@ describe('updates', () => {
 	})
 
 	it('invalidates inferred values after a dependency changes', () => {
-		const linkedTree = createModuleTree({ a: { type: 'skill', name: 'A', links: 'b' }, b: { type: 'skill', name: 'B' } })
+		const linkedTree = createModuleTree({ a: { type: 'skill', links: 'b' }, b: { type: 'skill' } })
 		const levels = new SkillLevelSet(linkedTree, {
 			a: coefficientsToStoredSkillLevel([1]),
 			b: coefficientsToStoredSkillLevel([1]),

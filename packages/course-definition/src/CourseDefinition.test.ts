@@ -5,9 +5,9 @@ import { createModuleTree } from '@step-wise/module-tree-definition'
 import { CourseDefinition } from './CourseDefinition.ts'
 
 const moduleTree = createModuleTree({
-	a: { type: 'skill', name: 'A' },
-	b: { type: 'skill', name: 'B', prerequisites: ['a'] },
-	c: { type: 'skill', name: 'C', prerequisites: ['b'] },
+	a: { type: 'skill' },
+	b: { type: 'skill', prerequisites: ['a'] },
+	c: { type: 'skill', prerequisites: ['b'] },
 })
 
 describe('CourseDefinition', () => {

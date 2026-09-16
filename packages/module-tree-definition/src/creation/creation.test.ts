@@ -9,8 +9,8 @@ describe('createModuleTree', () => {
 	it('creates a complete module tree from a nested definition', () => {
 		const setup = skill('foundation')
 		const tree = createModuleTree({
-			basics: { foundation: { type: 'skill', name: 'Foundation', thresholds: { mastery: 0.6 } }, intermediate: { type: 'skill', name: 'Intermediate', setup } },
-			advanced: { type: 'skill', name: 'Advanced', prerequisites: ['intermediate'], links: { skillId: 'foundation', correlation: 0.5 } },
+			basics: { foundation: { type: 'skill', thresholds: { mastery: 0.6 } }, intermediate: { type: 'skill', setup } },
+			advanced: { type: 'skill', prerequisites: ['intermediate'], links: { skillId: 'foundation', correlation: 0.5 } },
 		})
 		expect(Object.getPrototypeOf(tree)).toBeNull()
 		expect(tree.foundation).toMatchObject({ groupPath: ['basics'], groupModuleIds: ['foundation', 'intermediate'], continuationIds: ['intermediate'], linkedSkillIds: ['advanced'], thresholds: { mastery: 0.6 } })
@@ -20,10 +20,10 @@ describe('createModuleTree', () => {
 
 	it('creates concepts and permits every valid prerequisite combination', () => {
 		const tree = createModuleTree({
-			foundation: { type: 'concept', name: 'Foundation' },
-			advancedConcept: { type: 'concept', name: 'Advanced concept', prerequisites: ['foundation'] },
-			basicSkill: { type: 'skill', name: 'Basic skill', prerequisites: ['foundation'] },
-			advancedSkill: { type: 'skill', name: 'Advanced skill', prerequisites: ['advancedConcept', 'basicSkill'] },
+			foundation: { type: 'concept' },
+			advancedConcept: { type: 'concept', prerequisites: ['foundation'] },
+			basicSkill: { type: 'skill', prerequisites: ['foundation'] },
+			advancedSkill: { type: 'skill', prerequisites: ['advancedConcept', 'basicSkill'] },
 		})
 
 		expect(tree.foundation).toMatchObject({ type: 'concept', continuationIds: ['advancedConcept', 'basicSkill'] })
@@ -33,8 +33,8 @@ describe('createModuleTree', () => {
 
 	it('rejects concepts that depend on skills', () => {
 		expect(() => createModuleTree({
-			skill: { type: 'skill', name: 'Skill' },
-			concept: { type: 'concept', name: 'Concept', prerequisites: ['skill'] },
+			skill: { type: 'skill' },
+			concept: { type: 'concept', prerequisites: ['skill'] },
 		})).toThrow('concepts cannot depend on skills')
 	})
 
@@ -44,19 +44,19 @@ describe('createModuleTree', () => {
 		['thresholds', 'skill thresholds'],
 	] as const)('rejects the skill-only %s property on concepts', (property, description) => {
 		expect(() => createModuleTree({
-			concept: { type: 'concept', name: 'Concept', [property]: {} },
+			concept: { type: 'concept', [property]: {} },
 		} as unknown as ModuleTreeDefinition)).toThrow(`concepts cannot define ${description}`)
 	})
 
 	it('rejects errors from every creation phase', () => {
-		expect(() => createModuleTree({ a: { type: 'skill', name: '' } })).toThrow()
-		expect(() => createModuleTree({ a: { type: 'skill', name: 'A', prerequisites: ['missing'] } })).toThrow()
-		expect(() => createModuleTree({ a: { type: 'skill', name: 'A', links: 'missing' } })).toThrow()
+		expect(() => createModuleTree({ a: 3 } as unknown as ModuleTreeDefinition)).toThrow()
+		expect(() => createModuleTree({ a: { type: 'skill', prerequisites: ['missing'] } })).toThrow()
+		expect(() => createModuleTree({ a: { type: 'skill', links: 'missing' } })).toThrow()
 	})
 
 	it('requires exact casing for prerequisite, setup and link references', () => {
-		expect(() => createModuleTree({ Alpha: { type: 'skill', name: 'Alpha' }, beta: { type: 'skill', name: 'Beta', prerequisites: ['ALPHA'] } })).toThrow(/ALPHA/)
-		expect(() => createModuleTree({ Alpha: { type: 'skill', name: 'Alpha' }, beta: { type: 'skill', name: 'Beta', setup: skill('ALPHA') } })).toThrow(/ALPHA/)
-		expect(() => createModuleTree({ Alpha: { type: 'skill', name: 'Alpha' }, beta: { type: 'skill', name: 'Beta', links: 'ALPHA' } })).toThrow(/ALPHA/)
+		expect(() => createModuleTree({ Alpha: { type: 'skill' }, beta: { type: 'skill', prerequisites: ['ALPHA'] } })).toThrow(/ALPHA/)
+		expect(() => createModuleTree({ Alpha: { type: 'skill' }, beta: { type: 'skill', setup: skill('ALPHA') } })).toThrow(/ALPHA/)
+		expect(() => createModuleTree({ Alpha: { type: 'skill' }, beta: { type: 'skill', links: 'ALPHA' } })).toThrow(/ALPHA/)
 	})
 })

@@ -6,12 +6,12 @@ import { type ModuleTree, createModuleTree } from '@step-wise/module-tree-defini
 import { analyzeCourse } from './analyzeCourse.ts'
 
 const moduleTree = createModuleTree({
-	a: { type: 'skill', name: 'A' },
-	b: { type: 'skill', name: 'B', prerequisites: ['a'] },
-	c: { type: 'skill', name: 'C', prerequisites: ['b'] },
-	d: { type: 'skill', name: 'D' },
-	e: { type: 'skill', name: 'E', prerequisites: ['c', 'd'] },
-	f: { type: 'skill', name: 'F', prerequisites: ['b'] },
+	a: { type: 'skill' },
+	b: { type: 'skill', prerequisites: ['a'] },
+	c: { type: 'skill', prerequisites: ['b'] },
+	d: { type: 'skill' },
+	e: { type: 'skill', prerequisites: ['c', 'd'] },
+	f: { type: 'skill', prerequisites: ['b'] },
 })
 
 describe('analyzeCourse', () => {
@@ -71,9 +71,9 @@ describe('analyzeCourse', () => {
 
 	it('does not treat concepts as course skills', () => {
 		const mixedTree = createModuleTree({
-			concept: { type: 'concept', name: 'Concept' },
-			a: { type: 'skill', name: 'A' },
-			b: { type: 'skill', name: 'B', prerequisites: ['concept', 'a'] },
+			concept: { type: 'concept' },
+			a: { type: 'skill' },
+			b: { type: 'skill', prerequisites: ['concept', 'a'] },
 		})
 		const { resolution, diagnostics } = analyzeCourse(mixedTree, { startingPointIds: ['a', 'concept'], learningGoalIds: ['b', 'concept'] })
 

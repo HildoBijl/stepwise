@@ -5,7 +5,7 @@ import { getModule, getSkill, moduleTree } from './moduleTree.ts'
 describe('moduleTree', () => {
 	it('exports the processed Step-Wise module tree', () => {
 		expect(Object.keys(moduleTree).length).toBeGreaterThan(0)
-		expect(moduleTree.demo).toMatchObject({ id: 'demo', name: 'Demo exercise' })
+		expect(moduleTree.demo).toMatchObject({ id: 'demo' })
 	})
 })
 

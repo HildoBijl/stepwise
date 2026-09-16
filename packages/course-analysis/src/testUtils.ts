@@ -7,12 +7,12 @@ import type { PracticeNeed } from './practiceNeeds.ts'
 export const now = new Date('2026-01-01T12:00:00.000Z')
 
 export const moduleTree = createModuleTree({
-	foundation: { type: 'skill', name: 'Foundation' },
-	basic: { type: 'skill', name: 'Basic', prerequisites: ['foundation'] },
-	intermediate: { type: 'skill', name: 'Intermediate', prerequisites: ['basic'] },
-	advanced: { type: 'skill', name: 'Advanced', prerequisites: ['intermediate'] },
-	alternative: { type: 'skill', name: 'Alternative', prerequisites: ['basic'] },
-	outside: { type: 'skill', name: 'Outside' },
+	foundation: { type: 'skill' },
+	basic: { type: 'skill', prerequisites: ['foundation'] },
+	intermediate: { type: 'skill', prerequisites: ['basic'] },
+	advanced: { type: 'skill', prerequisites: ['intermediate'] },
+	alternative: { type: 'skill', prerequisites: ['basic'] },
+	outside: { type: 'skill' },
 })
 
 export const courseDefinition = new CourseDefinition(moduleTree, {

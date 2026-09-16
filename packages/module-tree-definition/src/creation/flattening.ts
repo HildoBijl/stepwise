@@ -31,7 +31,7 @@ export function flattenModuleTreeDefinition(moduleTreeDefinition: ModuleTreeDefi
 				groupModuleIds.push(moduleId)
 
 				// Create a shared module object with common properties for both concepts and skills.
-				const sharedModule = { id: moduleId, name: value.name, groupPath: path, groupModuleIds, prerequisiteIds: [...(value.prerequisites ?? [])], continuationIds: [] }
+				const sharedModule = { id: moduleId, groupPath: path, groupModuleIds, prerequisiteIds: [...(value.prerequisites ?? [])], continuationIds: [] }
 
 				// On a concept, validate and create the concept.
 				if (value.type === 'concept') {
@@ -65,7 +65,7 @@ export function flattenModuleTreeDefinition(moduleTreeDefinition: ModuleTreeDefi
 
 // Check if a value is a valid module definition, either a concept or a skill.
 function isModuleDefinition(value: unknown): value is ModuleDefinition {
-	return isPlainObject(value) && (value.type === 'concept' || value.type === 'skill') && typeof value.name === 'string'
+	return isPlainObject(value) && (value.type === 'concept' || value.type === 'skill')
 }
 
 // Ensure that a module ID is a valid non-empty string without leading or trailing whitespace.
@@ -78,7 +78,6 @@ function ensureValidModuleId(moduleId: unknown, description: string): ModuleId {
 
 // Validate a module definition, ensuring that its properties are appropriate for its type and that its prerequisites are valid. Throw an error if any validation fails.
 function validateModuleDefinition(definition: ModuleDefinition, moduleId: ModuleId, modulePath: string): void {
-	if (definition.name.trim().length === 0) throw new RangeError(`Invalid module name for "${moduleId}" at "${modulePath}": module names must not be empty or consist only of whitespace.`)
 	if (definition.type === 'concept') {
 		if ('setup' in definition) throw new TypeError(`Invalid concept "${moduleId}": concepts cannot define a skill setup.`)
 		if ('links' in definition) throw new TypeError(`Invalid concept "${moduleId}": concepts cannot define skill links.`)

@@ -63,7 +63,7 @@ describe('setup inference', () => {
 	})
 
 	it('infers a representative six-skill nested setup', () => {
-		const sixSkillTree = createModuleTree(Object.fromEntries(['a', 'b', 'c', 'd', 'e', 'f'].map(id => [id, { type: 'skill', name: id.toUpperCase() }])))
+		const sixSkillTree = createModuleTree(Object.fromEntries(['a', 'b', 'c', 'd', 'e', 'f'].map(id => [id, { type: 'skill' }])))
 		const storedLevels = Object.fromEntries(Object.keys(sixSkillTree).map(id => [id, coefficientsToStoredSkillLevel([1], now, effectivelyInfinitePracticeCount)]))
 		const setup = and(or('a', 'b'), or('c', 'd'), or('e', 'f'))
 		const coefficients = new SkillLevelSet(sixSkillTree, storedLevels).getSetupInferredCoefficients(setup, 4)
@@ -85,7 +85,7 @@ describe('setup inference', () => {
 
 describe('module-tree inference', () => {
 	it('infers coefficients from prerequisites', () => {
-		const tree = createModuleTree({ a: { type: 'skill', name: 'A', setup: skill('b') }, b: { type: 'skill', name: 'B' } })
+		const tree = createModuleTree({ a: { type: 'skill', setup: skill('b') }, b: { type: 'skill' } })
 		const levels = new SkillLevelSet(tree, {
 			a: coefficientsToStoredSkillLevel([1], now, effectivelyInfinitePracticeCount),
 			b: coefficientsToStoredSkillLevel([0, 1], now, effectivelyInfinitePracticeCount),
@@ -94,14 +94,14 @@ describe('module-tree inference', () => {
 	})
 
 	it('uses the default correlation when none is specified', () => {
-		const defaultTree = createModuleTree({ a: { type: 'skill', name: 'A', links: 'b' }, b: { type: 'skill', name: 'B' } })
-		const explicitTree = createModuleTree({ a: { type: 'skill', name: 'A', links: { skillId: 'b', correlation: defaultSkillLinkCorrelation } }, b: { type: 'skill', name: 'B' } })
+		const defaultTree = createModuleTree({ a: { type: 'skill', links: 'b' }, b: { type: 'skill' } })
+		const explicitTree = createModuleTree({ a: { type: 'skill', links: { skillId: 'b', correlation: defaultSkillLinkCorrelation } }, b: { type: 'skill' } })
 		const data = { a: coefficientsToStoredSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToStoredSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) }
 		expect(new SkillLevelSet(defaultTree, data).getInferredCoefficients('a')).toEqual(new SkillLevelSet(explicitTree, data).getInferredCoefficients('a'))
 	})
 
 	it('combines a group of correlated skills', () => {
-		const tree = createModuleTree({ a: { type: 'skill', name: 'A', links: [{ skillIds: ['b', 'c'], correlation: 0.5 }] }, b: { type: 'skill', name: 'B' }, c: { type: 'skill', name: 'C' } })
+		const tree = createModuleTree({ a: { type: 'skill', links: [{ skillIds: ['b', 'c'], correlation: 0.5 }] }, b: { type: 'skill' }, c: { type: 'skill' } })
 		const levels = new SkillLevelSet(tree, {
 			a: coefficientsToStoredSkillLevel([1], now, effectivelyInfinitePracticeCount),
 			b: coefficientsToStoredSkillLevel([0, 1], now, effectivelyInfinitePracticeCount),

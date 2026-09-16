@@ -17,7 +17,7 @@ import { moduleTree, getSkill, isModulePrerequisiteOf } from '@step-wise/module-
 
 const skill = getSkill('solveLinearEquation')
 
-skill.name // 'Solve linear equation'
+skill.id // 'solveLinearEquation'
 moduleTree.solveLinearEquation // The same processed skill
 isModulePrerequisiteOf('rewritePower', 'expandDoubleBrackets') // true
 ```

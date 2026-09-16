@@ -6,7 +6,7 @@ import { type ModuleTreeDefinition, createModuleTree } from '../creation/index.t
 
 import { ensureModuleId, ensureModuleIds, ensureSkillId, ensureSkillIds, ensureSkillSetup } from './validation.ts'
 
-const tree = createModuleTree({ Alpha: { type: 'skill', name: 'Alpha' }, beta: { type: 'skill', name: 'Beta' } })
+const tree = createModuleTree({ Alpha: { type: 'skill' }, beta: { type: 'skill' } })
 
 describe('ensureSkillId', () => {
 	it('returns exact IDs and rejects different casing by default', () => {
@@ -22,7 +22,7 @@ describe('ensureSkillId', () => {
 	})
 
 	it('supports special object-property IDs without accepting inherited properties', () => {
-		const specialTree = createModuleTree({ constructor: { type: 'skill', name: 'Constructor' }, toString: { type: 'skill', name: 'To string' } } as ModuleTreeDefinition)
+		const specialTree = createModuleTree({ constructor: { type: 'skill' }, toString: { type: 'skill' } } as ModuleTreeDefinition)
 		expect(ensureSkillId(specialTree, 'CONSTRUCTOR', { allowCaseInsensitiveMatch: true })).toBe('constructor')
 		expect(ensureSkillId(specialTree, 'toString')).toBe('toString')
 		expect(() => ensureSkillId(specialTree, 'valueOf')).toThrow(/Unknown module ID/)
@@ -34,7 +34,7 @@ describe('ensureSkillId', () => {
 })
 
 describe('module and skill validation', () => {
-	const mixedTree = createModuleTree({ concept: { type: 'concept', name: 'Concept' }, skill: { type: 'skill', name: 'Skill' } })
+	const mixedTree = createModuleTree({ concept: { type: 'concept' }, skill: { type: 'skill' } })
 
 	it('accepts concepts through the module helpers', () => {
 		expect(ensureModuleId(mixedTree, 'concept')).toBe('concept')

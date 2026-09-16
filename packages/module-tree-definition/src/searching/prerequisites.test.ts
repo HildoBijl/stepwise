@@ -5,19 +5,19 @@ import { createModuleTree } from '../creation/index.ts'
 import { expandModuleIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, getModuleIdsBetweenGoalsAndPriorKnowledge, isModulePrerequisiteOf } from './prerequisites.ts'
 
 const tree = createModuleTree({
-	a: { type: 'skill', name: 'A' },
-	b: { type: 'skill', name: 'B', prerequisites: ['a'] },
-	c: { type: 'skill', name: 'C', prerequisites: ['a'], links: 'd' },
-	d: { type: 'skill', name: 'D' },
-	e: { type: 'skill', name: 'E', prerequisites: ['b', 'c'] },
-	f: { type: 'skill', name: 'F' },
+	a: { type: 'skill' },
+	b: { type: 'skill', prerequisites: ['a'] },
+	c: { type: 'skill', prerequisites: ['a'], links: 'd' },
+	d: { type: 'skill' },
+	e: { type: 'skill', prerequisites: ['b', 'c'] },
+	f: { type: 'skill' },
 })
 
 describe('module prerequisite helpers', () => {
 	const mixedTree = createModuleTree({
-		foundation: { type: 'concept', name: 'Foundation' },
-		method: { type: 'skill', name: 'Method', prerequisites: ['foundation'] },
-		application: { type: 'skill', name: 'Application', prerequisites: ['method'] },
+		foundation: { type: 'concept' },
+		method: { type: 'skill', prerequisites: ['foundation'] },
+		application: { type: 'skill', prerequisites: ['method'] },
 	})
 
 	it('traverses prerequisites of either module type', () => {
