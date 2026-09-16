@@ -61,6 +61,22 @@ describe('generateRandomExerciseInstance', () => {
 			initialState: { value: 2 },
 		})
 	})
+
+	it('passes context to parameter and initial-state generation', async () => {
+		const context = { moduleId: 'algebra' }
+		const generateParameters = vi.fn(({ context }) => ({ moduleId: context.moduleId }))
+		const getInitialState = vi.fn(({ context }) => ({ moduleId: context.moduleId }))
+		const exercise = {
+			metadata: {}, generateParameters, getInitialState, processSoloAction: ({ state }) => ({ state }),
+		} satisfies Exercise<any, any, any, any, any, any, typeof context>
+
+		await expect(generateRandomExerciseInstance({ sample: exercise }, 'solo', false, context)).resolves.toMatchObject({
+			parameters: { moduleId: 'algebra' },
+			initialState: { moduleId: 'algebra' },
+		})
+		expect(generateParameters).toHaveBeenCalledWith({ example: false, context })
+		expect(getInitialState).toHaveBeenCalledWith({ parameters: { moduleId: 'algebra' }, context })
+	})
 })
 
 describe('generateSkillBasedExerciseInstance', () => {
@@ -74,5 +90,16 @@ describe('generateSkillBasedExerciseInstance', () => {
 			exerciseId: 'sample', mode: 'solo', parameters: { value: 2 }, initialState: { done: false }, history: [],
 		})
 		expect(loadSkillLevelSet).not.toHaveBeenCalled()
+	})
+
+	it('passes context to the selected exercise', async () => {
+		const context = { moduleId: 'algebra' }
+		const generateParameters = vi.fn(({ context }) => ({ moduleId: context.moduleId }))
+		const exercise = {
+			metadata: {}, generateParameters, getInitialState: () => ({}), processSoloAction: ({ state }) => ({ state }),
+		} satisfies Exercise<any, any, any, any, any, any, typeof context>
+
+		await generateSkillBasedExerciseInstance({ sample: exercise }, async () => ({} as SkillLevelSet), [], context)
+		expect(generateParameters).toHaveBeenCalledWith({ example: false, context })
 	})
 })
