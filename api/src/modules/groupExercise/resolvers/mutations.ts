@@ -6,6 +6,7 @@ import { getExercise, getExercises } from '@step-wise/exercises'
 
 import { InvalidInputError } from '../../../errors.ts'
 
+import { isExerciseCompatible } from '../../exercise/index.ts'
 import { type GroupWithMembers, ensureActiveGroupMembership, hasLoadedGroupMembers } from '../../group/index.ts'
 import { type UserSkillObservationInput, type UserSkillRecord, applySkillObservations, skillEvents } from '../../skill/index.ts'
 
@@ -78,7 +79,7 @@ export const groupExerciseMutationResolvers = {
 		activeExercise.events = activeExercise.events.map(event => event.id === lockedEvent.id ? lockedEvent : event)
 
 		// Return the exercise as result.
-		await pubsub.publish(groupExerciseEvents.groupActionUpdated, { exerciseId, eventIndex, userId, action: updatedAction, memberIds: group.members.map(member => member.id) })
+		await pubsub.publish(groupExerciseEvents.groupActionUpdated, getGroupExerciseSubscriptionPayload(activeExercise, group, { eventIndex, userId, action: updatedAction }))
 		return activeExercise
 	},
 
@@ -101,7 +102,7 @@ export const groupExerciseMutationResolvers = {
 			return true
 		})
 		if (actionWasCanceled) {
-			await pubsub.publish(groupExerciseEvents.groupActionUpdated, { exerciseId, eventIndex, userId, action: null, memberIds: group.members.map(member => member.id) })
+			await pubsub.publish(groupExerciseEvents.groupActionUpdated, getGroupExerciseSubscriptionPayload(activeExercise, group, { eventIndex, userId, action: null }))
 		}
 
 		// Return the exercise as result.
@@ -169,11 +170,22 @@ export const groupExerciseMutationResolvers = {
 
 		// Resolve subscriptions where needed.
 		await Promise.all(Object.keys(updatedSkillsPerUser).map(async userId => await pubsub.publish(skillEvents.skillsUpdated, { updatedSkills: updatedSkillsPerUser[userId], userId })))
-		await pubsub.publish(groupExerciseEvents.groupEventResolved, { exerciseId, ...resolution, memberIds: group.members.map(member => member.id) })
+		await pubsub.publish(groupExerciseEvents.groupEventResolved, getGroupExerciseSubscriptionPayload(activeExercise, group, resolution))
 
 		// Return the exercise as a result.
 		return activeExercise
 	},
+}
+
+function getGroupExerciseSubscriptionPayload<T extends object>(exercise: GroupExerciseSampleWithEvents, group: GroupWithMembers, payload: T): T & {
+	exerciseId: string
+	memberIds: string[]
+} {
+	return {
+		...payload,
+		exerciseId: exercise.id,
+		memberIds: group.members.map(member => member.id),
+	}
 }
 
 async function lockPendingGroupEvent(db: GroupExerciseDatabase, eventId: string, groupCode: string, transaction: Transaction): Promise<GroupExerciseEventWithActions> {
@@ -187,6 +199,7 @@ async function lockPendingGroupEvent(db: GroupExerciseDatabase, eventId: string,
 async function getActiveGroupExercise(db: GroupExerciseDatabase, exerciseId: string, userId: string): Promise<{ exercise: GroupExerciseSampleWithEvents; group: GroupWithMembers }> {
 	const exercise = await getGroupExerciseById(db, exerciseId)
 	if (!exercise || !exercise.active) throw new InvalidInputError(`Cannot update group exercise: exercise "${exerciseId}" is not active.`)
+	if (!isExerciseCompatible(exercise.skillId, exercise)) throw new InvalidInputError(`Cannot update group exercise: exercise "${exerciseId}" is stale.`)
 	const group = await db.Group.findByPk(exercise.groupId, { include: { association: 'members' } })
 	if (group && !hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
 	ensureActiveGroupMembership(group, userId)

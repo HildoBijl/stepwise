@@ -9,8 +9,9 @@ import { InvalidInputError } from '../../../errors.ts'
 
 import { type SkillObservationInput, applySkillObservationsForUser, createSkillResolverSource, getUserSkillLevelSet, skillEvents } from '../../skill/index.ts'
 
-import type { ExerciseContext } from './types.ts'
 import { exerciseEvents, getCurrentExerciseState, getExerciseEventIndex, getUserSkillWithExercises, lockActiveExercise } from '../service.ts'
+
+import type { ExerciseContext } from './types.ts'
 
 export const exerciseMutationResolvers = {
 	startExercise: async (_source: unknown, { skillId: rawSkillId }: { skillId: string }, { db, pubsub, ensureSignedIn, userId }: ExerciseContext) => {

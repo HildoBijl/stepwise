@@ -15,7 +15,7 @@ describe('exercise resolvers', () => {
 	})
 })
 
-const exercise = { id: 'exercise-id' } as ExerciseSampleRecord
+const exercise = { id: 'exercise-id', exerciseId: 'enterInteger', exerciseVersion: 1 } as ExerciseSampleRecord
 const payload: ExerciseUpdatedPayload = { updatedExercise: exercise, userId: 'user-id', skillId: 'enterInteger' }
 const context = { userId: 'user-id' } as Parameters<typeof selectExerciseUpdate>[2]
 
@@ -30,5 +30,11 @@ describe('exercise subscriptions', () => {
 		expect(selectExerciseUpdate(payload, { exerciseId: 'exercise-id' }, context)).toBe(payload)
 		expect(selectExerciseUpdate(payload, { exerciseId: 'other-exercise' }, context)).toBeUndefined()
 		expect(selectExerciseUpdate(payload, { exerciseId: 'exercise-id' }, { ...context, userId: 'other-user' })).toBeUndefined()
+	})
+
+	it('ignores stale exercises', () => {
+		const stalePayload = { ...payload, updatedExercise: { ...exercise, exerciseVersion: 2 } as ExerciseSampleRecord }
+		expect(selectStartedExercise(stalePayload, { skillId: 'enterInteger' }, context)).toBeUndefined()
+		expect(selectExerciseUpdate(stalePayload, { exerciseId: 'exercise-id' }, context)).toBeUndefined()
 	})
 })

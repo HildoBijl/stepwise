@@ -1,6 +1,7 @@
 import { InvalidInputError } from '../../../errors.ts'
 
 import { createSubscriptionResolver } from '../../subscriptions.ts'
+import { isExerciseCompatible } from '../../exercise/index.ts'
 import { ensureGroupMembership, getGroup, hasLoadedGroupMembers } from '../../group/index.ts'
 
 import type { GroupExerciseSampleWithEvents } from '../models.ts'
@@ -17,7 +18,7 @@ export const groupExerciseSubscriptionResolvers = {
 }
 
 export function selectStartedGroupExercise({ exercise, code: eventCode, memberIds }: GroupExerciseStartedPayload, { code, skillId }: GroupExerciseStartedArgs, { userId }: GroupExerciseContext): GroupExerciseSampleWithEvents | undefined {
-	if (memberIds.includes(userId) && eventCode === code.toUpperCase() && exercise.skillId === skillId) return exercise
+	if (memberIds.includes(userId) && eventCode === code.toUpperCase() && exercise.skillId === skillId && isExerciseCompatible(exercise.skillId, exercise)) return exercise
 }
 
 export function selectGroupActionUpdate(payload: GroupActionUpdatedPayload, { exerciseId }: GroupExerciseSubscriptionArgs, { userId }: GroupExerciseContext): GroupActionUpdatedPayload | undefined {
@@ -32,6 +33,7 @@ async function authorizeGroupExerciseSubscription({ exerciseId }: GroupExerciseS
 	ensureSignedIn()
 	const exercise = await getGroupExerciseById(db, exerciseId)
 	if (!exercise) throw new InvalidInputError(`No group exercise with ID "${exerciseId}" exists.`)
+	if (!isExerciseCompatible(exercise.skillId, exercise)) throw new InvalidInputError('The group exercise is stale and is no longer available.')
 	const group = await db.Group.findByPk(exercise.groupId, { include: { association: 'members' } })
 	if (group && !hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
 	ensureGroupMembership(group, userId)

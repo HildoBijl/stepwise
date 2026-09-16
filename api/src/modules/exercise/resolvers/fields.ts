@@ -1,19 +1,22 @@
-import { getExercise } from '@step-wise/exercises'
-
 import type { SkillResolverSource, UserSkillRecord } from '../../skill/index.ts'
 
-import type { ExerciseContext } from './types.ts'
+import { isExerciseCompatible } from '../compatibility.ts'
 import type { ExerciseEventRecord, ExerciseSampleRecord } from '../models.ts'
 import { type ExerciseUpdatedPayload, getCurrentExerciseState, getExerciseEventIndex, getLatestExerciseEvent } from '../service.ts'
+
+import type { ExerciseContext } from './types.ts'
 
 export const exerciseFieldResolvers = {
 	Skill: { exerciseData: ({ record, mayViewExerciseData }: SkillResolverSource) => mayViewExerciseData ? record : null },
 
 	SkillExerciseData: {
-		exercises: (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => loaders.exercisesForSkill.load(skill.id),
+		exercises: async (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => {
+			const exercises = await loaders.exercisesForSkill.load(skill.id)
+			return exercises.filter(exercise => isExerciseCompatible(skill.skillId, exercise))
+		},
 		latestExercise: async (skill: UserSkillRecord, _args: unknown, { loaders }: ExerciseContext) => {
 			const exercise = await loaders.latestExerciseForSkill.load(skill.id)
-			return exercise && getExercise(skill.skillId, exercise.exerciseId) ? exercise : null
+			return exercise && isExerciseCompatible(skill.skillId, exercise) ? exercise : null
 		},
 	},
 
