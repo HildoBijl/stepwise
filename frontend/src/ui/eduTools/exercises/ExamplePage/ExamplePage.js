@@ -41,7 +41,7 @@ export function ExamplePage({ skillId }) {
 		if (action?.type === 'setState') // An override only used by example exercises.
 			state = action.newState
 		else {
-			const result = await processSoloAction({ parameters: exercise.parameters, state: exercise.state, action, updateSkills: noop })
+			const result = await processSoloAction({ parameters: exercise.parameters, state: exercise.state, action, context: undefined, updateSkills: noop })
 			state = result.state
 			report = result.report
 		}

@@ -181,7 +181,7 @@ A pending group history event contains only `actions`. Once the event has been p
 
 ## Exercise instances and history
 
-A `BaseExerciseInstance` combines the generated data with its execution context:
+A `BaseExerciseInstance` combines the generated parameters, initial state, and subsequent history:
 
 ```ts
 {
