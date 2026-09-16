@@ -57,10 +57,10 @@ export default buildStepExercise({
 		P: getRandomQuantity({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),
 		angle: randomInteger(6, 16) * 5,
 	}),
-	getStaticSolution,
+	getStaticSolution: ({ parameters }) => getStaticSolution(parameters),
 	updateInputDependency: ({ previousInputDependency, staticSolution, input }): boolean[] | undefined =>
 		input.loads === undefined ? previousInputDependency : getLoadDirectionDependency(input, staticSolution),
-	getSolution: (_, inputDependency, staticSolution) => getLoadAdjustedSolution(inputDependency, staticSolution),
+	getSolution: ({ inputDependency, staticSolution }) => getLoadAdjustedSolution(inputDependency, staticSolution),
 	checkInput(data, step) {
 		switch (step) {
 			case 1: return compareInputs('loads', data)

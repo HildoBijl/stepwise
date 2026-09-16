@@ -59,7 +59,7 @@ describe('input-exercise value types', () => {
 			metadata: {},
 			valueTypes,
 			generateParameters: () => ({ answer: new CustomValue('correct') }),
-			getSolution: parameters => ({ answer: parameters.answer }),
+			getSolution: ({ parameters }) => ({ answer: parameters.answer }),
 			checkInput: ({ parameters, input, solution, areValuesEqual }) => {
 				expect(parameters.answer).toBeInstanceOf(CustomValue)
 				expect(input.answer).toBeInstanceOf(CustomValue)
@@ -67,12 +67,12 @@ describe('input-exercise value types', () => {
 				return true
 			},
 		})
-		const parameters = await exercise.generateParameters(false)
+		const parameters = await exercise.generateParameters({ example: false, context: undefined })
 		expect(parameters).toEqual({ answer: { type: CustomType, value: 'correct' } })
 		expect(exercise.valueOperations.serialize(new CustomValue('stored'))).toEqual({ type: CustomType, value: 'stored' })
 		expect(exercise.valueOperations.deserialize({ type: CustomType, value: 'stored' })).toEqual(new CustomValue('stored'))
-		expect((await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput('correct') } })).state).toMatchObject({ solved: true, done: true })
-		expect((await exercise.processGroupActions({ parameters, state: {}, actions: [{ userId: 'user', action: { type: 'input', input: rawInput('correct') } }] })).state).toMatchObject({ solved: true, done: true })
+		expect((await exercise.processSoloAction({ parameters, context: undefined, state: {}, action: { type: 'input', input: rawInput('correct') } })).state).toMatchObject({ solved: true, done: true })
+		expect((await exercise.processGroupActions({ parameters, context: undefined, state: {}, actions: [{ userId: 'user', action: { type: 'input', input: rawInput('correct') } }] })).state).toMatchObject({ solved: true, done: true })
 	})
 
 	it('uses custom adapters throughout a StepExercise', async () => {
@@ -82,8 +82,8 @@ describe('input-exercise value types', () => {
 			generateParameters: () => ({ answer: new CustomValue('correct') }),
 			checkInput: ({ parameters, input, areValuesEqual }) => parameters.answer instanceof CustomValue && input.answer instanceof CustomValue && areValuesEqual(CustomType, input.answer, parameters.answer),
 		})
-		const parameters = await exercise.generateParameters(false)
-		expect((await exercise.processSoloAction({ parameters, state: {}, action: { type: 'input', input: rawInput('correct') } })).state).toMatchObject({ solved: true, done: true })
+		const parameters = await exercise.generateParameters({ example: false, context: undefined })
+		expect((await exercise.processSoloAction({ parameters, context: undefined, state: {}, action: { type: 'input', input: rawInput('correct') } })).state).toMatchObject({ solved: true, done: true })
 	})
 
 	it('uses the exercise value types when interpreting history', () => {

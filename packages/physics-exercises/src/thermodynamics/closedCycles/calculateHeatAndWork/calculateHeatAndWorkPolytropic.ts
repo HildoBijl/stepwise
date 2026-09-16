@@ -32,7 +32,7 @@ export default buildStepExercise({
 		return { m, T1, T2, n }
 	},
 
-	getSolution({ m, T1, T2, n }) {
+	getSolution({ parameters: { m, T1, T2, n } }) {
 		const ms = m.simplify()
 		const T1s = T1
 		const T2s = T2

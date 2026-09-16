@@ -23,7 +23,7 @@ export default buildStepExercise({
 		return { T1, T2, wt }
 	},
 
-	getSolution({ T1, T2, wt }) {
+	getSolution({ parameters: { T1, T2, wt } }) {
 		const wts = wt.simplify()
 		const cpSimplified = cp.simplify()
 		const dh = cpSimplified.multiply(T2.subtract(T1)).setUnit('J/kg')

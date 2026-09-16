@@ -14,7 +14,7 @@ export default buildMonoExercise({
 		return { rho }
 	},
 
-	getSolution({ rho }) {
+	getSolution({ parameters: { rho } }) {
 		return { v: rho.invert() }
 	},
 

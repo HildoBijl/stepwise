@@ -11,9 +11,8 @@ export default buildStepExercise({
 		comparisons: { Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
-	generateParameters,
-
-	getSolution(parameters) {
+	generateParameters: () => generateParameters(),
+	getSolution({ parameters }) {
 		const solution = getSolutionPrevious(parameters)
 		const Wm = solution.dS.multiply(solution.Tc).setUnit('J')
 		return { ...solution, Wm }

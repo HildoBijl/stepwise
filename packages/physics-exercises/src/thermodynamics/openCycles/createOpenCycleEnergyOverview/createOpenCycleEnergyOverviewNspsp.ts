@@ -44,8 +44,8 @@ export function getSolution(parameters: ReturnType<typeof generateParameters>) {
 
 export default buildStepExercise({
 	metadata,
-	generateParameters,
-	getSolution,
+	generateParameters: () => generateParameters(),
+	getSolution: ({ parameters }) => getSolution(parameters),
 	checkInput(data, step) {
 		switch (step) {
 			case 1: return compareInputs(['q12', 'wt12'], data)

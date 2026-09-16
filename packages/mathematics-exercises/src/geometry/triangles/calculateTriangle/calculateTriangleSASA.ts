@@ -28,7 +28,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		let { α, β, a, b, c } = parameters
 		const variables = { α, β, a, b, c }
 

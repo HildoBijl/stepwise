@@ -25,7 +25,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		return {
 			...selectRandomVariables(sample(availableVariableSets), usedVariables),
 			a: example ? 1 : randomInteger(-12, 12, { exclude: [0] }),
@@ -35,7 +35,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { a, b, c, switchSides } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseEquation = asEquation('(a*x*y)/(b*z) = c*z').substitute(variables).removeTrivial()

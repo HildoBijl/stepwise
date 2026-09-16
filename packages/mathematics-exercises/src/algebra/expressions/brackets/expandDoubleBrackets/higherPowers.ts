@@ -44,7 +44,7 @@ export default buildStepExercise({
 		throw new Error('Failed to generate valid higher-power bracket parameters after 100 attempts.')
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor1 = asExpression(parameters.switch ? 'a*x^p+b*x^q' : 'b*x^q+a*x^p').substitute(variables).removeTrivial()
 		const factor2 = asExpression(parameters.switch ? 'c*x^r+d*x^s' : 'd*x^s+c*x^r').substitute(variables).removeTrivial()

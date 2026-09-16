@@ -25,8 +25,19 @@ export type ResolvedExerciseMetadata<TMetadata extends ExerciseMetadata = Exerci
  * Generation.
  */
 
-export type GenerateExerciseParameters<TParameters extends ExerciseParameters = ExerciseParameters> = (example: boolean) => Awaitable<TParameters>
-export type GetInitialState<TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState> = (parameters: TParameters) => Awaitable<TState>
+export type GenerateExerciseParametersInput<TContext = undefined> = {
+	example: boolean
+	context: TContext
+}
+
+export type GenerateExerciseParameters<TParameters extends ExerciseParameters = ExerciseParameters, TContext = undefined> = (input: GenerateExerciseParametersInput<TContext>) => Awaitable<TParameters>
+
+export type GetInitialStateInput<TParameters extends ExerciseParameters = ExerciseParameters, TContext = undefined> = {
+	parameters: TParameters
+	context: TContext
+}
+
+export type GetInitialState<TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState, TContext = undefined> = (input: GetInitialStateInput<TParameters, TContext>) => Awaitable<TState>
 
 /*
  * Reducers.
@@ -34,17 +45,18 @@ export type GetInitialState<TParameters extends ExerciseParameters = ExercisePar
 
 export type UpdateSkills = (setup: SkillSetupLike, correct: boolean, userId?: string) => void
 
-type ExerciseReducerRequiredInput<TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = {
+type ExerciseReducerRequiredInput<TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters, TContext = undefined> = {
 	parameters: TParameters
 	state: TState
+	context: TContext
 	updateSkills?: UpdateSkills
 }
 
-export type SoloExerciseReducerInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = ExerciseReducerRequiredInput<TState, TParameters> & {
+export type SoloExerciseReducerInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters, TContext = undefined> = ExerciseReducerRequiredInput<TState, TParameters, TContext> & {
 	action: TAction
 }
 
-export type GroupExerciseReducerInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = ExerciseReducerRequiredInput<TState, TParameters> & {
+export type GroupExerciseReducerInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters, TContext = undefined> = ExerciseReducerRequiredInput<TState, TParameters, TContext> & {
 	actions: readonly UserExerciseAction<TAction>[]
 }
 
@@ -53,20 +65,20 @@ export type ExerciseReducerResult<TState extends ExerciseState, TReport extends 
 	report?: TReport
 }
 
-export type SoloExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters, TReport extends SoloExerciseReport = SoloExerciseReport> = (input: SoloExerciseReducerInput<TAction, TState, TParameters>) => Awaitable<ExerciseReducerResult<TState, TReport>>
+export type SoloExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters, TReport extends SoloExerciseReport = SoloExerciseReport, TContext = undefined> = (input: SoloExerciseReducerInput<TAction, TState, TParameters, TContext>) => Awaitable<ExerciseReducerResult<TState, TReport>>
 
-export type GroupExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters, TReport extends GroupExerciseReport = GroupExerciseReport> = (input: GroupExerciseReducerInput<TAction, TState, TParameters>) => Awaitable<ExerciseReducerResult<TState, TReport>>
+export type GroupExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters, TReport extends GroupExerciseReport = GroupExerciseReport, TContext = undefined> = (input: GroupExerciseReducerInput<TAction, TState, TParameters, TContext>) => Awaitable<ExerciseReducerResult<TState, TReport>>
 
 /*
  * Exercise.
  */
 
-export type Exercise<TMetadata extends ExerciseMetadata = ExerciseMetadata, TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters, TSoloReport extends SoloExerciseReport = SoloExerciseReport, TGroupReport extends GroupExerciseReport = GroupExerciseReport> = {
+export type Exercise<TMetadata extends ExerciseMetadata = ExerciseMetadata, TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters, TSoloReport extends SoloExerciseReport = SoloExerciseReport, TGroupReport extends GroupExerciseReport = GroupExerciseReport, TContext = undefined> = {
 	metadata: TMetadata
-	generateParameters: GenerateExerciseParameters<TParameters>
-	getInitialState: GetInitialState<TParameters, TState>
-	processSoloAction?: SoloExerciseReducer<TAction, TState, TParameters, TSoloReport>
-	processGroupActions?: GroupExerciseReducer<TAction, TState, TParameters, TGroupReport>
+	generateParameters: GenerateExerciseParameters<TParameters, TContext>
+	getInitialState: GetInitialState<TParameters, TState, TContext>
+	processSoloAction?: SoloExerciseReducer<TAction, TState, TParameters, TSoloReport, TContext>
+	processGroupActions?: GroupExerciseReducer<TAction, TState, TParameters, TGroupReport, TContext>
 }
 
-export type AnyExercise = Exercise<any, any, any, any, any, any>
+export type AnyExercise = Exercise<any, any, any, any, any, any, any>

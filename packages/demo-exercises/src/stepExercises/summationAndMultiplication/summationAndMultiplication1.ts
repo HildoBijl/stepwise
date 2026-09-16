@@ -8,7 +8,7 @@ export default buildStepExercise({
 		...createStepExerciseMetadata([undefined, 'multiplication', 'summation']),
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		return {
 			a: randomInteger(2, example ? 6 : 10),
 			b: randomInteger(2, example ? 6 : 10),
@@ -16,7 +16,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution({ a, b, c }) {
+	getSolution({ parameters: { a, b, c } }) {
 		return {
 			order: 1,
 			ab: a * b,

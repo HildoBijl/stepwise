@@ -28,7 +28,7 @@ export default buildStepExercise({
 		return { m, p1, T1, T2 }
 	},
 
-	getSolution({ m, p1, T1, T2 }) {
+	getSolution({ parameters: { m, p1, T1, T2 } }) {
 		const p1s = p1.simplify()
 		const T1s = T1.simplify()
 		const T2s = T2.simplify()

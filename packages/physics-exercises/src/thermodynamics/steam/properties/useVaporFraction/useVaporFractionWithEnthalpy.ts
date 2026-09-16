@@ -38,7 +38,7 @@ export default buildStepExercise({
 		return { type, p, h }
 	},
 
-	getSolution({ type, T, p, h }) {
+	getSolution({ parameters: { type, T, p, h } }) {
 		const value = type === 1 ? T! : p!
 		const table = type === 1 ? saturatedSteamPropertiesByTemperature : saturatedSteamPropertiesByPressure
 		const hx0 = interpolateTable(value, table, 'enthalpyLiquid')!

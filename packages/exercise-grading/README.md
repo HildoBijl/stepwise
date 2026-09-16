@@ -23,7 +23,7 @@ import { buildMonoExercise } from '@step-wise/input-exercises'
 const addition = buildMonoExercise({
 	metadata: {},
 	generateParameters: () => ({ left: 7, right: 8 }),
-	getSolution: ({ left, right }) => ({ answer: left + right }),
+	getSolution: ({ parameters: { left, right } }) => ({ answer: left + right }),
 	checkInput: data => compareInputs('answer', data),
 })
 ```

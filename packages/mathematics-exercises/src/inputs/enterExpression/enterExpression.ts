@@ -34,7 +34,7 @@ export default buildMonoExercise({
 		}
 	},
 
-	getSolution({ expression }) {
+	getSolution({ parameters: { expression } }) {
 		return { ans: expression }
 	},
 

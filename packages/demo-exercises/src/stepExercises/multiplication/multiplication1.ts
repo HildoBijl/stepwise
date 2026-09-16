@@ -7,14 +7,14 @@ export default buildMonoExercise({
 		skill: 'multiplication',
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		return {
 			a: randomInteger(2, example ? 6 : 10),
 			b: randomInteger(2, example ? 6 : 10),
 		}
 	},
 
-	getSolution({ a, b }) {
+	getSolution({ parameters: { a, b } }) {
 		return { ans: a * b }
 	},
 

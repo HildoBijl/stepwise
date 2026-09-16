@@ -36,7 +36,7 @@ export default buildStepExercise({
 		throw new Error('Failed to generate valid rounded cooling-cycle pressures after 100 attempts.')
 	},
 
-	getSolution({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling }) {
+	getSolution({ parameters: { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling } }) {
 		const refrigerantData = refrigerantDatasets[refrigerant]
 		const TEvap = getSaturationTemperature(refrigerantData, pEvap)!.setDecimals(0)
 		const TCond = getSaturationTemperature(refrigerantData, pCond)!.setDecimals(0)

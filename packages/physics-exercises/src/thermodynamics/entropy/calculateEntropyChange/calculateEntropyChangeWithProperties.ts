@@ -35,8 +35,8 @@ export function getSolution({ p1o, T1o, p2o, n }: ReturnType<typeof generatePara
 
 export default buildStepExercise({
 	metadata,
-	generateParameters,
-	getSolution,
+	generateParameters: () => generateParameters(),
+	getSolution: ({ parameters }) => getSolution(parameters),
 	checkInput(data, step, substep) {
 		switch (step) {
 			case 1: return compareInputs('T2', data)

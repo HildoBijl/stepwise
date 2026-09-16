@@ -30,7 +30,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Extract parameters variables.
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('(ax-x^2/y)/(bx^2) = cz').substitute(variables).removeTrivial()

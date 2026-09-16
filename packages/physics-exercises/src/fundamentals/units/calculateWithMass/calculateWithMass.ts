@@ -40,7 +40,7 @@ export default buildMonoExercise({
 		return { m, type, prefix }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		return { ...parameters, ans: parameters.type === 2 ? parameters.m.setUnit(`${parameters.prefix}g`) : parameters.m.setUnit('kg') }
 	},
 

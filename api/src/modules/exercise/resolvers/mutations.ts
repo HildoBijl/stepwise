@@ -48,6 +48,7 @@ export const exerciseMutationResolvers = {
 			const skillObservations: SkillObservationInput[] = []
 			const { state, report } = await definition.processSoloAction({
 				parameters: updatedExercise.parameters,
+				context: undefined,
 				state: getCurrentExerciseState(updatedExercise),
 				action,
 				updateSkills: (setup, correct) => { if (setup) skillObservations.push({ setup, correct }) },

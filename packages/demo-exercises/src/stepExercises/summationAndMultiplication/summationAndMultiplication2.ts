@@ -9,7 +9,7 @@ export default buildStepExercise({
 		weight: 2, // This exercise has more variation so can count as two separate copies of this exercise.
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		return {
 			a: randomInteger(2, example ? 6 : 10),
 			b: randomInteger(2, example ? 6 : 10),
@@ -18,7 +18,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution({ a, b, c, d }) {
+	getSolution({ parameters: { a, b, c, d } }) {
 		const order = 1
 		const ab = a * b
 		const cd = c * d

@@ -73,10 +73,11 @@ const instance = await generateRandomExerciseInstance(
 	exercises,
 	'group',
 	false,
+	context,
 )
 ```
 
-The optional third argument is the `example` flag passed to the selected exercise's parameter generator. It defaults to `false`. Instance generation is asynchronous because both parameter generators and initial-state functions may be asynchronous.
+The optional third argument is the `example` flag passed to the selected exercise's parameter generator. It defaults to `false`. A fourth argument supplies the transient exercise context to parameter and initial-state generation. It defaults to `undefined` and is not stored in the resulting instance. Instance generation is asynchronous because both parameter generators and initial-state functions may be asynchronous.
 
 
 ## Skill-based selection
@@ -109,10 +110,11 @@ const instance = await generateSkillBasedExerciseInstance(
 	exercises,
 	loadSkillLevelSet,
 	previousExercises,
+	context,
 )
 ```
 
-The resulting instance always has `mode: 'solo'`. Skill-based generation creates regular exercises rather than examples, so the selected parameter generator receives `false`.
+The resulting instance always has `mode: 'solo'`. Skill-based generation creates regular exercises rather than examples, so the selected parameter generator receives `false`. Its optional fourth argument is the transient exercise context; pass an empty array for `previousExercises` when context is needed without repeat history.
 
 
 ## How skill-based probabilities are calculated
@@ -188,8 +190,8 @@ selectSkillBasedExercise(exercises, loadSkillLevelSet, previousExercises?)
 Use generation functions when a complete instance should be created immediately:
 
 ```ts
-generateRandomExerciseInstance(exercises, mode, example?)
-generateSkillBasedExerciseInstance(exercises, loadSkillLevelSet, previousExercises?)
+generateRandomExerciseInstance(exercises, mode, example?, context?)
+generateSkillBasedExerciseInstance(exercises, loadSkillLevelSet, previousExercises?, context?)
 ```
 
 Generation calls the selected exercise's parameter and initial-state factories. Both results must be plain objects. The returned history is initially empty.

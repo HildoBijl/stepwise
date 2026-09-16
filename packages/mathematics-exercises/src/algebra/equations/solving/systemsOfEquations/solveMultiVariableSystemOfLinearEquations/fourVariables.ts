@@ -33,7 +33,7 @@ export default buildStepExercise({
 		return { ...selectRandomVariables(variableSet, usedVariables), a, b, c, d }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Set up the equations.
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const eq1 = asEquation('ax + wy = b').substitute(variables).removeTrivial()

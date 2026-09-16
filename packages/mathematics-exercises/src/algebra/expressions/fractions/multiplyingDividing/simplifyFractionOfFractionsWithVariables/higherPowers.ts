@@ -41,7 +41,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const fraction1 = asExpression('((a*(x+e)^p)/(b*(x+f)^q))', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['combineMinusSignsInFractions'])
 		const fraction2 = asExpression('((c*(x+e)^r)/(d*(x+f)^s))', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['combineMinusSignsInFractions'])

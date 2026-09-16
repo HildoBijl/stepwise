@@ -20,7 +20,7 @@ export default buildMonoExercise({
 		return { a, b, p, c }
 	},
 
-	getSolution({ a, b, p, c }) {
+	getSolution({ parameters: { a, b, p, c } }) {
 		const cMinusA = c.subtract(a, true)
 		const cMinusADivB = cMinusA.divide(b, true)
 		const ans = cMinusADivB.toPower(p.invert())

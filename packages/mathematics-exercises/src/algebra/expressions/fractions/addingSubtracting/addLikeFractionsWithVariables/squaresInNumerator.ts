@@ -39,7 +39,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const fractions = ['(a*x*(x+b))/(fx)', '(c*x^2+d*x+e)/(f*x)'].map(str => asExpression(str, { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['combineMinusSignsInFractions']))
 		const expression = (parameters.plus ? fractions[parameters.switch ? 1 : 0].add(fractions[parameters.switch ? 0 : 1]) : fractions[parameters.switch ? 1 : 0].subtract(fractions[parameters.switch ? 0 : 1])).removeTrivial([], ['combineMinusSignsInFractions'])

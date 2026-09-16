@@ -8,7 +8,7 @@ import { ThemeProvider } from '@mui/material/styles'
 
 import { noop } from '@step-wise/js-utils'
 import { moduleTree } from '@step-wise/module-tree'
-import { resolveSolution } from '@step-wise/input-exercises'
+import { resolveSolution, resolveStaticSolution } from '@step-wise/input-exercises'
 import { getAllExercises } from '@step-wise/exercises'
 
 import { CURRENT_USER_QUERY } from 'api/user/queries'
@@ -52,9 +52,10 @@ describe('Check all exercises:', () => {
 						const Exercise = (await loadExercise(skill, exerciseId)).default
 
 						// Emulate the ExerciseContainer.
-						const storedParameters = await shared.generateParameters(false)
+						const storedParameters = await shared.generateParameters({ example: false, context: undefined })
 						const parameters = shared.valueOperations.deserialize(storedParameters)
-						const initialState = await shared.getInitialState(storedParameters)
+						const initialState = await shared.getInitialState({ parameters: storedParameters, context: undefined })
+						const staticSolution = await resolveStaticSolution(shared, parameters, undefined)
 						const exerciseData = {
 							exerciseId,
 							mode: 'solo',
@@ -67,7 +68,7 @@ describe('Check all exercises:', () => {
 							submitAction: noop,
 							startNewExercise: noop,
 							shared: shared,
-							solution: shared.getSolution && await resolveSolution(shared.getSolution, parameters),
+							solution: shared.getSolution && await resolveSolution(shared, parameters, undefined, staticSolution, undefined),
 						}
 						expect(() => render(
 							<MockedProvider mocks={apolloMocks}>

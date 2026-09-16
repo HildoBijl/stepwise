@@ -31,7 +31,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const gcdValue = gcd(parameters.a, parameters.b, parameters.c)
 		const fraction1 = asExpression('a/x^2').substitute(variables)

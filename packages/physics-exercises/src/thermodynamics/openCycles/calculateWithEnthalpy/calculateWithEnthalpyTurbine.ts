@@ -17,7 +17,7 @@ export default buildStepExercise({
 		return { P, mdot }
 	},
 
-	getSolution({ P, mdot }) {
+	getSolution({ parameters: { P, mdot } }) {
 		const Ps = P.simplify()
 		const wt = P.divide(mdot).setUnit('kJ/kg')
 		const q = new Quantity('0 kJ/kg')

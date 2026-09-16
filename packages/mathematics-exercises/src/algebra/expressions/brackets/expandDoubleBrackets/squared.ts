@@ -36,7 +36,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = asExpression('a*x^p+b*x^q').substitute(variables).removeTrivial()
 		const expression = factor.toPower(2)

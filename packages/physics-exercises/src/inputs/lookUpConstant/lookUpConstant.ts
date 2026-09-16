@@ -19,11 +19,11 @@ export default buildMonoExercise({
 		},
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		return { constant: sample(example ? exampleConstantNames : constantNames) }
 	},
 
-	getSolution({ constant }) {
+	getSolution({ parameters: { constant } }) {
 		return { ans: constants[constant] }
 	},
 

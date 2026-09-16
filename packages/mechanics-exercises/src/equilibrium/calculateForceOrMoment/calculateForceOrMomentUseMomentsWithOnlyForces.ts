@@ -31,7 +31,7 @@ export default buildStepExercise({
 		throw new Error('Failed to generate valid calculate-force-or-moment parameters after 100 attempts.')
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { points, angle, up, right, horizontal, FD } = parameters
 		const [A, B, C, D] = points
 		const angleRad = degreesToRadians(angle)

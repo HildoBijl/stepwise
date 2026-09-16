@@ -34,7 +34,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		const b = randomInteger(example ? 2 : -8, 8, { exclude: [-1, 0, 1] })
 		return {
 			x: sample(variableSet),
@@ -46,7 +46,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = asExpression('a*x^n').substitute(variables).removeTrivial()
 		const sum = asExpression(parameters.descending ? 'b*x+c' : 'c+b*x').substitute(variables).removeTrivial()

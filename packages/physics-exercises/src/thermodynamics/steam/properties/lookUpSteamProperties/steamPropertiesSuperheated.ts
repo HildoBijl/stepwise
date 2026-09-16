@@ -20,7 +20,7 @@ export default buildMonoExercise({
 		return { p, T }
 	},
 
-	getSolution({ p, T }) {
+	getSolution({ parameters: { p, T } }) {
 		const h = interpolateTable([p, T], superheatedSteamProperties, 'enthalpy')
 		const s = interpolateTable([p, T], superheatedSteamProperties, 'entropy')
 		return { p, T, h, s }

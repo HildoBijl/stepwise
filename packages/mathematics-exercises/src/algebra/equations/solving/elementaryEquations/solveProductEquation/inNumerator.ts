@@ -25,7 +25,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 		const b = example ? 1 : randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a] })
 		const c = randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a, b, -b] })
@@ -37,7 +37,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { switchSides } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseEquation = asEquation('ax/b=c/d').substitute(variables).removeTrivial()

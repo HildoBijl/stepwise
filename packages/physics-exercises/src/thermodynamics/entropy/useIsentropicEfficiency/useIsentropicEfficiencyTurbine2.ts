@@ -19,7 +19,7 @@ export default buildStepExercise({
 		return { h1, h2p, etaio }
 	},
 
-	getSolution({ h1, h2p, etaio }) {
+	getSolution({ parameters: { h1, h2p, etaio } }) {
 		const etai = etaio.simplify()
 		const wti = h1.subtract(h2p)
 		const wt = wti.multiply(etai).setDecimals(0)

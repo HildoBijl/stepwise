@@ -27,7 +27,7 @@ export default buildStepExercise({
 		return { gas, m, T1, T2 }
 	},
 
-	getSolution({ gas, m, T1, T2 }) {
+	getSolution({ parameters: { gas, m, T1, T2 } }) {
 		const { Rs } = gasProperties[gas]
 		const cp = gasProperties[gas].cp.simplify()
 		const T1s = T1

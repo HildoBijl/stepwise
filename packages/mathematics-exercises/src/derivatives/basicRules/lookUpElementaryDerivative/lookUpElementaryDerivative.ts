@@ -21,7 +21,7 @@ export default buildMonoExercise({
 		return { x, f: sample(functionSet), func: func.substitute('x', x) }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		return { ...parameters, derivative: parameters.func.differentiate().combine() }
 	},
 

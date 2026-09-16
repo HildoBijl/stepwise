@@ -17,7 +17,7 @@ export default buildMonoExercise({
 		}
 	},
 
-	getSolution({ type }) {
+	getSolution({ parameters: { type } }) {
 		return { ans: type }
 	},
 

@@ -35,7 +35,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor1 = asExpression(parameters.xFirst ? 'a*x+b' : 'b+a*x').substitute(variables).removeTrivial()
 		const factor2 = asExpression(parameters.xFirst ? 'c*x+d' : 'd+c*x').substitute(variables).removeTrivial()

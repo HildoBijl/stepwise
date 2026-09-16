@@ -49,7 +49,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const fractions = ['(a*x+b)/(c*x+d)', '(e*x+f)/(g*x+h)'].map(str => asExpression(str, { interpretEAsConstant: false }).substitute(variables).removeTrivial())
 		const joinFractions = (items: Expression[]) => items[0].add(parameters.plus ? items[1] : items[1].negate()).removeTrivial()

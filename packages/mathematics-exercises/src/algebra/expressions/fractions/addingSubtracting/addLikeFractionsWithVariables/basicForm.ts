@@ -24,7 +24,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 		const b = randomInteger(-8, 8, { exclude: [0] })
 		const c = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
@@ -39,7 +39,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const fractions = ['(a*(x+b))/(ex+f)', '(c*x+d)/(e*x+f)'].map(str => asExpression(str, { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['combineMinusSignsInFractions']))
 		const expression = (parameters.plus ? fractions[parameters.switch ? 1 : 0].add(fractions[parameters.switch ? 0 : 1]) : fractions[parameters.switch ? 1 : 0].subtract(fractions[parameters.switch ? 0 : 1])).removeTrivial([], ['combineMinusSignsInFractions'])

@@ -16,7 +16,7 @@ export default buildMonoExercise({
 		return { q, Qdot }
 	},
 
-	getSolution({ q, Qdot }) {
+	getSolution({ parameters: { q, Qdot } }) {
 		const qs = q.simplify()
 		const Qdots = Qdot.simplify()
 		const mdot = Qdots.divide(qs).setUnit('kg/s')

@@ -24,7 +24,7 @@ export default buildStepExercise({
 		return { f, g }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { f, g } = parameters
 		const x = f.collectVariables()[0]
 		const h = f.divide(g).removeTrivial()

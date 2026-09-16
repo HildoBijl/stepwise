@@ -15,7 +15,7 @@ export default buildMonoExercise({
 		return { wt, m }
 	},
 
-	getSolution({ wt, m }) {
+	getSolution({ parameters: { wt, m } }) {
 		const wts = wt.simplify()
 		const ms = m.simplify()
 		const Wt = wts.multiply(ms).setUnit('J')

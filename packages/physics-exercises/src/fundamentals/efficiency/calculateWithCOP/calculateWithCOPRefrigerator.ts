@@ -23,7 +23,7 @@ export default buildMonoExercise({
 		return { Ee, Eout }
 	},
 
-	getSolution({ Ee, Eout }) {
+	getSolution({ parameters: { Ee, Eout } }) {
 		return {
 			Ef: Eout.subtract(Ee, true),
 			epsilon: Eout.subtract(Ee).divide(Ee).setUnit('').setSignificantDigits(2),

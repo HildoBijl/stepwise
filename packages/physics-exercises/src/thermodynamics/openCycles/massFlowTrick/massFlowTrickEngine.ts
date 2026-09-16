@@ -16,7 +16,7 @@ export default buildMonoExercise({
 		return { rho, mdot }
 	},
 
-	getSolution({ rho, mdot }) {
+	getSolution({ parameters: { rho, mdot } }) {
 		const v = rho.invert()
 		const Vdot = mdot.multiply(v).setUnit('m^3/s')
 		return { v, Vdot }

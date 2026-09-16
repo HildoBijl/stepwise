@@ -15,9 +15,8 @@ export default buildStepExercise({
 		},
 	},
 
-	generateParameters,
-
-	getSolution(parameters) {
+	generateParameters: () => generateParameters(),
+	getSolution({ parameters }) {
 		const cycleParameters = getCycleParameters(parameters)
 		const energyParameters = getEnergyParameters(parameters)
 		const { Q12, Q31, Wn } = energyParameters

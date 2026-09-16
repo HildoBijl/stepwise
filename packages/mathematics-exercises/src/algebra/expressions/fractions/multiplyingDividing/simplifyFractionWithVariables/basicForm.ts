@@ -36,7 +36,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseExpression = asExpression('(a*x^c)/(b*x^d*(x+f))').substitute(variables).removeTrivial()
 		const expression = parameters.switch ? baseExpression.invert() : baseExpression.self()

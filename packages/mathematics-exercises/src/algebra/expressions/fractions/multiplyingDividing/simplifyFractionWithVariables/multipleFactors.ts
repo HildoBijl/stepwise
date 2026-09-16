@@ -41,7 +41,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseExpression = asExpression('(a*(x+c)^p*(x+e)*(x+d))/(b*(x+d)^p*(x+c))', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 		const expression = parameters.switch ? baseExpression.invert() : baseExpression.self()

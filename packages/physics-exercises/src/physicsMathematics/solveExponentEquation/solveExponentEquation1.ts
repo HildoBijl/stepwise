@@ -21,7 +21,7 @@ export default buildMonoExercise({
 		return { a, b, c, p }
 	},
 
-	getSolution({ a, b, c, p }) {
+	getSolution({ parameters: { a, b, c, p } }) {
 		const aDivB = a.divide(b, true)
 		const aDivBTimesCToP = aDivB.multiply(c.toPower(p))
 		const ans = a.divide(b).toPower(p.invert()).multiply(c).setMinimumSignificantDigits(2)

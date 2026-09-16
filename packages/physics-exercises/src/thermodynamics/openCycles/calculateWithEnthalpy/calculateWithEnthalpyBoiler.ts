@@ -12,9 +12,8 @@ export default buildStepExercise({
 		comparisons: { Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
-	generateParameters,
-
-	getSolution({ Q, m }) {
+	generateParameters: () => generateParameters(),
+	getSolution({ parameters: { Q, m } }) {
 		const Qs = Q.simplify()
 		const q = Qs.divide(m).setUnit('kJ/kg')
 		const c = new Quantity('4186 J/kg * dC')

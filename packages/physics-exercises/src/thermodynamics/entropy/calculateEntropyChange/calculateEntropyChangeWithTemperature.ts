@@ -29,7 +29,7 @@ export default buildStepExercise({
 		return { type, medium, T1o, T2o, mo }
 	},
 
-	getSolution({ type, medium, T1o, T2o, mo }) {
+	getSolution({ parameters: { type, medium, T1o, T2o, mo } }) {
 		const T1 = T1o.simplify()
 		const T2 = T2o.simplify()
 		const m = mo.simplify()

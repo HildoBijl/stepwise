@@ -23,7 +23,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		const a = randomInteger(example ? 2 : -8, 8, { exclude: [-1, 0, 1] })
 		return {
 			x: sample(variableSet),
@@ -34,7 +34,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const expression = asExpression('a*x^b(x^c)^d').substitute(variables).removeTrivial()
 		const powersReducedStep = expression.removeTrivial(['flattenNestedPowers'])

@@ -28,7 +28,7 @@ export default buildStepExercise({
 		return { gas, V2, p1, p2 }
 	},
 
-	getSolution({ gas, p1, p2, V2 }) {
+	getSolution({ parameters: { gas, p1, p2, V2 } }) {
 		const p1s = p1
 		const p2s = p2
 		const V2s = V2

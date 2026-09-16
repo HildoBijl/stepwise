@@ -24,7 +24,7 @@ export default buildStepExercise({
 		return { p1o, p2o, rho }
 	},
 
-	getSolution({ p1o, p2o, rho }) {
+	getSolution({ parameters: { p1o, p2o, rho } }) {
 		const p1 = p1o.simplify()
 		const p2 = p2o.simplify()
 		const v1 = rho.invert()

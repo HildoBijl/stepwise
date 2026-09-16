@@ -20,9 +20,8 @@ export default buildMonoExercise({
 		},
 	},
 
-	generateParameters,
-
-	getSolution({ x }) {
+	generateParameters: ({ example }) => generateParameters(example),
+	getSolution({ parameters: { x } }) {
 		return { ans: x }
 	},
 

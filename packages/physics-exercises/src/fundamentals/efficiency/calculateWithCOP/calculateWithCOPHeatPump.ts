@@ -23,7 +23,7 @@ export default buildMonoExercise({
 		return { Pe, Pin }
 	},
 
-	getSolution({ Pe, Pin }) {
+	getSolution({ parameters: { Pe, Pin } }) {
 		return {
 			Pout: Pin.add(Pe, true),
 			COP: Pin.add(Pe).divide(Pe).setUnit('').setSignificantDigits(2),

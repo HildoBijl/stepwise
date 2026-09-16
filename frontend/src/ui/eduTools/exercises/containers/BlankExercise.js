@@ -36,8 +36,8 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(async () => {
 		if (exerciseDefinition) {
-			const parameters = await exerciseDefinition.generateParameters(false)
-			const initialState = await exerciseDefinition.getInitialState(parameters)
+			const parameters = await exerciseDefinition.generateParameters({ example: false, context: undefined })
+			const initialState = await exerciseDefinition.getInitialState({ parameters, context: undefined })
 			setExercise({ // Emulate the exercise object that we otherwise get from the server.
 				exerciseId: exerciseId,
 				mode: 'solo',
@@ -55,7 +55,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 
 	// Set up a submit handler. Do the same as would happen on the server: find the new state and incorporate it into the exercise data and its history.
 	const submitAction = useCallback(async (action, processSoloAction) => {
-		const { state, report } = await processSoloAction({ parameters: exercise.parameters, state: exercise.state, action, updateSkills: noop })
+		const { state, report } = await processSoloAction({ parameters: exercise.parameters, context: undefined, state: exercise.state, action, updateSkills: noop })
 		setExercise({
 			...exercise,
 			active: exercise.active && !state.done,

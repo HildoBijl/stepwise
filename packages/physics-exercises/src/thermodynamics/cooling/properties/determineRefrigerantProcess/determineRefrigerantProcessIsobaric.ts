@@ -57,7 +57,7 @@ export default buildMonoExercise({
 		throw new Error('Failed to generate a valid isobaric refrigerant process after 100 attempts.')
 	},
 
-	getSolution({ refrigerant, phase1, T1, x1, p1, phase2, x2, T2 }) {
+	getSolution({ parameters: { refrigerant, phase1, T1, x1, p1, phase2, x2, T2 } }) {
 		const refrigerantData = refrigerantDatasets[refrigerant]
 		const point1 = phase1 === 'mixture' ? getSaturatedMixturePropertiesFromTemperature(refrigerantData, T1, x1!)! : getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, p1!, T1)!
 		const point2 = phase2 === 'mixture' ? getSaturatedMixturePropertiesFromPressure(refrigerantData, point1.pressure, x2!)! : getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, point1.pressure, T2!)!

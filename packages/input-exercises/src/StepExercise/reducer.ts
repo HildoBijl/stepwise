@@ -1,10 +1,10 @@
 import type { PlainDataObject } from '@step-wise/js-utils'
 import type { SkillSetupLike } from '@step-wise/skill-setup'
-import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters } from '@step-wise/exercise-definition'
+import type { GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
 
 import { type GroupInputExerciseReport, type InputDependency, type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseRawInput, type InputExerciseReport, type InputExerciseSolution, type InputExerciseValueOperations, type SoloInputExerciseReport, resolveSolution, resolveStaticSolution, resolveUpdatedInputDependency } from '../InputExercise/index.ts'
 import { getGroupInputExerciseReport, mergeInputExerciseReports, normalizeCheckInputResult } from '../InputExercise/checkInput.ts'
-import { deserializeInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
+import { deserializeInputExerciseParameters, resolveInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
 import { createInputExerciseValueOperations } from '../InputExercise/valueOperations.ts'
 import { type InputExerciseActionsReduction, type InputExerciseReducerInput, addAttemptsToState, getInputDependency, hasAttempted, setInputDependencies } from '../InputExercise/reducerSupport.ts'
 
@@ -16,10 +16,11 @@ import { getCurrentStep } from './history.ts'
 export function buildStepExercise<
 	TParameters extends InputExerciseParameters = InputExerciseParameters,
 	TSolution extends InputExerciseSolution = InputExerciseSolution,
-	TInputDependency = InputDependency
+	TInputDependency = InputDependency,
+	TContext = undefined,
 >(
-	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency>
-): StepExercise<TParameters, TSolution, TInputDependency> {
+	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency, TContext>
+): StepExercise<TParameters, TSolution, TInputDependency, TContext> {
 	ensureStepExerciseSteps(spec.metadata.steps)
 	const { valueTypes, ...definition } = spec
 	const valueOperations = createInputExerciseValueOperations(valueTypes)
@@ -27,7 +28,7 @@ export function buildStepExercise<
 		...definition,
 		valueOperations,
 		type: 'step',
-		generateParameters: async example => serializeInputExerciseParameters(await resolveExerciseParameters(spec.generateParameters, example), valueOperations.serialize),
+		generateParameters: async input => serializeInputExerciseParameters(await resolveInputExerciseParameters(spec.generateParameters, input), valueOperations.serialize),
 		getInitialState: () => ({}),
 		processSoloAction: buildStepExerciseSoloReducer(spec, valueOperations),
 		processGroupActions: buildStepExerciseGroupReducer(spec, valueOperations),
@@ -38,11 +39,12 @@ export function buildStepExercise<
 function buildStepExerciseSoloReducer<
 	TParameters extends InputExerciseParameters,
 	TSolution extends InputExerciseSolution,
-	TInputDependency
+	TInputDependency,
+	TContext,
 >(
-	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency>,
+	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency, TContext>,
 	valueOperations: InputExerciseValueOperations
-): SoloExerciseReducer<InputExerciseAction, StepExerciseState, PlainDataObject, SoloInputExerciseReport> {
+): SoloExerciseReducer<InputExerciseAction, StepExerciseState, PlainDataObject, SoloInputExerciseReport, TContext> {
 	return async input => {
 		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters, valueOperations.deserialize) }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return { state: runtimeInput.state }
@@ -55,11 +57,12 @@ function buildStepExerciseSoloReducer<
 function buildStepExerciseGroupReducer<
 	TParameters extends InputExerciseParameters,
 	TSolution extends InputExerciseSolution,
-	TInputDependency
+	TInputDependency,
+	TContext,
 >(
-	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency>,
+	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency, TContext>,
 	valueOperations: InputExerciseValueOperations
-): GroupExerciseReducer<InputExerciseAction, StepExerciseState, PlainDataObject, GroupInputExerciseReport> {
+): GroupExerciseReducer<InputExerciseAction, StepExerciseState, PlainDataObject, GroupInputExerciseReport, TContext> {
 	return async input => {
 		if (input.actions.length === 0) throw new Error(`Cannot resolve a group exercise without actions.`)
 		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters, valueOperations.deserialize), mode: 'group' as const }
@@ -74,10 +77,11 @@ function buildStepExerciseGroupReducer<
 async function reduceActions<
 	TParameters extends InputExerciseParameters,
 	TSolution extends InputExerciseSolution,
-	TInputDependency
+	TInputDependency,
+	TContext,
 >(
-	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency>,
-	input: InputExerciseReducerInput<InputExerciseAction, StepExerciseState, TParameters>,
+	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency, TContext>,
+	input: InputExerciseReducerInput<InputExerciseAction, StepExerciseState, TParameters, TContext>,
 	valueOperations: InputExerciseValueOperations
 ): Promise<InputExerciseActionsReduction<StepExerciseState>> {
 	return ('split' in input.state && input.state.split)
@@ -89,20 +93,21 @@ async function reduceActions<
 async function reduceMainProblem<
 	TParameters extends InputExerciseParameters,
 	TSolution extends InputExerciseSolution,
-	TInputDependency
+	TInputDependency,
+	TContext,
 >(
-	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency>,
-	input: InputExerciseReducerInput<InputExerciseAction, StepExerciseState, TParameters>,
+	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency, TContext>,
+	input: InputExerciseReducerInput<InputExerciseAction, StepExerciseState, TParameters, TContext>,
 	valueOperations: InputExerciseValueOperations
 ): Promise<InputExerciseActionsReduction<StepExerciseState>> {
 	const { metadata, checkInput } = spec
-	const { mode, state, actions, parameters, updateSkills } = input
+	const { mode, state, actions, parameters, context, updateSkills } = input
 	let newState = addAttemptsToState(state, mode, getAttemptingUserIds(actions))
 
 	// Run the checkInput function for all input actions, and also update the inputDependencies.
 	const inputActionsData = await resolveInputActionsData(spec, input, valueOperations, 0)
 	newState = addDependenciesToState(newState, mode, actions, inputActionsData, valueOperations, spec.updateInputDependency !== undefined)
-	const checkResults = await Promise.all(inputActionsData.map(async inputActionData => inputActionData === undefined ? { correct: false } : normalizeCheckInputResult(await checkInput({ metadata, parameters, ...inputActionData, areValuesEqual: valueOperations.areValuesEqual }, 0, 0))))
+	const checkResults = await Promise.all(inputActionsData.map(async inputActionData => inputActionData === undefined ? { correct: false } : normalizeCheckInputResult(await checkInput({ metadata, parameters, ...inputActionData, context, areValuesEqual: valueOperations.areValuesEqual }, 0, 0))))
 
 	// Determine if the exercise is solved or given up, and update skills if applicable.
 	const correct = checkResults.map(result => result.correct)
@@ -130,10 +135,11 @@ async function reduceMainProblem<
 async function reduceCurrentStep<
 	TParameters extends InputExerciseParameters,
 	TSolution extends InputExerciseSolution,
-	TInputDependency
+	TInputDependency,
+	TContext,
 >(
-	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency>,
-	input: InputExerciseReducerInput<InputExerciseAction, StepExerciseState, TParameters>,
+	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency, TContext>,
+	input: InputExerciseReducerInput<InputExerciseAction, StepExerciseState, TParameters, TContext>,
 	valueOperations: InputExerciseValueOperations
 ): Promise<InputExerciseActionsReduction<StepExerciseState>> {
 	const step = getCurrentStep(input.state)
@@ -147,15 +153,16 @@ async function reduceCurrentStep<
 async function reduceStepWithoutSubsteps<
 	TParameters extends InputExerciseParameters,
 	TSolution extends InputExerciseSolution,
-	TInputDependency
+	TInputDependency,
+	TContext,
 >(
-	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency>,
-	input: InputExerciseReducerInput<InputExerciseAction, StepExerciseState, TParameters>,
+	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency, TContext>,
+	input: InputExerciseReducerInput<InputExerciseAction, StepExerciseState, TParameters, TContext>,
 	valueOperations: InputExerciseValueOperations,
 	skill: SkillSetupLike | undefined
 ): Promise<InputExerciseActionsReduction<StepExerciseState>> {
 	const { metadata, checkInput } = spec
-	const { mode, state, actions, parameters, updateSkills } = input
+	const { mode, state, actions, parameters, context, updateSkills } = input
 	const step = getCurrentStep(state)
 	const stepState = getStepState(state, step)
 	const newStepState = addAttemptsToState(stepState, mode, getAttemptingUserIds(actions))
@@ -163,7 +170,7 @@ async function reduceStepWithoutSubsteps<
 	// Run the checkInput function for all input actions, and also update the inputDependencies.
 	const inputActionsData = await resolveInputActionsData(spec, input, valueOperations, step)
 	const stateWithDependencies = addDependenciesToState(state, mode, actions, inputActionsData, valueOperations, spec.updateInputDependency !== undefined)
-	const checkResults = await Promise.all(inputActionsData.map(async inputActionData => inputActionData === undefined ? { correct: false } : normalizeCheckInputResult(await checkInput({ metadata, parameters, ...inputActionData, areValuesEqual: valueOperations.areValuesEqual }, step, 0))))
+	const checkResults = await Promise.all(inputActionsData.map(async inputActionData => inputActionData === undefined ? { correct: false } : normalizeCheckInputResult(await checkInput({ metadata, parameters, ...inputActionData, context, areValuesEqual: valueOperations.areValuesEqual }, step, 0))))
 
 	// Determine if the exercise is solved or given up, and update skills if applicable.
 	const correct = checkResults.map(result => result.correct)
@@ -190,14 +197,15 @@ async function reduceStepWithoutSubsteps<
 async function reduceStepWithSubsteps<
 	TParameters extends InputExerciseParameters,
 	TSolution extends InputExerciseSolution,
-	TInputDependency
+	TInputDependency,
+	TContext,
 >(
-	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency>,
-	input: InputExerciseReducerInput<InputExerciseAction, StepExerciseState, TParameters>,
+	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency, TContext>,
+	input: InputExerciseReducerInput<InputExerciseAction, StepExerciseState, TParameters, TContext>,
 	valueOperations: InputExerciseValueOperations
 ): Promise<InputExerciseActionsReduction<StepExerciseState>> {
 	const { metadata, checkInput } = spec
-	const { mode, state, actions, parameters, updateSkills } = input
+	const { mode, state, actions, parameters, context, updateSkills } = input
 	const step = getCurrentStep(state)
 	const previousStepState = getStepState(state, step)
 	const stepState = addAttemptsToState({ ...previousStepState }, mode, getAttemptingUserIds(actions))
@@ -215,7 +223,7 @@ async function reduceStepWithSubsteps<
 		if (stepState[`${substep}`]) continue
 
 		// Run the checkInput function for all input actions for this substep, and also update the reports.
-		const checkResults = await Promise.all(inputActionsData.map(async inputActionData => inputActionData === undefined ? { correct: false } : normalizeCheckInputResult(await checkInput({ metadata, parameters, ...inputActionData, areValuesEqual: valueOperations.areValuesEqual }, step, substep))))
+		const checkResults = await Promise.all(inputActionsData.map(async inputActionData => inputActionData === undefined ? { correct: false } : normalizeCheckInputResult(await checkInput({ metadata, parameters, ...inputActionData, context, areValuesEqual: valueOperations.areValuesEqual }, step, substep))))
 		checkResults.forEach((result, resultIndex) => reports[resultIndex] = mergeInputExerciseReports(reports[resultIndex], result.report))
 
 		// Determine if the exercise is solved or given up, and update skills if applicable.
@@ -254,20 +262,21 @@ type InputActionData<TInputDependency, TSolution extends InputExerciseSolution> 
 async function resolveInputActionsData<
 	TParameters extends InputExerciseParameters,
 	TSolution extends InputExerciseSolution,
-	TInputDependency
+	TInputDependency,
+	TContext,
 >(
-	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency>,
-	reducerInput: InputExerciseReducerInput<InputExerciseAction, StepExerciseState, TParameters>,
+	spec: StepExerciseSpec<TParameters, TSolution, TInputDependency, TContext>,
+	reducerInput: InputExerciseReducerInput<InputExerciseAction, StepExerciseState, TParameters, TContext>,
 	valueOperations: InputExerciseValueOperations, step: number
 ): Promise<(InputActionData<TInputDependency, TSolution> | undefined)[]> {
-	const { actions, mode, parameters, state } = reducerInput
-	const staticSolution = actions.some(({ action }) => action.type === 'input') ? await resolveStaticSolution(spec, parameters) : {}
+	const { actions, mode, parameters, state, context } = reducerInput
+	const staticSolution = actions.some(({ action }) => action.type === 'input') ? await resolveStaticSolution(spec, parameters, context) : {}
 	return await Promise.all(actions.map(async ({ action, userId }) => {
 		if (action.type !== 'input') return undefined
 		const input = valueOperations.interpretInput(action.input)
 		const previousInputDependency = getInputDependency<TInputDependency>(state, mode, valueOperations, mode === 'group' ? action.adoptUserHistory ?? userId : userId)
-		const inputDependency = await resolveUpdatedInputDependency(spec, { parameters, previousInputDependency, staticSolution, input, step })
-		const solution = await resolveSolution(spec, parameters, inputDependency, staticSolution)
+		const inputDependency = await resolveUpdatedInputDependency(spec, { parameters, previousInputDependency, staticSolution, input, step, context })
+		const solution = await resolveSolution(spec, parameters, inputDependency, staticSolution, context)
 		return { rawInput: action.input, input, inputDependency, solution }
 	}))
 }

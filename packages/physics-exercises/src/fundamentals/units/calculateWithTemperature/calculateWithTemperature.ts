@@ -37,7 +37,7 @@ export default buildMonoExercise({
 		return { T, type }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const T = parameters.T.simplify()
 		return { ...parameters, ans: parameters.type === 0 ? T.setUnit('dC') : T }
 	},

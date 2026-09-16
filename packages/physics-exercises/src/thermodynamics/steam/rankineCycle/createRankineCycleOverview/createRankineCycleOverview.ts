@@ -21,7 +21,7 @@ export default buildStepExercise({
 		return { pc, pe, T2 }
 	},
 
-	getSolution({ pc, pe, T2 }) {
+	getSolution({ parameters: { pc, pe, T2 } }) {
 		const saturatedProperties = interpolateTableOutputs(pc, saturatedSteamPropertiesByPressure)
 		const hx0 = saturatedProperties.enthalpyLiquid!
 		const hx1 = saturatedProperties.enthalpyVapor!

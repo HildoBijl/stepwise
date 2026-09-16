@@ -50,7 +50,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		// Set up general parameters parameters.
 		const x = sample(variableSet)
 		const zeroSolutions = sample([true, false, false, false, false]) // Only have zero solutions in a small part of the cases.
@@ -73,7 +73,7 @@ export default buildStepExercise({
 		return { a, b, c, d, x, flip }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Assemble the equation.
 		const { a, b, c, d, flip } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)

@@ -26,7 +26,7 @@ export default buildMonoExercise({
 		}
 	},
 
-	getSolution({ unit }) {
+	getSolution({ parameters: { unit } }) {
 		return { ans: unit }
 	},
 

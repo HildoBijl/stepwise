@@ -22,7 +22,7 @@ export default buildStepExercise({
 		return { f1, f2, g }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { f1, f2, g } = parameters
 		const method = 1
 		const f = f1.multiply(f2).flatten()
