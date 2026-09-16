@@ -17,7 +17,7 @@ export function Home() {
 
 	// Render the page.
 	return <PageTranslationFile page="home">
-		<Helmet><title>{websiteNameTranslation} | {websiteNameAddendumTranslation}</title></Helmet>
+		<Helmet><title>{`${websiteNameTranslation} | ${websiteNameAddendumTranslation}`}</title></Helmet>
 		<Box sx={theme => ({ background: theme.palette.primary.main, borderRadius: '0% 0% 200% 200%/0% 0% 30% 30%' })}>
 			<LanguageBar />
 			<TitleBar />
