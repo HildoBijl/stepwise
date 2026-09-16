@@ -32,7 +32,7 @@ export function useGroupExerciseSubscriptions(exerciseId: string | undefined, su
 				return { groupExercise: mergeGroupEventResolution(previousData.groupExercise, resolution, refetch) }
 			},
 		})
-		
+
 		return () => {
 			unsubscribeActionUpdates()
 			unsubscribeResolutions()

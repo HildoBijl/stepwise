@@ -21,8 +21,9 @@ export function useGroupExercise(id?: string): UseGroupExerciseResult {
 		variables: { id: id ?? '' },
 		skip: !id,
 	})
-	useGroupExerciseSubscriptions(id, subscribeToMore, refetch, !!id)
 	const record = data?.groupExercise
+	const exerciseIsAvailable = record?.id === id
+	useGroupExerciseSubscriptions(id, subscribeToMore, refetch, exerciseIsAvailable)
 	const exercise = useMemo(() => record ? groupExerciseRecordToExercise(record) : undefined, [record])
 	return { exercise, loading, error }
 }
