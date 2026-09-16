@@ -210,13 +210,14 @@ Group action lookups require a `userId` and throw when it is missing. Solo actio
 
 `ExerciseMetadata` can describe how an exercise relates to the surrounding learning system:
 
+- `version` identifies the persisted-data format expected by the exercise and defaults to `1`.
 - `skill` identifies one directly practiced skill.
 - `setup` describes a more involved skill setup.
 - `weight` is a non-negative relative selection weight and defaults to `1`.
 - `repeatAfter` is the non-negative number of intervening exercises preferred before repetition and defaults to `1`.
 - `setupInferenceOrder` sets a non-negative integer inference order when a custom resolution is needed.
 
-Use `resolveExerciseMetadata(metadata)` to validate these standard properties, preserve any specialized properties, and apply the `weight` and `repeatAfter` defaults. The returned `ResolvedExerciseMetadata` type exposes both defaulted properties as required numbers. `isExerciseMetadata(value)` provides the corresponding non-throwing check.
+Use `resolveExerciseMetadata(metadata)` to validate these standard properties, preserve any specialized properties, and apply the `version`, `weight`, and `repeatAfter` defaults. The returned `ResolvedExerciseMetadata` type exposes all three defaulted properties as required numbers. Versions must be positive safe integers and should be incremented whenever existing persisted parameters, state, actions, or reports become incompatible with the exercise definition. Compatible implementation changes and presentation-only changes do not require a new version. `isExerciseMetadata(value)` provides the corresponding non-throwing check.
 
 Reducers may call the optional `updateSkills(setup, correct, userId?)` function supplied in their input. A group reducer can provide the relevant user ID for each update.
 

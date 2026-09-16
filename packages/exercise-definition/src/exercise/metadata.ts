@@ -24,9 +24,10 @@ export function resolveExerciseMetadata<TMetadata extends ExerciseMetadata>(meta
 	}
 	if (metadata.setup !== undefined && !(metadata.setup instanceof SkillSetup)) throw new TypeError('Invalid exercise setup: expected a SkillSetup instance.')
 
-	// Validate the weight and repeatAfter properties if they are provided.
+	// Validate and resolve the version, weight, and repeatAfter properties.
 	return {
 		...metadata,
+		version: ensureInteger(metadata.version ?? 1, { nonNegative: true, nonZero: true, safe: true }),
 		weight: ensureNumber(metadata.weight ?? 1, { nonNegative: true }),
 		repeatAfter: ensureInteger(metadata.repeatAfter ?? 1, { nonNegative: true, safe: true }),
 		...(metadata.setupInferenceOrder === undefined ? {} : { setupInferenceOrder: ensureInteger(metadata.setupInferenceOrder, { nonNegative: true, safe: true }) }),

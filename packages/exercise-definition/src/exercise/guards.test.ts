@@ -16,7 +16,7 @@ describe('isExercise', () => {
 		expect(isExercise(value)).toBe(false)
 	})
 
-	it.each([undefined, null, [], 3, { weight: -1 }, { repeatAfter: 1.5 }, { setup: 'addition' }])('rejects invalid metadata: %p', metadata => {
+	it.each([undefined, null, [], 3, { version: 0 }, { weight: -1 }, { repeatAfter: 1.5 }, { setup: 'addition' }])('rejects invalid metadata: %p', metadata => {
 		expect(isExercise({ ...baseExercise, metadata, processSoloAction })).toBe(false)
 	})
 
