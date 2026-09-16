@@ -42,6 +42,7 @@ const result = await exercise.processSoloAction!({
 	parameters: { target: 6 },
 	state: { attempts: 0 },
 	action: { type: 'answer', value: 6 },
+	context: undefined,
 })
 // { state: { attempts: 1, done: true }, report: { correct: true } }
 ```
@@ -78,11 +79,41 @@ The package distinguishes three kinds of exercise data:
 
 All three use plain data objects so they can be stored and transferred safely. Every action must have a string `type` property.
 
-`generateParameters(example)` creates the parameters for a new exercise. The boolean `example` flag allows a generator to distinguish (possibly simplified) examples from regular exercises. Parameter generators may return their parameters immediately or through a promise, so consumers should always await them.
+`generateParameters({ example, context })` creates the parameters for a new exercise. The boolean `example` flag allows a generator to distinguish (possibly simplified) examples from regular exercises. Parameter generators may return their parameters immediately or through a promise, so consumers should always await them.
 
-`getInitialState(parameters)` derives the state before the first action. It may return that state immediately or through a promise, so consumers should always await it.
+`getInitialState({ parameters, context })` derives the state before the first action. It may return that state immediately or through a promise, so consumers should always await it.
 
 When defining a higher-level exercise specification, both factories may be omitted, in which case they default to `() => ({})`.
+
+
+## Execution context
+
+An exercise can declare a typed execution context for transient information and platform-provided capabilities. Context is supplied whenever parameters or initial state are generated and whenever an action is processed. It is not part of the exercise parameters, state, actions, reports, or persisted history.
+
+The context generic defaults to `undefined`, so exercises without contextual requirements do not need to define a context type. Callers still pass `context: undefined`, making the execution contract explicit. An exercise requiring context adds it as the final `Exercise` type argument:
+
+```ts
+type SqlExerciseContext = {
+	moduleId: string
+	database: {
+		query: (sql: string) => Promise<readonly Record<string, unknown>[]>
+	}
+}
+
+type SqlExercise = Exercise<
+	{},
+	Action,
+	State,
+	Parameters,
+	SoloExerciseReport,
+	GroupExerciseReport,
+	SqlExerciseContext
+>
+```
+
+Platform-specific implementations should expose a common capability interface through context. For example, browser and server database implementations can both satisfy the `database` contract above, keeping the exercise itself platform-independent.
+
+Context should contain only what is needed for the current execution. Serializable module configuration may help construct it, but runtime services themselves should not be stored in module definitions or exercise instances.
 
 
 ## Solo mode
@@ -94,6 +125,7 @@ processSoloAction: ({
 	parameters,
 	state,
 	action,
+	context,
 	updateSkills,
 }) => Awaitable<{ state: newState, report? }>
 ```
@@ -118,6 +150,7 @@ processGroupActions: ({
 	parameters,
 	state,
 	actions,
+	context,
 	updateSkills,
 }) => Awaitable<{ state: newState, report? }>
 ```
