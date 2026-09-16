@@ -28,7 +28,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const sign = parameters.plus ? '+' : '-'
 		const expression = asExpression(`(by${sign}ax)/(abxy)`).substitute(variables).removeTrivial(['combineNumbersInProducts', 'sortProducts'])

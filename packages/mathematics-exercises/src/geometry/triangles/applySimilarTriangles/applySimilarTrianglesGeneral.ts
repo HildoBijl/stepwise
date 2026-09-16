@@ -38,7 +38,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Extract all the variables.
 		let { a, b, c, La, Lb } = parameters
 		const Lc = asExpression('sqrt(L_a^2 + L_b^2)').substitute({ L_a: La, L_b: Lb }).combine()

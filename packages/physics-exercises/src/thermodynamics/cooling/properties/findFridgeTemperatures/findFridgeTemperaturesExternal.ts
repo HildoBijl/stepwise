@@ -17,7 +17,7 @@ export default buildMonoExercise({
 		return { type, TCond, TEvap, dTCold, dTWarm }
 	},
 
-	getSolution({ TCond, TEvap, dTCold, dTWarm }) {
+	getSolution({ parameters: { TCond, TEvap, dTCold, dTWarm } }) {
 		const TWarm = TCond.subtract(dTWarm)
 		const TCold = TEvap.add(dTCold)
 		return { TCold, TWarm }

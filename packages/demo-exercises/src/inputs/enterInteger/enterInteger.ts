@@ -7,12 +7,12 @@ export default buildMonoExercise({
 		skill: 'enterInteger',
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		const limit = example ? 20 : 100
 		return { x: randomInteger(-limit, limit) }
 	},
 
-	getSolution({ x }) {
+	getSolution({ parameters: { x } }) {
 		return { ans: x }
 	},
 

@@ -72,17 +72,17 @@ describe('exercise registry', () => {
 							it(`generates valid ${example ? 'example' : 'exercise'} data`, async () => {
 								expect(isExercise(exercise)).toBe(true)
 								if (!isExercise(exercise)) return
-								const storedParameters = await exercise.generateParameters(example)
+								const storedParameters = await exercise.generateParameters({ example, context: undefined })
 								expect(isPlainObject(storedParameters)).toBe(true)
-								const initialState = await exercise.getInitialState(storedParameters)
+								const initialState = await exercise.getInitialState({ parameters: storedParameters, context: undefined })
 								expect(isPlainObject(initialState)).toBe(true)
 
 								if (isInputExercise(exercise) && exercise.getSolution !== undefined) {
 									const parameters = exercise.valueOperations.deserialize(storedParameters)
 									expect(isPlainObject(parameters)).toBe(true)
 									if (!isPlainObject(parameters)) return
-									const staticSolution = await resolveStaticSolution(exercise, parameters)
-									const solution = await resolveSolution(exercise, parameters, undefined, staticSolution)
+									const staticSolution = await resolveStaticSolution(exercise, parameters, undefined)
+									const solution = await resolveSolution(exercise, parameters, undefined, staticSolution, undefined)
 									expect(isPlainObject(solution)).toBe(true)
 								}
 							})

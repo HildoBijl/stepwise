@@ -31,7 +31,7 @@ export default buildMonoExercise({
 		}
 	},
 
-	getSolution({ equation }) {
+	getSolution({ parameters: { equation } }) {
 		return { ans: equation.switchSides() }
 	},
 

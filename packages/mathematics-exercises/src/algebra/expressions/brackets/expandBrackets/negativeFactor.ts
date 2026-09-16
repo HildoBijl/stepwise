@@ -35,7 +35,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = asExpression('ax').substitute(variables).removeTrivial()
 		const sum = asExpression(parameters.xFirst ? 'b-c*x^n' : 'c*x^n-b').substitute(variables).removeTrivial()

@@ -24,7 +24,7 @@ export default buildStepExercise({
 		return { c, fRaw, g1, g2 }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { c, fRaw, g1, g2 } = parameters
 		const method = 2
 		const f = fRaw.multiplyLeft(c).cancel()

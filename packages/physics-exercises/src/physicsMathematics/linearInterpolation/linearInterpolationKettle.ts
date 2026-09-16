@@ -30,7 +30,7 @@ export default buildStepExercise({
 		return { type, T1, T2, t1, t2, t }
 	},
 
-	getSolution({ type, T1, T2, t1, t2, T, t }) {
+	getSolution({ parameters: { type, T1, T2, t1, t2, T, t } }) {
 		let x
 		if (type === 1) {
 			x = T!.subtract(T1).divide(T2.subtract(T1)).value

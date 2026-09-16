@@ -27,7 +27,7 @@ export default buildMonoExercise({
 		return { P, Pin }
 	},
 
-	getSolution({ P, Pin }) {
+	getSolution({ parameters: { P, Pin } }) {
 		return { eta: P.divide(Pin).setUnit('') }
 	},
 

@@ -29,7 +29,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const { plus } = parameters
 		const leftExpression = asExpression('a/(xz)').substitute(variables)

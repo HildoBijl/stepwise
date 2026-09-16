@@ -33,7 +33,7 @@ export default buildStepExercise({
 		return { x: sample(variableSet), a, b, c, d, switchSides: randomBoolean() }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { a, b, c, d, switchSides } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseEquation = asEquation('(a*x+b)/(x+c)=d').substitute(variables).removeTrivial()

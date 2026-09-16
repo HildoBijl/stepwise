@@ -47,7 +47,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		// Set up general parameters parameters.
 		const x = sample(variableSet)
 		const normalize = example ? false : randomBoolean()
@@ -66,7 +66,7 @@ export default buildStepExercise({
 		return { a, b, c, d, e, x, flip, normalize }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Assemble the equation.
 		const { a, b, c, d, e, flip, normalize } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)

@@ -27,7 +27,7 @@ export default buildStepExercise({
 		return { ...selectRandomVariables(sample(availableVariableSets), usedVariables), a, b, c }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Extract parameters variables.
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('(y+b)/(x+c) + a/x = z/x').substitute(variables).removeTrivial()

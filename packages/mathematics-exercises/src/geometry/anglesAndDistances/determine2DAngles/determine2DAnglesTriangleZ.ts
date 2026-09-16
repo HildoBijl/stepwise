@@ -33,7 +33,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const { a, b, c } = parameters
 		const alpha = asExpression(180 - a - b)

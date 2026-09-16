@@ -33,7 +33,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Determine which case we are dealing with.
 		const { x, known, beta, y, requested } = parameters
 		const variables = { [['a', 'b', 'c'][known]]: x, [['a', 'b', 'c'][requested]]: y, β: beta }

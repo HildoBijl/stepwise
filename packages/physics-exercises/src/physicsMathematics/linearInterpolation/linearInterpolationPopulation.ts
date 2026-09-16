@@ -30,7 +30,7 @@ export default buildStepExercise({
 		return { type, year1, year2, pop1, pop2, pop }
 	},
 
-	getSolution({ type, year1, year2, pop1, pop2, year, pop }) {
+	getSolution({ parameters: { type, year1, year2, pop1, pop2, year, pop } }) {
 		let factor, popUnrounded, yearUnrounded
 		if (type === 1) {
 			factor = (year! - year1) / (year2 - year1)

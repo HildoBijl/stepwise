@@ -27,7 +27,7 @@ export default buildStepExercise({
 		return { refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating, dTSubcooling }
 	},
 
-	getSolution({ refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating, dTSubcooling }) {
+	getSolution({ parameters: { refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating, dTSubcooling } }) {
 		const refrigerantData = refrigerantDatasets[refrigerant]
 		const TEvap = TCold.subtract(dTCold)
 		const TCond = TWarm.add(dTWarm)

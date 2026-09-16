@@ -18,7 +18,7 @@ export default buildMonoExercise({
 		return { T, type }
 	},
 
-	getSolution({ T, type }) {
+	getSolution({ parameters: { T, type } }) {
 		const p = interpolateTable(T, saturatedSteamPropertiesByTemperature, 'boilingPressure')
 		const h = interpolateTable(T, saturatedSteamPropertiesByTemperature, type === 1 ? 'enthalpyLiquid' : 'enthalpyVapor')
 		const s = interpolateTable(T, saturatedSteamPropertiesByTemperature, type === 1 ? 'entropyLiquid' : 'entropyVapor')

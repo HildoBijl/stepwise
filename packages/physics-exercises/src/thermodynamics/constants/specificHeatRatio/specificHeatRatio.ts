@@ -18,7 +18,7 @@ export default buildMonoExercise({
 		return { medium: sample(media) }
 	},
 
-	getSolution({ medium }) {
+	getSolution({ parameters: { medium } }) {
 		return { k: gasProperties[medium].k }
 	},
 

@@ -37,7 +37,7 @@ export default buildStepExercise({
 		return { ...sides, beta: asExpression(sample(variableSet)), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Determine which case we are dealing with.
 		let { a, b, c } = parameters
 		const notGiven = a === undefined ? 0 : b === undefined ? 1 : 2

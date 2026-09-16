@@ -37,7 +37,7 @@ export default buildMonoExercise({
 		return { p, type }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const p = parameters.p.simplify()
 		return { ...parameters, ans: parameters.type === 0 ? p.setUnit('bar') : p }
 	},

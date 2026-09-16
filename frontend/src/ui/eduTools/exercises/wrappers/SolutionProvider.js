@@ -30,7 +30,7 @@ function StaticSolutionProvider({ children, shared, parameters, inputDependency 
 
 	useEffect(() => {
 		let active = true
-		resolveStaticSolution(shared, parameters)
+		resolveStaticSolution(shared, parameters, undefined)
 			.then(staticSolution => { if (active) setResolved({ shared, parameters, staticSolution, error: undefined }) })
 			.catch(error => { if (active) setResolved({ shared, parameters, staticSolution: undefined, error }) })
 		return () => { active = false }
@@ -47,7 +47,7 @@ function ResolvedSolutionProvider({ children, shared, parameters, inputDependenc
 
 	useEffect(() => {
 		let active = true
-		resolveSolution(shared, parameters, inputDependency, staticSolution)
+		resolveSolution(shared, parameters, inputDependency, staticSolution, undefined)
 			.then(solution => { if (active) setResolved({ staticSolution, inputDependency, solution, error: undefined }) })
 			.catch(error => { if (active) setResolved({ staticSolution, inputDependency, solution: undefined, error }) })
 		return () => { active = false }

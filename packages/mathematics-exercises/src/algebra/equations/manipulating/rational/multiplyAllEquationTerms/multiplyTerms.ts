@@ -24,7 +24,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		return {
 			x: sample(variableSet),
 			a: randomInteger(-8, 8, { exclude: [-1, 0, 1] }),
@@ -40,7 +40,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Assemble the equation.
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const terms = ['a*x', 'b', 'c/x', 'd/x^2'].map(term => asExpression(term).substitute(variables))

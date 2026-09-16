@@ -35,7 +35,7 @@ export default buildStepExercise({
 		return { x: sample(variableSet), a, b, c, d }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { a, b, c, d } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('(x+a)/(x+b)=(x+c)/(x+d)').substitute(variables).removeTrivial()

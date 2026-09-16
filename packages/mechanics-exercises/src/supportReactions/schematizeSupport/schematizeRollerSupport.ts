@@ -21,7 +21,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { wallRotation, beamRotation } = parameters
 		const A = Vector.zero
 		return {

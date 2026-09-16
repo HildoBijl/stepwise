@@ -22,7 +22,7 @@ export default buildStepExercise({
 		return { f, c, g1, g2 }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { f, c, g1, g2 } = parameters
 		const x = f.collectVariables()[0]
 		const g = g1.add(g2.multiplyLeft(c)).removeTrivial()

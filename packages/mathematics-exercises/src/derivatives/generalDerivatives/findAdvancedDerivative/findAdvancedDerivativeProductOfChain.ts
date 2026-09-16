@@ -25,7 +25,7 @@ export default buildStepExercise({
 		return { f, g1, g2 }
 	},
 
-	getStaticSolution(parameters) {
+	getStaticSolution({ parameters }) {
 		const { f, g1, g2 } = parameters
 		const method = 0
 		const x = f.collectVariables()[0]
@@ -43,7 +43,7 @@ export default buildStepExercise({
 		return !!(inputF && inputG && areEquivalent(inputF, staticSolution.g) && areEquivalent(inputG, staticSolution.f))
 	},
 
-	getSolution(_, inputDependency, staticSolution) {
+	getSolution({ inputDependency, staticSolution }) {
 		if (!staticSolution.f || !staticSolution.g) throw new Error('Expected the product-rule solution to contain functions f and g.')
 		const switched = inputDependency ?? false
 		const f = switched ? staticSolution.g : staticSolution.f

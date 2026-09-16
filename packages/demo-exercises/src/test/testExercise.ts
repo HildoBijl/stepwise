@@ -11,7 +11,7 @@ export default buildMonoExercise({
 		return { x: randomInteger(-100, 100) }
 	},
 
-	getSolution({ x }) {
+	getSolution({ parameters: { x } }) {
 		return { ans: x }
 	},
 

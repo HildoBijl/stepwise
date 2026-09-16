@@ -35,7 +35,7 @@ export default buildStepExercise({
 		return { c, fRaw, g }
 	},
 
-	getStaticSolution(parameters) {
+	getStaticSolution({ parameters }) {
 		const { c, fRaw, g } = parameters
 		const method = 1
 		const f = fRaw.multiplyLeft(c).cancel()
@@ -51,7 +51,7 @@ export default buildStepExercise({
 		return checkFAndG(selectedInput, staticSolution) ? { f: selectedInput.f, g: selectedInput.g, adjusted: true } : {}
 	},
 
-	getSolution(_, inputDependency, staticSolution) {
+	getSolution({ inputDependency, staticSolution }) {
 		const adjustedSolution = inputDependency ?? {}
 		const f = adjustedSolution.f ?? staticSolution.f
 		const g = adjustedSolution.g ?? staticSolution.g

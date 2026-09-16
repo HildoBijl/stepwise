@@ -11,14 +11,14 @@ export default buildMonoExercise({
 		comparisons: { ans: (input: Expression, correct: Expression) => !expressionChecks.hasNegativeExponent(input) && expressionComparisons.areEquivalent(input, correct) },
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		return {
 			a: randomInteger(example ? 2 : -8, 8, { exclude: [-1, 0, 1] }),
 			b: randomInteger(2, example ? 5 : 8),
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const expression = asExpression('a^(-b)').substitute(parameters).removeTrivial()
 		const ans = asExpression('1/a^b').substitute(parameters).removeTrivial()
 		const simplified = ans.combine()

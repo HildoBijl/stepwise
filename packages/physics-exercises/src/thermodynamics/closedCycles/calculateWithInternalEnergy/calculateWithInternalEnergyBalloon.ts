@@ -22,7 +22,7 @@ export default buildStepExercise({
 		return { p, V1, V2 }
 	},
 
-	getSolution({ p, V1, V2 }) {
+	getSolution({ parameters: { p, V1, V2 } }) {
 		const ps = p.simplify()
 		const V1s = V1.simplify()
 		const V2s = V2.simplify()

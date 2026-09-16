@@ -52,7 +52,7 @@ export default buildMonoExercise({
 		throw new Error('Failed to generate a valid isentropic refrigerant process after 100 attempts.')
 	},
 
-	getSolution({ refrigerant, phase1, T1, x1, p1, p2 }) {
+	getSolution({ parameters: { refrigerant, phase1, T1, x1, p1, p2 } }) {
 		const refrigerantData = refrigerantDatasets[refrigerant]
 		const point1 = phase1 === 'mixture' ? getSaturatedMixturePropertiesFromTemperature(refrigerantData, T1, x1!)! : getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, p1!, T1)!
 		const point2 = getRefrigerantPropertiesFromPressureAndEntropy(refrigerantData, p2, point1.entropy)!

@@ -23,7 +23,7 @@ export default buildStepExercise({
 		return { p1, p2, T1, etaio }
 	},
 
-	getSolution({ p1, p2, T1, etaio }) {
+	getSolution({ parameters: { p1, p2, T1, etaio } }) {
 		const etai = etaio.simplify()
 		const T2p = T1.multiply(p2.divide(p1).value.toPower(1 - 1 / k.number)).setDecimals(0)
 		const wti = cp.multiply(T2p.subtract(T1)).setUnit('J/kg')

@@ -35,7 +35,7 @@ export default buildStepExercise({
 		return { distances, supportTypes, loadProperties }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { distances, supportTypes, loadProperties } = parameters
 		const left = Vector.zero
 		const A = left.add(new Vector(distances[0], 0))

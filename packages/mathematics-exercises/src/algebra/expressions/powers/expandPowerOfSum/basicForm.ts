@@ -23,7 +23,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		const a = randomInteger(example ? 2 : -4, 4, { exclude: [-1, 0, 1] })
 		const b = randomInteger(1, example ? 1 : 2)
 		const c = randomInteger(example ? 2 : -6, 6, { exclude: [-1, 0, 1, -a, a] })
@@ -35,7 +35,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { e } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const t1 = asExpression('a*x^b').substitute(variables).removeTrivial()
@@ -54,8 +54,8 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compareInputs(data.solution!.termsNames, data)
-			case 2: return compareInputs(data.solution!.coefficientsNames, data)
+			case 1: return compareInputs(data.solution!.termsNames as string[], data)
+			case 2: return compareInputs(data.solution!.coefficientsNames as string[], data)
 			default: return compareInputs('ans', data)
 		}
 	},

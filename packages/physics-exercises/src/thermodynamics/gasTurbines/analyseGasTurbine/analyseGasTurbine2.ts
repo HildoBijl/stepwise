@@ -29,7 +29,7 @@ export default buildStepExercise({
 		return { p1, T1, p2, T2, T3, mdot }
 	},
 
-	getSolution({ p1, T1, p2, T2, T3, mdot }) {
+	getSolution({ parameters: { p1, T1, p2, T2, T3, mdot } }) {
 		const p3 = p2
 		const p4 = p1
 		const factor = Math.pow(p2.number / p1.number, 1 - 1 / k.number)

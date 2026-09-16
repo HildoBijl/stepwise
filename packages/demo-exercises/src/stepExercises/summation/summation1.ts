@@ -7,14 +7,14 @@ export default buildMonoExercise({
 		skill: 'summation',
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		return {
 			a: randomInteger(8, example ? 30 : 100),
 			b: randomInteger(8, example ? 30 : 100),
 		}
 	},
 
-	getSolution({ a, b }) {
+	getSolution({ parameters: { a, b } }) {
 		return { ans: a + b }
 	},
 

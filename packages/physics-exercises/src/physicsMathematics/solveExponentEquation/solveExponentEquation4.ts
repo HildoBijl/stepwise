@@ -21,7 +21,7 @@ export default buildMonoExercise({
 		return { a, b, c, p }
 	},
 
-	getSolution({ a, b, c, p }) {
+	getSolution({ parameters: { a, b, c, p } }) {
 		const aMinusB = a.subtract(b, true)
 		const cDivAMinusB = c.divide(aMinusB, true)
 		const ans = a.subtract(b).divide(c).toPower(p.negate().invert()).setMinimumSignificantDigits(2)

@@ -22,12 +22,12 @@ export async function generateRandomExerciseInstance(exercises: ExerciseCollecti
 // Build an exercise instance from an exerciseId.
 async function createExerciseInstance(exerciseId: ExerciseId, exercise: Exercise, mode: ExerciseMode, example = false): Promise<ExerciseInstance> {
 	const { generateParameters, getInitialState } = exercise
-	const parameters = await resolveExerciseParameters(generateParameters, example)
+	const parameters = await resolveExerciseParameters(generateParameters, { example, context: undefined })
 	return {
 		exerciseId,
 		mode,
 		parameters,
-		initialState: await resolveInitialState(getInitialState, parameters),
+		initialState: await resolveInitialState(getInitialState, { parameters, context: undefined }),
 		history: [],
 	}
 }

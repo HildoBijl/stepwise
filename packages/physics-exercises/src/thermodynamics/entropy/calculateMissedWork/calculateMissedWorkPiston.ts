@@ -30,7 +30,7 @@ export default buildStepExercise({
 		return { m, TAtm, T1, T2, T2p }
 	},
 
-	getSolution({ m, TAtm, T1, T2, T2p }) {
+	getSolution({ parameters: { m, TAtm, T1, T2, T2p } }) {
 		const dS12p = new Quantity('0 J/K')
 		const dS2p2 = m.multiply(cv).multiply(Math.log(T2.number / T2p.number)).setUnit('J/K')
 		const dS = dS12p.add(dS2p2)

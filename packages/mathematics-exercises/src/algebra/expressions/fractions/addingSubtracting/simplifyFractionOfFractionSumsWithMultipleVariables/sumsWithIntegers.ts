@@ -32,7 +32,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const term1 = asExpression('a').substitute(variables)
 		const fraction1 = asExpression('x/y').substitute(variables)

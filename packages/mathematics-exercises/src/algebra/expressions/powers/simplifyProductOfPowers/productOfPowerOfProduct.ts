@@ -24,7 +24,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		const c = randomInteger(example ? 2 : -6, 6, { exclude: [-1, 0, 1] })
 		return {
 			x: sample(variableSet),
@@ -35,7 +35,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const expression = asExpression('a*x^b*(c*x)^d').substitute(variables).removeTrivial()
 		const bracketsExpanded = expression.removeTrivial(['expandPowersOfProducts', 'combineMinusSignsInPowers'])

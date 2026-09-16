@@ -29,7 +29,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Extract parameters variables.
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('1/(a/w+b/x) = y/z').substitute(variables).removeTrivial()

@@ -25,7 +25,7 @@ export default buildStepExercise({
 		return { T1, T3, T4, startRH }
 	},
 
-	getSolution({ T1, T3, T4, startRH }) {
+	getSolution({ parameters: { T1, T3, T4, startRH } }) {
 		startRH = startRH.simplify()
 		const startAHmax = interpolateTable(T1, maximumHumidityByTemperature)!.setSignificantDigits(2)
 		const startAH = startRH.multiply(startAHmax)

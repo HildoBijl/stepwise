@@ -24,8 +24,8 @@ type Solution = { answer: number }
 
 const addition = buildMonoExercise<Parameters, Solution>({
 	metadata: { skill: 'addition' },
-	generateParameters: example => example ? { left: 2, right: 3 } : { left: 7, right: 8 },
-	getSolution: parameters => ({ answer: parameters.left + parameters.right }),
+	generateParameters: ({ example }) => example ? { left: 2, right: 3 } : { left: 7, right: 8 },
+	getSolution: ({ parameters }) => ({ answer: parameters.left + parameters.right }),
 	checkInput: data => getInput('answer', data, 'number') === data.solution?.answer,
 })
 ```
@@ -33,8 +33,8 @@ const addition = buildMonoExercise<Parameters, Solution>({
 An input exercise specification commonly contains:
 
 - `metadata` includes the practiced `skill` or a more involved skill `setup`.
-- `generateParameters(example)` creates the fixed problem parameters. It generally uses randomization and may be synchronous or asynchronous.
-- `getSolution(parameters, inputDependency, staticSolution)` builds the solution. Exercises without input dependencies normally use only `parameters`.
+- `generateParameters({ example, context })` creates the fixed problem parameters. It generally uses randomization and may be synchronous or asynchronous.
+- `getSolution({ parameters, inputDependency, staticSolution, context })` builds the solution. Exercises without input dependencies normally use only `parameters`.
 - `checkInput(data)` decides whether the interpreted learner input is correct. Its data includes the raw and interpreted input, current input dependency, and corresponding solution. It may return either a boolean or `{ correct, report? }`, immediately or through a promise.
 
 Only `metadata` and `checkInput` are required. Omitting `generateParameters` uses an empty object.
@@ -66,7 +66,7 @@ const multiplication = buildStepExercise({
 		skill: 'multiplication',
 	},
 	generateParameters: () => ({ left: 12, right: 3 }),
-	getSolution: ({ left, right }) => ({ answer: left * right }),
+	getSolution: ({ parameters: { left, right } }) => ({ answer: left * right }),
 	checkInput: (data, step) => {
 		const answer = getInput('answer', data, 'number')
 		switch (step) {
@@ -164,12 +164,12 @@ checkInput: ({ input, parameters }) => input.answer === parameters.left + parame
 Most exercises derive their complete solution directly from the parameters:
 
 ```ts
-getSolution: parameters => ({
+getSolution: ({ parameters }) => ({
 	answer: parameters.left + parameters.right,
 })
 ```
 
-The framework always calls `getSolution(parameters, inputDependency, staticSolution)`. Ordinary exercises can omit unused arguments. This keeps simple definitions short while giving input-dependent exercises access to the complete lifecycle.
+The framework always calls `getSolution` with one object containing `parameters`, `inputDependency`, `staticSolution`, and `context`. Ordinary exercises can destructure only the fields they use. This keeps simple definitions short while giving input-dependent exercises access to the complete lifecycle.
 
 
 ## Solutions that depend on earlier input
@@ -180,21 +180,21 @@ Sometimes the appropriate solution depends on how the learner approached the pro
 updateInputDependency: ({ previousInputDependency, input }) =>
 	input.solveFor === undefined ? previousInputDependency : input.solveFor as 'left' | 'right',
 
-getStaticSolution: parameters => ({
+getStaticSolution: ({ parameters }) => ({
 	total: parameters.left + parameters.right,
 }),
 
-getSolution: (parameters, solveFor, staticSolution) => {
-	if (solveFor === 'left') return { left: staticSolution.total! - parameters.right }
+getSolution: ({ parameters, inputDependency, staticSolution }) => {
+	if (inputDependency === 'left') return { left: staticSolution.total! - parameters.right }
 	return { right: staticSolution.total! - parameters.left }
 },
 ```
 
 The lifecycle consists of three optional callbacks. The input dependency initially is `undefined`:
 
-- `getStaticSolution(parameters)` calculates a reusable, input-independent partial solution.
+- `getStaticSolution({ parameters, context })` calculates a reusable, input-independent partial solution.
 - `updateInputDependency({ parameters, previousInputDependency, staticSolution, input, step })` updates the dependency from the input submitted for the current step. The unsplit main problem uses step `0`.
-- `getSolution(parameters, inputDependency, staticSolution)` calculates the dynamic portion of the solution. The framework merges this over the static portion.
+- `getSolution({ parameters, inputDependency, staticSolution, context })` calculates the dynamic portion of the solution. The framework merges this over the static portion.
 
 All three callbacks may be synchronous or asynchronous. The runtime definition checks enforce these relationships:
 
@@ -206,8 +206,42 @@ If no updater exists, the resolution helper preserves the previous dependency. R
 The package exports focused helpers for consumers implementing the lifecycle:
 
 - `resolveUpdatedInputDependency(definition, data)`
-- `resolveStaticSolution(definition, parameters)`
-- `resolveSolution(definition, parameters, inputDependency, staticSolution)`
+- `resolveStaticSolution(definition, parameters, context)`
+- `resolveSolution(definition, parameters, inputDependency, staticSolution, context)`
+
+
+## Execution context
+
+Input exercises support the typed execution context defined by `@step-wise/exercise-definition`. Add the context as the final generic argument of `MonoExerciseSpec`, `StepExerciseSpec`, `buildMonoExercise`, or `buildStepExercise`. Its type defaults to `undefined`.
+
+The same context is passed through the complete author-facing lifecycle:
+
+- `generateParameters({ example, context })`
+- `getStaticSolution({ parameters, context })`
+- `updateInputDependency({ ..., context })`
+- `getSolution({ parameters, inputDependency, staticSolution, context })`
+- `checkInput({ ..., context })`
+
+For example, an exercise can depend on a platform-provided database interface without depending on a browser or server implementation:
+
+```ts
+type Context = {
+	moduleId: string
+	database: Database
+}
+
+const exercise = buildMonoExercise<Parameters, Solution, InputDependency, Context>({
+	metadata: { skill: 'query-data' },
+	generateParameters: async ({ context }) => ({
+		table: await context.database.createTable(),
+	}),
+	checkInput: async ({ input, context }) => {
+		return context.database.checkQuery(input.query)
+	},
+})
+```
+
+Context remains transient: builders forward it but never serialize it into parameters, state, reports, or history.
 
 
 ## Looking up previous input
@@ -236,9 +270,9 @@ The main author-facing types are:
 - `MonoExerciseSpec` and `MonoExercise` for single-stage exercises.
 - `StepExerciseSpec` and `StepExercise` for guided exercises.
 - `InputExerciseParameters`, `InputExerciseInput`, and `InputExerciseSolution` for exercise-specific data.
-- `CheckInputData` for the object supplied to `checkInput`, including the exercise-bound `areValuesEqual` operation.
+- `CheckInputData` for the object supplied to `checkInput`, including context and the exercise-bound `areValuesEqual` operation.
 - `ValueTypes` for optional domain capabilities on an exercise specification, and `InputExerciseValueOperations` for the operations exposed by a built exercise.
-- `GetSolution`, `GetStaticSolution`, and `UpdateInputDependency` for solution generation.
+- `GetSolution`, `GetSolutionData`, `GetStaticSolution`, `GetStaticSolutionData`, and `UpdateInputDependency` for solution generation.
 - `StepExerciseSteps`, `StepExerciseState`, and `StepExerciseMetadata` for step structures.
 - `InputExerciseAction` and `InputExerciseRawInput` for stored learner actions.
 

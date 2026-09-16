@@ -1,23 +1,23 @@
 import type { PlainDataObject } from '@step-wise/js-utils'
-import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters } from '@step-wise/exercise-definition'
+import type { GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
 
 import { type GroupInputExerciseReport, type InputDependency, type InputExerciseAction, type InputExerciseParameters, type InputExerciseSolution, type InputExerciseValueOperations, type SoloInputExerciseReport, resolveSolution, resolveStaticSolution, resolveUpdatedInputDependency } from '../InputExercise/index.ts'
 import { getGroupInputExerciseReport, normalizeCheckInputResult } from '../InputExercise/checkInput.ts'
-import { deserializeInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
+import { deserializeInputExerciseParameters, resolveInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
 import { createInputExerciseValueOperations } from '../InputExercise/valueOperations.ts'
 import { type InputExerciseActionsReduction, type InputExerciseReducerInput, addAttemptsToState, getInputDependency, hasAttempted, setInputDependencies } from '../InputExercise/reducerSupport.ts'
 
 import type { MonoExerciseState, MonoExercise, MonoExerciseSpec } from './types.ts'
 
 // Build a MonoExercise from its author-facing spec.
-export function buildMonoExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency>(spec: MonoExerciseSpec<TParameters, TSolution, TInputDependency>): MonoExercise<TParameters, TSolution, TInputDependency> {
+export function buildMonoExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency, TContext = undefined>(spec: MonoExerciseSpec<TParameters, TSolution, TInputDependency, TContext>): MonoExercise<TParameters, TSolution, TInputDependency, TContext> {
 	const { valueTypes, ...definition } = spec
 	const valueOperations = createInputExerciseValueOperations(valueTypes)
 	return {
 		...definition,
 		valueOperations,
 		type: 'mono',
-		generateParameters: async example => serializeInputExerciseParameters(await resolveExerciseParameters(spec.generateParameters, example), valueOperations.serialize),
+		generateParameters: async input => serializeInputExerciseParameters(await resolveInputExerciseParameters(spec.generateParameters, input), valueOperations.serialize),
 		getInitialState: () => ({}),
 		processSoloAction: buildMonoExerciseSoloReducer(spec, valueOperations),
 		processGroupActions: buildMonoExerciseGroupReducer(spec, valueOperations),
@@ -25,7 +25,7 @@ export function buildMonoExercise<TParameters extends InputExerciseParameters = 
 }
 
 // Build the solo reducer for a MonoExercise, which processes actions for a single user.
-function buildMonoExerciseSoloReducer<TParameters extends InputExerciseParameters, TSolution extends InputExerciseSolution, TInputDependency>(spec: MonoExerciseSpec<TParameters, TSolution, TInputDependency>, valueOperations: InputExerciseValueOperations): SoloExerciseReducer<InputExerciseAction, MonoExerciseState, PlainDataObject, SoloInputExerciseReport> {
+function buildMonoExerciseSoloReducer<TParameters extends InputExerciseParameters, TSolution extends InputExerciseSolution, TInputDependency, TContext>(spec: MonoExerciseSpec<TParameters, TSolution, TInputDependency, TContext>, valueOperations: InputExerciseValueOperations): SoloExerciseReducer<InputExerciseAction, MonoExerciseState, PlainDataObject, SoloInputExerciseReport, TContext> {
 	return async reducerInput => {
 		const runtimeInput = { ...reducerInput, parameters: deserializeInputExerciseParameters<TParameters>(reducerInput.parameters, valueOperations.deserialize) }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return { state: runtimeInput.state }
@@ -35,7 +35,7 @@ function buildMonoExerciseSoloReducer<TParameters extends InputExerciseParameter
 }
 
 // Build the group reducer for a MonoExercise, which processes actions from multiple users.
-function buildMonoExerciseGroupReducer<TParameters extends InputExerciseParameters, TSolution extends InputExerciseSolution, TInputDependency>(spec: MonoExerciseSpec<TParameters, TSolution, TInputDependency>, valueOperations: InputExerciseValueOperations): GroupExerciseReducer<InputExerciseAction, MonoExerciseState, PlainDataObject, GroupInputExerciseReport> {
+function buildMonoExerciseGroupReducer<TParameters extends InputExerciseParameters, TSolution extends InputExerciseSolution, TInputDependency, TContext>(spec: MonoExerciseSpec<TParameters, TSolution, TInputDependency, TContext>, valueOperations: InputExerciseValueOperations): GroupExerciseReducer<InputExerciseAction, MonoExerciseState, PlainDataObject, GroupInputExerciseReport, TContext> {
 	return async reducerInput => {
 		if (reducerInput.actions.length === 0) throw new Error(`Cannot resolve a group exercise without actions.`)
 		const runtimeInput = { ...reducerInput, parameters: deserializeInputExerciseParameters<TParameters>(reducerInput.parameters, valueOperations.deserialize), mode: 'group' as const }
@@ -47,20 +47,20 @@ function buildMonoExerciseGroupReducer<TParameters extends InputExerciseParamete
 }
 
 // Reduce a normalized set of solo or group actions.
-async function reduceActions<TParameters extends InputExerciseParameters, TSolution extends InputExerciseSolution, TInputDependency>(spec: MonoExerciseSpec<TParameters, TSolution, TInputDependency>, reducerInput: InputExerciseReducerInput<InputExerciseAction, MonoExerciseState, TParameters>, valueOperations: InputExerciseValueOperations): Promise<InputExerciseActionsReduction<MonoExerciseState>> {
+async function reduceActions<TParameters extends InputExerciseParameters, TSolution extends InputExerciseSolution, TInputDependency, TContext>(spec: MonoExerciseSpec<TParameters, TSolution, TInputDependency, TContext>, reducerInput: InputExerciseReducerInput<InputExerciseAction, MonoExerciseState, TParameters, TContext>, valueOperations: InputExerciseValueOperations): Promise<InputExerciseActionsReduction<MonoExerciseState>> {
 	const { metadata, checkInput } = spec
-	const { mode, state, actions, parameters, updateSkills } = reducerInput
+	const { mode, state, actions, parameters, context, updateSkills } = reducerInput
 	let newState = addAttemptsToState(state, mode, actions.filter(userAction => userAction.action.type === 'input').map(userAction => userAction.userId))
 
 	// Run the checkInput function for all input actions, and also update the inputDependencies.
-	const staticSolution = actions.some(userAction => userAction.action.type === 'input') ? await resolveStaticSolution(spec, parameters) : {}
+	const staticSolution = actions.some(userAction => userAction.action.type === 'input') ? await resolveStaticSolution(spec, parameters, context) : {}
 	const results = await Promise.all(actions.map(async userAction => {
 		if (userAction.action.type !== 'input') return { correct: false }
 		const input = valueOperations.interpretInput(userAction.action.input)
 		const previousInputDependency = getInputDependency<TInputDependency>(state, mode, valueOperations, mode === 'group' ? userAction.action.adoptUserHistory ?? userAction.userId : userAction.userId)
-		const inputDependency = await resolveUpdatedInputDependency(spec, { parameters, previousInputDependency, staticSolution, input: input, step: 0 })
-		const solution = await resolveSolution(spec, parameters, inputDependency, staticSolution)
-		const result = normalizeCheckInputResult(await checkInput({ metadata, parameters, rawInput: userAction.action.input, input, inputDependency, solution, areValuesEqual: valueOperations.areValuesEqual }))
+		const inputDependency = await resolveUpdatedInputDependency(spec, { parameters, previousInputDependency, staticSolution, input: input, step: 0, context })
+		const solution = await resolveSolution(spec, parameters, inputDependency, staticSolution, context)
+		const result = normalizeCheckInputResult(await checkInput({ metadata, parameters, rawInput: userAction.action.input, input, inputDependency, solution, context, areValuesEqual: valueOperations.areValuesEqual }))
 		return { ...result, inputDependency }
 	}))
 	if (spec.updateInputDependency !== undefined) newState = setInputDependencies(newState, mode, results.flatMap((result, index) => 'inputDependency' in result ? [{ userId: actions[index].userId, value: result.inputDependency }] : []), valueOperations)

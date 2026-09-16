@@ -45,7 +45,7 @@ export default buildStepExercise({
 		return { ...selectRandomVariables(variableSet, usedVariables), a, b, c, d, e, f, g, h }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Set up the equations.
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const eq1 = asEquation('ax + by + cz = d', { interpretEAsConstant: false }).substitute(variables).removeTrivial()

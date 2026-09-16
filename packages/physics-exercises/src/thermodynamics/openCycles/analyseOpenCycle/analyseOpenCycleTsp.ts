@@ -22,7 +22,7 @@ export default buildStepExercise({
 		return { ...generateParametersRaw(), mdoto }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const cycleParameters = getCycleParameters(parameters)
 		const energyParameters = getEnergyParameters(parameters)
 		const { q31, wn } = energyParameters

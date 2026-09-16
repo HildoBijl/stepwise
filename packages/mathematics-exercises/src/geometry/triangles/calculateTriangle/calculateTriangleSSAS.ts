@@ -24,7 +24,7 @@ export default buildStepExercise({
 		throw new Error('Failed to generate valid side-side-angle triangle parameters after 100 attempts.')
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { α, a, b, c } = parameters
 		const variables = { α, a, b, c }
 

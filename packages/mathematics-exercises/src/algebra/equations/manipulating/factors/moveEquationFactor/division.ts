@@ -39,7 +39,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = [variables.a, variables.x, variables.a.multiply(variables.x)][parameters.type].removeTrivial()
 		const baseEquation = asEquation('a*x=b/c')

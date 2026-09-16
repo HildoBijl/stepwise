@@ -50,7 +50,7 @@ export default buildStepExercise({
 		throw new Error('Failed to generate valid negative-power fraction parameters after 100 attempts.')
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const part1 = asExpression('a*(x+c)^p*(x+d)^q', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['combineMinusSignsInFractions'])
 		const part2 = asExpression('b*(x+d)^r*(x+e)^s*(x+c)^t', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['combineMinusSignsInFractions'])

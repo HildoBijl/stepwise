@@ -16,7 +16,7 @@ export default buildMonoExercise({
 		return { mdot, P }
 	},
 
-	getSolution({ mdot, P }) {
+	getSolution({ parameters: { mdot, P } }) {
 		const mdots = mdot.simplify()
 		const Ps = P.simplify()
 		const wt = P.divide(mdot).setUnit('J/kg')

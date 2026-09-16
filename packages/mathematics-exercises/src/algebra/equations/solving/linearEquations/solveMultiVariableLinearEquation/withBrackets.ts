@@ -32,7 +32,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Extract parameters variables.
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('(ax+bz)y = cx + d').substitute(variables).removeTrivial()

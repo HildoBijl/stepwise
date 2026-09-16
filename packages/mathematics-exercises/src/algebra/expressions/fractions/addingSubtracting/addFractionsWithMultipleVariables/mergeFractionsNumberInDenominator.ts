@@ -30,7 +30,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const { plus, a, b } = parameters
 		const leftExpression = asExpression('1/(ax)').substitute(variables)

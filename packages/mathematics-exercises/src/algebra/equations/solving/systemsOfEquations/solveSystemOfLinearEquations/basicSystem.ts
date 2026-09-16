@@ -18,7 +18,7 @@ export default buildStepExercise({
 		comparisons: { eq1Solution: expressionComparisons.areEquivalent, eq2Substituted: equationComparisons.areEquivalent, Expression: expressionComparisons.areEqualExceptOrder },
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		const variableSet = sample(availableVariableSets)
 		const x = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 		const y = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
@@ -40,7 +40,7 @@ export default buildStepExercise({
 		return { ...selectRandomVariables(variableSet, usedVariables), a, b, c, d, e, f }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Extract parameters variables.
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const eq1 = asEquation('ax + by = c', { interpretEAsConstant: false }).substitute(variables).removeTrivial()

@@ -1,6 +1,14 @@
-import { type PlainDataObject, isPlainDataObject } from '@step-wise/js-utils'
+import { type Awaitable, type PlainDataObject, isPlainDataObject, isPlainObject } from '@step-wise/js-utils'
+import type { GenerateExerciseParametersInput } from '@step-wise/exercise-definition'
 
 import type { InputExerciseParameters, InputExerciseValueOperations } from './types.ts'
+
+// Resolve author-facing parameters, which may contain registered runtime values before serialization.
+export async function resolveInputExerciseParameters<TParameters extends InputExerciseParameters, TContext>(generateParameters: ((input: GenerateExerciseParametersInput<TContext>) => Awaitable<TParameters>) | undefined, input: GenerateExerciseParametersInput<TContext>): Promise<TParameters> {
+	const parameters = generateParameters === undefined ? {} : await generateParameters(input)
+	if (!isPlainObject(parameters)) throw new TypeError(`Invalid input-exercise parameters: expected generateParameters to return a plain object but received something of type "${typeof parameters}".`)
+	return parameters as TParameters
+}
 
 // Serialize runtime parameters and ensure that the result is suitable for storage.
 export function serializeInputExerciseParameters(parameters: InputExerciseParameters, serialize: InputExerciseValueOperations['serialize']): PlainDataObject {

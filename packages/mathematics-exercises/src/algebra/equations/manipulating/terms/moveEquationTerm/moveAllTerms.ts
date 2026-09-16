@@ -35,7 +35,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Set up the equation.
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		let equation = asEquation('0=a*x^3+b*x^2+c*x+d').substitute(variables).removeTrivial()

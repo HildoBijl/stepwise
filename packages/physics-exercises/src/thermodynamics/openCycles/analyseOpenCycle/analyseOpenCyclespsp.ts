@@ -21,7 +21,7 @@ export default buildStepExercise({
 		return { ...generateParametersRaw(), Po }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const cycleParameters = getCycleParameters(parameters)
 		const energyParameters = getEnergyParameters(parameters)
 		const { q23, wn } = energyParameters

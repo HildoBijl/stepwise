@@ -28,7 +28,7 @@ export default buildStepExercise({
 		throw new Error('Failed to generate a derivative containing two distinct terms after 100 attempts.')
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { func } = parameters
 		if (!func.isSum()) throw new Error('Expected a sum containing two elementary-function terms.')
 		const { constant: c1, func: f1 } = getElementaryFunctionFromTerm(func.terms[0])

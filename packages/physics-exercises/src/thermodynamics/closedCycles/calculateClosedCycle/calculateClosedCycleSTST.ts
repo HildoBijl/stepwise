@@ -46,8 +46,8 @@ export function getSolution({ medium, mo, p1o, V1o, p2o, p4o }: ReturnType<typeo
 
 export default buildStepExercise({
 	metadata,
-	generateParameters,
-	getSolution,
+	generateParameters: () => generateParameters(),
+	getSolution: ({ parameters }) => getSolution(parameters),
 	checkInput(data, step) {
 		switch (step) {
 			case 1: return compareInputs(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], data)

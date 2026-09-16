@@ -20,7 +20,7 @@ export default buildStepExercise({
 		comparisons: { solutionFull: areEquivalent, ans1: areEqualExceptOrder, ans2: areEqualExceptOrder },
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		const a = randomInteger(example ? 2 : -6, 6, { exclude: [0] })
 		const x1 = randomInteger(example ? -8 : -12, example ? 8 : 12)
 		const x2 = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [x1] })
@@ -29,7 +29,7 @@ export default buildStepExercise({
 		return { x: sample(variableSet), a: asExpression(a), b: asExpression(b), c: asExpression(c) }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('a*x^2 + b*x + c = 0').substitute(variables).removeTrivial()
 		const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substitute(variables).removeTrivial()

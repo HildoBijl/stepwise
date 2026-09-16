@@ -18,11 +18,12 @@ type InputExerciseUserAction<TAction extends ExerciseAction> = {
 	userId?: string
 	action: TAction
 }
-export type InputExerciseReducerInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters> = {
+export type InputExerciseReducerInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters, TContext = undefined> = {
 	mode: ExerciseMode
 	actions: readonly InputExerciseUserAction<TAction>[]
 	parameters: TParameters
 	state: TState
+	context: TContext
 	updateSkills?: UpdateSkills
 }
 

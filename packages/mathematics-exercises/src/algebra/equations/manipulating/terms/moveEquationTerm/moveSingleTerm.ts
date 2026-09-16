@@ -22,7 +22,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateParameters(example) {
+	generateParameters({ example }) {
 		const a = randomInteger(-8, 8, { exclude: [0] })
 		const b = randomInteger(-8, 8, { exclude: [0, a, -a] })
 		const c = randomInteger(-8, 8, { exclude: [0, a, -a, b, -b] })
@@ -34,7 +34,7 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Set up the equation.
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const terms = ['a*x^2', 'b*x', 'c'].map(term => asExpression(term).substitute(variables).removeTrivial())

@@ -21,7 +21,7 @@ export default buildMonoExercise({
 		return { T, AH }
 	},
 
-	getSolution({ T, AH }) {
+	getSolution({ parameters: { T, AH } }) {
 		const AHmax = interpolateTable(T, maximumHumidityByTemperature)!.setSignificantDigits(2)
 		const RH = AH.divide(AHmax).setUnit('%').setDecimals(0)
 		return { AHmax, RH }

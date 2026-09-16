@@ -39,7 +39,7 @@ export default buildStepExercise({
 		throw new Error('Failed to generate valid Pythagorean-theorem parameters after 100 attempts.')
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		// Determine the equation.
 		let { a, b, c } = parameters
 		const equation = asEquation('a^2 + b^2 = c^2').substitute('a', a).substitute('b', b).substitute('c', c)

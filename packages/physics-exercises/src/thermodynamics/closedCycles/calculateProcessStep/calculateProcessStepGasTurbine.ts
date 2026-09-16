@@ -21,7 +21,7 @@ export default buildStepExercise({
 		return { m, T1, p1, p2 }
 	},
 
-	getSolution({ m, T1, p1, p2 }) {
+	getSolution({ parameters: { m, T1, p1, p2 } }) {
 		const p1s = p1.simplify()
 		const p2s = p2.simplify()
 		const V1 = m.multiply(Rs).multiply(T1).divide(p1).setUnit('m^3')

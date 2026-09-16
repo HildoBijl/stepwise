@@ -34,7 +34,7 @@ export default buildStepExercise({
 		return { x: sample(variableSet), a, b, c, d, e, switchSides: randomBoolean(), bracketsRight: randomBoolean() }
 	},
 
-	getSolution(parameters) {
+	getSolution({ parameters }) {
 		const { a, b, c, d, e, switchSides, bracketsRight } = parameters
 		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseEquation = asEquation(bracketsRight ? 'a*(x+b)+e=c*(x+d)' : 'a*(x+b)+e=c*x+d', { interpretEAsConstant: false }).substitute(variables).removeTrivial()

@@ -27,7 +27,7 @@ export default buildMonoExercise({
 		return { E, Ein }
 	},
 
-	getSolution({ E, Ein }) {
+	getSolution({ parameters: { E, Ein } }) {
 		return { eta: E.divide(Ein).setUnit('') }
 	},
 
