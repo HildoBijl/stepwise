@@ -1,10 +1,12 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { type UserSkillRecord, createSkillResolverSource } from '../../../../src/modules/skill/index.ts'
 import type { ExerciseSampleRecord } from '../../../../src/modules/exercise/models.ts'
 import type { ExerciseUpdatedPayload } from '../../../../src/modules/exercise/service.ts'
 import { exerciseResolvers } from '../../../../src/modules/exercise/resolvers/index.ts'
 import { selectExerciseUpdate, selectStartedExercise } from '../../../../src/modules/exercise/resolvers/subscriptions.ts'
+
+vi.mock('@step-wise/exercises', () => ({ getExercise: () => ({ metadata: { version: 1 } }) }))
 
 describe('exercise resolvers', () => {
 	it('only exposes exercise data when the skill grants access', () => {
@@ -15,7 +17,7 @@ describe('exercise resolvers', () => {
 	})
 })
 
-const exercise = { id: 'exercise-id' } as ExerciseSampleRecord
+const exercise = { id: 'exercise-id', exerciseId: 'enterInteger', exerciseVersion: 1 } as ExerciseSampleRecord
 const payload: ExerciseUpdatedPayload = { updatedExercise: exercise, userId: 'user-id', skillId: 'enterInteger' }
 const context = { userId: 'user-id' } as Parameters<typeof selectExerciseUpdate>[2]
 
@@ -30,5 +32,11 @@ describe('exercise subscriptions', () => {
 		expect(selectExerciseUpdate(payload, { exerciseId: 'exercise-id' }, context)).toBe(payload)
 		expect(selectExerciseUpdate(payload, { exerciseId: 'other-exercise' }, context)).toBeUndefined()
 		expect(selectExerciseUpdate(payload, { exerciseId: 'exercise-id' }, { ...context, userId: 'other-user' })).toBeUndefined()
+	})
+
+	it('ignores stale exercises', () => {
+		const stalePayload = { ...payload, updatedExercise: { ...exercise, exerciseVersion: 2 } as ExerciseSampleRecord }
+		expect(selectStartedExercise(stalePayload, { skillId: 'enterInteger' }, context)).toBeUndefined()
+		expect(selectExerciseUpdate(stalePayload, { exerciseId: 'exercise-id' }, context)).toBeUndefined()
 	})
 })

@@ -6,6 +6,7 @@ import { getExercise, getExercises } from '@step-wise/exercises'
 
 import { InvalidInputError } from '../../../errors.ts'
 
+import { isExerciseCompatible } from '../../exercise/index.ts'
 import { type GroupWithMembers, ensureActiveGroupMembership, hasLoadedGroupMembers } from '../../group/index.ts'
 import { type UserSkillObservationInput, type UserSkillRecord, applySkillObservations, skillEvents } from '../../skill/index.ts'
 
@@ -28,17 +29,38 @@ export const groupExerciseMutationResolvers = {
 		if (!skillExercises) throw new InvalidInputError(`Cannot start group exercise: no exercises exist for skill "${skillId}".`)
 		const newExercise = await generateRandomExerciseInstance(skillExercises, 'group')
 		let loadedExercise: GroupExerciseSampleWithEvents
+		let exerciseWasCreated = false
 		try {
-			loadedExercise = await db.transaction(async transaction => {
-				const exercise = await db.GroupExerciseSample.create({ groupId: group.id, skillId, exerciseId: newExercise.exerciseId, parameters: newExercise.parameters, initialState: newExercise.initialState, active: true }, { transaction })
+			const result = await db.transaction(async transaction => {
+				// Run an extra check on whether there is no active exercise after all.
+				const activeExercise = await db.GroupExerciseSample.findOne({ where: { groupId: group.id, skillId, active: true }, transaction, lock: transaction.LOCK.UPDATE })
+				if (activeExercise) {
+					// If the exercise is valid (not stale) then we have a race condition. Someone just started an exercise. Load an return it.
+					if (isExerciseCompatible(skillId, activeExercise)) {
+						const loadedActiveExercise = await getGroupExerciseById(db, activeExercise.id, { transaction })
+						if (!loadedActiveExercise) throw new Error(`Failed to reload active group exercise "${activeExercise.id}".`)
+						return { exercise: loadedActiveExercise, created: false }
+					}
+
+					// If the exercise is not valid (is stale) then deactivate it, and continue by creating a new one.
+					await activeExercise.update({ active: false }, { transaction })
+				}
+
+				// Set up a new group exercise.
+				const exercise = await db.GroupExerciseSample.create({ groupId: group.id, skillId, exerciseId: newExercise.exerciseId, exerciseVersion: newExercise.exerciseVersion, parameters: newExercise.parameters, initialState: newExercise.initialState, active: true }, { transaction })
 				const activeEvent = await db.GroupExerciseEvent.create({ groupExerciseSampleId: exercise.id, eventIndex: 0, state: null }, { transaction })
 				activeEvent.actions = []
+
+				// Run some final checks on the form of the generated exercise.
 				if (!hasLoadedGroupExerciseActions(activeEvent)) throw new Error('Failed to initialize group exercise event actions.')
 				exercise.events = [activeEvent]
 				if (!hasLoadedGroupExerciseEvents(exercise)) throw new Error('Failed to initialize group exercise events.')
-				return exercise
+				return { exercise, created: true }
 			})
+			loadedExercise = result.exercise
+			exerciseWasCreated = result.created
 		} catch (error) {
+			// If there is a uniqueness contraint error, then we have another race condition. Load the exercise that was very recently created.
 			if (!(error instanceof UniqueConstraintError)) throw error
 			const updatedGroup = await getGroupWithActiveSkillExercise(db, code, skillId)
 			ensureActiveGroupMembership(updatedGroup, userId)
@@ -47,20 +69,20 @@ export const groupExerciseMutationResolvers = {
 			return existingExercise
 		}
 
-		// Return the exercise as result.
-		await pubsub.publish(groupExerciseEvents.groupExerciseStarted, { exercise: loadedExercise, code: group.code, memberIds: group.members.map(member => member.id) })
+		// Publish the creation of the new exercise (unless we returned one that someone else just made).
+		if (exerciseWasCreated) await pubsub.publish(groupExerciseEvents.groupExerciseStarted, { exercise: loadedExercise, code: group.code, memberIds: group.members.map(member => member.id) })
 		return loadedExercise
 	},
 
 	submitGroupAction: async (_source: unknown, { exerciseId, eventIndex, action: rawAction }: { exerciseId: string; eventIndex: number; action: unknown }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
-		// Load and verify data.
+		// Load and verify the exercise.
 		ensureSignedIn()
 		const action = ensureExerciseAction(rawAction)
 		const { exercise: activeExercise, group } = await getActiveGroupExercise(db, exerciseId, userId)
-
 		const activeEvent = activeExercise.events.find(event => event.state === null)
 		if (!activeEvent) throw new InvalidInputError(`Could not submit group action. The group ${group.code} does not have an active event.`)
 
+		// Apply the given action to the active exercise event.
 		const { updatedAction, lockedEvent } = await db.transaction(async transaction => {
 			const lockedEvent = await lockPendingGroupEvent(db, activeEvent.id, group.code, transaction)
 			if (eventIndex !== lockedEvent.eventIndex) throw new InvalidInputError(`Cannot submit group action: exercise event index ${eventIndex} is stale; the current index is ${lockedEvent.eventIndex}.`)
@@ -77,13 +99,13 @@ export const groupExerciseMutationResolvers = {
 		})
 		activeExercise.events = activeExercise.events.map(event => event.id === lockedEvent.id ? lockedEvent : event)
 
-		// Return the exercise as result.
-		await pubsub.publish(groupExerciseEvents.groupActionUpdated, { exerciseId, eventIndex, userId, action: updatedAction, memberIds: group.members.map(member => member.id) })
+		// Publish an update payload so everyone can update their cache.
+		await pubsub.publish(groupExerciseEvents.groupActionUpdated, getGroupExerciseSubscriptionPayload(activeExercise, group, { eventIndex, userId, action: updatedAction }))
 		return activeExercise
 	},
 
 	cancelGroupAction: async (_source: unknown, { exerciseId, eventIndex }: { exerciseId: string; eventIndex: number }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
-		// Load and verify data.
+		// Load and verify the exercise.
 		ensureSignedIn()
 		const { exercise: activeExercise, group } = await getActiveGroupExercise(db, exerciseId, userId)
 		const activeEvent = activeExercise.events.find(event => event.state === null)
@@ -100,21 +122,22 @@ export const groupExerciseMutationResolvers = {
 			activeExercise.events = activeExercise.events.map(event => event.id === lockedEvent.id ? lockedEvent : event)
 			return true
 		})
-		if (actionWasCanceled) {
-			await pubsub.publish(groupExerciseEvents.groupActionUpdated, { exerciseId, eventIndex, userId, action: null, memberIds: group.members.map(member => member.id) })
-		}
 
-		// Return the exercise as result.
+		// If the action was canceled properly, publish an update payload so everyone can update their cache.
+		if (actionWasCanceled) {
+			await pubsub.publish(groupExerciseEvents.groupActionUpdated, getGroupExerciseSubscriptionPayload(activeExercise, group, { eventIndex, userId, action: null }))
+		}
 		return activeExercise
 	},
 
 	resolveGroupEvent: async (_source: unknown, { exerciseId, eventIndex }: { exerciseId: string; eventIndex: number }, { db, pubsub, ensureSignedIn, userId }: GroupExerciseContext) => {
-		// Load and verify data.
+		// Load and verify the exercise.
 		ensureSignedIn()
 		const { exercise: activeExercise, group } = await getActiveGroupExercise(db, exerciseId, userId)
 		const activeEvent = activeExercise.events.find(event => event.state === null)
 		if (!activeEvent) throw new InvalidInputError(`Could not resolve group event. The group ${group.code} does not have an active event.`)
 
+		// Extract the exercise reducer.
 		const skillId = activeExercise.skillId
 		const exercise = getExercise(skillId, activeExercise.exerciseId)
 		if (!exercise) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
@@ -169,11 +192,22 @@ export const groupExerciseMutationResolvers = {
 
 		// Resolve subscriptions where needed.
 		await Promise.all(Object.keys(updatedSkillsPerUser).map(async userId => await pubsub.publish(skillEvents.skillsUpdated, { updatedSkills: updatedSkillsPerUser[userId], userId })))
-		await pubsub.publish(groupExerciseEvents.groupEventResolved, { exerciseId, ...resolution, memberIds: group.members.map(member => member.id) })
+		await pubsub.publish(groupExerciseEvents.groupEventResolved, getGroupExerciseSubscriptionPayload(activeExercise, group, resolution))
 
 		// Return the exercise as a result.
 		return activeExercise
 	},
+}
+
+function getGroupExerciseSubscriptionPayload<T extends object>(exercise: GroupExerciseSampleWithEvents, group: GroupWithMembers, payload: T): T & {
+	exerciseId: string
+	memberIds: string[]
+} {
+	return {
+		...payload,
+		exerciseId: exercise.id,
+		memberIds: group.members.map(member => member.id),
+	}
 }
 
 async function lockPendingGroupEvent(db: GroupExerciseDatabase, eventId: string, groupCode: string, transaction: Transaction): Promise<GroupExerciseEventWithActions> {
@@ -187,6 +221,7 @@ async function lockPendingGroupEvent(db: GroupExerciseDatabase, eventId: string,
 async function getActiveGroupExercise(db: GroupExerciseDatabase, exerciseId: string, userId: string): Promise<{ exercise: GroupExerciseSampleWithEvents; group: GroupWithMembers }> {
 	const exercise = await getGroupExerciseById(db, exerciseId)
 	if (!exercise || !exercise.active) throw new InvalidInputError(`Cannot update group exercise: exercise "${exerciseId}" is not active.`)
+	if (!isExerciseCompatible(exercise.skillId, exercise)) throw new InvalidInputError(`Cannot update group exercise: exercise "${exerciseId}" is stale.`)
 	const group = await db.Group.findByPk(exercise.groupId, { include: { association: 'members' } })
 	if (group && !hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
 	ensureActiveGroupMembership(group, userId)

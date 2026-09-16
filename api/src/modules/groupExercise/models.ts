@@ -32,6 +32,7 @@ export class GroupExerciseSampleRecord extends Model<InferAttributes<GroupExerci
 	declare groupId: string
 	declare skillId: SkillId
 	declare exerciseId: string
+	declare exerciseVersion: CreationOptional<number>
 	declare parameters: ExerciseParameters
 	declare initialState: CreationOptional<ExerciseState>
 	declare active: CreationOptional<boolean>
@@ -75,6 +76,7 @@ export function createGroupExerciseSampleModel(sequelize: Sequelize): GroupExerc
 		groupId: { type: DataTypes.UUID, allowNull: false },
 		skillId: { type: DataTypes.TEXT, allowNull: false },
 		exerciseId: { type: DataTypes.TEXT, allowNull: false },
+		exerciseVersion: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1, validate: { min: 1 } },
 		parameters: { type: DataTypes.JSON, allowNull: false },
 		initialState: { type: DataTypes.JSON, allowNull: false, defaultValue: {} },
 		active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },

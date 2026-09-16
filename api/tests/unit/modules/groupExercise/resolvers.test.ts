@@ -1,10 +1,12 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import type { GroupExerciseSampleWithEvents } from '../../../../src/modules/groupExercise/models.ts'
 import type { GroupActionUpdatedPayload, GroupEventResolvedPayload, GroupExerciseStartedPayload } from '../../../../src/modules/groupExercise/service.ts'
 import { selectGroupActionUpdate, selectGroupEventResolution, selectStartedGroupExercise } from '../../../../src/modules/groupExercise/resolvers/subscriptions.ts'
 
-const exercise = { id: 'exercise-id', skillId: 'enterInteger' } as GroupExerciseSampleWithEvents
+vi.mock('@step-wise/exercises', () => ({ getExercise: () => ({ metadata: { version: 1 } }) }))
+
+const exercise = { id: 'exercise-id', skillId: 'enterInteger', exerciseId: 'enterInteger', exerciseVersion: 1 } as GroupExerciseSampleWithEvents
 const context = { userId: 'user-id' } as Parameters<typeof selectGroupActionUpdate>[2]
 const startedPayload: GroupExerciseStartedPayload = { exercise, code: 'PHYS', memberIds: ['user-id'] }
 const actionPayload: GroupActionUpdatedPayload = { exerciseId: 'exercise-id', eventIndex: 0, userId: 'user-id', action: null, memberIds: ['user-id'] }
@@ -19,6 +21,11 @@ describe('group exercise started subscription', () => {
 		expect(selectStartedGroupExercise(startedPayload, { code: 'MATH', skillId: 'enterInteger' }, context)).toBeUndefined()
 		expect(selectStartedGroupExercise(startedPayload, { code: 'PHYS', skillId: 'enterFloat' }, context)).toBeUndefined()
 		expect(selectStartedGroupExercise(startedPayload, { code: 'PHYS', skillId: 'enterInteger' }, { ...context, userId: 'other-user' })).toBeUndefined()
+	})
+
+	it('ignores stale exercises', () => {
+		const staleExercise = { ...exercise, exerciseVersion: 2 } as GroupExerciseSampleWithEvents
+		expect(selectStartedGroupExercise({ ...startedPayload, exercise: staleExercise }, { code: 'PHYS', skillId: 'enterInteger' }, context)).toBeUndefined()
 	})
 })
 

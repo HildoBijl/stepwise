@@ -10,19 +10,24 @@ describe('resolveExerciseMetadata', () => {
 		const metadata: ExerciseMetadata & { custom: string } = { custom: 'value' }
 		const resolved = resolveExerciseMetadata(metadata)
 
-		expect(resolved).toEqual({ custom: 'value', weight: 1, repeatAfter: 1 })
+		expect(resolved).toEqual({ custom: 'value', version: 1, weight: 1, repeatAfter: 1 })
 		expect(metadata).toEqual({ custom: 'value' })
 	})
 
 	it('preserves valid explicit values', () => {
 		const setup = skill('addition')
 		expect(resolveExerciseMetadata({
+			version: 4,
 			skill: 'arithmetic',
 			setup,
 			setupInferenceOrder: 6,
 			weight: 0.5,
 			repeatAfter: 3,
-		})).toEqual({ skill: 'arithmetic', setup, setupInferenceOrder: 6, weight: 0.5, repeatAfter: 3 })
+		})).toEqual({ version: 4, skill: 'arithmetic', setup, setupInferenceOrder: 6, weight: 0.5, repeatAfter: 3 })
+	})
+
+	it.each([0, -1, 1.5, Infinity, Number.MAX_SAFE_INTEGER + 1, 'second'])('rejects the invalid version %p', version => {
+		expect(() => resolveExerciseMetadata({ version } as never)).toThrow()
 	})
 
 	it.each([-1, Infinity, NaN, 'heavy'])('rejects the invalid weight %p', weight => {
@@ -59,6 +64,7 @@ describe('isExerciseMetadata', () => {
 	it.each([
 		null,
 		[],
+		{ version: 0 },
 		{ weight: -1 },
 		{ repeatAfter: 1.5 },
 		{ setupInferenceOrder: Infinity },

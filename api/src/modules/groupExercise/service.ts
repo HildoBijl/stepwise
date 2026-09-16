@@ -5,9 +5,8 @@ import { type Transaction, Op } from 'sequelize'
 import { last } from '@step-wise/js-utils'
 import type { ExerciseAction, ExerciseState, GroupExerciseReport } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/module-tree-definition'
-import { getExercise } from '@step-wise/exercises'
-
 import type { ServiceOptions } from '../types.ts'
+import { isExerciseCompatible } from '../exercise/index.ts'
 import { type GroupDatabase, type GroupWithMembers, hasLoadedGroupMembers } from '../group/index.ts'
 
 import { type GroupExerciseActionModel, type GroupExerciseActionRecord, type GroupExerciseEventModel, type GroupExerciseEventRecord, type GroupExerciseSampleModel, type GroupExerciseSampleRecord, type GroupExerciseSampleWithEvents, type GroupWithLoadedExercises, hasLoadedGroupExerciseEvents, hasLoadedGroupExercises } from './models.ts'
@@ -90,12 +89,6 @@ export async function getLatestGroupExercise(db: GroupExerciseDatabase, groupId:
 	return ensureLoadedGroupExerciseEvents(exercise)
 }
 
-async function deactivateUnavailableGroupExercises(group: GroupWithLoadedExercises | null, { transaction }: ServiceOptions = {}): Promise<GroupWithLoadedExercises | null> {
-	if (!group) return null
-	await Promise.all(group.exercises.filter(exercise => exercise.active && !getExercise(exercise.skillId, exercise.exerciseId)).map(exercise => exercise.update({ active: false }, transaction ? { transaction } : {})))
-	return group
-}
-
 interface GetGroupWithExercisesOptions extends ServiceOptions {
 	where?: Record<string, unknown>
 }
@@ -115,24 +108,24 @@ async function getGroupWithExercises(db: GroupExerciseDatabase, code: string, { 
 	if (!hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
 	if (!hasLoadedGroupExercises(group)) throw new Error(`Failed to load exercises, events, and actions of group "${group.code}".`)
 	group.exercises.forEach(sortGroupExerciseEvents)
-	await deactivateUnavailableGroupExercises(group, { ...(transaction ? { transaction } : {}) })
-	if (where?.active) group.exercises = group.exercises.filter(exercise => exercise.active)
 	return group
 }
 
 export function getGroupWithAllExercises(db: GroupExerciseDatabase, code: string, options: ServiceOptions = {}): Promise<GroupWithLoadedExercises | null> {
 	return getGroupWithExercises(db, code, options)
 }
-export function getGroupWithActiveSkillExercise(db: GroupExerciseDatabase, code: string, skillId: SkillId, options: ServiceOptions = {}): Promise<GroupWithLoadedExercises | null> {
-	return getGroupWithExercises(db, code, { ...options, where: { skillId, active: true } })
+export async function getGroupWithActiveSkillExercise(db: GroupExerciseDatabase, code: string, skillId: SkillId, options: ServiceOptions = {}): Promise<GroupWithLoadedExercises | null> {
+	const group = await getGroupWithExercises(db, code, { ...options, where: { skillId, active: true } })
+	if (group) group.exercises = group.exercises.filter(exercise => isExerciseCompatible(exercise.skillId, exercise))
+	return group
 }
 
 interface GroupExerciseDepartureChanges {
-	pendingRemovals: PendingGroupActionRemoval[]
-	historyUpdates: { exerciseId: string, eventIndex: number }[]
+	pendingActionRemovals: GroupExerciseEventReference[]
+	historyUpdates: GroupExerciseEventReference[]
 }
 
-interface PendingGroupActionRemoval {
+interface GroupExerciseEventReference {
 	exerciseId: string
 	eventIndex: number
 }
@@ -141,15 +134,15 @@ async function cleanUpGroupExerciseActionsForLeavingMember(db: GroupExerciseData
 	const groupWithExercises = await getGroupWithAllExercises(db, group.code, { transaction })
 	if (!groupWithExercises) throw new Error(`Failed to reload group "${group.code}" with exercises.`)
 	const events = groupWithExercises.exercises.flatMap(exercise => exercise.events)
-	if (events.length === 0) return { pendingRemovals: [], historyUpdates: [] }
+	if (events.length === 0) return { pendingActionRemovals: [], historyUpdates: [] }
 
 	// Lock all events before changing their actions and states, matching the lock order used by event resolution.
 	const eventIds = events.map(event => event.id).sort()
 	await db.GroupExerciseEvent.findAll({ where: { id: { [Op.in]: eventIds } }, order: [['id', 'ASC']], transaction, lock: transaction.LOCK.UPDATE })
 
 	const anonymousUserId = randomUUID()
-	const pendingRemovals: PendingGroupActionRemoval[] = []
-	const historyUpdates: { exerciseId: string, eventIndex: number }[] = []
+	const pendingActionRemovals: GroupExerciseEventReference[] = []
+	const historyUpdates: GroupExerciseEventReference[] = []
 	for (const exercise of groupWithExercises.exercises) {
 		let historyChanged = false
 		for (const event of exercise.events) {
@@ -157,7 +150,7 @@ async function cleanUpGroupExerciseActionsForLeavingMember(db: GroupExerciseData
 				const pendingAction = event.actions.find(action => action.userId === userId)
 				if (pendingAction) {
 					await pendingAction.destroy({ transaction })
-					pendingRemovals.push({ exerciseId: exercise.id, eventIndex: event.eventIndex })
+					pendingActionRemovals.push({ exerciseId: exercise.id, eventIndex: event.eventIndex })
 				}
 			}
 
@@ -186,7 +179,7 @@ async function cleanUpGroupExerciseActionsForLeavingMember(db: GroupExerciseData
 			if (resolvedEvent) historyUpdates.push({ exerciseId: exercise.id, eventIndex: resolvedEvent.eventIndex })
 		}
 	}
-	return { pendingRemovals, historyUpdates }
+	return { pendingActionRemovals, historyUpdates }
 }
 
 function replaceAdoptedUser(action: ExerciseAction, userId: string, anonymousUserId: string): ExerciseAction {
@@ -217,11 +210,11 @@ function replaceUserInExerciseState(value: ExerciseState, userId: string, anonym
 }
 
 export async function prepareGroupMemberDeparture(db: GroupExerciseDatabase, group: GroupWithMembers, userId: string, transaction: Transaction, pubsub: PubSubEngine): Promise<() => Promise<void>> {
-	const { pendingRemovals, historyUpdates } = await cleanUpGroupExerciseActionsForLeavingMember(db, group, userId, transaction)
+	const { pendingActionRemovals, historyUpdates } = await cleanUpGroupExerciseActionsForLeavingMember(db, group, userId, transaction)
 	const memberIds = group.members.map(member => member.id)
 	return async () => {
 		await Promise.all([
-			...pendingRemovals.map(async ({ exerciseId, eventIndex }) => {
+			...pendingActionRemovals.map(async ({ exerciseId, eventIndex }) => {
 				await pubsub.publish(groupExerciseEvents.groupActionUpdated, { exerciseId, eventIndex, userId, action: null, memberIds })
 			}),
 			...historyUpdates.map(async ({ exerciseId, eventIndex }) => {

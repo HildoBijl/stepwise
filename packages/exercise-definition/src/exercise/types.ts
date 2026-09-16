@@ -9,6 +9,7 @@ import type { UserExerciseAction } from '../modes/index.ts'
  */
 
 export type ExerciseMetadata = {
+	version?: number,
 	skill?: SkillId,
 	setup?: SkillSetup,
 	setupInferenceOrder?: number,
@@ -17,6 +18,7 @@ export type ExerciseMetadata = {
 }
 
 export type ResolvedExerciseMetadata<TMetadata extends ExerciseMetadata = ExerciseMetadata> = TMetadata & {
+	version: number
 	weight: number
 	repeatAfter: number
 }

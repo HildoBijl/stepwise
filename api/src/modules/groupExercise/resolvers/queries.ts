@@ -1,5 +1,4 @@
-import { getExercise } from '@step-wise/exercises'
-
+import { isExerciseCompatible } from '../../exercise/index.ts'
 import { ensureGroupMembership, getGroup, hasLoadedGroupMembers } from '../../group/index.ts'
 
 import { getGroupExerciseById, getLatestGroupExercise } from '../service.ts'
@@ -11,7 +10,7 @@ export const groupExerciseQueryResolvers = {
 		const group = await getGroup(db, code, { includeMembers: true })
 		ensureGroupMembership(group, userId)
 		const exercise = await getLatestGroupExercise(db, group.id, skillId)
-		return exercise && getExercise(exercise.skillId, exercise.exerciseId) ? exercise : null
+		return exercise && isExerciseCompatible(exercise.skillId, exercise) ? exercise : null
 	},
 	groupExercise: async (_source: unknown, { id }: { id: string }, { db, ensureSignedIn, userId }: GroupExerciseContext) => {
 		ensureSignedIn()
@@ -20,6 +19,6 @@ export const groupExerciseQueryResolvers = {
 		const group = await db.Group.findByPk(exercise.groupId, { include: { association: 'members' } })
 		if (group && !hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
 		ensureGroupMembership(group, userId)
-		return getExercise(exercise.skillId, exercise.exerciseId) ? exercise : null
+		return isExerciseCompatible(exercise.skillId, exercise) ? exercise : null
 	},
 }

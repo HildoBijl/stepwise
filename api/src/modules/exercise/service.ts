@@ -1,15 +1,14 @@
-import type { IncludeOptions, Transaction } from 'sequelize'
+import type { IncludeOptions } from 'sequelize'
 
 import { last } from '@step-wise/js-utils'
 import type { SkillId } from '@step-wise/module-tree-definition'
 import type { ExerciseState } from '@step-wise/exercise-definition'
-import { getExercise } from '@step-wise/exercises'
-
-import { ForbiddenError, InvalidInputError } from '../../errors.ts'
+import { InvalidInputError } from '../../errors.ts'
 
 import type { ServiceOptions } from '../types.ts'
 import type { SkillDatabase, UserSkillRecord } from '../skill/index.ts'
 
+import { isExerciseCompatible } from './compatibility.ts'
 import { type ExerciseEventModel, type ExerciseEventRecord, type ExerciseSampleModel, type ExerciseSampleRecord, type ExerciseSampleWithEvents, hasLoadedExerciseEvents } from './models.ts'
 
 export interface ExerciseDatabase extends SkillDatabase {
@@ -18,8 +17,6 @@ export interface ExerciseDatabase extends SkillDatabase {
 }
 
 export const exerciseEvents = { exerciseStarted: 'EXERCISE_STARTED', exerciseUpdated: 'EXERCISE_UPDATED' } as const
-
-export type ExerciseUpdateAction = 'startExercise' | 'submitAction'
 
 export interface ExerciseUpdatedPayload {
 	updatedExercise: ExerciseSampleRecord
@@ -54,17 +51,6 @@ export function getLatestExerciseEvent(exercise: ExerciseSampleRecord): Exercise
 
 export function getExerciseEventIndex(exercise: ExerciseSampleRecord): number {
 	return (getLatestExerciseEvent(exercise)?.eventIndex ?? -1) + 1
-}
-
-export async function lockActiveExercise(db: ExerciseDatabase, exerciseId: string, userId: string, transaction: Transaction): Promise<{ exercise: ExerciseSampleWithEvents; skill: UserSkillRecord }> {
-	const exercise = await db.ExerciseSample.findByPk(exerciseId, { transaction, lock: transaction.LOCK.UPDATE })
-	if (!exercise || !exercise.active) throw new InvalidInputError(`Cannot submit action: exercise "${exerciseId}" is not active.`)
-	const skill = await db.UserSkill.findByPk(exercise.userSkillId, { transaction })
-	if (!skill) throw new Error(`Failed to load the skill for exercise "${exerciseId}".`)
-	if (skill.userId !== userId) throw new ForbiddenError(`Cannot submit action: exercise "${exerciseId}" does not belong to the signed-in user.`)
-	exercise.events = await db.ExerciseEvent.findAll({ where: { exerciseSampleId: exercise.id }, order: [['eventIndex', 'ASC']], transaction })
-	if (!hasLoadedExerciseEvents(exercise)) throw new Error(`Failed to load events for exercise "${exercise.id}".`)
-	return { exercise, skill }
 }
 
 export function getCurrentExerciseState(exercise: ExerciseSampleRecord): ExerciseState {
@@ -105,12 +91,8 @@ export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: st
 		loadedExercises = skill.exercises
 	}
 	if (!loadedExercises.every(hasLoadedExerciseEvents)) throw new Error(`Failed to load exercise events for user skill "${skill.id}".`)
-	const exercises: ExerciseSampleWithEvents[] = loadedExercises
-	let activeExercise = exercises.find(exercise => exercise.active)
-	if (activeExercise && !getExercise(skillId, activeExercise.exerciseId)) {
-		await activeExercise.update({ active: false }, transaction ? { transaction } : {})
-		activeExercise = undefined
-	}
+	const exercises: ExerciseSampleWithEvents[] = loadedExercises.filter(exercise => isExerciseCompatible(skillId, exercise))
+	const activeExercise = exercises.find(exercise => exercise.active)
 	if (requireActiveExercise && !activeExercise) throw new InvalidInputError(`There is no active exercise for skill "${skillId}".`)
 	if (requireNoActiveExercise && activeExercise) throw new InvalidInputError(`There is still an active exercise for skill "${skillId}".`)
 	return { skill, exercises, activeExercise }

@@ -26,4 +26,5 @@ export const exerciseModule = defineApiModule({
 })
 
 export * from './models.ts'
+export * from './compatibility.ts'
 export * from './service.ts'

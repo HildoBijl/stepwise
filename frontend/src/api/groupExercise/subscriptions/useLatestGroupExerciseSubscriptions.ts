@@ -10,7 +10,7 @@ import { mergeGroupEventResolution } from './mergeGroupEventResolution.ts'
 export function useLatestGroupExerciseSubscriptions(exerciseId: string | undefined, subscribeToMore: SubscribeToMoreFunction<LatestGroupExerciseQueryData, LatestGroupExerciseQueryVariables>, refetch: () => Promise<unknown>, apply = true): void {
 	useEffect(() => {
 		if (!apply || !exerciseId) return
-		
+
 		const unsubscribeActionUpdates = subscribeToMore<GroupActionUpdatedData, GroupExerciseSubscriptionVariables>({
 			document: GROUP_ACTION_UPDATED,
 			variables: { exerciseId },

@@ -17,6 +17,7 @@ export class ExerciseSampleRecord extends Model<InferAttributes<ExerciseSampleRe
 	declare id: CreationOptional<string>
 	declare userSkillId: string
 	declare exerciseId: string
+	declare exerciseVersion: CreationOptional<number>
 	declare parameters: ExerciseParameters
 	declare initialState: CreationOptional<ExerciseState>
 	declare active: CreationOptional<boolean>
@@ -41,6 +42,7 @@ export function createExerciseSampleModel(sequelize: Sequelize): ExerciseSampleM
 		id: { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 		userSkillId: { type: DataTypes.UUID, allowNull: false },
 		exerciseId: { type: DataTypes.TEXT, allowNull: false },
+		exerciseVersion: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1, validate: { min: 1 } },
 		parameters: { type: DataTypes.JSON, allowNull: false },
 		initialState: { type: DataTypes.JSON, allowNull: false, defaultValue: {} },
 		active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },

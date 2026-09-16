@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import surfConextMockData from '../../../../src/modules/authentication/surfConext/mockData.json' with { type: 'json' }
 
+import type { ExerciseSampleRecord } from '../../../../src/modules/exercise/models.ts'
 import { createClient } from '../../../support/client.ts'
 
 const ALEX_ID = 'a0000000-0000-0000-0000-000000000000'
@@ -66,6 +67,24 @@ describe('startExercise', () => {
 		const { data, errors: errorsAfter } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id}}` })
 		expect(errorsAfter).not.toBeUndefined()
 		expect(data).toBe(null)
+	})
+
+	it('deactivates and replaces a stale active exercise', async () => {
+		let staleExercise: ExerciseSampleRecord | undefined
+		const client = await createClient(async db => {
+			await seed(db)
+			const skill = await db.UserSkill.create({ userId: ALEX_ID, skillId: SAMPLE_SKILL })
+			staleExercise = await db.ExerciseSample.create({ userSkillId: skill.id, exerciseId: 'enterInteger', exerciseVersion: 999, parameters: {}, active: true })
+		})
+		await client.signInWithSurfConext(ALEX_SURFSUB)
+
+		const { data, errors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id active}}` })
+		expect(errors).toBeUndefined()
+		expect(data.startExercise).toMatchObject({ active: true })
+		expect(data.startExercise.id).not.toBe(staleExercise?.id)
+		await staleExercise?.reload()
+		expect(staleExercise?.active).toBe(false)
+		expect(client.countEvents('EXERCISE_STARTED')).toBe(1)
 	})
 
 	it('does not create multiple active exercises for concurrent requests', async () => {

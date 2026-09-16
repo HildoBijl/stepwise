@@ -2,8 +2,10 @@ import { ForbiddenError, InvalidInputError } from '../../../errors.ts'
 
 import { createSubscriptionResolver } from '../../subscriptions.ts'
 
+import { isExerciseCompatible } from '../compatibility.ts'
 import type { ExerciseSampleRecord } from '../models.ts'
 import { type ExerciseUpdatedPayload, exerciseEvents } from '../service.ts'
+
 import type { ExerciseContext, ExerciseStartedArgs, ExerciseUpdatedArgs } from './types.ts'
 
 export const exerciseSubscriptionResolvers = {
@@ -23,11 +25,11 @@ export const exerciseSubscriptionResolvers = {
 }
 
 export function selectStartedExercise({ updatedExercise, userId, skillId }: ExerciseUpdatedPayload, args: ExerciseStartedArgs, context: ExerciseContext): ExerciseSampleRecord | undefined {
-	if (userId === context.userId && skillId === args.skillId) return updatedExercise
+	if (userId === context.userId && skillId === args.skillId && isExerciseCompatible(skillId, updatedExercise)) return updatedExercise
 }
 
 export function selectExerciseUpdate(payload: ExerciseUpdatedPayload, { exerciseId }: ExerciseUpdatedArgs, context: ExerciseContext): ExerciseUpdatedPayload | undefined {
-	if (payload.userId === context.userId && payload.updatedExercise.id === exerciseId) return payload
+	if (payload.userId === context.userId && payload.updatedExercise.id === exerciseId && isExerciseCompatible(payload.skillId, payload.updatedExercise)) return payload
 }
 
 async function authorizeExerciseSubscription({ exerciseId }: ExerciseUpdatedArgs, { db, ensureSignedIn, userId }: ExerciseContext): Promise<void> {
@@ -37,4 +39,5 @@ async function authorizeExerciseSubscription({ exerciseId }: ExerciseUpdatedArgs
 	const skill = await db.UserSkill.findByPk(exercise.userSkillId)
 	if (!skill) throw new Error('Failed to load the skill for the exercise.')
 	if (skill.userId !== userId) throw new ForbiddenError('Access to the exercise is not allowed.')
+	if (!isExerciseCompatible(skill.skillId, exercise)) throw new InvalidInputError('The exercise is stale and is no longer available.')
 }

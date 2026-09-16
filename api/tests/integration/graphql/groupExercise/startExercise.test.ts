@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import surfConextMockData from '../../../../src/modules/authentication/surfConext/mockData.json' with { type: 'json' }
 
+import type { GroupExerciseSampleRecord } from '../../../../src/modules/groupExercise/models.ts'
 import { createClient } from '../../../support/client.ts'
 
 const ALEX_ID = 'a0000000-0000-0000-0000-000000000000'
@@ -75,6 +76,26 @@ describe('start group exercise:', () => {
 		expect(restartErrors).toBeUndefined()
 		expect(restartExercise).toStrictEqual(exercise)
 		expect(client.countEvents('GROUP_EXERCISE_STARTED')).toStrictEqual(1)
+	})
+
+	it('deactivates and replaces a stale active exercise', async () => {
+		let staleExercise: GroupExerciseSampleRecord | undefined
+		const client = await createClient(async db => {
+			await seed(db)
+			const group = await db.Group.findOne({ where: { code: GROUP_CODE } })
+			if (!group) throw new Error(`Failed to seed group "${GROUP_CODE}".`)
+			staleExercise = await db.GroupExerciseSample.create({ groupId: group.id, skillId: SAMPLE_SKILL, exerciseId: 'enterInteger', exerciseVersion: 999, parameters: {}, active: true })
+		})
+		await client.signInWithSurfConext(ALEX_SURFSUB)
+		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
+
+		const { data, errors } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {id active}}` })
+		expect(errors).toBeUndefined()
+		expect(data.startGroupExercise).toMatchObject({ active: true })
+		expect(data.startGroupExercise.id).not.toBe(staleExercise?.id)
+		await staleExercise?.reload()
+		expect(staleExercise?.active).toBe(false)
+		expect(client.countEvents('GROUP_EXERCISE_STARTED')).toBe(1)
 	})
 
 	it('returns the same exercise for concurrent start requests', async () => {

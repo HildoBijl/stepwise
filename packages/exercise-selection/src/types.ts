@@ -8,4 +8,5 @@ export type PreviousExercise = {
 
 export type ExerciseInstance = BaseExerciseInstance & {
 	exerciseId: ExerciseId
+	exerciseVersion: number
 }

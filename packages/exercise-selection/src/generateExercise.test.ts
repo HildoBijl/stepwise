@@ -19,7 +19,7 @@ describe('generateRandomExerciseInstance', () => {
 		} satisfies Exercise
 
 		await expect(generateRandomExerciseInstance({ sample: exercise }, 'solo', true)).resolves.toEqual({
-			exerciseId: 'sample', mode: 'solo', parameters, initialState, history: [],
+			exerciseId: 'sample', exerciseVersion: 1, mode: 'solo', parameters, initialState, history: [],
 		})
 		expect(generateParameters).toHaveBeenCalledWith({ example: true, context: undefined })
 		expect(getInitialState).toHaveBeenCalledWith({ parameters, context: undefined })
@@ -87,9 +87,17 @@ describe('generateSkillBasedExerciseInstance', () => {
 		const loadSkillLevelSet = vi.fn(async () => ({} as SkillLevelSet))
 
 		await expect(generateSkillBasedExerciseInstance({ sample: exercise }, loadSkillLevelSet)).resolves.toEqual({
-			exerciseId: 'sample', mode: 'solo', parameters: { value: 2 }, initialState: { done: false }, history: [],
+			exerciseId: 'sample', exerciseVersion: 1, mode: 'solo', parameters: { value: 2 }, initialState: { done: false }, history: [],
 		})
 		expect(loadSkillLevelSet).not.toHaveBeenCalled()
+	})
+
+	it('stores the selected exercise version', async () => {
+		const exercise = {
+			metadata: { version: 3 }, generateParameters: () => ({}), getInitialState: () => ({}), processSoloAction: () => ({ state: {} }),
+		} satisfies Exercise
+
+		await expect(generateSkillBasedExerciseInstance({ sample: exercise }, async () => ({} as SkillLevelSet))).resolves.toMatchObject({ exerciseVersion: 3 })
 	})
 
 	it('passes context to the selected exercise', async () => {

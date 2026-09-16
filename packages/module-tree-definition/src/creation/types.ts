@@ -3,7 +3,7 @@ import type { SkillId, SkillSetup } from '@step-wise/skill-setup'
 export type { SkillId } from '@step-wise/skill-setup'
 
 // Fundamentals.
-export type ModuleId = string
+export type ModuleId = SkillId
 export type ModuleType = 'concept' | 'skill'
 
 // Parameter types.
