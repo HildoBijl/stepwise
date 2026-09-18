@@ -167,9 +167,9 @@ Processed skills additionally contain:
 Creation rejects malformed entries, empty IDs, exact and case-insensitive ID collisions, unknown references, prerequisite cycles, concepts depending on skills and inconsistent links. Display names and other presentation content deliberately remain outside the logical module tree.
 
 
-## Searching a module tree
+## Looking up and validating modules
 
-All search and validation functions receive a processed `ModuleTree` as their first argument. Module-aware functions accept concepts and skills. Their skill-specific counterparts validate that every supplied endpoint is a skill and omit concepts from returned collections.
+All lookup and validation functions receive a processed `ModuleTree` as their first argument. Module-aware functions accept concepts and skills. Their skill-specific counterparts validate that every supplied endpoint is a skill.
 
 ### `ensureModuleId(moduleTree, moduleId, options?)`
 
@@ -204,32 +204,36 @@ Returns the corresponding `Skill`, rejecting IDs that identify concepts. This is
 
 Normalizes a setup through `@step-wise/skill-setup`, verifies that every referenced skill exists and returns the resulting setup.
 
-### `isModulePrerequisiteOf(moduleTree, prerequisiteId, moduleId, options?)`
 
-Checks whether the first module is a direct or transitive prerequisite of the second. A module is considered a prerequisite of itself. Set `includeConcepts` to `false` to exclude concepts and stop traversal when one is encountered.
+## Inspecting relationships and module collections
+
+These functions inspect relationships or transform collections of module IDs. Collection functions include concepts by default. Set `includeConcepts` to `false` when preparing a collection for skill-only data.
+
+### `isModuleRequiredFor(moduleTree, requiredModuleId, moduleId)`
+
+Checks whether the first module is a direct or transitive requirement of the second. A module is considered required for itself.
 
 ### `expandModuleIdsWithDirectPrerequisites(moduleTree, moduleIds, options?)`
 
-Returns the requested modules and their direct prerequisites. It does not recurse. Set `includeConcepts` to `false` to omit concepts from the result.
+Returns the requested modules and their direct prerequisites. It does not recurse. Set `includeConcepts` to `false` to omit concepts. Set `includeLinkedSkills` to `true` to also include skills directly linked to each requested skill; links of added prerequisites are not expanded.
 
-### `expandSkillIdsWithDirectPrerequisitesAndLinks(moduleTree, skillIds)`
+### `getRequiredModuleIds(moduleTree, moduleIds, options?)`
 
-Accepts a readonly array and returns the requested canonical IDs, their direct prerequisites and their directly linked skills. It does not recurse through either relationship.
-
-### `getModuleIdsBetweenGoalsAndPriorKnowledge(moduleTree, goals, priorKnowledge, options?)`
-
-Returns the goals and their recursive prerequisites while excluding prior-knowledge modules and everything reached only by traversing beyond those boundaries. Set `includeConcepts` to `false` to omit concepts and stop traversing their prerequisites.
+Returns the supplied modules and their recursive prerequisites. Set `priorKnowledgeIds` to exclude known modules and everything reached only by traversing beyond those boundaries. It defaults to an empty array. Set `includeConcepts` to `false` to omit concepts and stop traversing their prerequisites.
 
 ```ts
-getModuleIdsBetweenGoalsAndPriorKnowledge(moduleTree, ['solveLinearEquation'], ['addNumbers'], { includeConcepts: false })
+getRequiredModuleIds(moduleTree, ['solveLinearEquation'], {
+	priorKnowledgeIds: ['addNumbers'],
+	includeConcepts: false,
+})
 // ['solveLinearEquation', 'multiplyNumbers']
 ```
 
-### `sortModuleIdsByTreeOrder(moduleTree, moduleIds, options?)`
+### `sortModuleIdsByTreeOrder(moduleTree, moduleIds)`
 
-Validates the supplied module IDs, then returns a new array sorted by their order in the processed module tree. Duplicate IDs are preserved. Set `includeConcepts` to `false` to omit concepts.
+Validates the supplied module IDs, then returns a new array sorted by their order in the processed module tree. Duplicate IDs are preserved.
 
 
 ## TypeScript
 
-The package includes TypeScript declarations. Its principal exported types include `ModuleId`, `ModuleType`, `ModuleDefinition`, `ConceptDefinition`, `SkillDefinition`, `ModuleTreeDefinition`, `Module`, `Concept`, `Skill`, `ModuleTree`, `EnsureModuleIdOptions`, `ModuleSearchOptions`, `SkillLinkDefinition` and `SkillLink`.
+The package includes TypeScript declarations. Its principal exported types include `ModuleId`, `ModuleType`, `ModuleDefinition`, `ConceptDefinition`, `SkillDefinition`, `ModuleTreeDefinition`, `Module`, `Concept`, `Skill`, `ModuleTree`, `EnsureModuleIdOptions`, `ExpandModuleIdsOptions`, `GetRequiredModuleIdsOptions`, `SkillLinkDefinition` and `SkillLink`.

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensureModuleId, ensureSkillId, expandModuleIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, isModulePrerequisiteOf, sortModuleIdsByTreeOrder } from './searching.ts'
+import { ensureModuleId, ensureSkillId, expandModuleIdsWithDirectPrerequisites, isModuleRequiredFor, sortModuleIdsByTreeOrder } from './searching.ts'
 
 describe('module-tree searching', () => {
 	it('validates IDs against the Step-Wise module tree', () => {
@@ -14,12 +14,12 @@ describe('module-tree searching', () => {
 	})
 
 	it('expands IDs with their direct prerequisites and links', () => {
-		expect(expandSkillIdsWithDirectPrerequisitesAndLinks(['substituteAnExpression'])).toEqual(['substituteAnExpression', 'substituteANumber'])
+		expect(expandModuleIdsWithDirectPrerequisites(['substituteAnExpression'], { includeConcepts: false, includeLinkedSkills: true })).toEqual(['substituteAnExpression', 'substituteANumber'])
 	})
 
 	it('checks transitive prerequisites', () => {
-		expect(isModulePrerequisiteOf('rewritePower', 'expandDoubleBrackets')).toBe(true)
-		expect(isModulePrerequisiteOf('expandDoubleBrackets', 'rewritePower')).toBe(false)
+		expect(isModuleRequiredFor('rewritePower', 'expandDoubleBrackets')).toBe(true)
+		expect(isModuleRequiredFor('expandDoubleBrackets', 'rewritePower')).toBe(false)
 	})
 
 	it('sorts module IDs into tree order', () => {

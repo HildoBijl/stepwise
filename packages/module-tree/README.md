@@ -13,13 +13,13 @@ npm install @step-wise/module-tree
 ## Quick start
 
 ```ts
-import { moduleTree, getSkill, isModulePrerequisiteOf } from '@step-wise/module-tree'
+import { moduleTree, getSkill, isModuleRequiredFor } from '@step-wise/module-tree'
 
 const skill = getSkill('solveLinearEquation')
 
 skill.id // 'solveLinearEquation'
 moduleTree.solveLinearEquation // The same processed skill
-isModulePrerequisiteOf('rewritePower', 'expandDoubleBrackets') // true
+isModuleRequiredFor('rewritePower', 'expandDoubleBrackets') // true
 ```
 
 The tree is created and validated when the package is first imported. Invalid definitions, unknown references, prerequisite cycles and inconsistent links therefore prevent an invalid tree from being exported.
@@ -88,36 +88,40 @@ ensureSkillIds(['demo', 'solveLinearEquation'])
 
 ## Searching relationships
 
-The package provides module-aware relationship helpers. They include concepts by default; pass `{ includeConcepts: false }` when only skills should be returned and traversal should stop at concepts.
+The package provides module-aware relationship helpers. Collection functions include concepts by default; pass `{ includeConcepts: false }` when only skills should be returned.
 
 ### `expandModuleIdsWithDirectPrerequisites(moduleIds, options?)`
 
-Returns the requested skills together with their direct prerequisites. Results are deduplicated in first-occurrence order; prerequisites are not expanded recursively.
+Returns the requested modules together with their direct prerequisites. Results are deduplicated in first-occurrence order; prerequisites are not expanded recursively. Set `includeLinkedSkills` to `true` to also include directly linked skills.
 
 ```ts
 expandModuleIdsWithDirectPrerequisites(['summationAndMultiplication'], { includeConcepts: false })
 // ['summationAndMultiplication', 'multiplication', 'summation']
 ```
 
-### `expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds)`
-
-Returns the requested skills together with their direct prerequisites and directly linked skills. Results are deduplicated in first-occurrence order, and neither relationship is traversed recursively.
-
 ```ts
-expandSkillIdsWithDirectPrerequisitesAndLinks(['substituteAnExpression'])
+expandModuleIdsWithDirectPrerequisites(['substituteAnExpression'], { includeConcepts: false, includeLinkedSkills: true })
 // ['substituteAnExpression', 'substituteANumber']
 ```
 
-### `isModulePrerequisiteOf(prerequisiteId, moduleId, options?)`
+### `getRequiredModuleIds(moduleIds, options?)`
 
-Checks whether the first module is a direct or transitive prerequisite of the second. A module is considered a prerequisite of itself. Unknown IDs throw.
+Returns the supplied modules and their recursive prerequisites. Use `priorKnowledgeIds` to define traversal boundaries and `includeConcepts: false` for a skill-only result.
+
+### `isModuleRequiredFor(requiredModuleId, moduleId)`
+
+Checks whether the first module is a direct or transitive requirement of the second. A module is considered required for itself. Unknown IDs throw.
 
 ```ts
-isModulePrerequisiteOf('rewritePower', 'expandDoubleBrackets') // true
-isModulePrerequisiteOf('expandDoubleBrackets', 'rewritePower') // false
+isModuleRequiredFor('rewritePower', 'expandDoubleBrackets') // true
+isModuleRequiredFor('expandDoubleBrackets', 'rewritePower') // false
 ```
+
+### `sortModuleIdsByTreeOrder(moduleIds)`
+
+Returns the supplied module IDs in their module-tree order. Duplicate IDs are preserved.
 
 
 ## TypeScript
 
-The package includes TypeScript declarations and re-exports the `ModuleId`, `ModuleTree`, `SkillId`, `EnsureModuleIdOptions` and `ModuleSearchOptions` types from `@step-wise/module-tree-definition`.
+The package includes TypeScript declarations and re-exports the `ModuleId`, `ModuleTree`, `SkillId`, `EnsureModuleIdOptions`, `ExpandModuleIdsOptions` and `GetRequiredModuleIdsOptions` types from `@step-wise/module-tree-definition`.

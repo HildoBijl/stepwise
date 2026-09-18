@@ -4,7 +4,7 @@ import { fromKeys, fromKeysAndValues } from '@step-wise/js-utils'
 import { useConstant } from '@step-wise/react-utils'
 import type { SkillId } from '@step-wise/module-tree-definition'
 import { SkillLevelSet, getInitialSkillLevel } from '@step-wise/skill-tracking'
-import { expandSkillIdsWithDirectPrerequisitesAndLinks, moduleTree } from '@step-wise/module-tree'
+import { expandModuleIdsWithDirectPrerequisites, moduleTree } from '@step-wise/module-tree'
 
 import { useUser } from '../../user/index.ts'
 
@@ -28,7 +28,7 @@ export function SkillLevelProvider({ children }: PropsWithChildren) {
 	}, [])
 
 	const requestedSkillIds = useMemo(() => [...new Set([...registrations.values()].flat())], [registrations])
-	const expandedSkillIds = useMemo(() => expandSkillIdsWithDirectPrerequisitesAndLinks(requestedSkillIds), [requestedSkillIds])
+	const expandedSkillIds = useMemo(() => expandModuleIdsWithDirectPrerequisites(requestedSkillIds, { includeConcepts: false, includeLinkedSkills: true }), [requestedSkillIds])
 	const { data, loading, error } = useSkillLevelRecordsQuery(expandedSkillIds)
 
 	const user = useUser()

@@ -1,60 +1,56 @@
-import type { ModuleId, ModuleTree, SkillId } from '../creation/index.ts'
+import type { ModuleId, ModuleTree } from '../creation/index.ts'
 
-import type { ModuleSearchOptions } from './types.ts'
-import { ensureModuleIds, ensureSkillIds, getSkill } from './validation.ts'
+import { ensureModuleIds } from './validation.ts'
 
-// Check if a module is a prerequisite of another module, optionally filtering out concepts.
-export function isModulePrerequisiteOf(moduleTree: ModuleTree, prerequisiteId: ModuleId, moduleId: ModuleId, { includeConcepts = true }: ModuleSearchOptions = {}): boolean {
-	const [ensuredPrerequisiteId, ensuredModuleId] = ensureModuleIds(moduleTree, [prerequisiteId, moduleId])
-	if (!includeConcepts && (moduleTree[ensuredPrerequisiteId].type === 'concept' || moduleTree[ensuredModuleId].type === 'concept')) return false
+export type ExpandModuleIdsOptions = {
+	includeConcepts?: boolean
+	includeLinkedSkills?: boolean
+}
+
+export type GetRequiredModuleIdsOptions = {
+	priorKnowledgeIds?: readonly ModuleId[]
+	includeConcepts?: boolean
+}
+
+// Check if a module is required for another module. A module is considered required for itself.
+export function isModuleRequiredFor(moduleTree: ModuleTree, requiredModuleId: ModuleId, moduleId: ModuleId): boolean {
+	const [ensuredRequiredModuleId, ensuredModuleId] = ensureModuleIds(moduleTree, [requiredModuleId, moduleId])
 	const visited = new Set<ModuleId>()
 	const searchPrerequisites = (currentModuleId: ModuleId): boolean => {
-		if (ensuredPrerequisiteId === currentModuleId) return true
+		if (ensuredRequiredModuleId === currentModuleId) return true
 		if (visited.has(currentModuleId)) return false
 		visited.add(currentModuleId)
-		return moduleTree[currentModuleId].prerequisiteIds.some(currentPrerequisiteId => includeConcepts || moduleTree[currentPrerequisiteId].type === 'skill' ? searchPrerequisites(currentPrerequisiteId) : false)
+		return moduleTree[currentModuleId].prerequisiteIds.some(searchPrerequisites)
 	}
 	return searchPrerequisites(ensuredModuleId)
 }
 
-// From a list of module IDs, add all modules that are direct prerequisites of the respective modules.
-export function expandModuleIdsWithDirectPrerequisites(moduleTree: ModuleTree, moduleIds: readonly ModuleId[], { includeConcepts = true }: ModuleSearchOptions = {}): ModuleId[] {
+// Add the direct prerequisites and, when requested, links of the supplied modules.
+export function expandModuleIdsWithDirectPrerequisites(moduleTree: ModuleTree, moduleIds: readonly ModuleId[], { includeConcepts = true, includeLinkedSkills = false }: ExpandModuleIdsOptions = {}): ModuleId[] {
 	const result = new Set<ModuleId>()
 	for (const moduleId of ensureModuleIds(moduleTree, moduleIds)) {
-		if (!includeConcepts && moduleTree[moduleId].type === 'concept') continue
+		const module = moduleTree[moduleId]
+		if (!includeConcepts && module.type === 'concept') continue
 		result.add(moduleId)
-		for (const prerequisiteId of moduleTree[moduleId].prerequisiteIds) {
+		for (const prerequisiteId of module.prerequisiteIds) {
 			if (includeConcepts || moduleTree[prerequisiteId].type === 'skill') result.add(prerequisiteId)
 		}
+		if (includeLinkedSkills && module.type === 'skill') module.linkedSkillIds.forEach(linkedSkillId => result.add(linkedSkillId))
 	}
 	return [...result]
 }
 
-// From a list of skill IDs, add all skills that are direct prerequisites and/or direct links of the respective skills.
-export function expandSkillIdsWithDirectPrerequisitesAndLinks(moduleTree: ModuleTree, skillIds: readonly SkillId[]): SkillId[] {
-	const result = new Set<SkillId>()
-	for (const skillId of ensureSkillIds(moduleTree, skillIds)) {
-		const skill = getSkill(moduleTree, skillId)
-		result.add(skillId)
-		for (const prerequisiteId of skill.prerequisiteIds) {
-			if (moduleTree[prerequisiteId].type === 'skill') result.add(prerequisiteId as SkillId)
-		}
-		for (const linkedSkillId of skill.linkedSkillIds) result.add(linkedSkillId)
-	}
-	return [...result]
-}
-
-// Find all module IDs of the modules that are required for the given goals, but are not part of and/or covered by the given prior knowledge.
-export function getModuleIdsBetweenGoalsAndPriorKnowledge(moduleTree: ModuleTree, goals: ModuleId[], priorKnowledge: ModuleId[], { includeConcepts = true }: ModuleSearchOptions = {}): ModuleId[] {
-	goals = ensureModuleIds(moduleTree, goals)
-	priorKnowledge = ensureModuleIds(moduleTree, priorKnowledge)
-	const contents: ModuleId[] = []
+// Find the modules required for the supplied modules, stopping at the prior-knowledge boundary.
+export function getRequiredModuleIds(moduleTree: ModuleTree, moduleIds: readonly ModuleId[], { priorKnowledgeIds = [], includeConcepts = true }: GetRequiredModuleIdsOptions = {}): ModuleId[] {
+	const ensuredModuleIds = ensureModuleIds(moduleTree, moduleIds)
+	const ensuredPriorKnowledgeIds = ensureModuleIds(moduleTree, priorKnowledgeIds)
+	const requiredModuleIds: ModuleId[] = []
 	const processModule = (moduleId: ModuleId) => {
 		if (!includeConcepts && moduleTree[moduleId].type === 'concept') return
-		if (priorKnowledge.includes(moduleId) || contents.includes(moduleId)) return
-		contents.push(moduleId)
+		if (ensuredPriorKnowledgeIds.includes(moduleId) || requiredModuleIds.includes(moduleId)) return
+		requiredModuleIds.push(moduleId)
 		moduleTree[moduleId].prerequisiteIds.forEach(processModule)
 	}
-	goals.forEach(processModule)
-	return contents
+	ensuredModuleIds.forEach(processModule)
+	return requiredModuleIds
 }

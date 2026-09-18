@@ -32,6 +32,5 @@ describe('sortModuleIdsByTreeOrder', () => {
 	it('sorts concepts and skills together', () => {
 		const mixedTree = createModuleTree({ concept: { type: 'concept' }, skill: { type: 'skill' } })
 		expect(sortModuleIdsByTreeOrder(mixedTree, ['skill', 'concept'])).toEqual(['concept', 'skill'])
-		expect(sortModuleIdsByTreeOrder(mixedTree, ['skill', 'concept'], { includeConcepts: false })).toEqual(['skill'])
 	})
 })

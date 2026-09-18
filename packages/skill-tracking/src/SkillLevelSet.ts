@@ -3,7 +3,7 @@ import { binomialCoefficient } from '@step-wise/math-tools'
 import { getUnivariatePolynomialCoefficients, substitutePolynomialMoments, oneMinusPolynomial } from '@step-wise/polynomials'
 import { type BernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment, multiplyBernsteinPDFs } from '@step-wise/bernstein-polynomials'
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
-import { type ModuleTree, type SkillId, ensureSkillId, expandSkillIdsWithDirectPrerequisitesAndLinks, getSkill } from '@step-wise/module-tree-definition'
+import { type ModuleTree, type SkillId, ensureSkillId, expandModuleIdsWithDirectPrerequisites, getSkill } from '@step-wise/module-tree-definition'
 
 import type { StoredSkillLevel, StoredSkillLevelSet, SkillLevelData, SkillObservation, StoredSkillLevelUpdate, StoredSkillLevelUpdateSet } from './types.ts'
 import { inferenceCacheDuration } from './settings.ts'
@@ -47,7 +47,7 @@ export class SkillLevelSet {
 
 	hasRequiredDataFor(skillId: SkillId): boolean {
 		const skill = getSkill(this.moduleTree, skillId)
-		const linkedSkillIds = expandSkillIdsWithDirectPrerequisitesAndLinks(this.moduleTree, [skill.id])
+		const linkedSkillIds = expandModuleIdsWithDirectPrerequisites(this.moduleTree, [skill.id], { includeConcepts: false, includeLinkedSkills: true })
 		return linkedSkillIds.every(linkedSkillId => this.hasSkillLevel(linkedSkillId))
 	}
 

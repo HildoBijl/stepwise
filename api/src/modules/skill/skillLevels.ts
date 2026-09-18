@@ -4,7 +4,7 @@ import { ensureBoolean, fromKeysAndValues, fromKeys, mapValues, union } from '@s
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 import type { SkillId } from '@step-wise/module-tree-definition'
 import { type SkillObservation, SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
-import { ensureSkillIds, expandSkillIdsWithDirectPrerequisitesAndLinks, moduleTree } from '@step-wise/module-tree'
+import { ensureSkillIds, expandModuleIdsWithDirectPrerequisites, moduleTree } from '@step-wise/module-tree'
 
 import type { UserSkillRecord } from './models.ts'
 import { type SkillDatabase, getUserSkills } from './service.ts'
@@ -19,7 +19,7 @@ export interface UserSkillObservationInput extends SkillObservationInput {
 }
 
 export async function getUserSkillLevelSet(db: SkillDatabase, userId: string, skillIds: readonly SkillId[]): Promise<SkillLevelSet> {
-	const allSkillIds = [...expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds)]
+	const allSkillIds = [...expandModuleIdsWithDirectPrerequisites(skillIds, { includeConcepts: false, includeLinkedSkills: true })]
 	const storedSkills = await getUserSkills(db, userId, { skillIds: allSkillIds })
 	const skillsAsObject = fromKeysAndValues(storedSkills.map(skill => skill.skillId), storedSkills.map(skill => ensureSkillLevel(skill.get({ plain: true }))))
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
@@ -48,7 +48,7 @@ export async function applySkillObservationsForUser(db: SkillDatabase, userId: s
 	const skillIds = ensureSkillIds([...union(...skillSets)])
 	if (skillIds.length === 0) return []
 
-	const skillsToLoad = [...expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds)]
+	const skillsToLoad = [...expandModuleIdsWithDirectPrerequisites(skillIds, { includeConcepts: false, includeLinkedSkills: true })]
 	const skills = await getUserSkills(db, userId, { skillIds: skillsToLoad })
 	const skillsAsObject = fromKeysAndValues(skills.map(skill => skill.skillId), skills)
 	const skillLevels = mapValues(skillsAsObject, skill => ensureSkillLevel(skill.get({ plain: true })))

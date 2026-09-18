@@ -34,7 +34,7 @@
 		"@step-wise/react-utils": "^0.1.0",
 		"@step-wise/serialization": "^0.1.0",
 		"@step-wise/settings": "^0.1.0",
-		"@step-wise/module-tree-definition": "^0.2.0",
+		"@step-wise/module-tree-definition": "^0.3.0",
 		"@step-wise/skill-setup": "^0.1.0",
 		"@step-wise/skill-tracking": "^0.1.0",
 		"@step-wise/module-tree": "^0.1.0",

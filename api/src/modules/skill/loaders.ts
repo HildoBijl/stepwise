@@ -2,7 +2,7 @@ import DataLoader from 'dataloader'
 import { Op } from 'sequelize'
 
 import type { SkillId } from '@step-wise/module-tree-definition'
-import { expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/module-tree'
+import { expandModuleIdsWithDirectPrerequisites } from '@step-wise/module-tree'
 
 import type { ApiLoaders, LoaderContext } from '../types.ts'
 import { createCourseDefinition } from '../course/index.ts'
@@ -41,7 +41,7 @@ export function createSkillLoaders(context: LoaderContext, { coursesWithStudent 
 					if (!courseSkills[course.id]) {
 						const analyzedCourse = createCourseDefinition(course)
 						courseSkills[course.id] = [...analyzedCourse.allSkillIds]
-						courseSkillsWithLinks[course.id] = [...expandSkillIdsWithDirectPrerequisitesAndLinks(analyzedCourse.allSkillIds)]
+						courseSkillsWithLinks[course.id] = [...expandModuleIdsWithDirectPrerequisites(analyzedCourse.allSkillIds, { includeConcepts: false, includeLinkedSkills: true })]
 					}
 					const skills = courseSkills[course.id]
 					const skillsWithLinks = courseSkillsWithLinks[course.id]
