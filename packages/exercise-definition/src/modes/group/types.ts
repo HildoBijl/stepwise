@@ -5,18 +5,18 @@ export type UserExerciseAction<TAction extends ExerciseAction = ExerciseAction> 
 	action: TAction
 }
 
-export type ResolvedGroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TReport extends GroupExerciseReport = GroupExerciseReport> = {
+export type ResolvedGroupExerciseEvent<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TReport extends GroupExerciseReport = GroupExerciseReport> = {
 	actions: readonly UserExerciseAction<TAction>[]
 	state: TState
 	report?: TReport
 }
 
-export type PendingGroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction> = {
+export type PendingGroupExerciseEvent<TAction extends ExerciseAction = ExerciseAction> = {
 	actions: readonly UserExerciseAction<TAction>[]
 }
 
-export type GroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TReport extends GroupExerciseReport = GroupExerciseReport> = ResolvedGroupExerciseHistoryEvent<TAction, TState, TReport> | PendingGroupExerciseHistoryEvent<TAction>
-export type GroupExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TReport extends GroupExerciseReport = GroupExerciseReport> = readonly GroupExerciseHistoryEvent<TAction, TState, TReport>[]
+export type GroupExerciseEvent<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TReport extends GroupExerciseReport = GroupExerciseReport> = ResolvedGroupExerciseEvent<TAction, TState, TReport> | PendingGroupExerciseEvent<TAction>
+export type GroupExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TReport extends GroupExerciseReport = GroupExerciseReport> = readonly GroupExerciseEvent<TAction, TState, TReport>[]
 
 export type GroupExerciseInstance<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters, TReport extends GroupExerciseReport = GroupExerciseReport> = {
 	mode: 'group'

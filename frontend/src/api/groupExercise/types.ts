@@ -1,4 +1,4 @@
-import type { ExerciseAction, ExerciseState, GroupExerciseHistoryEvent, GroupExerciseInstance, UserExerciseAction } from '@step-wise/exercise-definition'
+import type { ExerciseAction, ExerciseState, GroupExerciseEvent as BaseGroupExerciseEvent, GroupExerciseInstance, UserExerciseAction } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/module-tree-definition'
 
 import type { ApiMutationResult, ApiQueryResult } from '../types.ts'
@@ -8,7 +8,7 @@ export type GroupExerciseAction = UserExerciseAction & {
 	performedAt: Date
 }
 
-export type GroupExerciseEvent = GroupExerciseHistoryEvent & {
+export type GroupExerciseEvent = BaseGroupExerciseEvent & {
 	id: string
 	eventIndex: number
 	performedAt: Date

@@ -15,7 +15,7 @@
 		"@step-wise/course-analysis": "^0.1.0",
 		"@step-wise/course-definition": "^0.1.0",
 		"@step-wise/engineering-mechanics": "^0.1.0",
-		"@step-wise/exercise-definition": "^0.2.0",
+		"@step-wise/exercise-definition": "^0.3.0",
 		"@step-wise/exercise-grading": "^0.1.0",
 		"@step-wise/exercise-selection": "^0.1.0",
 		"@step-wise/exercises": "^0.1.0",

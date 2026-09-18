@@ -5,9 +5,9 @@ import { expandModuleIdsWithDirectPrerequisites, moduleTree } from '@step-wise/m
 import { userAccountDataRecordToData, userRecordToUser, userSharedDataRecordToData } from '../user/conversion.ts'
 
 import type { ExerciseRecord, SkillLevelRecord, SkillWithExerciseHistoryRecord, SkillWithLatestExerciseRecord, UserWithSkillsRecord } from './records.ts'
-import type { Exercise, Skill, SkillWithExerciseHistory, UserWithSkills } from './types.ts'
+import type { Skill, SkillWithExerciseHistory, SoloExercise, UserWithSkills } from './types.ts'
 
-export function exerciseRecordToExercise(record: ExerciseRecord): Exercise {
+export function exerciseRecordToSoloExercise(record: ExerciseRecord): SoloExercise {
 	return {
 		...record,
 		startedAt: new Date(record.startedAt),
@@ -20,7 +20,7 @@ export function skillWithLatestExerciseRecordToSkill({ exerciseData, ...record }
 		id: record.id,
 		userId: record.userId,
 		skillId: record.skillId,
-		...(exerciseData?.latestExercise ? { latestExercise: exerciseRecordToExercise(exerciseData.latestExercise) } : {}),
+		...(exerciseData?.latestExercise ? { latestExercise: exerciseRecordToSoloExercise(exerciseData.latestExercise) } : {}),
 	}
 }
 
@@ -29,7 +29,7 @@ export function skillWithExerciseHistoryRecordToSkill({ exerciseData, ...record 
 		id: record.id,
 		userId: record.userId,
 		skillId: record.skillId,
-		exercises: exerciseData?.exercises.map(exerciseRecordToExercise) ?? [],
+		exercises: exerciseData?.exercises.map(exerciseRecordToSoloExercise) ?? [],
 	}
 }
 

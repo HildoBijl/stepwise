@@ -1,6 +1,6 @@
 {
 	"name": "@step-wise/exercise-definition",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Define educational exercises through reducer-based state and action models.",
 	"license": "MIT",
 	"repository": {

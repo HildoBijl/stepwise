@@ -1,24 +1,24 @@
-import type { ExerciseAction, ExerciseState, SoloExerciseHistoryEvent, SoloExerciseInstance } from '@step-wise/exercise-definition'
+import type { ExerciseAction, ExerciseState, SoloExerciseEvent as BaseSoloExerciseEvent, SoloExerciseInstance } from '@step-wise/exercise-definition'
 import type { SkillId } from '@step-wise/module-tree-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 
 import type { ApiMutationResult, ApiQueryResult } from '../types.ts'
 import type { User, UserWithAccountData, UserWithSharedData } from '../user/types.ts'
 
-export type ExerciseEvent = SoloExerciseHistoryEvent & {
+export type SoloExerciseEvent = BaseSoloExerciseEvent & {
 	id: string
 	eventIndex: number
 	performedAt: Date
 }
 
-export type Exercise = Omit<SoloExerciseInstance, 'history'> & {
+export type SoloExercise = Omit<SoloExerciseInstance, 'history'> & {
 	id: string
 	eventIndex: number
 	exerciseId: string
 	startedAt: Date
 	active: boolean
 	state: ExerciseState
-	history: ExerciseEvent[]
+	history: SoloExerciseEvent[]
 }
 
 type SkillIdentity = {
@@ -28,11 +28,11 @@ type SkillIdentity = {
 }
 
 export type Skill = SkillIdentity & {
-	latestExercise?: Exercise
+	latestExercise?: SoloExercise
 }
 
 export type SkillWithExerciseHistory = SkillIdentity & {
-	exercises: Exercise[]
+	exercises: SoloExercise[]
 }
 
 export type UseSkillResult = ApiQueryResult<'skill', Skill>

@@ -28,7 +28,7 @@
 	"dependencies": {
 		"@step-wise/demo-exercises": "^0.1.0",
 		"@step-wise/exercise-bundling": "^0.1.0",
-		"@step-wise/exercise-definition": "^0.2.0",
+		"@step-wise/exercise-definition": "^0.3.0",
 		"@step-wise/mathematics-exercises": "^0.1.0",
 		"@step-wise/mechanics-exercises": "^0.1.0",
 		"@step-wise/physics-exercises": "^0.1.0",
