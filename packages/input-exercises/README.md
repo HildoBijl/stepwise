@@ -248,6 +248,7 @@ Context remains transient: builders forward it but never serialize it into param
 
 The history helpers accept either solo or group exercise instances:
 
+- `getLastInputEvent(instance, userId?, options?)` returns the matching history event, its index, the narrowed input action, and the matched user ID in group mode.
 - `getLastRawInput(instance, userId?, options?)` returns stored input values.
 - `getLastInput(exercise, instance, userId?, options?)` returns interpreted values using the exercise's value types.
 - `getAccumulatedRawInput(instance, userId?, options?)` combines partial input actions, with later values replacing earlier values for repeated fields.

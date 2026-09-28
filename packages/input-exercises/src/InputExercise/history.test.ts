@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getAccumulatedReport, getLastInput, getLastRawInput, hasPreviousInput } from './history.ts'
+import { getAccumulatedReport, getLastInput, getLastInputEvent, getLastRawInput, hasPreviousInput } from './history.ts'
 import { createInputExerciseValueOperations } from './valueOperations.ts'
 
 describe('input-exercise history', () => {
@@ -17,10 +17,18 @@ describe('input-exercise history', () => {
 
 	it('returns a pending group input when resolved input is not required', () => {
 		expect(getLastRawInput(instance, userId)).toBe(pendingInput)
+		expect(getLastInputEvent(instance, userId)).toEqual({
+			mode: 'group',
+			eventIndex: 1,
+			event: history[1],
+			action: history[1].actions[0].action,
+			userId,
+		})
 	})
 
 	it('skips a pending event when resolved input is required', () => {
 		expect(getLastRawInput(instance, userId, { resolvedOnly: true })).toBe(resolvedInput)
+		expect(getLastInputEvent(instance, userId, { resolvedOnly: true })?.eventIndex).toBe(0)
 	})
 
 	it('finds and interprets the last solo input while skipping other actions', () => {
@@ -33,6 +41,7 @@ describe('input-exercise history', () => {
 		} as const
 
 		expect(getLastRawInput(soloInstance)).toBe(input)
+		expect(getLastInputEvent(soloInstance)).toEqual({ mode: 'solo', eventIndex: 0, event: soloInstance.history[0], action: soloInstance.history[0].action })
 		expect(getLastInput(exercise, soloInstance)).toEqual({ answer: 4 })
 		expect(hasPreviousInput(soloInstance)).toBe(true)
 	})
@@ -80,6 +89,24 @@ describe('input-exercise history', () => {
 		} as const
 
 		expect(getAccumulatedReport(groupInstance, userId)).toEqual({ first: true, second: true, shared: 'current' })
+		expect(getLastInputEvent(groupInstance, userId, { resolvedOnly: true })?.userId).toBe(userId)
 		expect(() => getAccumulatedReport(groupInstance)).toThrow(TypeError)
+	})
+
+	it('follows an adopted group history when skipping a pending input event', () => {
+		const groupInstance = {
+			mode: 'group', initialState: {}, history: [
+				{ state: {}, actions: [{ userId: 'source', action: { type: 'input', input: resolvedInput } }] },
+				{ actions: [{ userId, action: { type: 'input', input: pendingInput, adoptUserHistory: 'source' } }] },
+			],
+		} as const
+
+		expect(getLastInputEvent(groupInstance, userId, { resolvedOnly: true })).toEqual({
+			mode: 'group',
+			eventIndex: 0,
+			event: groupInstance.history[0],
+			action: groupInstance.history[0].actions[0].action,
+			userId: 'source',
+		})
 	})
 })

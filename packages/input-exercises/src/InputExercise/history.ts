@@ -1,4 +1,4 @@
-import { type BaseExerciseInstanceByMode, type ExerciseMode, type ExerciseState, throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
+import { type BaseExerciseInstanceByMode, type ExerciseMode, type ExerciseState, type GroupExerciseHistoryEvent, type SoloExerciseHistoryEvent, throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
 import type { InputValueMap } from '@step-wise/input-interpretation'
 
 import type { GroupInputExerciseReport, InputExerciseAction, InputExerciseInput, InputExerciseReport, InputExerciseValueOperations, SoloInputExerciseReport } from './types.ts'
@@ -13,6 +13,21 @@ export type InputExerciseHistoryData<TState extends ExerciseState = ExerciseStat
 	>[Mode], 'mode' | 'initialState' | 'history'>
 }[ExerciseMode]
 
+type InputAction = Extract<InputExerciseAction, { type: 'input' }>
+
+export type LastInputEventMatch<TState extends ExerciseState = ExerciseState> = {
+	mode: 'solo'
+	eventIndex: number
+	event: SoloExerciseHistoryEvent<InputExerciseAction, TState, SoloInputExerciseReport>
+	action: InputAction
+} | {
+	mode: 'group'
+	eventIndex: number
+	event: GroupExerciseHistoryEvent<InputExerciseAction, TState, GroupInputExerciseReport>
+	action: InputAction
+	userId: string
+}
+
 export type LastInputOptions = {
 	resolvedOnly?: boolean
 }
@@ -21,17 +36,21 @@ export type AccumulatedInputOptions = LastInputOptions & {
 	throughEventIndex?: number
 }
 
-// Get the last given raw input from the user. For group exercises, this may be an unresolved action input unless resolvedOnly is true.
-export function getLastRawInput(instance: InputExerciseHistoryData, userId?: string, options: LastInputOptions = {}): InputValueMap | undefined {
+// Get the last history event containing input from the user. For group exercises, this may be unresolved unless resolvedOnly is true.
+export function getLastInputEvent<TState extends ExerciseState = ExerciseState>(instance: InputExerciseHistoryData<TState>, userId?: string, options: LastInputOptions = {}): LastInputEventMatch<TState> | undefined {
 	const { mode } = instance
 	const { resolvedOnly = false } = options
+	
 	switch (mode) {
-		case 'solo':
+		case 'solo': {
 			for (let index = instance.history.length - 1; index >= 0; index--) {
-				const action = instance.history[index].action
-				if (action.type === 'input') return action.input
+				const event = instance.history[index]
+				const { action } = event
+				if (action.type === 'input') return { mode, eventIndex: index, event, action }
 			}
 			return undefined
+		}
+
 		case 'group': {
 			if (userId === undefined) throw new TypeError(`A userId is required when retrieving input from a group exercise history.`)
 			let historyUserId = userId
@@ -39,14 +58,20 @@ export function getLastRawInput(instance: InputExerciseHistoryData, userId?: str
 				const event = instance.history[index]
 				const action = event.actions.find(userAction => userAction.userId === historyUserId)?.action
 				if (action?.type !== 'input') continue
-				if (!resolvedOnly || 'state' in event) return action.input
+				if (!resolvedOnly || 'state' in event) return { mode, eventIndex: index, event, action, userId: historyUserId }
 				historyUserId = action.adoptUserHistory ?? historyUserId
 			}
 			return undefined
 		}
+
 		default:
 			return throwUnsupportedExerciseMode(mode)
 	}
+}
+
+// Get the last given raw input from the user.
+export function getLastRawInput(instance: InputExerciseHistoryData, userId?: string, options: LastInputOptions = {}): InputValueMap | undefined {
+	return getLastInputEvent(instance, userId, options)?.action.input
 }
 
 // Combine a user's input actions through the requested history event. Later values overwrite earlier values with the same field ID.
