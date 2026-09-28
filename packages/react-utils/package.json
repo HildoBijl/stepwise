@@ -1,6 +1,6 @@
 {
 	"name": "@step-wise/react-utils",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Reusable React hooks and components for browser events, measurements, references, scheduling, and storage.",
 	"license": "MIT",
 	"repository": {
