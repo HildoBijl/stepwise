@@ -1,16 +1,22 @@
+import type { PlainDataObject } from '@step-wise/js-utils'
 import { type BaseExerciseInstanceByMode, type ExerciseMode, type ExerciseState, type GroupExerciseHistoryEvent, type SoloExerciseHistoryEvent, throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
 import type { InputValueMap } from '@step-wise/input-interpretation'
 
 import type { GroupInputExerciseReport, InputExerciseAction, InputExerciseInput, InputExerciseReport, InputExerciseValueOperations, SoloInputExerciseReport } from '../InputExercise/types.ts'
 
-// Define a type with the minimally expected entries needed by history-inspecting functions.
-export type InputExerciseHistoryData<TState extends ExerciseState = ExerciseState> = {
-	[Mode in ExerciseMode]: Pick<BaseExerciseInstanceByMode<
+export type InputExerciseInstanceByMode<TState extends ExerciseState = ExerciseState> = {
+	[Mode in ExerciseMode]: BaseExerciseInstanceByMode<
 		InputExerciseAction,
 		TState,
-		Record<string, never>,
+		PlainDataObject,
 		Mode extends 'solo' ? SoloInputExerciseReport : GroupInputExerciseReport
-	>[Mode], 'mode' | 'initialState' | 'history'>
+	>[Mode]
+}
+export type InputExerciseInstance<TState extends ExerciseState = ExerciseState> = InputExerciseInstanceByMode<TState>[ExerciseMode]
+
+// Define a type with the minimally expected entries needed by history-inspecting functions.
+export type InputExerciseHistoryData<TState extends ExerciseState = ExerciseState> = {
+	[Mode in ExerciseMode]: Pick<InputExerciseInstanceByMode<TState>[Mode], 'mode' | 'initialState' | 'history'>
 }[ExerciseMode]
 
 type InputAction = Extract<InputExerciseAction, { type: 'input' }>
@@ -36,7 +42,7 @@ export type LastInputOptions = {
 export function getLastInputEvent<TState extends ExerciseState = ExerciseState>(instance: InputExerciseHistoryData<TState>, userId?: string, options: LastInputOptions = {}): LastInputEventMatch<TState> | undefined {
 	const { mode } = instance
 	const { resolvedOnly = false } = options
-	
+
 	switch (mode) {
 		case 'solo': {
 			for (let index = instance.history.length - 1; index >= 0; index--) {

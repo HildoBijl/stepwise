@@ -277,6 +277,6 @@ The main author-facing types are:
 - `StepExerciseSteps`, `StepExerciseState`, and `StepExerciseMetadata` for step structures.
 - `InputExerciseAction` for stored learner actions and `InputValueMap` from `@step-wise/input-interpretation` for their raw input.
 
-Use `isInputExerciseAction`, `isMonoExerciseState`, `isMonoExerciseHistory`, `isStepExerciseState`, and `isStepExerciseHistory` to validate unknown stored data and narrow it to the corresponding TypeScript types.
+Use `isInputExerciseAction`, `isInputExerciseInstance`, `isMonoExerciseState`, `isMonoExerciseHistory`, `isStepExerciseState`, and `isStepExerciseHistory` to validate unknown stored data and narrow it to the corresponding TypeScript types. `isInputExerciseInstance` accepts enriched API events and user-action records as long as they contain valid input-exercise actions, making it suitable for generic instances returned by application hooks.
 
 Prefer supplying concrete parameter and solution types to the builders. This gives `generateParameters`, the solution callbacks, and `checkInput` a shared inferred contract.
