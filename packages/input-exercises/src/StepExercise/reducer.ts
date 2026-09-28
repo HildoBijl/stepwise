@@ -1,8 +1,9 @@
 import type { PlainDataObject } from '@step-wise/js-utils'
+import type { InputValueMap } from '@step-wise/input-interpretation'
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 import type { GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
 
-import { type GroupInputExerciseReport, type InputDependency, type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseRawInput, type InputExerciseReport, type InputExerciseSolution, type InputExerciseValueOperations, type SoloInputExerciseReport, resolveSolution, resolveStaticSolution, resolveUpdatedInputDependency } from '../InputExercise/index.ts'
+import { type GroupInputExerciseReport, type InputDependency, type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseReport, type InputExerciseSolution, type InputExerciseValueOperations, type SoloInputExerciseReport, resolveSolution, resolveStaticSolution, resolveUpdatedInputDependency } from '../InputExercise/index.ts'
 import { getGroupInputExerciseReport, mergeInputExerciseReports, normalizeCheckInputResult } from '../InputExercise/checkInput.ts'
 import { deserializeInputExerciseParameters, resolveInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
 import { createInputExerciseValueOperations } from '../InputExercise/valueOperations.ts'
@@ -252,7 +253,7 @@ async function reduceStepWithSubsteps<
 
 // Data structure for each input action, including its input dependency and solution.
 type InputActionData<TInputDependency, TSolution extends InputExerciseSolution> = {
-	rawInput: InputExerciseRawInput
+	rawInput: InputValueMap
 	input: InputExerciseInput
 	inputDependency: TInputDependency | undefined
 	solution: TSolution | undefined

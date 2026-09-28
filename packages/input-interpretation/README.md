@@ -68,6 +68,7 @@ Because arbitrary nested input data cannot statically describe the domain values
 The main public types are:
 
 - `InputValue<TType, TValue>` for a plain `{ type, value }` input representation.
+- `InputValueMap` for input values keyed by their input-field identifiers.
 - `InputValueAdapter<TInputValue, TDomainValue>` for one input type's guards and conversions.
 - `InputValueAdapters` for a registry keyed by input type.
 - `isInputValueAdapter` for runtime adapter validation.

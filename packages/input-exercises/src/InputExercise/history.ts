@@ -1,6 +1,7 @@
 import { type BaseExerciseInstanceByMode, type ExerciseMode, type ExerciseState, throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
+import type { InputValueMap } from '@step-wise/input-interpretation'
 
-import type { GroupInputExerciseReport, InputExerciseAction, InputExerciseInput, InputExerciseRawInput, InputExerciseReport, InputExerciseValueOperations, SoloInputExerciseReport } from './types.ts'
+import type { GroupInputExerciseReport, InputExerciseAction, InputExerciseInput, InputExerciseReport, InputExerciseValueOperations, SoloInputExerciseReport } from './types.ts'
 
 // Define a type with the minimally expected entries needed by history-inspecting functions.
 export type InputExerciseHistoryData<TState extends ExerciseState = ExerciseState> = {
@@ -21,7 +22,7 @@ export type AccumulatedInputOptions = LastInputOptions & {
 }
 
 // Get the last given raw input from the user. For group exercises, this may be an unresolved action input unless resolvedOnly is true.
-export function getLastRawInput(instance: InputExerciseHistoryData, userId?: string, options: LastInputOptions = {}): InputExerciseRawInput | undefined {
+export function getLastRawInput(instance: InputExerciseHistoryData, userId?: string, options: LastInputOptions = {}): InputValueMap | undefined {
 	const { mode } = instance
 	const { resolvedOnly = false } = options
 	switch (mode) {
@@ -49,13 +50,13 @@ export function getLastRawInput(instance: InputExerciseHistoryData, userId?: str
 }
 
 // Combine a user's input actions through the requested history event. Later values overwrite earlier values with the same field ID.
-export function getAccumulatedRawInput(instance: InputExerciseHistoryData, userId?: string, options: AccumulatedInputOptions = {}): InputExerciseRawInput | undefined {
+export function getAccumulatedRawInput(instance: InputExerciseHistoryData, userId?: string, options: AccumulatedInputOptions = {}): InputValueMap | undefined {
 	const { mode } = instance
 	const { resolvedOnly = false, throughEventIndex = instance.history.length - 1 } = options
 	const lastIndex = Math.min(throughEventIndex, instance.history.length - 1)
 
 	// Set up accumulators.
-	const input: InputExerciseRawInput = {}
+	const input: InputValueMap = {}
 	let hasInput = false
 	const addInput = (action: InputExerciseAction | undefined) => {
 		if (action?.type !== 'input') return
