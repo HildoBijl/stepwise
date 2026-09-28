@@ -69,6 +69,7 @@ The main public types are:
 
 - `InputValue<TType, TValue>` for a plain `{ type, value }` input representation.
 - `InputValueMap` for input values keyed by their input-field identifiers.
+- `isInputValue` and `isInputValueMap` for validating their generic runtime structures.
 - `InputValueAdapter<TInputValue, TDomainValue>` for one input type's guards and conversions.
 - `InputValueAdapters` for a registry keyed by input type.
 - `isInputValueAdapter` for runtime adapter validation.

@@ -1,7 +1,8 @@
 import type { Awaitable } from '@step-wise/js-utils'
 import type { SkillSetupLike } from '@step-wise/skill-setup'
+import type { ExerciseMode, GroupExerciseHistory, SoloExerciseHistory } from '@step-wise/exercise-definition'
 
-import type { CheckInputData, CheckInputResult, InputDependency, InputExerciseAction, InputExerciseAttemptState, InputExerciseDependencyState, InputExerciseMetadata, InputExerciseParameters, InputExercise, InputExerciseSpec, InputExerciseSolution } from '../InputExercise/index.ts'
+import type { CheckInputData, CheckInputResult, GroupInputExerciseReport, InputDependency, InputExerciseAction, InputExerciseAttemptState, InputExerciseDependencyState, InputExerciseMetadata, InputExerciseParameters, InputExercise, InputExerciseSpec, InputExerciseSolution, SoloInputExerciseReport } from '../InputExercise/index.ts'
 
 // Add exercise steps and substeps to meta data.
 export type StepExerciseStep = SkillSetupLike | undefined
@@ -16,6 +17,11 @@ export type StepExerciseSubstepState = true
 export type StepExerciseStepState = InputExerciseAttemptState & { [subStepId: SubstepId]: StepExerciseSubstepState } & Partial<{ solved: true, givenUp: true, done: true }>
 export type StepExerciseSplitState = InputExerciseAttemptState & InputExerciseDependencyState & { split: true, step: number, done?: true } & { [stepId: StepId]: StepExerciseStepState }
 export type StepExerciseState = (InputExerciseAttemptState & InputExerciseDependencyState & Partial<{ solved: true, done: true }>) | StepExerciseSplitState
+export type StepExerciseHistoryByMode = {
+	solo: SoloExerciseHistory<InputExerciseAction, StepExerciseState, SoloInputExerciseReport>
+	group: GroupExerciseHistory<InputExerciseAction, StepExerciseState, GroupInputExerciseReport>
+}
+export type StepExerciseHistory = StepExerciseHistoryByMode[ExerciseMode]
 
 // Extend the CheckInput function to include steps and substeps.
 export type StepExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency, TSolution extends InputExerciseSolution = InputExerciseSolution, TContext = undefined> = (data: CheckInputData<StepExerciseMetadata, TParameters, TInputDependency, TSolution, TContext>, step: number, substep?: number) => Awaitable<CheckInputResult>
