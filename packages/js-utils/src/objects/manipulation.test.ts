@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 
 import { filterProperties, mapValues, mergeDefaults, omitDefaults, omitKeys, pickFromDefaults, pickKeys, preserveRefs } from './manipulation.ts'
 
@@ -34,6 +34,21 @@ describe('object manipulation', () => {
 		expect(mergeDefaults({ a: 2 }, { a: 1, b: 3 })).toEqual({ a: 2, b: 3 })
 		expect(() => mergeDefaults({ extra: 1 }, { a: 1 })).toThrow()
 		expect(mergeDefaults({ a: 2, extra: 1 }, { a: 1 }, { filterUnknownKeys: true })).toEqual({ a: 2 })
+	})
+
+	it('accepts named object types without index signatures', () => {
+		interface Settings {
+			a: boolean
+			b: number
+			c: string
+		}
+
+		const settings: Partial<Settings> = { b: 4 }
+		const defaults: Settings = { a: true, b: 3, c: 'stuff' }
+		const result = mergeDefaults(settings, defaults)
+
+		expect(result).toEqual({ a: true, b: 4, c: 'stuff' })
+		expectTypeOf(result).toEqualTypeOf<Settings>()
 	})
 
 	it('filters properties with value, key and source context', () => {
