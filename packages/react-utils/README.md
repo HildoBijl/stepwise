@@ -1,6 +1,6 @@
 # @step-wise/react-utils
 
-`@step-wise/react-utils` provides reusable React hooks and small components for references, lifecycle state, browser events, element measurement, pointer tracking, animation scheduling, portals, and synchronized web-storage state. Browser-only functionality builds on `@step-wise/browser-utils`; general data manipulation remains in `@step-wise/js-utils`.
+`@step-wise/react-utils` provides reusable React hooks and small components for references, lifecycle and controllable state, browser events, element measurement, pointer tracking, animation scheduling, portals, and synchronized web-storage state. Browser-only functionality builds on `@step-wise/browser-utils`; general data manipulation remains in `@step-wise/js-utils`.
 
 
 ## Installation
@@ -48,6 +48,30 @@ Hooks that access DOM or storage APIs require a browser environment. They avoid 
 | --- | --- |
 | `useIsMountedRef()` | Returns a stable ref whose value is true while the component is mounted. Reading it does not trigger rendering. |
 | `useHasMounted()` | Returns false during the initial render and triggers a render with true after mounting. |
+
+
+## Controllable state
+
+| Export | Behavior |
+| --- | --- |
+| `useControllableState(handle, initialState)` | Uses an optional external state handle, falling back to component-local state when the handle is omitted. |
+| `StateHandle` | A readonly React-style `[value, setValue]` tuple. |
+
+Pass a `useState` result directly when a parent should control the value:
+
+```tsx
+const planningModeHandle = useState(false)
+
+<SkillTreeVisualization stateHandles={{ planningMode: planningModeHandle }} />
+```
+
+Inside the component, omit the handle to use local state instead:
+
+```tsx
+const [planningMode, setPlanningMode] = useControllableState(stateHandles?.planningMode, false)
+```
+
+Both direct and functional setter updates are supported. The initial state may be a value or a lazy initializer and is only evaluated for local state. A hook instance must remain either controlled or uncontrolled throughout its lifetime; switching modes throws an error.
 
 
 ## References and stable values
