@@ -34,15 +34,27 @@ export function SignInButtons({ redirect = window.location.pathname + window.loc
 
 function GoogleSignInButton({ redirect }) {
 	const language = useLanguage()
+	const [signInAttempt, setSignInAttempt] = useState(null)
 
-	// Store the redirect address in the server before loading the widget. (Google doesn't allow this on-click due to a strict user flow.)
+	// Prepare a server-side sign-in attempt before loading the widget. (Google doesn't allow this on-click due to a strict user flow.)
 	useEffect(() => {
+		const controller = new AbortController()
+		setSignInAttempt(null)
 		const url = `${apiAddress}/auth/google/initiate?redirect=${encodeURIComponent(redirect)}`
-		fetch(url, { credentials: "include" })
-			.catch(error => console.error("Google initiate failed:", error))
+		fetch(url, { credentials: 'include', signal: controller.signal })
+			.then(response => {
+				if (!response.ok) throw new Error(`Google initiation failed with status ${response.status}.`)
+				return response.json()
+			})
+			.then(setSignInAttempt)
+			.catch(error => {
+				if (error.name !== 'AbortError') console.error('Google initiation failed:', error)
+			})
+		return () => controller.abort()
 	}, [redirect])
 
-	// After the path has been set, render the sign-in button.
+	// Only load the Google widget once its state and nonce are stored in the server session.
+	if (!signInAttempt) return null
 	return <>
 		<div
 			id='g_id_onload'
@@ -50,7 +62,7 @@ function GoogleSignInButton({ redirect }) {
 			data-context='signin'
 			data-ux_mode='redirect'
 			data-login_uri={`${googleRedirectAddress}/auth/google/login`}
-			data-nonce=''
+			data-nonce={signInAttempt.nonce}
 			data-auto_prompt='false'>
 		</div>
 		<div
@@ -61,7 +73,8 @@ function GoogleSignInButton({ redirect }) {
 			data-text='signin_with'
 			data-size='large'
 			data-logo_alignment='left'
-			data-width="320">
+			data-width='320'
+			data-state={signInAttempt.state}>
 		</div>
 
 		<Helmet>
@@ -92,7 +105,7 @@ function SignInError() {
 
 	if (!errorMessage)
 		return null
-	return <Alert severity="error">
+	return <Alert severity="error" sx={{ mb: 2 }}>
 		<AlertTitle><Translation entry="signInError.title">Sign-in unsuccessful</Translation></AlertTitle>
 		{errorMessage}
 	</Alert>
@@ -143,7 +156,7 @@ function HUSignInButton({ redirect }) {
 					height: '18px',
 					margin: `0 8px 0 0`,
 					width: '18px',
-					}} />
+				}} />
 			</Box>
 			<Box sx={{
 				flexGrow: '1',

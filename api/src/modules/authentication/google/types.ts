@@ -5,6 +5,7 @@ import type { UserModel } from '../../user/models.ts'
 export type GoogleCredentialPayload = Readonly<{
 	credential: string
 	g_csrf_token?: string
+	state?: string
 }>
 
 export type GoogleIdentity = TokenPayload & {
@@ -13,7 +14,7 @@ export type GoogleIdentity = TokenPayload & {
 }
 
 export interface GoogleClient {
-	getIdentity(credentials: GoogleCredentialPayload, csrfToken?: string): Promise<GoogleIdentity | null>
+	getIdentity(credentials: GoogleCredentialPayload, csrfToken: string | undefined, nonce: string): Promise<GoogleIdentity | null>
 }
 
 export type AuthenticatedUserReference = Readonly<{

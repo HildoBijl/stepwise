@@ -15,26 +15,41 @@ describe('Google authentication client', () => {
 
 	it('rejects a mismatching CSRF token before verifying the credential', async () => {
 		const client = createClient()
-		await expect(client.getIdentity({ credential: 'credential', g_csrf_token: 'one' }, 'two')).resolves.toBeNull()
+		await expect(client.getIdentity({ credential: 'credential', g_csrf_token: 'one' }, 'two', 'nonce')).resolves.toBeNull()
+		expect(verifyIdToken).not.toHaveBeenCalled()
+	})
+
+	it.each([
+		[{ credential: 'credential' }, undefined],
+		[{ credential: 'credential', g_csrf_token: 'csrf' }, undefined],
+		[{ credential: 'credential' }, 'csrf'],
+	] as const)('rejects missing CSRF tokens before verifying the credential', async (credentials, csrfToken) => {
+		const client = createClient()
+		await expect(client.getIdentity(credentials, csrfToken, 'nonce')).resolves.toBeNull()
 		expect(verifyIdToken).not.toHaveBeenCalled()
 	})
 
 	it('returns a verified Google identity', async () => {
-		const identity = { sub: 'subject', email: 'user@example.org', email_verified: true }
+		const identity = { sub: 'subject', email: 'user@example.org', email_verified: true, nonce: 'nonce' }
 		verifyIdToken.mockResolvedValue({ getPayload: () => identity })
 		const client = createClient()
-		await expect(client.getIdentity({ credential: 'credential', g_csrf_token: 'csrf' }, 'csrf')).resolves.toBe(identity)
+		await expect(client.getIdentity({ credential: 'credential', g_csrf_token: 'csrf' }, 'csrf', 'nonce')).resolves.toBe(identity)
 		expect(verifyIdToken).toHaveBeenCalledWith({ idToken: 'credential', audience: 'client-id' })
+	})
+
+	it('rejects an ID token with the wrong nonce', async () => {
+		verifyIdToken.mockResolvedValue({ getPayload: () => ({ email_verified: true, nonce: 'other-nonce' }) })
+		await expect(createClient().getIdentity({ credential: 'credential', g_csrf_token: 'csrf' }, 'csrf', 'nonce')).resolves.toBeNull()
 	})
 
 	it.each([undefined, { email: 'user@example.org', email_verified: false }])('rejects a missing or unverified identity', async payload => {
 		verifyIdToken.mockResolvedValue({ getPayload: () => payload })
-		await expect(createClient().getIdentity({ credential: 'credential' })).resolves.toBeNull()
+		await expect(createClient().getIdentity({ credential: 'credential', g_csrf_token: 'csrf' }, 'csrf', 'nonce')).resolves.toBeNull()
 	})
 
 	it('rejects credentials that fail token verification', async () => {
 		const client = new Client('client-id')
 		Reflect.set(client, 'client', { verifyIdToken: () => { throw new Error('invalid token') } })
-		await expect(client.getIdentity({ credential: 'credential' })).resolves.toBeNull()
+		await expect(client.getIdentity({ credential: 'credential', g_csrf_token: 'csrf' }, 'csrf', 'nonce')).resolves.toBeNull()
 	})
 })

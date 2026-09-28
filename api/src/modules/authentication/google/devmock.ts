@@ -37,7 +37,7 @@ export const mockUsers: Record<string, GoogleIdentity> = {
 
 // The mock client is used by API tests; local development uses Google itself.
 export class MockClient implements GoogleClient {
-	async getIdentity(credentials: GoogleCredentialPayload): Promise<GoogleIdentity | null> {
+	async getIdentity(credentials: GoogleCredentialPayload, _csrfToken: string | undefined, _nonce: string): Promise<GoogleIdentity | null> {
 		return mockUsers[credentials.credential] ?? null
 	}
 }

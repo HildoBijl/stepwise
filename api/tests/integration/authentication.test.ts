@@ -284,6 +284,29 @@ describe('Authentication: Google', () => {
 			client.graphql({ query: `{me {sharedData {email}}}` }).then(({ data }) => flattenUserData(data.me))
 		).resolves.toEqual(null)
 	})
+
+	it.each([undefined, 'incorrect-state'])('does not sign users in with invalid state', async state => {
+		const client = await createClient(seed)
+		await client.initiateGoogleSignIn()
+
+		await expect(client.submitGoogleSignIn('00112233445566778899', state)).resolves.toEqual(
+			expect.stringContaining('error=INVALID_AUTHENTICATION')
+		)
+		await expect(
+			client.graphql({ query: `{me {sharedData {email}}}` }).then(({ data }) => flattenUserData(data.me))
+		).resolves.toEqual(null)
+	})
+
+	it('rejects a modified signed state', async () => {
+		const client = await createClient(seed)
+		const { state } = await client.initiateGoogleSignIn()
+		const modifiedState = `${state[0] === 'A' ? 'B' : 'A'}${state.slice(1)}`
+
+		await expect(client.submitGoogleSignIn('00112233445566778899', modifiedState)).resolves.toEqual(
+			expect.stringContaining('error=INVALID_AUTHENTICATION')
+		)
+	})
+
 })
 
 describe('Authentication: Redirects', () => {
@@ -303,6 +326,16 @@ describe('Authentication: Redirects', () => {
 
 		await expect(
 			client.signInWithSurfConext('1111111111111111111111111111111111111111')
+		).resolves.toEqual(defaultConfig.homepageUrl + customRedirectPath)
+	})
+
+	it('redirects users after successful Google sign-in', async () => {
+		const client = await createClient()
+		const customRedirectPath = '/my/custom/redirect/route'
+		const { state } = await client.initiateGoogleSignIn(customRedirectPath)
+
+		await expect(
+			client.submitGoogleSignIn('00112233445566778899', state)
 		).resolves.toEqual(defaultConfig.homepageUrl + customRedirectPath)
 	})
 
