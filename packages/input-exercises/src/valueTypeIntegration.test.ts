@@ -6,7 +6,7 @@ import type { InputValueAdapter } from '@step-wise/input-interpretation'
 import type { ValueEqualityAdapter } from '@step-wise/value-equality'
 import { type ValueTypes, IntegerType, MultipleChoiceType } from '@step-wise/value-types'
 
-import { getLastInput } from './InputExercise/history.ts'
+import { getLastInput } from './support/history.ts'
 import { buildMonoExercise } from './MonoExercise/reducer.ts'
 import { buildStepExercise } from './StepExercise/reducer.ts'
 import { createStepExerciseMetadata } from './StepExercise/preprocessing.ts'

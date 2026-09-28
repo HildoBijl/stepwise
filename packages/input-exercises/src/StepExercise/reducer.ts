@@ -7,7 +7,7 @@ import { type GroupInputExerciseReport, type InputDependency, type InputExercise
 import { getGroupInputExerciseReport, mergeInputExerciseReports, normalizeCheckInputResult } from '../InputExercise/checkInput.ts'
 import { deserializeInputExerciseParameters, resolveInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
 import { createInputExerciseValueOperations } from '../InputExercise/valueOperations.ts'
-import { type InputExerciseActionsReduction, type InputExerciseReducerInput, addAttemptsToState, getInputDependency, hasAttempted, setInputDependencies } from '../InputExercise/reducerSupport.ts'
+import { type InputExerciseActionsReduction, type InputExerciseReducerInput, addAttemptsToState, getInputDependency, hasAttempted, setInputDependencies } from '../support/reducer.ts'
 
 import type { StepExerciseState, StepExerciseStepState, StepExerciseSplitState, StepExercise, StepExerciseSpec } from './types.ts'
 import { ensureStepExerciseSteps } from './preprocessing.ts'

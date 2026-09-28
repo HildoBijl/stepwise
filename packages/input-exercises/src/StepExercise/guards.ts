@@ -1,7 +1,7 @@
 import { hasOnlyKeys, isInteger, isPlainDataValue, isPlainObject } from '@step-wise/js-utils'
 
 import { hasInputExerciseProperties } from '../InputExercise/guards.ts'
-import { isInputExerciseHistory } from '../InputExercise/historyGuards.ts'
+import { isInputExerciseHistory } from '../support/guards.ts'
 
 import type { StepExercise, StepExerciseHistory, StepExerciseState, StepExerciseStepState } from './types.ts'
 

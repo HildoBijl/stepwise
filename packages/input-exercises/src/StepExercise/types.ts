@@ -2,7 +2,8 @@ import type { Awaitable } from '@step-wise/js-utils'
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 import type { ExerciseMode, GroupExerciseHistory, SoloExerciseHistory } from '@step-wise/exercise-definition'
 
-import type { CheckInputData, CheckInputResult, GroupInputExerciseReport, InputDependency, InputExerciseAction, InputExerciseAttemptState, InputExerciseDependencyState, InputExerciseMetadata, InputExerciseParameters, InputExercise, InputExerciseSpec, InputExerciseSolution, SoloInputExerciseReport } from '../InputExercise/index.ts'
+import type { CheckInputData, CheckInputResult, GroupInputExerciseReport, InputDependency, InputExerciseAction, InputExerciseMetadata, InputExerciseParameters, InputExercise, InputExerciseSpec, InputExerciseSolution, SoloInputExerciseReport } from '../InputExercise/index.ts'
+import type { InputExerciseAttemptState, InputExerciseDependencyState } from '../support/reducer.ts'
 
 // Add exercise steps and substeps to meta data.
 export type StepExerciseStep = SkillSetupLike | undefined

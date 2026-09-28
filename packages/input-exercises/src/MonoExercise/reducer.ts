@@ -5,7 +5,7 @@ import { type GroupInputExerciseReport, type InputDependency, type InputExercise
 import { getGroupInputExerciseReport, normalizeCheckInputResult } from '../InputExercise/checkInput.ts'
 import { deserializeInputExerciseParameters, resolveInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization.ts'
 import { createInputExerciseValueOperations } from '../InputExercise/valueOperations.ts'
-import { type InputExerciseActionsReduction, type InputExerciseReducerInput, addAttemptsToState, getInputDependency, hasAttempted, setInputDependencies } from '../InputExercise/reducerSupport.ts'
+import { type InputExerciseActionsReduction, type InputExerciseReducerInput, addAttemptsToState, getInputDependency, hasAttempted, setInputDependencies } from '../support/reducer.ts'
 
 import type { MonoExerciseState, MonoExercise, MonoExerciseSpec } from './types.ts'
 

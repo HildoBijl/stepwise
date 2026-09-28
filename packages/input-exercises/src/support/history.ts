@@ -1,7 +1,7 @@
 import { type BaseExerciseInstanceByMode, type ExerciseMode, type ExerciseState, type GroupExerciseHistoryEvent, type SoloExerciseHistoryEvent, throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
 import type { InputValueMap } from '@step-wise/input-interpretation'
 
-import type { GroupInputExerciseReport, InputExerciseAction, InputExerciseInput, InputExerciseReport, InputExerciseValueOperations, SoloInputExerciseReport } from './types.ts'
+import type { GroupInputExerciseReport, InputExerciseAction, InputExerciseInput, InputExerciseReport, InputExerciseValueOperations, SoloInputExerciseReport } from '../InputExercise/types.ts'
 
 // Define a type with the minimally expected entries needed by history-inspecting functions.
 export type InputExerciseHistoryData<TState extends ExerciseState = ExerciseState> = {
@@ -30,10 +30,6 @@ export type LastInputEventMatch<TState extends ExerciseState = ExerciseState> = 
 
 export type LastInputOptions = {
 	resolvedOnly?: boolean
-}
-
-export type AccumulatedInputOptions = LastInputOptions & {
-	throughEventIndex?: number
 }
 
 // Get the last history event containing input from the user. For group exercises, this may be unresolved unless resolvedOnly is true.
@@ -72,6 +68,10 @@ export function getLastInputEvent<TState extends ExerciseState = ExerciseState>(
 // Get the last given raw input from the user.
 export function getLastRawInput(instance: InputExerciseHistoryData, userId?: string, options: LastInputOptions = {}): InputValueMap | undefined {
 	return getLastInputEvent(instance, userId, options)?.action.input
+}
+
+export type AccumulatedInputOptions = LastInputOptions & {
+	throughEventIndex?: number
 }
 
 // Combine a user's input actions through the requested history event. Later values overwrite earlier values with the same field ID.

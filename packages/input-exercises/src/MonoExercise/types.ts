@@ -1,7 +1,8 @@
 import type { Awaitable } from '@step-wise/js-utils'
 import type { ExerciseMode, GroupExerciseHistory, SoloExerciseHistory } from '@step-wise/exercise-definition'
 
-import type { GroupInputExerciseReport, InputExerciseMetadata, InputExerciseAction, InputExerciseAttemptState, InputExerciseDependencyState, InputExerciseParameters, CheckInputData, CheckInputResult, InputDependency, InputExercise, InputExerciseSpec, InputExerciseSolution, SoloInputExerciseReport } from '../InputExercise/index.ts'
+import type { GroupInputExerciseReport, InputExerciseMetadata, InputExerciseAction, InputExerciseParameters, CheckInputData, CheckInputResult, InputDependency, InputExercise, InputExerciseSpec, InputExerciseSolution, SoloInputExerciseReport } from '../InputExercise/index.ts'
+import type { InputExerciseAttemptState, InputExerciseDependencyState } from '../support/reducer.ts'
 
 export type MonoExerciseMetadata = InputExerciseMetadata
 

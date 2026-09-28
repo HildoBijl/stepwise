@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
+import { createInputExerciseValueOperations } from '../InputExercise/valueOperations.ts'
+
 import { getAccumulatedReport, getLastInput, getLastInputEvent, getLastRawInput, hasPreviousInput } from './history.ts'
-import { createInputExerciseValueOperations } from './valueOperations.ts'
 
 describe('input-exercise history', () => {
 	const exercise = { valueOperations: createInputExerciseValueOperations() }

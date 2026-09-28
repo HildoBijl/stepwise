@@ -1,6 +1,15 @@
 import { hasOnlyKeys, isPlainDataObject, isPlainObject } from '@step-wise/js-utils'
 
-import { isInputExerciseAction } from './guards.ts'
+import { hasInputExerciseProperties, isInputExerciseAction } from '../InputExercise/guards.ts'
+import type { MonoExercise } from '../MonoExercise/types.ts'
+import type { StepExercise } from '../StepExercise/types.ts'
+
+export type AnyInputExercise = MonoExercise<any, any, any> | StepExercise<any, any, any>
+
+export function isInputExercise(value: unknown): value is AnyInputExercise {
+	if (!hasInputExerciseProperties(value)) return false
+	return value.type === 'mono' || (value.type === 'step' && Array.isArray(value.metadata.steps))
+}
 
 export function isInputExerciseHistory(value: unknown, isState: (value: unknown) => boolean): boolean {
 	return Array.isArray(value) && (value.every(event => isSoloHistoryEvent(event, isState)) || value.every(event => isGroupHistoryEvent(event, isState)))

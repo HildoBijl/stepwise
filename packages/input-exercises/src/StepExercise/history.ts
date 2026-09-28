@@ -2,8 +2,8 @@ import { ensureInteger } from '@step-wise/js-utils'
 import { throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
 import type { InputValueMap } from '@step-wise/input-interpretation'
 
-import type { InputExerciseHistoryData, LastInputOptions } from '../InputExercise/history.ts'
 import type { InputExerciseInput, InputExerciseValueOperations } from '../InputExercise/types.ts'
+import type { InputExerciseHistoryData, LastInputOptions } from '../support/history.ts'
 
 import type { StepExerciseState } from './types.ts'
 
