@@ -40,7 +40,7 @@
 	},
 	"dependencies": {
 		"@step-wise/skill-setup": "^0.1.0",
-		"@step-wise/js-utils": "^0.1.0"
+		"@step-wise/js-utils": "^0.1.2"
 	},
 	"devDependencies": {
 		"vitest": "^5.0.0"
