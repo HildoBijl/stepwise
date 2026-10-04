@@ -1,10 +1,10 @@
 import { Rectangle, Transformation } from '@step-wise/geometry'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 
 import { DrawingCoordinateSystem } from '../transforms/index.ts'
 
 import { anchors } from './anchors.ts'
-import { resolvePosition } from './positions.ts'
+import { getPositionTargets, resolvePosition } from './positions.ts'
 
 describe('resolvePosition', () => {
 	test('interprets a bare vector as a drawing position', () => {
@@ -44,12 +44,45 @@ describe('resolvePosition', () => {
 		expect(resolvePosition({ target: 'missing' }, createCoordinateSystem('down'))).toBeUndefined()
 	})
 
+	test('calculates positions from recursively resolved inputs', () => {
+		const coordinateSystem = createCoordinateSystem('up')
+		const position = resolvePosition({
+			positions: [
+				{ pixelPosition: [10, 20] },
+				{ positions: [{ pixelPosition: [30, 40] }], calculate: ([value]) => value },
+			],
+			calculate: ([first, second]) => first.add(second).multiply(0.5),
+		}, coordinateSystem)
+
+		expect(position!.coordinates).toEqual([20, 70])
+	})
+
+	test('does not calculate a position until every input is resolved', () => {
+		const calculate = vi.fn(([position]) => position)
+
+		expect(resolvePosition({ positions: [{ target: 'missing' }], calculate }, createCoordinateSystem('down'))).toBeUndefined()
+		expect(calculate).not.toHaveBeenCalled()
+	})
+
+	test('recursively collects and deduplicates calculated-position targets', () => {
+		const position = {
+			positions: [
+				{ target: 'first' },
+				{ positions: [{ target: 'second' }, { target: 'first' }], calculate: ([value]) => value },
+			],
+			calculate: ([value]) => value,
+		} as const
+
+		expect(getPositionTargets(position)).toEqual(['first', 'second'])
+	})
+
 	test('rejects ambiguous and malformed positions', () => {
 		const coordinateSystem = createCoordinateSystem('down')
 
 		expect(() => resolvePosition({ position: [1, 2], pixelPosition: [3, 4] }, coordinateSystem)).toThrow('exactly one')
 		expect(() => resolvePosition({} as never, coordinateSystem)).toThrow('exactly one')
 		expect(() => resolvePosition([1, 2, 3], coordinateSystem)).toThrow('dimension')
+		expect(() => resolvePosition({ positions: [], calculate: () => [0, 0] }, coordinateSystem)).toThrow('non-empty')
 	})
 })
 

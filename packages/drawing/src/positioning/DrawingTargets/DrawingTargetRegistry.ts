@@ -16,6 +16,7 @@ export class DrawingTargetRegistry {
 	private readonly entries = new Map<string, TargetEntry>()
 	private element: HTMLDivElement | null = null
 	private coordinateSystem?: DrawingCoordinateSystem
+	private revision = 0
 
 	// Set the environment for the registry, including the drawing element and the coordinate system.
 	setEnvironment(element: HTMLDivElement | null, coordinateSystem: DrawingCoordinateSystem): void {
@@ -62,6 +63,11 @@ export class DrawingTargetRegistry {
 		return this.entries.get(target)?.bounds
 	}
 
+	// Get a revision number that changes whenever any measured target bounds change.
+	getRevision(): number {
+		return this.revision
+	}
+
 	// Refresh the bounds of all targets that have listeners.
 	refresh(): void {
 		for (const entry of this.entries.values()) {
@@ -105,6 +111,7 @@ export class DrawingTargetRegistry {
 		if (bounds === undefined && entry.bounds === undefined) return
 		if (bounds !== undefined && entry.bounds?.equals(bounds)) return
 		entry.bounds = bounds
+		this.revision++
 		entry.listeners.forEach(listener => { listener() })
 	}
 

@@ -2,19 +2,18 @@ import type { Vector } from '@step-wise/geometry'
 
 import { useDrawingCoordinateSystem } from '../Drawing/context.ts'
 
-import { getPositionTarget, type Position, resolvePosition } from './positions.ts'
-import { type Distance, resolveDistance } from './distances.ts'
-import { useDrawingTargetBounds } from './DrawingTargets/index.ts'
+import { getPositionTargets, type Position, resolvePosition } from './positions.ts'
+import { getDistanceTargets, type Distance, resolveDistance } from './distances.ts'
+import { useDrawingTargetBoundsMap } from './DrawingTargets/index.ts'
 
 export function useResolvedPosition(position: Position): Vector | undefined {
 	const coordinateSystem = useDrawingCoordinateSystem()
-	const target = getPositionTarget(position)
-	const targetBounds = useDrawingTargetBounds(target)
-	return resolvePosition(position, coordinateSystem, {
-		getTargetBounds: requestedTarget => requestedTarget === target ? targetBounds : undefined,
-	})
+	const targetBounds = useDrawingTargetBoundsMap(getPositionTargets(position))
+	return resolvePosition(position, coordinateSystem, { getTargetBounds: target => targetBounds.get(target) })
 }
 
-export function useResolvedDistance(distance: Distance): number {
-	return resolveDistance(distance, useDrawingCoordinateSystem())
+export function useResolvedDistance(distance: Distance): number | undefined {
+	const coordinateSystem = useDrawingCoordinateSystem()
+	const targetBounds = useDrawingTargetBoundsMap(getDistanceTargets(distance))
+	return resolveDistance(distance, coordinateSystem, { getTargetBounds: target => targetBounds.get(target) })
 }

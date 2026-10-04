@@ -21,6 +21,7 @@ beforeEach(() => {
 	})
 	vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
 		if (this.style.position === 'relative') return rectangle(10, 20, 100, 100)
+		if (this.textContent === 'Second') return rectangle(70, 60, 10, 20)
 		if (this.tagName === 'SPAN') return rectangle(30, 40, 20, 10)
 		return rectangle(0, 0, 100, 100)
 	})
@@ -65,10 +66,28 @@ describe('Drawing targets', () => {
 
 		expect(screen.getByText('45,35')).toBeTruthy()
 	})
+
+	test('resolves calculated positions that reference multiple targets', () => {
+		render(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+			<DrawingTarget target="first">First</DrawingTarget>
+			<DrawingTarget target="second">Second</DrawingTarget>
+			<CalculatedTargetPosition />
+		</Drawing>)
+
+		expect(screen.getByText('47.5,37.5')).toBeTruthy()
+	})
 })
 
 function ResolvedTargetPosition({ target = 'label' }: { target?: string }) {
 	const position = useResolvedPosition({ target, anchor: anchors.bottomRight, pixelOffset: [5, 5] })
+	return position ? <output>{position.x},{position.y}</output> : null
+}
+
+function CalculatedTargetPosition() {
+	const position = useResolvedPosition({
+		positions: [{ target: 'first' }, { target: 'second' }],
+		calculate: ([first, second]) => first.add(second).multiply(0.5),
+	})
 	return position ? <output>{position.x},{position.y}</output> : null
 }
 

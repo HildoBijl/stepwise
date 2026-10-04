@@ -1,9 +1,10 @@
-import { Transformation } from '@step-wise/geometry'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
+
+import { Rectangle, Transformation } from '@step-wise/geometry'
 
 import { DrawingCoordinateSystem } from '../transforms/index.ts'
 
-import { resolveDistance } from './distances.ts'
+import { getDistanceTargets, resolveDistance } from './distances.ts'
 
 describe('resolveDistance', () => {
 	test('scales bare drawing distances by the geometric mean scale', () => {
@@ -24,11 +25,47 @@ describe('resolveDistance', () => {
 		expect(resolveDistance({ pixelDistance: 20 }, coordinateSystem)).toBe(20)
 	})
 
+	test('calculates distances from recursively resolved positions', () => {
+		const coordinateSystem = createCoordinateSystem()
+		const distance = resolveDistance({
+			positions: [
+				{ pixelPosition: [10, 20] },
+				{ positions: [{ pixelPosition: [40, 60] }], calculate: ([position]) => position },
+			],
+			calculate: ([first, second]) => second.subtract(first).magnitude,
+		}, coordinateSystem)
+
+		expect(distance).toBe(50)
+	})
+
+	test('does not calculate a distance until every position is resolved', () => {
+		const calculate = vi.fn(() => 0)
+
+		expect(resolveDistance({ positions: [{ target: 'missing' }], calculate }, createCoordinateSystem())).toBeUndefined()
+		expect(calculate).not.toHaveBeenCalled()
+	})
+
+	test('resolves target positions and collects their names recursively', () => {
+		const coordinateSystem = createCoordinateSystem()
+		const distance = {
+			positions: [
+				{ target: 'first' },
+				{ positions: [{ target: 'second' }, { target: 'first' }], calculate: ([position]) => position },
+			],
+			calculate: ([first, second]) => second.subtract(first).magnitude,
+		} as const
+		const getTargetBounds = (target: string) => target === 'first' ? new Rectangle([0, 0], [10, 10]) : new Rectangle([30, 40], [40, 50])
+
+		expect(getDistanceTargets(distance)).toEqual(['first', 'second'])
+		expect(resolveDistance(distance, coordinateSystem, { getTargetBounds })).toBe(50)
+	})
+
 	test('rejects ambiguous and malformed distances', () => {
 		const coordinateSystem = createCoordinateSystem()
 
 		expect(() => resolveDistance({ distance: 1, pixelDistance: 2 }, coordinateSystem)).toThrow('exactly one')
 		expect(() => resolveDistance({} as never, coordinateSystem)).toThrow('exactly one')
+		expect(() => resolveDistance({ positions: [], calculate: () => 0 }, coordinateSystem)).toThrow('non-empty')
 	})
 })
 

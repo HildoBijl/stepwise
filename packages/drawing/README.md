@@ -151,6 +151,18 @@ const renderDistance = useResolvedDistance({ distance: 3, pixelOffset: 10 })
 
 Because a scalar distance has no direction, non-uniform transformations scale it by the geometric mean of the two axis scales. Use positions or vectors when the direction-specific transformation matters.
 
+A calculated distance derives an internal render/pixel distance from one or more resolved positions. Like calculated positions, it waits until every input position is available and supports target positions and nested calculated positions.
+
+```ts
+const targetDistance = useResolvedDistance({
+	positions: [
+		{ target: 'first', anchor: anchors.center },
+		{ target: 'second', anchor: anchors.center },
+	],
+	calculate: ([first, second]) => second.subtract(first).magnitude,
+})
+```
+
 
 ## Drawing targets
 
@@ -182,7 +194,21 @@ Targets are observed lazily. Merely registering a target does not create a `Resi
 
 Named anchors such as `anchors.top`, `anchors.left`, and `anchors.bottomRight` retain their visual meaning for either y-direction. Custom vector anchors use normalized coordinates from `-1` to `1` and follow the configured pixel-coordinate y-direction.
 
-Calculated positions and dependency-cycle detection will extend this target system in a subsequent step.
+Calculated positions derive a render-coordinate position from one or more ordinary positions. Inputs can themselves be calculated positions.
+
+```ts
+const midpoint = useResolvedPosition({
+	positions: [
+		{ target: 'first', anchor: anchors.right },
+		{ target: 'second', anchor: anchors.left },
+	],
+	calculate: ([first, second]) => first.add(second).multiply(0.5),
+})
+```
+
+Target references are collected recursively and deduplicated, so every required target is observed. The calculation is only called after all input positions have resolved; until then the complete calculated position is `undefined`.
+
+The first implementation deliberately does not track which target owns a position calculation. It therefore does not attempt dependency-cycle detection. A target-layout cycle remains unresolved and consequently does not render.
 
 
 ## Styling
