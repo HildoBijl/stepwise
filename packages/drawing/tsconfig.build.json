@@ -11,7 +11,8 @@
 	},
 	"references": [
 		{ "path": "../geometry/tsconfig.build.json" },
-		{ "path": "../js-utils/tsconfig.build.json" }
+		{ "path": "../js-utils/tsconfig.build.json" },
+		{ "path": "../react-utils/tsconfig.build.json" }
 	],
 	"include": ["src/**/*.ts", "src/**/*.tsx"]
 }

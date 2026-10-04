@@ -5,7 +5,22 @@
 
 ## Status
 
-The package currently provides its coordinate-system fundamentals. Figure, Drawing, Plot, positioning, measurement, and rendering components will be added incrementally before existing Step-Wise figures are migrated. The existing frontend drawing implementation remains in use during this process.
+The package currently provides the responsive `Figure` wrapper and its coordinate-system fundamentals. Drawing, Plot, positioning, measurement, and rendering components will be added incrementally before existing Step-Wise figures are migrated. The existing frontend drawing implementation remains in use during this process.
+
+
+## Figure
+
+`Figure` gives arbitrary fixed-size visual contents a responsive place on the page. It reserves the correct aspect ratio and uniformly scales the entire contents, including HTML, SVG, Canvas, text, and pixel-based spacing.
+
+```tsx
+import { Figure } from '@step-wise/drawing'
+
+<Figure width={800} height={500} maxWidth={600} alignment="center">
+	<div style={{ width: 800, height: 500 }}>Fixed-size contents</div>
+</Figure>
+```
+
+`width` and `height` define the internal pixel dimensions. `maxWidth` limits the displayed width and defaults to the internal width, so a Figure shrinks when necessary but does not grow unless explicitly allowed. `alignment` can be `left`, `center`, or `right` and defaults to `center`. Standard `div` properties, styles, and refs apply to the outer responsive element.
 
 
 ## Planned architecture
