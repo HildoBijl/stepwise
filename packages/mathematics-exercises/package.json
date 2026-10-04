@@ -42,9 +42,9 @@
 		"@step-wise/exercise-bundling": "^0.1.0",
 		"@step-wise/exercise-definition": "^0.3.0",
 		"@step-wise/exercise-grading": "^0.1.0",
-		"@step-wise/input-exercises": "^0.2.0",
+		"@step-wise/input-exercises": "^0.3.1",
 		"@step-wise/skill-setup": "^0.1.0",
-		"@step-wise/js-utils": "^0.1.0",
+		"@step-wise/js-utils": "^0.1.2",
 		"@step-wise/value-types": "^0.1.0",
 		"@step-wise/mathematics-value-types": "^0.1.0"
 	},

@@ -28,7 +28,7 @@
 		"@step-wise/exercise-definition": "^0.3.0",
 		"@step-wise/exercise-selection": "^0.1.0",
 		"@step-wise/exercises": "^0.1.0",
-		"@step-wise/js-utils": "^0.1.0",
+		"@step-wise/js-utils": "^0.1.2",
 		"@step-wise/settings": "^0.1.0",
 		"@step-wise/module-tree-definition": "^0.3.0",
 		"@step-wise/skill-setup": "^0.1.0",
@@ -56,7 +56,7 @@
 		"ws": "^8.18.3"
 	},
 	"devDependencies": {
-		"@step-wise/input-interpretation": "^0.1.0",
+		"@step-wise/input-interpretation": "^0.1.1",
 		"@step-wise/serialization": "^0.1.0",
 		"@types/cookie-parser": "^1.4.10",
 		"@types/cors": "^2.8.19",

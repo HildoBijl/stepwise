@@ -1,7 +1,7 @@
 import { type ExerciseAction, type ExerciseMode, type ExerciseState, type UpdateSkills, throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
 import type { SerializedData } from '@step-wise/serialization'
 
-import type { InputDependency, InputExerciseParameters, InputExerciseReport, InputExerciseValueOperations } from './types.ts'
+import type { InputDependency, InputExerciseParameters, InputExerciseReport, InputExerciseValueOperations } from '../InputExercise/types.ts'
 
 // Input dependency state: the part of the state depending on the input that may change the solution.
 export type SoloInputExerciseDependencyState = Partial<{ inputDependency: SerializedData }>

@@ -81,27 +81,29 @@ export interface MergeDefaultsOptions {
 }
 
 // Normalize given options by applying defaults. Unknown keys throw by default, or can optionally be filtered out.
-export function mergeDefaults<T extends Record<string, unknown>>(givenOptions: Record<string, unknown>, defaultOptions: T, options: MergeDefaultsOptions = {}): T {
+export function mergeDefaults<T extends object>(givenOptions: object, defaultOptions: T, options: MergeDefaultsOptions = {}): T {
 	// Check the input.
 	if (!isPlainObject(givenOptions)) throw new TypeError('mergeDefaults: givenOptions must be an object')
 	if (!isPlainObject(defaultOptions)) throw new TypeError('mergeDefaults: defaultOptions must be an object')
 	const { filterUnknownKeys = false } = options
+	let normalizedOptions: Record<string, unknown> = givenOptions
+	const normalizedDefaults: Record<string, unknown> = defaultOptions
 
 	// Remove unknown keys if requested.
 	if (filterUnknownKeys) {
-		givenOptions = pickFromDefaults(givenOptions, defaultOptions)
+		normalizedOptions = pickFromDefaults(normalizedOptions, normalizedDefaults)
 	} else {
-		Object.keys(givenOptions).forEach(key => {
-			if (!Object.prototype.hasOwnProperty.call(defaultOptions, key)) throw new Error(`Invalid option: "${key}" is not a recognized option`)
+		Object.keys(normalizedOptions).forEach(key => {
+			if (!Object.prototype.hasOwnProperty.call(normalizedDefaults, key)) throw new Error(`Invalid option: "${key}" is not a recognized option`)
 		})
 	}
 
 	// Merge defaults into the given options.
-	const result: Record<string, unknown> = { ...givenOptions }
-	const keys = Object.keys(defaultOptions)
+	const result: Record<string, unknown> = { ...normalizedOptions }
+	const keys = Object.keys(normalizedDefaults)
 	for (let i = 0; i < keys.length; i++) {
 		const key = keys[i]
-		if (result[key] === undefined && defaultOptions[key] !== undefined) result[key] = defaultOptions[key]
+		if (result[key] === undefined && normalizedDefaults[key] !== undefined) result[key] = normalizedDefaults[key]
 	}
 
 	return result as T

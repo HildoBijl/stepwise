@@ -1,8 +1,9 @@
 import { ensureInteger } from '@step-wise/js-utils'
 import { throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
+import type { InputValueMap } from '@step-wise/input-interpretation'
 
-import type { InputExerciseHistoryData, LastInputOptions } from '../InputExercise/history.ts'
-import type { InputExerciseInput, InputExerciseRawInput, InputExerciseValueOperations } from '../InputExercise/types.ts'
+import type { InputExerciseInput, InputExerciseValueOperations } from '../InputExercise/types.ts'
+import type { InputExerciseHistoryData, LastInputOptions } from '../support/history.ts'
 
 import type { StepExerciseState } from './types.ts'
 
@@ -12,7 +13,7 @@ export function getCurrentStep(state: StepExerciseState | Record<string, never>)
 }
 
 // Get the last given raw input from the user at the given step.
-export function getLastRawInputAtStep(instance: InputExerciseHistoryData<StepExerciseState>, step: number, userId?: string, options: LastInputOptions = {}): InputExerciseRawInput | undefined {
+export function getLastRawInputAtStep(instance: InputExerciseHistoryData<StepExerciseState>, step: number, userId?: string, options: LastInputOptions = {}): InputValueMap | undefined {
 	step = ensureInteger(step, { nonNegative: true })
 	const { resolvedOnly = false } = options
 	const { mode } = instance

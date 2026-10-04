@@ -40,7 +40,7 @@
 	},
 	"dependencies": {
 		"@step-wise/cas": "^0.1.0",
-		"@step-wise/input-interpretation": "^0.1.0",
+		"@step-wise/input-interpretation": "^0.1.1",
 		"@step-wise/serialization": "^0.1.0",
 		"@step-wise/value-equality": "^0.1.0",
 		"@step-wise/value-types": "^0.1.0"

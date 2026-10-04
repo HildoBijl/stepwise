@@ -1,6 +1,6 @@
 {
 	"name": "@step-wise/input-exercises",
-	"version": "0.2.0",
+	"version": "0.3.1",
 	"description": "Build reducer-based educational exercises that interpret and grade learner input.",
 	"license": "MIT",
 	"repository": {
@@ -40,8 +40,8 @@
 	},
 	"dependencies": {
 		"@step-wise/exercise-definition": "^0.3.0",
-		"@step-wise/input-interpretation": "^0.1.0",
-		"@step-wise/js-utils": "^0.1.0",
+		"@step-wise/input-interpretation": "^0.1.1",
+		"@step-wise/js-utils": "^0.1.2",
 		"@step-wise/serialization": "^0.1.0",
 		"@step-wise/skill-setup": "^0.1.0",
 		"@step-wise/value-equality": "^0.1.0",

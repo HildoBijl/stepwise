@@ -39,10 +39,10 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@step-wise/input-interpretation": "^0.1.0",
+		"@step-wise/input-interpretation": "^0.1.1",
 		"@step-wise/serialization": "^0.1.0",
 		"@step-wise/value-equality": "^0.1.0",
-		"@step-wise/js-utils": "^0.1.0"
+		"@step-wise/js-utils": "^0.1.2"
 	},
 	"devDependencies": {
 		"vitest": "^5.0.0"

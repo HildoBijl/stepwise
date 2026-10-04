@@ -1,6 +1,7 @@
 export * from './content.ts'
 export * from './lifecycle.ts'
 export * from './refs.ts'
+export * from './controllableState.ts'
 export * from './localStorageState.ts'
 export * from './sessionStorageState.ts'
 export * from './eventListeners.ts'

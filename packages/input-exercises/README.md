@@ -125,7 +125,7 @@ Use `combineValueTypes` from [@step-wise/value-types](https://www.npmjs.com/pack
 
 ## Raw and interpreted input
 
-Input actions contain serializable raw input values. Before `checkInput` runs, the package interprets those values into their domain values. Its argument contains both forms:
+Input actions contain serializable raw input values. Their object shape is exported by `@step-wise/input-interpretation` as `InputValueMap`, with input-field identifiers mapped to `InputValue` objects. Before `checkInput` runs, the package interprets those values into their domain values. Its argument contains both forms:
 
 ```ts
 checkInput: ({ rawInput, input, parameters, solution, metadata }) => {
@@ -248,6 +248,7 @@ Context remains transient: builders forward it but never serialize it into param
 
 The history helpers accept either solo or group exercise instances:
 
+- `getLastInputEvent(instance, userId?, options?)` returns the matching history event, its index, the narrowed input action, and the matched user ID in group mode.
 - `getLastRawInput(instance, userId?, options?)` returns stored input values.
 - `getLastInput(exercise, instance, userId?, options?)` returns interpreted values using the exercise's value types.
 - `getAccumulatedRawInput(instance, userId?, options?)` combines partial input actions, with later values replacing earlier values for repeated fields.
@@ -274,6 +275,8 @@ The main author-facing types are:
 - `ValueTypes` for optional domain capabilities on an exercise specification, and `InputExerciseValueOperations` for the operations exposed by a built exercise.
 - `GetSolution`, `GetSolutionData`, `GetStaticSolution`, `GetStaticSolutionData`, and `UpdateInputDependency` for solution generation.
 - `StepExerciseSteps`, `StepExerciseState`, and `StepExerciseMetadata` for step structures.
-- `InputExerciseAction` and `InputExerciseRawInput` for stored learner actions.
+- `InputExerciseAction` for stored learner actions and `InputValueMap` from `@step-wise/input-interpretation` for their raw input.
+
+Use `isInputExerciseAction`, `isInputExerciseInstance`, `isMonoExerciseState`, `isMonoExerciseHistory`, `isStepExerciseState`, and `isStepExerciseHistory` to validate unknown stored data and narrow it to the corresponding TypeScript types. `isInputExerciseInstance` accepts enriched API events and user-action records as long as they contain valid input-exercise actions, making it suitable for generic instances returned by application hooks.
 
 Prefer supplying concrete parameter and solution types to the builders. This gives `generateParameters`, the solution callbacks, and `checkInput` a shared inferred contract.

@@ -2,7 +2,8 @@ import { describe, expect, expectTypeOf, it } from 'vitest'
 
 import type { Exercise } from '@step-wise/exercise-definition'
 
-import { type AnyInputExercise, isInputExercise } from './guards.ts'
+import { type AnyInputExercise, isInputExercise, isInputExerciseInstance } from './guards.ts'
+import type { InputExerciseInstance } from './history.ts'
 
 const commonExerciseProperties = {
 	generateParameters: () => ({}),
@@ -59,4 +60,37 @@ describe('input exercise guards', () => {
 		} satisfies Exercise
 		expect(isInputExercise(exercise)).toBe(false)
 	})
+})
+
+describe('isInputExerciseInstance', () => {
+	const inputAction = { type: 'input', input: { answer: { type: 'Integer', value: '4' } } }
+
+	it('recognizes enriched solo and group instances and narrows their type', () => {
+		const soloInstance: unknown = {
+			mode: 'solo', parameters: {}, initialState: {}, history: [
+				{ id: 'event-1', eventIndex: 0, action: inputAction, state: {} },
+			],
+		}
+		const groupInstance: unknown = {
+			mode: 'group', parameters: {}, initialState: {}, history: [
+				{ id: 'event-1', actions: [{ id: 'action-1', userId: 'user-1', action: inputAction }] },
+			],
+		}
+
+		expect(isInputExerciseInstance(soloInstance)).toBe(true)
+		expect(isInputExerciseInstance(groupInstance)).toBe(true)
+		if (isInputExerciseInstance(soloInstance)) expectTypeOf(soloInstance).toEqualTypeOf<InputExerciseInstance>()
+	})
+
+	it.each([
+		undefined,
+		{},
+		{ mode: 'solo', parameters: {}, initialState: {}, history: [{ action: { type: 'other' }, state: {} }] },
+		{ mode: 'solo', parameters: {}, initialState: {}, history: [{ action: inputAction, state: [] }] },
+		{ mode: 'group', parameters: {}, initialState: {}, history: [{ actions: [{ userId: 1, action: inputAction }] }] },
+		{ mode: 'group', parameters: {}, initialState: {}, history: [{ actions: [], report: {} }] },
+		{ mode: 'other', parameters: {}, initialState: {}, history: [] },
+		{ mode: 'solo', parameters: [], initialState: {}, history: [] },
+		{ mode: 'solo', parameters: {}, initialState: [], history: [] },
+	])('rejects invalid instance %#', instance => expect(isInputExerciseInstance(instance)).toBe(false))
 })

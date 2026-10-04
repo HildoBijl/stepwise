@@ -38,7 +38,7 @@ export async function createServer({ config, db, sessionStore, surfConextClient,
 			secure: config.sslEnabled,
 			sameSite: config.sslEnabled ? 'none' : 'lax',
 			httpOnly: true,
-			domain: config.apiDomain,
+			...(config.sslEnabled ? { domain: config.apiDomain } : {}),
 			maxAge: config.sessionMaxAgeMillis,
 		},
 	})

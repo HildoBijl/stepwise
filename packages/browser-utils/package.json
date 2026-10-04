@@ -1,6 +1,6 @@
 {
 	"name": "@step-wise/browser-utils",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Browser-specific utilities for colors, DOM interactions, environment detection, and local storage.",
 	"license": "MIT",
 	"repository": {

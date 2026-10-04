@@ -1,7 +1,7 @@
 import type { Awaitable, PlainDataObject } from '@step-wise/js-utils'
 import type { Exercise, ExerciseMetadata, ExerciseState, GenerateExerciseParameters, GenerateExerciseParametersInput, GetInitialState, GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
 import type { SerializedData } from '@step-wise/serialization'
-import type { InputValue } from '@step-wise/input-interpretation'
+import type { InputValue, InputValueMap } from '@step-wise/input-interpretation'
 import type { ValueTypes } from '@step-wise/value-types'
 
 /*
@@ -12,8 +12,7 @@ import type { ValueTypes } from '@step-wise/value-types'
 export type InputExerciseMetadata = ExerciseMetadata & { comparisons?: Record<string, unknown> }
 
 // Actions: only allow input and giveUp actions.
-export type InputExerciseRawInput = Record<string, InputValue>
-export type InputExerciseAction = { type: 'input', input: InputExerciseRawInput, adoptUserHistory?: string } | { type: 'giveUp' }
+export type InputExerciseAction = { type: 'input', input: InputValueMap, adoptUserHistory?: string } | { type: 'giveUp' }
 export type InputExerciseActionType = InputExerciseAction['type']
 
 // Parameters and input: runtime objects obtained after deserialization and interpretation.
@@ -73,7 +72,7 @@ export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParamete
 export type InputExerciseValueOperations = {
 	serialize: (value: unknown) => SerializedData
 	deserialize: (value: unknown) => unknown
-	interpretInput: (input: InputExerciseRawInput) => InputExerciseInput
+	interpretInput: (input: InputValueMap) => InputExerciseInput
 	toInputValue: (value: unknown, type: string) => InputValue
 	areValuesEqual: (type: string, inputValue: unknown, expectedValue: unknown, options?: unknown) => boolean
 }
@@ -94,7 +93,7 @@ export type InputExercise<TMetadata extends InputExerciseMetadata, TAction exten
 export type CheckInputData<TMetadata extends InputExerciseMetadata = InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TInputDependency = InputDependency, TSolution extends InputExerciseSolution = InputExerciseSolution, TContext = undefined> = {
 	metadata: TMetadata
 	parameters: TParameters
-	rawInput: InputExerciseRawInput
+	rawInput: InputValueMap
 	input: InputExerciseInput
 	inputDependency: TInputDependency | undefined
 	solution?: TSolution

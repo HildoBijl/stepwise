@@ -1,6 +1,6 @@
 {
 	"name": "@step-wise/input-interpretation",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Convert editable learner input representations to and from application domain values.",
 	"license": "MIT",
 	"repository": {
@@ -39,7 +39,7 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@step-wise/js-utils": "^0.1.0"
+		"@step-wise/js-utils": "^0.1.2"
 	},
 	"devDependencies": {
 		"vitest": "^5.0.0"

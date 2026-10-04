@@ -84,9 +84,24 @@ class Client {
 	}
 
 	async signInWithGoogle(googleSub: string): Promise<string> {
+		const { state } = await this.initiateGoogleSignIn()
+		return this.submitGoogleSignIn(googleSub, state)
+	}
+
+	async initiateGoogleSignIn(redirect?: string): Promise<{ state: string; nonce: string }> {
+		const initiationResponse = await request(this._server)
+			.get('/auth/google/initiate')
+			.query({ redirect })
+			.expect(200)
+		this._storeCookies(initiationResponse)
+		return initiationResponse.body as { state: string; nonce: string }
+	}
+
+	async submitGoogleSignIn(googleSub: string, state?: string): Promise<string> {
 		const response = await request(this._server)
 			.post(`/auth/google/login`)
-			.send(`credential=${googleSub}`)
+			.set('Cookie', [this._cookieHeader()])
+			.send(`credential=${googleSub}${state === undefined ? '' : `&state=${encodeURIComponent(state)}`}`)
 			.expect(302)
 		this._storeCookies(response)
 		return getLocation(response)

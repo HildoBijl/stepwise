@@ -3,10 +3,10 @@ import type { AuthenticatedUserReference, GoogleAuthDatabase, GoogleAuthRequest,
 export class AuthStrategy {
 	constructor(private readonly db: GoogleAuthDatabase, private readonly googleClient: GoogleClient) { }
 
-	async authenticateAndSync(request: GoogleAuthRequest): Promise<AuthenticatedUserReference | null> {
+	async authenticateAndSync(request: GoogleAuthRequest, nonce: string): Promise<AuthenticatedUserReference | null> {
 		const authData = request.body
 		const csrfToken = request.cookies.g_csrf_token
-		const googleIdentity = await this.googleClient.getIdentity(authData, csrfToken)
+		const googleIdentity = await this.googleClient.getIdentity(authData, csrfToken, nonce)
 		if (!googleIdentity?.email) return null
 
 		// Google users are matched by email. SurfConext remains authoritative, so an existing user's profile is not updated from Google data.

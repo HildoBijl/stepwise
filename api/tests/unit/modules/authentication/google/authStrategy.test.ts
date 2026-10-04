@@ -23,7 +23,7 @@ function setup(identity: GoogleIdentity | null, existingUser: UserRecord | null 
 describe('Google authentication strategy', () => {
 	it('rejects an identity without an email', async () => {
 		const { create, findOne, strategy } = setup(identity())
-		await expect(strategy.authenticateAndSync(request)).resolves.toBeNull()
+		await expect(strategy.authenticateAndSync(request, 'nonce')).resolves.toBeNull()
 		expect(findOne).not.toHaveBeenCalled()
 		expect(create).not.toHaveBeenCalled()
 	})
@@ -31,7 +31,7 @@ describe('Google authentication strategy', () => {
 	it('returns an existing user without overwriting profile data', async () => {
 		const existingUser = { id: 'existing-id' } as UserRecord
 		const { create, findOne, strategy } = setup(identity({ email: 'user@example.org', name: 'Google Name' }), existingUser)
-		await expect(strategy.authenticateAndSync(request)).resolves.toBe(existingUser)
+		await expect(strategy.authenticateAndSync(request, 'nonce')).resolves.toBe(existingUser)
 		expect(findOne).toHaveBeenCalledWith({ where: { email: 'user@example.org' } })
 		expect(create).not.toHaveBeenCalled()
 	})
@@ -39,14 +39,14 @@ describe('Google authentication strategy', () => {
 	it('creates a new user from a verified identity', async () => {
 		const googleIdentity = identity({ email: 'user@example.org', name: 'Full Name', given_name: 'Full', family_name: 'Name' })
 		const { create, createdUser, getIdentity, strategy } = setup(googleIdentity)
-		await expect(strategy.authenticateAndSync(request)).resolves.toBe(createdUser)
-		expect(getIdentity).toHaveBeenCalledWith(request.body, 'csrf')
+		await expect(strategy.authenticateAndSync(request, 'nonce')).resolves.toBe(createdUser)
+		expect(getIdentity).toHaveBeenCalledWith(request.body, 'csrf', 'nonce')
 		expect(create).toHaveBeenCalledWith({ name: 'Full Name', givenName: 'Full', familyName: 'Name', email: 'user@example.org' })
 	})
 
 	it('stores absent optional names as null', async () => {
 		const { create, strategy } = setup(identity({ email: 'user@example.org' }))
-		await strategy.authenticateAndSync(request)
+		await strategy.authenticateAndSync(request, 'nonce')
 		expect(create).toHaveBeenCalledWith(expect.objectContaining({ name: null, givenName: null, familyName: null }))
 	})
 })

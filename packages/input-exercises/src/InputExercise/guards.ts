@@ -1,7 +1,18 @@
-import { isPlainObject } from '@step-wise/js-utils'
+import { hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
 import { isExercise } from '@step-wise/exercise-definition'
+import { isInputValueMap } from '@step-wise/input-interpretation'
 
-import type { InputExerciseValueOperations } from './types.ts'
+import type { InputExerciseAction, InputExerciseValueOperations } from './types.ts'
+
+// Check if a value is an action corresponding to an InputExercise.
+export function isInputExerciseAction(value: unknown): value is InputExerciseAction {
+	if (!isPlainObject(value) || typeof value.type !== 'string') return false
+	if (value.type === 'giveUp') return hasOnlyKeys(value, ['type'])
+	return value.type === 'input'
+		&& hasOnlyKeys(value, ['type', 'input', 'adoptUserHistory'])
+		&& isInputValueMap(value.input)
+		&& (value.adoptUserHistory === undefined || typeof value.adoptUserHistory === 'string')
+}
 
 // Check if an exercise has the properties expected of an input exercise.
 export function hasInputExerciseProperties(value: unknown): value is Record<string, unknown> & { metadata: Record<string, unknown> } {

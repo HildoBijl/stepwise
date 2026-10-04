@@ -8,6 +8,7 @@ export type InputValue<TType extends string = string, TValue extends PlainDataVa
 	type: TType
 	value: TValue
 }
+export type InputValueMap = Record<string, InputValue>
 
 /*
  * Adapters.
