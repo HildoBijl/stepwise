@@ -131,7 +131,7 @@ function collectPositionTargets(position: Position, targets: Set<string>): void 
  */
 
 // Resolve an anchor to a vector in the render coordinate system, taking into account the drawing coordinate system's y-direction.
-function resolveAnchor(anchor: Anchor, coordinateSystem: DrawingCoordinateSystem): Vector {
+export function resolveAnchor(anchor: Anchor, coordinateSystem: DrawingCoordinateSystem): Vector {
 	if (typeof anchor === 'string') {
 		const coordinates = namedAnchorCoordinates[anchor as NamedAnchor]
 		if (!coordinates) throw new Error(`Invalid Drawing anchor: received "${anchor}".`)

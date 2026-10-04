@@ -1,11 +1,11 @@
 # @step-wise/drawing
 
-`@step-wise/drawing` will provide framework-independent React components and utilities for responsive figures, coordinate-based drawings, and plots. It is being developed as the reusable successor to Step-Wise's frontend-specific drawing toolbox.
+`@step-wise/drawing` provides framework-independent React components and utilities for responsive figures, coordinate-based drawings, and plots. It is being developed as the reusable successor to Step-Wise's frontend-specific drawing toolbox.
 
 
 ## Status
 
-The package currently provides the responsive `Figure` wrapper, the layered `Drawing` component, and their coordinate-system fundamentals. Plot, positioning, measurement, and drawing primitives will be added incrementally before existing Step-Wise figures are migrated. The existing frontend drawing implementation remains in use during this process.
+The package currently provides the responsive `Figure` wrapper, layered `Drawing` component, coordinate systems, position and target resolution, and HTML drawing primitives. Plot and SVG primitives will be added incrementally before existing Step-Wise figures are migrated. The existing frontend drawing implementation remains in use during this process.
 
 
 ## Figure
@@ -209,6 +209,31 @@ const midpoint = useResolvedPosition({
 Target references are collected recursively and deduplicated, so every required target is observed. The calculation is only called after all input positions have resolved; until then the complete calculated position is `undefined`.
 
 The first implementation deliberately does not track which target owns a position calculation. It therefore does not attempt dependency-cycle detection. A target-layout cycle remains unresolved and consequently does not render.
+
+
+## HTML primitives
+
+`HtmlElement` positions arbitrary HTML contents in a Drawing. It accepts every position form described above, including target and calculated positions. The anchor identifies which point of the element is placed at that position.
+
+```tsx
+<HtmlElement position={[2, 3]} anchor={anchors.topLeft}>Contents</HtmlElement>
+<HtmlElement position={{ target: 'heading', anchor: anchors.bottom }}>Target label</HtmlElement>
+```
+
+Mouse interaction is ignored by default. Set `ignoreMouse={false}` for controls or other interactive contents. `rotate` is expressed in radians and follows the configured pixel-coordinate direction; `scale`, standard `div` attributes, styles, class names, and refs are also supported.
+
+`Label` offsets an element from a position by a distance and angle. If no anchor is supplied, it selects the edge facing back toward the original position.
+
+```tsx
+<Label position={[2, 3]} distance={{ pixelDistance: 8 }} angle={Math.PI / 4}>A</Label>
+```
+
+`LineLabel` places a label halfway along a line, on the side opposite a reference position. `CornerLabel` places one inside a corner while accounting for the corner angle and an approximate label size.
+
+```tsx
+<LineLabel positions={[[0, 0], [4, 2]]} oppositeTo={[2, 4]}>Length</LineLabel>
+<CornerLabel positions={[[4, 0], [0, 0], [0, 4]]} size={{ pixelDistance: 30 }}>α</CornerLabel>
+```
 
 
 ## Styling
