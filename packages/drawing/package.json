@@ -39,7 +39,8 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@step-wise/geometry": "^0.1.0"
+		"@step-wise/geometry": "^0.1.0",
+		"@step-wise/js-utils": "^0.1.2"
 	},
 	"peerDependencies": {
 		"react": "^19.2.0",

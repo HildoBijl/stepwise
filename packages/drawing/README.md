@@ -5,7 +5,7 @@
 
 ## Status
 
-The package currently contains its initial project structure. Its public API will be added incrementally before existing Step-Wise figures are migrated. The existing frontend drawing implementation remains in use during this process.
+The package currently provides its coordinate-system fundamentals. Figure, Drawing, Plot, positioning, measurement, and rendering components will be added incrementally before existing Step-Wise figures are migrated. The existing frontend drawing implementation remains in use during this process.
 
 
 ## Planned architecture
@@ -24,6 +24,30 @@ Drawing will support four coordinate systems:
 - client coordinates describe browser viewport positions.
 
 The SVG, Canvas, and HTML layers will share the same positioning system. Canvas remains an optional layer and will expose its element and rendering context for custom drawing code.
+
+
+## Coordinate system
+
+`DrawingCoordinateSystem` stores the Drawing's fixed internal dimensions and transformations. It converts positions between drawing, pixel, render, and client coordinates.
+
+```ts
+import { DrawingCoordinateSystem } from '@step-wise/drawing'
+
+const coordinates = new DrawingCoordinateSystem({
+	width: 800,
+	height: 500,
+	yDirection: 'up',
+	drawingToPixelTransformation,
+})
+
+const pixelPosition = coordinates.drawingToPixel([2, 3])
+const renderPosition = coordinates.pixelToRender(pixelPosition)
+const clientPosition = coordinates.pixelToClient(pixelPosition, element.getBoundingClientRect())
+```
+
+Pixel coordinates follow `yDirection`. With an upward y-direction their origin is at the bottom left. Render and client coordinates always follow browser conventions, with their origin at the top left and positive y pointing downward.
+
+The coordinate system also exposes its constituent `Transformation` instances. Vector conversion methods such as `drawingVectorToPixel` and `pixelVectorToRender` apply scaling and orientation without applying positional translations. These will support pixel offsets and distance resolution.
 
 
 ## Planned position and distance specifications
