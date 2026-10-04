@@ -36,12 +36,14 @@ export function ensureVector(vector: VectorLike | undefined, options: EnsureVect
 export type EnsureVectorArrayOptions = {
 	dimension?: number
 	length?: number
+	nonEmpty?: boolean
 }
 
 // Turn into a Vector list (with optional requirements) or throw an error.
-export function ensureVectorArray(vectors: VectorLike[], options: EnsureVectorArrayOptions = {}): Vector[] {
-	const { dimension, length } = options
+export function ensureVectorArray(vectors: readonly VectorLike[], options: EnsureVectorArrayOptions = {}): Vector[] {
+	const { dimension, length, nonEmpty = false } = options
 	if (!Array.isArray(vectors)) throw new Error(`Invalid Vector array: expected an array of vectors or vector-like objects (arrays or objects with coordinates) but received a parameter of type "${typeof vectors}".`)
+	if (nonEmpty && vectors.length === 0) throw new Error('Invalid Vector array: expected at least one vector, but received an empty array.')
 	if (length !== undefined && vectors.length !== length) throw new Error(`Invalid Vector array: expected an array with ${length} vectors, but the array had ${vectors.length} elements instead.`)
 	return vectors.map(vector => ensureVector(vector, { dimension }))
 }

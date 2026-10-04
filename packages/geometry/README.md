@@ -176,7 +176,7 @@ ensureMatrix([[1, 0], [0, 1]], { rowCount: 2, columnCount: 2 })
 ensureTransformation([[1, 0], [0, 1]], { dimension: 2, invertible: true })
 ```
 
-`ensureVectorArray` validates a complete vector array with optional dimension and length requirements. `ensureCorner` validates three equally dimensioned points. `ensureSquareMatrix` provides the common square-matrix constraint directly.
+`ensureVectorArray` validates a complete vector array with optional dimension, length and non-empty requirements. `ensureRectangle` can require a particular dimension and a non-zero size along every axis. `ensureCorner` validates three equally dimensioned points. `ensureSquareMatrix` provides the common square-matrix constraint directly.
 
 
 ## Serialization

@@ -61,6 +61,8 @@ describe('Vector', () => {
 		expect(isVectorLike(new Vector(1, 2))).toBe(true)
 		expect(ensureVector(undefined, { dimension: 2, defaultZero: true }).equals([0, 0])).toBe(true)
 		expect(ensureVectorArray([[1, 2], [3, 4]], { dimension: 2, length: 2 })).toHaveLength(2)
+		expect(ensureVectorArray([[1, 2]], { dimension: 2, nonEmpty: true })).toHaveLength(1)
+		expect(() => ensureVectorArray([], { nonEmpty: true })).toThrow('at least one vector')
 		expect(ensureCorner([[0, 0], [1, 0], [1, 1]], { dimension: 2 })).toHaveLength(3)
 		expect(() => ensureVector([0, 0], { nonZero: true })).toThrow()
 		expect(() => ensureVector([1, 2], { dimension: 3 })).toThrow()

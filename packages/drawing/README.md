@@ -50,6 +50,36 @@ Pixel coordinates follow `yDirection`. With an upward y-direction their origin i
 The coordinate system also exposes its constituent `Transformation` instances. Vector conversion methods such as `drawingVectorToPixel` and `pixelVectorToRender` apply scaling and orientation without applying positional translations. These will support pixel offsets and distance resolution.
 
 
+## Drawing views
+
+A declarative view specification resolves into a `DrawingCoordinateSystem` through `resolveDrawingView`.
+
+```ts
+import { resolveDrawingView } from '@step-wise/drawing'
+
+const coordinates = resolveDrawingView({
+	type: 'fit',
+	points: [[-2, 0], [4, 3]],
+	maxWidth: 600,
+	maxHeight: 400,
+	margin: 20,
+	yDirection: 'up',
+})
+```
+
+The available views are:
+
+- `identity`, where drawing and pixel coordinates are equal within fixed dimensions;
+- `bounds`, which maps explicit drawing bounds into exact pixel dimensions;
+- `scale`, which applies a fixed scale and derives tight dimensions around supplied points and margins;
+- `fit`, which derives the scale needed to fit supplied points within maximum dimensions or a maximum scale;
+- `custom`, which accepts fixed dimensions and a custom drawing-to-pixel transformation.
+
+`scale` and `fit` accept an optional two-dimensional `pretransform`, allowing content to be rotated or reflected before its bounds and final position are calculated. Margins can be a single number, one value per axis, or separate values for the negative and positive side of each axis.
+
+The individual resolver functions are also public for specialized components that build on Drawing. For instance, Plot can calculate its domain and ticks before resolving its resulting Drawing view.
+
+
 ## Planned position and distance specifications
 
 A bare vector represents a drawing-coordinate position. More detailed specifications will support drawing positions with pixel offsets, direct pixel positions, measured targets, anchors, and calculated positions.

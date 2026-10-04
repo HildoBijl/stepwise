@@ -57,6 +57,8 @@ describe('Rectangle', () => {
 		const rectangle = new Rectangle([0, 0], [4, 2])
 		expect(isRectangleLike({ min: [0, 0], size: [4, 2] })).toBe(true)
 		expect(ensureRectangle(rectangle, { dimension: 2 }).equals(rectangle)).toBe(true)
+		expect(ensureRectangle(rectangle, { nonZero: true }).equals(rectangle)).toBe(true)
+		expect(() => ensureRectangle({ min: [0, 0], max: [0, 2] }, { nonZero: true })).toThrow('non-zero size along every axis')
 		expect(Rectangle.fromStorageValue(rectangle.toStorageValue()).equals(rectangle)).toBe(true)
 		expect(deserializeRectangle(serializeRectangle(rectangle)).equals(rectangle)).toBe(true)
 		expect(() => new Rectangle({ min: [0, 0], max: [4, 2], size: [3, 2] })).toThrow()
