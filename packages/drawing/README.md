@@ -151,7 +151,38 @@ const renderDistance = useResolvedDistance({ distance: 3, pixelOffset: 10 })
 
 Because a scalar distance has no direction, non-uniform transformations scale it by the geometric mean of the two axis scales. Use positions or vectors when the direction-specific transformation matters.
 
-Measured targets, anchors, and calculated positions will extend this position model during the measurement implementation.
+
+## Drawing targets
+
+Any HTML or SVG element can be registered as a measurable target with `useDrawingTarget`. `DrawingTarget` provides a convenient `span` or `div` wrapper for the common case.
+
+```tsx
+import { DrawingTarget, anchors, useResolvedPosition } from '@step-wise/drawing'
+
+<DrawingTarget target="table-heading">Heading</DrawingTarget>
+
+const arrowEnd = useResolvedPosition({
+	target: 'table-heading',
+	anchor: anchors.bottomRight,
+	pixelOffset: [10, -5],
+})
+```
+
+The hook form can be attached directly to an existing element without introducing a wrapper:
+
+```tsx
+const targetRef = useDrawingTarget<HTMLTableCellElement>('population-heading')
+
+<th ref={targetRef}>Population</th>
+```
+
+`useDrawingTarget<Text>` can also register a text node when its precise text bounds are needed. Drawing coordinates and direct pixel positions resolve immediately; a target-relative position remains `undefined` until its target has rendered and been measured.
+
+Targets are observed lazily. Merely registering a target does not create a `ResizeObserver`; observation starts when a position actually references that target and stops when the final reference disappears.
+
+Named anchors such as `anchors.top`, `anchors.left`, and `anchors.bottomRight` retain their visual meaning for either y-direction. Custom vector anchors use normalized coordinates from `-1` to `1` and follow the configured pixel-coordinate y-direction.
+
+Calculated positions and dependency-cycle detection will extend this target system in a subsequent step.
 
 
 ## Styling

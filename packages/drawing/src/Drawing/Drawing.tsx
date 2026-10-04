@@ -1,6 +1,7 @@
 import { forwardRef, useId, useImperativeHandle, useMemo, useState } from 'react'
 
 import { Figure } from '../Figure/index.ts'
+import { DrawingTargetRegistryProvider } from '../positioning/DrawingTargets/DrawingTargetRegistryProvider.tsx'
 import { resolveDrawingView } from '../transforms/index.ts'
 
 import { DrawingContextProvider } from './context.ts'
@@ -39,16 +40,18 @@ export const Drawing = forwardRef<DrawingHandle, DrawingProps>(function Drawing(
 
 	// Render the drawing.
 	return <DrawingContextProvider value={context}>
-		<Figure {...figureProps} width={width} height={height}>
-			<div ref={setElement} style={{ height, position: 'relative', userSelect: 'none', width }}>
-				{useCanvas && <canvas height={height} ref={setCanvas} width={width} style={layerStyle(0)} />}
-				{useSvg && <svg ref={setSvg} viewBox={`0 0 ${width} ${height}`} style={{ ...layerStyle(1), overflow: 'visible', pointerEvents: 'none' }}>
-					<defs ref={setSvgDefs} />
-				</svg>}
-				<div ref={setHtml} style={{ ...layerStyle(2), pointerEvents: 'none' }} />
-				{children}
-			</div>
-		</Figure>
+		<DrawingTargetRegistryProvider element={element} coordinateSystem={coordinateSystem}>
+			<Figure {...figureProps} width={width} height={height}>
+				<div ref={setElement} style={{ height, position: 'relative', userSelect: 'none', width }}>
+					{useCanvas && <canvas height={height} ref={setCanvas} width={width} style={layerStyle(0)} />}
+					{useSvg && <svg ref={setSvg} viewBox={`0 0 ${width} ${height}`} style={{ ...layerStyle(1), overflow: 'visible', pointerEvents: 'none' }}>
+						<defs ref={setSvgDefs} />
+					</svg>}
+					<div ref={setHtml} style={{ ...layerStyle(2), pointerEvents: 'none' }} />
+					{children}
+				</div>
+			</Figure>
+		</DrawingTargetRegistryProvider>
 	</DrawingContextProvider>
 })
 
