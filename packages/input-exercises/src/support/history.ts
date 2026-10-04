@@ -1,5 +1,5 @@
 import type { PlainDataObject } from '@step-wise/js-utils'
-import { type BaseExerciseInstanceByMode, type ExerciseMode, type ExerciseState, type GroupExerciseHistoryEvent, type SoloExerciseHistoryEvent, throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
+import { type BaseExerciseInstanceByMode, type ExerciseMode, type ExerciseState, type GroupExerciseEvent, type SoloExerciseEvent, throwUnsupportedExerciseMode } from '@step-wise/exercise-definition'
 import type { InputValueMap } from '@step-wise/input-interpretation'
 
 import type { GroupInputExerciseReport, InputExerciseAction, InputExerciseInput, InputExerciseReport, InputExerciseValueOperations, SoloInputExerciseReport } from '../InputExercise/types.ts'
@@ -24,12 +24,12 @@ type InputAction = Extract<InputExerciseAction, { type: 'input' }>
 export type LastInputEventMatch<TState extends ExerciseState = ExerciseState> = {
 	mode: 'solo'
 	eventIndex: number
-	event: SoloExerciseHistoryEvent<InputExerciseAction, TState, SoloInputExerciseReport>
+	event: SoloExerciseEvent<InputExerciseAction, TState, SoloInputExerciseReport>
 	action: InputAction
 } | {
 	mode: 'group'
 	eventIndex: number
-	event: GroupExerciseHistoryEvent<InputExerciseAction, TState, GroupInputExerciseReport>
+	event: GroupExerciseEvent<InputExerciseAction, TState, GroupInputExerciseReport>
 	action: InputAction
 	userId: string
 }
