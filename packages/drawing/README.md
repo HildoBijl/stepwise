@@ -123,13 +123,35 @@ The available views are:
 The individual resolver functions are also public for specialized components that build on Drawing. For instance, Plot can calculate its domain and ticks before resolving its resulting Drawing view.
 
 
-## Planned position and distance specifications
+## Position and distance specifications
 
-A bare vector represents a drawing-coordinate position. More detailed specifications will support drawing positions with pixel offsets, direct pixel positions, measured targets, anchors, and calculated positions.
+A bare vector represents a drawing-coordinate position. A structured position can add an offset in internal Drawing pixels or directly specify a pixel position.
 
-Distances will follow the same principle. A bare number represents a drawing-coordinate distance, while structured specifications can combine drawing distances and pixel offsets or provide a direct pixel distance.
+```ts
+import { resolvePosition, useResolvedPosition } from '@step-wise/drawing'
 
-The exact TypeScript API will be introduced together with the coordinate and positioning implementations.
+resolvePosition([2, 3], coordinateSystem)
+resolvePosition({ position: [2, 3], pixelOffset: [10, 0] }, coordinateSystem)
+resolvePosition({ pixelPosition: [200, 300] }, coordinateSystem)
+
+const renderPosition = useResolvedPosition({ position: [2, 3], pixelOffset: [10, 0] })
+```
+
+Pixel coordinates and offsets follow the Drawing's configured y-direction. The resolver subsequently converts them to render coordinates, whose positive y-direction always points downward.
+
+Distances follow the same pattern. A bare number is a drawing-coordinate distance, while a structured specification can add a pixel offset or provide a direct pixel distance.
+
+```ts
+resolveDistance(3, coordinateSystem)
+resolveDistance({ distance: 3, pixelOffset: 10 }, coordinateSystem)
+resolveDistance({ pixelDistance: 200 }, coordinateSystem)
+
+const renderDistance = useResolvedDistance({ distance: 3, pixelOffset: 10 })
+```
+
+Because a scalar distance has no direction, non-uniform transformations scale it by the geometric mean of the two axis scales. Use positions or vectors when the direction-specific transformation matters.
+
+Measured targets, anchors, and calculated positions will extend this position model during the measurement implementation.
 
 
 ## Styling
