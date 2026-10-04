@@ -5,7 +5,7 @@
 
 ## Status
 
-The package currently provides the responsive `Figure` wrapper and its coordinate-system fundamentals. Drawing, Plot, positioning, measurement, and rendering components will be added incrementally before existing Step-Wise figures are migrated. The existing frontend drawing implementation remains in use during this process.
+The package currently provides the responsive `Figure` wrapper, the layered `Drawing` component, and their coordinate-system fundamentals. Plot, positioning, measurement, and drawing primitives will be added incrementally before existing Step-Wise figures are migrated. The existing frontend drawing implementation remains in use during this process.
 
 
 ## Figure
@@ -21,6 +21,34 @@ import { Figure } from '@step-wise/drawing'
 ```
 
 `width` and `height` define the internal pixel dimensions. `maxWidth` limits the displayed width and defaults to the internal width, so a Figure shrinks when necessary but does not grow unless explicitly allowed. `alignment` can be `left`, `center`, or `right` and defaults to `center`. Standard `div` properties, styles, and refs apply to the outer responsive element.
+
+
+## Drawing
+
+`Drawing` resolves a declarative view, places it inside a responsive `Figure`, and provides synchronized Canvas, SVG, and HTML layers. Canvas is opt-in, SVG is enabled by default, and the HTML layer is always available.
+
+```tsx
+import { Drawing, HtmlPortal, SvgPortal } from '@step-wise/drawing'
+
+<Drawing
+	view={{ type: 'bounds', bounds: { min: [-2, -1], max: [8, 5] }, width: 800, height: 500 }}
+	maxWidth={600}
+	useCanvas
+>
+	<SvgPortal>
+		<line x1="0" y1="0" x2="800" y2="500" stroke="currentColor" />
+	</SvgPortal>
+	<HtmlPortal>
+		<div>HTML contents</div>
+	</HtmlPortal>
+</Drawing>
+```
+
+`SvgPortal`, `SvgDefsPortal`, and `HtmlPortal` let conceptual child components render into the appropriate layer. Nested SVG portals reuse the surrounding SVG portal, so an SVG component can safely contain other SVG components.
+
+The SVG and HTML overlays use `pointer-events: none`, allowing empty areas to pass interactions through to lower layers. Interactive descendants can opt back in with `pointer-events: auto`.
+
+Drawing hooks expose the current context and coordinate system. A `DrawingHandle` ref additionally provides the Drawing element, SVG, Canvas, 2D Canvas context, dimensions, coordinate system, and drawing/client conversion methods. This supports both custom Canvas rendering and components outside the Drawing that need access to its resolved view.
 
 
 ## Planned architecture

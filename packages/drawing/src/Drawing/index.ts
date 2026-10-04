@@ -1,2 +1,5 @@
-// Public Drawing exports will be added with the layered renderer implementation.
-export {}
+export * from './types.ts'
+export { useDrawing, useDrawingId, useDrawingCoordinateSystem } from './context.ts'
+export type { DrawingContextValue } from './context.ts'
+export * from './portals.tsx'
+export * from './Drawing.tsx'

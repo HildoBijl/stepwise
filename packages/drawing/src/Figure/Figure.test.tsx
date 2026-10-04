@@ -12,9 +12,7 @@ afterEach(() => {
 
 describe('Figure', () => {
 	test('uniformly scales fixed-size contents to the displayed width', () => {
-		vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
-			return { width: this.hasAttribute('data-figure-viewport') ? 400 : 0 } as DOMRect
-		})
+		vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({ width: 400 } as DOMRect)
 
 		render(<Figure width={800} height={500} maxWidth={600}><span>Contents</span></Figure>)
 
@@ -42,7 +40,8 @@ describe('Figure', () => {
 
 		const { container } = render(<Figure width={200} height={100}>Contents</Figure>)
 
-		expect((container.querySelector('[data-figure-content]') as HTMLElement).style.visibility).toBe('hidden')
+		const contents = container.firstElementChild!.firstElementChild!.firstElementChild as HTMLElement
+		expect(contents.style.visibility).toBe('hidden')
 	})
 
 	test('rejects invalid dimensions and alignment', () => {

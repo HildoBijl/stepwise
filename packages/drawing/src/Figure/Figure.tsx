@@ -26,12 +26,12 @@ export const Figure = forwardRef<HTMLDivElement, FigureProps>(function Figure(pr
 		width: '100%',
 		...style,
 	}}>
-		<div data-figure-viewport="" ref={viewportRef} style={{
+		<div ref={viewportRef} style={{
 			aspectRatio: `${width} / ${height}`,
 			position: 'relative',
 			width: '100%',
 		}}>
-			<div data-figure-content="" style={{
+			<div style={{
 				height,
 				left: 0,
 				position: 'absolute',
