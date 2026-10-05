@@ -50,6 +50,14 @@ The SVG and HTML overlays use `pointer-events: none`, allowing empty areas to pa
 
 Drawing hooks expose the current context and coordinate system. A `DrawingHandle` ref additionally provides the Drawing element, SVG, Canvas, 2D Canvas context, dimensions, coordinate system, and drawing/client conversion methods. This supports both custom Canvas rendering and components outside the Drawing that need access to its resolved view.
 
+Pointer tracking is available through `useDrawingPointerState`. It provides client, render, pixel, and drawing positions, the current modifier keys, and whether the pointer lies inside the Drawing. Positions remain available outside the Drawing, allowing dragging interactions to continue after crossing its edge.
+
+```tsx
+const { drawingPosition, pixelPosition, isInside, modifierKeys } = useDrawingPointerState()
+```
+
+The convenience hooks `useDrawingPointerPosition`, `usePixelPointerPosition`, `useRenderPointerPosition`, and `useClientPointerPosition` return one coordinate form. Pointer listeners are installed lazily while at least one tracking hook is mounted, and updates are coalesced to animation frames.
+
 
 ## Planned architecture
 
