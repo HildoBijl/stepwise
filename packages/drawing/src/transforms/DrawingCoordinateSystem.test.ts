@@ -39,6 +39,21 @@ describe('DrawingCoordinateSystem', () => {
 		expect(coordinates.drawingVectorToPixel([2, 1]).coordinates).toEqual([20, 20])
 	})
 
+	test('checks and clamps drawing positions against the visible pixel bounds', () => {
+		const coordinates = new DrawingCoordinateSystem({
+			width: 200,
+			height: 100,
+			drawingToPixelTransformation: Transformation.fromScale([10, 20])
+				.then(Transformation.fromTranslation([30, 40])),
+		})
+
+		expect(coordinates.containsDrawingPosition([-3, -2])).toBe(true)
+		expect(coordinates.containsDrawingPosition([17, 3])).toBe(true)
+		expect(coordinates.containsDrawingPosition([18, 3])).toBe(false)
+		expect(coordinates.containsDrawingPosition([2, -3])).toBe(false)
+		expect(coordinates.clampDrawingPosition([18, -3]).coordinates).toEqual([17, -2])
+	})
+
 	test('converts between render and client coordinates using the displayed rectangle', () => {
 		const coordinates = new DrawingCoordinateSystem({ width: 200, height: 100 })
 		const clientRectangle = { left: 100, top: 50, width: 400, height: 200 }

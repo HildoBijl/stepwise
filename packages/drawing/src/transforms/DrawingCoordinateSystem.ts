@@ -117,6 +117,18 @@ export class DrawingCoordinateSystem {
 	clientToDrawing(position: VectorLike, clientRectangle: ClientRectangle): Vector {
 		return this.renderToDrawing(this.clientToRender(position, clientRectangle))
 	}
+
+	/*
+	 * Drawing-bound checks and calculations.
+	 */
+
+	containsDrawingPosition(position: VectorLike): boolean {
+		return this.pixelBounds.containsPoint(this.drawingToPixel(position))
+	}
+
+	clampDrawingPosition(position: VectorLike): Vector {
+		return this.pixelToDrawing(this.pixelBounds.clampPoint(this.drawingToPixel(position)))
+	}
 }
 
 function getPixelToRenderTransformation(height: number, yDirection: YDirection): Transformation {

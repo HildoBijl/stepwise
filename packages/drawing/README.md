@@ -104,9 +104,14 @@ const coordinates = new DrawingCoordinateSystem({
 const pixelPosition = coordinates.drawingToPixel([2, 3])
 const renderPosition = coordinates.pixelToRender(pixelPosition)
 const clientPosition = coordinates.pixelToClient(pixelPosition, element.getBoundingClientRect())
+
+coordinates.containsDrawingPosition([2, 3])
+const positionInsideDrawing = coordinates.clampDrawingPosition([20, -4])
 ```
 
 Pixel coordinates follow `yDirection`. With an upward y-direction their origin is at the bottom left. Render and client coordinates always follow browser conventions, with their origin at the top left and positive y pointing downward.
+
+`containsDrawingPosition` checks whether a drawing-coordinate position lies inside the visible Drawing rectangle, including its boundary. `clampDrawingPosition` returns the nearest drawing-coordinate position inside that rectangle. Both operations evaluate the bounds in pixel space, so they also work with rotated, reflected, and otherwise custom drawing transformations.
 
 The coordinate system also exposes its constituent `Transformation` instances. Vector conversion methods such as `drawingVectorToPixel` and `pixelVectorToRender` apply scaling and orientation without applying positional translations. These will support pixel offsets and distance resolution.
 
