@@ -277,11 +277,12 @@ SVG primitives use the same position and distance specifications as HTML primiti
 
 The smoothing mode defaults to `through`, while its magnitude defaults to `ratio: 1`. `SvgText` and `SvgGroup` provide positioned text and transformed SVG groups.
 
-`Line` and `Curve` support independently configurable arrowheads at either endpoint. Their shafts are shortened underneath the arrowheads, and arrowhead sizes use the same drawing/pixel `Distance` specifications as other primitives. `ArrowHead` is also available directly; its direction is a drawing-coordinate vector.
+`Line`, `Curve`, and `Arc` support independently configurable arrowheads at either endpoint. Their shafts are shortened underneath the arrowheads. By default, path arrowheads scale with the shaft's numeric `strokeWidth`; an explicit arrowhead size uses the same drawing/pixel `Distance` specifications as other primitives. `ArrowHead` is also available directly; its direction is a drawing-coordinate vector.
 
 ```tsx
 <Line positions={points} endArrow />
 <Curve positions={points} startArrow endArrow={{ fill: 'red', size: { pixelDistance: 16 } }} />
+<Arc center={[0, 0]} radius={2} startAngle={0} endAngle={Math.PI * 1.5} endArrow />
 <ArrowHead position={[2, 3]} direction={[1, 0]} size={{ pixelDistance: 12 }} />
 ```
 

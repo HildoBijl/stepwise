@@ -67,16 +67,21 @@ describe('SVG drawing primitives', () => {
 	test('renders standalone and path arrowheads with shortened shafts', () => {
 		const { container } = renderDrawing(<>
 			<ArrowHead data-testid="standalone-arrow" direction={[0, 1]} position={[50, 50]} />
-			<Line endArrow={{ 'aria-label': 'end-arrow' }} positions={[[10, 20], [90, 20]]} startArrow={{ 'aria-label': 'start-arrow' }} stroke="red" />
+			<Line endArrow={{ 'aria-label': 'end-arrow' }} positions={[[10, 20], [90, 20]]} startArrow={{ 'aria-label': 'start-arrow' }} stroke="red" strokeWidth={3} />
 			<Curve endArrow={{ 'aria-label': 'curve-arrow', size: { pixelDistance: 10 } }} positions={[[10, 50], [50, 80], [90, 50]]} />
+			<Arc center={[50, 50]} endAngle={Math.PI / 2} endArrow={{ 'aria-label': 'arc-end-arrow', size: { pixelDistance: 10 } }} radius={{ pixelDistance: 20 }} startAngle={0} startArrow={{ 'aria-label': 'arc-start-arrow', size: { pixelDistance: 10 } }} stroke="green" />
 		</>, 'up')
 
 		expect(screen.getByTestId('standalone-arrow').getAttribute('transform')).toBe('translate(50 50) rotate(-90)')
 		expect(screen.getByLabelText('start-arrow').getAttribute('transform')).toBe('translate(10 80) rotate(180)')
 		expect(screen.getByLabelText('end-arrow').getAttribute('transform')).toBe('translate(90 80) rotate(0)')
 		expect(screen.getByLabelText('start-arrow').getAttribute('fill')).toBe('red')
-		expect(container.querySelector('path[stroke="red"]')?.getAttribute('d')).toBe('M19 80 L81 80')
+		expect(screen.getByLabelText('start-arrow').getAttribute('points')).toBe('0 0, -15 -7.5, -11.25 0, -15 7.5')
+		expect(container.querySelector('path[stroke="red"]')?.getAttribute('d')).toBe('M21.25 80 L78.75 80')
 		expect(screen.getByLabelText('curve-arrow').getAttribute('transform')).toContain('translate(90 50) rotate(')
+		expect(screen.getByLabelText('arc-start-arrow').getAttribute('transform')).toBe('translate(70 50) rotate(75.67605512172942)')
+		expect(screen.getByLabelText('arc-end-arrow').getAttribute('transform')).toBe('translate(50 30) rotate(-165.67605512172943)')
+		expect(container.querySelector('path[stroke="green"]')?.getAttribute('d')).not.toContain('M70 50')
 	})
 
 	test('renders text and transformed groups with optional drawing-bounds clipping', () => {

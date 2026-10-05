@@ -7,6 +7,7 @@ import { SvgPortal, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
 import { type Distance, type Position, useResolvedDistance, useResolvedPosition } from '../../positioning/index.ts'
 
 export const defaultArrowHeadSize = { pixelDistance: 12 } as const
+export const defaultArrowHeadStrokeRatio = 5
 
 export interface ArrowHeadProps extends Omit<SVGProps<SVGPolygonElement>, 'direction' | 'points' | 'position' | 'size'> {
 	position: Position
@@ -72,4 +73,17 @@ export function resolveArrowHeadOptions(input?: ArrowHeadInput): ArrowHeadOption
 
 export function getArrowHeadInset(size: number): number {
 	return ensureNumber(size, { nonNegative: true, nonZero: true }) * 0.75
+}
+
+// Derive the default size of a path arrowhead from the width of its shaft. CSS expressions cannot be
+// resolved during render, so non-numeric stroke widths retain the standalone ArrowHead default.
+export function getDefaultPathArrowHeadSize(strokeWidth: string | number | undefined): Distance {
+	const numericStrokeWidth = typeof strokeWidth === 'number' ? strokeWidth : Number(strokeWidth)
+	if (!Number.isFinite(numericStrokeWidth) || numericStrokeWidth <= 0) return defaultArrowHeadSize
+	return { pixelDistance: numericStrokeWidth * defaultArrowHeadStrokeRatio }
+}
+
+// Aim a curved arrowhead along the curve underneath it rather than along the exact tangent at its tip.
+export function getArrowHeadDirectionInset(size: number): number {
+	return getArrowHeadInset(size) * 2 / 3
 }

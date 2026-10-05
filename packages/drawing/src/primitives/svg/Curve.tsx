@@ -6,7 +6,7 @@ import type { Vector } from '@step-wise/geometry'
 import { SvgPortal } from '../../Drawing/index.ts'
 import { type Distance, useResolvedDistance, useResolvedPositions } from '../../positioning/index.ts'
 
-import { defaultArrowHeadSize, type ArrowedPathProps, ResolvedArrowHead, resolveArrowHeadOptions } from './ArrowHead.tsx'
+import { type ArrowedPathProps, getDefaultPathArrowHeadSize, ResolvedArrowHead, resolveArrowHeadOptions } from './ArrowHead.tsx'
 import { getPointPath, prepareArrowedPositions } from './support.ts'
 import type { PointSequenceProps, SvgPathProps } from './types.ts'
 
@@ -34,8 +34,9 @@ export const Curve = forwardRef<SVGPathElement, CurveProps>(function Curve(props
 	// Resolve positions/distances and abort if they are not valid.
 	const resolvedPositions = useResolvedPositions(positions)
 	const resolvedSmoothingDistance = useResolvedDistance(smoothing?.distance ?? { pixelDistance: 0 })
-	const startArrowSize = useResolvedDistance(startArrowOptions?.size ?? defaultArrowHeadSize)
-	const endArrowSize = useResolvedDistance(endArrowOptions?.size ?? defaultArrowHeadSize)
+	const defaultArrowSize = getDefaultPathArrowHeadSize(strokeWidth)
+	const startArrowSize = useResolvedDistance(startArrowOptions?.size ?? defaultArrowSize)
+	const endArrowSize = useResolvedDistance(endArrowOptions?.size ?? defaultArrowSize)
 	if (resolvedPositions === undefined || resolvedSmoothingDistance === undefined || startArrowSize === undefined || endArrowSize === undefined) return null
 	if (resolvedPositions.length < 2) throw new Error('Invalid Curve positions: expected at least two positions.')
 	if (close && (startArrowOptions || endArrowOptions)) throw new Error('Invalid Curve arrows: closed curves cannot have start or end arrows.')

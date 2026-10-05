@@ -5,7 +5,7 @@ import { first, last } from '@step-wise/js-utils'
 import { SvgPortal } from '../../Drawing/index.ts'
 import { useResolvedDistance, useResolvedPositions } from '../../positioning/index.ts'
 
-import { defaultArrowHeadSize, type ArrowedPathProps, ResolvedArrowHead, resolveArrowHeadOptions } from './ArrowHead.tsx'
+import { type ArrowedPathProps, getDefaultPathArrowHeadSize, ResolvedArrowHead, resolveArrowHeadOptions } from './ArrowHead.tsx'
 import { getLinePath, prepareArrowedPositions } from './support.ts'
 import type { PointSequenceProps, SvgPathProps } from './types.ts'
 
@@ -18,15 +18,14 @@ export const Line = forwardRef<SVGPathElement, LineProps>(function Line(props, r
 
 	// Resolve positions and abort if they are not valid.
 	const resolvedPositions = useResolvedPositions(positions)
-	const startArrowSize = useResolvedDistance(startArrowOptions?.size ?? defaultArrowHeadSize)
-	const endArrowSize = useResolvedDistance(endArrowOptions?.size ?? defaultArrowHeadSize)
+	const defaultArrowSize = getDefaultPathArrowHeadSize(strokeWidth)
+	const startArrowSize = useResolvedDistance(startArrowOptions?.size ?? defaultArrowSize)
+	const endArrowSize = useResolvedDistance(endArrowOptions?.size ?? defaultArrowSize)
 	if (resolvedPositions === undefined || startArrowSize === undefined || endArrowSize === undefined) return null
-	if (close && (startArrowOptions || endArrowOptions)) throw new Error('Invalid Line arrows: closed lines cannot have start or end arrows.')
 
 	// Calculate arrow directions and pull the line endpoints underneath any arrowheads.
-	const arrowedPositions = startArrowOptions || endArrowOptions
-		? prepareArrowedPositions(resolvedPositions, startArrowOptions ? startArrowSize : undefined, endArrowOptions ? endArrowSize : undefined)
-		: undefined
+	if (close && (startArrowOptions || endArrowOptions)) throw new Error('Invalid Line arrows: closed lines cannot have start or end arrows.')
+	const arrowedPositions = startArrowOptions || endArrowOptions ? prepareArrowedPositions(resolvedPositions, startArrowOptions ? startArrowSize : undefined, endArrowOptions ? endArrowSize : undefined) : undefined
 	const shaftPositions = arrowedPositions?.shaftPositions ?? resolvedPositions
 	const { size: _startSize, fill: startFill = stroke, ...startPolygonProps } = startArrowOptions ?? {}
 	const { size: _endSize, fill: endFill = stroke, ...endPolygonProps } = endArrowOptions ?? {}

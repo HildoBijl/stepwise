@@ -52,13 +52,13 @@ export function Test() {
 
 				<Line endArrow positions={[[1, 1], [3, 4.5], [5, 1.5]]} stroke="#f0897b" strokeWidth={3} />
 
-				<Curve startArrow endArrow positions={[[1, 2], [2.5, 3.5], [4, 2.2], [5.5, 4.2]]} smoothing={{ distance: 0.7, mode: 'around' }} stroke="#8e24aa" strokeWidth={3} />
+				<Curve startArrow endArrow positions={[[1, 2], [2.5, 3.5], [4, 2.2], [5.5, 4.2]]} smoothing={{ distance: 0.7, mode: 'around' }} stroke="#8e24aa" strokeWidth={2} />
 
 				<Polygon positions={[[6.2, 1], [8.8, 1.2], [8, 3.2], [6.5, 2.8]]} fill="#ffcc80" stroke="#ef6c00" strokeWidth={2} />
 
 				<Circle center={[7.5, 4.3]} fill="#ffcdd2" radius={0.7} stroke="#c62828" strokeWidth={2} />
 
-				<Arc center={[7.5, 4.3]} startAngle={Math.PI * 0.25} endAngle={Math.PI * 1.75} radius={1.1} stroke="#c62828" strokeWidth={3} />
+				<Arc center={[7.5, 4.3]} endAngle={Math.PI * 1.75} endArrow radius={1.1} startAngle={Math.PI * 0.25} stroke="#c62828" strokeWidth={3} />
 
 				<HtmlElement anchor={anchors.topLeft} position={[0.8, 5.2]} style={{ color: '#263238', fontWeight: 600 }} target="test-html-element">
 					Ordinary <DrawingTarget target="test-html-text">HTML</DrawingTarget> inside the drawing
