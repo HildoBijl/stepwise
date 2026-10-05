@@ -7,6 +7,7 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import { Drawing } from '../../Drawing/index.ts'
 
 import { Arc } from './Arc.tsx'
+import { ArrowHead } from './ArrowHead.tsx'
 import { BoundedLine } from './BoundedLine.tsx'
 import { Circle } from './Circle.tsx'
 import { Curve } from './Curve.tsx'
@@ -61,6 +62,21 @@ describe('SVG drawing primitives', () => {
 		expect(screen.getByTestId('arc').getAttribute('d')).toBe('M10 0 A10 10 0 0 1 -10 1.2246467991473533e-15')
 		expect(screen.getByTestId('curve').getAttribute('d')).toContain('C')
 		expect(screen.getByTestId('rounded-curve').getAttribute('d')).toContain('Q')
+	})
+
+	test('renders standalone and path arrowheads with shortened shafts', () => {
+		const { container } = renderDrawing(<>
+			<ArrowHead data-testid="standalone-arrow" direction={[0, 1]} position={[50, 50]} />
+			<Line endArrow={{ 'aria-label': 'end-arrow' }} positions={[[10, 20], [90, 20]]} startArrow={{ 'aria-label': 'start-arrow' }} stroke="red" />
+			<Curve endArrow={{ 'aria-label': 'curve-arrow', size: { pixelDistance: 10 } }} positions={[[10, 50], [50, 80], [90, 50]]} />
+		</>, 'up')
+
+		expect(screen.getByTestId('standalone-arrow').getAttribute('transform')).toBe('translate(50 50) rotate(-90)')
+		expect(screen.getByLabelText('start-arrow').getAttribute('transform')).toBe('translate(10 80) rotate(180)')
+		expect(screen.getByLabelText('end-arrow').getAttribute('transform')).toBe('translate(90 80) rotate(0)')
+		expect(screen.getByLabelText('start-arrow').getAttribute('fill')).toBe('red')
+		expect(container.querySelector('path[stroke="red"]')?.getAttribute('d')).toBe('M19 80 L81 80')
+		expect(screen.getByLabelText('curve-arrow').getAttribute('transform')).toContain('translate(90 50) rotate(')
 	})
 
 	test('renders text and transformed groups', () => {

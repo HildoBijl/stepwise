@@ -1,4 +1,5 @@
 export * from './types.ts'
+export { ArrowHead, type ArrowHeadInput, type ArrowHeadOptions, type ArrowHeadProps, type ArrowedPathProps, defaultArrowHeadSize } from './ArrowHead.tsx'
 export * from './Line.tsx'
 export * from './Polygon.tsx'
 export * from './Curve.tsx'

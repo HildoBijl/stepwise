@@ -6,7 +6,8 @@ import type { Vector } from '@step-wise/geometry'
 import { SvgPortal } from '../../Drawing/index.ts'
 import { type Distance, useResolvedDistance, useResolvedPositions } from '../../positioning/index.ts'
 
-import { getPointPath } from './support.ts'
+import { defaultArrowHeadSize, type ArrowedPathProps, ResolvedArrowHead, resolveArrowHeadOptions } from './ArrowHead.tsx'
+import { getPointPath, prepareArrowedPositions } from './support.ts'
 import type { PointSequenceProps, SvgPathProps } from './types.ts'
 
 export const curveSmoothingModes = ['through', 'around'] as const
@@ -21,18 +22,23 @@ export type CurveSmoothing = CurveSmoothingOptions & (
 	| { ratio?: never; distance: Distance }
 )
 
-export interface CurveProps extends Omit<SvgPathProps, 'smoothing'>, PointSequenceProps {
+export interface CurveProps extends Omit<SvgPathProps, 'smoothing'>, PointSequenceProps, ArrowedPathProps {
 	smoothing?: CurveSmoothing
 }
 
 export const Curve = forwardRef<SVGPathElement, CurveProps>(function Curve(props, ref) {
-	const { close = false, fill = 'none', positions, smoothing, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
+	const { close = false, endArrow, fill = 'none', positions, smoothing, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
+	const startArrowOptions = resolveArrowHeadOptions(startArrow)
+	const endArrowOptions = resolveArrowHeadOptions(endArrow)
 
 	// Resolve positions/distances and abort if they are not valid.
 	const resolvedPositions = useResolvedPositions(positions)
 	const resolvedSmoothingDistance = useResolvedDistance(smoothing?.distance ?? { pixelDistance: 0 })
-	if (resolvedPositions === undefined || resolvedSmoothingDistance === undefined) return null
+	const startArrowSize = useResolvedDistance(startArrowOptions?.size ?? defaultArrowHeadSize)
+	const endArrowSize = useResolvedDistance(endArrowOptions?.size ?? defaultArrowHeadSize)
+	if (resolvedPositions === undefined || resolvedSmoothingDistance === undefined || startArrowSize === undefined || endArrowSize === undefined) return null
 	if (resolvedPositions.length < 2) throw new Error('Invalid Curve positions: expected at least two positions.')
+	if (close && (startArrowOptions || endArrowOptions)) throw new Error('Invalid Curve arrows: closed curves cannot have start or end arrows.')
 
 	// Validate the smoothing options.
 	const mode = ensureCurveSmoothingMode(smoothing?.mode ?? 'through')
@@ -40,10 +46,19 @@ export const Curve = forwardRef<SVGPathElement, CurveProps>(function Curve(props
 	const smoothingRatio = smoothing?.distance === undefined ? ensureNumber(smoothing?.ratio ?? 1) : undefined
 	const smoothingDistance = smoothing?.distance === undefined ? undefined : resolvedSmoothingDistance
 
-	// Determine the path and use it to render the shape.
-	const path = (mode === 'through' ? getCurvePathThrough : getCurvePathAround)(resolvedPositions, close, smoothingRatio, smoothingDistance)
+	// Calculate arrow directions and pull the curve endpoints underneath any arrowheads.
+	const curveDirections = (startArrowOptions || endArrowOptions) && mode === 'through' ? getThroughCurveDirections(resolvedPositions, close, smoothingRatio, smoothingDistance) : undefined
+	const arrowedPositions = startArrowOptions || endArrowOptions ? prepareArrowedPositions(resolvedPositions, startArrowOptions ? startArrowSize : undefined, endArrowOptions ? endArrowSize : undefined, curveDirections) : undefined
+	const shaftPositions = arrowedPositions?.shaftPositions ?? resolvedPositions
+	const { size: _startSize, fill: startFill = stroke, ...startPolygonProps } = startArrowOptions ?? {}
+	const { size: _endSize, fill: endFill = stroke, ...endPolygonProps } = endArrowOptions ?? {}
+
+	// Determine the path and render it with any arrowheads.
+	const path = (mode === 'through' ? getCurvePathThrough : getCurvePathAround)(shaftPositions, close, smoothingRatio, smoothingDistance)
 	return <SvgPortal>
 		<path {...pathProps} d={path} fill={fill} ref={ref} stroke={stroke} strokeWidth={strokeWidth} />
+		{startArrowOptions && <ResolvedArrowHead {...startPolygonProps} direction={arrowedPositions!.directions.startDirection} fill={startFill} position={first(resolvedPositions)} size={startArrowSize} />}
+		{endArrowOptions && <ResolvedArrowHead {...endPolygonProps} direction={arrowedPositions!.directions.endDirection} fill={endFill} position={last(resolvedPositions)} size={endArrowSize} />}
 	</SvgPortal>
 })
 
@@ -87,7 +102,20 @@ function getCurvePathAround(inputPositions: readonly Vector[], close: boolean, s
 // Calculate the path for a curve that passes through the given positions.
 function getCurvePathThrough(positions: readonly Vector[], close: boolean, smoothingRatio?: number, smoothingDistance?: number): string {
 	// Calculate the control points for the cubic curves that connect the positions, with distance-based or proportional smoothing.
-	const controlPoints = positions.map((position, index) => {
+	const controlPoints = getThroughCurveControlPoints(positions, close, smoothingRatio, smoothingDistance)
+
+	// Build the path string by connecting the positions with cubic curves using the calculated control points.
+	let path = `M${getPointPath(first(positions))}`
+	repeat(positions.length - (close ? 0 : 1), index => {
+		const nextIndex = mod(index + 1, positions.length)
+		path += `C${getPointPath(controlPoints[index][1])} ${getPointPath(controlPoints[nextIndex][0])} ${getPointPath(positions[nextIndex])}`
+	})
+	return path
+}
+
+// Calculate the control points for a curve that passes through the given positions.
+function getThroughCurveControlPoints(positions: readonly Vector[], close: boolean, smoothingRatio?: number, smoothingDistance?: number): [Vector, Vector][] {
+	return positions.map((position, index) => {
 		if (!close && (index === 0 || index === positions.length - 1)) return [position, position]
 		const previousRelative = positions[mod(index - 1, positions.length)].subtract(position)
 		const nextRelative = positions[mod(index + 1, positions.length)].subtract(position)
@@ -98,14 +126,15 @@ function getCurvePathThrough(positions: readonly Vector[], close: boolean, smoot
 		if (smoothingRatio === undefined) throw new Error('Invalid Curve smoothing: expected a ratio or a distance.')
 		return [position.add(previousRelative.projectOnto(direction).multiply(smoothingRatio / 2)), position.add(nextRelative.projectOnto(direction).multiply(smoothingRatio / 2))]
 	})
+}
 
-	// Build the path string by connecting the positions with cubic curves using the calculated control points.
-	let path = `M${getPointPath(first(positions))}`
-	repeat(positions.length - (close ? 0 : 1), index => {
-		const nextIndex = mod(index + 1, positions.length)
-		path += `C${getPointPath(controlPoints[index][1])} ${getPointPath(controlPoints[nextIndex][0])} ${getPointPath(positions[nextIndex])}`
-	})
-	return path
+// Determine the outward-pointing directions at both ends of a through curve.
+function getThroughCurveDirections(positions: readonly Vector[], close: boolean, smoothingRatio?: number, smoothingDistance?: number): { startDirection: Vector; endDirection: Vector } {
+	const controlPoints = getThroughCurveControlPoints(positions, close, smoothingRatio, smoothingDistance)
+	return {
+		startDirection: first(positions).subtract(controlPoints[1][0]),
+		endDirection: last(positions).subtract(controlPoints[controlPoints.length - 2][1]),
+	}
 }
 
 function ensureCurveSmoothingMode(mode: unknown): CurveSmoothingMode {
