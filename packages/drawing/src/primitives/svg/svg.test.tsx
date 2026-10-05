@@ -79,11 +79,13 @@ describe('SVG drawing primitives', () => {
 		expect(screen.getByLabelText('curve-arrow').getAttribute('transform')).toContain('translate(90 50) rotate(')
 	})
 
-	test('renders text and transformed groups', () => {
-		renderDrawing(<SvgGroup data-testid="group" position={[10, 20]} rotate={Math.PI / 2} scale={2}>
+	test('renders text and transformed groups with optional drawing-bounds clipping', () => {
+		renderDrawing(<SvgGroup clip data-testid="group" position={[10, 20]} rotate={Math.PI / 2} scale={2}>
 			<SvgText data-testid="text" position={[5, 6]}>Text</SvgText>
 		</SvgGroup>)
-		expect(screen.getByTestId('group').getAttribute('transform')).toBe('translate(10 20) rotate(90) scale(2)')
+		const group = screen.getByTestId('group')
+		expect(group.getAttribute('transform')).toBe('translate(10 20) rotate(90) scale(2)')
+		expect(group.parentElement?.getAttribute('clip-path')).toContain('drawing-clip')
 		expect(screen.getByTestId('text').getAttribute('x')).toBe('5')
 	})
 

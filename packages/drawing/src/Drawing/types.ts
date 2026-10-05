@@ -7,6 +7,7 @@ import type { DrawingCoordinateSystem, DrawingView } from '../transforms/index.t
 
 export type DrawingProps = Omit<FigureProps, 'children' | 'height' | 'width'> & {
 	children?: ReactNode
+	clip?: boolean
 	view: DrawingView
 	useCanvas?: boolean
 	useSvg?: boolean

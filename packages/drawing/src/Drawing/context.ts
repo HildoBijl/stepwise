@@ -4,6 +4,7 @@ import type { DrawingCoordinateSystem } from '../transforms/index.ts'
 
 export interface DrawingContextValue {
 	readonly id: string
+	readonly clipPathId: string
 	readonly coordinateSystem: DrawingCoordinateSystem
 	readonly element: HTMLDivElement | null
 	readonly svg: SVGSVGElement | null

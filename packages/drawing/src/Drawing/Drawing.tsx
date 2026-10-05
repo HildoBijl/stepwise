@@ -8,8 +8,9 @@ import { DrawingContextProvider } from './context.ts'
 import type { DrawingHandle, DrawingProps } from './types.ts'
 
 export const Drawing = forwardRef<DrawingHandle, DrawingProps>(function Drawing(props, ref) {
-	const { children, view, useCanvas = false, useSvg = true, ...figureProps } = props
+	const { children, clip = false, view, useCanvas = false, useSvg = true, ...figureProps } = props
 	const id = useId()
+	const clipPathId = `${id}-drawing-clip`
 
 	// Resolve the drawing view to get the coordinate system and dimensions.
 	const coordinateSystem = useMemo(() => resolveDrawingView(view), [view])
@@ -36,16 +37,20 @@ export const Drawing = forwardRef<DrawingHandle, DrawingProps>(function Drawing(
 	}), [canvas, coordinateSystem, element, height, svg, width])
 
 	// Set up the drawing context for the children.
-	const context = useMemo(() => ({ id, coordinateSystem, element, svg, svgDefs, canvas, html }), [id, coordinateSystem, element, svg, svgDefs, canvas, html])
+	const context = useMemo(() => ({ id, clipPathId, coordinateSystem, element, svg, svgDefs, canvas, html }), [id, clipPathId, coordinateSystem, element, svg, svgDefs, canvas, html])
 
 	// Render the drawing.
 	return <DrawingContextProvider value={context}>
 		<DrawingTargetRegistryProvider element={element} coordinateSystem={coordinateSystem}>
 			<Figure {...figureProps} width={width} height={height}>
-				<div ref={setElement} style={{ height, position: 'relative', userSelect: 'none', width }}>
+				<div ref={setElement} style={{ height, overflow: clip ? 'hidden' : 'visible', position: 'relative', userSelect: 'none', width }}>
 					{useCanvas && <canvas height={height} ref={setCanvas} width={width} style={layerStyle(0)} />}
 					{useSvg && <svg ref={setSvg} viewBox={`0 0 ${width} ${height}`} style={{ ...layerStyle(1), overflow: 'visible', pointerEvents: 'none' }}>
-						<defs ref={setSvgDefs} />
+						<defs ref={setSvgDefs}>
+							<clipPath id={clipPathId}>
+								<rect height={height} width={width} x={0} y={0} />
+							</clipPath>
+						</defs>
 					</svg>}
 					<div ref={setHtml} style={{ ...layerStyle(2), pointerEvents: 'none' }} />
 					{children}

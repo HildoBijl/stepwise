@@ -48,6 +48,16 @@ import { Drawing, HtmlPortal, SvgPortal } from '@step-wise/drawing'
 
 The SVG and HTML overlays use `pointer-events: none`, allowing empty areas to pass interactions through to lower layers. Interactive descendants can opt back in with `pointer-events: auto`.
 
+Drawing contents may overflow their fixed internal bounds by default. Set `clip` to clip every Canvas, SVG, and HTML layer to the Drawing rectangle. `SvgGroup` can selectively clip only its own contents against those same bounds; its untransformed wrapper ensures the clipping rectangle remains fixed when the group is translated, rotated, or scaled.
+
+```tsx
+<Drawing clip view={view}>...</Drawing>
+
+<SvgGroup clip position={[2, 3]} rotate={Math.PI / 4}>
+	...
+</SvgGroup>
+```
+
 Drawing hooks expose the current context and coordinate system. A `DrawingHandle` ref additionally provides the Drawing element, SVG, Canvas, 2D Canvas context, dimensions, coordinate system, and drawing/client conversion methods. This supports both custom Canvas rendering and components outside the Drawing that need access to its resolved view.
 
 Pointer tracking is available through `useDrawingPointerState`. It provides client, render, pixel, and drawing positions, the current modifier keys, and whether the pointer lies inside the Drawing. Positions remain available outside the Drawing, allowing dragging interactions to continue after crossing its edge.

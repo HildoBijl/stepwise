@@ -74,6 +74,18 @@ describe('Drawing', () => {
 		expect(container.querySelector('svg')).toBeNull()
 		expect(container.querySelector('canvas')).toBeNull()
 	})
+
+	test('clips every drawing layer to the drawing bounds when requested', () => {
+		mockElementWidths()
+
+		const { container } = render(<Drawing clip view={{ type: 'identity', width: 300, height: 200 }} useCanvas />)
+		const drawingElement = container.querySelector('canvas')!.parentElement!
+		const clipRectangle = container.querySelector('clipPath rect')!
+
+		expect(drawingElement.style.overflow).toBe('hidden')
+		expect(clipRectangle.getAttribute('width')).toBe('300')
+		expect(clipRectangle.getAttribute('height')).toBe('200')
+	})
 })
 
 function CoordinateReader() {
