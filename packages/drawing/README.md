@@ -44,7 +44,7 @@ import { Drawing, HtmlPortal, SvgPortal } from '@step-wise/drawing'
 </Drawing>
 ```
 
-`SvgPortal`, `SvgDefsPortal`, and `HtmlPortal` let conceptual child components render into the appropriate layer. Nested SVG portals reuse the surrounding SVG portal, so an SVG component can safely contain other SVG components.
+`SvgPortal`, `SvgDefsPortal`, and `HtmlPortal` let conceptual child components render into the appropriate layer. Nested SVG portals reuse the surrounding SVG portal, so an SVG component can safely contain other SVG components. HTML renders in front of SVG by default; use `<HtmlPortal behind>` to render it between Canvas and SVG.
 
 The SVG and HTML overlays use `pointer-events: none`, allowing empty areas to pass interactions through to lower layers. Interactive descendants can opt back in with `pointer-events: auto`.
 
@@ -237,9 +237,10 @@ The first implementation deliberately does not track which target owns a positio
 <HtmlElement position={[2, 3]} anchor={anchors.topLeft}>Contents</HtmlElement>
 <HtmlElement position={{ target: 'heading', anchor: anchors.bottom }}>Target label</HtmlElement>
 <HtmlElement position={[4, 1]} target="measurable-label">Measurable label</HtmlElement>
+<HtmlElement behind position={[1, 2]}>Behind the SVG contents</HtmlElement>
 ```
 
-The optional `target` prop registers the complete rendered element as a drawing target without requiring a separate ref or wrapper. Mouse interaction is ignored by default. Set `ignoreMouse={false}` for controls or other interactive contents. `rotate` is expressed in radians and follows the configured pixel-coordinate direction; `scale`, standard `div` attributes, styles, class names, and refs are also supported.
+The optional `target` prop registers the complete rendered element as a drawing target without requiring a separate ref or wrapper. Set `behind` to place the element below SVG rather than above it. Mouse interaction is ignored by default. Set `ignoreMouse={false}` for controls or other interactive contents. `rotate` is expressed in radians and follows the configured pixel-coordinate direction; `scale`, standard `div` attributes, styles, class names, and refs are also supported.
 
 `Label` offsets an element from a position by a distance and angle. If no anchor is supplied, it selects the edge facing back toward the original position.
 

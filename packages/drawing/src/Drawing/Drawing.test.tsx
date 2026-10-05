@@ -22,15 +22,17 @@ describe('Drawing', () => {
 
 		const canvas = container.querySelector('canvas')!
 		const svg = container.querySelector('svg')!
-		const html = [...canvas.parentElement!.children].find(element => element.tagName === 'DIV') as HTMLDivElement
+		const htmlLayers = [...canvas.parentElement!.children].filter(element => element.tagName === 'DIV') as HTMLDivElement[]
 		expect(canvas.width).toBe(300)
 		expect(canvas.height).toBe(200)
 		expect(svg.getAttribute('viewBox')).toBe('0 0 300 200')
 		expect(canvas.style.zIndex).toBe('0')
-		expect(svg.style.zIndex).toBe('1')
-		expect(html.style.zIndex).toBe('2')
+		expect(htmlLayers[0].style.zIndex).toBe('1')
+		expect(svg.style.zIndex).toBe('2')
+		expect(htmlLayers[1].style.zIndex).toBe('3')
 		expect(svg.style.pointerEvents).toBe('none')
-		expect(html.style.pointerEvents).toBe('none')
+		expect(htmlLayers[0].style.pointerEvents).toBe('none')
+		expect(htmlLayers[1].style.pointerEvents).toBe('none')
 	})
 
 	test('renders portal contents into their corresponding layers', () => {
@@ -39,12 +41,14 @@ describe('Drawing', () => {
 		const { container } = render(<Drawing view={{ type: 'identity', width: 300, height: 200 }}>
 			<SvgPortal><g data-testid="svg-contents"><SvgPortal><circle /></SvgPortal></g></SvgPortal>
 			<SvgDefsPortal><linearGradient data-testid="svg-definition" /></SvgDefsPortal>
+			<HtmlPortal behind><span>HTML behind</span></HtmlPortal>
 			<HtmlPortal><button style={{ pointerEvents: 'auto' }}>HTML contents</button></HtmlPortal>
 		</Drawing>)
 
 		expect(screen.getByTestId('svg-contents').parentElement).toBe(container.querySelector('svg'))
 		expect(screen.getByTestId('svg-contents').querySelector('circle')).not.toBeNull()
 		expect(screen.getByTestId('svg-definition').parentElement?.tagName).toBe('defs')
+		expect(screen.getByText('HTML behind').parentElement?.nextElementSibling).toBe(container.querySelector('svg'))
 		expect(screen.getByText('HTML contents').parentElement?.parentElement).toBe(container.querySelector('svg')?.parentElement)
 	})
 

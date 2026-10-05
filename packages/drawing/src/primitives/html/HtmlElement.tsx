@@ -10,6 +10,7 @@ export interface HtmlElementProps extends Omit<HTMLAttributes<HTMLDivElement>, '
 	children?: ReactNode
 	position: Position
 	anchor?: Anchor
+	behind?: boolean
 	rotate?: number
 	scale?: number
 	ignoreMouse?: boolean
@@ -17,7 +18,7 @@ export interface HtmlElementProps extends Omit<HTMLAttributes<HTMLDivElement>, '
 }
 
 export const HtmlElement = forwardRef<HTMLDivElement, HtmlElementProps>(function HtmlElement(props, forwardedRef) {
-	const { anchor = anchors.center, children, ignoreMouse = true, position, rotate = 0, scale = 1, style, target, ...divProps } = props
+	const { anchor = anchors.center, behind = false, children, ignoreMouse = true, position, rotate = 0, scale = 1, style, target, ...divProps } = props
 	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// When there is a target given, attach a target ref to the element so that it's position is tracked.
@@ -48,7 +49,7 @@ export const HtmlElement = forwardRef<HTMLDivElement, HtmlElementProps>(function
 	}
 
 	// Render the element inside a portal, applying the calculated positioning style and any additional styles or props.
-	return <HtmlPortal>
+	return <HtmlPortal behind={behind}>
 		<div {...divProps} ref={setRef} style={{ ...style, ...positioningStyle }}>
 			{children}
 		</div>

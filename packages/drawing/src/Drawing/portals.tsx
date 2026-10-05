@@ -17,6 +17,12 @@ export function SvgDefsPortal({ children }: { children?: ReactNode }) {
 	return <Portal target={useDrawing().svgDefs}>{children}</Portal>
 }
 
-export function HtmlPortal({ children }: { children?: ReactNode }) {
-	return <Portal target={useDrawing().html}>{children}</Portal>
+export interface HtmlPortalProps {
+	children?: ReactNode
+	behind?: boolean
+}
+
+export function HtmlPortal({ behind = false, children }: HtmlPortalProps) {
+	const { html, htmlBehind } = useDrawing()
+	return <Portal target={behind ? htmlBehind : html}>{children}</Portal>
 }

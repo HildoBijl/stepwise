@@ -32,6 +32,11 @@ describe('HTML drawing primitives', () => {
 		expect(screen.getByText('Interactive').style.pointerEvents).toBe('auto')
 	})
 
+	test('renders an element behind the SVG layer when requested', () => {
+		const { container } = renderDrawing(<HtmlElement behind position={[0, 0]}>Behind</HtmlElement>)
+		expect(screen.getByText('Behind').parentElement?.nextElementSibling).toBe(container.querySelector('svg'))
+	})
+
 	test('offsets labels in pixel-coordinate directions', () => {
 		renderDrawing(<Label angle={0} distance={{ pixelDistance: 10 }} position={[10, 20]}>Label</Label>)
 		const label = screen.getByText('Label')

@@ -10,6 +10,7 @@ export interface DrawingContextValue {
 	readonly svg: SVGSVGElement | null
 	readonly svgDefs: SVGDefsElement | null
 	readonly canvas: HTMLCanvasElement | null
+	readonly htmlBehind: HTMLDivElement | null
 	readonly html: HTMLDivElement | null
 }
 
