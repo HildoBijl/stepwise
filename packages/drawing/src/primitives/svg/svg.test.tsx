@@ -27,11 +27,15 @@ afterEach(() => {
 describe('SVG drawing primitives', () => {
 	test('resolves lines and polygons into SVG paths', () => {
 		const { container } = renderDrawing(<>
-			<Line data-testid="line" positions={[[0, 0], [10, 20]]} />
-			<Polygon data-testid="polygon" positions={[[0, 0], [10, 0], [10, 10]]} />
+			<Line data-testid="line" positions={[[0, 0], [10, 20]]} stroke="red" strokeWidth={4} />
+			<Polygon data-testid="polygon" fill="orange" positions={[[0, 0], [10, 0], [10, 10]]} stroke="blue" strokeWidth={3} />
 		</>, 'up')
 		expect(screen.getByTestId('line').getAttribute('d')).toBe('M0 100 L10 80')
+		expect(screen.getByTestId('line').getAttribute('stroke')).toBe('red')
+		expect(screen.getByTestId('line').getAttribute('stroke-width')).toBe('4')
 		expect(screen.getByTestId('polygon').getAttribute('d')).toBe('M0 100 L10 100 L10 90 Z')
+		expect(screen.getByTestId('polygon').getAttribute('fill')).toBe('orange')
+		expect(screen.getByTestId('polygon').getAttribute('stroke')).toBe('blue')
 		expect(screen.getByTestId('line').parentElement).toBe(container.querySelector('svg'))
 	})
 

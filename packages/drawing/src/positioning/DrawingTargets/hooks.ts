@@ -15,10 +15,12 @@ function useDrawingTargetRegistry(): DrawingTargetRegistry {
 }
 
 // Register a node for a given target in the drawing target registry.
-export function useDrawingTarget<T extends DrawingTargetNode = HTMLElement>(targetInput: string): (node: T | null) => void {
-	const target = ensureString(targetInput, { nonEmpty: true })
+export function useDrawingTarget<T extends DrawingTargetNode = HTMLElement>(targetInput: string | undefined): (node: T | null) => void {
+	const target = targetInput === undefined ? undefined : ensureString(targetInput, { nonEmpty: true })
 	const registry = useDrawingTargetRegistry()
-	return useCallback(node => { registry.register(target, node) }, [registry, target])
+	return useCallback(node => {
+		if (target !== undefined) registry.register(target, node)
+	}, [registry, target])
 }
 
 // Retrieve the bounds of a target in the drawing target registry, and subscribes to changes in those bounds.

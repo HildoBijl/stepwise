@@ -6,7 +6,7 @@ import type { Vector } from '@step-wise/geometry'
 import { SvgPortal } from '../../Drawing/index.ts'
 import { type Distance, useResolvedDistance, useResolvedPositions } from '../../positioning/index.ts'
 
-import { getPointPath, lineStyle } from './support.ts'
+import { getPointPath } from './support.ts'
 import type { PointSequenceProps, SvgPathProps } from './types.ts'
 
 export interface CurveProps extends Omit<SvgPathProps, 'part'>, PointSequenceProps {
@@ -16,7 +16,7 @@ export interface CurveProps extends Omit<SvgPathProps, 'part'>, PointSequencePro
 }
 
 export const Curve = forwardRef<SVGPathElement, CurveProps>(function Curve(props, ref) {
-	const { close = false, part = 1, positions, spread, style, through = true, ...pathProps } = props
+	const { close = false, fill = 'none', part = 1, positions, spread, stroke = 'currentColor', strokeWidth = 1, through = true, ...pathProps } = props
 
 	// Resolve positions/distances and abort if they are not valid.
 	const resolvedPositions = useResolvedPositions(positions)
@@ -27,7 +27,7 @@ export const Curve = forwardRef<SVGPathElement, CurveProps>(function Curve(props
 	// Determine the path and use it to render the shape.
 	const path = (through ? getCurvePathThrough : getCurvePathAlong)(resolvedPositions, close, ensureNumber(part), spread === undefined ? undefined : resolvedSpread)
 	return <SvgPortal>
-		<path {...pathProps} d={path} ref={ref} style={{ ...lineStyle, ...style }} />
+		<path {...pathProps} d={path} fill={fill} ref={ref} stroke={stroke} strokeWidth={strokeWidth} />
 	</SvgPortal>
 })
 

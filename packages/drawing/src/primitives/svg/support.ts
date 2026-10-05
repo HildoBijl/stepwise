@@ -1,8 +1,4 @@
-import type { CSSProperties } from 'react'
-
 import type { Vector } from '@step-wise/geometry'
-
-export const lineStyle: CSSProperties = { fill: 'none', stroke: 'currentColor', strokeWidth: 1 }
 
 // Turn a position into a string that can be used in an SVG path.
 export function getPointPath(position: Vector): string {

@@ -226,9 +226,10 @@ The first implementation deliberately does not track which target owns a positio
 ```tsx
 <HtmlElement position={[2, 3]} anchor={anchors.topLeft}>Contents</HtmlElement>
 <HtmlElement position={{ target: 'heading', anchor: anchors.bottom }}>Target label</HtmlElement>
+<HtmlElement position={[4, 1]} target="measurable-label">Measurable label</HtmlElement>
 ```
 
-Mouse interaction is ignored by default. Set `ignoreMouse={false}` for controls or other interactive contents. `rotate` is expressed in radians and follows the configured pixel-coordinate direction; `scale`, standard `div` attributes, styles, class names, and refs are also supported.
+The optional `target` prop registers the complete rendered element as a drawing target without requiring a separate ref or wrapper. Mouse interaction is ignored by default. Set `ignoreMouse={false}` for controls or other interactive contents. `rotate` is expressed in radians and follows the configured pixel-coordinate direction; `scale`, standard `div` attributes, styles, class names, and refs are also supported.
 
 `Label` offsets an element from a position by a distance and angle. If no anchor is supplied, it selects the edge facing back toward the original position.
 

@@ -1,9 +1,10 @@
-import { type CSSProperties, type HTMLAttributes, type ReactNode, forwardRef } from 'react'
+import { type CSSProperties, type HTMLAttributes, type ReactNode, forwardRef, useCallback } from 'react'
 
 import { ensureNumber } from '@step-wise/js-utils'
+import { useForwardedRef } from '@step-wise/react-utils'
 
 import { HtmlPortal, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
-import { anchors, type Anchor, type Position, resolveAnchor, useResolvedPosition } from '../../positioning/index.ts'
+import { anchors, type Anchor, type Position, resolveAnchor, useDrawingTarget, useResolvedPosition } from '../../positioning/index.ts'
 
 export interface HtmlElementProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
 	children?: ReactNode
@@ -12,11 +13,20 @@ export interface HtmlElementProps extends Omit<HTMLAttributes<HTMLDivElement>, '
 	rotate?: number
 	scale?: number
 	ignoreMouse?: boolean
+	target?: string
 }
 
-export const HtmlElement = forwardRef<HTMLDivElement, HtmlElementProps>(function HtmlElement(props, ref) {
-	const { anchor = anchors.center, children, ignoreMouse = true, position, rotate = 0, scale = 1, style, ...divProps } = props
+export const HtmlElement = forwardRef<HTMLDivElement, HtmlElementProps>(function HtmlElement(props, forwardedRef) {
+	const { anchor = anchors.center, children, ignoreMouse = true, position, rotate = 0, scale = 1, style, target, ...divProps } = props
 	const coordinateSystem = useDrawingCoordinateSystem()
+
+	// When there is a target given, attach a target ref to the element so that it's position is tracked.
+	const targetRef = useDrawingTarget<HTMLDivElement>(target)
+	const ref = useForwardedRef(forwardedRef)
+	const setRef = useCallback((element: HTMLDivElement | null) => {
+		ref.current = element
+		targetRef(element)
+	}, [ref, targetRef])
 
 	// Resolve the position and abort if not known yet.
 	const resolvedPosition = useResolvedPosition(position)
@@ -39,7 +49,7 @@ export const HtmlElement = forwardRef<HTMLDivElement, HtmlElementProps>(function
 
 	// Render the element inside a portal, applying the calculated positioning style and any additional styles or props.
 	return <HtmlPortal>
-		<div {...divProps} ref={ref} style={{ ...style, ...positioningStyle }}>
+		<div {...divProps} ref={setRef} style={{ ...style, ...positioningStyle }}>
 			{children}
 		</div>
 	</HtmlPortal>

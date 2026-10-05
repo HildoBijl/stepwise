@@ -6,7 +6,7 @@ import { Vector } from '@step-wise/geometry'
 import { SvgPortal, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
 import { type Distance, type Position, useResolvedDistance, useResolvedPosition } from '../../positioning/index.ts'
 
-import { getPointPath, lineStyle } from './support.ts'
+import { getPointPath } from './support.ts'
 import type { SvgPathProps } from './types.ts'
 
 export interface ArcProps extends Omit<SvgPathProps, 'radius'> {
@@ -17,7 +17,7 @@ export interface ArcProps extends Omit<SvgPathProps, 'radius'> {
 }
 
 export const Arc = forwardRef<SVGPathElement, ArcProps>(function Arc(props, ref) {
-	const { center = [0, 0], endAngle = Math.PI, radius, startAngle = 0, style, ...pathProps } = props
+	const { center = [0, 0], endAngle = Math.PI, fill = 'none', radius, startAngle = 0, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
 	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// Resolve positions/distances and abort if they are not valid.
@@ -40,6 +40,6 @@ export const Arc = forwardRef<SVGPathElement, ArcProps>(function Arc(props, ref)
 
 	// Render the shape.
 	return <SvgPortal>
-		<path {...pathProps} d={path} ref={ref} style={{ ...lineStyle, ...style }} />
+		<path {...pathProps} d={path} fill={fill} ref={ref} stroke={stroke} strokeWidth={strokeWidth} />
 	</SvgPortal>
 })
