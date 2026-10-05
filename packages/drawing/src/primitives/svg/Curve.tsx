@@ -27,7 +27,7 @@ export interface CurveProps extends Omit<SvgPathProps, 'smoothing'>, PointSequen
 }
 
 export const Curve = forwardRef<SVGPathElement, CurveProps>(function Curve(props, ref) {
-	const { close = false, endArrow, fill = 'none', positions, smoothing, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
+	const { close = false, endArrow, fill = 'none', positions, smoothing, startArrow, stroke = 'currentColor', strokeWidth = 2, ...pathProps } = props
 	const startArrowOptions = resolveArrowHeadOptions(startArrow)
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)
 
@@ -42,7 +42,7 @@ export const Curve = forwardRef<SVGPathElement, CurveProps>(function Curve(props
 	if (close && (startArrowOptions || endArrowOptions)) throw new Error('Invalid Curve arrows: closed curves cannot have start or end arrows.')
 
 	// Validate the smoothing options.
-	const mode = ensureCurveSmoothingMode(smoothing?.mode ?? 'through')
+	const mode = ensureCurveSmoothingMode(smoothing?.mode ?? 'around')
 	if (smoothing?.ratio !== undefined && smoothing.distance !== undefined) throw new Error('Invalid Curve smoothing: expected either a ratio or a distance, not both.')
 	const smoothingRatio = smoothing?.distance === undefined ? ensureNumber(smoothing?.ratio ?? 1) : undefined
 	const smoothingDistance = smoothing?.distance === undefined ? undefined : resolvedSmoothingDistance

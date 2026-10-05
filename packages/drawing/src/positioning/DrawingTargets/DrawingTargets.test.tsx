@@ -9,7 +9,7 @@ import { Drawing } from '../../Drawing/index.ts'
 import { anchors } from '../anchors.ts'
 import { useResolvedPosition } from '../hooks.ts'
 
-import { DrawingTarget, useDrawingTarget } from './index.ts'
+import { DrawingTarget, useDrawingTarget, useDrawingTextTarget } from './index.ts'
 
 beforeEach(() => {
 	vi.stubGlobal('ResizeObserver', ResizeObserverMock)
@@ -67,6 +67,17 @@ describe('Drawing targets', () => {
 		expect(screen.getByText('45,35')).toBeTruthy()
 	})
 
+	test('finds and registers a matching text node through useDrawingTextTarget', () => {
+		render(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+			<TextTargetWithHelper />
+			<ResolvedTargetPosition target="matching-text" />
+			<ResolvedTargetPosition target="matching-parent" />
+		</Drawing>)
+
+		expect(screen.getByText('45,35')).toBeTruthy()
+		expect(screen.getByText('75,65')).toBeTruthy()
+	})
+
 	test('resolves calculated positions that reference multiple targets', () => {
 		render(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
 			<DrawingTarget target="first">First</DrawingTarget>
@@ -99,6 +110,13 @@ function TextTarget() {
 		return () => { targetRef(null) }
 	}, [targetRef])
 	return <span ref={container}>Text</span>
+}
+
+function TextTargetWithHelper() {
+	const container = useRef<HTMLDivElement>(null)
+	useDrawingTextTarget('matching-text', container, 'Second', { index: 1 })
+	useDrawingTextTarget('matching-parent', container, node => node.textContent === 'Second', { parentDepth: 1 })
+	return <div ref={container}><span>First</span><span>Second</span><span>Second</span></div>
 }
 
 class ResizeObserverMock {

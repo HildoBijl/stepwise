@@ -1,11 +1,15 @@
-import { useCallback, useContext, useSyncExternalStore } from 'react'
+import { useCallback, useContext, useLayoutEffect, useSyncExternalStore, type RefObject } from 'react'
 
-import { ensureString } from '@step-wise/js-utils'
+import { ensureInteger, ensureString, repeat } from '@step-wise/js-utils'
 import type { Rectangle } from '@step-wise/geometry'
 import { useStableValue } from '@step-wise/react-utils'
 
 import { type DrawingTargetNode, DrawingTargetRegistry } from './DrawingTargetRegistry.ts'
 import { DrawingTargetRegistryContext } from './DrawingTargetRegistryProvider.tsx'
+
+/*
+ * Registering targets.
+ */
 
 // Retrieve the drawing target registry from context.
 function useDrawingTargetRegistry(): DrawingTargetRegistry {
@@ -22,6 +26,46 @@ export function useDrawingTarget<T extends DrawingTargetNode = HTMLElement>(targ
 		if (target !== undefined) registry.register(target, node)
 	}, [registry, target])
 }
+
+/*
+ * Registering text targets.
+ */
+
+export type DrawingTextTargetMatcher = string | ((node: Text) => boolean)
+
+export interface DrawingTextTargetOptions {
+	index?: number
+	parentDepth?: number
+}
+
+export type DrawingTextTargetContainer = Node | RefObject<Node | null | undefined> | null | undefined
+
+// Find a text node inside a container and register that node, or one of its parents, as a Drawing target.
+export function useDrawingTextTarget(targetInput: string | undefined, container: DrawingTextTargetContainer, matcher: DrawingTextTargetMatcher, options: DrawingTextTargetOptions = {}): void {
+	const targetRef = useDrawingTarget<DrawingTargetNode>(targetInput)
+	const index = ensureInteger(options.index ?? 0, { nonNegative: true })
+	const parentDepth = ensureInteger(options.parentDepth ?? 0, { nonNegative: true })
+
+	useLayoutEffect(() => {
+		const predicate = typeof matcher === 'string' ? (node: Text) => node.textContent?.includes(matcher) ?? false : matcher
+		const resolvedContainer = container && 'current' in container ? container.current : container
+		const textNode = getTextNodes(resolvedContainer).filter(predicate)[index]
+		let targetNode: DrawingTargetNode | null = textNode ?? null
+		repeat(parentDepth, () => { targetNode = targetNode?.parentElement ?? null })
+		targetRef(targetNode)
+		return () => { targetRef(null) }
+	}, [container, index, matcher, parentDepth, targetRef])
+}
+
+function getTextNodes(node: Node | null | undefined): Text[] {
+	if (!node) return []
+	if (node.nodeType === Node.TEXT_NODE) return [node as Text]
+	return [...node.childNodes].flatMap(getTextNodes)
+}
+
+/*
+ * Obtaining bounds.
+ */
 
 // Retrieve the bounds of a target in the drawing target registry, and subscribes to changes in those bounds.
 export function useDrawingTargetBounds(targetInput: string | undefined): Rectangle | undefined {

@@ -213,6 +213,13 @@ const targetRef = useDrawingTarget<HTMLTableCellElement>('population-heading')
 
 `useDrawingTarget<Text>` can also register a text node when its precise text bounds are needed. Drawing coordinates and direct pixel positions resolve immediately; a target-relative position remains `undefined` until its target has rendered and been measured.
 
+`useDrawingTextTarget` finds and registers text within an existing DOM subtree. Its matcher can be a contained string or a predicate. The options select a later matching text node or move from the text node to one of its parent elements, which is useful for targeting table cells around matching text.
+
+```tsx
+const tableRef = useRef<HTMLTableElement>(null)
+useDrawingTextTarget('population-heading', tableRef, 'Population', { parentDepth: 1 })
+```
+
 Targets are observed lazily. Merely registering a target does not create a `ResizeObserver`; observation starts when a position actually references that target and stops when the final reference disappears.
 
 Named anchors such as `anchors.top`, `anchors.left`, and `anchors.bottomRight` retain their visual meaning for either y-direction. Custom vector anchors use normalized coordinates from `-1` to `1` and follow the configured pixel-coordinate y-direction.
@@ -281,7 +288,7 @@ SVG primitives use the same position and distance specifications as HTML primiti
 <Curve positions={points} smoothing={{ mode: 'around', distance: { pixelDistance: 20 } }} />
 ```
 
-The smoothing mode defaults to `through`, while its magnitude defaults to `ratio: 1`. `SvgText` and `SvgGroup` provide positioned text and transformed SVG groups.
+The smoothing mode defaults to `around`, while its magnitude defaults to `ratio: 1`. `SvgText` and `SvgGroup` provide positioned text and transformed SVG groups.
 
 `Line`, `Curve`, and `Arc` support independently configurable arrowheads at either endpoint. Their shafts are shortened underneath the arrowheads. By default, path arrowheads scale with the shaft's numeric `strokeWidth`; an explicit arrowhead size uses the same drawing/pixel `Distance` specifications as other primitives. `ArrowHead` is also available directly; its direction is a drawing-coordinate vector.
 
@@ -298,7 +305,7 @@ Higher-level helpers include:
 - `RightAngle`, which draws a right-angle marker inside three positions;
 - `DistanceMarker`, which draws a double-ended dimension arrow with an optional pixel offset.
 
-All line-based primitives default to a one-pixel `currentColor` stroke and no fill, so an application can theme them through ordinary CSS.
+All line-based primitives default to a two-pixel `currentColor` stroke and no fill, so an application can theme them through ordinary CSS.
 
 
 ## Styling
