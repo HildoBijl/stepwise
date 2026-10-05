@@ -258,7 +258,14 @@ SVG primitives use the same position and distance specifications as HTML primiti
 <Arc center={[0, 0]} radius={2} startAngle={0} endAngle={Math.PI / 2} />
 ```
 
-`Curve` supports curves through or along its positions, with proportional smoothing through `part` or a fixed `spread`. `SvgText` and `SvgGroup` provide positioned text and transformed SVG groups.
+`Curve` supports curves that pass through their positions or round around them. Its `smoothing` object selects the mode and either a proportional ratio or a fixed drawing/pixel distance. Ratio and distance smoothing are mutually exclusive.
+
+```tsx
+<Curve positions={points} smoothing={{ mode: 'through', ratio: 0.7 }} />
+<Curve positions={points} smoothing={{ mode: 'around', distance: { pixelDistance: 20 } }} />
+```
+
+The smoothing mode defaults to `through`, while its magnitude defaults to `ratio: 1`. `SvgText` and `SvgGroup` provide positioned text and transformed SVG groups.
 
 Higher-level helpers include:
 

@@ -56,9 +56,11 @@ describe('SVG drawing primitives', () => {
 		renderDrawing(<>
 			<Arc data-testid="arc" radius={{ pixelDistance: 10 }} />
 			<Curve data-testid="curve" positions={[[0, 0], [10, 10], [20, 0]]} />
+			<Curve data-testid="rounded-curve" positions={[[0, 0], [10, 10], [20, 0]]} smoothing={{ distance: { pixelDistance: 2 }, mode: 'around' }} />
 		</>)
 		expect(screen.getByTestId('arc').getAttribute('d')).toBe('M10 0 A10 10 0 0 1 -10 1.2246467991473533e-15')
 		expect(screen.getByTestId('curve').getAttribute('d')).toContain('C')
+		expect(screen.getByTestId('rounded-curve').getAttribute('d')).toContain('Q')
 	})
 
 	test('renders text and transformed groups', () => {

@@ -52,7 +52,7 @@ export function Test() {
 
 				<Line positions={[[1, 1], [3, 4.5], [5, 1.5]]} stroke="#f0897b" strokeWidth={3} />
 
-				<Curve positions={[[1, 2], [2.5, 3.5], [4, 2.2], [5.5, 4.2]]} spread={{ pixelDistance: 18 }} through={false} stroke="#8e24aa" strokeWidth={3} />
+				<Curve positions={[[1, 2], [2.5, 3.5], [4, 2.2], [5.5, 4.2]]} smoothing={{ distance: 0.7, mode: 'around' }} stroke="#8e24aa" strokeWidth={3} />
 
 				<Polygon positions={[[6.2, 1], [8.8, 1.2], [8, 3.2], [6.5, 2.8]]} fill="#ffcc80" stroke="#ef6c00" strokeWidth={2} />
 
