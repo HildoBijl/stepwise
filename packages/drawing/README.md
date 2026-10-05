@@ -236,6 +236,30 @@ Mouse interaction is ignored by default. Set `ignoreMouse={false}` for controls 
 ```
 
 
+## SVG primitives
+
+SVG primitives use the same position and distance specifications as HTML primitives and render through the Drawing's SVG portal. Their normal SVG attributes, event handlers, styles, class names, and refs remain available.
+
+```tsx
+<Line positions={[[0, 0], [2, 3], [5, 1]]} />
+<Polygon positions={[[0, 0], [4, 0], [2, 3]]} fill="currentColor" />
+<Circle center={[2, 3]} radius={1} />
+<Rectangle corners={[[0, 0], [4, 3]]} cornerRadius={{ pixelDistance: 4 }} />
+<Square center={[2, 2]} side={2} />
+<Arc center={[0, 0]} radius={2} startAngle={0} endAngle={Math.PI / 2} />
+```
+
+`Curve` supports curves through or along its positions, with proportional smoothing through `part` or a fixed `spread`. `SvgText` and `SvgGroup` provide positioned text and transformed SVG groups.
+
+Higher-level helpers include:
+
+- `BoundedLine`, which clips an infinite line through two positions to the Drawing bounds;
+- `RightAngle`, which draws a right-angle marker inside three positions;
+- `DistanceMarker`, which draws a double-ended dimension arrow with an optional pixel offset.
+
+All line-based primitives default to a one-pixel `currentColor` stroke and no fill, so an application can theme them through ordinary CSS.
+
+
 ## Styling
 
 The package will not depend on Material UI or another application theme system. Drawing primitives will use normal CSS conventions such as `currentColor`, allowing applications to connect their own theme through a small wrapper component.
