@@ -1,12 +1,12 @@
 import React from 'react'
 
+import { Circle, Curve, Line } from '@step-wise/drawing'
 import { Quantity } from '@step-wise/physics-core'
 import { maximumHumidityByTemperature } from '@step-wise/physics-data'
 import { M } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
 import { useColor } from 'ui/theme'
-import { Line, Circle, Curve } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
@@ -44,8 +44,8 @@ const steps = [
 			return <>
 				<Par>Bij een temperatuur van <M>{T1}</M> en een relatieve luchtvochtigheid van <M>{startRH.setUnit('%')}</M> kunnen we opzoeken dat de absolute luchtvochtigheid <M>AH_(in) = {startAH}</M> is.</Par>
 				<MollierDiagram maxWidth={500}>
-					<Line points={[[startAH.number, 0], [startAH.number, T1.number], [0, T1.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
-					<Circle center={[startAH.number, T1.number]} graphicalRadius={3} style={{ fill: color }} />
+					<Line positions={[[startAH.number, 0], [startAH.number, T1.number], [0, T1.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
+					<Circle center={[startAH.number, T1.number]} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
 				</MollierDiagram>
 			</>
 		},
@@ -72,11 +72,11 @@ const steps = [
 				<Par>Voordat we de <M>{T3}</M> bereiken komen we echter op de 100% luchtvochtigheidslijn aan. De luchtvochtigheid kan nooit hoger dan 100% worden. Dit betekent dat een deel van de vocht in de lucht gaat condenseren en als druppels naar beneden valt.</Par>
 				<Par>Bij het condenseren blijft de relatieve luchtvochtigheid 100%. Als we uiteindelijk de <M>{T3}</M> bereiken, dan kunnen we dus direct de absolute luchtvochtigheid aflezen. Deze is <M>AH_(tussen) = {endAH}.</M> Dit is de hoeveelheid vocht die nog over is in de lucht. De rest is gecondenseerd.</Par>
 				<MollierDiagram maxWidth={500}>
-					<Line points={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
-					<Curve points={points} style={{ stroke: color, strokeWidth: 2 }} />
-					<Circle center={point1} graphicalRadius={3} style={{ fill: color }} />
-					<Circle center={point2} graphicalRadius={3} style={{ fill: color }} />
-					<Circle center={point3} graphicalRadius={3} style={{ fill: color }} />
+					<Line positions={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
+					<Curve positions={points} smoothing={{ mode: 'through' }} style={{ stroke: color, strokeWidth: 2 }} />
+					<Circle center={point1} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+					<Circle center={point2} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+					<Circle center={point3} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
 				</MollierDiagram>
 			</>
 		},
@@ -102,14 +102,14 @@ const steps = [
 			return <>
 				<Par>Vanaf het vorige punt gaan we recht omhoog, met constante absolute luchtvochtigheid <M>AH = {endAH},</M> tot we de <M>{T4}</M> bereikt hebben. Op dit punt is de relatieve luchtvochtigheid <M>RV_(uit) = {endRH.setUnit('%')}.</M> Dit is de relatieve luchtvochtigheid van de uitstromende lucht.</Par>
 				<MollierDiagram maxWidth={500}>
-					<Line points={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
-					<Curve points={points} style={{ stroke: color, strokeWidth: 2 }} />
-					<Line points={[point3, point4]} style={{ stroke: color, strokeWidth: 2 }} />
-					<Line points={[point4, [0, point4[1]]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
-					<Circle center={point1} graphicalRadius={3} style={{ fill: color }} />
-					<Circle center={point2} graphicalRadius={3} style={{ fill: color }} />
-					<Circle center={point3} graphicalRadius={3} style={{ fill: color }} />
-					<Circle center={point4} graphicalRadius={3} style={{ fill: color }} />
+					<Line positions={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
+					<Curve positions={points} smoothing={{ mode: 'through' }} style={{ stroke: color, strokeWidth: 2 }} />
+					<Line positions={[point3, point4]} style={{ stroke: color, strokeWidth: 2 }} />
+					<Line positions={[point4, [0, point4[1]]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
+					<Circle center={point1} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+					<Circle center={point2} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+					<Circle center={point3} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+					<Circle center={point4} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
 				</MollierDiagram>
 				<Par>Over het algemeen wordt een relatieve luchtvochtigheid tussen de grofweg <M>{new Quantity('45%')}</M> en <M>{new Quantity('60%')}</M> als comfortabel beschouwd, dus deze airco lijkt goed afgesteld te zijn.</Par>
 			</>

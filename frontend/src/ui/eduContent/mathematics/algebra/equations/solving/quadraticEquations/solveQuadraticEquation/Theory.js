@@ -1,12 +1,12 @@
 import React from 'react'
 
+import { Axes, Curve, Grid, Plot } from '@step-wise/drawing'
 import { subdivideRange } from '@step-wise/js-utils'
 import { M, BM } from '@step-wise/math-display'
 
 import { Translation } from 'i18n'
 import { Head, Par, List, Term, Emp, Info } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
-import { Drawing, usePlotTransformationSettings, Axes, Group, Curve } from 'ui/figures'
 
 export function Theory() {
 	return <>
@@ -120,12 +120,12 @@ function QuadraticPlot({ a = 1, b = 0, c = 0, minX = -3, maxX = 3, minY = 2, max
 	const points = subdivideRange(curveMinX, curveMinY, 100).map(x => ({ x, y: f(x) }))
 
 	// Set up plot.
-	const transformationSettings = usePlotTransformationSettings([[minX, minY], [maxX, maxY]], { maxHeight: 200, maxWidth: 400, extendBoundsToTicks: true, margin: [20, 4] })
-	return <Drawing transformationSettings={transformationSettings}>
-		<Axes xLabel={<M>x</M>} yLabel={<M>{a === 1 ? '' : a}x^2 {b > 0 ? `+${b}` : b}x {c > 0 ? `+${c}` : c}</M>} xLabelShift={-4} yLabelShift={-4} />
-		{/* <MouseLines pointToLabel={pointToRelativeHumidity} /> */}
-		<Group overflow={false}>
-			<Curve points={points} style={{ strokeWidth: 2 }} />
-		</Group>
-	</Drawing>
+	return <Plot axes={{ x: { ticks: { desiredCount: 9 } }, y: { ticks: { desiredCount: 8 } } }} bounds={{ min: [minX, minY], max: [maxX, maxY] }} view={{ type: 'fit', maxHeight: 200, maxWidth: 400, margin: [20, 4] }}>
+		<Grid />
+		<Axes
+			x={{ label: <M>x</M>, labelOffset: 13, labelProps: { scale: 0.65 }, lineProps: { opacity: 0.9, strokeWidth: 0.5 }, oppositeTickSize: 0, tickLabelOffset: -1, tickLabelProps: { scale: 0.65 }, tickProps: { opacity: 0.9, strokeWidth: 0.5 } }}
+			y={{ label: <M>{a === 1 ? '' : a}x^2 {b > 0 ? `+${b}` : b}x {c > 0 ? `+${c}` : c}</M>, labelOffset: 18, labelProps: { scale: 0.65 }, lineProps: { opacity: 0.9, strokeWidth: 0.5 }, oppositeTickSize: 0, tickLabelOffset: 2, tickLabelProps: { scale: 0.65 }, tickProps: { opacity: 0.9, strokeWidth: 0.5 } }}
+		/>
+		<Curve positions={points} smoothing={{ mode: 'through' }} strokeWidth={2} />
+	</Plot>
 }

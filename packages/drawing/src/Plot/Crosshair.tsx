@@ -17,6 +17,8 @@ export interface CrosshairProps {
 	formatXValue?: (value: number) => ReactNode
 	formatYValue?: (value: number) => ReactNode
 	getPointLabel?: (position: readonly [number, number]) => ReactNode
+	pointLabelAngle?: number
+	pointLabelDistance?: LabelProps['distance']
 
 	// What props should be passed to the underlying elements?
 	lineProps?: Omit<LineProps, 'positions'>
@@ -26,7 +28,7 @@ export interface CrosshairProps {
 
 export function Crosshair(props: CrosshairProps) {
 	// Load the provided props and the plot context.
-	const { formatXValue = defaultFormatValue, formatYValue = defaultFormatValue, getPointLabel, labelProps, lineProps, markerProps, showAxisValues = true, showMarker = true, showXLine = true, showYLine = true } = props
+	const { formatXValue = defaultFormatValue, formatYValue = defaultFormatValue, getPointLabel, labelProps, lineProps, markerProps, pointLabelAngle, pointLabelDistance = { pixelDistance: 2 }, showAxisValues = true, showMarker = true, showXLine = true, showYLine = true } = props
 	const { drawingPosition, isInside } = useDrawingPointerState()
 	const { axes, domain } = usePlot()
 
@@ -37,23 +39,29 @@ export function Crosshair(props: CrosshairProps) {
 	const position: readonly [number, number] = [drawingPosition.x, drawingPosition.y]
 	const xLabelAngle = drawingPosition.y >= axes.x.position ? -Math.PI / 2 : Math.PI / 2
 	const yLabelAngle = drawingPosition.x >= axes.y.position ? Math.PI : 0
-	const pointLabelAngle = domain.midpoint.subtract(drawingPosition).angle
+	const resolvedPointLabelAngle = pointLabelAngle ?? getOutwardLabelAngle(drawingPosition.x - axes.y.position, drawingPosition.y - axes.x.position)
 	
 	// Render the lines/markers.
 	const pointLabel = getPointLabel?.(position)
 	return <>
 		{/* Line/marker for x-axis. */}
-		{showXLine && <Line strokeDasharray="4 4" strokeWidth={1} {...lineProps} positions={[[drawingPosition.x, axes.x.position], drawingPosition]} />}
-		{showAxisValues && showXLine && <Label distance={{ pixelDistance: 8 }} {...labelProps} angle={xLabelAngle} position={[drawingPosition.x, axes.x.position]}>{formatXValue(drawingPosition.x)}</Label>}
+		{showXLine && <Line strokeDasharray="4 2" strokeWidth={1} {...lineProps} positions={[[drawingPosition.x, axes.x.position], drawingPosition]} />}
+		{showAxisValues && showXLine && <Label distance={{ pixelDistance: 2 }} {...labelProps} angle={xLabelAngle} position={[drawingPosition.x, axes.x.position]}>{formatXValue(drawingPosition.x)}</Label>}
 
 		{/* Line/marker for y-axis. */}
-		{showYLine && <Line strokeDasharray="4 4" strokeWidth={1} {...lineProps} positions={[[axes.y.position, drawingPosition.y], drawingPosition]} />}
-		{showAxisValues && showYLine && <Label distance={{ pixelDistance: 8 }} {...labelProps} angle={yLabelAngle} position={[axes.y.position, drawingPosition.y]}>{formatYValue(drawingPosition.y)}</Label>}
+		{showYLine && <Line strokeDasharray="4 2" strokeWidth={1} {...lineProps} positions={[[axes.y.position, drawingPosition.y], drawingPosition]} />}
+		{showAxisValues && showYLine && <Label distance={{ pixelDistance: 2 }} {...labelProps} angle={yLabelAngle} position={[axes.y.position, drawingPosition.y]}>{formatYValue(drawingPosition.y)}</Label>}
 
 		{/* Point marker. */}
-		{showMarker && <Circle fill="currentColor" radius={{ pixelDistance: 4 }} {...markerProps} center={drawingPosition} />}
-		{pointLabel !== undefined && <Label distance={{ pixelDistance: 10 }} {...labelProps} angle={pointLabelAngle} position={drawingPosition}>{pointLabel}</Label>}
+		{showMarker && <Circle fill="currentColor" radius={{ pixelDistance: 2.5 }} {...markerProps} center={drawingPosition} />}
+		{pointLabel !== undefined && <Label {...labelProps} angle={resolvedPointLabelAngle} distance={pointLabelDistance} position={drawingPosition}>{pointLabel}</Label>}
 	</>
+}
+
+// Point a label diagonally away from the intersection of the plot axes, or straight out when the point lies on an axis.
+function getOutwardLabelAngle(relativeX: number, relativeY: number): number {
+	if (relativeX === 0 && relativeY === 0) return Math.PI / 4
+	return Math.atan2(Math.sign(relativeY), Math.sign(relativeX))
 }
 
 function defaultFormatValue(value: number): string {

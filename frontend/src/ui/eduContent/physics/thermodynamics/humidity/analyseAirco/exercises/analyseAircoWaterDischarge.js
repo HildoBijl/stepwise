@@ -1,12 +1,12 @@
 import React from 'react'
 
+import { Circle, Curve, Line } from '@step-wise/drawing'
 import { Unit } from '@step-wise/physics-core'
 import { maximumHumidityByTemperature } from '@step-wise/physics-data'
 import { M, BM } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
 import { useColor } from 'ui/theme'
-import { Line, Circle, Curve } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
@@ -46,8 +46,8 @@ const steps = [
 			return <>
 				<Par>Bij een temperatuur van <M>{T1}</M> en een relatieve luchtvochtigheid van <M>{startRH.setUnit('%')}</M> kunnen we opzoeken dat de absolute luchtvochtigheid <M>AH_(in) = {startAH}</M> is.</Par>
 				<MollierDiagram maxWidth={500}>
-					<Line points={[[startAH.number, 0], [startAH.number, T1.number], [0, T1.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
-					<Circle center={[startAH.number, T1.number]} graphicalRadius={3} style={{ fill: color }} />
+					<Line positions={[[startAH.number, 0], [startAH.number, T1.number], [0, T1.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
+					<Circle center={[startAH.number, T1.number]} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
 				</MollierDiagram>
 			</>
 		},
@@ -67,8 +67,8 @@ const steps = [
 			return <>
 				<Par>Bij een temperatuur van <M>{T4}</M> en een relatieve luchtvochtigheid van <M>{endRH.setUnit('%')}</M> kunnen we opzoeken dat de absolute luchtvochtigheid <M>AH_(uit) = {endAH}</M> is.</Par>
 				<MollierDiagram maxWidth={500}>
-					<Line points={[[endAH.number, 0], [endAH.number, T4.number], [0, T4.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
-					<Circle center={[endAH.number, T4.number]} graphicalRadius={3} style={{ fill: color }} />
+					<Line positions={[[endAH.number, 0], [endAH.number, T4.number], [0, T4.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
+					<Circle center={[endAH.number, T4.number]} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
 				</MollierDiagram>
 			</>
 		},
@@ -95,13 +95,13 @@ const steps = [
 				<Par>We bekijken de gehele cyclus. Bij het opwarmen/afkoelen van lucht blijft de absolute luchtvochtigheid altijd constant. We gaan vanaf het beginpunt dus verticaal omlaag in het Mollier diagram.</Par>
 				<Par>Na verloop van tijd bereiken we de 100% luchtvochtigheidslijn. Als we nu nog verder afkoelen (wat we ook doen) dan zal vocht in de lucht condenseren en als druppels naar beneden vallen. Immers, de relatieve luchtvochtigheid kan nooit groter dan 100% worden. De 100% luchtvochtigheidslijn geeft vervolgens aan hoeveel vocht er nog in de lucht overblijft.</Par>
 				<MollierDiagram maxWidth={500}>
-					<Line points={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
-					<Curve points={points} style={{ stroke: color, strokeWidth: 2 }} />
-					<Line points={[point3, point4]} style={{ stroke: color, strokeWidth: 2 }} />
-					<Circle center={point1} graphicalRadius={3} style={{ fill: color }} />
-					<Circle center={point2} graphicalRadius={3} style={{ fill: color }} />
-					<Circle center={point3} graphicalRadius={3} style={{ fill: color }} />
-					<Circle center={point4} graphicalRadius={3} style={{ fill: color }} />
+					<Line positions={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
+					<Curve positions={points} smoothing={{ mode: 'through' }} style={{ stroke: color, strokeWidth: 2 }} />
+					<Line positions={[point3, point4]} style={{ stroke: color, strokeWidth: 2 }} />
+					<Circle center={point1} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+					<Circle center={point2} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+					<Circle center={point3} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+					<Circle center={point4} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
 				</MollierDiagram>
 				<Par>We weten dat de lucht uiteindelijk een absolute luchtvochtigheid van <M>{endAH}</M> heeft. Als we de 100% luchtvochtigheidslijn volgen tot dit punt, dan zien we dat dit bij een temperatuur van <M>T_(tussen) = {T3}</M> is. De airco koelt de lucht dus tot deze temperatuur.</Par>
 			</>

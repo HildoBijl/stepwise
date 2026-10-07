@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Circle, Curve, Line } from '@step-wise/drawing'
 import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
 import { Quantity } from '@step-wise/physics-core'
 import { maximumHumidityByTemperature } from '@step-wise/physics-data'
@@ -7,7 +8,6 @@ import { M } from '@step-wise/math-display'
 
 import { useColor } from 'ui/theme'
 import { Head, Par, List, Term, Emp } from 'ui/components'
-import { Curve, Line, Circle } from 'ui/figures'
 import { SkillLink } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
@@ -69,14 +69,14 @@ function AircoProcess() {
 	const points = [point2, ...linePoints.filter(point => point[1] < T2.number && point[1] > T3.number).reverse(), point3]
 
 	return <MollierDiagram maxWidth={500}>
-		<Line points={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
-		<Curve points={points} style={{ stroke: color, strokeWidth: 2 }} />
-		<Line points={[point3, point4]} style={{ stroke: color, strokeWidth: 2 }} />
-		<Line points={[[point1[0], 0], point1, [0, point1[1]]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
-		<Line points={[[point4[0], 0], point4, [0, point4[1]]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
-		<Circle center={point1} graphicalRadius={3} style={{ fill: color }} />
-		<Circle center={point2} graphicalRadius={3} style={{ fill: color }} />
-		<Circle center={point3} graphicalRadius={3} style={{ fill: color }} />
-		<Circle center={point4} graphicalRadius={3} style={{ fill: color }} />
+		<Line positions={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
+		<Curve positions={points} smoothing={{ mode: 'through' }} style={{ stroke: color, strokeWidth: 2 }} />
+		<Line positions={[point3, point4]} style={{ stroke: color, strokeWidth: 2 }} />
+		<Line positions={[[point1[0], 0], point1, [0, point1[1]]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
+		<Line positions={[[point4[0], 0], point4, [0, point4[1]]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
+		<Circle center={point1} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+		<Circle center={point2} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+		<Circle center={point3} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+		<Circle center={point4} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
 	</MollierDiagram>
 }

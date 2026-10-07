@@ -1,11 +1,11 @@
 import React from 'react'
 
+import { Circle, Line } from '@step-wise/drawing'
 import { Unit } from '@step-wise/physics-core'
 import { M, BM } from '@step-wise/math-display'
 
 import { useColor } from 'ui/theme'
 import { Par } from 'ui/components'
-import { Line, Circle } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
@@ -33,10 +33,10 @@ function Solution({ T, RH, AHmax, AH }) {
 	return <>
 		<Par>In het Mollier diagram kunnen we direct bij <M>T = {T}</M> en <M>RV = {RH.setUnit('%')}</M> opzoeken dat <M>AV = {AH}.</M></Par>
 		<MollierDiagram maxWidth={500}>
-			<Line points={[[AHmax.number, 0], [AHmax.number, T.number], [0, T.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
-			<Line points={[[AH.number, 0], [AH.number, T.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
-			<Circle center={[AHmax.number, T.number]} graphicalRadius={3} style={{ fill: color }} />
-			<Circle center={[AH.number, T.number]} graphicalRadius={3} style={{ fill: color }} />
+			<Line positions={[[AHmax.number, 0], [AHmax.number, T.number], [0, T.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
+			<Line positions={[[AH.number, 0], [AH.number, T.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
+			<Circle center={[AHmax.number, T.number]} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+			<Circle center={[AH.number, T.number]} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
 		</MollierDiagram>
 		<Par>Eventueel hadden we als omweg ook op kunnen zoeken dat <BM>AV_(max) = {AHmax}.</BM> Hiermee volgt de absolute luchtvochtigheid als <BM>AV = RV \cdot AV_(max) = {RH.value} \cdot {AHmax.value} = {AH}.</BM></Par>
 	</>

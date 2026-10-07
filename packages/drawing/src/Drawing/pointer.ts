@@ -16,9 +16,10 @@ export interface DrawingPointerState {
 export function useDrawingPointerState(): DrawingPointerState {
 	const { position: clientPosition, modifierKeys } = usePointerState()
 	const { coordinateSystem, element } = useDrawing()
+	const clientBounds = element?.getBoundingClientRect()
 
 	// On insufficient data, return a state with undefined positions.
-	if (clientPosition === undefined || element === null) return {
+	if (clientPosition === undefined || element === null || clientBounds === undefined || clientBounds.width <= 0 || clientBounds.height <= 0) return {
 		clientPosition,
 		renderPosition: undefined,
 		pixelPosition: undefined,
@@ -28,7 +29,6 @@ export function useDrawingPointerState(): DrawingPointerState {
 	}
 
 	// Convert the client position to render coordinates, then to pixel and drawing coordinates.
-	const clientBounds = element.getBoundingClientRect()
 	const renderPosition = coordinateSystem.clientToRender(clientPosition, clientBounds)
 	return {
 		clientPosition,

@@ -21,7 +21,7 @@ export function Grid(props: GridProps) {
 
 	// Render the grid lines for the x and y axes.
 	return <>
-		{x && axes.x.ticks.filter(value => !excludeAxes || value !== axes.y.position).map(value => <Line key={`x-${value}`} opacity={0.15} strokeWidth={1} {...lineProps} {...xLineProps} positions={[[value, domain.min.y], [value, domain.max.y]]} />)}
-		{y && axes.y.ticks.filter(value => !excludeAxes || value !== axes.x.position).map(value => <Line key={`y-${value}`} opacity={0.15} strokeWidth={1} {...lineProps} {...yLineProps} positions={[[domain.min.x, value], [domain.max.x, value]]} />)}
+		{x && axes.x.ticks.filter(value => !excludeAxes || value !== axes.y.position).map(value => <Line key={`x-${value}`} opacity={0.15} strokeWidth={0.5} {...lineProps} {...xLineProps} positions={[[value, domain.min.y], [value, domain.max.y]]} />)}
+		{y && axes.y.ticks.filter(value => !excludeAxes || value !== axes.x.position).map(value => <Line key={`y-${value}`} opacity={0.15} strokeWidth={0.5} {...lineProps} {...yLineProps} positions={[[domain.min.x, value], [domain.max.x, value]]} />)}
 	</>
 }

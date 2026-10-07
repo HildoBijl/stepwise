@@ -1,12 +1,12 @@
 import React from 'react'
 
+import { Circle, Curve, Line } from '@step-wise/drawing'
 import { Unit } from '@step-wise/physics-core'
 import { maximumHumidityByTemperature } from '@step-wise/physics-data'
 import { M, BM } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
 import { useColor } from 'ui/theme'
-import { Line, Circle, Curve } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
@@ -47,19 +47,19 @@ const steps = [
 			const point2 = [startAH.number, T2.number]
 			const point3 = [endAH.number, T3.number]
 			const point4 = [endAH.number, T4.number]
-			const points = [point2, ...linePoints.filter(point => point.output < T2.number && point.output > T3.number).reverse(), point3]
+			const points = [point2, ...linePoints.filter(point => point[1] < T2.number && point[1] > T3.number).reverse(), point3]
 
 			return <>
 				<Par>De uitstromende lucht heeft een temperatuur van <M>{T4}</M> en een relatieve luchtvochtigheid van <M>{endRH.setUnit('%')}.</M> De absolute luchtvochtigheid hier is dus <M>{endAH}.</M> Om op deze absolute luchtvochtigheid te komen is de lucht hiervoor (op 100% luchtvochtigheid) gekoeld tot <M>T_(tussen) = {T3},</M> af te lezen uit ons Mollier-diagram.</Par>
 				<MollierDiagram maxWidth={500}>
-					<Line points={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
-					<Curve points={points} style={{ stroke: color, strokeWidth: 2 }} />
-					<Line points={[point3, point4]} style={{ stroke: color, strokeWidth: 2 }} />
-					<Line points={[[point3[0], 0], point3, [0, point3[1]]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
-					<Circle center={point1} graphicalRadius={3} style={{ fill: color }} />
-					<Circle center={point2} graphicalRadius={3} style={{ fill: color }} />
-					<Circle center={point3} graphicalRadius={3} style={{ fill: color }} />
-					<Circle center={point4} graphicalRadius={3} style={{ fill: color }} />
+					<Line positions={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
+					<Curve positions={points} smoothing={{ mode: 'through' }} style={{ stroke: color, strokeWidth: 2 }} />
+					<Line positions={[point3, point4]} style={{ stroke: color, strokeWidth: 2 }} />
+					<Line positions={[[point3[0], 0], point3, [0, point3[1]]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
+					<Circle center={point1} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+					<Circle center={point2} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+					<Circle center={point3} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
+					<Circle center={point4} radius={{ pixelDistance: 3 }} style={{ fill: color }} />
 				</MollierDiagram>
 			</>
 		},

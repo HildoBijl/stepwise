@@ -9,7 +9,7 @@ import { anchors } from '../../positioning/index.ts'
 
 import { CornerLabel } from './CornerLabel.tsx'
 import { HtmlElement } from './HtmlElement.tsx'
-import { Label } from './Label.tsx'
+import { getAnchorFromAngle, Label } from './Label.tsx'
 import { LineLabel } from './LineLabel.tsx'
 
 afterEach(() => {
@@ -51,6 +51,15 @@ describe('HTML drawing primitives', () => {
 		const label = screen.getByText('Label')
 		expect(label.style.left).toBe('20px')
 		expect(label.style.top).toBe('20px')
+	})
+
+	test('uses stable corner anchors at diagonal label angles', () => {
+		const angle = Math.PI * 5 / 4
+		for (const delta of [-Number.EPSILON, 0, Number.EPSILON]) {
+			const anchor = getAnchorFromAngle(angle + delta)
+			expect(anchor.x).toBeCloseTo(-1)
+			expect(anchor.y).toBeCloseTo(-1)
+		}
 	})
 
 	test('follows an upward pixel direction for offsets, anchors, and rotations', () => {

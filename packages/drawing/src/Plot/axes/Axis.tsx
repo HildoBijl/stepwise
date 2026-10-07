@@ -33,7 +33,7 @@ export interface AxisProps {
 
 export function Axis({ axis, ...props }: AxisProps & { axis: 'x' | 'y' }) {
 	// Load the provided props and the plot context.
-	const { formatTick = defaultTickFormatter, label, labelOffset = 32, labelProps, lineProps, oppositeTickSize = 3, showLine = true, showTickLabels = true, showTicks = true, showZeroTick = false, tickLabelOffset = 5, tickLabelProps, tickProps, tickSize = 5 } = props
+	const { showLine = true, showTicks = true, showTickLabels = true, showZeroTick = false, label, formatTick = defaultTickFormatter, tickSize = 5, oppositeTickSize = 0, tickLabelOffset = axis === 'x' ? -1 : 2, labelOffset = axis === 'x' ? 17 : 22, lineProps, tickProps, labelProps, tickLabelProps } = props
 	const { domain } = usePlot()
 	const resolvedAxis = usePlotAxis(axis)
 
@@ -51,7 +51,7 @@ export function Axis({ axis, ...props }: AxisProps & { axis: 'x' | 'y' }) {
 	// Render the axis line, ticks, tick labels, and axis label.
 	return <>
 		{/* Axis line. */}
-		{ensureBoolean(showLine) && <Line strokeWidth={1} {...lineProps} positions={linePositions} />}
+		{ensureBoolean(showLine) && <Line opacity={0.9} strokeWidth={0.5} {...lineProps} positions={linePositions} />}
 
 		{/* Ticks. */}
 		{ticks.map((value, index) => {
@@ -60,15 +60,15 @@ export function Axis({ axis, ...props }: AxisProps & { axis: 'x' | 'y' }) {
 			const endOffset = axis === 'x' ? [0, resolvedOppositeTickSize] : [resolvedOppositeTickSize, 0]
 			return <Fragment key={value}>
 				{/* Tick lines. */}
-				{ensureBoolean(showTicks) && <Line strokeWidth={1} {...tickProps} positions={[{ position: point, pixelOffset: startOffset }, { position: point, pixelOffset: endOffset }]} />}
+				{ensureBoolean(showTicks) && <Line opacity={0.9} strokeWidth={0.5} {...tickProps} positions={[{ position: point, pixelOffset: startOffset }, { position: point, pixelOffset: endOffset }]} />}
 
 				{/* Tick labels. */}
-				{ensureBoolean(showTickLabels) && <Label scale={0.85} {...tickLabelProps} angle={outwardAngle} distance={{ pixelDistance: resolvedTickSize + ensureNumber(tickLabelOffset) }} position={point}>{formatTick(value, index)}</Label>}
+				{ensureBoolean(showTickLabels) && <Label scale={0.7} {...tickLabelProps} angle={outwardAngle} distance={{ pixelDistance: resolvedTickSize + ensureNumber(tickLabelOffset) }} position={point}>{formatTick(value, index)}</Label>}
 			</Fragment>
 		})}
 
 		{/* Axis label. */}
-		{label !== undefined && <Label {...labelProps} angle={outwardAngle} distance={{ pixelDistance: ensureNumber(labelOffset) }} position={axis === 'x' ? [domain.midpoint.x, position] : [position, domain.midpoint.y]} rotate={axis === 'y' ? Math.PI / 2 : 0}>{label}</Label>}
+		{label !== undefined && <Label scale={0.8} {...labelProps} angle={outwardAngle} distance={{ pixelDistance: ensureNumber(labelOffset) }} position={axis === 'x' ? [domain.midpoint.x, position] : [position, domain.midpoint.y]} rotate={axis === 'y' ? Math.PI / 2 : 0}>{label}</Label>}
 	</>
 }
 

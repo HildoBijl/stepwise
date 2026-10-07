@@ -57,6 +57,20 @@ describe('Drawing pointer tracking', () => {
 		expect(screen.getByText('drawing:undefined')).toBeTruthy()
 		expect(screen.getByText('inside:false')).toBeTruthy()
 	})
+
+	test('returns unresolved local positions when the Drawing is hidden', () => {
+		const { container } = render(<Drawing view={{ type: 'identity', width: 100, height: 50 }}><PointerReader /></Drawing>)
+		const drawingElement = container.querySelector('svg')!.parentElement!
+		vi.spyOn(drawingElement, 'getBoundingClientRect').mockReturnValue({ left: 0, top: 0, width: 0, height: 0 } as DOMRect)
+
+		movePointer(110, 50)
+
+		expect(screen.getByText('client:110,50')).toBeTruthy()
+		expect(screen.getByText('render:undefined')).toBeTruthy()
+		expect(screen.getByText('pixel:undefined')).toBeTruthy()
+		expect(screen.getByText('drawing:undefined')).toBeTruthy()
+		expect(screen.getByText('inside:false')).toBeTruthy()
+	})
 })
 
 function PointerReader() {

@@ -37,9 +37,9 @@ export function getAnchorFromAngle(angle: number): Vector {
 	const processCoordinate = (coordinateAngle: number) => {
 		coordinateAngle = mod(coordinateAngle, 2 * Math.PI)
 		if (coordinateAngle <= Math.PI / 4) return 1
-		if (coordinateAngle < Math.PI * 3 / 4) return -0.5 * Math.tan(coordinateAngle - Math.PI / 2)
+		if (coordinateAngle < Math.PI * 3 / 4) return -Math.tan(coordinateAngle - Math.PI / 2)
 		if (coordinateAngle <= Math.PI * 5 / 4) return -1
-		if (coordinateAngle <= Math.PI * 7 / 4) return 0.5 * Math.tan(coordinateAngle - Math.PI * 3 / 2)
+		if (coordinateAngle <= Math.PI * 7 / 4) return Math.tan(coordinateAngle - Math.PI * 3 / 2)
 		return 1
 	}
 	return new VectorClass(processCoordinate(angle), processCoordinate(angle - Math.PI / 2))

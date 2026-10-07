@@ -60,7 +60,7 @@ Drawing contents may overflow their fixed internal bounds by default. Set `clip`
 
 Drawing hooks expose the current context and coordinate system. A `DrawingHandle` ref additionally provides the Drawing element, SVG, Canvas, 2D Canvas context, dimensions, coordinate system, and drawing/client conversion methods. This supports both custom Canvas rendering and components outside the Drawing that need access to its resolved view.
 
-Pointer tracking is available through `useDrawingPointerState`. It provides client, render, pixel, and drawing positions, the current modifier keys, and whether the pointer lies inside the Drawing. Positions remain available outside the Drawing, allowing dragging interactions to continue after crossing its edge.
+Pointer tracking is available through `useDrawingPointerState`. It provides client, render, pixel, and drawing positions, the current modifier keys, and whether the pointer lies inside the Drawing. Positions remain available outside the Drawing, allowing dragging interactions to continue after crossing its edge. A hidden Drawing with zero client dimensions reports unresolved local positions until it becomes measurable again.
 
 ```tsx
 const { drawingPosition, pixelPosition, isInside, modifierKeys } = useDrawingPointerState()
@@ -338,7 +338,7 @@ Axes are explicit rather than automatic. `Axes` composes the separately exported
 
 `Grid` renders independently customizable x/y grid lines. `PlotArea` supplies an SVG group clipped to the mathematical domain, leaving axes and labels in the Drawing margins visible. Its clipping can be disabled with `clip={false}`.
 
-`Crosshair` tracks the Drawing pointer while it lies inside the Plot domain. It can render lines to the axes, a point marker, formatted axis values, and an optional point label through `getPointLabel`. `formatXValue` and `formatYValue` only format their respective axis values.
+`Crosshair` tracks the Drawing pointer while it lies inside the Plot domain. It can render lines to the axes, a point marker, formatted axis values, and an optional point label through `getPointLabel`. Point labels are placed away from the intersection of the two axes; `pointLabelAngle` can select a fixed direction and `pointLabelDistance` can adjust the spacing. `formatXValue` and `formatYValue` only format their respective axis values.
 
 Plot hooks expose the resolved data for custom extensions: `usePlot`, `usePlotDomain`, `usePlotAxis`, and `usePlotTicks`.
 
