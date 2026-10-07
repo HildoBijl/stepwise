@@ -23,8 +23,9 @@ export function Moment(props: MomentProps) {
 	const direction = engineeringDirectionToPixel(ensureBoolean(clockwise), coordinateSystem.yDirection)
 	const resolvedOpeningDirection = engineeringAngleToPixel(ensureNumber(openingDirection), coordinateSystem.yDirection)
 	const resolvedSpread = ensureNumber(spread, { nonNegative: true, nonZero: true })
-	const startAngle = resolvedOpeningDirection - direction * resolvedSpread / 2
-	const endAngle = resolvedOpeningDirection + direction * resolvedSpread / 2
+	const openingSpread = 2 * Math.PI - resolvedSpread
+	const startAngle = resolvedOpeningDirection + direction * openingSpread / 2
+	const endAngle = startAngle + direction * resolvedSpread
 
 	// Render the moment as an arc with an arrow.
 	return <Arc {...arcProps} center={position} className={className} endAngle={endAngle} endArrow radius={radius} ref={ref} startAngle={startAngle} stroke={color} strokeWidth={strokeWidth} />

@@ -11,7 +11,7 @@ export interface HingeSupportProps extends SupportProps {
 
 export function HingeSupport(props: HingeSupportProps) {
 	const { angle = Math.PI / 2, groundProps, height = 20, hingeProps, ref, thickness = 2, triangleProps, width = 32, ...symbolProps } = props
-	return <PositionedSvgSymbol {...symbolProps} angle={angle - Math.PI / 2} className={symbolProps.className ?? 'hingeSupport'} ref={ref}>
+	return <PositionedSvgSymbol {...symbolProps} angle={Math.PI / 2 - angle} className={symbolProps.className ?? 'hingeSupport'} ref={ref}>
 		<SupportTriangleShape {...triangleProps} height={height} thickness={thickness} width={width} />
 		<g transform={`translate(0 ${height})`}>
 			<GroundShape {...groundProps} thickness={thickness} />

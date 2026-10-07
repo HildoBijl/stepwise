@@ -1,10 +1,11 @@
 import React from 'react'
 
+import { LoadLabel } from '@step-wise/engineering-diagrams'
 import { isLoad } from '@step-wise/engineering-mechanics'
+import { M } from '@step-wise/math-display'
+import { loadNameToVariable } from '@step-wise/mechanics-exercises'
 
 import { useInputValue, useDrawingInputData } from 'ui/inputs'
-
-import { LoadLabel } from '../../EngineeringDiagram'
 
 import { getDragObjectData } from '../support'
 
@@ -24,5 +25,5 @@ export function LoadLabels({ options }) {
 
 	// Obtain the names and render them.
 	const loadNames = getLoadNames(loads)
-	return loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)
+	return loadNames.map(({ load, name }, index) => <LoadLabel key={index} load={load}><M>{loadNameToVariable(name)}</M></LoadLabel>)
 }

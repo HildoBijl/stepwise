@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { useTheme } from '@mui/material'
 
-import { Square as SvgSquare } from 'ui/figures'
+import { Square as SvgSquare } from '@step-wise/drawing'
 
 import { useDrawingInputData } from '../context'
 import { markerSquareSide } from '../snapping'
@@ -16,5 +16,5 @@ export const DragMarker = forwardRef((_, ref) => {
 
 	// Render the marker.
 	const { snappedPosition } = mouseDownData
-	return <SvgSquare ref={ref} center={snappedPosition} graphicalSide={markerSquareSide} style={{ fill: 'none', stroke: theme.palette.secondary.dark, strokeWidth: 2 }} />
+	return <SvgSquare ref={ref} center={snappedPosition} side={{ pixelDistance: markerSquareSide }} fill="none" stroke={theme.palette.secondary.dark} strokeWidth={2} />
 })

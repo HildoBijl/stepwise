@@ -1,11 +1,9 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Box } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 
 import { resolveFunctionValuesDeep } from '@step-wise/js-utils'
-import { useEventListener } from '@step-wise/react-utils'
-
-import { Element, useGraphicalBounds } from 'ui/figures'
+import { anchors, HtmlElement, useDrawingCoordinateSystem } from '@step-wise/drawing'
 
 import { useInput } from '../../../Input'
 
@@ -14,15 +12,13 @@ import { useDrawingInputData } from '../context'
 export function DeleteButton() {
 	const { active, applyDeletion, showDeleteButton, setIsMouseOverButton, isDragging, isSelecting } = useDrawingInputData()
 	const [FI, setFI] = useInput()
-	const buttonRef = useRef()
-	const graphicalBounds = useGraphicalBounds()
+	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// On a mouse down event on the button, apply deletion.
 	const deletionHandler = (event) => {
 		event.stopPropagation()
 		setFI(FI => applyDeletion(FI))
 	}
-	useEventListener(['mousedown', 'touchstart'], deletionHandler, buttonRef)
 
 	// Check if the button has to be shown. When it's not shown, note that the mouse cannot be over a button. (If this is not done, the mouse still seems to be over a button even after removing the button.)
 	const showButton = applyDeletion && resolveFunctionValuesDeep(showDeleteButton, FI) && active && !isDragging && !isSelecting
@@ -36,8 +32,8 @@ export function DeleteButton() {
 		return null
 
 	// Render the marker.
-	return <Element anchor={[1, 1]} graphicalPosition={[graphicalBounds.width - 10, graphicalBounds.height - 10]} scale={1.3} ignoreMouse={false}>
-		<Box ref={buttonRef} onMouseEnter={() => setIsMouseOverButton(true)} onMouseLeave={() => setIsMouseOverButton(false)} sx={{
+	return <HtmlElement anchor={anchors.bottomRight} position={{ pixelPosition: coordinateSystem.renderToPixel([coordinateSystem.width - 10, coordinateSystem.height - 10]) }} scale={1.3} ignoreMouse={false}>
+		<Box onPointerDown={deletionHandler} onMouseEnter={() => setIsMouseOverButton(true)} onMouseLeave={() => setIsMouseOverButton(false)} sx={{
 			background: '#eee',
 			borderRadius: '10rem',
 			cursor: 'pointer',
@@ -48,5 +44,5 @@ export function DeleteButton() {
 		}}>
 			<Delete />
 		</Box>
-	</Element>
+	</HtmlElement>
 }

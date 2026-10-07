@@ -23,11 +23,13 @@ describe('engineering diagram components', () => {
 		const { container } = renderDrawing(<>
 			<Beam data-testid="beam" positions={[[10, 20], [50, 20], [90, 40]]} />
 			<FixedSupport data-testid="fixed" position={[10, 20]} />
+			<FixedSupport angle={0} data-testid="rotated-fixed" position={[50, 50]} />
 			<RollerHingeSupport data-testid="roller-hinge" position={[90, 40]} />
 		</>)
 		expect(screen.getByTestId('beam').querySelector('.beamLine')?.getAttribute('stroke-width')).toBe('6')
 		expect(screen.getByTestId('beam').querySelectorAll('.beamStrut')).toHaveLength(1)
 		expect(screen.getByTestId('fixed').getAttribute('transform')).toContain('translate(10 80)')
+		expect(screen.getByTestId('rotated-fixed').getAttribute('transform')).toContain('rotate(-90)')
 		expect(screen.getByTestId('roller-hinge').querySelectorAll('circle').length).toBeGreaterThan(1)
 		expect(container.querySelector('svg')?.contains(screen.getByTestId('fixed'))).toBe(true)
 	})
@@ -37,12 +39,14 @@ describe('engineering diagram components', () => {
 			<Force angle={0} color="red" data-testid="force" length={{ pixelDistance: 40 }} position={[50, 50]} />
 			<Force angle={Math.PI / 2} data-testid="vertical-force" length={{ pixelDistance: 40 }} position={[50, 50]} />
 			<Moment clockwise color="blue" data-testid="moment" position={[25, 25]} radius={{ pixelDistance: 15 }} />
+			<Moment clockwise data-testid="half-moment" position={[50, 50]} radius={{ pixelDistance: 15 }} spread={Math.PI} />
 		</>)
 		expect(screen.getByTestId('force').getAttribute('stroke')).toBe('red')
 		expect(screen.getByTestId('force').getAttribute('d')).toBe('M10 50 L35 50')
 		expect(screen.getByTestId('vertical-force').getAttribute('d')).toBe('M50 10 L50 35')
 		expect(screen.getByTestId('moment').getAttribute('stroke')).toBe('blue')
-		expect(container.querySelectorAll('polygon')).toHaveLength(3)
+		expect(screen.getByTestId('half-moment').getAttribute('d')).toMatch(/^M50 65/)
+		expect(container.querySelectorAll('polygon')).toHaveLength(4)
 	})
 
 	test('keeps load labels independent from a math-rendering library', () => {

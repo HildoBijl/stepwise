@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTheme } from '@mui/material'
 
-import { useBounds, Line as SvgLine, Square as SvgSquare } from 'ui/figures'
+import { Line as SvgLine, Square as SvgSquare, useDrawingCoordinateSystem } from '@step-wise/drawing'
 
 import { useDrawingInputData } from '../context'
 
@@ -10,7 +10,8 @@ export const markerSquareSide = 6 // The length of a side (in pixels) of the squ
 export function SnapLines() {
 	const showSnapMarking = useShowSnapMarking()
 	const { mouseData } = useDrawingInputData()
-	const bounds = useBounds()
+	const coordinateSystem = useDrawingCoordinateSystem()
+	const bounds = coordinateSystem.pixelToDrawingTransformation.transform(coordinateSystem.pixelBounds)
 	const theme = useTheme()
 
 	// Should we actually show the snap markings? 
@@ -21,11 +22,7 @@ export function SnapLines() {
 	const { snapLines } = mouseData
 	return snapLines.map((line, index) => {
 		const lineSegment = bounds.getLineIntersection(line)
-		return <SvgLine key={index} points={[lineSegment.start, lineSegment.end]} style={{
-			stroke: theme.palette.primary.main,
-			strokeWidth: 1,
-			opacity: 0.4,
-		}} />
+		return <SvgLine key={index} positions={[lineSegment.start, lineSegment.end]} stroke={theme.palette.primary.main} strokeWidth={1} opacity={0.4} />
 	})
 }
 
@@ -40,30 +37,25 @@ export function SnapMarker() {
 
 	// Render the snap marker.
 	const { snappedPosition } = mouseData
-	return <SvgSquare center={snappedPosition} graphicalSide={markerSquareSide} style={{
-		fill: 'none',
-		stroke: theme.palette.primary.main,
-		strokeWidth: 2,
-		opacity: 0.4,
-	}} />
+	return <SvgSquare center={snappedPosition} side={{ pixelDistance: markerSquareSide }} fill="none" stroke={theme.palette.primary.main} strokeWidth={2} opacity={0.4} />
 }
 
 // useShowSnapMarking uses all the data from the available contexts to see if snap marking should be shown.
 export function useShowSnapMarking() {
 	const { applySnapping, mouseData, snapOnDrag, isSelecting, isDragging, isMouseOverButton } = useDrawingInputData()
-	const bounds = useBounds()
+	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// If snapping is not requested, do not snap.
 	if (!applySnapping)
 		return false
 
 	// On missing data, do not snap.
-	if (!mouseData || !bounds || !mouseData.position)
+	if (!mouseData || !mouseData.position)
 		return false
 
 	// On an out of bounds position, do not show anything.
 	const { position, isSnapped } = mouseData
-	if (!bounds.containsPoint(position))
+	if (!coordinateSystem.containsDrawingPosition(position))
 		return false
 
 	// If the mouse position is not at a snapping point, there is no snap that can be done.

@@ -1,12 +1,12 @@
 import React, { forwardRef, useMemo } from 'react'
 
+import { SvgGroup } from '@step-wise/drawing'
+import { renderEngineeringDiagram } from '@step-wise/engineering-diagrams'
 import { mapValues, omitKeys } from '@step-wise/js-utils'
 import { loadsEqual, isLoad } from '@step-wise/engineering-mechanics'
-
-import { useScaling } from 'ui/figures'
 import { useDrawingInputData, useFeedbackResult } from 'ui/inputs'
 
-import { loadColors, EngineeringDiagramElement } from '../../EngineeringDiagram'
+import { loadColors } from '../../EngineeringDiagram'
 
 import { removeHovering, applyHovering } from '../support'
 import { doesLoadTouchRectangle } from '../selection'
@@ -18,7 +18,14 @@ export const InputLoad = forwardRef(({ load, index }, ref) => {
 
 	// Style the load based on all available data and render it.
 	const styledLoad = useStyledInputLoad(load, index)
-	return <EngineeringDiagramElement ref={ref} {...styledLoad} />
+	return <StyledInputLoad load={styledLoad} ref={ref} />
+})
+
+export const StyledInputLoad = forwardRef(({ load }, ref) => {
+	const { onMouseEnter, onMouseLeave, onPointerDown, style, ...renderedLoad } = load
+	return <SvgGroup ref={ref} style={style} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onPointerDown={onPointerDown}>
+		{renderEngineeringDiagram(renderedLoad)}
+	</SvgGroup>
 })
 
 // useStyledInputLoad takes a load with data on selection/hovering, and turns it into a load that can be rendered, adding color and style data. This is based on various parameters, including potential feedback on the loads.
@@ -27,7 +34,8 @@ export function useStyledInputLoad(load, index) {
 	const { readOnly, selectionRectangle, isDragging, isSelecting, mouseData } = useDrawingInputData()
 	const feedbackResult = useFeedbackResult()
 	const mouseHandlers = useMouseHandlers()
-	const scale = useScaling(1)
+	const { coordinateSystem, id } = useDrawingInputData()
+	const scale = Math.sqrt(coordinateSystem.drawingVectorToPixel([1, 0]).magnitude * coordinateSystem.drawingVectorToPixel([0, 1]).magnitude)
 
 	// Only style loads.
 	if (!isLoad(load))
@@ -51,8 +59,9 @@ export function useStyledInputLoad(load, index) {
 	const inSelectionRectangle = selectionRectangle && doesLoadTouchRectangle(load, selectionRectangle, scale)
 	const hoverStatus = getHoverStatus(load.selected, load.hovering, isDragging, isSelecting, inSelectionRectangle, mouseData.keys)
 	load.style = readOnly ? {} : {
-		filter: `url(#selectionFilter${hoverStatus})`,
+		filter: `url(#${id}-selection-${hoverStatus})`,
 		cursor: 'pointer',
+		pointerEvents: 'auto',
 	}
 
 	// On feedback apply the specific color.
@@ -69,9 +78,9 @@ function useMouseHandlers() {
 
 	// Set up the handlers.
 	return useMemo(() => readOnly ? {} : {
-		mouseenter: (loadIndex) => setFI(FI => applyHovering(FI, loadIndex)),
-		mouseleave: () => setFI(FI => removeHovering(FI)),
-		mousedown: (loadIndex, evt) => {
+		onMouseEnter: (loadIndex) => setFI(FI => applyHovering(FI, loadIndex)),
+		onMouseLeave: () => setFI(FI => removeHovering(FI)),
+		onPointerDown: (loadIndex, evt) => {
 			evt.stopPropagation() // Prevent a drag start.
 			cancelDrag() // Cancel a dragging effect, to prevent that a (tiny) rectangle will be processed resulting in a deselect.
 			activateField() // Activate the field if not already active.

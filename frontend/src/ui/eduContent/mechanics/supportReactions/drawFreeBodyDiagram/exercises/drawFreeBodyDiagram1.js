@@ -7,7 +7,7 @@ import { freeBodyDiagramComparisonOptions, loadsEqual, isLoadAtPoint } from '@st
 import { M } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
-import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
+import { Drawing } from '@step-wise/drawing'
 import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { useCurrentBackgroundColor } from 'ui/inputs'
 import { StepExercise, useSolution } from 'ui/eduTools'
@@ -161,7 +161,7 @@ function Diagram({ isInputField = false, id, showSupports = true, showSolution =
 		zoom = solution[zoom]
 
 	// Define the transformation.
-	const transformationSettings = useScaleBasedTransformationSettings(zoom ? [zoom] : points, { scale: 70, margin: [80, [80, 100]] })
+	const view = { type: 'scale', points: zoom ? [zoom] : points, scale: 70, margin: [80, [100, 80]], yDirection: 'up' }
 
 	// Get all the required components.
 	let loadsToDisplay = isInputField ? [] : showSolution
@@ -174,8 +174,8 @@ function Diagram({ isInputField = false, id, showSupports = true, showSolution =
 	// Set up either a diagram or an input field with said diagram.
 	const snappers = points
 	return isInputField ?
-		<FBDInput id={id} transformationSettings={transformationSettings} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)}>{schematics}</FBDInput> :
-		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
+		<FBDInput id={id} view={view} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)}>{schematics}</FBDInput> :
+		<Drawing view={view}>{schematics}</Drawing>
 }
 
 function Schematics({ loads, showSupports = true, zoom }) {

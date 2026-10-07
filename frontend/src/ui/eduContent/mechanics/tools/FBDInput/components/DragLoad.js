@@ -2,11 +2,9 @@ import React, { forwardRef } from 'react'
 
 import { useDrawingInputData, DragMarker } from 'ui/inputs'
 
-import { EngineeringDiagramElement } from '../../EngineeringDiagram'
-
 import { getDragObjectData } from '../support'
 
-import { useStyledInputLoad } from './InputLoad'
+import { StyledInputLoad, useStyledInputLoad } from './InputLoad'
 
 // The DragLoad is the load shown when dragging. It uses the data from the context to determine what needs to be displayed.
 export const DragLoad = forwardRef(({ options }, ref) => {
@@ -23,5 +21,5 @@ export const DragLoad = forwardRef(({ options }, ref) => {
 		return <DragMarker ref={ref} />
 
 	// Render the drag load.
-	return <EngineeringDiagramElement ref={ref} {...styledLoad} />
+	return <StyledInputLoad load={styledLoad} ref={ref} />
 })

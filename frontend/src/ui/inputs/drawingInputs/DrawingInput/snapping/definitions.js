@@ -1,10 +1,9 @@
-import { useMemo, } from 'react'
+import { useMemo } from 'react'
 
+import { useDrawingCoordinateSystem } from '@step-wise/drawing'
 import { deduplicate } from '@step-wise/js-utils'
 import { ensureVector, Line, LineSegment } from '@step-wise/geometry'
 import { useStableValue } from '@step-wise/react-utils'
-
-import { useTransformationSettings, applyTransformation } from 'ui/figures'
 
 import { useInputFI } from '../../../Input'
 
@@ -53,12 +52,8 @@ function useInputDependentSnappers(rawSnappers) {
 
 // useSnappingLinesFromProcessedSnappers takes a set of processed snappers and turns them into snapping lines, using the parent Drawing's transformation settings.
 function useSnappingLinesFromProcessedSnappers(snappers) {
-	const transformation = useTransformationSettings()?.transformation
+	const { drawingToPixelTransformation } = useDrawingCoordinateSystem()
 	return useMemo(() => {
-		// If no transformation is known yet, return empty arrays.
-		if (!transformation)
-			return { snappingLines: [], graphicalSnappingLines: [] }
-
 		// Determine the snapping lines from the given snappers.
 		let snappingLines = []
 		snappers.forEach(snapper => {
@@ -77,7 +72,7 @@ function useSnappingLinesFromProcessedSnappers(snappers) {
 		snappingLines = deduplicate(snappingLines, (a, b) => a.equals(b))
 
 		// Transform snapping lines to graphical coordinates.
-		const graphicalLines = applyTransformation(snappingLines, transformation)
+		const graphicalLines = snappingLines.map(line => drawingToPixelTransformation.transform(line))
 		return { lines: snappingLines, graphicalLines }
-	}, [snappers, transformation])
+	}, [snappers, drawingToPixelTransformation])
 }

@@ -7,12 +7,12 @@ import { M, BM } from '@step-wise/math-display'
 
 import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
-import { Drawing, CornerLabel, Line as SvgLine, useScaleBasedTransformationSettings } from 'ui/figures'
+import { Drawing } from '@step-wise/drawing'
 import { useInput, InputSpace } from 'ui/form'
 import { useCurrentBackgroundColor, QuantityInput } from 'ui/inputs'
 import { StepExercise, getCurrentStep, useSolution, getFieldInputFeedback } from 'ui/eduTools'
 
-import { FBDInput, Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadColors, sumOfForces, sumOfMoments } from 'ui/eduContent/mechanics'
+import { FBDInput, Group, Beam, HingeSupport, RollerHingeSupport, CornerLabel, Distance, Element, Label, Line as SvgLine, LoadLabel, render, getFBDFeedback, loadColors, sumOfForces, sumOfMoments } from 'ui/eduContent/mechanics'
 import { getLoadInputId, getNamedLoads, getUnknownNamedLoads } from './support'
 
 const distanceShift = 60
@@ -147,7 +147,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const { points, loads, angleRad } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleBasedTransformationSettings(points, { scale: 70, margin: [[100, 120], 100] })
+	const view = { type: 'scale', points, scale: 70, margin: [[100, 120], 100], yDirection: 'up' }
 
 	// Get all the required components.
 	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : [loads[0]])
@@ -157,8 +157,8 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	// Set up either a diagram or an input field with said diagram.
 	const snappers = [...Object.values(points), Line.fromPointAndAngle(points.C, -Math.PI / 2 - angleRad)]
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)} getLoadNames={loads => getNamedLoads(loads, solution)}>{schematics}</FBDInput> :
-		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
+		<FBDInput id="loads" view={view} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)} getLoadNames={loads => getNamedLoads(loads, solution)}>{schematics}</FBDInput> :
+		<Drawing view={view}>{schematics}</Drawing>
 }
 
 function Schematics({ l1, l2, angle, angleRad, anglePoints, points, loads, externalLoad, loadNameDefinitions, showSupports = true }) {

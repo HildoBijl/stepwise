@@ -11,7 +11,7 @@ export interface HalfHingeSupportProps extends Omit<HingeSupportProps, 'hingePro
 export function HalfHingeSupport(props: HalfHingeSupportProps) {
 	const { angle = Math.PI / 2, groundProps, height = 20, hingeProps, ref, thickness = 2, triangleProps, width = 32, ...symbolProps } = props
 	const shift = 3
-	return <PositionedSvgSymbol {...symbolProps} angle={angle - Math.PI / 2} className={symbolProps.className ?? 'halfHingeSupport'} ref={ref}>
+	return <PositionedSvgSymbol {...symbolProps} angle={Math.PI / 2 - angle} className={symbolProps.className ?? 'halfHingeSupport'} ref={ref}>
 		<g transform={`translate(0 ${shift})`}>
 			<SupportTriangleShape {...triangleProps} height={height} thickness={thickness} width={width} />
 		</g>

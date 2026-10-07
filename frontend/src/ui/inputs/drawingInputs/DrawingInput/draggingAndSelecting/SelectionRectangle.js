@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTheme, alpha } from '@mui/material'
 
-import { Rectangle as SvgRectangle } from 'ui/figures'
+import { Rectangle as SvgRectangle } from '@step-wise/drawing'
 
 import { useDrawingInputData } from '../context'
 
@@ -14,11 +14,5 @@ export function SelectionRectangle() {
 		return null
 
 	// Render the selection rectangle.
-	return <SvgRectangle dimensions={selectionRectangle} style={{
-		fill: alpha(theme.palette.primary.main, 0.03),
-		stroke: theme.palette.primary.main,
-		strokeWidth: 0.5,
-		strokeDasharray: '4 2',
-		opacity: 0.7,
-	}} />
+	return <SvgRectangle corners={[selectionRectangle.min, selectionRectangle.max]} fill={alpha(theme.palette.primary.main, 0.03)} stroke={theme.palette.primary.main} strokeWidth={0.5} strokeDasharray="4 2" opacity={0.7} />
 }

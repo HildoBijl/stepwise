@@ -10,7 +10,7 @@ export interface RollerSupportProps extends FixedSupportProps {
 export function RollerSupport(props: RollerSupportProps) {
 	const { angle = Math.PI / 2, blockProps, groundProps, height = 6, positionFactor = 1 / 6, ref, thickness = 2, wheelRadius = 4, wheelsProps, width = 36, ...symbolProps } = props
 	const base = height * (positionFactor + 1 / 2)
-	return <PositionedSvgSymbol {...symbolProps} angle={angle - Math.PI / 2} className={symbolProps.className ?? 'rollerSupport'} ref={ref}>
+	return <PositionedSvgSymbol {...symbolProps} angle={Math.PI / 2 - angle} className={symbolProps.className ?? 'rollerSupport'} ref={ref}>
 		<g transform={`translate(0 ${height * positionFactor})`}>
 			<SupportBlockShape {...blockProps} height={height} width={width} />
 		</g>

@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { serializeData } from '@step-wise/serialization'
 import { compareInputs } from '@step-wise/exercise-grading'
+import { ensureVector } from '@step-wise/geometry'
 import { M } from '@step-wise/math-display'
+import { Circle } from '@step-wise/drawing'
 
 import { Par } from 'ui/components'
-import { useIdentityTransformationSettings, Circle } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { DrawingInput, DragMarker, useInputValue, useDrawingInputData, IntegerInput } from 'ui/inputs'
 import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
@@ -41,7 +41,7 @@ function getFeedback(data) {
 }
 
 function TestDrawingInput() {
-	const transformationSettings = useIdentityTransformationSettings(400, 300)
+	const view = { type: 'identity', width: 400, height: 300 }
 
 	const snappers = list => [[200, 150], ...list.map(circle => circle.center)]
 	const selectAll = list => list.map(circle => ({ ...circle, selected: true }))
@@ -62,12 +62,9 @@ function TestDrawingInput() {
 		id="testDI"
 		initialSI={[]}
 		validate={FO => FO.length < 2 && <>At least two circles are required to make the drawing valid.</>}
-		clean={FI => FI.map(circle => {
-			circle = { ...circle }
-			delete circle.selected
-			return serializeData(circle)
-		})}
-		transformationSettings={transformationSettings}
+		clean={FI => FI.map(({ selected: _selected, ...circle }) => ({ ...circle, center: circle.center.coordinates }))}
+		functionalize={SI => SI.map(circle => ({ ...circle, center: ensureVector(circle.center), selected: false }))}
+		view={view}
 		snappers={snappers}
 		snapOnDrag={false}
 		startDrag={startDrag}

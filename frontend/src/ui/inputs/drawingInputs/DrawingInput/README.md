@@ -22,13 +22,12 @@ To obtain the above set-up, we can use the following parameters for the `Drawing
 
 ```
 import { toSO, toFO } from 'step-wise/inputTypes'
-import { DrawingInput, useIdentityTransformationSettings } from 'ui/figures'
+import { DrawingInput } from 'ui/inputs'
 
 function CircleDrawingTool() {
-	const transformationSettings = useIdentityTransformationSettings(400, 300)
-
 	return <DrawingInput
 		id="someFieldId"
+		view={{ type: 'identity', width: 400, height: 300 }}
 		initialSI={[]} // Start with no circles.
 		validate={FO => FO.length < 2 && <>At least two circles are required to make the drawing valid.</>} // Some validation function for the input field.
 		clean={FI => FI.map(circle => { // When going from FI to SI, clear selection data.
@@ -53,11 +52,11 @@ Everything inside a `DrawingInput` can use the hooks from both the `Drawing` and
 
 ```
 import { useInputValue } from 'ui/form'
-import { useTransformationSettings } from 'ui/figures'
+import { useDrawingCoordinateSystem } from '@step-wise/drawing'
 
 function Circles() {
 	const FI = useInputFI()
-	const transformationSettings = useTransformationSettings()
+	const coordinateSystem = useDrawingCoordinateSystem()
 	...
 }
 ```
@@ -117,8 +116,8 @@ From the snapping part of the `DrawingInput`, we have the following parameters.
 - `mouseData`: an object with information about the last known location/status of the mouse. It has the following subparameters.
 	- `position`: the last-known location of the mouse, in drawing coordinates.
 	- `snappedPosition`: the snapped location of the mouse, in drawing coordinates.
-	- `graphicalPosition`: the last-known location of the mouse, in graphical coordinates. (Top-left in the figure is `[0,0]`.)
-	- `graphicalSnappedPosition`: the snapped location of the mouse, in graphical coordinates.
+	- `graphicalPosition`: the last-known location of the mouse in internal Drawing pixels. This compatibility name will eventually become `pixelPosition`.
+	- `graphicalSnappedPosition`: the snapped location of the mouse in internal Drawing pixels.
 	- `mouseInDrawing`: whether the mouse is in the drawing now.
 	- `snapLines`: all snapping lines (in drawing coordinates) that pass through the `snappedPosition`.
 	- `graphicalSnapLines`: all snapping lines (in graphical coordinates) that pass through the `snappedPosition`.

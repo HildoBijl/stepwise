@@ -1,4 +1,4 @@
-import { useBounds } from 'ui/figures'
+import { useDrawingCoordinateSystem } from '@step-wise/drawing'
 
 import { useInputData } from '../../../Input'
 
@@ -7,7 +7,8 @@ import { shouldApplySelecting, getSelectionRectangle } from './selecting'
 export function useStartEndDragHandlers({ startDrag, endDrag, startSelect, endSelect, applySelecting, isSelecting, mouseDownData, setMouseDownData, eventSnapper }) {
 	// Collect data.
 	const { readOnly, setFI } = useInputData()
-	const bounds = useBounds()
+	const coordinateSystem = useDrawingCoordinateSystem()
+	const bounds = coordinateSystem.pixelToDrawingTransformation.transform(coordinateSystem.pixelBounds)
 
 	// Set up a handler to start dragging.
 	const startDragHandler = (event) => {

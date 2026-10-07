@@ -42,7 +42,7 @@ export function getEndDragFunction(options) {
 }
 
 export function getEndSelectFunction(options) {
-	const scale = getScaleFactor(options.transformationSettings)
+	const scale = getScaleFactor(options.view)
 	return (FI, rectangle, keys) => applySelectionRectangle(FI, rectangle, keys, scale)
 }
 
@@ -78,7 +78,7 @@ export function getDragObjectData(downData, upData, options) {
 
 	// On a double snap, always give a Force ending at the snapped mouse position.
 	if (upData.isSnappedTwice && !graphicalSnappedVector.isZero()) {
-		return createForce({ position: upData.snappedPosition, angle: snappedVector.angle, applicationPointAt: 'end' })
+		return createForce({ position: upData.snappedPosition, angle: -snappedVector.angle, applicationPointAt: 'end' })
 	}
 
 	// On a very short vector show a Drag Marker.
@@ -89,11 +89,11 @@ export function getDragObjectData(downData, upData, options) {
 	if (allowMoments && graphicalSnappedVector.squaredMagnitude <= maximumMomentDistance ** 2) {
 		const angle = vector.angle
 		const openingDirection = snappedVector.angle
-		return createMoment({ position: downData.snappedPosition, openingDirection, clockwise: mod(angle - openingDirection, 2 * Math.PI) > Math.PI })
+		return createMoment({ position: downData.snappedPosition, openingDirection: -openingDirection, clockwise: mod(angle - openingDirection, 2 * Math.PI) > Math.PI })
 	}
 
 	// Otherwise return a force connected to the point where the drag started.
-	return createForce({ position: downData.snappedPosition, angle: snappedVector.angle, applicationPointAt: 'start' })
+	return createForce({ position: downData.snappedPosition, angle: -snappedVector.angle, applicationPointAt: 'start' })
 }
 
 // removeHovering takes an FI and makes sure that no load in it has hovering set to true.

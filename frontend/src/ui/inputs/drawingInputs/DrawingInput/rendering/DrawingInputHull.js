@@ -1,10 +1,8 @@
 import React, { forwardRef } from 'react'
 import { Box } from '@mui/material'
 
-import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
-
-import { notSelectable } from 'ui/theme'
-import { Drawing, defaultDrawingOptions } from 'ui/figures/Drawing'
+import { Drawing, resolveDrawingView } from '@step-wise/drawing'
+import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
 
 import { useInputData, useFeedbackResult } from '../../../Input'
 
@@ -12,11 +10,17 @@ import { DrawingInputCore, defaultDrawingInputCoreOptions } from './DrawingInput
 import { FeedbackIcon } from './FeedbackIcon'
 
 export const defaultDrawingInputHullOptions = {
-	...defaultDrawingOptions,
 	...defaultDrawingInputCoreOptions,
 
 	// Styling and contents.
 	DrawingElement: Drawing,
+	view: { type: 'identity', width: 400, height: 300, yDirection: 'up' },
+	maxWidth: undefined,
+	alignment: 'center',
+	clip: false,
+	useCanvas: false,
+	useSvg: true,
+	style: undefined,
 	className: undefined,
 	feedbackIconScale: 1.2,
 	children: null,
@@ -29,37 +33,19 @@ const glowRadius = 0.25 // em
 // The DrawingInputHull component renders the Drawing with an input-field-like box around it. It also has space to display feedback.
 export const DrawingInputHull = forwardRef((options, drawingRef) => {
 	options = mergeDefaults(options, defaultDrawingInputHullOptions)
-	let { maxWidth, DrawingElement, className, feedbackIconScale, children, transformationSettings } = options
+	let { maxWidth, DrawingElement, className, feedbackIconScale, children, view } = options
 
 	// Get data from the parent contexts.
 	const { active, readOnly, cursor } = useInputData()
 	const feedbackResult = useFeedbackResult()
 
 	// Determine styling of the object.
-	maxWidth = resolveFunctionValuesDeep(maxWidth, transformationSettings?.graphicalBounds)
+	const { width } = resolveDrawingView(view)
+	maxWidth ??= width
 	const feedbackColor = feedbackResult && feedbackResult.color
 	const hasFeedbackText = !!(feedbackResult && feedbackResult.text)
 
 	// Render the drawing and the feedback box.
-	const drawingOptions = pickFromDefaults(options, defaultDrawingOptions)
-	drawingOptions.style = { margin: '0', ...(drawingOptions.style || {}) } // Remove figure margin, since it's contained in an outer box that also has the feedback text.
-	const previousFigureInnerSx = drawingOptions.figureInnerSx
-	drawingOptions.figureInnerSx = theme => ({
-		...resolveFunctionValuesDeep(previousFigureInnerSx, theme),
-		background: theme.palette.inputBackground.main,
-		border: `${border}em solid ${feedbackColor || theme.palette.text.secondary}`,
-		borderRadius: '0.5rem',
-		boxShadow: active ? `0 0 ${glowRadius}em 0 ${feedbackColor || theme.palette.text.secondary}` : 'none',
-		cursor: readOnly ? 'default' : (cursor || 'pointer'),
-		...notSelectable,
-		margin: 0,
-		transition: `border ${theme.transitions.duration.standard}ms`,
-		touchAction: 'none',
-		'&:hover': {
-			boxShadow: readOnly ? 'none' : `0 0 ${glowRadius}em 0 ${feedbackColor || theme.palette.text.secondary}`,
-		},
-	})
-	delete drawingOptions.className // Do not pass on the className.
 	return <Box className={className} sx={{
 		alignItems: 'stretch',
 		display: 'flex',
@@ -67,22 +53,34 @@ export const DrawingInputHull = forwardRef((options, drawingRef) => {
 		flexFlow: 'column nowrap',
 		margin: '1.2rem auto',
 		minWidth: 0, // A fix to not let flexboxes grow beyond their maximum width.
-		maxWidth: maxWidth !== undefined ? `${maxWidth}px` : '',
+		maxWidth: `${maxWidth}px`,
 		'& svg': { display: 'block' },
 	}}>
-		<DrawingElement ref={drawingRef} {...drawingOptions}>
-			<DrawingInputCore {...pickFromDefaults(options, defaultDrawingInputCoreOptions)}>
-				{children}
-			</DrawingInputCore>
-			<FeedbackIcon scale={feedbackIconScale} />
-		</DrawingElement>
+		<Box sx={theme => ({
+			background: theme.palette.inputBackground.main,
+			border: `${border}em solid ${feedbackColor || theme.palette.text.secondary}`,
+			borderRadius: '0.5rem',
+			boxShadow: active ? `0 0 ${glowRadius}em 0 ${feedbackColor || theme.palette.text.secondary}` : 'none',
+			cursor: readOnly ? 'default' : (cursor || 'pointer'),
+			overflow: 'hidden',
+			touchAction: 'none',
+			transition: `border ${theme.transitions.duration.standard}ms`,
+			'&:hover': { boxShadow: readOnly ? 'none' : `0 0 ${glowRadius}em 0 ${feedbackColor || theme.palette.text.secondary}` },
+		})}>
+			<DrawingElement ref={drawingRef} view={view} maxWidth="none" alignment={options.alignment} clip={options.clip} useCanvas={options.useCanvas} useSvg={options.useSvg} style={{ margin: 0, ...options.style }}>
+				<DrawingInputCore {...pickFromDefaults(options, defaultDrawingInputCoreOptions)}>
+					{children}
+				</DrawingInputCore>
+				<FeedbackIcon scale={feedbackIconScale} />
+			</DrawingElement>
+		</Box>
 		<Box sx={theme => ({
 			color: feedbackColor || theme.palette.text.primary,
 			display: hasFeedbackText ? 'block' : 'none',
 			fontSize: '0.75em',
 			letterSpacing: '0.03em',
 			lineHeight: 1.2,
-			padding: '0.3em 2.4em 0',
+			padding: '0.3em 0.5rem 0',
 			transition: `color ${theme.transitions.duration.standard}ms`,
 		})}>
 			{feedbackResult && feedbackResult.text}

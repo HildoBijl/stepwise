@@ -1,13 +1,10 @@
 import { useState, useCallback, useEffect } from 'react'
 
 import { mergeDefaults } from '@step-wise/js-utils'
+import { useDrawing, useDrawingCoordinateSystem } from '@step-wise/drawing'
 import { useEventListener } from '@step-wise/react-utils'
 
-import { useBounds } from 'ui/figures'
-
 import { useInputData } from '../../../Input'
-
-import { useDrawing } from '../context/hooks'
 
 import { useStartEndDragHandlers } from './dragging'
 import { applySelectingOptions, useSelectionKeyDownHandler, shouldApplySelecting, getSelectionRectangle } from './selecting'
@@ -27,7 +24,9 @@ export function useDraggingAndSelecting(options, { mouseData, eventSnapper }) {
 	const { startDrag, endDrag, snapOnDrag, startSelect, endSelect, applySelecting, selectAll, deselectAll } = mergeDefaults(options, defaultDraggingAndSelectingOptions)
 
 	// Collect data from parent components.
-	const bounds = useBounds()
+	const { element: eventContainer } = useDrawing()
+	const coordinateSystem = useDrawingCoordinateSystem()
+	const bounds = coordinateSystem.pixelToDrawingTransformation.transform(coordinateSystem.pixelBounds)
 	const { setFI, setCursor } = useInputData()
 
 	// Set up a state and extract data from it.
@@ -39,13 +38,12 @@ export function useDraggingAndSelecting(options, { mouseData, eventSnapper }) {
 
 	// Listen to mouse-down and mouse-up events to start/end a drag/selection.
 	const { startDragHandler, endDragHandler } = useStartEndDragHandlers({ startDrag, endDrag, startSelect, endSelect, applySelecting, isSelecting, mouseDownData, setMouseDownData, eventSnapper })
-	const eventContainer = useDrawing()?.figure?.inner
-	useEventListener(['mousedown', 'touchstart'], startDragHandler, eventContainer ?? null, { passive: false })
-	useEventListener(['mouseup', 'touchend'], endDragHandler, window)
+	useEventListener('pointerdown', startDragHandler, eventContainer, { passive: false })
+	useEventListener(['pointerup', 'pointercancel'], endDragHandler, window)
 
 	// On a click outside of the figure, deselect all.
-	const clickOutsideFigureHandler = (event) => !eventContainer.contains(event.target) && setFI(FI => deselectAll(FI))
-	useEventListener(['mousedown'], clickOutsideFigureHandler, window)
+	const clickOutsideFigureHandler = (event) => eventContainer && !eventContainer.contains(event.target) && deselectAll && setFI(FI => deselectAll(FI))
+	useEventListener('pointerdown', clickOutsideFigureHandler, window)
 
 	// Listen to key presses for selecting/deselecting.
 	const keyDownHandler = useSelectionKeyDownHandler(selectAll, deselectAll)

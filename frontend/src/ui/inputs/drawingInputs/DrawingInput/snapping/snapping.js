@@ -1,8 +1,8 @@
 import { integerRange, sortBy, mergeDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 import { getEventClientPosition, getModifierKeyState } from '@step-wise/browser-utils'
+import { useDrawingCoordinateSystem } from '@step-wise/drawing'
 import { useStableCallback } from '@step-wise/react-utils'
 
-import { useTransformationSettings } from 'ui/figures'
 import { useInputData } from '../../../Input'
 
 import { useDrawingRef } from '../context/hooks'
@@ -28,7 +28,7 @@ export function useMouseSnapping(options, { position, modifierKeys }) {
 	const snapper = useSnapperFunction(lines, graphicalLines, snappingDistance, applySnapping)
 
 	// Retrieve the current mouse position and apply the snapper.
-	const mouseData = { ...snapper(position), modifierKeys }
+	const mouseData = { ...snapper(position), keys: modifierKeys, modifierKeys }
 	const eventSnapper = useEventSnapper(snapper)
 
 	// If no drawing data is available, return a default outcome.
@@ -41,19 +41,18 @@ export function useMouseSnapping(options, { position, modifierKeys }) {
 
 // useSnapperFunction returns a function (position) => { ... data ... } that snaps the given mouse position.
 export function useSnapperFunction(lines, graphicalLines, snappingDistance, applySnapping) {
-	const transformationSettings = useTransformationSettings()
-	return useStableCallback((position) => snapMousePosition(position, lines, graphicalLines, transformationSettings, snappingDistance, applySnapping))
+	const coordinateSystem = useDrawingCoordinateSystem()
+	return useStableCallback((position) => snapMousePosition(position, lines, graphicalLines, coordinateSystem, snappingDistance, applySnapping))
 }
 
 // snapMousePosition will calculate the position of the mouse after it's snapped to the nearest snapping line. For this, it's turned to graphical coordinates, snapped to the appropriate graphicalSnappingLine, and subsequently transformed back.
-function snapMousePosition(position, lines, graphicalLines, transformationSettings, snappingDistance, applySnapping) {
+function snapMousePosition(position, lines, graphicalLines, coordinateSystem, snappingDistance, applySnapping) {
 	// If there is no position, then nothing can be done.
 	if (!position)
 		return emptySnapMousePositionResponse
 
 	// If no snapping should be applied, keep the given position.
-	const { transformation, inverseTransformation, bounds } = transformationSettings
-	const graphicalPosition = transformation.transform(position)
+	const graphicalPosition = coordinateSystem.drawingToPixel(position)
 	if (!applySnapping)
 		return { ...emptySnapMousePositionResponse, position, snappedPosition: position, graphicalPosition, graphicalSnappedPosition: graphicalPosition }
 
@@ -97,12 +96,12 @@ function snapMousePosition(position, lines, graphicalLines, transformationSettin
 		graphicalSnappedPosition = graphicalLines[selectedLines[0]].getClosestPoint(graphicalPosition)
 
 	// Calculate other relevant parameters.
-	const snappedPosition = inverseTransformation.transform(graphicalSnappedPosition)
+	const snappedPosition = coordinateSystem.pixelToDrawing(graphicalSnappedPosition)
 	const snapLines = selectedLines.map(index => lines[index])
 	const graphicalSnapLines = selectedLines.map(index => graphicalLines[index])
 	const isSnapped = snapLines.length > 0
 	const isSnappedTwice = snapLines.length > 1
-	const mouseInDrawing = bounds.containsPoint(position)
+	const mouseInDrawing = coordinateSystem.containsDrawingPosition(position)
 
 	// Return the outcome.
 	return { position, snappedPosition, graphicalPosition, graphicalSnappedPosition, mouseInDrawing, snapLines, graphicalSnapLines, isSnapped, isSnappedTwice }
@@ -113,7 +112,8 @@ const emptySnapMousePositionResponse = { position: undefined, snappedPosition: u
 function useEventSnapper(snapper) {
 	const drawingRef = useDrawingRef()
 	return useStableCallback((event) => ({
-		...snapper(drawingRef.current.getDrawingCoordinates(getEventClientPosition(event))),
+		...snapper(drawingRef.current?.clientToDrawing(getEventClientPosition(event))),
+		keys: getModifierKeyState(event),
 		modifierKeys: getModifierKeyState(event),
 	}))
 }

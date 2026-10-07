@@ -9,7 +9,7 @@ export interface RollerHingeSupportProps extends HingeSupportProps {
 
 export function RollerHingeSupport(props: RollerHingeSupportProps) {
 	const { angle = Math.PI / 2, groundProps, height = 20, hingeProps, ref, thickness = 2, triangleProps, wheelRadius = 4, wheelsProps, width = 32, ...symbolProps } = props
-	return <PositionedSvgSymbol {...symbolProps} angle={angle - Math.PI / 2} className={symbolProps.className ?? 'rollerHingeSupport'} ref={ref}>
+	return <PositionedSvgSymbol {...symbolProps} angle={Math.PI / 2 - angle} className={symbolProps.className ?? 'rollerHingeSupport'} ref={ref}>
 		<SupportTriangleShape {...triangleProps} height={height} thickness={thickness} width={width} />
 		<g transform={`translate(0 ${height + wheelRadius + thickness / 2})`}>
 			<WheelsShape {...wheelsProps} radius={wheelRadius} />

@@ -1,5 +1,0 @@
-export { Force, Moment } from './loads'
-export { Beam, Hinge, HalfHinge } from './structuralComponents'
-export { Ground, SupportBlock, SupportTriangle, Wheels } from './attachments'
-export { FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport } from './supports'
-export { default as LoadLabel } from './LoadLabel'

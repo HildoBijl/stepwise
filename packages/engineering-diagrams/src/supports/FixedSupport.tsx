@@ -9,7 +9,7 @@ export interface FixedSupportProps extends SupportProps {
 
 export function FixedSupport(props: FixedSupportProps) {
 	const { angle = Math.PI / 2, blockProps, groundProps, height = 6, positionFactor = 1 / 6, ref, thickness = 2, width = 36, ...symbolProps } = props
-	return <PositionedSvgSymbol {...symbolProps} angle={angle - Math.PI / 2} className={symbolProps.className ?? 'fixedSupport'} ref={ref}>
+	return <PositionedSvgSymbol {...symbolProps} angle={Math.PI / 2 - angle} className={symbolProps.className ?? 'fixedSupport'} ref={ref}>
 		<g transform={`translate(0 ${height * positionFactor})`}>
 			<SupportBlockShape {...blockProps} height={height} width={width} />
 		</g>

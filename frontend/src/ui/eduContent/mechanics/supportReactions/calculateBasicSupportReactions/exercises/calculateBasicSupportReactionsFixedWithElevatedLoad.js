@@ -7,7 +7,7 @@ import { M, BM } from '@step-wise/math-display'
 
 import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
-import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
+import { Drawing } from '@step-wise/drawing'
 import { useInput, InputSpace } from 'ui/form'
 import { useCurrentBackgroundColor, QuantityInput } from 'ui/inputs'
 import { StepExercise, getCurrentStep, useSolution, getFieldInputFeedback } from 'ui/eduTools'
@@ -154,7 +154,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const { points, loads } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleBasedTransformationSettings(points, { scale: 70, margin: [100, [60, 100]] })
+	const view = { type: 'scale', points, scale: 70, margin: [100, [100, 60]], yDirection: 'up' }
 
 	// Get all the required components.
 	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : [loads[0]])
@@ -164,11 +164,12 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	// Set up either a diagram or an input field with said diagram.
 	const snappers = Object.values(points)
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)} getLoadNames={loads => getNamedLoads(loads, solution)}>{schematics}</FBDInput> :
-		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
+		<FBDInput id="loads" view={view} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)} getLoadNames={loads => getNamedLoads(loads, solution)}>{schematics}</FBDInput> :
+		<Drawing view={view}>{schematics}</Drawing>
 }
 
 function Schematics({ l1, l2, points, loads, externalLoad, loadNameDefinitions, showSupports = true }) {
+	const horizontalDistancePoints = [points.A, points.B].map(point => new Vector(point.x, points.C.y))
 	const background = useCurrentBackgroundColor()
 	const distanceLabelStyle = { background, padding: '0.3rem' }
 	const loadNames = getNamedLoads(loads, { points, externalLoad, loadNameDefinitions })
@@ -186,8 +187,8 @@ function Schematics({ l1, l2, points, loads, externalLoad, loadNameDefinitions, 
 		<Group>{render(loads)}</Group>
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 
-		<Distance lineSegment={{ start: points.A, end: points.B }} graphicalShift={new Vector(0, distanceShift)} />
-		<Element position={points.A.interpolate(points.B)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
+		<Distance lineSegment={{ start: horizontalDistancePoints[0], end: horizontalDistancePoints[1] }} graphicalShift={new Vector(0, distanceShift)} />
+		<Element position={horizontalDistancePoints[0].interpolate(horizontalDistancePoints[1])} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
 
 		<Distance lineSegment={{ start: points.B, end: points.C }} graphicalShift={new Vector(distanceShift, 0)} />
 		<Element position={points.B.interpolate(points.C)} graphicalPosition={new Vector(distanceShift, 0)} rotate={Math.PI / 2} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>

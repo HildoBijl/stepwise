@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useCallback, useState } from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
 import { useForwardedRef } from '@step-wise/react-utils'
@@ -18,6 +18,11 @@ export const defaultDrawingInputOptions = {
 export const DrawingInput = forwardRef((options, drawingRef) => {
 	options = mergeDefaults(options, defaultDrawingInputOptions)
 	drawingRef = useForwardedRef(drawingRef)
+	const [drawing, setDrawing] = useState()
+	const setDrawingRef = useCallback(value => {
+		drawingRef.current = value
+		setDrawing(value)
+	}, [drawingRef])
 
 	// Set up a state to control the cursor style.
 	const [cursor, setCursor] = useState()
@@ -25,7 +30,7 @@ export const DrawingInput = forwardRef((options, drawingRef) => {
 	// Set up the Input field settings.
 	const inputOptions = {
 		...pickFromDefaults(options, defaultInputOptions),
-		element: drawingRef.current?.figure?.inner, // Inform the input field which element should monitor clicks/focusing.
+		element: drawing?.element, // Inform the input field which element should monitor clicks/focusing.
 		contextData: { // Add extra data to the context.
 			...options.contextData,
 			drawingRef, // So elements inside can access the Drawing. (Although a Drawing component also has its own context.)
@@ -36,7 +41,7 @@ export const DrawingInput = forwardRef((options, drawingRef) => {
 
 	// Render the field.
 	return <Input {...inputOptions}>
-		<DrawingInputHull ref={drawingRef} {...pickFromDefaults(options, defaultDrawingInputHullOptions)} />
+		<DrawingInputHull ref={setDrawingRef} {...pickFromDefaults(options, defaultDrawingInputHullOptions)} />
 	</Input>
 })
 DrawingInput.applySelectingOptions = applySelectingOptions

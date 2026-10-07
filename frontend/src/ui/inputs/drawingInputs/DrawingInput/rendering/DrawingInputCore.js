@@ -1,8 +1,7 @@
 import React from 'react'
 
+import { useDrawing, useDrawingPointerState } from '@step-wise/drawing'
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
-
-import { useDrawingData, usePointerState } from 'ui/figures'
 
 import { useInputData } from '../../../Input'
 
@@ -23,10 +22,11 @@ export function DrawingInputCore(options) {
 
 	// Get data from the parents.
 	const inputData = useInputData()
-	const drawingData = useDrawingData()
+	const drawingData = useDrawing()
 
 	// Use handlers to set up the required functionality.
-	const rawMouseData = usePointerState()
+	const pointerState = useDrawingPointerState()
+	const rawMouseData = { position: pointerState.drawingPosition, modifierKeys: pointerState.modifierKeys }
 	const mouseSnapping = useMouseSnapping(pickFromDefaults(options, defaultSnappingOptions), rawMouseData)
 	const mouseDragging = useDraggingAndSelecting(pickFromDefaults(options, defaultDraggingAndSelectingOptions), { ...rawMouseData, ...mouseSnapping })
 	const deleting = useDeleting(pickFromDefaults(options, defaultDeletingOptions))

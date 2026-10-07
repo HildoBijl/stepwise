@@ -1,13 +1,14 @@
 import React from 'react'
 import { useTheme } from '@mui/material'
 
-import { SvgDefsPortal } from 'ui/figures'
+import { SvgDefsPortal, useDrawingId } from '@step-wise/drawing'
 
 // GlowDefs are the SVG definitions that allow components to glow.
 export function GlowDefs() {
 	const theme = useTheme()
+	const drawingId = useDrawingId()
 	return <SvgDefsPortal>
-		{[0, 0.6, 1, 1.6].map((value, index) => <filter key={index} id={`selectionFilter${index}`}>
+		{[0, 0.6, 1, 1.6].map((value, index) => <filter key={index} id={`${drawingId}-selection-${index}`}>
 			<feGaussianBlur stdDeviation="3" in="SourceGraphic" result="Blur" />
 			<feComposite operator="out" in="Blur" in2="SourceGraphic" result="OuterBlur" />
 			<feComponentTransfer in="OuterBlur" result="OuterBlurFaded">

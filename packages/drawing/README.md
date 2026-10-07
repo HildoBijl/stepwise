@@ -1,11 +1,11 @@
 # @step-wise/drawing
 
-`@step-wise/drawing` provides framework-independent React components and utilities for responsive figures, coordinate-based drawings, and plots. It is being developed as the reusable successor to Step-Wise's frontend-specific drawing toolbox.
+`@step-wise/drawing` provides framework-independent React components and utilities for responsive figures, coordinate-based drawings, and plots. It is the reusable successor to Step-Wise's frontend-specific drawing toolbox.
 
 
 ## Status
 
-The package currently provides the responsive `Figure` wrapper, layered `Drawing` component, coordinate systems, position and target resolution, HTML and SVG primitives, and a Plot extension. The existing frontend drawing implementation remains in use while existing figures are migrated.
+The package provides the responsive `Figure` wrapper, layered `Drawing` component, coordinate systems, position and target resolution, HTML and SVG primitives, and a Plot extension. Step-Wise's figures and interactive drawing inputs now use this package; the legacy frontend implementation is retained temporarily only for a separate cleanup step.
 
 
 ## Figure

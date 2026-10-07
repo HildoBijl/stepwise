@@ -3,9 +3,9 @@ import React from 'react'
 import { degreesToRadians } from '@step-wise/js-utils'
 import { Vector, Line } from '@step-wise/geometry'
 import { loadsEqual, freeBodyDiagramComparisonOptions, isForce, isMoment } from '@step-wise/engineering-mechanics'
+import { Drawing } from '@step-wise/drawing'
 
 import { Par } from 'ui/components'
-import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
 import { StepExercise, useSolution, getMCFeedback } from 'ui/eduTools'
@@ -152,7 +152,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const { wallRotation, beamRotation, points, loads } = useSolution()
 
 	// Define the transformation.
-	const transformationSettings = useScaleBasedTransformationSettings(points, { scale: 70, margin: 100 })
+	const view = { type: 'scale', points, scale: 70, margin: 100, yDirection: 'up' }
 
 	// Get all the required components.
 	const loadsToDisplay = showSolution ? loads : []
@@ -162,8 +162,8 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const A = points[0]
 	const snappers = [A, Line.fromPointAndAngle(A, degreesToRadians(wallRotation)), Line.fromPointAndAngle(A, degreesToRadians(wallRotation + 90)), Line.fromPointAndAngle(A, degreesToRadians(wallRotation + beamRotation)), Line.fromPointAndAngle(A, degreesToRadians(wallRotation + beamRotation + 90))]
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)}>{schematics}</FBDInput> :
-		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
+		<FBDInput id="loads" view={view} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)}>{schematics}</FBDInput> :
+		<Drawing view={view}>{schematics}</Drawing>
 }
 
 function Schematics({ loads, showSupports = true }) {
