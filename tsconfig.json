@@ -8,6 +8,7 @@
 		{ "path": "./packages/course-definition/tsconfig.build.json" },
 		{ "path": "./packages/demo-exercises/tsconfig.build.json" },
 		{ "path": "./packages/drawing/tsconfig.build.json" },
+		{ "path": "./packages/engineering-diagrams/tsconfig.build.json" },
 		{ "path": "./packages/engineering-mechanics/tsconfig.build.json" },
 		{ "path": "./packages/exercise-bundling/tsconfig.build.json" },
 		{ "path": "./packages/exercise-definition/tsconfig.build.json" },

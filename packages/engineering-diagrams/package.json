@@ -1,0 +1,60 @@
+{
+	"name": "@step-wise/engineering-diagrams",
+	"version": "0.1.0",
+	"description": "Reusable React components for engineering-mechanics diagrams.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HildoBijl/stepwise.git",
+		"directory": "packages/engineering-diagrams"
+	},
+	"bugs": {
+		"url": "https://github.com/HildoBijl/stepwise/issues"
+	},
+	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/engineering-diagrams#readme",
+	"publishConfig": {
+		"access": "public"
+	},
+	"engines": {
+		"node": ">=24.15.0"
+	},
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"development": "./src/index.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"scripts": {
+		"build": "tsc -b tsconfig.build.json",
+		"watch": "tsc -b tsconfig.build.json --watch",
+		"test": "vitest run",
+		"test:watch": "vitest"
+	},
+	"dependencies": {
+		"@step-wise/drawing": "^0.1.0",
+		"@step-wise/engineering-mechanics": "^0.1.0",
+		"@step-wise/geometry": "^0.1.0",
+		"@step-wise/js-utils": "^0.1.2"
+	},
+	"peerDependencies": {
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0"
+	},
+	"devDependencies": {
+		"@testing-library/react": "^16.3.3",
+		"@types/react": "19.2.18",
+		"@types/react-dom": "19.2.7",
+		"jsdom": "^30.0.0",
+		"react": "19.2.8",
+		"react-dom": "19.2.8",
+		"vitest": "^5.0.0"
+	}
+}

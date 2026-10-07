@@ -1,0 +1,33 @@
+import { type Distance, Line, type LineProps, type Position, useDrawingCoordinateSystem, useResolvedDistance } from '@step-wise/drawing'
+import { type ApplicationPointPosition } from '@step-wise/engineering-mechanics'
+import { Vector } from '@step-wise/geometry'
+import { ensureNumber } from '@step-wise/js-utils'
+
+export const defaultForceLength: Distance = { pixelDistance: 70 }
+
+export interface ForceProps extends Omit<LineProps, 'positions' | 'startArrow' | 'endArrow'> {
+	position: Position
+	angle: number
+	applicationPointAt?: ApplicationPointPosition
+	relativeMagnitude?: number
+	length?: Distance
+	color?: string
+}
+
+export function Force(props: ForceProps) {
+	const { angle, applicationPointAt = 'end', className = 'force', color = 'currentColor', length = defaultForceLength, position, ref, relativeMagnitude = 1, strokeWidth = 4, ...lineProps } = props
+	const coordinateSystem = useDrawingCoordinateSystem()
+
+	// Calculate the arrow length in pixels.
+	const resolvedLength = useResolvedDistance(length)
+	if (resolvedLength === undefined) return null
+	const magnitude = resolvedLength * ensureNumber(relativeMagnitude, { nonNegative: true, nonZero: true })
+
+	// Calculate the second point of the vector. Due to different coordinate systems, use a calculate function.
+	const offset = coordinateSystem.pixelVectorToRender(Vector.fromPolar(magnitude, ensureNumber(angle)))
+	const displacedPosition: Position = { positions: [position], calculate: ([resolvedPosition]) => resolvedPosition.add(applicationPointAt === 'start' ? offset : offset.negate()) }
+	const positions = applicationPointAt === 'start' ? [position, displacedPosition] : [displacedPosition, position]
+
+	// Render the force as a line with arrow.
+	return <Line {...lineProps} className={className} endArrow positions={positions} ref={ref} stroke={color} strokeWidth={strokeWidth} />
+}
