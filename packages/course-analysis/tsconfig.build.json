@@ -6,7 +6,7 @@
 		"declaration": true,
 		"declarationMap": true,
 		"rootDir": "src",
-		"tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+		"tsBuildInfoFile": "tsconfig.tsbuildinfo"
 	},
 	"references": [
 		{ "path": "../js-utils/tsconfig.build.json" },
@@ -15,5 +15,5 @@
 		{ "path": "../skill-tracking/tsconfig.build.json" }
 	],
 	"include": ["src"],
-	"exclude": ["src/**/*.test.ts", "src/testUtils.ts"]
+	"exclude": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/**/*.spec.ts", "src/**/*.spec.tsx", "src/testUtils.ts"]
 }

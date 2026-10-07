@@ -14,7 +14,7 @@
 	"scripts": {
 		"build": "npm run build:packages && npm run build:frontend",
 		"build:packages": "tsc -b tsconfig.json",
-		"clean:packages": "rimraf --glob \"packages/*/dist\"",
+		"clean:packages": "rimraf --glob \"packages/*/dist\" \"packages/*/tsconfig.tsbuildinfo\"",
 		"rebuild:packages": "npm run clean:packages && npm run build:packages",
 		"build:api": "npm run build:packages && npm run build --workspace=@step-wise/api",
 		"build:frontend": "npm run build --workspace=@step-wise/frontend",
