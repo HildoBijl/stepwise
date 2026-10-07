@@ -1,2 +1,8 @@
-// Public Plot exports will be added when Plot is implemented as a Drawing extension.
-export {}
+export * from './types.ts'
+export * from './context.ts'
+export * from './resolution.ts'
+export * from './Plot.tsx'
+export * from './PlotArea.tsx'
+export * from './axes/index.ts'
+export * from './Grid.tsx'
+export * from './Crosshair.tsx'

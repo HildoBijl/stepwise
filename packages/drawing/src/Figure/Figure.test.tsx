@@ -35,6 +35,16 @@ describe('Figure', () => {
 		expect(figure!.style.margin).toBe('0px 0px 0px auto')
 	})
 
+	test('can grow beyond its internal width when no display maximum is requested', () => {
+		vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({ width: 600 } as DOMRect)
+
+		render(<Figure width={300} height={200} maxWidth="none"><span>Growing contents</span></Figure>)
+
+		const contents = screen.getByText('Growing contents').parentElement!
+		expect(contents.style.transform).toBe('scale(2)')
+		expect(contents.parentElement!.parentElement!.style.maxWidth).toBe('none')
+	})
+
 	test('keeps contents hidden until a measurable width is available', () => {
 		vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({ width: 0 } as DOMRect)
 

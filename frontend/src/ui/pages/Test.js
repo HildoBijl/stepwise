@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from '@mui/material'
 
 import * as c from '@step-wise/cas'
-import { Arc, Circle, Curve, Drawing, DrawingTarget, HtmlElement, Line, Polygon, Rectangle, anchors, useDrawingPointerState } from '@step-wise/drawing'
+import { Arc, Axes, Circle, Crosshair, Curve, Drawing, DrawingTarget, Grid, HtmlElement, Line, Plot, PlotArea, Polygon, Rectangle, anchors, useDrawingPointerState } from '@step-wise/drawing'
 import * as m from '@step-wise/math-input-value'
 import { Unit, PrecisionNumber, Quantity } from '@step-wise/physics-core'
 import { M, BM } from '@step-wise/math-display'
@@ -41,6 +41,22 @@ export function Test() {
 			<BM>x=\frac(-b\pm\sqrt[2](b^2-4ac))(2a).</BM>
 			<BM>{eq}</BM>
 			<Par>This note shows the CI scripts are using the main branch. Currently we're also using workspaces. And Vite is used as a bundler.</Par>
+
+			<Head>Plot toolbox</Head>
+			<Plot
+				bounds={{ min: [-3, -2], max: [3, 8] }}
+				view={{ type: 'fit', maxWidth: 600, maxHeight: 360, margin: [20, 10] }}
+				maxWidth={600}
+				style={{ color: '#37474f' }}
+				axes={{ x: { ticks: { step: 0.5 } }, y: { ticks: { step: 1.5 } } }}
+			>
+				<Grid />
+				<PlotArea>
+					<Curve positions={[[-3, 7], [-2, 2], [-1, -1], [0, -2], [1, -1], [2, 2], [3, 7]]} smoothing={{ mode: 'through', ratio: 0.7 }} stroke="#1565c0" strokeWidth={3} />
+				</PlotArea>
+				<Axes x={{ label: <M>x</M> }} y={{ label: <M>f\left(x\right) = x^2</M> }} />
+				<Crosshair getPointLabel={([x, y]) => `(${x.toFixed(2)}, ${y.toFixed(2)})`} labelProps={{ style: { background: 'white', border: '1px solid currentColor', borderRadius: 3, padding: '1px 4px' } }} />
+			</Plot>
 
 			<Head>Drawing toolbox</Head>
 			<Drawing

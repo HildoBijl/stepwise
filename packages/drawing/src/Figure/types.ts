@@ -12,6 +12,6 @@ export type FigureProps = Omit<ComponentPropsWithoutRef<'div'>, 'children'> & {
 	children?: ReactNode
 	width: number
 	height: number
-	maxWidth?: number
+	maxWidth?: number | 'none'
 	alignment?: FigureAlignment
 }

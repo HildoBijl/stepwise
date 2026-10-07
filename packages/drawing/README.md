@@ -5,7 +5,7 @@
 
 ## Status
 
-The package currently provides the responsive `Figure` wrapper, layered `Drawing` component, coordinate systems, position and target resolution, and HTML drawing primitives. Plot and SVG primitives will be added incrementally before existing Step-Wise figures are migrated. The existing frontend drawing implementation remains in use during this process.
+The package currently provides the responsive `Figure` wrapper, layered `Drawing` component, coordinate systems, position and target resolution, HTML and SVG primitives, and a Plot extension. The existing frontend drawing implementation remains in use while existing figures are migrated.
 
 
 ## Figure
@@ -20,7 +20,7 @@ import { Figure } from '@step-wise/drawing'
 </Figure>
 ```
 
-`width` and `height` define the internal pixel dimensions. `maxWidth` limits the displayed width and defaults to the internal width, so a Figure shrinks when necessary but does not grow unless explicitly allowed. `alignment` can be `left`, `center`, or `right` and defaults to `center`. Standard `div` properties, styles, and refs apply to the outer responsive element.
+`width` and `height` define the internal pixel dimensions. A numeric `maxWidth` limits the displayed width and defaults to the internal width, so a Figure shrinks when necessary but does not grow by default. Set `maxWidth="none"` to let it fill the available parent width even when that enlarges it beyond its internal dimensions. `alignment` can be `left`, `center`, or `right` and defaults to `center`. Standard `div` properties, styles, and refs apply to the outer responsive element.
 
 
 ## Drawing
@@ -69,7 +69,7 @@ const { drawingPosition, pixelPosition, isInside, modifierKeys } = useDrawingPoi
 The convenience hooks `useDrawingPointerPosition`, `usePixelPointerPosition`, `useRenderPointerPosition`, and `useClientPointerPosition` return one coordinate form. Pointer listeners are installed lazily while at least one tracking hook is mounted, and updates are coalesced to animation frames.
 
 
-## Planned architecture
+## Architecture
 
 The package contains three related abstraction levels:
 
@@ -77,14 +77,14 @@ The package contains three related abstraction levels:
 - `Drawing` provides coordinate transformations and layered SVG, Canvas, and HTML rendering.
 - `Plot` extends Drawing with plot bounds, ticks, axes, grids, and other plot-specific data.
 
-Drawing will support four coordinate systems:
+Drawing supports four coordinate systems:
 
 - drawing coordinates describe the logical or mathematical drawing;
 - pixel coordinates describe fixed internal Drawing pixels and follow the configured y-direction;
 - render coordinates match SVG, Canvas, and CSS positioning, with the origin at the top left;
 - client coordinates describe browser viewport positions.
 
-The SVG, Canvas, and HTML layers will share the same positioning system. Canvas remains an optional layer and will expose its element and rendering context for custom drawing code.
+The SVG, Canvas, and HTML layers share the same positioning system. Canvas remains an optional layer and exposes its element and rendering context for custom drawing code.
 
 
 ## Coordinate system
@@ -113,7 +113,7 @@ Pixel coordinates follow `yDirection`. With an upward y-direction their origin i
 
 `containsDrawingPosition` checks whether a drawing-coordinate position lies inside the visible Drawing rectangle, including its boundary. `clampDrawingPosition` returns the nearest drawing-coordinate position inside that rectangle. Both operations evaluate the bounds in pixel space, so they also work with rotated, reflected, and otherwise custom drawing transformations.
 
-The coordinate system also exposes its constituent `Transformation` instances. Vector conversion methods such as `drawingVectorToPixel` and `pixelVectorToRender` apply scaling and orientation without applying positional translations. These will support pixel offsets and distance resolution.
+The coordinate system also exposes its constituent `Transformation` instances. Vector conversion methods such as `drawingVectorToPixel` and `pixelVectorToRender` apply scaling and orientation without applying positional translations. These support pixel offsets and distance resolution.
 
 
 ## Drawing views
@@ -306,6 +306,41 @@ Higher-level helpers include:
 - `DistanceMarker`, which draws a double-ended dimension arrow with an optional pixel offset.
 
 All line-based primitives default to a two-pixel `currentColor` stroke and no fill, so an application can theme them through ordinary CSS.
+
+
+## Plot
+
+`Plot` extends `Drawing` with an upward mathematical coordinate system, resolved x/y domains, and tick values. Give it either explicit `bounds` or a collection of `points`. Its constrained view specification uses the resulting domain automatically.
+
+```tsx
+import { Axes, Crosshair, Curve, Grid, Plot, PlotArea } from '@step-wise/drawing'
+
+<Plot
+	bounds={{ min: [-3, -2], max: [3, 8] }}
+	view={{ type: 'fit', maxWidth: 600, maxHeight: 360, margin: 40 }}
+	axes={{
+		x: { ticks: { step: 1 } },
+		y: { ticks: { desiredCount: 6 } },
+	}}
+>
+	<Grid />
+	<PlotArea>
+		<Curve positions={points} smoothing={{ mode: 'through', ratio: 0.7 }} />
+	</PlotArea>
+	<Axes x={{ label: 'x' }} y={{ label: 'f(x)' }} />
+	<Crosshair />
+</Plot>
+```
+
+Plot axes use linear scales in the initial implementation. Their settings can override the `domain`, include zero, set the axis `position`, and use explicit tick `values`, a fixed `step`, or an approximate `desiredCount`. Zero is included and the domain is extended to complete ticks by default; set `includeZero: false` or `extendDomain: false` where that is undesirable.
+
+Axes are explicit rather than automatic. `Axes` composes the separately exported `XAxis` and `YAxis`, and their position, line, tick, label, formatting, and visibility options can be customized independently. Tick labels and axis labels use HTML primitives, so they can contain arbitrary React content such as KaTeX expressions.
+
+`Grid` renders independently customizable x/y grid lines. `PlotArea` supplies an SVG group clipped to the mathematical domain, leaving axes and labels in the Drawing margins visible. Its clipping can be disabled with `clip={false}`.
+
+`Crosshair` tracks the Drawing pointer while it lies inside the Plot domain. It can render lines to the axes, a point marker, formatted axis values, and an optional point label through `getPointLabel`. `formatXValue` and `formatYValue` only format their respective axis values.
+
+Plot hooks expose the resolved data for custom extensions: `usePlot`, `usePlotDomain`, `usePlotAxis`, and `usePlotTicks`.
 
 
 ## Styling

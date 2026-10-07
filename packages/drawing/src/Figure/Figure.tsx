@@ -10,7 +10,7 @@ export const Figure = forwardRef<HTMLDivElement, FigureProps>(function Figure(pr
 	const { children, width: widthInput, height: heightInput, maxWidth: maxWidthInput, alignment: alignmentInput = 'center', style, ...divProps } = props
 	const width = ensureNumber(widthInput, { nonNegative: true, nonZero: true })
 	const height = ensureNumber(heightInput, { nonNegative: true, nonZero: true })
-	const maxWidth = ensureNumber(maxWidthInput ?? width, { nonNegative: true, nonZero: true })
+	const maxWidth = maxWidthInput === 'none' ? 'none' : ensureNumber(maxWidthInput ?? width, { nonNegative: true, nonZero: true })
 	const alignment = ensureFigureAlignment(alignmentInput)
 
 	// Use the viewport width to determine the scale of the figure content.
