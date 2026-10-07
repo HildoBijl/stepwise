@@ -87,9 +87,13 @@ describe('SVG drawing primitives', () => {
 	})
 
 	test('renders text and transformed groups with optional drawing-bounds clipping', () => {
-		renderDrawing(<SvgGroup clip data-testid="group" position={[10, 20]} rotate={Math.PI / 2} scale={2}>
-			<SvgText data-testid="text" position={[5, 6]}>Text</SvgText>
-		</SvgGroup>)
+		renderDrawing(<>
+			<SvgGroup data-testid="unpositioned-group" />
+			<SvgGroup clip data-testid="group" position={[10, 20]} rotate={Math.PI / 2} scale={2}>
+				<SvgText data-testid="text" position={[5, 6]}>Text</SvgText>
+			</SvgGroup>
+		</>)
+		expect(screen.getByTestId('unpositioned-group').getAttribute('transform')).toBe('translate(0 0) rotate(0) scale(1)')
 		const group = screen.getByTestId('group')
 		expect(group.getAttribute('transform')).toBe('translate(10 20) rotate(90) scale(2)')
 		expect(group.parentElement?.getAttribute('clip-path')).toContain('drawing-clip')
@@ -108,7 +112,9 @@ describe('SVG drawing primitives', () => {
 	test('renders a distance marker and its arrowhead definition', () => {
 		const { container } = renderDrawing(<DistanceMarker data-testid="distance" positions={[[10, 10], [30, 10]]} />)
 		expect(screen.getByTestId('distance').style.markerStart).toContain('distance-marker')
-		expect(container.querySelector('defs marker')).not.toBeNull()
+		expect(container.querySelector('defs marker')?.getAttribute('refX')).toBe('10')
+		expect(container.querySelector('defs marker path')?.getAttribute('d')).toBe('M0 0 L10 5 L0 10')
+		expect(container.querySelector('defs marker path')?.getAttribute('fill')).toBe('none')
 	})
 
 	test('does not render until every required position resolves', () => {

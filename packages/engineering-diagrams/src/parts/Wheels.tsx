@@ -1,8 +1,7 @@
 import { type Position } from '@step-wise/drawing'
 
-import { PositionedSvgSymbol } from '../../PositionedSvgSymbol.tsx'
-
-import { WheelsShape, type WheelsShapeProps } from './shapes/index.ts'
+import { PositionedSvgSymbol } from '../PositionedSvgSymbol.tsx'
+import { type WheelsShapeProps, WheelsShape } from '../shapes/index.ts'
 
 export interface WheelsProps extends WheelsShapeProps {
 	position?: Position

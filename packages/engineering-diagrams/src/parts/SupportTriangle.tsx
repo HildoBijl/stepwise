@@ -1,8 +1,7 @@
 import { type Position } from '@step-wise/drawing'
 
-import { type PositionedSvgSymbolProps, PositionedSvgSymbol } from '../../PositionedSvgSymbol.tsx'
-
-import { SupportTriangleShape, type SupportTriangleShapeProps } from './shapes/index.ts'
+import { type PositionedSvgSymbolProps, PositionedSvgSymbol } from '../PositionedSvgSymbol.tsx'
+import { type SupportTriangleShapeProps, SupportTriangleShape } from '../shapes/index.ts'
 
 export interface SupportTriangleProps extends Omit<SupportTriangleShapeProps, 'ref'> {
 	position?: Position

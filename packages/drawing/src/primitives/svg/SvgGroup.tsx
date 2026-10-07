@@ -13,18 +13,19 @@ export interface SvgGroupProps extends Omit<SVGProps<SVGGElement>, 'clip'> {
 }
 
 export const SvgGroup = forwardRef<SVGGElement, SvgGroupProps>(function SvgGroup(props, ref) {
-	const { children, clip, position = [0, 0], rotate = 0, scale = 1, style, ...groupProps } = props
+	const { children, clip, position, rotate = 0, scale = 1, style, ...groupProps } = props
 	const { clipPathId } = useDrawing()
 	const coordinateSystem = useDrawingCoordinateSystem()
 
-	// Resolve the position and abort if it is not valid.
+	// Resolve an explicit position and abort if it is not valid.
 	const resolvedPosition = useResolvedPosition(position)
-	if (resolvedPosition === undefined) return null
+	if (position !== undefined && resolvedPosition === undefined) return null
+	const translation = resolvedPosition ?? { x: 0, y: 0 }
 
 	// Calculate the transform for the group based on the resolved position, rotation, and scale.
 	const rotation = ensureNumber(rotate) * (coordinateSystem.yDirection === 'up' ? -1 : 1)
 	const resolvedScale = ensureNumber(scale)
-	const transform = `translate(${resolvedPosition.x} ${resolvedPosition.y}) rotate(${rotation * 180 / Math.PI}) scale(${resolvedScale})`
+	const transform = `translate(${translation.x} ${translation.y}) rotate(${rotation * 180 / Math.PI}) scale(${resolvedScale})`
 
 	// Render the transformed group, optionally inside an untransformed clipping group.
 	const group = <g {...groupProps} ref={ref} style={style} transform={transform}>{children}</g>

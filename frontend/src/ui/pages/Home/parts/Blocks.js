@@ -4,6 +4,7 @@ import { Box, Container, Grid, Button, useTheme } from '@mui/material'
 import { Info as InfoIcon } from '@mui/icons-material'
 
 import { M } from '@step-wise/math-display'
+import { Beam, Force, HingeSupport, RollerHingeSupport } from '@step-wise/engineering-diagrams'
 
 import { TranslationSection, Translation } from 'i18n'
 import { Student, Teacher, SignInButtons } from 'ui/components'
@@ -167,39 +168,20 @@ function PythagorasImage() {
 
 function StructureImage() {
 	const theme = useTheme()
-
-	const beamStyle = { fill: 'none', stroke: 'currentColor', strokeWidth: 3 }
-	const groundStyle = { fill: 'currentColor', opacity: 0.4 }
-	const groundLineStyle = { stroke: 'currentColor', strokeWidth: 1.2 }
-	const supportStyle = { fill: theme.palette.secondary.main, stroke: 'currentColor', strokeWidth: 1.2, strokeLinejoin: 'round' }
-	const wheelStyle = { fill: 'currentColor' }
-	const forceLineStyle = { stroke: 'currentColor', strokeWidth: 2 }
-	const forceArrowHeadStyle = { fill: 'currentColor' }
+	const supportProps = {
+		groundProps: { height: 7.2, width: 30 },
+		height: 12,
+		hingeProps: { fill: theme.palette.secondary.main, r: 3.6 },
+		thickness: 1.2,
+		triangleProps: { fill: theme.palette.secondary.main },
+		width: 19.2,
+	}
 
 	return <Drawing view={{ type: 'identity', width: 120, height: 32 }} style={{ flex: '0 0 96px', margin: '0 0 0 8px', padding: 0, width: 96 }}>
-		<SvgPortal>
-			<line style={beamStyle} x1="16" y1="5.8" x2="104" y2="5.8" />
-
-			<rect style={groundStyle} x="89" y="23.8" width="30" height="7.2" />
-			<path style={groundLineStyle} d="M89,23.8h30" />
-			<polygon style={supportStyle} points="104,5.8 94.4,17.8 113.6,17.8 " />
-			<circle style={supportStyle} cx="104" cy="5.8" r="3.6" />
-
-			<circle style={wheelStyle} cx="96.8" cy="20.8" r="2.4" />
-			<circle style={wheelStyle} cx="101.6" cy="20.8" r="2.4" />
-			<circle style={wheelStyle} cx="106.4" cy="20.8" r="2.4" />
-			<circle style={wheelStyle} cx="111.2" cy="20.8" r="2.4" />
-
-			<rect style={groundStyle} x="1" y="17.8" width="30" height="7.2" />
-			<path style={groundLineStyle} d="M1,17.8h30" />
-			<polygon style={supportStyle} points="16,5.8 6.4,17.8 25.6,17.8 " />
-			<circle style={supportStyle} cx="16" cy="5.8" r="3.6" />
-
-			<path style={forceLineStyle} d="M71.7,5.5v20.9" />
-			<polygon style={forceArrowHeadStyle} points="71.7,30.1 76.5,20.5 71.7,23.4 66.9,20.5" />
-
-			<path style={forceLineStyle} d="M48.3,5.5v20.9" />
-			<polygon style={forceArrowHeadStyle} points="48.3,30.1 53.1,20.5 48.3,23.4 43.5,20.5" />
-		</SvgPortal>
+		<Beam positions={[[16, 5.8], [104, 5.8]]} thickness={3} />
+		<HingeSupport {...supportProps} position={[16, 5.8]} />
+		<RollerHingeSupport {...supportProps} position={[104, 5.8]} wheelRadius={2.4} />
+		<Force angle={Math.PI / 2} applicationPointAt="start" length={{ pixelDistance: 24.6 }} position={[48.3, 5.5]} strokeWidth={2} />
+		<Force angle={Math.PI / 2} applicationPointAt="start" length={{ pixelDistance: 24.6 }} position={[71.7, 5.5]} strokeWidth={2} />
 	</Drawing>
 }

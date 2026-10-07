@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react'
 
-import { type Position } from '@step-wise/drawing'
+import type { Position } from '@step-wise/drawing'
 import { Vector } from '@step-wise/geometry'
 import { ensureNumber } from '@step-wise/js-utils'
 

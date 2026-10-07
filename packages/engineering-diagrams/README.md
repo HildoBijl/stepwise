@@ -30,7 +30,7 @@ import { Beam, FixedSupport, Force } from '@step-wise/engineering-diagrams'
 
 ## Components
 
-Structural components include `Beam`, `Hinge`, and `HalfHinge`. Support parts include `Ground`, `SupportBlock`, `SupportTriangle`, and `Wheels`. Complete supports include:
+Structural components include `Beam`, `Hinge`, and `HalfHinge`. Complete supports include:
 
 - `FixedSupport` and `AdjacentFixedSupport`;
 - `HingeSupport` and `HalfHingeSupport`;

@@ -1,8 +1,7 @@
 import { type Position } from '@step-wise/drawing'
 
-import { type PositionedSvgSymbolProps, PositionedSvgSymbol } from '../../PositionedSvgSymbol.tsx'
-
-import { SupportBlockShape, type SupportBlockShapeProps } from './shapes/index.ts'
+import { type PositionedSvgSymbolProps, PositionedSvgSymbol } from '../PositionedSvgSymbol.tsx'
+import { type SupportBlockShapeProps, SupportBlockShape } from '../shapes/index.ts'
 
 export interface SupportBlockProps extends Omit<SupportBlockShapeProps, 'ref'> {
 	position?: Position

@@ -1,8 +1,7 @@
 import { type Position } from '@step-wise/drawing'
 
-import { PositionedSvgSymbol } from '../../PositionedSvgSymbol.tsx'
-
-import { GroundShape, type GroundShapeProps } from './shapes/index.ts'
+import { PositionedSvgSymbol } from '../PositionedSvgSymbol.tsx'
+import { type GroundShapeProps, GroundShape } from '../shapes/index.ts'
 
 export interface GroundProps extends GroundShapeProps {
 	position?: Position

@@ -4,14 +4,16 @@ import { integerRange } from '@step-wise/js-utils'
 import { Vector, Rectangle } from '@step-wise/geometry'
 import { Quantity } from '@step-wise/physics-core'
 import { M, BM, BMList, BMPart } from '@step-wise/math-display'
+import { loadNameToVariable } from '@step-wise/mechanics-exercises'
+import { Drawing, CornerLabel, Circle, Rectangle as SvgRectangle, Line, DistanceMarker, HtmlElement, Label, anchors } from '@step-wise/drawing'
+import { LoadLabel, renderEngineeringDiagram, defaultForceLengthInPixels, defaultEngineeringDiagramColors } from '@step-wise/engineering-diagrams'
 
 import { Par } from 'ui/components'
-import { Drawing, CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
-import { Distance, Element, Label, LoadLabel, render, sumOfMoments, defaultGraphicalForceLength, loadColors } from 'ui/eduContent/mechanics'
+import { sumOfMoments } from 'ui/eduContent/mechanics'
 
 const distanceShift = 60
 const rectangleMargin = 0.7
@@ -99,37 +101,36 @@ const steps = [
 
 function Diagram({ decompose = false, showIntersection = false }) {
 	const scale = 50
-	const transformationSettings = useScaleBasedTransformationSettings([Vector.zero, new Vector(4, 4)], { scale, margin: 70 })
 
 	const { loads, loadNames, decomposedLoads, decomposedLoadNames, angle, intersection } = useSolution()
 	const grid = integerRange(0, 4).map(x => integerRange(0, 4).map(y => new Vector(x, y))).flat()
 	const rectangle = new Rectangle({ min: new Vector(-rectangleMargin, -rectangleMargin), max: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
 	const force = loads[3]
-	const forceStart = force.position.subtract(Vector.fromPolar(force.relativeMagnitude * defaultGraphicalForceLength / scale, force.angle))
+	const forceStart = force.position.subtract(Vector.fromPolar(force.relativeMagnitude * defaultForceLengthInPixels / scale, force.angle))
 	const lineEndpoint = new Vector(force.position.x, forceStart.y)
 
-	return <Drawing transformationSettings={transformationSettings}>
-		<SvgRectangle dimensions={rectangle} cornerRadius={0.2} style={{ fill: '#aaccff', strokeWidth: 1, stroke: '#777' }} />
-		{grid.map((point, index) => <Circle key={index} center={point} graphicalRadius={3} style={{ fill: '#777' }} />)}
-		{decompose ? null : <Line points={[force.position, lineEndpoint]} style={{ stroke: '#777' }} />}
+	return <Drawing view={{ type: 'scale', points: [Vector.zero, new Vector(4, 4)], scale, margin: 70, yDirection: 'up' }}>
+		<SvgRectangle corners={[rectangle.min, rectangle.max]} cornerRadius={0.2} fill="#aaccff" stroke="#777" />
+		{grid.map((point, index) => <Circle key={index} center={point} fill="#777" radius={{ pixelDistance: 3 }} />)}
+		{decompose ? null : <Line positions={[force.position, lineEndpoint]} stroke="#777" />}
 
-		{render((decompose ? decomposedLoads : loads).map((load, index) => ({
+		{renderEngineeringDiagram((decompose ? decomposedLoads : loads).map((load, index) => ({
 			...load,
 			color: decompose
-				? (index === 0 ? loadColors.input : index >= 3 ? loadColors.external : loadColors.reaction)
-				: (index === 0 ? loadColors.input : index === 3 ? loadColors.external : loadColors.reaction),
+				? (index === 0 ? defaultEngineeringDiagramColors.input : index >= 3 ? defaultEngineeringDiagramColors.external : defaultEngineeringDiagramColors.reaction)
+				: (index === 0 ? defaultEngineeringDiagramColors.input : index === 3 ? defaultEngineeringDiagramColors.external : defaultEngineeringDiagramColors.reaction),
 		})))}
-		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
+		{(decompose ? decomposedLoadNames : loadNames).map(({ load, name }, index) => <LoadLabel key={index} load={load}><M>{loadNameToVariable(name)}</M></LoadLabel>)}
 
-		{decompose ? null : <CornerLabel points={[forceStart, force.position, lineEndpoint]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>}
+		{decompose ? null : <CornerLabel positions={[forceStart, force.position, lineEndpoint]} size={{ pixelDistance: 28 }}><M>{angle}^\circ</M></CornerLabel>}
 
 		{showIntersection ? <>
-			<Label position={intersection} angle={Math.PI / 4} graphicalDistance={4}><M>E</M></Label>
-			<Circle center={intersection} graphicalRadius={5} style={{ fill: '#000' }} />
+			<Label position={intersection} angle={Math.PI / 4} distance={{ pixelDistance: 4 }}><M>E</M></Label>
+			<Circle center={intersection} fill="#000" radius={{ pixelDistance: 5 }} />
 		</> : null}
 
-		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new Quantity('1.0 m')}</M></Element>
-		<Distance lineSegment={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
+		<HtmlElement anchor={anchors.left} position={{ position: new Vector(4, 0.5), pixelOffset: new Vector(distanceShift + 6, 0) }}><M>{new Quantity('1.0 m')}</M></HtmlElement>
+		<DistanceMarker pixelOffset={new Vector(distanceShift, 0)} positions={[new Vector(4, 0), new Vector(4, 1)]} />
 	</Drawing>
 }
 

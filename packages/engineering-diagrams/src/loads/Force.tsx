@@ -3,7 +3,10 @@ import { type ApplicationPointPosition } from '@step-wise/engineering-mechanics'
 import { Vector } from '@step-wise/geometry'
 import { ensureNumber } from '@step-wise/js-utils'
 
-export const defaultForceLength: Distance = { pixelDistance: 70 }
+import { engineeringAngleToPixel } from './angles.ts'
+
+export const defaultForceLengthInPixels = 70
+export const defaultForceLength: Distance = { pixelDistance: defaultForceLengthInPixels }
 
 export interface ForceProps extends Omit<LineProps, 'positions' | 'startArrow' | 'endArrow'> {
 	position: Position
@@ -24,7 +27,8 @@ export function Force(props: ForceProps) {
 	const magnitude = resolvedLength * ensureNumber(relativeMagnitude, { nonNegative: true, nonZero: true })
 
 	// Calculate the second point of the vector. Due to different coordinate systems, use a calculate function.
-	const offset = coordinateSystem.pixelVectorToRender(Vector.fromPolar(magnitude, ensureNumber(angle)))
+	const pixelAngle = engineeringAngleToPixel(ensureNumber(angle), coordinateSystem.yDirection)
+	const offset = coordinateSystem.pixelVectorToRender(Vector.fromPolar(magnitude, pixelAngle))
 	const displacedPosition: Position = { positions: [position], calculate: ([resolvedPosition]) => resolvedPosition.add(applicationPointAt === 'start' ? offset : offset.negate()) }
 	const positions = applicationPointAt === 'start' ? [position, displacedPosition] : [displacedPosition, position]
 

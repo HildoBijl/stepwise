@@ -4,14 +4,16 @@ import { integerRange } from '@step-wise/js-utils'
 import { Vector, Rectangle } from '@step-wise/geometry'
 import { Quantity } from '@step-wise/physics-core'
 import { M, BM } from '@step-wise/math-display'
+import { loadNameToVariable } from '@step-wise/mechanics-exercises'
+import { Drawing, Circle, Rectangle as SvgRectangle, DistanceMarker, HtmlElement, anchors } from '@step-wise/drawing'
+import { LoadLabel, renderEngineeringDiagram, defaultEngineeringDiagramColors } from '@step-wise/engineering-diagrams'
 
 import { Par } from 'ui/components'
-import { Drawing, Circle, Rectangle as SvgRectangle, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
-import { Distance, Element, LoadLabel, render, sumOfForces, loadColors } from 'ui/eduContent/mechanics'
+import { sumOfForces } from 'ui/eduContent/mechanics'
 
 const distanceShift = 60
 const rectangleMargin = 0.7
@@ -89,26 +91,24 @@ const steps = [
 ]
 
 function Diagram({ decompose = false }) {
-	const transformationSettings = useScaleBasedTransformationSettings([Vector.zero, new Vector(4, 4)], { scale: 50, margin: 70 })
-
 	const { loads, loadNames, decomposedLoads, decomposedLoadNames } = useSolution()
 	const grid = integerRange(0, 4).map(x => integerRange(0, 4).map(y => new Vector(x, y))).flat()
 	const rectangle = new Rectangle({ min: new Vector(-rectangleMargin, -rectangleMargin), max: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
 
-	return <Drawing transformationSettings={transformationSettings}>
-		<SvgRectangle dimensions={rectangle} cornerRadius={0.2} style={{ fill: '#aaccff', strokeWidth: 1, stroke: '#777' }} />
-		{grid.map((point, index) => <Circle key={index} center={point} graphicalRadius={3} style={{ fill: '#777' }} />)}
+	return <Drawing view={{ type: 'scale', points: [Vector.zero, new Vector(4, 4)], scale: 50, margin: 70, yDirection: 'up' }}>
+		<SvgRectangle corners={[rectangle.min, rectangle.max]} cornerRadius={0.2} fill="#aaccff" stroke="#777" />
+		{grid.map((point, index) => <Circle key={index} center={point} fill="#777" radius={{ pixelDistance: 3 }} />)}
 
-		{render((decompose ? decomposedLoads : loads).map((load, index) => ({
+		{renderEngineeringDiagram((decompose ? decomposedLoads : loads).map((load, index) => ({
 			...load,
 			color: decompose
-				? (index === 0 ? loadColors.input : index >= 3 ? loadColors.external : loadColors.reaction)
-				: (index === 0 ? loadColors.input : index === 3 ? loadColors.external : loadColors.reaction),
+				? (index === 0 ? defaultEngineeringDiagramColors.input : index >= 3 ? defaultEngineeringDiagramColors.external : defaultEngineeringDiagramColors.reaction)
+				: (index === 0 ? defaultEngineeringDiagramColors.input : index === 3 ? defaultEngineeringDiagramColors.external : defaultEngineeringDiagramColors.reaction),
 		})))}
-		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
+		{(decompose ? decomposedLoadNames : loadNames).map(({ load, name }, index) => <LoadLabel key={index} load={load}><M>{loadNameToVariable(name)}</M></LoadLabel>)}
 
-		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new Quantity('1.0 m')}</M></Element>
-		<Distance lineSegment={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
+		<HtmlElement anchor={anchors.left} position={{ position: new Vector(4, 0.5), pixelOffset: new Vector(distanceShift + 6, 0) }}><M>{new Quantity('1.0 m')}</M></HtmlElement>
+		<DistanceMarker pixelOffset={new Vector(distanceShift, 0)} positions={[new Vector(4, 0), new Vector(4, 1)]} />
 	</Drawing>
 }
 

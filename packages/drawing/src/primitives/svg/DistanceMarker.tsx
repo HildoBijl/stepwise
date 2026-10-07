@@ -32,8 +32,8 @@ export const DistanceMarker = forwardRef<SVGPathElement, DistanceMarkerProps>(fu
 	// Render the shape with markers at both ends.
 	return <>
 		<SvgDefsPortal>
-			<marker id={id} markerHeight={markerSize * 2} markerUnits="userSpaceOnUse" markerWidth={markerSize * 2} orient="auto-start-reverse" refX={markerSize} refY={markerSize}>
-				<path d={`M${markerSize * 2} 0 L0 ${markerSize} L${markerSize * 2} ${markerSize * 2} Z`} fill="context-stroke" />
+			<marker id={id} markerHeight={markerSize * 2} markerUnits="userSpaceOnUse" markerWidth={markerSize * 2} orient="auto-start-reverse" refX={markerSize * 2} refY={markerSize}>
+				<path d={`M0 0 L${markerSize * 2} ${markerSize} L0 ${markerSize * 2}`} fill="none" stroke="context-stroke" />
 			</marker>
 		</SvgDefsPortal>
 		<Line {...lineProps} positions={shiftedPositions} ref={ref} style={{ markerEnd: `url(#${id})`, markerStart: `url(#${id})`, ...style }} />

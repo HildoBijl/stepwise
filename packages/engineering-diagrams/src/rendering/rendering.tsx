@@ -5,8 +5,9 @@ import { isPlainObject } from '@step-wise/js-utils'
 
 import { defaultEngineeringDiagramColors, type EngineeringLoadSource } from '../colors.ts'
 import { Force, LoadLabel, Moment } from '../loads/index.ts'
-import { Beam, HalfHinge, Hinge } from '../structural/index.ts'
-import { AdjacentFixedSupport, AdjacentRollerSupport, FixedSupport, Ground, HalfHingeSupport, HingeSupport, RollerHalfHingeSupport, RollerHingeSupport, RollerSupport, SupportBlock, SupportTriangle, Wheels } from '../supports/index.ts'
+import { Ground, SupportBlock, SupportTriangle, Wheels } from '../parts/index.ts'
+import { Beam, HalfHinge, Hinge } from '../structures/index.ts'
+import { AdjacentFixedSupport, AdjacentRollerSupport, FixedSupport, HalfHingeSupport, HingeSupport, RollerHalfHingeSupport, RollerHingeSupport, RollerSupport } from '../supports/index.ts'
 
 export type EngineeringDiagramObjectData = {
 	type: string

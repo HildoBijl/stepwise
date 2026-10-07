@@ -10,7 +10,7 @@ import { ForceType, MomentType } from '@step-wise/engineering-mechanics'
 import { defaultEngineeringDiagramColors } from './colors.ts'
 import { Force, LoadLabel, Moment } from './loads/index.ts'
 import { renderEngineeringDiagram } from './rendering/index.ts'
-import { Beam } from './structural/index.ts'
+import { Beam } from './structures/index.ts'
 import { FixedSupport, RollerHingeSupport } from './supports/index.ts'
 
 afterEach(() => {
@@ -35,12 +35,14 @@ describe('engineering diagram components', () => {
 	test('renders force and moment arrows with reusable drawing primitives', () => {
 		const { container } = renderDrawing(<>
 			<Force angle={0} color="red" data-testid="force" length={{ pixelDistance: 40 }} position={[50, 50]} />
+			<Force angle={Math.PI / 2} data-testid="vertical-force" length={{ pixelDistance: 40 }} position={[50, 50]} />
 			<Moment clockwise color="blue" data-testid="moment" position={[25, 25]} radius={{ pixelDistance: 15 }} />
 		</>)
 		expect(screen.getByTestId('force').getAttribute('stroke')).toBe('red')
 		expect(screen.getByTestId('force').getAttribute('d')).toBe('M10 50 L35 50')
+		expect(screen.getByTestId('vertical-force').getAttribute('d')).toBe('M50 10 L50 35')
 		expect(screen.getByTestId('moment').getAttribute('stroke')).toBe('blue')
-		expect(container.querySelectorAll('polygon')).toHaveLength(2)
+		expect(container.querySelectorAll('polygon')).toHaveLength(3)
 	})
 
 	test('keeps load labels independent from a math-rendering library', () => {
@@ -49,8 +51,9 @@ describe('engineering diagram components', () => {
 	})
 
 	test('provides a temporary data renderer with semantic source colors', () => {
-		renderDrawing(renderEngineeringDiagram({ type: ForceType, position: [50, 50], angle: 0, source: 'reaction' }))
+		const { container } = renderDrawing(renderEngineeringDiagram([{ type: ForceType, position: [50, 50], angle: 0, source: 'reaction' }]))
 		expect(document.querySelector('.force')?.getAttribute('stroke')).toBe(defaultEngineeringDiagramColors.reaction)
+		expect(container.querySelector('svg > g')?.getAttribute('transform')).toBe('translate(0 0) rotate(0) scale(1)')
 		expect(() => renderEngineeringDiagram({ type: 'Unknown' })).toThrow('unknown type')
 		expect(() => renderEngineeringDiagram({ type: MomentType, position: [0, 0], clockwise: false, source: 'external' })).not.toThrow()
 	})
