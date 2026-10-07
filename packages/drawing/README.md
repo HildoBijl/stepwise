@@ -252,7 +252,7 @@ The first implementation deliberately does not track which target owns a positio
 <HtmlElement behind position={[1, 2]}>Behind the SVG contents</HtmlElement>
 ```
 
-The optional `target` prop registers the complete rendered element as a drawing target without requiring a separate ref or wrapper. Set `behind` to place the element below SVG rather than above it. Mouse interaction is ignored by default. Set `ignoreMouse={false}` for controls or other interactive contents. `rotate` is expressed in radians and follows the configured pixel-coordinate direction; `scale`, standard `div` attributes, styles, class names, and refs are also supported.
+The optional `target` prop registers the complete rendered element as a drawing target without requiring a separate ref or wrapper. Set `behind` to place the element below SVG rather than above it. Contents do not wrap by default; set a width and `whiteSpace` through `style` when wrapping is desired. Mouse interaction is ignored by default. Set `ignoreMouse={false}` for controls or other interactive contents. `rotate` is expressed in radians and follows the configured pixel-coordinate direction; `scale`, standard `div` attributes, styles, class names, and refs are also supported.
 
 `Label` offsets an element from a position by a distance and angle. If no anchor is supplied, it selects the edge facing back toward the original position.
 
@@ -305,7 +305,7 @@ Higher-level helpers include:
 - `RightAngle`, which draws a right-angle marker inside three positions;
 - `DistanceMarker`, which draws a double-ended dimension arrow with an optional pixel offset.
 
-All line-based primitives default to a two-pixel `currentColor` stroke and no fill, so an application can theme them through ordinary CSS.
+All line-based primitives default to a one-pixel `currentColor` stroke and no fill, matching the neutral SVG default while allowing applications to emphasize arrows and other prominent elements explicitly.
 
 
 ## Plot

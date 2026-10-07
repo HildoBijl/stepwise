@@ -32,6 +32,15 @@ describe('HTML drawing primitives', () => {
 		expect(screen.getByText('Interactive').style.pointerEvents).toBe('auto')
 	})
 
+	test('does not wrap contents unless wrapping is explicitly enabled', () => {
+		renderDrawing(<>
+			<HtmlElement position={[0, 0]}>No wrapping</HtmlElement>
+			<HtmlElement position={[0, 0]} style={{ whiteSpace: 'normal' }}>Wrapping</HtmlElement>
+		</>)
+		expect(screen.getByText('No wrapping').style.whiteSpace).toBe('nowrap')
+		expect(screen.getByText('Wrapping').style.whiteSpace).toBe('normal')
+	})
+
 	test('renders an element behind the SVG layer when requested', () => {
 		const { container } = renderDrawing(<HtmlElement behind position={[0, 0]}>Behind</HtmlElement>)
 		expect(screen.getByText('Behind').parentElement?.nextElementSibling).toBe(container.querySelector('svg'))

@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { Vector } from '@step-wise/geometry'
+import { Transformation, Vector } from '@step-wise/geometry'
 import { M, BM } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
-import { Drawing, Polygon, RightAngle, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
+import { Drawing, Polygon, RightAngle, LineLabel } from '@step-wise/drawing'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
 import { StepExercise, useExerciseData, useSolution, getFieldInputFeedback } from 'ui/eduTools'
@@ -101,29 +101,24 @@ function ExerciseFigure() {
 	const { rotation, reflection, La, Lb, Lc } = solution
 
 	// Define the transformation.
-	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useBoundsBasedTransformationSettings([...triangle1, ...triangle2], {
-		pretransformation,
-		maxWidth: 300,
-		maxHeight: 300,
-		margin: 20,
-	})
+	let pretransform = Transformation.fromRotation(rotation)
+	if (reflection) pretransform = Transformation.fromHyperplaneReflection(Vector.getUnitVector(0, 2)).then(pretransform)
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings}>
-		<Polygon points={triangle1} style={{ fill: '#aaccff' }} />
-		<RightAngle points={triangle1} graphicalSize={10} />
+	return <Drawing view={{ type: 'fit', points: [...triangle1, ...triangle2], pretransform, maxWidth: 300, maxHeight: 300, margin: 20 }}>
+		<Polygon positions={triangle1} style={{ fill: '#aaccff' }} />
+		<RightAngle positions={triangle1} size={{ pixelDistance: 10 }} />
 
-		<LineLabel points={[triangle1[0], triangle1[1]]} oppositeTo={triangle1[2]}><M>{parameters.a}</M></LineLabel>
-		<LineLabel points={[triangle1[1], triangle1[2]]} oppositeTo={triangle1[0]}><M>{parameters.b}</M></LineLabel>
-		<LineLabel points={[triangle1[0], triangle1[2]]} oppositeTo={triangle1[1]}><M>{parameters.c}</M></LineLabel>
+		<LineLabel positions={[triangle1[0], triangle1[1]]} oppositeTo={triangle1[2]}><M>{parameters.a}</M></LineLabel>
+		<LineLabel positions={[triangle1[1], triangle1[2]]} oppositeTo={triangle1[0]}><M>{parameters.b}</M></LineLabel>
+		<LineLabel positions={[triangle1[0], triangle1[2]]} oppositeTo={triangle1[1]}><M>{parameters.c}</M></LineLabel>
 
-		<Polygon points={triangle2} style={{ fill: '#ffffff' }} />
-		<RightAngle points={triangle2} graphicalSize={6} />
+		<Polygon positions={triangle2} style={{ fill: '#ffffff' }} />
+		<RightAngle positions={triangle2} size={{ pixelDistance: 6 }} />
 
-		<LineLabel points={[triangle2[0], triangle2[1]]} oppositeTo={triangle2[2]} graphicalDistance={4}><M>{La}</M></LineLabel>
-		<LineLabel points={[triangle2[1], triangle2[2]]} oppositeTo={triangle2[0]} graphicalDistance={4}><M>{Lb}</M></LineLabel>
-		<LineLabel points={[triangle2[0], triangle2[2]]} oppositeTo={triangle2[1]} graphicalDistance={4}><M>{Lc}</M></LineLabel>
+		<LineLabel positions={[triangle2[0], triangle2[1]]} oppositeTo={triangle2[2]} distance={{ pixelDistance: 4 }}><M>{La}</M></LineLabel>
+		<LineLabel positions={[triangle2[1], triangle2[2]]} oppositeTo={triangle2[0]} distance={{ pixelDistance: 4 }}><M>{Lb}</M></LineLabel>
+		<LineLabel positions={[triangle2[0], triangle2[2]]} oppositeTo={triangle2[1]} distance={{ pixelDistance: 4 }}><M>{Lc}</M></LineLabel>
 	</Drawing>
 }
 

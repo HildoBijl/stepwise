@@ -7,7 +7,7 @@ import { M, BM } from '@step-wise/math-display'
 import { Translation } from 'i18n'
 import { usePrimaryColor } from 'ui/theme'
 import { Head, Par, List, Term } from 'ui/components'
-import { useIdentityTransformationSettings, Drawing, Rectangle, Element } from 'ui/figures'
+import { Drawing, Rectangle, HtmlElement } from '@step-wise/drawing'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
@@ -47,12 +47,11 @@ const a = 4, b = 2, c = 3
 function BlockDrawing({ useLetters = false }) {
 	const primaryColor = usePrimaryColor()
 	const rectangleStyle = { fill: alpha(primaryColor, 0.2), stroke: primaryColor, strokeWidth: 2 }
-	const transformationSettings = useIdentityTransformationSettings(left + (b + c) * size + delta, top + a * size)
-	return <Drawing transformationSettings={transformationSettings}>
-		{repeatMultidimensional([b, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ min: [left + x * size, top + y * size], size: [size, size] }} style={rectangleStyle} />).flat()}
-		{repeatMultidimensional([c, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ min: [left + (b + x) * size + delta, top + y * size], size: [size, size] }} style={rectangleStyle} />).flat()}
-		<Element anchor={[1, 0.5]} position={[left - 6, top + (a / 2) * size]}><M>{useLetters ? 'a' : a}</M></Element>
-		<Element anchor={[0.5, 1]} position={[left + (b / 2) * size, top - 1]}><M>{useLetters ? 'b' : b}</M></Element>
-		<Element anchor={[0.5, 1]} position={[left + (b + c / 2) * size + delta, top - 1]}><M>{useLetters ? 'c' : c}</M></Element>
+	return <Drawing view={{ type: 'identity', width: left + (b + c) * size + delta, height: top + a * size }}>
+		{repeatMultidimensional([b, a], (x, y) => <Rectangle key={`${x}-${y}`} corners={[[left + x * size, top + y * size], [left + (x + 1) * size, top + (y + 1) * size]]} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([c, a], (x, y) => <Rectangle key={`${x}-${y}`} corners={[[left + (b + x) * size + delta, top + y * size], [left + (b + x + 1) * size + delta, top + (y + 1) * size]]} style={rectangleStyle} />).flat()}
+		<HtmlElement anchor={[1, 0]} position={[left - 6, top + (a / 2) * size]}><M>{useLetters ? 'a' : a}</M></HtmlElement>
+		<HtmlElement anchor={[0, 1]} position={[left + (b / 2) * size, top - 1]}><M>{useLetters ? 'b' : b}</M></HtmlElement>
+		<HtmlElement anchor={[0, 1]} position={[left + (b + c / 2) * size + delta, top - 1]}><M>{useLetters ? 'c' : c}</M></HtmlElement>
 	</Drawing>
 }

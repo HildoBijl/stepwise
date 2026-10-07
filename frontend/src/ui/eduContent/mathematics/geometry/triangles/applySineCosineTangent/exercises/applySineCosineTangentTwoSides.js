@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { Vector } from '@step-wise/geometry'
+import { Transformation, Vector } from '@step-wise/geometry'
 import { expressionComparisons } from '@step-wise/cas'
 import { M, BM } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
-import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
+import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel } from '@step-wise/drawing'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'
 import { StepExercise, useExerciseData, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
@@ -112,24 +112,19 @@ function ExerciseFigure() {
 	const { rotation, reflection, a, b, c, notGiven } = solution
 
 	// Define the transformation.
-	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useBoundsBasedTransformationSettings(points, {
-		pretransformation,
-		maxWidth: 300,
-		maxHeight: 300,
-		margin: 20,
-	})
+	let pretransform = Transformation.fromRotation(rotation)
+	if (reflection) pretransform = Transformation.fromHyperplaneReflection(Vector.getUnitVector(0, 2)).then(pretransform)
 	const labelSize = 26
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings}>
-		<Polygon points={points} style={{ fill: '#aaccff' }} />
-		<RightAngle points={points} graphicalSize={10} />
+	return <Drawing view={{ type: 'fit', points, pretransform, maxWidth: 300, maxHeight: 300, margin: 20 }}>
+		<Polygon positions={points} style={{ fill: '#aaccff' }} />
+		<RightAngle positions={points} size={{ pixelDistance: 10 }} />
 
-		{notGiven === 0 ? null : <LineLabel points={[points[0], points[1]]} oppositeTo={points[2]}><M>{a}</M></LineLabel>}
-		{notGiven === 1 ? null : <LineLabel points={[points[1], points[2]]} oppositeTo={points[0]}><M>{b}</M></LineLabel>}
-		{notGiven === 2 ? null : <LineLabel points={[points[0], points[2]]} oppositeTo={points[1]}><M>{c}</M></LineLabel>}
-		<CornerLabel points={[points[2], points[0], points[1]]} graphicalSize={labelSize}><M>{parameters.beta}</M></CornerLabel>
+		{notGiven === 0 ? null : <LineLabel positions={[points[0], points[1]]} oppositeTo={points[2]}><M>{a}</M></LineLabel>}
+		{notGiven === 1 ? null : <LineLabel positions={[points[1], points[2]]} oppositeTo={points[0]}><M>{b}</M></LineLabel>}
+		{notGiven === 2 ? null : <LineLabel positions={[points[0], points[2]]} oppositeTo={points[1]}><M>{c}</M></LineLabel>}
+		<CornerLabel positions={[points[2], points[0], points[1]]} size={{ pixelDistance: labelSize }}><M>{parameters.beta}</M></CornerLabel>
 	</Drawing>
 }
 

@@ -8,7 +8,7 @@ import { M } from '@step-wise/math-display'
 import { TranslationSection, Translation } from 'i18n'
 import { Student, Teacher, SignInButtons } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
-import { Drawing, useIdentityTransformationSettings, SvgPortal, Element } from 'ui/figures'
+import { Drawing, SvgPortal, HtmlElement } from '@step-wise/drawing'
 
 export function Blocks() {
 	const paths = usePaths()
@@ -83,6 +83,7 @@ export function Blocks() {
 									height: '32px',
 									opacity: 0.85,
 									textTransform: 'none',
+									whiteSpace: 'nowrap',
 								},
 							}
 						},
@@ -151,22 +152,20 @@ export function Blocks() {
 }
 
 function PythagorasImage() {
-	const transformationSettings = useIdentityTransformationSettings(48, 32)
 	const lineStyle = { fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinejoin: 'round', strokeMiterlimit: 10 }
 	const textScale = 0.85
 
-	return <Drawing transformationSettings={transformationSettings} style={{ margin: '0 0 0 8px', padding: 0 }}>
+	return <Drawing view={{ type: 'identity', width: 48, height: 32 }} style={{ flex: '0 0 48px', margin: '0 0 0 8px', padding: 0, width: 48 }}>
 		<SvgPortal>
 			<path style={lineStyle} d="M44.8,16.5L14.7,28.7L4.4,3.3L44.8,16.5z" />
-			<Element position={[36, 27]} scale={textScale}><M>a</M></Element>
-			<Element position={[3, 21]} scale={textScale}><M>b</M></Element>
-			<Element position={[28, 2]} scale={textScale}><M>c</M></Element>
+			<HtmlElement position={[36, 27]} scale={textScale}><M>a</M></HtmlElement>
+			<HtmlElement position={[3, 21]} scale={textScale}><M>b</M></HtmlElement>
+			<HtmlElement position={[28, 2]} scale={textScale}><M>c</M></HtmlElement>
 		</SvgPortal>
 	</Drawing>
 }
 
 function StructureImage() {
-	const transformationSettings = useIdentityTransformationSettings(120, 32)
 	const theme = useTheme()
 
 	const beamStyle = { fill: 'none', stroke: 'currentColor', strokeWidth: 3 }
@@ -177,7 +176,7 @@ function StructureImage() {
 	const forceLineStyle = { stroke: 'currentColor', strokeWidth: 2 }
 	const forceArrowHeadStyle = { fill: 'currentColor' }
 
-	return <Drawing transformationSettings={transformationSettings} style={{ margin: '0 0 0 8px', padding: 0 }}>
+	return <Drawing view={{ type: 'identity', width: 120, height: 32 }} style={{ flex: '0 0 96px', margin: '0 0 0 8px', padding: 0, width: 96 }}>
 		<SvgPortal>
 			<line style={beamStyle} x1="16" y1="5.8" x2="104" y2="5.8" />
 

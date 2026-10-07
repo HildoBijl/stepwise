@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { Vector } from '@step-wise/geometry'
+import { Transformation, Vector } from '@step-wise/geometry'
 import { M, BM } from '@step-wise/math-display'
 
 import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
-import { Drawing, Polygon, RightAngle, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
+import { Drawing, Polygon, RightAngle, LineLabel } from '@step-wise/drawing'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback } from 'ui/eduTools'
@@ -85,21 +85,16 @@ function ExerciseFigure({ parameters, solution }) {
 	const { rotation, reflection } = solution
 
 	// Define the transformation.
-	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useBoundsBasedTransformationSettings(points, {
-		pretransformation,
-		maxWidth: 300,
-		maxHeight: 300,
-		margin: 20,
-	})
+	let pretransform = Transformation.fromRotation(rotation)
+	if (reflection) pretransform = Transformation.fromHyperplaneReflection(Vector.getUnitVector(0, 2)).then(pretransform)
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings}>
-		<Polygon points={points} style={{ fill: '#aaccff' }} />
-		<RightAngle points={points} graphicalSize={10} />
-		<LineLabel points={[points[0], points[1]]} oppositeTo={points[2]}><M>{parameters.a}</M></LineLabel>
-		<LineLabel points={[points[1], points[2]]} oppositeTo={points[0]}><M>{parameters.b}</M></LineLabel>
-		<LineLabel points={[points[0], points[2]]} oppositeTo={points[1]}><M>{parameters.c}</M></LineLabel>
+	return <Drawing view={{ type: 'fit', points, pretransform, maxWidth: 300, maxHeight: 300, margin: 20 }}>
+		<Polygon positions={points} style={{ fill: '#aaccff' }} />
+		<RightAngle positions={points} size={{ pixelDistance: 10 }} />
+		<LineLabel positions={[points[0], points[1]]} oppositeTo={points[2]}><M>{parameters.a}</M></LineLabel>
+		<LineLabel positions={[points[1], points[2]]} oppositeTo={points[0]}><M>{parameters.b}</M></LineLabel>
+		<LineLabel positions={[points[0], points[2]]} oppositeTo={points[1]}><M>{parameters.c}</M></LineLabel>
 	</Drawing>
 }
 

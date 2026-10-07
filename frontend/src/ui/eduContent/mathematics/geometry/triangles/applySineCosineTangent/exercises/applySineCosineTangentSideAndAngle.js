@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { Vector } from '@step-wise/geometry'
+import { Transformation, Vector } from '@step-wise/geometry'
 import { expressionComparisons } from '@step-wise/cas'
 import { M, BM } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
-import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
+import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel } from '@step-wise/drawing'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'
 import { StepExercise, useExerciseData, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
@@ -115,23 +115,18 @@ function ExerciseFigure() {
 	const { rotation, reflection, known, x, requested, y } = solution
 
 	// Define the transformation.
-	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useBoundsBasedTransformationSettings(points, {
-		pretransformation,
-		maxWidth: 300,
-		maxHeight: 300,
-		margin: 20,
-	})
+	let pretransform = Transformation.fromRotation(rotation)
+	if (reflection) pretransform = Transformation.fromHyperplaneReflection(Vector.getUnitVector(0, 2)).then(pretransform)
 	const labelSize = 34
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings}>
-		<Polygon points={points} style={{ fill: '#aaccff' }} />
-		<RightAngle points={points} graphicalSize={10} />
+	return <Drawing view={{ type: 'fit', points, pretransform, maxWidth: 300, maxHeight: 300, margin: 20 }}>
+		<Polygon positions={points} style={{ fill: '#aaccff' }} />
+		<RightAngle positions={points} size={{ pixelDistance: 10 }} />
 
-		<LineLabel points={[pointsInSideOrder[(known + 1) % 3], pointsInSideOrder[(known + 2) % 3]]} oppositeTo={pointsInSideOrder[known]}><M>{x}</M></LineLabel>
-		<LineLabel points={[pointsInSideOrder[(requested + 1) % 3], pointsInSideOrder[(requested + 2) % 3]]} oppositeTo={pointsInSideOrder[requested]}><M>{y}</M></LineLabel>
-		<CornerLabel points={[points[2], points[0], points[1]]} graphicalSize={labelSize}><M>{parameters.beta}^\circ</M></CornerLabel>
+		<LineLabel positions={[pointsInSideOrder[(known + 1) % 3], pointsInSideOrder[(known + 2) % 3]]} oppositeTo={pointsInSideOrder[known]}><M>{x}</M></LineLabel>
+		<LineLabel positions={[pointsInSideOrder[(requested + 1) % 3], pointsInSideOrder[(requested + 2) % 3]]} oppositeTo={pointsInSideOrder[requested]}><M>{y}</M></LineLabel>
+		<CornerLabel positions={[points[2], points[0], points[1]]} size={{ pixelDistance: labelSize }}><M>{parameters.beta}^\circ</M></CornerLabel>
 	</Drawing>
 }
 

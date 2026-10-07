@@ -18,7 +18,7 @@ export interface ArcProps extends Omit<SvgPathProps, 'radius'>, ArrowedPathProps
 }
 
 export const Arc = forwardRef<SVGPathElement, ArcProps>(function Arc(props, ref) {
-	const { center = [0, 0], endAngle = Math.PI, endArrow, fill = 'none', radius, startAngle = 0, startArrow, stroke = 'currentColor', strokeWidth = 2, ...pathProps } = props
+	const { center = [0, 0], endAngle = Math.PI, endArrow, fill = 'none', radius, startAngle = 0, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
 	const coordinateSystem = useDrawingCoordinateSystem()
 	const startArrowOptions = resolveArrowHeadOptions(startArrow)
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)

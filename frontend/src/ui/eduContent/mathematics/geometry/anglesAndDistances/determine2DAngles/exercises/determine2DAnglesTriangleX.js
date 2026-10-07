@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { Vector, Line } from '@step-wise/geometry'
+import { Transformation, Vector, Line } from '@step-wise/geometry'
 import { M, BM } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
-import { Drawing, BoundedLine, Polygon, RightAngle, CornerLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
+import { Drawing, BoundedLine, Polygon, RightAngle, CornerLabel } from '@step-wise/drawing'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback } from 'ui/eduTools'
@@ -92,28 +92,23 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0 }) {
 	const labelNumberSize = 30
 
 	// Define the transformation.
-	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useBoundsBasedTransformationSettings(points, {
-		pretransformation,
-		maxWidth: size,
-		maxHeight: size,
-		margin: 20,
-	})
+	let pretransform = Transformation.fromRotation(rotation)
+	if (reflection) pretransform = Transformation.fromHyperplaneReflection(Vector.getUnitVector(0, 2)).then(pretransform)
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings}>
-		<Polygon points={[right, topRight, middle]} style={{ fill: '#aaccff' }} />
-		<Polygon points={[left, bottomLeft, middle]} style={{ fill: '#ffaabb' }} />
-		<BoundedLine line={Line.fromPoints(left, right)} style={{ strokeWidth: 2 }} />
-		<BoundedLine line={Line.fromPoints(bottomLeft, topRight)} style={{ strokeWidth: 2 }} />
-		<RightAngle points={[middle, right, topRight]} graphicalSize={10} />
+	return <Drawing view={{ type: 'fit', points, pretransform, maxWidth: size, maxHeight: size, margin: 20 }}>
+		<Polygon positions={[right, topRight, middle]} style={{ fill: '#aaccff' }} />
+		<Polygon positions={[left, bottomLeft, middle]} style={{ fill: '#ffaabb' }} />
+		<BoundedLine through={[left, right]} style={{ strokeWidth: 2 }} />
+		<BoundedLine through={[bottomLeft, topRight]} style={{ strokeWidth: 2 }} />
+		<RightAngle positions={[middle, right, topRight]} size={{ pixelDistance: 10 }} />
 
-		{showAlpha === 0 ? null : <CornerLabel points={[right, middle, topRight]} graphicalSize={showAlpha === 1 ? labelLetterSize : labelNumberSize}>{showAlpha === 1 ? <M>{variables.alpha}</M> : <M>{alpha}^\circ</M>}</CornerLabel>}
-		{showBeta === 0 ? null : <CornerLabel points={[left, middle, bottomLeft]} graphicalSize={showBeta === 1 ? labelLetterSize : labelNumberSize}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</CornerLabel>}
-		{showGamma === 0 ? null : <CornerLabel points={[left, bottomLeft, middle]} graphicalSize={showGamma === 1 ? labelLetterSize : labelNumberSize}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</CornerLabel>}
+		{showAlpha === 0 ? null : <CornerLabel positions={[right, middle, topRight]} size={{ pixelDistance: showAlpha === 1 ? labelLetterSize : labelNumberSize }}>{showAlpha === 1 ? <M>{variables.alpha}</M> : <M>{alpha}^\circ</M>}</CornerLabel>}
+		{showBeta === 0 ? null : <CornerLabel positions={[left, middle, bottomLeft]} size={{ pixelDistance: showBeta === 1 ? labelLetterSize : labelNumberSize }}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</CornerLabel>}
+		{showGamma === 0 ? null : <CornerLabel positions={[left, bottomLeft, middle]} size={{ pixelDistance: showGamma === 1 ? labelLetterSize : labelNumberSize }}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</CornerLabel>}
 
-		<CornerLabel points={[right, topRight, middle]} graphicalSize={labelNumberSize}><M>{a}^\circ</M></CornerLabel>
-		<CornerLabel points={[bottomLeft, left, middle]} graphicalSize={labelNumberSize}><M>{b}^\circ</M></CornerLabel>
+		<CornerLabel positions={[right, topRight, middle]} size={{ pixelDistance: labelNumberSize }}><M>{a}^\circ</M></CornerLabel>
+		<CornerLabel positions={[bottomLeft, left, middle]} size={{ pixelDistance: labelNumberSize }}><M>{b}^\circ</M></CornerLabel>
 	</Drawing>
 }
 

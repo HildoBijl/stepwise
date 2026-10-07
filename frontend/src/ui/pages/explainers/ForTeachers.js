@@ -3,7 +3,7 @@ import React from 'react'
 import { infoEmail } from 'settings'
 import { TranslationSection, Translation } from 'i18n'
 import { Par, Head, SubHead, List, Student } from 'ui/components'
-import { Drawing, useIdentityTransformationSettings, SvgPortal, Element } from 'ui/figures'
+import { Drawing, SvgPortal, HtmlElement } from '@step-wise/drawing'
 
 import { PageTranslationFile } from '../PageTranslationFile'
 
@@ -82,13 +82,12 @@ export function ForTeachers() {
 }
 
 function SettingGoals() {
-	const transformationSettings = useIdentityTransformationSettings(600, 340)
 	const lineStyle = { fill: 'none', stroke: '#404040', strokeWidth: '2', strokeMiterlimit: 10 }
 	const blockStyle = { fill: lineStyle.stroke }
 	const targetCenterStyle = { fill: '#ffffff' }
 	const targetCircleStyle = { stroke: targetCenterStyle.fill, strokeWidth: 2.5, fill: 'none' }
 
-	return <Drawing transformationSettings={transformationSettings}>
+	return <Drawing view={{ type: 'identity', width: 600, height: 340 }}>
 		<SvgPortal>
 			<path style={blockStyle} d="M100.4,48.8c0,5-4.1,9-9,9H18.5c-4.9,0-9-4-9-9v-29c0-4.9,4.1-9,9-9h72.9c4.9,0,9,4.1,9,9V48.8z" />
 			<path style={blockStyle} d="M100.4,140.3c0,4.9-4.1,9-9,9H18.5c-4.9,0-9-4.1-9-9v-29c0-5,4.1-9,9-9h72.9c4.9,0,9,4,9,9V140.3z" />
@@ -131,7 +130,6 @@ function SettingGoals() {
 }
 
 function DefiningPriorKnowledge() {
-	const transformationSettings = useIdentityTransformationSettings(600, 340)
 	const lineStyle = { fill: 'none', stroke: '#404040', strokeWidth: '2', strokeMiterlimit: 10 }
 	const blockStyle = { fill: lineStyle.stroke }
 	const targetCenterStyle = { fill: '#ffffff' }
@@ -139,7 +137,7 @@ function DefiningPriorKnowledge() {
 	const checkStyle = { fill: '#ffffff' }
 	const fadeOut = { opacity: 0.2 }
 
-	return <Drawing transformationSettings={transformationSettings}>
+	return <Drawing view={{ type: 'identity', width: 600, height: 340 }}>
 		<SvgPortal>
 			<path style={blockStyle} d="M100.4,48.8c0,5-4.1,9-9,9H18.5c-4.9,0-9-4-9-9v-29c0-4.9,4.1-9,9-9h72.9c4.9,0,9,4.1,9,9V48.8z" />
 			<path style={blockStyle} d="M100.4,140.3c0,4.9-4.1,9-9,9H18.5c-4.9,0-9-4.1-9-9v-29c0-5,4.1-9,9-9h72.9c4.9,0,9,4,9,9V140.3z" />
@@ -192,7 +190,6 @@ function DefiningPriorKnowledge() {
 }
 
 function DefiningBlocks() {
-	const transformationSettings = useIdentityTransformationSettings(600, 340)
 	const lineStyle = { fill: 'none', stroke: '#404040', strokeWidth: '2', strokeMiterlimit: 10 }
 	const blockStyle = { fill: lineStyle.stroke }
 	const targetCenterStyle = { fill: '#ffffff' }
@@ -205,7 +202,7 @@ function DefiningBlocks() {
 	const fadeB3 = { opacity: 1 }
 	const number = { fill: '#ffffff', fontSize: '20px' }
 
-	return <Drawing transformationSettings={transformationSettings}>
+	return <Drawing view={{ type: 'identity', width: 600, height: 340 }}>
 		<SvgPortal>
 			<path style={{ ...blockStyle, ...fadePK }} d="M100.4,48.8c0,5-4.1,9-9,9H18.5c-4.9,0-9-4-9-9v-29c0-4.9,4.1-9,9-9h72.9c4.9,0,9,4.1,9,9V48.8z" />
 			<path style={{ ...blockStyle, ...fadeB2 }} d="M100.4,140.3c0,4.9-4.1,9-9,9H18.5c-4.9,0-9-4.1-9-9v-29c0-5,4.1-9,9-9h72.9c4.9,0,9,4,9,9V140.3z" />
@@ -272,8 +269,6 @@ function DefiningBlocks() {
 }
 
 function ClassOverview() {
-	const transformationSettings = useIdentityTransformationSettings(600, 300)
-
 	const blockStyle = { fill: '#e2e2e2' }
 	const skillStyle = { fill: '#ededed' }
 	const blockTextStyle = { fontSize: '16px', fontFamily: 'roboto' }
@@ -285,11 +280,11 @@ function ClassOverview() {
 	const arrowInactiveStyle = { ...arrowActiveStyle, opacity: 0.2 }
 
 	return <TranslationSection entry="classOverviewImage">
-		<Drawing transformationSettings={transformationSettings}>
+		<Drawing view={{ type: 'identity', width: 600, height: 300 }}>
 			<SvgPortal>
-				<Element position={[264.3, 14]} style={headStyle}><Translation entry="head1">Mastery</Translation></Element>
-				<Element position={[374.8, 14]} style={headStyle}><Translation entry="head2">Exercises</Translation></Element>
-				<Element position={[480.5, 14]} style={headStyle}><Translation entry="head3">Time spent</Translation></Element>
+				<HtmlElement position={[264.3, 14]} style={headStyle}><Translation entry="head1">Mastery</Translation></HtmlElement>
+				<HtmlElement position={[374.8, 14]} style={headStyle}><Translation entry="head2">Exercises</Translation></HtmlElement>
+				<HtmlElement position={[480.5, 14]} style={headStyle}><Translation entry="head3">Time spent</Translation></HtmlElement>
 
 				<path style={blockStyle} d="M582.9,68.6c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10V40.9c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V68.6z" />
 				<path style={blockStyle} d="M582.9,122c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10V94.3c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V122z" />
@@ -297,27 +292,27 @@ function ClassOverview() {
 				<path style={skillStyle} d="M582.9,228.8c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10v-27.7c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V228.8z" />
 				<path style={blockStyle} d="M582.9,282.2c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10v-27.7c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V282.2z" />
 
-				<Element position={[30.5, 54.8]} anchor={[0, 0.5]} style={blockTextStyle}><Translation entry="block1">Opening week</Translation></Element>
-				<Element position={[30.5, 108.2]} anchor={[0, 0.5]} style={blockTextStyle}><Translation entry="block2">Middle week</Translation></Element>
-				<Element position={[30.5, 161.6]} anchor={[0, 0.5]} style={blockTextStyle}><Translation entry="skill1">Some basic skill</Translation></Element>
-				<Element position={[30.5, 215.1]} anchor={[0, 0.5]} style={blockTextStyle}><Translation entry="skill2">A more advanced skill</Translation></Element>
-				<Element position={[30.5, 268.4]} anchor={[0, 0.5]} style={blockTextStyle}><Translation entry="block3">Closing week</Translation></Element>
+				<HtmlElement position={[30.5, 54.8]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="block1">Opening week</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 108.2]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="block2">Middle week</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 161.6]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="skill1">Some basic skill</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 215.1]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="skill2">A more advanced skill</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 268.4]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="block3">Closing week</Translation></HtmlElement>
 
-				<Element position={[264.3, 54.8]} style={indicatorTextStyle}>22/25</Element>
-				<Element position={[374.8, 54.8]} style={indicatorTextStyle}>7,8</Element>
-				<Element position={[480.5, 54.8]} style={indicatorTextStyle}>2:36</Element>
-				<Element position={[264.3, 108.2]} style={indicatorTextStyle}>11/25</Element>
-				<Element position={[374.8, 108.2]} style={indicatorTextStyle}>6,4</Element>
-				<Element position={[480.5, 108.2]} style={indicatorTextStyle}>4:11</Element>
-				<Element position={[264.3, 161.6]} style={indicatorTextStyle}>19/25</Element>
-				<Element position={[374.8, 161.6]} style={indicatorTextStyle}>2,5</Element>
-				<Element position={[480.5, 161.6]} style={indicatorTextStyle}>0:58</Element>
-				<Element position={[264.3, 215.0]} style={indicatorTextStyle}>11/25</Element>
-				<Element position={[374.8, 215.0]} style={indicatorTextStyle}>4,9</Element>
-				<Element position={[480.5, 215.0]} style={indicatorTextStyle}>3:13</Element>
-				<Element position={[264.3, 268.4]} style={indicatorTextStyle}>2/25</Element>
-				<Element position={[374.8, 268.4]} style={indicatorTextStyle}>0,6</Element>
-				<Element position={[480.5, 268.4]} style={indicatorTextStyle}>0:18</Element>
+				<HtmlElement position={[264.3, 54.8]} style={indicatorTextStyle}>22/25</HtmlElement>
+				<HtmlElement position={[374.8, 54.8]} style={indicatorTextStyle}>7,8</HtmlElement>
+				<HtmlElement position={[480.5, 54.8]} style={indicatorTextStyle}>2:36</HtmlElement>
+				<HtmlElement position={[264.3, 108.2]} style={indicatorTextStyle}>11/25</HtmlElement>
+				<HtmlElement position={[374.8, 108.2]} style={indicatorTextStyle}>6,4</HtmlElement>
+				<HtmlElement position={[480.5, 108.2]} style={indicatorTextStyle}>4:11</HtmlElement>
+				<HtmlElement position={[264.3, 161.6]} style={indicatorTextStyle}>19/25</HtmlElement>
+				<HtmlElement position={[374.8, 161.6]} style={indicatorTextStyle}>2,5</HtmlElement>
+				<HtmlElement position={[480.5, 161.6]} style={indicatorTextStyle}>0:58</HtmlElement>
+				<HtmlElement position={[264.3, 215.0]} style={indicatorTextStyle}>11/25</HtmlElement>
+				<HtmlElement position={[374.8, 215.0]} style={indicatorTextStyle}>4,9</HtmlElement>
+				<HtmlElement position={[480.5, 215.0]} style={indicatorTextStyle}>3:13</HtmlElement>
+				<HtmlElement position={[264.3, 268.4]} style={indicatorTextStyle}>2/25</HtmlElement>
+				<HtmlElement position={[374.8, 268.4]} style={indicatorTextStyle}>0,6</HtmlElement>
+				<HtmlElement position={[480.5, 268.4]} style={indicatorTextStyle}>0:18</HtmlElement>
 
 				<polyline style={arrowActiveStyle} points="552,105.1 559.1,112.1 566.2,105.1 " />
 				<polyline style={arrowInactiveStyle} points="566.2,58.3 559.1,51.2 552,58.3 " />
@@ -373,7 +368,6 @@ function ClassOverview() {
 }
 
 function StudentOverview() {
-	const transformationSettings = useIdentityTransformationSettings(600, 300)
 
 	const blockStyle = { fill: '#e2e2e2' }
 	const skillStyle = { fill: '#ededed' }
@@ -388,12 +382,12 @@ function StudentOverview() {
 	const flaskContentStyle = { fill: '#414141' }
 
 	return <TranslationSection entry="studentOverviewImage">
-		<Drawing transformationSettings={transformationSettings}>
+		<Drawing view={{ type: 'identity', width: 600, height: 300 }}>
 			<SvgPortal>
-				<Element position={[30.5, 14]} style={headStyle} anchor={[0, 0.5]}><Translation entry="student">Alex Adams</Translation></Element>
-				<Element position={[264.3, 14]} style={headStyle}><Translation entry="head1">Mastery</Translation></Element>
-				<Element position={[374.8, 14]} style={headStyle}><Translation entry="head2">Exercises</Translation></Element>
-				<Element position={[480.5, 14]} style={headStyle}><Translation entry="head3">Time spent</Translation></Element>
+				<HtmlElement position={[30.5, 14]} style={headStyle} anchor={[-1, 0]}><Translation entry="student">Alex Adams</Translation></HtmlElement>
+				<HtmlElement position={[264.3, 14]} style={headStyle}><Translation entry="head1">Mastery</Translation></HtmlElement>
+				<HtmlElement position={[374.8, 14]} style={headStyle}><Translation entry="head2">Exercises</Translation></HtmlElement>
+				<HtmlElement position={[480.5, 14]} style={headStyle}><Translation entry="head3">Time spent</Translation></HtmlElement>
 
 				<path style={blockStyle} d="M582.9,68.6c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10V40.9c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V68.6z" />
 				<path style={blockStyle} d="M582.9,122c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10V94.3c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V122z" />
@@ -401,27 +395,27 @@ function StudentOverview() {
 				<path style={skillStyle} d="M582.9,228.8c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10v-27.7c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V228.8z" />
 				<path style={blockStyle} d="M582.9,282.2c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10v-27.7c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V282.2z" />
 
-				<Element position={[30.5, 54.8]} anchor={[0, 0.5]} style={blockTextStyle}><Translation entry="block1">Opening week</Translation></Element>
-				<Element position={[30.5, 108.2]} anchor={[0, 0.5]} style={blockTextStyle}><Translation entry="block2">Middle week</Translation></Element>
-				<Element position={[30.5, 161.6]} anchor={[0, 0.5]} style={blockTextStyle}><Translation entry="skill1">Some basic skill</Translation></Element>
-				<Element position={[30.5, 215.1]} anchor={[0, 0.5]} style={blockTextStyle}><Translation entry="skill2">A more advanced skill</Translation></Element>
-				<Element position={[30.5, 268.4]} anchor={[0, 0.5]} style={blockTextStyle}><Translation entry="block3">Closing week</Translation></Element>
+				<HtmlElement position={[30.5, 54.8]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="block1">Opening week</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 108.2]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="block2">Middle week</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 161.6]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="skill1">Some basic skill</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 215.1]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="skill2">A more advanced skill</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 268.4]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="block3">Closing week</Translation></HtmlElement>
 
-				<Element position={[264.3, 54.8]} style={indicatorTextStyle}>3/3</Element>
-				<Element position={[374.8, 54.8]} style={indicatorTextStyle}>11</Element>
-				<Element position={[480.5, 54.8]} style={indicatorTextStyle}>2:51</Element>
-				<Element position={[264.3, 108.2]} style={indicatorTextStyle}>1/2</Element>
-				<Element position={[374.8, 108.2]} style={indicatorTextStyle}>7</Element>
-				<Element position={[480.5, 108.2]} style={indicatorTextStyle}>3:23</Element>
-				<Element position={[264.3, 161.6]} style={{ ...indicatorTextStyle, color: '#ffffff' }}>68%</Element>
-				<Element position={[374.8, 161.6]} style={indicatorTextStyle}>2</Element>
-				<Element position={[480.5, 161.6]} style={indicatorTextStyle}>0:35</Element>
-				<Element position={[264.3, 215.0]} style={indicatorTextStyle}>21%</Element>
-				<Element position={[374.8, 215.0]} style={indicatorTextStyle}>5</Element>
-				<Element position={[480.5, 215.0]} style={indicatorTextStyle}>2:48</Element>
-				<Element position={[264.3, 268.4]} style={indicatorTextStyle}>0/3</Element>
-				<Element position={[374.8, 268.4]} style={indicatorTextStyle}>1</Element>
-				<Element position={[480.5, 268.4]} style={indicatorTextStyle}>0:06</Element>
+				<HtmlElement position={[264.3, 54.8]} style={indicatorTextStyle}>3/3</HtmlElement>
+				<HtmlElement position={[374.8, 54.8]} style={indicatorTextStyle}>11</HtmlElement>
+				<HtmlElement position={[480.5, 54.8]} style={indicatorTextStyle}>2:51</HtmlElement>
+				<HtmlElement position={[264.3, 108.2]} style={indicatorTextStyle}>1/2</HtmlElement>
+				<HtmlElement position={[374.8, 108.2]} style={indicatorTextStyle}>7</HtmlElement>
+				<HtmlElement position={[480.5, 108.2]} style={indicatorTextStyle}>3:23</HtmlElement>
+				<HtmlElement position={[264.3, 161.6]} style={{ ...indicatorTextStyle, color: '#ffffff' }}>68%</HtmlElement>
+				<HtmlElement position={[374.8, 161.6]} style={indicatorTextStyle}>2</HtmlElement>
+				<HtmlElement position={[480.5, 161.6]} style={indicatorTextStyle}>0:35</HtmlElement>
+				<HtmlElement position={[264.3, 215.0]} style={indicatorTextStyle}>21%</HtmlElement>
+				<HtmlElement position={[374.8, 215.0]} style={indicatorTextStyle}>5</HtmlElement>
+				<HtmlElement position={[480.5, 215.0]} style={indicatorTextStyle}>2:48</HtmlElement>
+				<HtmlElement position={[264.3, 268.4]} style={indicatorTextStyle}>0/3</HtmlElement>
+				<HtmlElement position={[374.8, 268.4]} style={indicatorTextStyle}>1</HtmlElement>
+				<HtmlElement position={[480.5, 268.4]} style={indicatorTextStyle}>0:06</HtmlElement>
 
 				<polyline style={arrowActiveStyle} points="552,105.1 559.1,112.1 566.2,105.1 " />
 				<polyline style={arrowInactiveStyle} points="566.2,58.3 559.1,51.2 552,58.3 " />
@@ -476,12 +470,11 @@ function StudentOverview() {
 }
 
 function StudentSearch() {
-	const transformationSettings = useIdentityTransformationSettings(400, 170)
 	const blockStyle = { fill: '#e4e4e4' }
 	const nameStyle = { fontSize: '13px', fontFamily: 'roboto' }
 
 	return <TranslationSection entry="studentSearchImage">
-		<Drawing transformationSettings={transformationSettings}>
+		<Drawing view={{ type: 'identity', width: 400, height: 170 }}>
 			<SvgPortal>
 				<path style={{ fill: '#ffffff', stroke: '#000000' }} d="M381,36.6c0,5.5-4.5,10-10,10H29.6c-5.5,0-10-4.5-10-10V25.2c0-5.5,4.5-10,10-10H371c5.5,0,10,4.5,10,10V36.6z" />
 
@@ -490,12 +483,12 @@ function StudentSearch() {
 
 				<text transform="matrix(1 0 0 1 49.3966 36.1551)" style={{ fill: '#bebebe', fontSize: '16px', fontFamily: 'roboto' }}><Translation entry="search">Search</Translation></text>
 
-				<Element position={[75.9, 136]} style={nameStyle}><Translation entry="name1">Alex Adams</Translation></Element>
-				<Element position={[199.4, 136]} style={nameStyle}><Translation entry="name2">Bob Baker</Translation></Element>
-				<Element position={[322.8, 136]} style={nameStyle}><Translation entry="name3">Carmen Clarke</Translation></Element>
-				<Element position={[75.9, 102]} style={nameStyle} scale={2}><Student /></Element>
-				<Element position={[199.4, 102]} style={nameStyle} scale={2}><Student /></Element>
-				<Element position={[322.8, 102]} style={nameStyle} scale={2}><Student /></Element>
+				<HtmlElement position={[75.9, 136]} style={nameStyle}><Translation entry="name1">Alex Adams</Translation></HtmlElement>
+				<HtmlElement position={[199.4, 136]} style={nameStyle}><Translation entry="name2">Bob Baker</Translation></HtmlElement>
+				<HtmlElement position={[322.8, 136]} style={nameStyle}><Translation entry="name3">Carmen Clarke</Translation></HtmlElement>
+				<HtmlElement position={[75.9, 102]} style={nameStyle} scale={2}><Student /></HtmlElement>
+				<HtmlElement position={[199.4, 102]} style={nameStyle} scale={2}><Student /></HtmlElement>
+				<HtmlElement position={[322.8, 102]} style={nameStyle} scale={2}><Student /></HtmlElement>
 
 				<path style={blockStyle} d="M132.1,144.3c0,5.5-4.5,10-10,10H29.6c-5.5,0-10-4.5-10-10V71.1c0-5.5,4.5-10,10-10h92.5c5.5,0,10,4.5,10,10V144.3z" />
 				<path style={blockStyle} d="M255.6,144.3c0,5.5-4.5,10-10,10h-92.5c-5.5,0-10-4.5-10-10V71.1c0-5.5,4.5-10,10-10h92.5c5.5,0,10,4.5,10,10V144.3z" />

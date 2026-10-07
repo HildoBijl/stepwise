@@ -50,7 +50,7 @@ export const HtmlElement = forwardRef<HTMLDivElement, HtmlElementProps>(function
 
 	// Render the element inside a portal, applying the calculated positioning style and any additional styles or props.
 	return <HtmlPortal behind={behind}>
-		<div {...divProps} ref={setRef} style={{ ...style, ...positioningStyle }}>
+		<div {...divProps} ref={setRef} style={{ whiteSpace: 'nowrap', ...style, ...positioningStyle }}>
 			{children}
 		</div>
 	</HtmlPortal>

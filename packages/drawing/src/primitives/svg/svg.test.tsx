@@ -60,9 +60,9 @@ describe('SVG drawing primitives', () => {
 			<Curve data-testid="through-curve" positions={[[0, 0], [10, 10], [20, 0]]} smoothing={{ mode: 'through' }} />
 		</>)
 		expect(screen.getByTestId('arc').getAttribute('d')).toBe('M10 0 A10 10 0 0 1 -10 1.2246467991473533e-15')
-		expect(screen.getByTestId('arc').getAttribute('stroke-width')).toBe('2')
+		expect(screen.getByTestId('arc').getAttribute('stroke-width')).toBe('1')
 		expect(screen.getByTestId('curve').getAttribute('d')).toContain('Q')
-		expect(screen.getByTestId('curve').getAttribute('stroke-width')).toBe('2')
+		expect(screen.getByTestId('curve').getAttribute('stroke-width')).toBe('1')
 		expect(screen.getByTestId('through-curve').getAttribute('d')).toContain('C')
 	})
 

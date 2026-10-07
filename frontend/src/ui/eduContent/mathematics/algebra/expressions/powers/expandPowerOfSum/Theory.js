@@ -9,7 +9,7 @@ import { M, BM, BMList, BMPart } from '@step-wise/math-display'
 import { Translation, useTextTranslation } from 'i18n'
 import { usePrimaryColor } from 'ui/theme'
 import { Head, Par, List, Term } from 'ui/components'
-import { useIdentityTransformationSettings, Drawing, Circle, Rectangle, Polygon, Element } from 'ui/figures'
+import { Drawing, Circle, Rectangle, Polygon, HtmlElement } from '@step-wise/drawing'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
@@ -93,25 +93,24 @@ const f = 2 / 3 // The factor to split the square width.
 const offset = 20 // The margin needed for the labels.
 function SquareVisualization() {
 	const primaryColor = usePrimaryColor()
-	const transformationSettings = useIdentityTransformationSettings(w + offset, w + offset)
-	return <Drawing transformationSettings={transformationSettings}>
+	return <Drawing view={{ type: 'identity', width: w + offset, height: w + offset }}>
 		{/* Rectangles. */}
-		<Rectangle dimensions={{ min: [offset, 0], max: [offset + w * f, w * (1 - f)] }} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
-		<Rectangle dimensions={{ min: [offset + w * f, 0], max: [offset + w, w * (1 - f)] }} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
-		<Rectangle dimensions={{ min: [offset, w * (1 - f)], max: [offset + w * f, w] }} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
-		<Rectangle dimensions={{ min: [offset + w * f, w * (1 - f)], max: [offset + w, w] }} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
+		<Rectangle corners={[[offset, 0], [offset + w * f, w * (1 - f)]]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
+		<Rectangle corners={[[offset + w * f, 0], [offset + w, w * (1 - f)]]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
+		<Rectangle corners={[[offset, w * (1 - f)], [offset + w * f, w]]} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
+		<Rectangle corners={[[offset + w * f, w * (1 - f)], [offset + w, w]]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
 
 		{/* Labels left/below the square. */}
-		<Element anchor={[1, 0.5]} position={[offset - 5, w * (1 - f) / 2]}><M>3</M></Element>
-		<Element anchor={[1, 0.5]} position={[offset - 5, w * (1 - f) + w * f / 2]}><M>2x</M></Element>
-		<Element anchor={[0.5, 0]} position={[offset + w * f / 2, w + 3]}><M>2x</M></Element>
-		<Element anchor={[0.5, 0]} position={[offset + w * f + w * (1 - f) / 2, w + 3]}><M>3</M></Element>
+		<HtmlElement anchor={[1, 0]} position={[offset - 5, w * (1 - f) / 2]}><M>3</M></HtmlElement>
+		<HtmlElement anchor={[1, 0]} position={[offset - 5, w * (1 - f) + w * f / 2]}><M>2x</M></HtmlElement>
+		<HtmlElement anchor={[0, -1]} position={[offset + w * f / 2, w + 3]}><M>2x</M></HtmlElement>
+		<HtmlElement anchor={[0, -1]} position={[offset + w * f + w * (1 - f) / 2, w + 3]}><M>3</M></HtmlElement>
 
 		{/* Labels inside the square. */}
-		<Element position={[offset + w * f / 2, w * (1 - f) / 2]}><M>2x \cdot 3</M></Element>
-		<Element position={[offset + w * f + w * (1 - f) / 2, w * (1 - f) / 2]}><M>3^2</M></Element>
-		<Element position={[offset + w * f / 2, w * (1 - f) + w * f / 2]}><M>\left(2x\right)^2</M></Element>
-		<Element position={[offset + w * f + w * (1 - f) / 2, w * (1 - f) + w * f / 2]}><M>2x \cdot 3</M></Element>
+		<HtmlElement position={[offset + w * f / 2, w * (1 - f) / 2]}><M>2x \cdot 3</M></HtmlElement>
+		<HtmlElement position={[offset + w * f + w * (1 - f) / 2, w * (1 - f) / 2]}><M>3^2</M></HtmlElement>
+		<HtmlElement position={[offset + w * f / 2, w * (1 - f) + w * f / 2]}><M>\left(2x\right)^2</M></HtmlElement>
+		<HtmlElement position={[offset + w * f + w * (1 - f) / 2, w * (1 - f) + w * f / 2]}><M>2x \cdot 3</M></HtmlElement>
 	</Drawing>
 }
 
@@ -128,47 +127,45 @@ const topCenter = left.interpolate(topRight, f)
 const rightCenter = bottom.interpolate(topRight, f)
 function CubeVisualization() {
 	const primaryColor = usePrimaryColor()
-	const transformationSettings = useIdentityTransformationSettings(w + w * df + offset, w + w * df + offset)
-
-	return <Drawing transformationSettings={transformationSettings}>
+	return <Drawing view={{ type: 'identity', width: w + w * df + offset, height: w + w * df + offset }}>
 		{/* Front rectangles. */}
-		<Rectangle dimensions={{ min: bottomLeft, max: frontCenter }} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
-		<Rectangle dimensions={{ min: left, max: frontCenter }} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
-		<Rectangle dimensions={{ min: bottom, max: frontCenter }} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
-		<Rectangle dimensions={{ min: center, max: frontCenter }} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
+		<Rectangle corners={[bottomLeft, frontCenter]} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
+		<Rectangle corners={[left, frontCenter]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
+		<Rectangle corners={[bottom, frontCenter]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
+		<Rectangle corners={[center, frontCenter]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
 
 		{/* Top shapes. */}
-		<Polygon points={[left, left.interpolate(top, f), topCenter, left.interpolate(center, f)]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }}></Polygon>
-		<Polygon points={[top, left.interpolate(top, f), topCenter, top.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }}></Polygon>
-		<Polygon points={[center, left.interpolate(center, f), topCenter, center.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }}></Polygon>
-		<Polygon points={[topCenter, top.interpolate(topRight, f), topRight, center.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.4), stroke: primaryColor }}></Polygon>
+		<Polygon positions={[left, left.interpolate(top, f), topCenter, left.interpolate(center, f)]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }}></Polygon>
+		<Polygon positions={[top, left.interpolate(top, f), topCenter, top.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }}></Polygon>
+		<Polygon positions={[center, left.interpolate(center, f), topCenter, center.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }}></Polygon>
+		<Polygon positions={[topCenter, top.interpolate(topRight, f), topRight, center.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.4), stroke: primaryColor }}></Polygon>
 
 		{/* Right shapes. */}
-		<Polygon points={[bottom, bottom.interpolate(center, f), rightCenter, bottom.interpolate(right, f)]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }}></Polygon>
-		<Polygon points={[center, bottom.interpolate(center, f), rightCenter, center.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }}></Polygon>
-		<Polygon points={[right, bottom.interpolate(right, f), rightCenter, right.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }}></Polygon>
-		<Polygon points={[topRight, center.interpolate(topRight, f), rightCenter, right.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.4), stroke: primaryColor }}></Polygon>
+		<Polygon positions={[bottom, bottom.interpolate(center, f), rightCenter, bottom.interpolate(right, f)]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }}></Polygon>
+		<Polygon positions={[center, bottom.interpolate(center, f), rightCenter, center.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }}></Polygon>
+		<Polygon positions={[right, bottom.interpolate(right, f), rightCenter, right.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }}></Polygon>
+		<Polygon positions={[topRight, center.interpolate(topRight, f), rightCenter, right.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.4), stroke: primaryColor }}></Polygon>
 
 		{/* Outside labels. */}
-		<Element anchor={[1, 0.5]} position={bottomLeft.interpolate(left, f / 2).add([-5, 0])}><M>2x</M></Element>
-		<Element anchor={[1, 0.5]} position={bottomLeft.interpolate(left, f + (1 - f) / 2).add([-5, 0])}><M>3</M></Element>
-		<Element anchor={[0.5, 0]} position={bottomLeft.interpolate(bottom, f / 2).add([0, 3])}><M>2x</M></Element>
-		<Element anchor={[0.5, 0]} position={bottomLeft.interpolate(bottom, f + (1 - f) / 2).add([0, 3])}><M>3</M></Element>
-		<Element anchor={[0, 0]} position={bottom.interpolate(right, f / 2).add([4, 0])}><M>2x</M></Element>
-		<Element anchor={[0, 0]} position={bottom.interpolate(right, f + (1 - f) / 2).add([4, 0])}><M>3</M></Element>
+		<HtmlElement anchor={[1, 0]} position={bottomLeft.interpolate(left, f / 2).add([-5, 0])}><M>2x</M></HtmlElement>
+		<HtmlElement anchor={[1, 0]} position={bottomLeft.interpolate(left, f + (1 - f) / 2).add([-5, 0])}><M>3</M></HtmlElement>
+		<HtmlElement anchor={[0, -1]} position={bottomLeft.interpolate(bottom, f / 2).add([0, 3])}><M>2x</M></HtmlElement>
+		<HtmlElement anchor={[0, -1]} position={bottomLeft.interpolate(bottom, f + (1 - f) / 2).add([0, 3])}><M>3</M></HtmlElement>
+		<HtmlElement anchor={[-1, -1]} position={bottom.interpolate(right, f / 2).add([4, 0])}><M>2x</M></HtmlElement>
+		<HtmlElement anchor={[-1, -1]} position={bottom.interpolate(right, f + (1 - f) / 2).add([4, 0])}><M>3</M></HtmlElement>
 
 		{/* Front labels. */}
-		<Element position={frontCenter.interpolate(bottomLeft)}><M>\left(2x\right)^3</M></Element>
-		<Element position={frontCenter.interpolate(left)}><M>\left(2x\right)^2 \cdot 3</M></Element>
-		<Element position={frontCenter.interpolate(bottom)}><M>\left(2x\right)^2 \cdot 3</M></Element>
-		<Element position={frontCenter.interpolate(center)}><M>2x \cdot 3^2</M></Element>
+		<HtmlElement position={frontCenter.interpolate(bottomLeft)}><M>\left(2x\right)^3</M></HtmlElement>
+		<HtmlElement position={frontCenter.interpolate(left)}><M>\left(2x\right)^2 \cdot 3</M></HtmlElement>
+		<HtmlElement position={frontCenter.interpolate(bottom)}><M>\left(2x\right)^2 \cdot 3</M></HtmlElement>
+		<HtmlElement position={frontCenter.interpolate(center)}><M>2x \cdot 3^2</M></HtmlElement>
 
 		{/* Top labels. */}
-		<Element position={topCenter.interpolate(top).add([0, 1])}><M>2x \cdot 3^2</M></Element>
-		<Element position={topCenter.interpolate(topRight).add([2, 1])}><M>3^3</M></Element>
+		<HtmlElement position={topCenter.interpolate(top).add([0, 1])}><M>2x \cdot 3^2</M></HtmlElement>
+		<HtmlElement position={topCenter.interpolate(topRight).add([2, 1])}><M>3^3</M></HtmlElement>
 
 		{/* Right labels. */}
-		<Element position={rightCenter.interpolate(right)} rotate={Math.PI / 2}><M>2x \cdot 3^2</M></Element>
+		<HtmlElement position={rightCenter.interpolate(right)} rotate={Math.PI / 2}><M>2x \cdot 3^2</M></HtmlElement>
 	</Drawing>
 }
 
@@ -181,19 +178,18 @@ const width = (n + 1) * colWidth + indexWidth
 const height = (n + 1) * rowHeight
 function PascalsTriangle() {
 	const primaryColor = usePrimaryColor()
-	const transformationSettings = useIdentityTransformationSettings(width, height)
 	const rowText = useTextTranslation('Row', 'PascalsTriangleRow')
-	return <Drawing transformationSettings={transformationSettings}>
+	return <Drawing view={{ type: 'identity', width: width, height: height }}>
 		{repeat(n + 1, rowIndex => <Fragment key={rowIndex}>
 			{/* Row number. */}
-			<Element position={[indexWidth - 16, (rowIndex + 0.5) * rowHeight - 1]} anchor={[1, 0.5]}><strong>{rowText} {rowIndex}:</strong></Element>
+			<HtmlElement position={[indexWidth - 16, (rowIndex + 0.5) * rowHeight - 1]} anchor={[1, 0]}><strong>{rowText} {rowIndex}:</strong></HtmlElement>
 
 			{/* Row digits. */}
 			{repeat(rowIndex + 1, colIndex => {
 				const position = [indexWidth + ((n + 1) / 2 - rowIndex / 2 + colIndex) * colWidth, (rowIndex + 0.5) * rowHeight]
 				return <Fragment key={colIndex}>
 					<Circle center={position} radius={circleRadius} style={{ fill: primaryColor, opacity: 0.1 }} />
-					<Element position={position}><M>{binomialCoefficient(rowIndex, colIndex)}</M></Element>
+					<HtmlElement position={position}><M>{binomialCoefficient(rowIndex, colIndex)}</M></HtmlElement>
 				</Fragment>
 			})}
 		</Fragment>)}

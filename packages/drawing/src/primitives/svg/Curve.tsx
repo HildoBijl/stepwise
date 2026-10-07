@@ -27,7 +27,7 @@ export interface CurveProps extends Omit<SvgPathProps, 'smoothing'>, PointSequen
 }
 
 export const Curve = forwardRef<SVGPathElement, CurveProps>(function Curve(props, ref) {
-	const { close = false, endArrow, fill = 'none', positions, smoothing, startArrow, stroke = 'currentColor', strokeWidth = 2, ...pathProps } = props
+	const { close = false, endArrow, fill = 'none', positions, smoothing, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
 	const startArrowOptions = resolveArrowHeadOptions(startArrow)
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)
 

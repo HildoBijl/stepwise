@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { degreesToRadians, roundToDigits, integerRange } from '@step-wise/js-utils'
-import { Vector } from '@step-wise/geometry'
+import { Transformation, Vector } from '@step-wise/geometry'
 import { PrecisionNumber } from '@step-wise/physics-core'
 import { M, BM } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
-import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
+import { Drawing, Polygon, CornerLabel, LineLabel } from '@step-wise/drawing'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'
 import { useExerciseData, StepExercise, useSolution, equationChecks, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
@@ -130,22 +130,17 @@ function ExerciseFigure() {
 	const { rotation, reflection, α, a, b, c } = parameters
 
 	// Define the transformation.
-	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useBoundsBasedTransformationSettings(points, {
-		pretransformation,
-		maxWidth: 300,
-		maxHeight: 300,
-		margin: 20,
-	})
+	let pretransform = Transformation.fromRotation(rotation)
+	if (reflection) pretransform = Transformation.fromHyperplaneReflection(Vector.getUnitVector(0, 2)).then(pretransform)
 	const labelSize = 30
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings}>
-		<Polygon points={points} style={{ fill: '#aaccff' }} />
-		<LineLabel points={[points[0], points[1]]} oppositeTo={points[2]}><M>{c}</M></LineLabel>
-		<LineLabel points={[points[1], points[2]]} oppositeTo={points[0]}><M>{a}</M></LineLabel>
-		<LineLabel points={[points[2], points[0]]} oppositeTo={points[1]}><M>{b}</M></LineLabel>
-		<CornerLabel points={[points[2], points[0], points[1]]} graphicalSize={labelSize}><M>{α}</M></CornerLabel>
+	return <Drawing view={{ type: 'fit', points, pretransform, maxWidth: 300, maxHeight: 300, margin: 20 }}>
+		<Polygon positions={points} style={{ fill: '#aaccff' }} />
+		<LineLabel positions={[points[0], points[1]]} oppositeTo={points[2]}><M>{c}</M></LineLabel>
+		<LineLabel positions={[points[1], points[2]]} oppositeTo={points[0]}><M>{a}</M></LineLabel>
+		<LineLabel positions={[points[2], points[0]]} oppositeTo={points[1]}><M>{b}</M></LineLabel>
+		<CornerLabel positions={[points[2], points[0], points[1]]} size={{ pixelDistance: labelSize }}><M>{α}</M></CornerLabel>
 	</Drawing>
 }
 

@@ -7,7 +7,7 @@ import { M, BM } from '@step-wise/math-display'
 import { Translation } from 'i18n'
 import { usePrimaryColor } from 'ui/theme'
 import { Head, Par, List, Term } from 'ui/components'
-import { useIdentityTransformationSettings, Drawing, Rectangle, Element } from 'ui/figures'
+import { Drawing, Rectangle, HtmlElement } from '@step-wise/drawing'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
@@ -49,15 +49,14 @@ const a = 2, b = 3, c = 4, d = 5
 function BlockDrawing({ useLetters = false }) {
 	const primaryColor = usePrimaryColor()
 	const rectangleStyle = { fill: alpha(primaryColor, 0.2), stroke: primaryColor, strokeWidth: 2 }
-	const transformationSettings = useIdentityTransformationSettings(left + (c + d) * size + delta, top + (a + b) * size)
-	return <Drawing transformationSettings={transformationSettings}>
-		{repeatMultidimensional([c, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ min: [left + x * size, top + y * size], size: [size, size] }} style={rectangleStyle} />).flat()}
-		{repeatMultidimensional([c, b], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ min: [left + x * size, top + (a + y) * size + delta], size: [size, size] }} style={rectangleStyle} />).flat()}
-		{repeatMultidimensional([d, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ min: [left + (c + x) * size + delta, top + y * size], size: [size, size] }} style={rectangleStyle} />).flat()}
-		{repeatMultidimensional([d, b], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ min: [left + (c + x) * size + delta, top + (a + y) * size + delta], size: [size, size] }} style={rectangleStyle} />).flat()}
-		<Element anchor={[1, 0.5]} position={[left - 6, top + (a / 2) * size]}><M>{useLetters ? 'a' : a}</M></Element>
-		<Element anchor={[1, 0.5]} position={[left - 6, top + (a + b / 2) * size]}><M>{useLetters ? 'b' : b}</M></Element>
-		<Element anchor={[0.5, 1]} position={[left + (c / 2) * size, top - 1]}><M>{useLetters ? 'c' : c}</M></Element>
-		<Element anchor={[0.5, 1]} position={[left + (c + d / 2) * size + delta, top - 1]}><M>{useLetters ? 'd' : d}</M></Element>
+	return <Drawing view={{ type: 'identity', width: left + (c + d) * size + delta, height: top + (a + b) * size }}>
+		{repeatMultidimensional([c, a], (x, y) => <Rectangle key={`${x}-${y}`} corners={[[left + x * size, top + y * size], [left + (x + 1) * size, top + (y + 1) * size]]} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([c, b], (x, y) => <Rectangle key={`${x}-${y}`} corners={[[left + x * size, top + (a + y) * size + delta], [left + (x + 1) * size, top + (a + y + 1) * size + delta]]} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([d, a], (x, y) => <Rectangle key={`${x}-${y}`} corners={[[left + (c + x) * size + delta, top + y * size], [left + (c + x + 1) * size + delta, top + (y + 1) * size]]} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([d, b], (x, y) => <Rectangle key={`${x}-${y}`} corners={[[left + (c + x) * size + delta, top + (a + y) * size + delta], [left + (c + x + 1) * size + delta, top + (a + y + 1) * size + delta]]} style={rectangleStyle} />).flat()}
+		<HtmlElement anchor={[1, 0]} position={[left - 6, top + (a / 2) * size]}><M>{useLetters ? 'a' : a}</M></HtmlElement>
+		<HtmlElement anchor={[1, 0]} position={[left - 6, top + (a + b / 2) * size]}><M>{useLetters ? 'b' : b}</M></HtmlElement>
+		<HtmlElement anchor={[0, 1]} position={[left + (c / 2) * size, top - 1]}><M>{useLetters ? 'c' : c}</M></HtmlElement>
+		<HtmlElement anchor={[0, 1]} position={[left + (c + d / 2) * size + delta, top - 1]}><M>{useLetters ? 'd' : d}</M></HtmlElement>
 	</Drawing>
 }

@@ -12,7 +12,7 @@ import { useIsSignedIn } from 'api'
 import { TranslationSection, Translation, Check } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par, Head, SubHead, Button } from 'ui/components'
-import { Drawing, useIdentityTransformationSettings, SvgPortal, Element } from 'ui/figures'
+import { Drawing, SvgPortal, HtmlElement } from '@step-wise/drawing'
 import { SkillFlask } from 'ui/eduTools'
 
 import { PageTranslationFile } from '../PageTranslationFile'
@@ -89,9 +89,8 @@ const buttonStyle = { fill: inactiveTabStyle.fill }
 const buttonTextStyle = { color: '#ffffff', fontSize: '12px' }
 
 function TheoryImage() {
-	const transformationSettings = useIdentityTransformationSettings(600, 300)
 	return <TranslationSection entry="theoryImage">
-		<Drawing transformationSettings={transformationSettings}>
+		<Drawing view={{ type: 'identity', width: 600, height: 300 }}>
 			<SvgPortal>
 				<rect width="100%" height="100%" fill={background} />
 
@@ -99,9 +98,9 @@ function TheoryImage() {
 				<rect style={inactiveTabStyle} x="200" width="200" height="60" />
 				<rect style={inactiveTabStyle} x="400" width="200" height="60" />
 
-				<Element position={[100, 30]}><span style={tabTextStyle}><Translation entry="theory">Theory</Translation></span></Element>
-				<Element position={[300, 30]}><span style={tabTextStyle}><Translation entry="practice">Practice</Translation></span></Element>
-				<Element position={[500, 30]}><span style={tabTextStyle}><Translation entry="background">Background</Translation></span></Element>
+				<HtmlElement position={[100, 30]}><span style={tabTextStyle}><Translation entry="theory">Theory</Translation></span></HtmlElement>
+				<HtmlElement position={[300, 30]}><span style={tabTextStyle}><Translation entry="practice">Practice</Translation></span></HtmlElement>
+				<HtmlElement position={[500, 30]}><span style={tabTextStyle}><Translation entry="background">Background</Translation></span></HtmlElement>
 
 				<text transform="matrix(1 0 0 1 20.7243 95.7833)" style={{ ...headStyle, ...textStyle }}><Translation entry="head1">How it works</Translation></text>
 				<text transform="matrix(1 0 0 1 20.7243 128.0612)" style={textStyle}>...</text>
@@ -116,9 +115,8 @@ function TheoryImage() {
 }
 
 function PracticeImage() {
-	const transformationSettings = useIdentityTransformationSettings(600, 220)
 	return <TranslationSection entry="practiceImage">
-		<Drawing transformationSettings={transformationSettings}>
+		<Drawing view={{ type: 'identity', width: 600, height: 220 }}>
 			<SvgPortal>
 				<rect width="100%" height="100%" fill={background} />
 
@@ -126,34 +124,33 @@ function PracticeImage() {
 				<rect style={activeTabStyle} x="200" width="200" height="60" />
 				<rect style={inactiveTabStyle} x="400" width="200" height="60" />
 
-				<Element position={[100, 30]}><span style={tabTextStyle}><Translation entry="theory">Theory</Translation></span></Element>
-				<Element position={[300, 30]}><span style={tabTextStyle}><Translation entry="practice">Practice</Translation></span></Element>
-				<Element position={[500, 30]}><span style={tabTextStyle}><Translation entry="background">Background</Translation></span></Element>
+				<HtmlElement position={[100, 30]}><span style={tabTextStyle}><Translation entry="theory">Theory</Translation></span></HtmlElement>
+				<HtmlElement position={[300, 30]}><span style={tabTextStyle}><Translation entry="practice">Practice</Translation></span></HtmlElement>
+				<HtmlElement position={[500, 30]}><span style={tabTextStyle}><Translation entry="background">Background</Translation></span></HtmlElement>
 
-				<Element position={[20, 80]} anchor={[0, 0]}><span><Translation entry="exercise">Calculate <M>28+46</M>.</Translation></span></Element>
+				<HtmlElement position={[20, 80]} anchor={[-1, -1]}><span><Translation entry="exercise">Calculate <M>28+46</M>.</Translation></span></HtmlElement>
 
 				<path style={fieldStyle} d="M175.2,135.7c0,1.6-1.4,3-3,3H25c-1.6,0-3-1.4-3-3v-23.2c0-1.7,1.4-3,3-3h147.2c1.6,0,3,1.3,3,3V135.7z" />
-				<Element position={[28, 114]} anchor={[0, 0]}><M>64</M></Element>
+				<HtmlElement position={[28, 114]} anchor={[-1, -1]}><M>64</M></HtmlElement>
 				<path d="M160,116c-4.4,0-8,3.6-8,8s3.6,8,8,8s8-3.6,8-8S164.4,116,160,116z M164,126.9l-1.1,1.1l-2.9-2.9l-2.9,2.9l-1.1-1.1l2.9-2.9 l-2.9-2.9l1.1-1.1l2.9,2.9l2.9-2.9l1.1,1.1l-2.9,2.9L164,126.9z" />
 
-				<Element position={[28, 133]} anchor={[0, 0]}><span style={{ fontSize: '9px' }}><Translation entry="hint">Check the carry.</Translation></span></Element>
+				<HtmlElement position={[28, 133]} anchor={[-1, -1]}><span style={{ fontSize: '9px' }}><Translation entry="hint">Check the carry.</Translation></span></HtmlElement>
 
 				<path style={buttonStyle} d="M580.3,190.1c0,1.6-1.3,2.9-2.8,2.9H444.9c-1.6,0-2.9-1.3-2.9-2.9v-23.5c0-1.6,1.3-2.9,2.9-2.9h132.5
 		c1.6,0,2.8,1.3,2.8,2.9L580.3,190.1L580.3,190.1z"/>
-				<Element position={[355, 177]}><span style={buttonTextStyle}><Translation entry="stepWiseButton">Solve this Step-Wise</Translation></span></Element>
+				<HtmlElement position={[355, 177]}><span style={buttonTextStyle}><Translation entry="stepWiseButton">Solve this Step-Wise</Translation></span></HtmlElement>
 
 				<path style={buttonStyle} d="M432.3,190c0,1.6-1.4,3-3,3H282.1c-1.6,0-3-1.4-3-3v-23.2c0-1.6,1.4-3,3-3h147.2c1.6,0,3,1.4,3,3
 		L432.3,190L432.3,190z"/>
-				<Element position={[510, 177]}><span style={buttonTextStyle}><Translation entry="submitButton">Submit and check</Translation></span></Element>
+				<HtmlElement position={[510, 177]}><span style={buttonTextStyle}><Translation entry="submitButton">Submit and check</Translation></span></HtmlElement>
 			</SvgPortal>
 		</Drawing>
 	</TranslationSection>
 }
 
 function StepsImage() {
-	const transformationSettings = useIdentityTransformationSettings(600, 280)
 	return <TranslationSection entry="practiceImage">
-		<Drawing transformationSettings={transformationSettings}>
+		<Drawing view={{ type: 'identity', width: 600, height: 280 }}>
 			<SvgPortal>
 				<rect width="100%" height="100%" fill={background} />
 
@@ -161,25 +158,25 @@ function StepsImage() {
 				<rect style={activeTabStyle} x="200" width="200" height="60" />
 				<rect style={inactiveTabStyle} x="400" width="200" height="60" />
 
-				<Element position={[100, 30]}><span style={tabTextStyle}><Translation entry="theory">Theory</Translation></span></Element>
-				<Element position={[300, 30]}><span style={tabTextStyle}><Translation entry="practice">Practice</Translation></span></Element>
-				<Element position={[500, 30]}><span style={tabTextStyle}><Translation entry="background">Background</Translation></span></Element>
+				<HtmlElement position={[100, 30]}><span style={tabTextStyle}><Translation entry="theory">Theory</Translation></span></HtmlElement>
+				<HtmlElement position={[300, 30]}><span style={tabTextStyle}><Translation entry="practice">Practice</Translation></span></HtmlElement>
+				<HtmlElement position={[500, 30]}><span style={tabTextStyle}><Translation entry="background">Background</Translation></span></HtmlElement>
 
-				<Element position={[20, 80]} anchor={[0, 0]}><span><Translation entry="exercise">Calculate <M>28+46</M>.</Translation></span></Element>
+				<HtmlElement position={[20, 80]} anchor={[-1, -1]}><span><Translation entry="exercise">Calculate <M>28+46</M>.</Translation></span></HtmlElement>
 
-				<Element position={[20, 127]} anchor={[0, 0.5]}><span style={{ fontSize: '13px', fontWeight: 'bold' }}><Translation entry="step1">Step 1</Translation></span></Element>
+				<HtmlElement position={[20, 127]} anchor={[-1, 0]}><span style={{ fontSize: '13px', fontWeight: 'bold' }}><Translation entry="step1">Step 1</Translation></span></HtmlElement>
 				<line x1="74" y1="128" x2="589.7" y2="128" stroke="#000000" strokeMiterlimit="10" />
 
-				<Element position={[20, 144]} anchor={[0, 0]}><span><Translation entry="exercise">Calculate <M>8+6</M>.</Translation></span></Element>
+				<HtmlElement position={[20, 144]} anchor={[-1, -1]}><span><Translation entry="exercise">Calculate <M>8+6</M>.</Translation></span></HtmlElement>
 
 				<path style={fieldStyle} d="M175.2,200c0,1.6-1.4,3-3,3H25c-1.6,0-3-1.4-3-3v-23.2c0-1.7,1.4-3,3-3h147.2c1.6,0,3,1.3,3,3V200z" />
-				<Element position={[28, 178]} anchor={[0, 0]}><M>14</M></Element>
+				<HtmlElement position={[28, 178]} anchor={[-1, -1]}><M>14</M></HtmlElement>
 
 				<path style={buttonStyle} d="M580.3,250c0,1.6-1.3,2.9-2.8,2.9H444.9c-1.6,0-2.9-1.3-2.9-2.9v-23.5c0-1.6,1.3-2.9,2.9-2.9h132.5 c1.6,0,2.8,1.3,2.8,2.9L580.3,250L580.3,250z" />
-				<Element position={[355, 237]}><span style={buttonTextStyle}><Translation entry="giveUpButton">I give up this step</Translation></span></Element>
+				<HtmlElement position={[355, 237]}><span style={buttonTextStyle}><Translation entry="giveUpButton">I give up this step</Translation></span></HtmlElement>
 
 				<path style={buttonStyle} d="M432.3,250c0,1.6-1.4,3-3,3H282.1c-1.6,0-3-1.4-3-3v-23.2c0-1.6,1.4-3,3-3h147.2c1.6,0,3,1.4,3,3 L432.3,250L432.3,250z" />
-				<Element position={[510, 237]}><span style={buttonTextStyle}><Translation entry="submitButton">Submit and check</Translation></span></Element>
+				<HtmlElement position={[510, 237]}><span style={buttonTextStyle}><Translation entry="submitButton">Submit and check</Translation></span></HtmlElement>
 			</SvgPortal>
 		</Drawing>
 	</TranslationSection>
@@ -286,11 +283,10 @@ function SkillFlaskWithLabel({ coef }) {
 }
 
 function SkillTreeImage() {
-	const transformationSettings = useIdentityTransformationSettings(600, 340)
 	const lineStyle = { fill: 'none', stroke: '#404040', strokeWidth: '2', strokeMiterlimit: 10 }
 	const blockStyle = { fill: lineStyle.stroke }
 
-	return <Drawing transformationSettings={transformationSettings}>
+	return <Drawing view={{ type: 'identity', width: 600, height: 340 }}>
 		<SvgPortal>
 			<path style={blockStyle} d="M100.4,48.8c0,5-4.1,9-9,9H18.5c-4.9,0-9-4-9-9v-29c0-4.9,4.1-9,9-9h72.9c4.9,0,9,4.1,9,9V48.8z" />
 			<path style={blockStyle} d="M100.4,140.3c0,4.9-4.1,9-9,9H18.5c-4.9,0-9-4.1-9-9v-29c0-5,4.1-9,9-9h72.9c4.9,0,9,4,9,9V140.3z" />
@@ -323,12 +319,11 @@ function SkillTreeImage() {
 }
 
 function DeficiencyImage() {
-	const transformationSettings = useIdentityTransformationSettings(340, 170)
 	const lineStyle = { fill: 'none', stroke: '#404040', strokeWidth: '2', strokeMiterlimit: 10 }
 	const blockStyle = { fill: lineStyle.stroke }
 	const iconStyle = { fill: '#ffffff' }
 
-	return <Drawing transformationSettings={transformationSettings}>
+	return <Drawing view={{ type: 'identity', width: 340, height: 170 }}>
 		<SvgPortal>
 			<path style={blockStyle} d="M105.8,54c0,5-4.1,9-9,9H23.8c-5,0-9-4-9-9v-29c0-4.9,4-9,9-9h72.9c4.9,0,9,4.1,9,9V54z" />
 			<path style={iconStyle} d="M67.2,32.8l-9.9,9.9l-5.4-5.4l-2.1,2.1l7.5,7.5l12-12L67.2,32.8z M60.3,24.4c-8.3,0-15,6.7-15,15s6.7,15,15,15
