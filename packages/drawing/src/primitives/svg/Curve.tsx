@@ -78,7 +78,9 @@ function getCurvePathAround(inputPositions: readonly Vector[], close: boolean, s
 			return [start.interpolate(end, factor), end.interpolate(start, factor)]
 		}
 		if (smoothingRatio === undefined) throw new Error('Invalid Curve smoothing: expected a ratio or a distance.')
-		return [start.interpolate(end, smoothingRatio / 2), end.interpolate(start, smoothingRatio / 2)]
+		const startRatio = smoothingRatio * (!close && index === positions.length - 2 ? 1 : 0.5)
+		const endRatio = smoothingRatio * (!close && index === 0 ? 1 : 0.5)
+		return [start.interpolate(end, startRatio), end.interpolate(start, endRatio)]
 	})
 
 	// If the curve is not closed, ensure that the first and last lines start and end at the first and last positions.
@@ -125,7 +127,7 @@ function getThroughCurveControlPoints(positions: readonly Vector[], close: boole
 		direction = direction.normalize()
 		if (smoothingDistance !== undefined) return [position.subtract(direction.multiply(smoothingDistance)), position.add(direction.multiply(smoothingDistance))]
 		if (smoothingRatio === undefined) throw new Error('Invalid Curve smoothing: expected a ratio or a distance.')
-		return [position.add(previousRelative.projectOnto(direction).multiply(smoothingRatio / 2)), position.add(nextRelative.projectOnto(direction).multiply(smoothingRatio / 2))]
+		return [position.add(previousRelative.projectOnto(direction).multiply(smoothingRatio)), position.add(nextRelative.projectOnto(direction).multiply(smoothingRatio))]
 	})
 }
 

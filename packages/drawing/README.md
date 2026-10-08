@@ -67,6 +67,8 @@ const points = [[-2, 4], [-1, 1], [0, 0], [1, 1], [2, 4]]
 </Plot>
 ```
 
+Curve smoothing ratios normally range from `0` to `1`. Higher values are accepted, but may overshoot or self-intersect.
+
 See the [Plot guide](https://github.com/HildoBijl/stepwise/blob/main/packages/drawing/src/Plot/README.md) for domains, axis settings, ticks, labels, grids, clipping, crosshairs, and plot hooks.
 
 

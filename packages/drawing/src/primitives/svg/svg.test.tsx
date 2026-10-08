@@ -57,13 +57,21 @@ describe('SVG drawing primitives', () => {
 		renderDrawing(<>
 			<Arc data-testid="arc" radius={{ pixelDistance: 10 }} />
 			<Curve data-testid="curve" positions={[[0, 0], [10, 10], [20, 0]]} />
+			<Curve data-testid="curve-half" positions={[[0, 0], [10, 10], [20, 0]]} smoothing={{ ratio: 0.5 }} />
+			<Curve data-testid="curve-with-shared-segment" positions={[[0, 0], [10, 10], [20, 10], [30, 0]]} />
 			<Curve data-testid="through-curve" positions={[[0, 0], [10, 10], [20, 0]]} smoothing={{ mode: 'through' }} />
+			<Curve data-testid="through-curve-half" positions={[[0, 0], [10, 10], [20, 0]]} smoothing={{ mode: 'through', ratio: 0.5 }} />
+			<Curve data-testid="through-curve-full" positions={[[0, 0], [10, 10], [20, 0]]} smoothing={{ mode: 'through', ratio: 1 }} />
 		</>)
 		expect(screen.getByTestId('arc').getAttribute('d')).toBe('M10 0 A10 10 0 0 1 -10 1.2246467991473533e-15')
 		expect(screen.getByTestId('arc').getAttribute('stroke-width')).toBe('1')
-		expect(screen.getByTestId('curve').getAttribute('d')).toContain('Q')
+		expect(screen.getByTestId('curve').getAttribute('d')).toBe('M0 0L0 0Q10 10 20 0L20 0')
+		expect(screen.getByTestId('curve-half').getAttribute('d')).toBe('M0 0L5 5Q10 10 15 5L20 0')
+		expect(screen.getByTestId('curve-with-shared-segment').getAttribute('d')).toBe('M0 0L0 0Q10 10 15 10L15 10Q20 10 30 0L30 0')
 		expect(screen.getByTestId('curve').getAttribute('stroke-width')).toBe('1')
 		expect(screen.getByTestId('through-curve').getAttribute('d')).toContain('C')
+		expect(screen.getByTestId('through-curve').getAttribute('d')).toBe(screen.getByTestId('through-curve-half').getAttribute('d'))
+		expect(screen.getByTestId('through-curve-full').getAttribute('d')).toBe('M0 0C0 0 0 10 10 10C20 10 20 0 20 0')
 	})
 
 	test('renders standalone and path arrowheads with shortened shafts', () => {
