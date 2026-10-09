@@ -1,4 +1,4 @@
-import { type ReactNode, createContext, useEffect, useLayoutEffect, useState } from 'react'
+import { type ReactNode, createContext, useEffect, useLayoutEffect, useReducer, useState } from 'react'
 
 import { useResizeObserver } from '@step-wise/react-utils'
 
@@ -15,10 +15,11 @@ export function DrawingTargetRegistryProvider({ children, element, coordinateSys
 	coordinateSystem: DrawingCoordinateSystem
 }) {
 	// Create a single instance of the registry for the lifetime of this provider.
-	const [registry] = useState(() => new DrawingTargetRegistry())
+	const [refreshRequest, requestRefresh] = useReducer(value => value + 1, 0)
+	const [registry] = useState(() => new DrawingTargetRegistry(requestRefresh))
 	useLayoutEffect(() => { registry.setEnvironment(element, coordinateSystem) }, [registry, element, coordinateSystem])
-	useEffect(() => { registry.refresh() }, [registry, element, coordinateSystem])
-	useResizeObserver(element, () => { registry.refresh() })
+	useEffect(() => { registry.refresh() }, [registry, element, coordinateSystem, refreshRequest])
+	useResizeObserver(element, requestRefresh)
 	useEffect(() => () => { registry.dispose() }, [registry])
 
 	// Provide the registry to the context for use by child components.

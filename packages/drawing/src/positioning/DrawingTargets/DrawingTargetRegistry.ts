@@ -1,8 +1,12 @@
+import { numbersEqual } from '@step-wise/js-utils'
 import { type Rectangle, Rectangle as RectangleClass } from '@step-wise/geometry'
 
 import type { DrawingCoordinateSystem } from '../../transforms/index.ts'
 
 export type DrawingTargetNode = Element | Text
+
+// Browser layout measurements can fluctuate by tiny subpixel amounts between otherwise equivalent renders.
+const measurementTolerance = { absoluteTolerance: 0.01 } as const
 
 type TargetEntry = {
 	node?: DrawingTargetNode
@@ -18,9 +22,13 @@ export class DrawingTargetRegistry {
 	private element: HTMLDivElement | null = null
 	private coordinateSystem?: DrawingCoordinateSystem
 	private revision = 0
+	private settled = false
+
+	constructor(private readonly requestRefresh: () => void = () => {}) {}
 
 	// Set the environment for the registry, including the drawing element and the coordinate system.
 	setEnvironment(element: HTMLDivElement | null, coordinateSystem: DrawingCoordinateSystem): void {
+		if (element !== this.element || coordinateSystem !== this.coordinateSystem) this.settled = false
 		this.element = element
 		this.coordinateSystem = coordinateSystem
 	}
@@ -61,7 +69,7 @@ export class DrawingTargetRegistry {
 	// Get the bounds of the target in render coordinates, if possible.
 	getBounds(target: string, coordinateSystem: DrawingCoordinateSystem, allowStale = false): Rectangle | undefined {
 		const entry = this.entries.get(target)
-		if (!allowStale && coordinateSystem !== entry?.coordinateSystem) return undefined
+		if (!allowStale && (!this.settled || coordinateSystem !== entry?.coordinateSystem)) return undefined
 		return entry?.bounds
 	}
 
@@ -76,7 +84,16 @@ export class DrawingTargetRegistry {
 		for (const entry of this.entries.values()) {
 			if (entry.listeners.size > 0 && this.updateBounds(entry)) changedEntries.push(entry)
 		}
-		this.notifyChanges(changedEntries)
+		if (changedEntries.length > 0) {
+			this.settled = false
+			this.notifyChanges(changedEntries)
+			this.requestRefresh()
+			return
+		}
+		if (!this.settled) {
+			this.settled = true
+			this.notifyChanges([...this.entries.values()].filter(entry => entry.listeners.size > 0))
+		}
 	}
 
 	// Dispose of the registry, stopping all observations and clearing all entries.
@@ -111,15 +128,19 @@ export class DrawingTargetRegistry {
 
 	// Measure the bounds of the target and notify listeners if they have changed.
 	private measure(entry: TargetEntry): void {
-		if (this.updateBounds(entry)) this.notifyChanges([entry])
+		if (!this.updateBounds(entry)) return
+		this.settled = false
+		this.notifyChanges([entry])
+		this.requestRefresh()
 	}
 
 	// Update the stored bounds of a target, returning whether they changed.
 	private updateBounds(entry: TargetEntry): boolean {
 		const bounds = this.getRenderBounds(entry.node)
 		const coordinateSystem = bounds === undefined ? undefined : this.coordinateSystem
-		const changed = entry.coordinateSystem !== coordinateSystem || (bounds === undefined ? entry.bounds !== undefined : !entry.bounds?.equals(bounds))
-		entry.bounds = bounds
+		const boundsChanged = bounds === undefined ? entry.bounds !== undefined : entry.bounds === undefined || !areRectanglesEquivalent(bounds, entry.bounds)
+		const changed = entry.coordinateSystem !== coordinateSystem || boundsChanged
+		if (boundsChanged) entry.bounds = bounds
 		entry.coordinateSystem = coordinateSystem
 		return changed
 	}
@@ -152,6 +173,10 @@ export class DrawingTargetRegistry {
 		const entry = this.entries.get(target)
 		if (entry && !entry.node && entry.listeners.size === 0) this.entries.delete(target)
 	}
+}
+
+function areRectanglesEquivalent(first: Rectangle, second: Rectangle): boolean {
+	return numbersEqual(first.min.x, second.min.x, measurementTolerance) && numbersEqual(first.min.y, second.min.y, measurementTolerance) && numbersEqual(first.max.x, second.max.x, measurementTolerance) && numbersEqual(first.max.y, second.max.y, measurementTolerance)
 }
 
 /// Get the bounds of the node in client coordinates, using getBoundingClientRect for elements and a Range for text nodes.
