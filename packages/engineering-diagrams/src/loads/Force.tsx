@@ -28,7 +28,7 @@ export function Force(props: ForceProps) {
 
 	// Calculate the second point of the vector. Due to different coordinate systems, use a calculate function.
 	const pixelAngle = engineeringAngleToPixel(ensureNumber(angle), coordinateSystem.yDirection)
-	const offset = coordinateSystem.pixelVectorToRender(Vector.fromPolar(magnitude, pixelAngle))
+	const offset = Vector.fromPolar(magnitude, pixelAngle)
 	const displacedPosition: Position = { positions: [position], calculate: ([resolvedPosition]) => resolvedPosition.add(applicationPointAt === 'start' ? offset : offset.negate()) }
 	const positions = applicationPointAt === 'start' ? [position, displacedPosition] : [displacedPosition, position]
 

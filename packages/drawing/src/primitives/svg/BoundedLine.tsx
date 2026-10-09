@@ -27,5 +27,5 @@ export const BoundedLine = forwardRef<SVGPathElement, BoundedLineProps>(function
 	if (!segment) return null
 
 	// Render the shape.
-	return <Line {...lineProps} positions={[{ pixelPosition: coordinateSystem.renderToPixel(segment.start) }, { pixelPosition: coordinateSystem.renderToPixel(segment.end) }]} ref={ref} />
+	return <Line {...lineProps} positions={[{ pixelPosition: segment.start }, { pixelPosition: segment.end }]} ref={ref} />
 })

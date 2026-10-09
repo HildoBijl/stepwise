@@ -125,7 +125,7 @@ Positions may also refer to measured targets or calculate a result from other po
 }
 ```
 
-`resolvePosition` resolves a specification with an explicit coordinate system. `useResolvedPosition` resolves one in the current Drawing and returns a render position, or `undefined` while a required target is unavailable.
+`resolvePosition` resolves a specification with an explicit coordinate system. `useResolvedPosition` resolves one in the current Drawing and returns a pixel position, or `undefined` while a required target is unavailable. This keeps the public positioning API independent of SVG's render-coordinate conventions, including when `yDirection` is `up`.
 
 Distances follow the same pattern:
 

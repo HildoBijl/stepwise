@@ -34,16 +34,17 @@ export const HtmlElement = forwardRef<HTMLDivElement, HtmlElementProps>(function
 	if (resolvedPosition === undefined) return null
 
 	// Resolve the anchor, rotation, and scale, then calculate the positioning style for the element.
-	const resolvedAnchor = resolveAnchor(anchor, coordinateSystem)
+	const resolvedAnchor = coordinateSystem.pixelVectorToRender(resolveAnchor(anchor, coordinateSystem))
+	const renderPosition = coordinateSystem.pixelToRender(resolvedPosition)
 	const rotation = ensureNumber(rotate) * (coordinateSystem.yDirection === 'up' ? -1 : 1)
 	const resolvedScale = ensureNumber(scale)
 	const anchorX = (resolvedAnchor.x + 1) * 50
 	const anchorY = (resolvedAnchor.y + 1) * 50
 	const positioningStyle: CSSProperties = {
-		left: resolvedPosition.x,
+		left: renderPosition.x,
 		pointerEvents: ignoreMouse ? 'none' : 'auto',
 		position: 'absolute',
-		top: resolvedPosition.y,
+		top: renderPosition.y,
 		transform: `translate(${-anchorX}%, ${-anchorY}%) rotate(${rotation}rad) scale(${resolvedScale})`,
 		transformOrigin: `${anchorX}% ${anchorY}%`,
 	}

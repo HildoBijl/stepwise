@@ -25,6 +25,7 @@ export function Test() {
 	// const [primary, info, warning] = getHexColor(['primary', 'info', 'warning'])
 	const eq = c.asEquation('E=mc^2')
 	const user = useUser()
+	const plotPoints = [[-3, 7], [-2, 2], [-1, -1], [0, -2], [1, -1], [2, 2], [3, 7]]
 
 	return (
 		<>
@@ -52,8 +53,9 @@ export function Test() {
 			>
 				<Grid />
 				<PlotArea>
-					<Curve positions={[[-3, 7], [-2, 2], [-1, -1], [0, -2], [1, -1], [2, 2], [3, 7]]} smoothing={{ mode: 'through', ratio: 0.7 }} stroke="#1565c0" strokeWidth={3} />
+					<Curve positions={plotPoints} smoothing={{ mode: 'through' }} stroke="#1565c0" strokeWidth={3} />
 				</PlotArea>
+				{plotPoints.map((point, index) => <Circle key={index} center={point} radius={{ pixelDistance: 4 }} style={{ fill: '#1565c0' }} />)}
 				<Axes x={{ label: <M>x</M> }} y={{ label: <M>f\left(x\right) = x^2</M> }} />
 				<Crosshair getPointLabel={([x, y]) => `(${x.toFixed(2)}, ${y.toFixed(2)})`} labelProps={{ style: { background: 'white', border: '1px solid currentColor', borderRadius: 3, padding: '1px 4px' } }} />
 			</Plot>
@@ -68,7 +70,7 @@ export function Test() {
 
 				<Line endArrow positions={[[1, 1], [3, 4.5], [5, 1.5]]} stroke="#f0897b" strokeWidth={3} />
 
-				<Curve startArrow endArrow positions={[[1, 2], [2.5, 3.5], [4, 2.2], [5.5, 4.2]]} smoothing={{ distance: 0.7, mode: 'around' }} stroke="#8e24aa" strokeWidth={2} />
+				<Curve startArrow endArrow positions={[[1, 2], [2.5, 3.5], [4, 2.2], [5.5, 4.2]]} smoothing={{ ratio: 0.8, mode: 'around' }} stroke="#8e24aa" strokeWidth={2} />
 
 				<Polygon positions={[[6.2, 1], [8.8, 1.2], [8, 3.2], [6.5, 2.8]]} fill="#ffcc80" stroke="#ef6c00" strokeWidth={2} />
 

@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 import { ensureNumber } from '@step-wise/js-utils'
 import { type VectorLike, ensureVector } from '@step-wise/geometry'
 
-import { SvgDefsPortal, useDrawingCoordinateSystem, useDrawingId } from '../../Drawing/index.ts'
+import { SvgDefsPortal, useDrawingId } from '../../Drawing/index.ts'
 import { type Position, useResolvedPositions } from '../../positioning/index.ts'
 
 import { Line, type LineProps } from './Line.tsx'
@@ -16,7 +16,6 @@ export interface DistanceMarkerProps extends Omit<LineProps, 'close' | 'position
 
 export const DistanceMarker = forwardRef<SVGPathElement, DistanceMarkerProps>(function DistanceMarker(props, ref) {
 	const { markerSize = 5, pixelOffset = [0, 0], positions, style, ...lineProps } = props
-	const coordinateSystem = useDrawingCoordinateSystem()
 	const id = `${useDrawingId()}-distance-marker`
 
 	// Resolve positions and abort if they are not valid.
@@ -26,8 +25,8 @@ export const DistanceMarker = forwardRef<SVGPathElement, DistanceMarkerProps>(fu
 	ensureNumber(markerSize, { nonNegative: true, nonZero: true })
 
 	// Apply the pixel offset to the resolved positions.
-	const offset = coordinateSystem.pixelVectorToRender(ensureVector(pixelOffset, { dimension: 2 }))
-	const shiftedPositions = resolvedPositions.map(position => ({ pixelPosition: coordinateSystem.renderToPixel(position.add(offset)) }))
+	const offset = ensureVector(pixelOffset, { dimension: 2 })
+	const shiftedPositions = resolvedPositions.map(position => ({ pixelPosition: position.add(offset) }))
 
 	// Render the shape with markers at both ends.
 	return <>

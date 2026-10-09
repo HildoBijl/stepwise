@@ -39,10 +39,10 @@ export type PositionResolutionOptions = {
  * Resolution functions.
  */
 
-// Generally, resolve a position to a Vector in the render coordinate system.
+// Generally, resolve a position to a Vector in the pixel coordinate system.
 export function resolvePosition(position: Position, coordinateSystem: DrawingCoordinateSystem, options: PositionResolutionOptions = {}): Vector | undefined {
 	// If the position is a vector-like object, treat it as a drawing position and resolve it accordingly.
-	if (isVectorLike(position)) return coordinateSystem.drawingToRender(ensureVector(position, { dimension: 2 }))
+	if (isVectorLike(position)) return coordinateSystem.drawingToPixel(ensureVector(position, { dimension: 2 }))
 
 	// Check which type of position is provided.
 	if (!isPlainObject(position)) throw new Error('Invalid position: expected a drawing position, a pixel position, a target position, a calculated position, or a two-dimensional vector.')
@@ -59,25 +59,26 @@ export function resolvePosition(position: Position, coordinateSystem: DrawingCoo
 	return resolveCalculatedPosition(position as CalculatedPosition, coordinateSystem, options)
 }
 
-// For a drawing position, convert the drawing coordinates to render coordinates.
+// For a drawing position, convert the drawing coordinates to pixel coordinates.
 function resolveDrawingPosition(position: DrawingPosition, coordinateSystem: DrawingCoordinateSystem): Vector {
 	const drawingPosition = ensureVector(position.position, { dimension: 2 })
 	const pixelPosition = coordinateSystem.drawingToPixel(drawingPosition)
 	const pixelOffset = position.pixelOffset === undefined ? undefined : ensureVector(position.pixelOffset, { dimension: 2 })
-	return coordinateSystem.pixelToRender(pixelOffset ? pixelPosition.add(pixelOffset) : pixelPosition)
+	return pixelOffset ? pixelPosition.add(pixelOffset) : pixelPosition
 }
 
-// For a pixel position, convert the pixel coordinates to render coordinates.
-function resolvePixelPosition(position: PixelPosition, coordinateSystem: DrawingCoordinateSystem): Vector {
-	return coordinateSystem.pixelToRender(ensureVector(position.pixelPosition, { dimension: 2 }))
+// For a pixel position, simply return the pixel coordinates.
+function resolvePixelPosition(position: PixelPosition, _coordinateSystem: DrawingCoordinateSystem): Vector {
+	return ensureVector(position.pixelPosition, { dimension: 2 })
 }
 
-// For a target position, resolve the target's bounds and anchor to determine the render coordinates.
+// For a target position, convert its render bounds and resolve its anchor in pixel coordinates.
 function resolveTargetPosition(position: TargetPosition, coordinateSystem: DrawingCoordinateSystem, options: PositionResolutionOptions): Vector | undefined {
 	// Get the bounds from the target.
 	const target = ensureString(position.target, { nonEmpty: true })
-	const bounds = options.getTargetBounds?.(target)
-	if (!bounds) return undefined
+	const renderBounds = options.getTargetBounds?.(target)
+	if (!renderBounds) return undefined
+	const bounds = coordinateSystem.renderToPixelTransformation.transform(renderBounds)
 
 	// Resolve and apply the anchor.
 	const anchor = resolveAnchor(position.anchor ?? anchors.center, coordinateSystem)
@@ -88,7 +89,7 @@ function resolveTargetPosition(position: TargetPosition, coordinateSystem: Drawi
 
 	// Apply any pixel offset if provided.
 	if (position.pixelOffset === undefined) return resolved
-	return resolved.add(coordinateSystem.pixelVectorToRender(ensureVector(position.pixelOffset, { dimension: 2 })))
+	return resolved.add(ensureVector(position.pixelOffset, { dimension: 2 }))
 }
 
 
@@ -130,18 +131,18 @@ function collectPositionTargets(position: Position, targets: Set<string>): void 
  * Anchor resolution.
  */
 
-// Resolve an anchor to a vector in the render coordinate system, taking into account the drawing coordinate system's y-direction.
+// Resolve an anchor to a vector in the pixel coordinate system, taking into account its configured y-direction.
 export function resolveAnchor(anchor: Anchor, coordinateSystem: DrawingCoordinateSystem): Vector {
 	if (typeof anchor === 'string') {
 		const coordinates = namedAnchorCoordinates[anchor as NamedAnchor]
 		if (!coordinates) throw new Error(`Invalid Drawing anchor: received "${anchor}".`)
-		return new VectorClass(coordinates)
+		const vector = new VectorClass(coordinates)
+		return coordinateSystem.yDirection === 'up' ? new VectorClass(vector.x, -vector.y) : vector
 	}
-	const vector = ensureVector(anchor, { dimension: 2 })
-	return coordinateSystem.yDirection === 'up' ? new VectorClass(vector.x, -vector.y) : vector
+	return ensureVector(anchor, { dimension: 2 })
 }
 
-// A mapping of named anchors to their corresponding vector coordinates in the render coordinate system.
+// A mapping of named anchors to their corresponding vector coordinates when the pixel y-direction is down.
 const namedAnchorCoordinates: Record<NamedAnchor, VectorLike> = {
 	center: [0, 0],
 	left: [-1, 0],

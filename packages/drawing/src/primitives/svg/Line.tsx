@@ -3,7 +3,9 @@ import { forwardRef } from 'react'
 import { first, last } from '@step-wise/js-utils'
 
 import { SvgPortal } from '../../Drawing/index.ts'
-import { useResolvedDistance, useResolvedPositions } from '../../positioning/index.ts'
+import { useResolvedDistance } from '../../positioning/index.ts'
+
+import { useRenderPositions } from '../resolution.ts'
 
 import { type ArrowedPathProps, getDefaultPathArrowHeadSize, ResolvedArrowHead, resolveArrowHeadOptions } from './ArrowHead.tsx'
 import { getLinePath, prepareArrowedPositions } from './support.ts'
@@ -17,7 +19,7 @@ export const Line = forwardRef<SVGPathElement, LineProps>(function Line(props, r
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)
 
 	// Resolve positions and abort if they are not valid.
-	const resolvedPositions = useResolvedPositions(positions)
+	const resolvedPositions = useRenderPositions(positions)
 	const defaultArrowSize = getDefaultPathArrowHeadSize(strokeWidth)
 	const startArrowSize = useResolvedDistance(startArrowOptions?.size ?? defaultArrowSize)
 	const endArrowSize = useResolvedDistance(endArrowOptions?.size ?? defaultArrowSize)

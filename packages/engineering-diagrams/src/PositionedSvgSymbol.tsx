@@ -14,8 +14,9 @@ export function PositionedSvgSymbol(props: PositionedSvgSymbolProps & { children
 	const coordinateSystem = useDrawingCoordinateSystem()
 	
 	// Determine the position/rotation or abort on missing data.
-	const resolvedPosition = useResolvedPosition(position)
-	if (resolvedPosition === undefined) return null
+	const pixelPosition = useResolvedPosition(position)
+	if (pixelPosition === undefined) return null
+	const resolvedPosition = coordinateSystem.pixelToRender(pixelPosition)
 	const rotation = ensureNumber(angle) * (coordinateSystem.yDirection === 'up' ? -1 : 1)
 
 	// Render the Symbol.

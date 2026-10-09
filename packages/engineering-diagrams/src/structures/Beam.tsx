@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react'
 
-import { SvgPortal, type Position, useResolvedPositions } from '@step-wise/drawing'
+import { SvgPortal, type Position, useDrawingCoordinateSystem, useResolvedPositions } from '@step-wise/drawing'
 import { ensureNumber } from '@step-wise/js-utils'
 
 export interface BeamProps extends Omit<SVGProps<SVGGElement>, 'color'> {
@@ -15,10 +15,12 @@ export interface BeamProps extends Omit<SVGProps<SVGGElement>, 'color'> {
 
 export function Beam(props: BeamProps) {
 	const { className = 'beam', color = 'currentColor', lineProps, positions, ref, strutOpacity = 0.75, strutProps, strutSize = 12, style, thickness = 6, ...groupProps } = props
+	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// Determine the path of the beam.
-	const resolvedPositions = useResolvedPositions(positions)
-	if (resolvedPositions === undefined) return null
+	const pixelPositions = useResolvedPositions(positions)
+	if (pixelPositions === undefined) return null
+	const resolvedPositions = pixelPositions.map(position => coordinateSystem.pixelToRender(position))
 	if (resolvedPositions.length < 2) throw new Error('Invalid Beam positions: expected at least two positions.')
 	const path = `M${resolvedPositions.map(point => `${point.x} ${point.y}`).join(' L')}`
 

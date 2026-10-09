@@ -3,7 +3,9 @@ import { type SVGProps, forwardRef } from 'react'
 import { ensureNumber } from '@step-wise/js-utils'
 
 import { SvgPortal, useDrawing, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
-import { type Position, useResolvedPosition } from '../../positioning/index.ts'
+import type { Position } from '../../positioning/index.ts'
+
+import { useRenderPosition } from '../resolution.ts'
 
 export interface SvgGroupProps extends Omit<SVGProps<SVGGElement>, 'clip'> {
 	clip?: boolean
@@ -18,7 +20,7 @@ export const SvgGroup = forwardRef<SVGGElement, SvgGroupProps>(function SvgGroup
 	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// Resolve an explicit position and abort if it is not valid.
-	const resolvedPosition = useResolvedPosition(position)
+	const resolvedPosition = useRenderPosition(position)
 	if (position !== undefined && resolvedPosition === undefined) return null
 	const translation = resolvedPosition ?? { x: 0, y: 0 }
 

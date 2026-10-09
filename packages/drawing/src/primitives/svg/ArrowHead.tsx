@@ -4,7 +4,9 @@ import { ensureNumber } from '@step-wise/js-utils'
 import { type Vector, type VectorLike, ensureVector } from '@step-wise/geometry'
 
 import { SvgPortal, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
-import { type Distance, type Position, useResolvedDistance, useResolvedPosition } from '../../positioning/index.ts'
+import { type Distance, type Position, useResolvedDistance } from '../../positioning/index.ts'
+
+import { useRenderPosition } from '../resolution.ts'
 
 export const defaultArrowHeadSize = { pixelDistance: 12 } as const
 export const defaultArrowHeadStrokeRatio = 5
@@ -28,7 +30,7 @@ export const ArrowHead = forwardRef<SVGPolygonElement, ArrowHeadProps>(function 
 	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// Resolve the position and size, and abort if they are not valid.
-	const resolvedPosition = useResolvedPosition(position)
+	const resolvedPosition = useRenderPosition(position)
 	const resolvedSize = useResolvedDistance(size)
 	if (resolvedPosition === undefined || resolvedSize === undefined) return null
 

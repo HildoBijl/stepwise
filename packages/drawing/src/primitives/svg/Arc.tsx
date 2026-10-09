@@ -4,7 +4,9 @@ import { ensureNumber } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 
 import { SvgPortal, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
-import { type Distance, type Position, useResolvedDistance, useResolvedPosition } from '../../positioning/index.ts'
+import { type Distance, type Position, useResolvedDistance } from '../../positioning/index.ts'
+
+import { useRenderPosition } from '../resolution.ts'
 
 import { type ArrowedPathProps, getArrowHeadDirectionInset, getArrowHeadInset, getDefaultPathArrowHeadSize, ResolvedArrowHead, resolveArrowHeadOptions } from './ArrowHead.tsx'
 import { getPointPath } from './support.ts'
@@ -24,7 +26,7 @@ export const Arc = forwardRef<SVGPathElement, ArcProps>(function Arc(props, ref)
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)
 
 	// Resolve positions/distances and abort if they are not valid.
-	const resolvedCenter = useResolvedPosition(center)
+	const resolvedCenter = useRenderPosition(center)
 	const resolvedRadius = useResolvedDistance(radius)
 	const defaultArrowSize = getDefaultPathArrowHeadSize(strokeWidth)
 	const startArrowSize = useResolvedDistance(startArrowOptions?.size ?? defaultArrowSize)

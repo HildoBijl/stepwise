@@ -70,8 +70,9 @@ describe('SVG drawing primitives', () => {
 		expect(screen.getByTestId('curve-with-shared-segment').getAttribute('d')).toBe('M0 0L0 0Q10 10 15 10L15 10Q20 10 30 0L30 0')
 		expect(screen.getByTestId('curve').getAttribute('stroke-width')).toBe('1')
 		expect(screen.getByTestId('through-curve').getAttribute('d')).toContain('C')
-		expect(screen.getByTestId('through-curve').getAttribute('d')).toBe(screen.getByTestId('through-curve-half').getAttribute('d'))
-		expect(screen.getByTestId('through-curve-full').getAttribute('d')).toBe('M0 0C0 0 0 10 10 10C20 10 20 0 20 0')
+		expect(screen.getByTestId('through-curve').getAttribute('d')).toBe(screen.getByTestId('through-curve-full').getAttribute('d'))
+		expect(screen.getByTestId('through-curve-half').getAttribute('d')).toBe('M0 0C5 5 7.5 10 10 10C12.5 10 15 5 20 0')
+		expect(screen.getByTestId('through-curve-full').getAttribute('d')).toBe('M0 0C10 10 5 10 10 10C15 10 10 10 20 0')
 	})
 
 	test('renders standalone and path arrowheads with shortened shafts', () => {

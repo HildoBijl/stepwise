@@ -10,7 +10,7 @@ describe('resolvePosition', () => {
 	test('interprets a bare vector as a drawing position', () => {
 		const coordinateSystem = createCoordinateSystem('up')
 
-		expect(resolvePosition([10, 5], coordinateSystem).coordinates).toEqual([20, 60])
+		expect(resolvePosition([10, 5], coordinateSystem).coordinates).toEqual([20, 40])
 	})
 
 	test('adds pixel offsets using the configured pixel-coordinate direction', () => {
@@ -19,17 +19,17 @@ describe('resolvePosition', () => {
 		expect(resolvePosition({ position: [10, 5], pixelOffset: [5, 10] }, coordinateSystem).coordinates).toEqual([25, 50])
 	})
 
-	test('converts direct pixel positions to render coordinates', () => {
+	test('keeps direct pixel positions in pixel coordinates', () => {
 		const coordinateSystem = createCoordinateSystem('up')
 
-		expect(resolvePosition({ pixelPosition: [10, 20] }, coordinateSystem).coordinates).toEqual([10, 80])
+		expect(resolvePosition({ pixelPosition: [10, 20] }, coordinateSystem).coordinates).toEqual([10, 20])
 	})
 
 	test('resolves semantic target anchors independently of the y-direction', () => {
 		const bounds = new Rectangle([20, 30], [60, 50])
 		const getTargetBounds = () => bounds
 
-		expect(resolvePosition({ target: 'label', anchor: anchors.topRight }, createCoordinateSystem('up'), { getTargetBounds })!.coordinates).toEqual([60, 30])
+		expect(resolvePosition({ target: 'label', anchor: anchors.topRight }, createCoordinateSystem('up'), { getTargetBounds })!.coordinates).toEqual([60, 70])
 		expect(resolvePosition({ target: 'label', anchor: anchors.topRight }, createCoordinateSystem('down'), { getTargetBounds })!.coordinates).toEqual([60, 30])
 	})
 
@@ -37,7 +37,7 @@ describe('resolvePosition', () => {
 		const coordinateSystem = createCoordinateSystem('up')
 		const getTargetBounds = () => new Rectangle([20, 30], [60, 50])
 
-		expect(resolvePosition({ target: 'label', anchor: [1, 1], pixelOffset: [5, 10] }, coordinateSystem, { getTargetBounds })!.coordinates).toEqual([65, 20])
+		expect(resolvePosition({ target: 'label', anchor: [1, 1], pixelOffset: [5, 10] }, coordinateSystem, { getTargetBounds })!.coordinates).toEqual([65, 80])
 	})
 
 	test('leaves a target position unresolved while its bounds are unavailable', () => {
@@ -54,7 +54,7 @@ describe('resolvePosition', () => {
 			calculate: ([first, second]) => first.add(second).multiply(0.5),
 		}, coordinateSystem)
 
-		expect(position!.coordinates).toEqual([20, 70])
+		expect(position!.coordinates).toEqual([20, 30])
 	})
 
 	test('does not calculate a position until every input is resolved', () => {
