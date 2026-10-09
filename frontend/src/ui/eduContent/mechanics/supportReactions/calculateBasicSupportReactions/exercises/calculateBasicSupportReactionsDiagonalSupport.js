@@ -155,7 +155,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const schematics = <Schematics {...solution} loads={styledLoads} showSupports={showSupports} />
 
 	// Set up either a diagram or an input field with said diagram.
-	const snappers = [...Object.values(points), Line.fromPointAndAngle(points.C, -Math.PI / 2 - angleRad)]
+	const snappers = [...Object.values(points), Line.fromPointAndAngle(points.C, -Math.PI / 2 + angleRad)]
 	return isInputField ?
 		<FBDInput id="loads" view={view} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)} getLoadNames={loads => getNamedLoads(loads, solution)}>{schematics}</FBDInput> :
 		<Drawing view={view}>{schematics}</Drawing>
