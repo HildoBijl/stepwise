@@ -44,6 +44,28 @@ describe('Drawing targets', () => {
 		expect(screen.getByText('45,35')).toBeTruthy()
 	})
 
+	test('keeps referenced positions available across equivalent inline view rerenders', () => {
+		const { rerender } = render(<DrawingWithInlineView marker="first" />)
+		expect(screen.getByText('45,35')).toBeTruthy()
+
+		rerender(<DrawingWithInlineView marker="second" />)
+		expect(screen.getByText('45,35')).toBeTruthy()
+	})
+
+	test('remeasures referenced positions after a genuine view change', () => {
+		const { rerender } = render(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+			<DrawingTarget target="label">Label</DrawingTarget>
+			<ResolvedTargetPosition />
+		</Drawing>)
+		expect(screen.getByText('45,35')).toBeTruthy()
+
+		rerender(<Drawing view={{ type: 'identity', width: 200, height: 100 }}>
+			<DrawingTarget target="label">Label</DrawingTarget>
+			<ResolvedTargetPosition />
+		</Drawing>)
+		expect(screen.getByText('85,35')).toBeTruthy()
+	})
+
 	test('only observes a target once it is referenced', () => {
 		const { rerender } = render(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
 			<DrawingTarget target="label">Label</DrawingTarget>
@@ -92,6 +114,14 @@ describe('Drawing targets', () => {
 function ResolvedTargetPosition({ target = 'label' }: { target?: string }) {
 	const position = useResolvedPosition({ target, anchor: anchors.bottomRight, pixelOffset: [5, 5] })
 	return position ? <output>{position.x},{position.y}</output> : null
+}
+
+function DrawingWithInlineView({ marker }: { marker: string }) {
+	return <Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+		<span hidden>{marker}</span>
+		<DrawingTarget target="label">Label</DrawingTarget>
+		<ResolvedTargetPosition />
+	</Drawing>
 }
 
 function CalculatedTargetPosition() {

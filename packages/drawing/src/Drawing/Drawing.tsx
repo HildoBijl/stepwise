@@ -1,8 +1,10 @@
 import { forwardRef, useId, useImperativeHandle, useMemo, useState } from 'react'
 
+import { useStableValue } from '@step-wise/react-utils'
+
 import { Figure } from '../Figure/index.ts'
 import { DrawingTargetRegistryProvider } from '../positioning/DrawingTargets/DrawingTargetRegistryProvider.tsx'
-import { resolveDrawingView } from '../transforms/index.ts'
+import { type DrawingCoordinateSystem, resolveDrawingView } from '../transforms/index.ts'
 
 import { DrawingContextProvider } from './context.ts'
 import type { DrawingHandle, DrawingProps } from './types.ts'
@@ -13,7 +15,7 @@ export const Drawing = forwardRef<DrawingHandle, DrawingProps>(function Drawing(
 	const clipPathId = `${id}-drawing-clip`
 
 	// Resolve the drawing view to get the coordinate system and dimensions.
-	const coordinateSystem = useMemo(() => resolveDrawingView(view), [view])
+	const coordinateSystem = useStableValue(resolveDrawingView(view), areDrawingCoordinateSystemsEqual)
 	const { width, height } = coordinateSystem
 
 	// Set up state for the drawing elements.
@@ -71,4 +73,8 @@ function layerStyle(zIndex: number) {
 		width: '100%',
 		zIndex,
 	}
+}
+
+function areDrawingCoordinateSystemsEqual(current: DrawingCoordinateSystem, previous: DrawingCoordinateSystem): boolean {
+	return current.width === previous.width && current.height === previous.height && current.yDirection === previous.yDirection && current.drawingToPixelTransformation.equals(previous.drawingToPixelTransformation)
 }

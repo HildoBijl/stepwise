@@ -16,10 +16,12 @@ export class DrawingTargetRegistry {
 	private readonly entries = new Map<string, TargetEntry>()
 	private element: HTMLDivElement | null = null
 	private coordinateSystem?: DrawingCoordinateSystem
+	private environmentChanged = false
 	private revision = 0
 
 	// Set the environment for the registry, including the drawing element and the coordinate system.
 	setEnvironment(element: HTMLDivElement | null, coordinateSystem: DrawingCoordinateSystem): void {
+		if (element !== this.element || coordinateSystem !== this.coordinateSystem) this.environmentChanged = true
 		this.element = element
 		this.coordinateSystem = coordinateSystem
 	}
@@ -73,6 +75,12 @@ export class DrawingTargetRegistry {
 		const changedEntries: TargetEntry[] = []
 		for (const entry of this.entries.values()) {
 			if (entry.listeners.size > 0 && this.updateBounds(entry)) changedEntries.push(entry)
+		}
+		if (this.environmentChanged) {
+			this.environmentChanged = false
+			for (const entry of this.entries.values()) {
+				if (entry.listeners.size > 0 && !changedEntries.includes(entry)) changedEntries.push(entry)
+			}
 		}
 		this.notifyChanges(changedEntries)
 	}
