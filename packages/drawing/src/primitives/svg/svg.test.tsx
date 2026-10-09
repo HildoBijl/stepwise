@@ -63,16 +63,16 @@ describe('SVG drawing primitives', () => {
 			<Curve data-testid="through-curve-half" positions={[[0, 0], [10, 10], [20, 0]]} smoothing={{ mode: 'through', ratio: 0.5 }} />
 			<Curve data-testid="through-curve-full" positions={[[0, 0], [10, 10], [20, 0]]} smoothing={{ mode: 'through', ratio: 1 }} />
 		</>)
-		expect(screen.getByTestId('arc').getAttribute('d')).toBe('M10 0 A10 10 0 0 1 -10 1.2246467991473533e-15')
+		expect(screen.getByTestId('arc').getAttribute('d')).toBe('M10 0 A10 10 0 0 1 -10 0')
 		expect(screen.getByTestId('arc').getAttribute('stroke-width')).toBe('1')
-		expect(screen.getByTestId('curve').getAttribute('d')).toBe('M0 0L0 0Q10 10 20 0L20 0')
+		expect(screen.getByTestId('curve').getAttribute('d')).toBe('M0 0L2 2Q10 10 18 2L20 0')
 		expect(screen.getByTestId('curve-half').getAttribute('d')).toBe('M0 0L5 5Q10 10 15 5L20 0')
-		expect(screen.getByTestId('curve-with-shared-segment').getAttribute('d')).toBe('M0 0L0 0Q10 10 15 10L15 10Q20 10 30 0L30 0')
+		expect(screen.getByTestId('curve-with-shared-segment').getAttribute('d')).toBe('M0 0L2 2Q10 10 14 10L16 10Q20 10 28 2L30 0')
 		expect(screen.getByTestId('curve').getAttribute('stroke-width')).toBe('1')
 		expect(screen.getByTestId('through-curve').getAttribute('d')).toContain('C')
-		expect(screen.getByTestId('through-curve').getAttribute('d')).toBe(screen.getByTestId('through-curve-full').getAttribute('d'))
-		expect(screen.getByTestId('through-curve-half').getAttribute('d')).toBe('M0 0C5 5 7.5 10 10 10C12.5 10 15 5 20 0')
-		expect(screen.getByTestId('through-curve-full').getAttribute('d')).toBe('M0 0C10 10 5 10 10 10C15 10 10 10 20 0')
+		expect(screen.getByTestId('through-curve').getAttribute('d')).toBe('M0 0C0 0 6 10 10 10C14 10 20 0 20 0')
+		expect(screen.getByTestId('through-curve-half').getAttribute('d')).toBe('M0 0C0 0 7.5 10 10 10C12.5 10 20 0 20 0')
+		expect(screen.getByTestId('through-curve-full').getAttribute('d')).toBe('M0 0C0 0 5 10 10 10C15 10 20 0 20 0')
 	})
 
 	test('renders standalone and path arrowheads with shortened shafts', () => {

@@ -121,7 +121,7 @@ function getCurvePathThrough(positions: readonly Vector[], close: boolean, smoot
 // Calculate the control points for a curve that passes through the given positions.
 function getThroughCurveControlPoints(positions: readonly Vector[], close: boolean, smoothingRatio?: number, smoothingDistance?: number): [Vector, Vector][] {
 	return positions.map((position, index) => {
-		// For the start/end, put the control points at the point itself.
+		// For open-curve endpoints, put both control points at the endpoint itself.
 		if (!close && (index === 0 || index === positions.length - 1)) return [position, position]
 
 		// Find the direction the curve should be going in at the control point. For a 180 degree turn, put the control points at the point itself.

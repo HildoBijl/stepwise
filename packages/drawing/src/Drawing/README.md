@@ -61,7 +61,7 @@ Primitives accept their normal SVG or HTML properties, styles, class names, even
 <Arc center={[0, 0]} radius={2} startAngle={0} endAngle={Math.PI / 2} />
 ```
 
-`Curve` supports paths that pass through their positions or round around them. Ratio and distance smoothing are mutually exclusive. A smoothing ratio normally ranges from `0` (no smoothing) to `1` (the highest normally sensible smoothing); values above `1` are accepted but may overshoot or self-intersect. For an open around-curve, a corner next to an endpoint can use its full adjacent segment at ratio `1`; segments between two corners are shared evenly. To preserve the default appearance, through-curves default to a ratio of `0.5`, while around-curves default to `1`.
+`Curve` supports paths that pass through their positions or round around them. Ratio and distance smoothing are mutually exclusive. A smoothing ratio normally ranges from `0` (no smoothing) to `1` (the highest normally sensible smoothing); values above `1` are accepted but may overshoot or self-intersect. Both through-curves and around-curves default to a ratio of `0.8`. For open around-curves, control points next to the endpoints use their full adjacent section as the ratio basis, while interior control points use half of each adjacent section. Open through-curves keep their endpoint control points at the endpoints themselves.
 
 ```tsx
 <Curve positions={points} smoothing={{ mode: 'through', ratio: 0.7 }} />
