@@ -69,19 +69,25 @@ function getTextNodes(node: Node | null | undefined): Text[] {
  * Obtaining bounds.
  */
 
+export interface DrawingTargetBoundsOptions {
+	allowStale?: boolean
+}
+
 // Retrieve the bounds of a target in the drawing target registry, and subscribes to changes in those bounds.
-export function useDrawingTargetBounds(targetInput: string | undefined): Rectangle | undefined {
+export function useDrawingTargetBounds(targetInput: string | undefined, options: DrawingTargetBoundsOptions = {}): Rectangle | undefined {
 	const target = targetInput === undefined ? undefined : ensureString(targetInput, { nonEmpty: true })
+	const { allowStale = true } = options
 	const coordinateSystem = useDrawingCoordinateSystem()
 	const registry = useDrawingTargetRegistry()
 	const subscribe = useCallback((listener: () => void) => target === undefined ? () => { } : registry.subscribe(target, listener), [registry, target])
-	const getSnapshot = useCallback(() => target === undefined ? undefined : registry.getBounds(target, coordinateSystem), [coordinateSystem, registry, target])
+	const getSnapshot = useCallback(() => target === undefined ? undefined : registry.getBounds(target, coordinateSystem, allowStale), [allowStale, coordinateSystem, registry, target])
 	return useSyncExternalStore(subscribe, getSnapshot, () => undefined)
 }
 
 // Retrieve the bounds of multiple targets and subscribe to changes in any of them.
-export function useDrawingTargetBoundsMap(targetInputs: readonly string[]): ReadonlyMap<string, Rectangle | undefined> {
+export function useDrawingTargetBoundsMap(targetInputs: readonly string[], options: DrawingTargetBoundsOptions = {}): ReadonlyMap<string, Rectangle | undefined> {
 	const targets = useStableValue(targetInputs.map(target => ensureString(target, { nonEmpty: true })), areStringArraysEqual)
+	const { allowStale = true } = options
 	const coordinateSystem = useDrawingCoordinateSystem()
 	const registry = useDrawingTargetRegistry()
 	const subscribe = useCallback((listener: () => void) => {
@@ -90,7 +96,7 @@ export function useDrawingTargetBoundsMap(targetInputs: readonly string[]): Read
 	}, [registry, targets])
 	const getSnapshot = useCallback(() => registry.getRevision(), [registry])
 	const revision = useSyncExternalStore(subscribe, getSnapshot, getSnapshot)
-	return useMemo(() => new Map(targets.map(target => [target, registry.getBounds(target, coordinateSystem)])), [coordinateSystem, registry, revision, targets])
+	return useMemo(() => new Map(targets.map(target => [target, registry.getBounds(target, coordinateSystem, allowStale)])), [allowStale, coordinateSystem, registry, revision, targets])
 }
 
 function areStringArraysEqual(current: readonly string[], previous: readonly string[]): boolean {

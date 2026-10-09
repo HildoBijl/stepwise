@@ -7,6 +7,7 @@ export type DrawingTargetNode = Element | Text
 type TargetEntry = {
 	node?: DrawingTargetNode
 	bounds?: Rectangle
+	coordinateSystem?: DrawingCoordinateSystem
 	listeners: Set<() => void>
 	observer?: ResizeObserver
 }
@@ -16,12 +17,10 @@ export class DrawingTargetRegistry {
 	private readonly entries = new Map<string, TargetEntry>()
 	private element: HTMLDivElement | null = null
 	private coordinateSystem?: DrawingCoordinateSystem
-	private environmentChanged = false
 	private revision = 0
 
 	// Set the environment for the registry, including the drawing element and the coordinate system.
 	setEnvironment(element: HTMLDivElement | null, coordinateSystem: DrawingCoordinateSystem): void {
-		if (element !== this.element || coordinateSystem !== this.coordinateSystem) this.environmentChanged = true
 		this.element = element
 		this.coordinateSystem = coordinateSystem
 	}
@@ -60,9 +59,10 @@ export class DrawingTargetRegistry {
 	}
 
 	// Get the bounds of the target in render coordinates, if possible.
-	getBounds(target: string, coordinateSystem: DrawingCoordinateSystem): Rectangle | undefined {
-		if (coordinateSystem !== this.coordinateSystem) return undefined
-		return this.entries.get(target)?.bounds
+	getBounds(target: string, coordinateSystem: DrawingCoordinateSystem, allowStale = false): Rectangle | undefined {
+		const entry = this.entries.get(target)
+		if (!allowStale && coordinateSystem !== entry?.coordinateSystem) return undefined
+		return entry?.bounds
 	}
 
 	// Get a revision number that changes whenever any measured target bounds change.
@@ -75,12 +75,6 @@ export class DrawingTargetRegistry {
 		const changedEntries: TargetEntry[] = []
 		for (const entry of this.entries.values()) {
 			if (entry.listeners.size > 0 && this.updateBounds(entry)) changedEntries.push(entry)
-		}
-		if (this.environmentChanged) {
-			this.environmentChanged = false
-			for (const entry of this.entries.values()) {
-				if (entry.listeners.size > 0 && !changedEntries.includes(entry)) changedEntries.push(entry)
-			}
 		}
 		this.notifyChanges(changedEntries)
 	}
@@ -123,10 +117,11 @@ export class DrawingTargetRegistry {
 	// Update the stored bounds of a target, returning whether they changed.
 	private updateBounds(entry: TargetEntry): boolean {
 		const bounds = this.getRenderBounds(entry.node)
-		if (bounds === undefined && entry.bounds === undefined) return false
-		if (bounds !== undefined && entry.bounds?.equals(bounds)) return false
+		const coordinateSystem = bounds === undefined ? undefined : this.coordinateSystem
+		const changed = entry.coordinateSystem !== coordinateSystem || (bounds === undefined ? entry.bounds !== undefined : !entry.bounds?.equals(bounds))
 		entry.bounds = bounds
-		return true
+		entry.coordinateSystem = coordinateSystem
+		return changed
 	}
 
 	// Notify subscribers once after all bounds belonging to the same measurement pass have been updated.

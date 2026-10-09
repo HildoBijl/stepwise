@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
@@ -53,17 +53,19 @@ describe('Drawing targets', () => {
 	})
 
 	test('remeasures referenced positions after a genuine view change', () => {
+		const onUnmount = vi.fn()
 		const { rerender } = render(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
 			<DrawingTarget target="label">Label</DrawingTarget>
-			<ResolvedTargetPosition />
+			<ResolvedTargetPosition onUnmount={onUnmount} />
 		</Drawing>)
 		expect(screen.getByText('45,35')).toBeTruthy()
 
 		rerender(<Drawing view={{ type: 'identity', width: 200, height: 100 }}>
 			<DrawingTarget target="label">Label</DrawingTarget>
-			<ResolvedTargetPosition />
+			<ResolvedTargetPosition onUnmount={onUnmount} />
 		</Drawing>)
 		expect(screen.getByText('85,35')).toBeTruthy()
+		expect(onUnmount).not.toHaveBeenCalled()
 	})
 
 	test('only observes a target once it is referenced', () => {
@@ -111,9 +113,14 @@ describe('Drawing targets', () => {
 	})
 })
 
-function ResolvedTargetPosition({ target = 'label' }: { target?: string }) {
+function ResolvedTargetPosition({ onUnmount, target = 'label' }: { onUnmount?: () => void, target?: string }) {
 	const position = useResolvedPosition({ target, anchor: anchors.bottomRight, pixelOffset: [5, 5] })
-	return position ? <output>{position.x},{position.y}</output> : null
+	return position ? <ResolvedTargetOutput onUnmount={onUnmount} value={`${position.x},${position.y}`} /> : null
+}
+
+function ResolvedTargetOutput({ onUnmount, value }: { onUnmount?: () => void, value: string }) {
+	useEffect(() => () => { onUnmount?.() }, [onUnmount])
+	return <output>{value}</output>
 }
 
 function DrawingWithInlineView({ marker }: { marker: string }) {

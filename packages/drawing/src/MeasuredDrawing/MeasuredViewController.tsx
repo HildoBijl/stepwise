@@ -37,7 +37,7 @@ export function MeasuredViewController<const Targets extends readonly string[]>(
 	// Obtain the relevant bounds info.
 	const coordinateSystem = useDrawingCoordinateSystem()
 	const stableTargets = useStableValue(targets, areTargetArraysEqual)
-	const measuredBounds = useDrawingTargetBoundsMap(stableTargets)
+	const measuredBounds = useDrawingTargetBoundsMap(stableTargets, { allowStale: false })
 
 	// On every update, check if the bounds are known. If so, try to resolve the view out of them.
 	useLayoutEffect(() => {

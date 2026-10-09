@@ -179,6 +179,8 @@ Named anchors such as `anchors.top`, `anchors.left`, and `anchors.bottomRight` r
 
 Targets are observed only while a position refers to them. A target-dependent position remains unresolved until the target has rendered and been measured. Dependency-cycle detection is deliberately not included; a layout cycle remains unresolved and does not render.
 
+During a view transition, ordinary target-dependent positions keep using the last measured bounds until fresh bounds become available. This keeps positioned content mounted while the Drawing settles. The lower-level `useDrawingTargetBounds` and `useDrawingTargetBoundsMap` hooks accept `{ allowStale: false }` when a calculation specifically requires bounds measured in the current coordinate system; measured drawings use this strict mode internally.
+
 
 ## Views
 
