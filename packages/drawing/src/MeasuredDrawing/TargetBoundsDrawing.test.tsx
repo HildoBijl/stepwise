@@ -4,10 +4,10 @@ import { createRef } from 'react'
 import { cleanup, render } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
+import type { DrawingHandle } from '../Drawing/types.ts'
 import { DrawingTarget } from '../positioning/index.ts'
 
 import { TargetBoundsDrawing } from './TargetBoundsDrawing.tsx'
-import type { DrawingHandle } from './types.ts'
 
 beforeEach(() => {
 	vi.stubGlobal('ResizeObserver', ResizeObserverMock)

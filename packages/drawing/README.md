@@ -46,7 +46,7 @@ import { Circle, Drawing, HtmlElement, Line, Rectangle, anchors } from '@step-wi
 
 See the [Drawing guide](https://github.com/HildoBijl/stepwise/blob/main/packages/drawing/src/Drawing/README.md) for primitives, views, coordinate systems, positions, targets, layers, pointer tracking, and Canvas access.
 
-For content-dependent dimensions, `MeasuredDrawing` calculates a view from named target bounds, while `TargetBoundsDrawing` automatically encompasses named targets with a margin.
+For content-dependent dimensions, `MeasuredDrawing` calculates a view from named target bounds, while `TargetBoundsDrawing` automatically encompasses named targets with a margin. See the [MeasuredDrawing guide](https://github.com/HildoBijl/stepwise/blob/main/packages/drawing/src/MeasuredDrawing/README.md) for measured views and automatic target bounds.
 
 
 ## Plot

@@ -1,5 +1,6 @@
 export * from './Figure/index.ts'
 export * from './Drawing/index.ts'
+export * from './MeasuredDrawing/index.ts'
 export * from './Plot/index.ts'
 export * from './positioning/index.ts'
 export * from './primitives/index.ts'

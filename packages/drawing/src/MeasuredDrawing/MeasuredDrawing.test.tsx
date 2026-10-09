@@ -4,10 +4,10 @@ import { createRef } from 'react'
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
+import type { DrawingHandle } from '../Drawing/types.ts'
 import { DrawingTarget } from '../positioning/index.ts'
 
 import { MeasuredDrawing } from './MeasuredDrawing.tsx'
-import type { DrawingHandle } from './types.ts'
 
 beforeEach(() => {
 	vi.stubGlobal('ResizeObserver', ResizeObserverMock)
@@ -26,8 +26,8 @@ afterEach(() => {
 })
 
 describe('MeasuredDrawing', () => {
-	test('passes target bounds to the calculation in target order', () => {
-		const calculateView = vi.fn((first: { left: number }, second: { bottom: number }) => ({
+	test('passes target bounds to the calculation by target name', () => {
+		const calculateView = vi.fn(({ first, second }: { first: { left: number }, second: { bottom: number } }, coordinateSystem: { width: number, height: number }) => ({
 			type: 'identity' as const,
 			width: 200,
 			height: second.bottom + first.left,
@@ -40,7 +40,8 @@ describe('MeasuredDrawing', () => {
 		</MeasuredDrawing>)
 
 		expect(calculateView).toHaveBeenCalled()
-		const [firstBounds, secondBounds] = calculateView.mock.lastCall!
+		expect([calculateView.mock.calls[0][1].width, calculateView.mock.calls[0][1].height]).toEqual([800, 600])
+		const [{ first: firstBounds, second: secondBounds }] = calculateView.mock.lastCall!
 		expect([firstBounds.left, firstBounds.top, firstBounds.right, firstBounds.bottom]).toEqual([10, 20, 40, 60])
 		expect([secondBounds.left, secondBounds.top, secondBounds.right, secondBounds.bottom]).toEqual([70, 50, 90, 80])
 		expect(ref.current?.width).toBe(200)

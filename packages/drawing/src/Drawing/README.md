@@ -207,55 +207,7 @@ The `view` prop determines the Drawing dimensions and drawing-to-pixel transform
 
 ### Views based on measured targets
 
-`MeasuredDrawing` can derive its final view from HTML or SVG targets after they render. Its `targets` determine the order in which bounds are passed to `calculateView`. Bounds use render coordinates and DOM-style side names, so `top` is the smaller y-coordinate and `bottom` is the larger one.
-
-```tsx
-<MeasuredDrawing
-	initialView={{ type: 'identity', width: 1000, height: 600 }}
-	targets={['contents']}
-	calculateView={contents => ({
-		type: 'identity',
-		width: 1000,
-		height: contents.bottom + 20,
-	})}
->
-	<DrawingTarget as="div" target="contents">Measured contents</DrawingTarget>
-</MeasuredDrawing>
-```
-
-The default initial view is an identity view of `800` by `600` pixels. The drawing is hidden until every requested target has been measured, but remains rendered so measurement can take place. Set `pendingVisibility="visible"` to show the provisional layout.
-
-Targets can resolve in stages. Here the second table waits for the first table's measured bottom, after which the Drawing waits for the second table before setting its final height.
-
-```tsx
-<MeasuredDrawing
-	initialView={{ type: 'identity', width: 1000, height: 600 }}
-	targets={['second-table']}
-	calculateView={secondTable => ({ type: 'identity', width: 1000, height: secondTable.bottom + 20 })}
->
-	<HtmlElement anchor={anchors.topLeft} position={{ pixelPosition: [20, 20] }}>
-		<DrawingTarget as="div" target="first-table"><FirstTable /></DrawingTarget>
-	</HtmlElement>
-	<HtmlElement
-		anchor={anchors.topRight}
-		position={{
-			positions: [{ target: 'first-table', anchor: anchors.bottom }],
-			calculate: ([firstTableBottom]) => [980, firstTableBottom.y + 20],
-		}}
-	>
-		<DrawingTarget as="div" target="second-table"><SecondTable /></DrawingTarget>
-	</HtmlElement>
-</MeasuredDrawing>
-```
-
-`TargetBoundsDrawing` provides the common case where the view should encompass one or more targets with a margin. Set `includeInitialView` to retain the complete initial view as well as the measured targets.
-
-```tsx
-<TargetBoundsDrawing targets={['title', 'table']} margin={20}>
-	<DrawingTarget target="title">Results</DrawingTarget>
-	<DrawingTarget as="div" target="table"><ResultsTable /></DrawingTarget>
-</TargetBoundsDrawing>
-```
+Use `MeasuredDrawing` to derive a view from named HTML or SVG targets after they render. See the [MeasuredDrawing guide](../MeasuredDrawing/README.md) for custom view calculations, staged target resolution, and `TargetBoundsDrawing`.
 
 
 ## Layers, portals, and clipping
