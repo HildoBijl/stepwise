@@ -14,7 +14,7 @@
 		"@step-wise/cas": "^0.1.0",
 		"@step-wise/course-analysis": "^0.1.0",
 		"@step-wise/course-definition": "^0.1.0",
-		"@step-wise/drawing": "^0.2.0",
+		"@step-wise/drawing": "^0.2.2",
 		"@step-wise/engineering-diagrams": "^0.1.0",
 		"@step-wise/engineering-mechanics": "^0.1.0",
 		"@step-wise/exercise-definition": "^0.3.0",
