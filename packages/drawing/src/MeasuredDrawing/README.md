@@ -52,7 +52,13 @@ Targets can resolve in stages. Here the second table waits for the first table's
 
 ```tsx
 <TargetBoundsDrawing targets={['title', 'table']} margin={20}>
-	<DrawingTarget target="title">Results</DrawingTarget>
-	<DrawingTarget as="div" target="table"><ResultsTable /></DrawingTarget>
+	<HtmlElement anchor={anchors.topLeft} position={[0, 0]} target="title">Results</HtmlElement>
+	<HtmlElement
+		anchor={anchors.topLeft}
+		position={{ target: 'title', anchor: anchors.bottomLeft, pixelOffset: [0, 20] }}
+		target="table"
+	>
+		<ResultsTable />
+	</HtmlElement>
 </TargetBoundsDrawing>
 ```

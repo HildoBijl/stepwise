@@ -17,6 +17,7 @@ export function DrawingTargetRegistryProvider({ children, element, coordinateSys
 	// Create a single instance of the registry for the lifetime of this provider.
 	const [registry] = useState(() => new DrawingTargetRegistry())
 	useLayoutEffect(() => { registry.setEnvironment(element, coordinateSystem) }, [registry, element, coordinateSystem])
+	useEffect(() => { registry.refresh() }, [registry, element, coordinateSystem])
 	useResizeObserver(element, () => { registry.refresh() })
 	useEffect(() => () => { registry.dispose() }, [registry])
 

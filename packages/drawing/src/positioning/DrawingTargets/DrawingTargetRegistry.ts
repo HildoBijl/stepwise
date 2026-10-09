@@ -22,7 +22,6 @@ export class DrawingTargetRegistry {
 	setEnvironment(element: HTMLDivElement | null, coordinateSystem: DrawingCoordinateSystem): void {
 		this.element = element
 		this.coordinateSystem = coordinateSystem
-		this.refresh()
 	}
 
 	// Register a given node for the target, or unregister it if the node is null.
@@ -59,7 +58,8 @@ export class DrawingTargetRegistry {
 	}
 
 	// Get the bounds of the target in render coordinates, if possible.
-	getBounds(target: string): Rectangle | undefined {
+	getBounds(target: string, coordinateSystem: DrawingCoordinateSystem): Rectangle | undefined {
+		if (coordinateSystem !== this.coordinateSystem) return undefined
 		return this.entries.get(target)?.bounds
 	}
 
@@ -70,9 +70,11 @@ export class DrawingTargetRegistry {
 
 	// Refresh the bounds of all targets that have listeners.
 	refresh(): void {
+		const changedEntries: TargetEntry[] = []
 		for (const entry of this.entries.values()) {
-			if (entry.listeners.size > 0) this.measure(entry)
+			if (entry.listeners.size > 0 && this.updateBounds(entry)) changedEntries.push(entry)
 		}
+		this.notifyChanges(changedEntries)
 	}
 
 	// Dispose of the registry, stopping all observations and clearing all entries.
@@ -107,12 +109,24 @@ export class DrawingTargetRegistry {
 
 	// Measure the bounds of the target and notify listeners if they have changed.
 	private measure(entry: TargetEntry): void {
+		if (this.updateBounds(entry)) this.notifyChanges([entry])
+	}
+
+	// Update the stored bounds of a target, returning whether they changed.
+	private updateBounds(entry: TargetEntry): boolean {
 		const bounds = this.getRenderBounds(entry.node)
-		if (bounds === undefined && entry.bounds === undefined) return
-		if (bounds !== undefined && entry.bounds?.equals(bounds)) return
+		if (bounds === undefined && entry.bounds === undefined) return false
+		if (bounds !== undefined && entry.bounds?.equals(bounds)) return false
 		entry.bounds = bounds
+		return true
+	}
+
+	// Notify subscribers once after all bounds belonging to the same measurement pass have been updated.
+	private notifyChanges(entries: readonly TargetEntry[]): void {
+		if (entries.length === 0) return
 		this.revision++
-		entry.listeners.forEach(listener => { listener() })
+		const listeners = new Set(entries.flatMap(entry => [...entry.listeners]))
+		listeners.forEach(listener => { listener() })
 	}
 
 	// Get the bounds of the target in render coordinates, if possible.

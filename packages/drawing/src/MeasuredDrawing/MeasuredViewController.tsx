@@ -1,10 +1,16 @@
 import { useCallback, useLayoutEffect, useState } from 'react'
 
+import { numbersEqual } from '@step-wise/js-utils'
+import { useStableValue } from '@step-wise/react-utils'
+
 import { useDrawingCoordinateSystem } from '../Drawing/context.ts'
 import { useDrawingTargetBoundsMap } from '../positioning/index.ts'
 import { type DrawingCoordinateSystem, type DrawingView, resolveDrawingView } from '../transforms/index.ts'
 
 import { type TargetBoundsRecord, resolveTargetRectanglesRecord, toTargetBoundsRecord } from './targetBounds.ts'
+
+// Browser layout measurements can fluctuate by tiny subpixel amounts between otherwise equivalent renders.
+const measuredViewTolerance = { absoluteTolerance: 0.01 } as const
 
 export type MeasuredDrawingCalculation<Targets extends readonly string[]> = (
 	targetBounds: TargetBoundsRecord<Targets>,
@@ -30,22 +36,29 @@ export function MeasuredViewController<const Targets extends readonly string[]>(
 }) {
 	// Obtain the relevant bounds info.
 	const coordinateSystem = useDrawingCoordinateSystem()
-	const measuredBounds = useDrawingTargetBoundsMap(targets)
+	const stableTargets = useStableValue(targets, areTargetArraysEqual)
+	const measuredBounds = useDrawingTargetBoundsMap(stableTargets)
 
 	// On every update, check if the bounds are known. If so, try to resolve the view out of them.
 	useLayoutEffect(() => {
-		const targetRectangles = resolveTargetRectanglesRecord(targets, measuredBounds)
+		const targetRectangles = resolveTargetRectanglesRecord(stableTargets, measuredBounds)
 		if (!targetRectangles) return
 		const view = calculateView(toTargetBoundsRecord(targetRectangles, coordinateSystem), coordinateSystem)
 		if (view) onResolve(view)
-	}, [calculateView, coordinateSystem, measuredBounds, onResolve, targets])
+	}, [calculateView, coordinateSystem, measuredBounds, onResolve, stableTargets])
 
 	// Don't render anything.
 	return null
 }
 
+function areTargetArraysEqual(current: readonly string[], previous: readonly string[]): boolean {
+	return current.length === previous.length && current.every((target, index) => target === previous[index])
+}
+
 function areDrawingViewsEquivalent(first: DrawingView, second: DrawingView): boolean {
 	const firstCoordinates = resolveDrawingView(first)
 	const secondCoordinates = resolveDrawingView(second)
-	return firstCoordinates.width === secondCoordinates.width && firstCoordinates.height === secondCoordinates.height && firstCoordinates.yDirection === secondCoordinates.yDirection && firstCoordinates.drawingToPixelTransformation.equals(secondCoordinates.drawingToPixelTransformation)
+	if (!numbersEqual(firstCoordinates.width, secondCoordinates.width, measuredViewTolerance) || !numbersEqual(firstCoordinates.height, secondCoordinates.height, measuredViewTolerance)) return false
+	if (firstCoordinates.yDirection !== secondCoordinates.yDirection) return false
+	return [[0, 0], [1, 0], [0, 1]].every(point => firstCoordinates.drawingToPixel(point).distanceTo(secondCoordinates.drawingToPixel(point)) <= measuredViewTolerance.absoluteTolerance)
 }

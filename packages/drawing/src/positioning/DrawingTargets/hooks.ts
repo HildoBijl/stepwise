@@ -1,8 +1,10 @@
-import { useCallback, useContext, useLayoutEffect, useSyncExternalStore, type RefObject } from 'react'
+import { useCallback, useContext, useLayoutEffect, useMemo, useSyncExternalStore, type RefObject } from 'react'
 
 import { ensureInteger, ensureString, repeat } from '@step-wise/js-utils'
 import type { Rectangle } from '@step-wise/geometry'
 import { useStableValue } from '@step-wise/react-utils'
+
+import { useDrawingCoordinateSystem } from '../../Drawing/context.ts'
 
 import { type DrawingTargetNode, DrawingTargetRegistry } from './DrawingTargetRegistry.ts'
 import { DrawingTargetRegistryContext } from './DrawingTargetRegistryProvider.tsx'
@@ -70,23 +72,25 @@ function getTextNodes(node: Node | null | undefined): Text[] {
 // Retrieve the bounds of a target in the drawing target registry, and subscribes to changes in those bounds.
 export function useDrawingTargetBounds(targetInput: string | undefined): Rectangle | undefined {
 	const target = targetInput === undefined ? undefined : ensureString(targetInput, { nonEmpty: true })
+	const coordinateSystem = useDrawingCoordinateSystem()
 	const registry = useDrawingTargetRegistry()
 	const subscribe = useCallback((listener: () => void) => target === undefined ? () => { } : registry.subscribe(target, listener), [registry, target])
-	const getSnapshot = useCallback(() => target === undefined ? undefined : registry.getBounds(target), [registry, target])
+	const getSnapshot = useCallback(() => target === undefined ? undefined : registry.getBounds(target, coordinateSystem), [coordinateSystem, registry, target])
 	return useSyncExternalStore(subscribe, getSnapshot, () => undefined)
 }
 
 // Retrieve the bounds of multiple targets and subscribe to changes in any of them.
 export function useDrawingTargetBoundsMap(targetInputs: readonly string[]): ReadonlyMap<string, Rectangle | undefined> {
 	const targets = useStableValue(targetInputs.map(target => ensureString(target, { nonEmpty: true })), areStringArraysEqual)
+	const coordinateSystem = useDrawingCoordinateSystem()
 	const registry = useDrawingTargetRegistry()
 	const subscribe = useCallback((listener: () => void) => {
 		const unsubscribe = targets.map(target => registry.subscribe(target, listener))
 		return () => { unsubscribe.forEach(stop => { stop() }) }
 	}, [registry, targets])
 	const getSnapshot = useCallback(() => registry.getRevision(), [registry])
-	useSyncExternalStore(subscribe, getSnapshot, getSnapshot)
-	return new Map(targets.map(target => [target, registry.getBounds(target)]))
+	const revision = useSyncExternalStore(subscribe, getSnapshot, getSnapshot)
+	return useMemo(() => new Map(targets.map(target => [target, registry.getBounds(target, coordinateSystem)])), [coordinateSystem, registry, revision, targets])
 }
 
 function areStringArraysEqual(current: readonly string[], previous: readonly string[]): boolean {

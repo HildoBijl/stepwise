@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from '@mui/material'
 
 import * as c from '@step-wise/cas'
-import { Arc, Axes, Circle, Crosshair, Curve, Drawing, DrawingTarget, Grid, HtmlElement, Line, Plot, PlotArea, Polygon, Rectangle, anchors, useDrawingPointerState } from '@step-wise/drawing'
+import { Arc, Axes, Circle, Crosshair, Curve, Drawing, DrawingTarget, Grid, HtmlElement, Line, Plot, PlotArea, Polygon, Rectangle, TargetBoundsDrawing, anchors, useDrawingPointerState } from '@step-wise/drawing'
 import * as m from '@step-wise/math-input-value'
 import { Unit, PrecisionNumber, Quantity } from '@step-wise/physics-core'
 import { M, BM } from '@step-wise/math-display'
@@ -42,6 +42,19 @@ export function Test() {
 			<BM>x=\frac(-b\pm\sqrt[2](b^2-4ac))(2a).</BM>
 			<BM>{eq}</BM>
 			<Par>This note shows the CI scripts are using the main branch. Currently we're also using workspaces. And Vite is used as a bundler.</Par>
+
+			<Head>Target bounds drawing</Head>
+			<TargetBoundsDrawing margin={20} targets={['first-box', 'second-box']}>
+				<HtmlElement anchor={anchors.topLeft} position={[0, 0]} style={targetBoundsBoxStyle} target="first-box">First HTML component</HtmlElement>
+				<HtmlElement
+					anchor={anchors.topLeft}
+					position={{ target: 'first-box', anchor: anchors.bottomLeft, pixelOffset: [0, 30] }}
+					style={targetBoundsBoxStyle}
+					target="second-box"
+				>
+					Second HTML component
+				</HtmlElement>
+			</TargetBoundsDrawing>
 
 			<Head>Plot toolbox</Head>
 			<Plot
@@ -119,6 +132,13 @@ export function Test() {
 			</Drawing>
 		</>
 	)
+}
+
+const targetBoundsBoxStyle = {
+	background: '#e3f2fd',
+	border: '1px solid #1565c0',
+	borderRadius: 4,
+	padding: '8px 10px',
 }
 
 function PointerMarker() {
