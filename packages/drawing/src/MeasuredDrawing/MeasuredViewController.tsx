@@ -4,7 +4,7 @@ import { numbersEqual } from '@step-wise/js-utils'
 import { useStableValue } from '@step-wise/react-utils'
 
 import { useDrawingCoordinateSystem } from '../Drawing/context.ts'
-import { useDrawingTargetBoundsMap } from '../positioning/index.ts'
+import { useDrawingTargetBoundsMap } from '../DrawingTargets/index.ts'
 import { type DrawingCoordinateSystem, type DrawingView, resolveDrawingView } from '../transforms/index.ts'
 
 import { type TargetBoundsRecord, resolveTargetRectanglesRecord, toTargetBoundsRecord } from './targetBounds.ts'

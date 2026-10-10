@@ -4,7 +4,7 @@ import { useDrawingCoordinateSystem } from '../Drawing/context.ts'
 
 import { type Position, getPositionTargets, resolvePosition } from './positions.ts'
 import { type Distance, getDistanceTargets, resolveDistance } from './distances.ts'
-import { useDrawingTargetBoundsMap } from './DrawingTargets/index.ts'
+import { useDrawingTargetBoundsMap } from '../DrawingTargets/index.ts'
 
 // Resolve a position to pixel coordinates. Return undefined if data is missing.
 export function useResolvedPosition(position: Position | undefined): Vector | undefined {

@@ -1,4 +1,5 @@
 export * from './Figure/index.ts'
+export * from './DrawingTargets/index.ts'
 export * from './Drawing/index.ts'
 export * from './MeasuredDrawing/index.ts'
 export * from './Plot/index.ts'

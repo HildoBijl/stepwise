@@ -5,8 +5,9 @@ import { cleanup, render } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import type { DrawingHandle } from '../Drawing/types.ts'
+import { DrawingTarget } from '../DrawingTargets/index.ts'
+import { anchors } from '../positioning/index.ts'
 import { HtmlElement } from '../primitives/index.ts'
-import { DrawingTarget, anchors } from '../positioning/index.ts'
 
 import { TargetBoundsDrawing } from './TargetBoundsDrawing.tsx'
 

@@ -4,10 +4,10 @@ import { useEffect, useLayoutEffect, useRef } from 'react'
 import { cleanup, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { Drawing } from '../../Drawing/index.ts'
+import { Drawing } from '../Drawing/index.ts'
 
-import { anchors } from '../anchors.ts'
-import { useResolvedPosition } from '../hooks.ts'
+import { anchors } from '../positioning/anchors.ts'
+import { useResolvedPosition } from '../positioning/hooks.ts'
 
 import { DrawingTarget, useDrawingElementTarget, useDrawingTarget, useDrawingTextTarget } from './index.ts'
 

@@ -1,7 +1,7 @@
 import { numbersEqual } from '@step-wise/js-utils'
 import { type Rectangle, Rectangle as RectangleClass } from '@step-wise/geometry'
 
-import type { DrawingCoordinateSystem } from '../../transforms/index.ts'
+import type { DrawingCoordinateSystem } from '../transforms/index.ts'
 
 export type DrawingTargetNode = Element | Text
 

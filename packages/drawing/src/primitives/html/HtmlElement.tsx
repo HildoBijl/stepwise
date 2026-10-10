@@ -4,7 +4,8 @@ import { ensureNumber } from '@step-wise/js-utils'
 import { useForwardedRef } from '@step-wise/react-utils'
 
 import { HtmlPortal, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
-import { anchors, type Anchor, type Position, resolveAnchor, useDrawingTarget, useResolvedPosition } from '../../positioning/index.ts'
+import { useDrawingTarget } from '../../DrawingTargets/index.ts'
+import { anchors, type Anchor, type Position, resolveAnchor, useResolvedPosition } from '../../positioning/index.ts'
 
 export interface HtmlElementProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
 	children?: ReactNode

@@ -3,7 +3,7 @@ import { forwardRef, useId, useImperativeHandle, useMemo, useState } from 'react
 import { useStableValue } from '@step-wise/react-utils'
 
 import { Figure } from '../Figure/index.ts'
-import { DrawingTargetRegistryProvider } from '../positioning/DrawingTargets/DrawingTargetRegistryProvider.tsx'
+import { DrawingTargetRegistryProvider } from '../DrawingTargets/DrawingTargetRegistryProvider.tsx'
 import { type DrawingCoordinateSystem, resolveDrawingView } from '../transforms/index.ts'
 
 import { DrawingContextProvider } from './context.ts'

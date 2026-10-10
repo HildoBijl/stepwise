@@ -4,7 +4,7 @@ import { ensureInteger, ensureString, repeat } from '@step-wise/js-utils'
 import type { Rectangle } from '@step-wise/geometry'
 import { useLatestRef, useStableValue } from '@step-wise/react-utils'
 
-import { useDrawingCoordinateSystem } from '../../Drawing/context.ts'
+import { useDrawingCoordinateSystem } from '../Drawing/context.ts'
 
 import { type DrawingTargetNode, DrawingTargetRegistry } from './DrawingTargetRegistry.ts'
 import { DrawingTargetRegistryContext } from './DrawingTargetRegistryProvider.tsx'

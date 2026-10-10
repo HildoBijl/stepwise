@@ -5,7 +5,7 @@ import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import type { DrawingHandle } from '../Drawing/types.ts'
-import { DrawingTarget } from '../positioning/index.ts'
+import { DrawingTarget } from '../DrawingTargets/index.ts'
 
 import { MeasuredDrawing } from './MeasuredDrawing.tsx'
 

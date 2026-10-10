@@ -2,7 +2,7 @@ import { type ReactNode, createContext, useEffect, useLayoutEffect, useReducer, 
 
 import { useResizeObserver } from '@step-wise/react-utils'
 
-import type { DrawingCoordinateSystem } from '../../transforms/index.ts'
+import type { DrawingCoordinateSystem } from '../transforms/index.ts'
 
 import { DrawingTargetRegistry } from './DrawingTargetRegistry.ts'
 
