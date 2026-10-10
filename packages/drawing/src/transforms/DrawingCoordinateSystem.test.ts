@@ -80,6 +80,29 @@ describe('DrawingCoordinateSystem', () => {
 		})).toThrow('required an invertible transformation')
 	})
 
+	test('accepts axis-aligned scaling, reflection, and axis exchange', () => {
+		const coordinates = new DrawingCoordinateSystem({
+			width: 200,
+			height: 100,
+			drawingToPixelTransformation: new Transformation([[0, 3], [-2, 0]], [100, 20]),
+		})
+
+		expect(coordinates.drawingToPixel([10, 5]).coordinates).toEqual([115, 0])
+	})
+
+	test('rejects transformations that rotate or shear the drawing axes', () => {
+		expect(() => new DrawingCoordinateSystem({
+			width: 200,
+			height: 100,
+			drawingToPixelTransformation: Transformation.fromRotation(Math.PI / 4),
+		})).toThrow('map each drawing axis onto a pixel axis')
+		expect(() => new DrawingCoordinateSystem({
+			width: 200,
+			height: 100,
+			drawingToPixelTransformation: [[1, 0.5], [0, 1]],
+		})).toThrow('map each drawing axis onto a pixel axis')
+	})
+
 	test('rejects a client rectangle without a displayed area', () => {
 		const coordinates = new DrawingCoordinateSystem({ width: 200, height: 100 })
 		expect(() => coordinates.clientToPixel([0, 0], { left: 0, top: 0, width: 0, height: 100 })).toThrow('zero')
