@@ -189,7 +189,7 @@ Named anchors such as `anchors.top`, `anchors.left`, and `anchors.bottomRight` r
 
 Targets are observed only while a position refers to them. A target-dependent position remains unresolved until the target has rendered and been measured. Dependency-cycle detection is deliberately not included; a layout cycle remains unresolved and does not render.
 
-During a view transition, ordinary target-dependent positions keep using the last measured bounds until fresh bounds become available. This keeps positioned content mounted while the Drawing settles. Measurements are considered settled only after a complete follow-up pass finds no meaningful changes, allowing chains of target-dependent elements to update before they affect a measured view. The lower-level `useDrawingTargetBounds` and `useDrawingTargetBoundsMap` hooks accept `{ allowStale: false }` when a calculation specifically requires settled bounds measured in the current coordinate system; measured drawings use this strict mode internally.
+During a view transition, ordinary target-dependent positions keep using the last measured bounds until fresh bounds become available. This keeps positioned content mounted while the Drawing settles. Measurements are considered settled only after a complete follow-up pass finds no meaningful changes, allowing chains of target-dependent elements to update before they affect a measured view. The lower-level `useDrawingTargetRenderBounds` and `useDrawingTargetRenderBoundsMap` hooks accept `{ allowStale: false, coordinateSystem }` when a calculation specifically requires settled bounds measured in the current coordinate system; measured drawings use this strict mode internally.
 
 
 ## Views

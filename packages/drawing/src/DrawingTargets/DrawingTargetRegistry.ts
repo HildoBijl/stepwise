@@ -5,8 +5,9 @@ import type { DrawingCoordinateSystem } from '../transforms/index.ts'
 
 export type DrawingTargetNode = Element | Text
 
-// Browser layout measurements can fluctuate by tiny subpixel amounts between otherwise equivalent renders.
-const measurementTolerance = { absoluteTolerance: 0.01 } as const
+export type DrawingTargetRenderBoundsOptions =
+	| { allowStale?: true, coordinateSystem?: never }
+	| { allowStale: false, coordinateSystem: DrawingCoordinateSystem }
 
 type TargetEntry = {
 	node?: DrawingTargetNode
@@ -16,6 +17,9 @@ type TargetEntry = {
 	nodeListeners: Set<() => void>
 	observer?: ResizeObserver
 }
+
+// Browser layout measurements can fluctuate by tiny subpixel amounts between otherwise equivalent renders.
+const measurementTolerance = { absoluteTolerance: 0.01 } as const
 
 /// A registry for managing drawing targets, their bounds, and listeners for changes in those bounds. It tracks specific elements inside of it, their rectangles in a given coordinate system, and registers listeners for when the elements and/or their bounds change.
 export class DrawingTargetRegistry {
@@ -184,7 +188,7 @@ export class DrawingTargetRegistry {
 	}
 
 	// Get the bounds of the target in render coordinates, if possible.
-	getBounds(target: string, coordinateSystem: DrawingCoordinateSystem, allowStale = false): Rectangle | undefined {
+	getBounds(target: string, { allowStale = true, coordinateSystem }: DrawingTargetRenderBoundsOptions = {}): Rectangle | undefined {
 		const entry = this.entries.get(target)
 		if (!allowStale && (!this.settled || coordinateSystem !== entry?.coordinateSystem)) return undefined
 		return entry?.bounds

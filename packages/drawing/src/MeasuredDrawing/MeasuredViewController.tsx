@@ -4,7 +4,7 @@ import { numbersEqual } from '@step-wise/js-utils'
 import { useStableValue } from '@step-wise/react-utils'
 
 import { useDrawingCoordinateSystem } from '../Drawing/context.ts'
-import { useDrawingTargetBoundsMap } from '../DrawingTargets/index.ts'
+import { useDrawingTargetRenderBoundsMap } from '../DrawingTargets/index.ts'
 import { type DrawingCoordinateSystem, type DrawingView, resolveDrawingView } from '../transforms/index.ts'
 
 import { type TargetBoundsRecord, resolveTargetRectanglesRecord, toTargetBoundsRecord } from './targetBounds.ts'
@@ -37,7 +37,7 @@ export function MeasuredViewController<const Targets extends readonly string[]>(
 	// Obtain the relevant bounds info.
 	const coordinateSystem = useDrawingCoordinateSystem()
 	const stableTargets = useStableValue(targets, areTargetArraysEqual)
-	const measuredBounds = useDrawingTargetBoundsMap(stableTargets, { allowStale: false })
+	const measuredBounds = useDrawingTargetRenderBoundsMap(stableTargets, { allowStale: false, coordinateSystem })
 
 	// On every update, check if the bounds are known. If so, try to resolve the view out of them.
 	useLayoutEffect(() => {
