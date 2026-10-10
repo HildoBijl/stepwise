@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 import { ensureNumber } from '@step-wise/js-utils'
 
 import { SvgPortal } from '../../Drawing/index.ts'
-import { type Distance, type Position, useResolvedDistance } from '../../positioning/index.ts'
+import { type Distance, type Position, useDrawingPixelDistance } from '../../positioning/index.ts'
 
 import { useRenderPosition } from '../resolution.ts'
 
@@ -19,7 +19,7 @@ export const Square = forwardRef<SVGRectElement, SquareProps>(function Square(pr
 
 	// Resolve positions/distances and abort if they are not valid.
 	const resolvedCenter = useRenderPosition(center)
-	const resolvedSide = useResolvedDistance(side)
+	const resolvedSide = useDrawingPixelDistance(side)
 	if (resolvedCenter === undefined || resolvedSide === undefined) return null
 	ensureNumber(resolvedSide, { nonNegative: true })
 

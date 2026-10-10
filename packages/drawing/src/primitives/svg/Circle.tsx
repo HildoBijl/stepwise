@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 import { ensureNumber } from '@step-wise/js-utils'
 
 import { SvgPortal } from '../../Drawing/index.ts'
-import { type Distance, type Position, useResolvedDistance } from '../../positioning/index.ts'
+import { type Distance, type Position, useDrawingPixelDistance } from '../../positioning/index.ts'
 
 import { useRenderPosition } from '../resolution.ts'
 
@@ -19,7 +19,7 @@ export const Circle = forwardRef<SVGCircleElement, CircleProps>(function Circle(
 
 	// Resolve positions/distances and abort if they are not valid.
 	const resolvedCenter = useRenderPosition(center)
-	const resolvedRadius = useResolvedDistance(radius)
+	const resolvedRadius = useDrawingPixelDistance(radius)
 	if (resolvedCenter === undefined || resolvedRadius === undefined) return null
 
 	// Validated other input.

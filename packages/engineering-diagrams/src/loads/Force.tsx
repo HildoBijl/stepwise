@@ -1,4 +1,4 @@
-import { type Distance, Line, type LineProps, type Position, useDrawingCoordinateSystem, useResolvedDistance } from '@step-wise/drawing'
+import { type Distance, type LineProps, type Position, Line, useDrawingCoordinateSystem, useDrawingPixelDistance } from '@step-wise/drawing'
 import { type ApplicationPointPosition } from '@step-wise/engineering-mechanics'
 import { Vector } from '@step-wise/geometry'
 import { ensureNumber } from '@step-wise/js-utils'
@@ -22,7 +22,7 @@ export function Force(props: ForceProps) {
 	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// Calculate the arrow length in pixels.
-	const resolvedLength = useResolvedDistance(length)
+	const resolvedLength = useDrawingPixelDistance(length)
 	if (resolvedLength === undefined) return null
 	const magnitude = resolvedLength * ensureNumber(relativeMagnitude, { nonNegative: true, nonZero: true })
 

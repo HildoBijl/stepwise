@@ -3,7 +3,7 @@ import { type ReactNode, forwardRef } from 'react'
 import { mod } from '@step-wise/js-utils'
 import { type Vector, Vector as VectorClass } from '@step-wise/geometry'
 
-import { type Anchor, type Distance, type Position, useResolvedDistance, useResolvedPosition } from '../../positioning/index.ts'
+import { type Anchor, type Distance, type Position, useDrawingPixelDistance, useDrawingPixelPosition } from '../../positioning/index.ts'
 
 import { HtmlElement, type HtmlElementProps } from './HtmlElement.tsx'
 
@@ -18,8 +18,8 @@ export interface LabelProps extends Omit<HtmlElementProps, 'anchor' | 'position'
 export const Label = forwardRef<HTMLDivElement, LabelProps>(function Label(props, ref) {
 	const { anchor, angle = -Math.PI * 3 / 4, distance = { pixelDistance: 6 }, position, rotate = 0, ...elementProps } = props
 	// Resolve data and abort if not known yet.
-	const resolvedPosition = useResolvedPosition(position)
-	const resolvedDistance = useResolvedDistance(distance)
+	const resolvedPosition = useDrawingPixelPosition(position)
+	const resolvedDistance = useDrawingPixelDistance(distance)
 	if (resolvedPosition === undefined || resolvedDistance === undefined) return null
 
 	// Calculate the pixel offset based on the resolved distance and angle, then determine the final position and anchor.

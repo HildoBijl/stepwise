@@ -1,7 +1,7 @@
 import { type ReactNode, forwardRef } from 'react'
 
 import type { Distance, Position } from '../../positioning/index.ts'
-import { useResolvedDistance, useResolvedPosition } from '../../positioning/index.ts'
+import { useDrawingPixelDistance, useDrawingPixelPosition } from '../../positioning/index.ts'
 
 import { HtmlElement, type HtmlElementProps } from './HtmlElement.tsx'
 
@@ -16,10 +16,10 @@ export const CornerLabel = forwardRef<HTMLDivElement, CornerLabelProps>(function
 
 	// Resolve the three positions and the size, and abort if any are not known yet.
 	if (!Array.isArray(positions) || positions.length !== 3) throw new Error('Invalid CornerLabel positions: expected exactly three positions.')
-	const first = useResolvedPosition(positions[0])
-	const corner = useResolvedPosition(positions[1])
-	const third = useResolvedPosition(positions[2])
-	const resolvedSize = useResolvedDistance(size)
+	const first = useDrawingPixelPosition(positions[0])
+	const corner = useDrawingPixelPosition(positions[1])
+	const third = useDrawingPixelPosition(positions[2])
+	const resolvedSize = useDrawingPixelDistance(size)
 	if (first === undefined || corner === undefined || third === undefined || resolvedSize === undefined) return null
 
 	// Calculate the position of the label based on the three corner positions and the resolved size, then render the HtmlElement at that position.

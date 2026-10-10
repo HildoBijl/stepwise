@@ -29,15 +29,15 @@ describe('resolvePosition', () => {
 		const bounds = new Rectangle([20, 30], [60, 50])
 		const getTargetBounds = () => bounds
 
-		expect(resolvePosition({ target: 'label', anchor: anchors.topRight }, createCoordinateSystem('up'), { getTargetBounds })!.coordinates).toEqual([60, 70])
-		expect(resolvePosition({ target: 'label', anchor: anchors.topRight }, createCoordinateSystem('down'), { getTargetBounds })!.coordinates).toEqual([60, 30])
+		expect(resolvePosition({ target: 'label', anchor: anchors.topRight }, createCoordinateSystem('up'), getTargetBounds)!.coordinates).toEqual([60, 70])
+		expect(resolvePosition({ target: 'label', anchor: anchors.topRight }, createCoordinateSystem('down'), getTargetBounds)!.coordinates).toEqual([60, 30])
 	})
 
 	test('interprets custom target anchors and offsets in pixel-coordinate directions', () => {
 		const coordinateSystem = createCoordinateSystem('up')
 		const getTargetBounds = () => new Rectangle([20, 30], [60, 50])
 
-		expect(resolvePosition({ target: 'label', anchor: [1, 1], pixelOffset: [5, 10] }, coordinateSystem, { getTargetBounds })!.coordinates).toEqual([65, 80])
+		expect(resolvePosition({ target: 'label', anchor: [1, 1], pixelOffset: [5, 10] }, coordinateSystem, getTargetBounds)!.coordinates).toEqual([65, 80])
 	})
 
 	test('leaves a target position unresolved while its bounds are unavailable', () => {

@@ -1,4 +1,4 @@
-import { type ReactNode, createContext, useEffect, useLayoutEffect, useReducer, useState } from 'react'
+import { type ReactNode, createContext, useContext, useEffect, useLayoutEffect, useReducer, useState } from 'react'
 
 import { useResizeObserver } from '@step-wise/react-utils'
 
@@ -7,6 +7,13 @@ import type { DrawingCoordinateSystem } from '../transforms/index.ts'
 import { DrawingTargetRegistry } from './DrawingTargetRegistry.ts'
 
 export const DrawingTargetRegistryContext = createContext<DrawingTargetRegistry | undefined>(undefined)
+
+// Retrieve the drawing target registry from context.
+export function useDrawingTargetRegistry(): DrawingTargetRegistry {
+	const registry = useContext(DrawingTargetRegistryContext)
+	if (!registry) throw new Error('Drawing target registry is unavailable: this hook must be used inside a Drawing.')
+	return registry
+}
 
 // A provider component that sets up the drawing target registry and provides it to child components via context.
 export function DrawingTargetRegistryProvider({ children, element, coordinateSystem }: {

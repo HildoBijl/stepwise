@@ -4,7 +4,7 @@ import { ensureNumber } from '@step-wise/js-utils'
 import { type Vector, type VectorLike, ensureVector } from '@step-wise/geometry'
 
 import { SvgPortal, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
-import { type Distance, type Position, useResolvedDistance } from '../../positioning/index.ts'
+import { type Distance, type Position, useDrawingPixelDistance } from '../../positioning/index.ts'
 
 import { useRenderPosition } from '../resolution.ts'
 
@@ -31,7 +31,7 @@ export const ArrowHead = forwardRef<SVGPolygonElement, ArrowHeadProps>(function 
 
 	// Resolve the position and size, and abort if they are not valid.
 	const resolvedPosition = useRenderPosition(position)
-	const resolvedSize = useResolvedDistance(size)
+	const resolvedSize = useDrawingPixelDistance(size)
 	if (resolvedPosition === undefined || resolvedSize === undefined) return null
 
 	// Validate the direction and convert it to render coordinates.

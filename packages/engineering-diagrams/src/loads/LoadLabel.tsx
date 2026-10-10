@@ -1,6 +1,6 @@
 import type { ReactNode, Ref } from 'react'
 
-import { Label, type LabelProps, type Distance, type Position, useDrawingCoordinateSystem, useResolvedDistance } from '@step-wise/drawing'
+import { type Distance, type LabelProps, type Position, Label, useDrawingCoordinateSystem, useDrawingPixelDistance } from '@step-wise/drawing'
 import { createLoad, ForceType, type Load, type LoadInput } from '@step-wise/engineering-mechanics'
 
 import { defaultForceLength } from './Force.tsx'
@@ -24,8 +24,8 @@ export function LoadLabel(props: LoadLabelProps) {
 	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// Resolve all lengths and abort on missing data.
-	const resolvedForceLength = useResolvedDistance(forceLength)
-	const resolvedMomentRadius = useResolvedDistance(momentRadius)
+	const resolvedForceLength = useDrawingPixelDistance(forceLength)
+	const resolvedMomentRadius = useDrawingPixelDistance(momentRadius)
 	if (resolvedForceLength === undefined || resolvedMomentRadius === undefined) return null
 	
 	// Determine the load and the label's position.

@@ -125,7 +125,15 @@ Positions may also refer to measured targets or calculate a result from other po
 }
 ```
 
-`resolvePosition` resolves a specification with an explicit coordinate system. `useResolvedPosition` resolves one in the current Drawing and returns a pixel position, or `undefined` while a required target is unavailable. This keeps the public positioning API independent of SVG's render-coordinate conventions, including when `yDirection` is `up`.
+`resolvePosition` resolves a specification to pixels using an explicit coordinate system. Its optional third argument is a function that retrieves target bounds when the position refers to measured targets. Inside a Drawing, `useDrawingPosition` returns drawing coordinates and `useDrawingPixelPosition` returns pixel coordinates. Their plural counterparts, `useDrawingPositions` and `useDrawingPixelPositions`, preserve the input array and return `undefined` for individual positions whose required targets are unavailable. The public positioning API therefore stays independent of SVG's render-coordinate conventions, including when `yDirection` is `up`.
+
+```ts
+const drawingPosition = useDrawingPosition(position)
+const pixelPosition = useDrawingPixelPosition(position)
+
+const drawingPositions = useDrawingPositions(positions)
+const pixelPositions = useDrawingPixelPositions(positions)
+```
 
 Distances follow the same pattern:
 
@@ -135,10 +143,16 @@ Distances follow the same pattern:
 { pixelDistance: 200 }
 ```
 
-`resolveDistance` and `useResolvedDistance` resolve them. A calculated distance can derive a value from multiple positions.
+`resolveDistance` resolves to pixels using an explicit coordinate system and accepts the same optional target-bounds function. The hooks `useDrawingDistance` and `useDrawingPixelDistance` return drawing and pixel distances respectively; `useDrawingDistances` and `useDrawingPixelDistances` resolve arrays while preserving unresolved entries as `undefined`. A calculated distance can derive a value from multiple positions.
 
 ```ts
-const distance = useResolvedDistance({
+const drawingDistance = useDrawingDistance(distance)
+const pixelDistance = useDrawingPixelDistance(distance)
+
+const drawingDistances = useDrawingDistances(distances)
+const pixelDistances = useDrawingPixelDistances(distances)
+
+const calculatedDistance = useDrawingPixelDistance({
 	positions: [{ target: 'first' }, { target: 'second' }],
 	calculate: ([first, second]) => second.subtract(first).magnitude,
 })
@@ -187,9 +201,19 @@ useDrawingTextTarget('population-heading', tableRef, 'Population', { parentDepth
 
 Named anchors such as `anchors.top`, `anchors.left`, and `anchors.bottomRight` retain their visual meaning for either y-direction. Custom anchors use normalized coordinates from `-1` to `1` and follow the pixel-coordinate y-direction.
 
-Targets are observed only while a position refers to them. A target-dependent position remains unresolved until the target has rendered and been measured. Dependency-cycle detection is deliberately not included; a layout cycle remains unresolved and does not render.
+Use `useDrawingTargetBounds` or `useDrawingTargetPixelBounds` to read a target's measured rectangle in drawing or pixel coordinates. The corresponding `useDrawingTargetBoundsMap` and `useDrawingTargetPixelBoundsMap` hooks subscribe to multiple target names at once.
 
-During a view transition, ordinary target-dependent positions keep using the last measured bounds until fresh bounds become available. This keeps positioned content mounted while the Drawing settles. Measurements are considered settled only after a complete follow-up pass finds no meaningful changes, allowing chains of target-dependent elements to update before they affect a measured view. The lower-level `useDrawingTargetRenderBounds` and `useDrawingTargetRenderBoundsMap` hooks accept `{ allowStale: false, coordinateSystem }` when a calculation specifically requires settled bounds measured in the current coordinate system; measured drawings use this strict mode internally.
+```ts
+const drawingBounds = useDrawingTargetBounds('table')
+const pixelBounds = useDrawingTargetPixelBounds('table')
+
+const drawingBoundsMap = useDrawingTargetBoundsMap(['table', 'heading'])
+const pixelBoundsMap = useDrawingTargetPixelBoundsMap(['table', 'heading'])
+```
+
+Targets are observed only while a position or bounds hook refers to them. A target-dependent value remains unresolved until the target has rendered and been measured. Dependency-cycle detection is deliberately not included; a layout cycle remains unresolved and does not render.
+
+During a view transition, ordinary target-dependent positions keep using the last measured bounds until fresh bounds become available. This keeps positioned content mounted while the Drawing settles. Measurements are considered settled only after a complete follow-up pass finds no meaningful changes, allowing chains of target-dependent elements to update before they affect a measured view. Measured drawings internally use a stricter mode that waits for settled bounds measured in the current coordinate system.
 
 
 ## Views
@@ -216,6 +240,8 @@ The `view` prop determines the Drawing dimensions and drawing-to-pixel transform
 ```
 
 `scale` and `fit` accept an optional `pretransform`. Margins can be one number, one value per axis, or separate negative- and positive-side values for each axis. `resolveDrawingView` and the individual view resolvers are public when another component needs to resolve a view itself.
+
+A custom drawing-to-pixel transformation must map each drawing axis onto a pixel axis. Independent scaling, reflection, translation, and exchanging the x- and y-axes are supported; rotation to a non-axis-aligned direction and shear are rejected. This guarantees that target rectangles remain axis-aligned in drawing and pixel coordinates.
 
 ### Views based on measured targets
 

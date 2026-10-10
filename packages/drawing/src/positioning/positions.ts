@@ -31,16 +31,14 @@ export type CalculatedPosition = {
 
 export type Position = VectorLike | DrawingPosition | PixelPosition | TargetPosition | CalculatedPosition
 
-export type PositionResolutionOptions = {
-	getTargetBounds?: (target: string) => Rectangle | undefined
-}
+export type GetDrawingTargetBounds = (target: string) => Rectangle | undefined
 
 /*
  * Resolution functions.
  */
 
 // Generally, resolve a position to a Vector in the pixel coordinate system.
-export function resolvePosition(position: Position, coordinateSystem: DrawingCoordinateSystem, options: PositionResolutionOptions = {}): Vector | undefined {
+export function resolvePosition(position: Position, coordinateSystem: DrawingCoordinateSystem, getTargetBounds?: GetDrawingTargetBounds): Vector | undefined {
 	// If the position is a vector-like object, treat it as a drawing position and resolve it accordingly.
 	if (isVectorLike(position)) return coordinateSystem.drawingToPixel(ensureVector(position, { dimension: 2 }))
 
@@ -55,8 +53,8 @@ export function resolvePosition(position: Position, coordinateSystem: DrawingCoo
 	// Resolve the position based on its type.
 	if (hasPosition) return resolveDrawingPosition(position as DrawingPosition, coordinateSystem)
 	if (hasPixelPosition) return resolvePixelPosition(position as PixelPosition, coordinateSystem)
-	if (hasTarget) return resolveTargetPosition(position as TargetPosition, coordinateSystem, options)
-	return resolveCalculatedPosition(position as CalculatedPosition, coordinateSystem, options)
+	if (hasTarget) return resolveTargetPosition(position as TargetPosition, coordinateSystem, getTargetBounds)
+	return resolveCalculatedPosition(position as CalculatedPosition, coordinateSystem, getTargetBounds)
 }
 
 // For a drawing position, convert the drawing coordinates to pixel coordinates.
@@ -73,10 +71,10 @@ function resolvePixelPosition(position: PixelPosition, _coordinateSystem: Drawin
 }
 
 // For a target position, convert its render bounds and resolve its anchor in pixel coordinates.
-function resolveTargetPosition(position: TargetPosition, coordinateSystem: DrawingCoordinateSystem, options: PositionResolutionOptions): Vector | undefined {
+function resolveTargetPosition(position: TargetPosition, coordinateSystem: DrawingCoordinateSystem, getTargetBounds?: GetDrawingTargetBounds): Vector | undefined {
 	// Get the bounds from the target.
 	const target = ensureString(position.target, { nonEmpty: true })
-	const renderBounds = options.getTargetBounds?.(target)
+	const renderBounds = getTargetBounds?.(target)
 	if (!renderBounds) return undefined
 	const bounds = coordinateSystem.renderToPixelTransformation.transform(renderBounds)
 
@@ -94,12 +92,12 @@ function resolveTargetPosition(position: TargetPosition, coordinateSystem: Drawi
 
 
 // For a calculated position, resolve all the individual positions and then apply the provided calculation function.
-function resolveCalculatedPosition(position: CalculatedPosition, coordinateSystem: DrawingCoordinateSystem, options: PositionResolutionOptions): Vector | undefined {
+function resolveCalculatedPosition(position: CalculatedPosition, coordinateSystem: DrawingCoordinateSystem, getTargetBounds?: GetDrawingTargetBounds): Vector | undefined {
 	if (!Array.isArray(position.positions) || position.positions.length === 0) throw new Error('Invalid calculated position: expected a non-empty positions array.')
 	if (typeof position.calculate !== 'function') throw new Error('Invalid calculated position: expected a calculate function.')
 	const resolvedPositions: Vector[] = []
 	for (const input of position.positions) {
-		const resolved = resolvePosition(input, coordinateSystem, options)
+		const resolved = resolvePosition(input, coordinateSystem, getTargetBounds)
 		if (!resolved) return undefined
 		resolvedPositions.push(resolved)
 	}

@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 import { first, last } from '@step-wise/js-utils'
 
 import { SvgPortal } from '../../Drawing/index.ts'
-import { useResolvedDistance } from '../../positioning/index.ts'
+import { useDrawingPixelDistance } from '../../positioning/index.ts'
 
 import { useRenderPositions } from '../resolution.ts'
 
@@ -21,8 +21,8 @@ export const Line = forwardRef<SVGPathElement, LineProps>(function Line(props, r
 	// Resolve positions and abort if they are not valid.
 	const resolvedPositions = useRenderPositions(positions)
 	const defaultArrowSize = getDefaultPathArrowHeadSize(strokeWidth)
-	const startArrowSize = useResolvedDistance(startArrowOptions?.size ?? defaultArrowSize)
-	const endArrowSize = useResolvedDistance(endArrowOptions?.size ?? defaultArrowSize)
+	const startArrowSize = useDrawingPixelDistance(startArrowOptions?.size ?? defaultArrowSize)
+	const endArrowSize = useDrawingPixelDistance(endArrowOptions?.size ?? defaultArrowSize)
 	if (resolvedPositions === undefined || startArrowSize === undefined || endArrowSize === undefined) return null
 
 	// Calculate arrow directions and pull the line endpoints underneath any arrowheads.

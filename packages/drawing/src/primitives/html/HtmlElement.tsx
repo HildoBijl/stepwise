@@ -5,7 +5,7 @@ import { useForwardedRef } from '@step-wise/react-utils'
 
 import { HtmlPortal, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
 import { useDrawingTarget } from '../../DrawingTargets/index.ts'
-import { anchors, type Anchor, type Position, resolveAnchor, useResolvedPosition } from '../../positioning/index.ts'
+import { type Anchor, type Position, anchors, resolveAnchor, useDrawingPixelPosition } from '../../positioning/index.ts'
 
 export interface HtmlElementProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
 	children?: ReactNode
@@ -31,7 +31,7 @@ export const HtmlElement = forwardRef<HTMLDivElement, HtmlElementProps>(function
 	}, [ref, targetRef])
 
 	// Resolve the position and abort if not known yet.
-	const resolvedPosition = useResolvedPosition(position)
+	const resolvedPosition = useDrawingPixelPosition(position)
 	if (resolvedPosition === undefined) return null
 
 	// Resolve the anchor, rotation, and scale, then calculate the positioning style for the element.

@@ -57,7 +57,7 @@ describe('resolveDistance', () => {
 		const getTargetBounds = (target: string) => target === 'first' ? new Rectangle([0, 0], [10, 10]) : new Rectangle([30, 40], [40, 50])
 
 		expect(getDistanceTargets(distance)).toEqual(['first', 'second'])
-		expect(resolveDistance(distance, coordinateSystem, { getTargetBounds })).toBe(50)
+		expect(resolveDistance(distance, coordinateSystem, getTargetBounds)).toBe(50)
 	})
 
 	test('rejects ambiguous and malformed distances', () => {

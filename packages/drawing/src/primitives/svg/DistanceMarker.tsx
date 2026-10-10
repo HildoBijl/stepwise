@@ -4,7 +4,7 @@ import { ensureNumber } from '@step-wise/js-utils'
 import { type VectorLike, ensureVector } from '@step-wise/geometry'
 
 import { SvgDefsPortal, useDrawingId } from '../../Drawing/index.ts'
-import { type Position, useResolvedPositions } from '../../positioning/index.ts'
+import { type Position, useDrawingPixelPositions } from '../../positioning/index.ts'
 
 import { Line, type LineProps } from './Line.tsx'
 
@@ -20,8 +20,8 @@ export const DistanceMarker = forwardRef<SVGPathElement, DistanceMarkerProps>(fu
 
 	// Resolve positions and abort if they are not valid.
 	if (!Array.isArray(positions) || positions.length !== 2) throw new Error('Invalid DistanceMarker positions: expected exactly two positions.')
-	const resolvedPositions = useResolvedPositions(positions)
-	if (resolvedPositions === undefined) return null
+	const resolvedPositions = useDrawingPixelPositions(positions)
+	if (!resolvedPositions?.every(position => position !== undefined)) return null
 	ensureNumber(markerSize, { nonNegative: true, nonZero: true })
 
 	// Apply the pixel offset to the resolved positions.

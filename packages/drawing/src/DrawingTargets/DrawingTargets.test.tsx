@@ -4,10 +4,14 @@ import { useEffect, useLayoutEffect, useRef } from 'react'
 import { cleanup, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
+import { Transformation } from '@step-wise/geometry'
+
 import { Drawing } from '../Drawing/index.ts'
 
 import { anchors } from '../positioning/anchors.ts'
-import { useResolvedPosition } from '../positioning/hooks.ts'
+import { useDrawingDistance, useDrawingDistances, useDrawingPixelDistance, useDrawingPixelDistances } from '../positioning/distanceHooks.ts'
+import { useDrawingPosition, useDrawingPositions, useDrawingPixelPosition, useDrawingPixelPositions } from '../positioning/positionHooks.ts'
+import { useDrawingTargetBounds, useDrawingTargetBoundsMap, useDrawingTargetPixelBounds, useDrawingTargetPixelBoundsMap } from '../positioning/targetBoundsHooks.ts'
 
 import { DrawingTarget, useDrawingElementTarget, useDrawingTarget, useDrawingTextTarget } from './index.ts'
 
@@ -167,10 +171,25 @@ describe('Drawing targets', () => {
 
 		expect(screen.getByText('47.5,37.5')).toBeTruthy()
 	})
+
+	test('exposes target bounds, positions, and distances in drawing and pixel coordinates', () => {
+		render(<Drawing view={{
+			type: 'custom',
+			width: 100,
+			height: 100,
+			yDirection: 'up',
+			drawingToPixelTransformation: Transformation.fromScale([2, 2]),
+		}}>
+			<DrawingTarget target="label">Label</DrawingTarget>
+			<CoordinateHookOutput />
+		</Drawing>)
+
+		expect(screen.getByText('bounds:10,35,20,40|pixels:20,70,40,80|maps:10,35,20,40;20,70,40,80|positions:3,8;6,8|positionLists:3,8/1,2/undefined;6,16/2,4/undefined|distances:4;6|distanceLists:4/3/undefined;8/6/undefined')).toBeTruthy()
+	})
 })
 
 function ResolvedTargetPosition({ onUnmount, target = 'label' }: { onUnmount?: () => void, target?: string }) {
-	const position = useResolvedPosition({ target, anchor: anchors.bottomRight, pixelOffset: [5, 5] })
+	const position = useDrawingPixelPosition({ target, anchor: anchors.bottomRight, pixelOffset: [5, 5] })
 	return position ? <ResolvedTargetOutput onUnmount={onUnmount} value={`${position.x},${position.y}`} /> : null
 }
 
@@ -188,11 +207,41 @@ function DrawingWithInlineView({ marker }: { marker: string }) {
 }
 
 function CalculatedTargetPosition() {
-	const position = useResolvedPosition({
+	const position = useDrawingPixelPosition({
 		positions: [{ target: 'first' }, { target: 'second' }],
 		calculate: ([first, second]) => first.add(second).multiply(0.5),
 	})
 	return position ? <output>{position.x},{position.y}</output> : null
+}
+
+function CoordinateHookOutput() {
+	const drawingBounds = useDrawingTargetBounds('label')
+	const pixelBounds = useDrawingTargetPixelBounds('label')
+	const drawingBoundsMap = useDrawingTargetBoundsMap(['label'])
+	const pixelBoundsMap = useDrawingTargetPixelBoundsMap(['label'])
+	const drawingPosition = useDrawingPosition({ pixelPosition: [6, 16] })
+	const pixelPosition = useDrawingPixelPosition([3, 4])
+	const drawingPositions = useDrawingPositions([{ pixelPosition: [6, 16] }, [1, 2], { target: 'missing' }])
+	const pixelPositions = useDrawingPixelPositions([{ pixelPosition: [6, 16] }, [1, 2], { target: 'missing' }])
+	const drawingDistance = useDrawingDistance({ pixelDistance: 8 })
+	const pixelDistance = useDrawingPixelDistance(3)
+	const unresolvedDistance = { positions: [{ target: 'missing' }], calculate: () => 0 } as const
+	const drawingDistances = useDrawingDistances([{ pixelDistance: 8 }, 3, unresolvedDistance])
+	const pixelDistances = useDrawingPixelDistances([{ pixelDistance: 8 }, 3, unresolvedDistance])
+	if (!drawingBounds || !pixelBounds || !drawingPosition || !pixelPosition || !drawingPositions || !pixelPositions || drawingDistance === undefined || pixelDistance === undefined || !drawingDistances || !pixelDistances) return null
+	return <output>{[
+		`bounds:${formatRectangle(drawingBounds)}`,
+		`pixels:${formatRectangle(pixelBounds)}`,
+		`maps:${formatRectangle(drawingBoundsMap.get('label'))};${formatRectangle(pixelBoundsMap.get('label'))}`,
+		`positions:${drawingPosition.coordinates};${pixelPosition.coordinates}`,
+		`positionLists:${drawingPositions.map(position => position?.coordinates ?? 'undefined').join('/')};${pixelPositions.map(position => position?.coordinates ?? 'undefined').join('/')}`,
+		`distances:${drawingDistance};${pixelDistance}`,
+		`distanceLists:${drawingDistances.map(distance => distance ?? 'undefined').join('/')};${pixelDistances.map(distance => distance ?? 'undefined').join('/')}`,
+	].join('|')}</output>
+}
+
+function formatRectangle(bounds: { min: { coordinates: readonly number[] }, max: { coordinates: readonly number[] } } | undefined): string {
+	return bounds ? `${bounds.min.coordinates},${bounds.max.coordinates}` : 'undefined'
 }
 
 function TextTarget() {

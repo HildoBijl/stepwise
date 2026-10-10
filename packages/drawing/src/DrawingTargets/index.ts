@@ -1,3 +1,3 @@
-export type { DrawingTargetNode, DrawingTargetRenderBoundsOptions } from './DrawingTargetRegistry.ts'
-export * from './hooks.ts'
+export type { DrawingTargetNode } from './DrawingTargetRegistry.ts'
+export * from './registrationHooks.ts'
 export * from './DrawingTarget.tsx'

@@ -2,7 +2,7 @@ import { type ComponentPropsWithoutRef, createElement, forwardRef, useLayoutEffe
 
 import { useForwardedRef } from '@step-wise/react-utils'
 
-import { useDrawingTarget } from './hooks.ts'
+import { useDrawingTarget } from './registrationHooks.ts'
 
 export type DrawingTargetProps = Omit<ComponentPropsWithoutRef<'span'>, 'ref'> & {
 	target: string

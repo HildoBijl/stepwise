@@ -1,6 +1,6 @@
 import type { ReactNode, SVGProps } from 'react'
 
-import { SvgPortal, type Position, useDrawingCoordinateSystem, useResolvedPosition } from '@step-wise/drawing'
+import { type Position, SvgPortal, useDrawingCoordinateSystem, useDrawingPixelPosition } from '@step-wise/drawing'
 import { ensureNumber } from '@step-wise/js-utils'
 
 export interface PositionedSvgSymbolProps extends Omit<SVGProps<SVGGElement>, 'color'> {
@@ -14,7 +14,7 @@ export function PositionedSvgSymbol(props: PositionedSvgSymbolProps & { children
 	const coordinateSystem = useDrawingCoordinateSystem()
 	
 	// Determine the position/rotation or abort on missing data.
-	const pixelPosition = useResolvedPosition(position)
+	const pixelPosition = useDrawingPixelPosition(position)
 	if (pixelPosition === undefined) return null
 	const resolvedPosition = coordinateSystem.pixelToRender(pixelPosition)
 	const rotation = ensureNumber(angle) * (coordinateSystem.yDirection === 'up' ? -1 : 1)

@@ -1,6 +1,6 @@
 {
 	"name": "@step-wise/engineering-diagrams",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Reusable React components for engineering-mechanics diagrams.",
 	"license": "MIT",
 	"repository": {
@@ -39,7 +39,7 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@step-wise/drawing": "^0.2.5",
+		"@step-wise/drawing": "^0.3.0",
 		"@step-wise/engineering-mechanics": "^0.1.0",
 		"@step-wise/geometry": "^0.1.0",
 		"@step-wise/js-utils": "^0.1.2"
