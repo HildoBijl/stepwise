@@ -15,12 +15,14 @@ export function DrawingTargetRegistryProvider({ children, element, coordinateSys
 	coordinateSystem: DrawingCoordinateSystem
 }) {
 	// Create a single instance of the registry for the lifetime of this provider.
-	const [refreshRequest, requestRefresh] = useReducer(value => value + 1, 0)
+	const [refreshIndex, requestRefresh] = useReducer(value => value + 1, 0)
 	const [registry] = useState(() => new DrawingTargetRegistry(requestRefresh))
 	useLayoutEffect(() => { registry.setEnvironment(element, coordinateSystem) }, [registry, element, coordinateSystem])
-	useEffect(() => { registry.refresh() }, [registry, element, coordinateSystem, refreshRequest])
-	useResizeObserver(element, requestRefresh)
 	useEffect(() => () => { registry.dispose() }, [registry])
+
+	// When the element changes size, refresh the position calculations.
+	useResizeObserver(element, requestRefresh)
+	useEffect(() => { registry.refresh() }, [registry, element, coordinateSystem, refreshIndex])
 
 	// Provide the registry to the context for use by child components.
 	return <DrawingTargetRegistryContext.Provider value={registry}>

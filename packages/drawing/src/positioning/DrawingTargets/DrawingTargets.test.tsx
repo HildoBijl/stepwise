@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { useEffect, useLayoutEffect, useRef } from 'react'
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import { Drawing } from '../../Drawing/index.ts'
@@ -9,7 +9,7 @@ import { Drawing } from '../../Drawing/index.ts'
 import { anchors } from '../anchors.ts'
 import { useResolvedPosition } from '../hooks.ts'
 
-import { DrawingTarget, useDrawingTarget, useDrawingTextTarget } from './index.ts'
+import { DrawingTarget, useDrawingElementTarget, useDrawingTarget, useDrawingTextTarget } from './index.ts'
 
 beforeEach(() => {
 	vi.stubGlobal('ResizeObserver', ResizeObserverMock)
@@ -102,6 +102,62 @@ describe('Drawing targets', () => {
 		expect(screen.getByText('75,65')).toBeTruthy()
 	})
 
+	test('tracks elements that appear, disappear, and move to a replacement container', async () => {
+		const { rerender } = render(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+			<DynamicElementTarget containerKey="first" show={false} />
+			<ResolvedTargetPosition target="dynamic-element" />
+		</Drawing>)
+		expect(screen.queryByText('45,35')).toBeNull()
+
+		rerender(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+			<DynamicElementTarget containerKey="first" show />
+			<ResolvedTargetPosition target="dynamic-element" />
+		</Drawing>)
+		await waitFor(() => { expect(screen.getByText('45,35')).toBeTruthy() })
+
+		rerender(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+			<DynamicElementTarget containerKey="second" show />
+			<ResolvedTargetPosition target="dynamic-element" />
+		</Drawing>)
+		await waitFor(() => { expect(screen.getByText('45,35')).toBeTruthy() })
+
+		rerender(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+			<DynamicElementTarget containerKey="second" show={false} />
+			<ResolvedTargetPosition target="dynamic-element" />
+		</Drawing>)
+		await waitFor(() => { expect(screen.queryByText('45,35')).toBeNull() })
+	})
+
+	test('uses a registered target as an element resolver container', async () => {
+		render(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+			<DrawingTarget as="div" target="table"><span data-nested-target>Nested</span></DrawingTarget>
+			<NestedElementTarget />
+			<ResolvedTargetPosition target="nested-element" />
+		</Drawing>)
+
+		await waitFor(() => { expect(screen.getByText('45,35')).toBeTruthy() })
+	})
+
+	test('updates text targets when matching text appears and disappears', async () => {
+		const { rerender } = render(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+			<DynamicTextTarget text="Waiting" />
+			<ResolvedTargetPosition target="dynamic-text" />
+		</Drawing>)
+		expect(screen.queryByText('45,35')).toBeNull()
+
+		rerender(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+			<DynamicTextTarget text="Matched" />
+			<ResolvedTargetPosition target="dynamic-text" />
+		</Drawing>)
+		await waitFor(() => { expect(screen.getByText('45,35')).toBeTruthy() })
+
+		rerender(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+			<DynamicTextTarget text="Gone" />
+			<ResolvedTargetPosition target="dynamic-text" />
+		</Drawing>)
+		await waitFor(() => { expect(screen.queryByText('45,35')).toBeNull() })
+	})
+
 	test('resolves calculated positions that reference multiple targets', () => {
 		render(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
 			<DrawingTarget target="first">First</DrawingTarget>
@@ -154,6 +210,23 @@ function TextTargetWithHelper() {
 	useDrawingTextTarget('matching-text', container, 'Second', { index: 1 })
 	useDrawingTextTarget('matching-parent', container, node => node.textContent === 'Second', { parentDepth: 1 })
 	return <div ref={container}><span>First</span><span>Second</span><span>Second</span></div>
+}
+
+function DynamicElementTarget({ containerKey, show }: { containerKey: string, show: boolean }) {
+	const container = useRef<HTMLDivElement>(null)
+	useDrawingElementTarget('dynamic-element', container, element => element.querySelector('[data-dynamic-target]'))
+	return <div key={containerKey} ref={container}>{show && <span data-dynamic-target>Dynamic</span>}</div>
+}
+
+function NestedElementTarget() {
+	useDrawingElementTarget('nested-element', 'table', container => container.querySelector('[data-nested-target]'))
+	return null
+}
+
+function DynamicTextTarget({ text }: { text: string }) {
+	const container = useRef<HTMLDivElement>(null)
+	useDrawingTextTarget('dynamic-text', container, 'Matched')
+	return <div ref={container}>{text}</div>
 }
 
 class ResizeObserverMock {

@@ -12,11 +12,12 @@ type TargetEntry = {
 	node?: DrawingTargetNode
 	bounds?: Rectangle
 	coordinateSystem?: DrawingCoordinateSystem
-	listeners: Set<() => void>
+	boundsListeners: Set<() => void>
+	nodeListeners: Set<() => void>
 	observer?: ResizeObserver
 }
 
-/// A registry for managing drawing targets, their bounds, and listeners for changes in those bounds.
+/// A registry for managing drawing targets, their bounds, and listeners for changes in those bounds. It tracks specific elements inside of it, their rectangles in a given coordinate system, and registers listeners for when the elements and/or their bounds change.
 export class DrawingTargetRegistry {
 	private readonly entries = new Map<string, TargetEntry>()
 	private element: HTMLDivElement | null = null
@@ -24,16 +25,32 @@ export class DrawingTargetRegistry {
 	private revision = 0
 	private settled = false
 
-	constructor(private readonly requestRefresh: () => void = () => {}) {}
+	/*
+	 * Registry lifetime functions.
+	 */
+
+	// Upon construction, store the refresh request method that schedules a refresh call.
+	constructor(private readonly requestRefresh: () => void = () => { }) { }
 
 	// Set the environment for the registry, including the drawing element and the coordinate system.
 	setEnvironment(element: HTMLDivElement | null, coordinateSystem: DrawingCoordinateSystem): void {
-		if (element !== this.element || coordinateSystem !== this.coordinateSystem) this.settled = false
+		if (element === this.element && coordinateSystem === this.coordinateSystem) return
+		this.settled = false
 		this.element = element
 		this.coordinateSystem = coordinateSystem
 	}
 
-	// Register a given node for the target, or unregister it if the node is null.
+	// Dispose of the registry, stopping all observations and clearing all entries.
+	dispose(): void {
+		for (const entry of this.entries.values()) this.stopObserving(entry)
+		this.entries.clear()
+	}
+
+	/*
+	 * Target entry registration.
+	 */
+
+	// Register a given node for the target, so that others can start tracking it. When passed a null node, the registration is removed.
 	register(target: string, node: DrawingTargetNode | null): void {
 		// Get the entry for the target, creating it if it does not exist yet.
 		const entry = this.getEntry(target)
@@ -43,70 +60,17 @@ export class DrawingTargetRegistry {
 		// Update the node for the target.
 		this.stopObserving(entry)
 		entry.node = node ?? undefined
-		if (entry.listeners.size > 0) this.startObserving(entry)
+		if (entry.boundsListeners.size > 0) this.startObserving(entry)
+		entry.nodeListeners.forEach(listener => { listener() })
 		this.measure(entry)
 		this.removeUnusedEntry(target)
-	}
-
-	// Subscribe to changes in the bounds of the target, and return an unsubscribe function.
-	subscribe(target: string, listener: () => void): () => void {
-		// Add the listener to the target's entry.
-		const entry = this.getEntry(target)
-		entry.listeners.add(listener)
-		if (entry.listeners.size === 1) {
-			this.startObserving(entry)
-			this.measure(entry)
-		}
-
-		// Return an unsubscribe function that removes the listener and stops observing the target if there are no more listeners.
-		return () => {
-			entry.listeners.delete(listener)
-			if (entry.listeners.size === 0) this.stopObserving(entry)
-			this.removeUnusedEntry(target)
-		}
-	}
-
-	// Get the bounds of the target in render coordinates, if possible.
-	getBounds(target: string, coordinateSystem: DrawingCoordinateSystem, allowStale = false): Rectangle | undefined {
-		const entry = this.entries.get(target)
-		if (!allowStale && (!this.settled || coordinateSystem !== entry?.coordinateSystem)) return undefined
-		return entry?.bounds
-	}
-
-	// Get a revision number that changes whenever any measured target bounds change.
-	getRevision(): number {
-		return this.revision
-	}
-
-	// Refresh the bounds of all targets that have listeners.
-	refresh(): void {
-		const changedEntries: TargetEntry[] = []
-		for (const entry of this.entries.values()) {
-			if (entry.listeners.size > 0 && this.updateBounds(entry)) changedEntries.push(entry)
-		}
-		if (changedEntries.length > 0) {
-			this.settled = false
-			this.notifyChanges(changedEntries)
-			this.requestRefresh()
-			return
-		}
-		if (!this.settled) {
-			this.settled = true
-			this.notifyChanges([...this.entries.values()].filter(entry => entry.listeners.size > 0))
-		}
-	}
-
-	// Dispose of the registry, stopping all observations and clearing all entries.
-	dispose(): void {
-		for (const entry of this.entries.values()) this.stopObserving(entry)
-		this.entries.clear()
 	}
 
 	/// Get the entry for the target, creating it if it does not exist yet.
 	private getEntry(target: string): TargetEntry {
 		let entry = this.entries.get(target)
 		if (!entry) {
-			entry = { listeners: new Set() }
+			entry = { boundsListeners: new Set(), nodeListeners: new Set() }
 			this.entries.set(target, entry)
 		}
 		return entry
@@ -126,7 +90,57 @@ export class DrawingTargetRegistry {
 		entry.observer = undefined
 	}
 
-	// Measure the bounds of the target and notify listeners if they have changed.
+	// Remove the entry for the target if it is no longer used (no node and no listeners).
+	private removeUnusedEntry(target: string): void {
+		const entry = this.entries.get(target)
+		if (entry && !entry.node && entry.boundsListeners.size === 0 && entry.nodeListeners.size === 0) this.entries.delete(target)
+	}
+
+	/*
+	 * Listener subscription.
+	 */
+
+	// Subscribe to changes in a target's registered node. (This includes when the node is replaced by a different node with the same bounds.)
+	subscribeNode(target: string, listener: () => void): () => void {
+		const entry = this.getEntry(target)
+		entry.nodeListeners.add(listener)
+		return () => {
+			entry.nodeListeners.delete(listener)
+			this.removeUnusedEntry(target)
+		}
+	}
+
+	// Subscribe to changes in a target's bounds.
+	subscribeBounds(target: string, listener: () => void): () => void {
+		// Add the listener to the target's entry and ensure we're actually observing the bounds.
+		const entry = this.getEntry(target)
+		entry.boundsListeners.add(listener)
+		if (entry.boundsListeners.size === 1) {
+			this.startObserving(entry)
+			this.measure(entry)
+		}
+
+		// Return an unsubscribe function that removes the listener and stops observing the target if there are no more listeners.
+		return () => {
+			entry.boundsListeners.delete(listener)
+			if (entry.boundsListeners.size === 0) this.stopObserving(entry)
+			this.removeUnusedEntry(target)
+		}
+	}
+
+	// Notify subscribers once after all bounds belonging to the same measurement pass have been updated.
+	private notifyChanges(entries: readonly TargetEntry[]): void {
+		if (entries.length === 0) return
+		this.revision++
+		const boundsListeners = new Set(entries.flatMap(entry => [...entry.boundsListeners]))
+		boundsListeners.forEach(boundsListener => { boundsListener() })
+	}
+
+	/*
+	 * Measurement/bound updating functions.
+	 */
+
+	// Update the bounds of the target and notify listeners if they have changed.
 	private measure(entry: TargetEntry): void {
 		if (!this.updateBounds(entry)) return
 		this.settled = false
@@ -145,19 +159,11 @@ export class DrawingTargetRegistry {
 		return changed
 	}
 
-	// Notify subscribers once after all bounds belonging to the same measurement pass have been updated.
-	private notifyChanges(entries: readonly TargetEntry[]): void {
-		if (entries.length === 0) return
-		this.revision++
-		const listeners = new Set(entries.flatMap(entry => [...entry.listeners]))
-		listeners.forEach(listener => { listener() })
-	}
-
 	// Get the bounds of the target in render coordinates, if possible.
 	private getRenderBounds(node?: DrawingTargetNode): Rectangle | undefined {
 		if (!node || !this.element || !this.coordinateSystem) return undefined
 
-		// Get the bounds of the drawing in client coordinates.
+		// Get the bounds of the full drawing in client coordinates.
 		const drawingRectangle = this.element.getBoundingClientRect()
 		if (drawingRectangle.width === 0 || drawingRectangle.height === 0) return undefined
 
@@ -168,13 +174,56 @@ export class DrawingTargetRegistry {
 		return new RectangleClass(min, max)
 	}
 
-	// Remove the entry for the target if it is no longer used (no node and no listeners).
-	private removeUnusedEntry(target: string): void {
+	/*
+	 * Getters for the properties of given targets.
+	 */
+
+	// Get the node registered for a target, if present.
+	getNode(target: string): DrawingTargetNode | undefined {
+		return this.entries.get(target)?.node
+	}
+
+	// Get the bounds of the target in render coordinates, if possible.
+	getBounds(target: string, coordinateSystem: DrawingCoordinateSystem, allowStale = false): Rectangle | undefined {
 		const entry = this.entries.get(target)
-		if (entry && !entry.node && entry.listeners.size === 0) this.entries.delete(target)
+		if (!allowStale && (!this.settled || coordinateSystem !== entry?.coordinateSystem)) return undefined
+		return entry?.bounds
+	}
+
+	/*
+	 * Refreshing bounds.
+	 */
+
+	// Refresh the bounds of all targets that have listeners.
+	refresh(): void {
+		// Walk through all entries, update them, and track which bounds changed.
+		const changedEntries: TargetEntry[] = []
+		for (const entry of this.entries.values()) {
+			if (entry.boundsListeners.size > 0 && this.updateBounds(entry)) changedEntries.push(entry)
+		}
+
+		// Notify the listeners for changes. Also schedule another refresh, in case things shifted.
+		if (changedEntries.length > 0) {
+			this.settled = false
+			this.notifyChanges(changedEntries)
+			this.requestRefresh()
+			return
+		}
+
+		// If there were no changes, note that everything settled. Notify all listeners, since the "settled" flag may (on allowState=false calls) also affect the returned bounds.
+		if (!this.settled) {
+			this.settled = true
+			this.notifyChanges([...this.entries.values()].filter(entry => entry.boundsListeners.size > 0))
+		}
+	}
+
+	// Get a revision number that changes whenever any measured target bounds change.
+	getRevision(): number {
+		return this.revision
 	}
 }
 
+// Check if two measured rectangles match, subject to our own specified measurement tolerances.
 function areRectanglesEquivalent(first: Rectangle, second: Rectangle): boolean {
 	return numbersEqual(first.min.x, second.min.x, measurementTolerance) && numbersEqual(first.min.y, second.min.y, measurementTolerance) && numbersEqual(first.max.x, second.max.x, measurementTolerance) && numbersEqual(first.max.y, second.max.y, measurementTolerance)
 }

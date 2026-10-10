@@ -168,7 +168,17 @@ const targetRef = useDrawingTarget<HTMLTableCellElement>('population-heading')
 <th ref={targetRef}>Population</th>
 ```
 
-It can also register a text node. `useDrawingTextTarget` searches an existing DOM subtree for matching text and optionally targets one of its parent elements.
+`useDrawingElementTarget` resolves an element inside a container and keeps the registration synchronized as the container's DOM changes. Containers can be nodes, refs, or the name of another registered target.
+
+```tsx
+useDrawingElementTarget(
+	'population-cell',
+	'table',
+	table => table.querySelector('[data-column="population"]'),
+)
+```
+
+`useDrawingTextTarget` uses the same observed lifecycle to search an existing DOM subtree for matching text and optionally target one of its parent elements.
 
 ```tsx
 const tableRef = useRef<HTMLTableElement>(null)
