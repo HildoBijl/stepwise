@@ -30,6 +30,8 @@ Use `maxWidth="none"` to let the figure fill its available parent width even whe
 
 Scaling remains uniform in both directions. The internal coordinate system and layout dimensions do not change.
 
+Responsive scaling uses the Figure viewport's untransformed layout width. CSS scaling or translation applied to an ancestor therefore transforms the complete Figure normally without being counted a second time by Figure itself.
+
 
 ## Alignment
 

@@ -15,7 +15,7 @@ export const Figure = forwardRef<HTMLDivElement, FigureProps>(function Figure(pr
 
 	// Use the viewport width to determine the scale of the figure content.
 	const viewportRef = useRef<HTMLDivElement>(null)
-	const displayedWidth = useElementMeasurement(viewportRef, element => element.getBoundingClientRect().width)
+	const displayedWidth = useElementMeasurement(viewportRef, element => element.clientWidth)
 	const scale = displayedWidth === undefined || displayedWidth === 0 ? undefined : displayedWidth / width
 
 	// Render the figure.
