@@ -1,5 +1,3 @@
-import { forwardRef } from 'react'
-
 import { ensureNumber } from '@step-wise/js-utils'
 
 import { SvgPortal } from '../../Drawing/index.ts'
@@ -14,8 +12,8 @@ export interface RectangleProps extends SvgRectangleProps {
 	cornerRadius?: Distance
 }
 
-export const Rectangle = forwardRef<SVGRectElement, RectangleProps>(function Rectangle(props, ref) {
-	const { cornerRadius = { pixelDistance: 0 }, corners, ...rectangleProps } = props
+export function Rectangle(props: RectangleProps) {
+	const { cornerRadius = { pixelDistance: 0 }, corners, ref, ...rectangleProps } = props
 
 	// Resolve positions/distances and abort if they are not valid.
 	if (!Array.isArray(corners) || corners.length !== 2) throw new Error('Invalid Rectangle corners: expected exactly two positions.')
@@ -35,4 +33,4 @@ export const Rectangle = forwardRef<SVGRectElement, RectangleProps>(function Rec
 	return <SvgPortal>
 		<rect {...rectangleProps} height={height} ref={ref} rx={resolvedRadius} width={width} x={x} y={y} />
 	</SvgPortal>
-})
+}

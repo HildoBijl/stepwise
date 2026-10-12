@@ -1,5 +1,3 @@
-import { forwardRef } from 'react'
-
 import { type Distance, type Position, useDrawingPixelDistance, useDrawingPixelPositions } from '../../positioning/index.ts'
 
 import { Line, type LineProps } from './Line.tsx'
@@ -9,8 +7,8 @@ export interface RightAngleProps extends Omit<LineProps, 'close' | 'positions'> 
 	size: Distance
 }
 
-export const RightAngle = forwardRef<SVGPathElement, RightAngleProps>(function RightAngle(props, ref) {
-	const { positions, size, ...lineProps } = props
+export function RightAngle(props: RightAngleProps) {
+	const { positions, ref, size, ...lineProps } = props
 	// Resolve positions/distances and abort if they are not valid.
 	if (!Array.isArray(positions) || positions.length !== 3) throw new Error('Invalid RightAngle positions: expected exactly three positions.')
 	const resolvedPositions = useDrawingPixelPositions(positions)
@@ -25,4 +23,4 @@ export const RightAngle = forwardRef<SVGPathElement, RightAngleProps>(function R
 
 	// Render the shape.
 	return <Line {...lineProps} positions={markerPositions.map(position => ({ pixelPosition: position }))} ref={ref} />
-})
+}

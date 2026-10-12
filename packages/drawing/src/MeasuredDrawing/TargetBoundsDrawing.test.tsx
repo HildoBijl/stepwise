@@ -9,7 +9,7 @@ import { DrawingTarget } from '../DrawingTargets/index.ts'
 import { anchors } from '../positioning/index.ts'
 import { HtmlElement } from '../primitives/index.ts'
 
-import { TargetBoundsDrawing } from './TargetBoundsDrawing.tsx'
+import { TargetBoundsDrawing, TargetBoundsDrawingFigure } from './TargetBoundsDrawing.tsx'
 
 let jitterMeasurement = 0
 
@@ -86,6 +86,17 @@ describe('TargetBoundsDrawing', () => {
 
 		expect(ref.current?.width).toBeCloseTo(90, 2)
 		expect(ref.current?.height).toBe(60)
+	})
+
+	test('can wrap target bounds in a responsive figure', () => {
+		vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(35)
+
+		const { container } = render(<TargetBoundsDrawingFigure margin={10} targets={['target']}>
+			<DrawingTarget data-testid="target" target="target">Target</DrawingTarget>
+		</TargetBoundsDrawingFigure>)
+
+		const scaledContents = container.firstElementChild!.firstElementChild!.firstElementChild as HTMLElement
+		expect(scaledContents.style.transform).toBe('scale(0.5)')
 	})
 })
 

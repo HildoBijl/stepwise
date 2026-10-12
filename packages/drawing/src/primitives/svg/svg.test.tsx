@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import type { ReactNode } from 'react'
+import { type ReactNode, createRef } from 'react'
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
@@ -26,6 +26,12 @@ afterEach(() => {
 })
 
 describe('SVG drawing primitives', () => {
+	test('accepts refs as regular React 19 props', () => {
+		const ref = createRef<SVGCircleElement>()
+		renderDrawing(<Circle center={[20, 30]} radius={{ pixelDistance: 5 }} ref={ref} />)
+		expect(ref.current?.tagName).toBe('circle')
+	})
+
 	test('resolves lines and polygons into SVG paths', () => {
 		const { container } = renderDrawing(<>
 			<Line data-testid="line" positions={[[0, 0], [10, 20]]} stroke="red" strokeWidth={4} />

@@ -1,5 +1,3 @@
-import { forwardRef } from 'react'
-
 import { ensureNumber } from '@step-wise/js-utils'
 import { type VectorLike, ensureVector } from '@step-wise/geometry'
 
@@ -14,8 +12,8 @@ export interface DistanceMarkerProps extends Omit<LineProps, 'close' | 'position
 	markerSize?: number
 }
 
-export const DistanceMarker = forwardRef<SVGPathElement, DistanceMarkerProps>(function DistanceMarker(props, ref) {
-	const { markerSize = 5, pixelOffset = [0, 0], positions, style, ...lineProps } = props
+export function DistanceMarker(props: DistanceMarkerProps) {
+	const { markerSize = 5, pixelOffset = [0, 0], positions, ref, style, ...lineProps } = props
 	const id = `${useDrawingId()}-distance-marker`
 
 	// Resolve positions and abort if they are not valid.
@@ -37,4 +35,4 @@ export const DistanceMarker = forwardRef<SVGPathElement, DistanceMarkerProps>(fu
 		</SvgDefsPortal>
 		<Line {...lineProps} positions={shiftedPositions} ref={ref} style={{ markerEnd: `url(#${id})`, markerStart: `url(#${id})`, ...style }} />
 	</>
-})
+}

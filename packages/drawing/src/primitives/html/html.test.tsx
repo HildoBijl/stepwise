@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import type { ReactNode } from 'react'
+import { type ReactNode, createRef } from 'react'
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
@@ -18,6 +18,12 @@ afterEach(() => {
 })
 
 describe('HTML drawing primitives', () => {
+	test('accepts refs as regular React 19 props', () => {
+		const ref = createRef<HTMLDivElement>()
+		renderDrawing(<HtmlElement position={[10, 20]} ref={ref}>Element</HtmlElement>)
+		expect(ref.current).toBe(screen.getByText('Element'))
+	})
+
 	test('positions and anchors an HTML element in the Drawing HTML layer', () => {
 		const { container } = renderDrawing(<HtmlElement anchor={anchors.topLeft} position={[10, 20]} scale={2}>Element</HtmlElement>)
 		const element = screen.getByText('Element')

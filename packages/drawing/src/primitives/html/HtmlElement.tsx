@@ -1,4 +1,4 @@
-import { type CSSProperties, type HTMLAttributes, type ReactNode, forwardRef, useCallback } from 'react'
+import { type CSSProperties, type HTMLAttributes, type ReactNode, type Ref, useCallback } from 'react'
 
 import { ensureNumber } from '@step-wise/js-utils'
 import { useForwardedRef } from '@step-wise/react-utils'
@@ -16,10 +16,11 @@ export interface HtmlElementProps extends Omit<HTMLAttributes<HTMLDivElement>, '
 	scale?: number
 	ignoreMouse?: boolean
 	target?: string
+	ref?: Ref<HTMLDivElement>
 }
 
-export const HtmlElement = forwardRef<HTMLDivElement, HtmlElementProps>(function HtmlElement(props, forwardedRef) {
-	const { anchor = anchors.center, behind = false, children, ignoreMouse = true, position, rotate = 0, scale = 1, style, target, ...divProps } = props
+export function HtmlElement(props: HtmlElementProps) {
+	const { anchor = anchors.center, behind = false, children, ignoreMouse = true, position, ref: forwardedRef, rotate = 0, scale = 1, style, target, ...divProps } = props
 	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// When there is a target given, attach a target ref to the element so that it's position is tracked.
@@ -56,4 +57,4 @@ export const HtmlElement = forwardRef<HTMLDivElement, HtmlElementProps>(function
 			{children}
 		</div>
 	</HtmlPortal>
-})
+}

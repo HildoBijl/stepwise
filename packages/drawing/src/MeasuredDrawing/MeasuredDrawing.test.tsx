@@ -7,7 +7,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { DrawingHandle } from '../Drawing/types.ts'
 import { DrawingTarget } from '../DrawingTargets/index.ts'
 
-import { MeasuredDrawing } from './MeasuredDrawing.tsx'
+import { MeasuredDrawing, MeasuredDrawingFigure } from './MeasuredDrawing.tsx'
 
 beforeEach(() => {
 	vi.stubGlobal('ResizeObserver', ResizeObserverMock)
@@ -62,6 +62,18 @@ describe('MeasuredDrawing', () => {
 		expect(ref.current?.height).toBe(600)
 		expect((container.firstElementChild as HTMLElement).style.visibility).toBe('hidden')
 		expect(screen.getByText('Available')).toBeTruthy()
+	})
+
+	test('can wrap the resolved drawing in a responsive figure', () => {
+		vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(100)
+		const calculateView = vi.fn(() => ({ type: 'identity' as const, width: 200, height: 100 }))
+
+		const { container } = render(<MeasuredDrawingFigure calculateView={calculateView} targets={['first']}>
+			<DrawingTarget data-testid="first" target="first">First</DrawingTarget>
+		</MeasuredDrawingFigure>)
+
+		const scaledContents = container.firstElementChild!.firstElementChild!.firstElementChild as HTMLElement
+		expect(scaledContents.style.transform).toBe('scale(0.5)')
 	})
 })
 

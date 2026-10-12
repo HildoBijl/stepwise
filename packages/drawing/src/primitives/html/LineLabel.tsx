@@ -1,4 +1,4 @@
-import { type ReactNode, forwardRef } from 'react'
+import type { ReactNode } from 'react'
 
 import type { Position } from '../../positioning/index.ts'
 import { useDrawingPixelPosition } from '../../positioning/index.ts'
@@ -11,8 +11,8 @@ export interface LineLabelProps extends Omit<LabelProps, 'angle' | 'position'> {
 	oppositeTo: Position
 }
 
-export const LineLabel = forwardRef<HTMLDivElement, LineLabelProps>(function LineLabel(props, ref) {
-	const { oppositeTo, positions, ...labelProps } = props
+export function LineLabel(props: LineLabelProps) {
+	const { oppositeTo, positions, ref, ...labelProps } = props
 	// Resolve the two positions and the opposite position, and abort if any are not known yet.
 	if (!Array.isArray(positions) || positions.length !== 2) throw new Error('Invalid LineLabel positions: expected exactly two positions.')
 	const first = useDrawingPixelPosition(positions[0])
@@ -27,4 +27,4 @@ export const LineLabel = forwardRef<HTMLDivElement, LineLabelProps>(function Lin
 	const angle = delta.angle + side * Math.PI / 2
 	const midpoint = first.interpolate(second)
 	return <Label {...labelProps} angle={angle} position={{ pixelPosition: midpoint }} ref={ref} />
-})
+}

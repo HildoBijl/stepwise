@@ -1,11 +1,16 @@
 // @vitest-environment jsdom
 import React from 'react'
-import { render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { cleanup, render, screen } from '@testing-library/react'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { Plot } from './Plot.tsx'
+import { Plot, PlotFigure } from './Plot.tsx'
 import { PlotArea } from './PlotArea.tsx'
 import { usePlot } from './context.ts'
+
+afterEach(() => {
+	cleanup()
+	vi.restoreAllMocks()
+})
 
 describe('Plot', () => {
 	it('provides its resolved domain and a plot-area clip path', () => {
@@ -18,6 +23,15 @@ describe('Plot', () => {
 		const plotArea = screen.getByTestId('plot-area')
 		expect(plotArea.getAttribute('clip-path')).toMatch(/^url\(#.+-plot-area\)$/)
 		expect(document.querySelector('clipPath rect')).not.toBeNull()
+	})
+
+	it('can wrap a plot in a responsive figure', () => {
+		vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(200)
+
+		render(<PlotFigure aria-label="Responsive plot" bounds={{ min: [0, 0], max: [1, 1] }} view={{ type: 'bounds', width: 400, height: 300 }} />)
+
+		const figure = screen.getByLabelText('Responsive plot')
+		expect((figure.firstElementChild!.firstElementChild as HTMLElement).style.transform).toBe('scale(0.5)')
 	})
 })
 

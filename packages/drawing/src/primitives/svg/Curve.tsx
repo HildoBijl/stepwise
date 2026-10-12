@@ -1,5 +1,3 @@
-import { forwardRef } from 'react'
-
 import { ensureNumber, first, last, mod, repeat } from '@step-wise/js-utils'
 import type { Vector } from '@step-wise/geometry'
 
@@ -28,8 +26,8 @@ export interface CurveProps extends Omit<SvgPathProps, 'smoothing'>, PointSequen
 	smoothing?: CurveSmoothing
 }
 
-export const Curve = forwardRef<SVGPathElement, CurveProps>(function Curve(props, ref) {
-	const { close = false, endArrow, fill = 'none', positions, smoothing, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
+export function Curve(props: CurveProps) {
+	const { close = false, endArrow, fill = 'none', positions, ref, smoothing, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
 	const startArrowOptions = resolveArrowHeadOptions(startArrow)
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)
 
@@ -63,7 +61,7 @@ export const Curve = forwardRef<SVGPathElement, CurveProps>(function Curve(props
 		{startArrowOptions && <ResolvedArrowHead {...startPolygonProps} direction={arrowedPositions!.directions.startDirection} fill={startFill} position={first(resolvedPositions)} size={startArrowSize} />}
 		{endArrowOptions && <ResolvedArrowHead {...endPolygonProps} direction={arrowedPositions!.directions.endDirection} fill={endFill} position={last(resolvedPositions)} size={endArrowSize} />}
 	</SvgPortal>
-})
+}
 
 // Calculate a path that rounds around the given positions.
 function getCurvePathAround(inputPositions: readonly Vector[], close: boolean, smoothingRatio?: number, smoothingDistance?: number): string {

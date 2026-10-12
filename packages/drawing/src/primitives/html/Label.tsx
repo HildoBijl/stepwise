@@ -1,4 +1,4 @@
-import { type ReactNode, forwardRef } from 'react'
+import type { ReactNode } from 'react'
 
 import { mod } from '@step-wise/js-utils'
 import { type Vector, Vector as VectorClass } from '@step-wise/geometry'
@@ -15,8 +15,8 @@ export interface LabelProps extends Omit<HtmlElementProps, 'anchor' | 'position'
 	anchor?: Anchor
 }
 
-export const Label = forwardRef<HTMLDivElement, LabelProps>(function Label(props, ref) {
-	const { anchor, angle = -Math.PI * 3 / 4, distance = { pixelDistance: 6 }, position, rotate = 0, ...elementProps } = props
+export function Label(props: LabelProps) {
+	const { anchor, angle = -Math.PI * 3 / 4, distance = { pixelDistance: 6 }, position, ref, rotate = 0, ...elementProps } = props
 	// Resolve data and abort if not known yet.
 	const resolvedPosition = useDrawingPixelPosition(position)
 	const resolvedDistance = useDrawingPixelDistance(distance)
@@ -27,7 +27,7 @@ export const Label = forwardRef<HTMLDivElement, LabelProps>(function Label(props
 	const pixelPosition = resolvedPosition.add(pixelOffset)
 	const resolvedAnchor = anchor ?? getAnchorFromAngle(angle - rotate + Math.PI)
 	return <HtmlElement {...elementProps} anchor={resolvedAnchor} position={{ pixelPosition }} ref={ref} rotate={rotate} />
-})
+}
 
 // Find the element anchor nearest to the supplied direction. Angles and the returned anchor follow pixel-coordinate directions.
 export function getAnchorFromAngle(angle: number): Vector {

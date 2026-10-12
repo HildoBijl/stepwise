@@ -1,5 +1,3 @@
-import { forwardRef } from 'react'
-
 import { ensureNumber } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 
@@ -19,8 +17,8 @@ export interface ArcProps extends Omit<SvgPathProps, 'radius'>, ArrowedPathProps
 	endAngle?: number
 }
 
-export const Arc = forwardRef<SVGPathElement, ArcProps>(function Arc(props, ref) {
-	const { center = [0, 0], endAngle = Math.PI, endArrow, fill = 'none', radius, startAngle = 0, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
+export function Arc(props: ArcProps) {
+	const { center = [0, 0], endAngle = Math.PI, endArrow, fill = 'none', radius, ref, startAngle = 0, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
 	const coordinateSystem = useDrawingCoordinateSystem()
 	const startArrowOptions = resolveArrowHeadOptions(startArrow)
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)
@@ -74,4 +72,4 @@ export const Arc = forwardRef<SVGPathElement, ArcProps>(function Arc(props, ref)
 		{startArrowOptions && <ResolvedArrowHead {...startPolygonProps} direction={startDirection} fill={startFill} position={start} size={startArrowSize} />}
 		{endArrowOptions && <ResolvedArrowHead {...endPolygonProps} direction={endDirection} fill={endFill} position={end} size={endArrowSize} />}
 	</SvgPortal>
-})
+}

@@ -1,5 +1,3 @@
-import { forwardRef } from 'react'
-
 import { Line as GeometryLine, Rectangle as GeometryRectangle } from '@step-wise/geometry'
 
 import { useDrawingCoordinateSystem } from '../../Drawing/index.ts'
@@ -11,8 +9,8 @@ export interface BoundedLineProps extends Omit<LineProps, 'close' | 'positions'>
 	through: readonly [Position, Position]
 }
 
-export const BoundedLine = forwardRef<SVGPathElement, BoundedLineProps>(function BoundedLine(props, ref) {
-	const { through, ...lineProps } = props
+export function BoundedLine(props: BoundedLineProps) {
+	const { ref, through, ...lineProps } = props
 	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// Resolve positions and abort if they are not valid.
@@ -28,4 +26,4 @@ export const BoundedLine = forwardRef<SVGPathElement, BoundedLineProps>(function
 
 	// Render the shape.
 	return <Line {...lineProps} positions={[{ pixelPosition: segment.start }, { pixelPosition: segment.end }]} ref={ref} />
-})
+}

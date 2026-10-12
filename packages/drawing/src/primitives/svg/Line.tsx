@@ -1,5 +1,3 @@
-import { forwardRef } from 'react'
-
 import { first, last } from '@step-wise/js-utils'
 
 import { SvgPortal } from '../../Drawing/index.ts'
@@ -13,8 +11,8 @@ import type { PointSequenceProps, SvgPathProps } from './types.ts'
 
 export interface LineProps extends SvgPathProps, PointSequenceProps, ArrowedPathProps { }
 
-export const Line = forwardRef<SVGPathElement, LineProps>(function Line(props, ref) {
-	const { close = false, endArrow, fill = 'none', positions, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
+export function Line(props: LineProps) {
+	const { close = false, endArrow, fill = 'none', positions, ref, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
 	const startArrowOptions = resolveArrowHeadOptions(startArrow)
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)
 
@@ -38,4 +36,4 @@ export const Line = forwardRef<SVGPathElement, LineProps>(function Line(props, r
 		{startArrowOptions && <ResolvedArrowHead {...startPolygonProps} direction={arrowedPositions!.directions.startDirection} fill={startFill} position={first(resolvedPositions)} size={startArrowSize} />}
 		{endArrowOptions && <ResolvedArrowHead {...endPolygonProps} direction={arrowedPositions!.directions.endDirection} fill={endFill} position={last(resolvedPositions)} size={endArrowSize} />}
 	</SvgPortal>
-})
+}

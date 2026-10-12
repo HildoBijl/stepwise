@@ -1,5 +1,3 @@
-import { forwardRef } from 'react'
-
 import { ensureNumber } from '@step-wise/js-utils'
 
 import { SvgPortal } from '../../Drawing/index.ts'
@@ -14,8 +12,8 @@ export interface CircleProps extends SvgCircleProps {
 	radius: Distance
 }
 
-export const Circle = forwardRef<SVGCircleElement, CircleProps>(function Circle(props, ref) {
-	const { center = [0, 0], radius, ...circleProps } = props
+export function Circle(props: CircleProps) {
+	const { center = [0, 0], radius, ref, ...circleProps } = props
 
 	// Resolve positions/distances and abort if they are not valid.
 	const resolvedCenter = useRenderPosition(center)
@@ -29,4 +27,4 @@ export const Circle = forwardRef<SVGCircleElement, CircleProps>(function Circle(
 	return <SvgPortal>
 		<circle {...circleProps} cx={resolvedCenter.x} cy={resolvedCenter.y} r={resolvedRadius} ref={ref} />
 	</SvgPortal>
-})
+}

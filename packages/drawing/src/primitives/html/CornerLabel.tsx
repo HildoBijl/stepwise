@@ -1,4 +1,4 @@
-import { type ReactNode, forwardRef } from 'react'
+import type { ReactNode } from 'react'
 
 import type { Distance, Position } from '../../positioning/index.ts'
 import { useDrawingPixelDistance, useDrawingPixelPosition } from '../../positioning/index.ts'
@@ -11,8 +11,8 @@ export interface CornerLabelProps extends Omit<HtmlElementProps, 'position'> {
 	size?: Distance
 }
 
-export const CornerLabel = forwardRef<HTMLDivElement, CornerLabelProps>(function CornerLabel(props, ref) {
-	const { positions, size = { pixelDistance: 30 }, ...elementProps } = props
+export function CornerLabel(props: CornerLabelProps) {
+	const { positions, ref, size = { pixelDistance: 30 }, ...elementProps } = props
 
 	// Resolve the three positions and the size, and abort if any are not known yet.
 	if (!Array.isArray(positions) || positions.length !== 3) throw new Error('Invalid CornerLabel positions: expected exactly three positions.')
@@ -28,4 +28,4 @@ export const CornerLabel = forwardRef<HTMLDivElement, CornerLabelProps>(function
 	const adjustedDistance = resolvedSize / 2 * Math.sqrt(2 / Math.max(0.1, 1 - vector1.dotProduct(vector2)))
 	const position = corner.add(vector1.interpolate(vector2).normalize().multiply(adjustedDistance))
 	return <HtmlElement {...elementProps} position={{ pixelPosition: position }} ref={ref} />
-})
+}

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, ReactNode, Ref } from 'react'
 
 export const figureAlignments = ['left', 'center', 'right'] as const
 export type FigureAlignment = typeof figureAlignments[number]
@@ -14,4 +14,5 @@ export type FigureProps = Omit<ComponentPropsWithoutRef<'div'>, 'children'> & {
 	height: number
 	maxWidth?: number | 'none'
 	alignment?: FigureAlignment
+	ref?: Ref<HTMLDivElement>
 }

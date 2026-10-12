@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 import type { Rectangle, RectangleLike } from '@step-wise/geometry'
 
-import type { DrawingHandle, DrawingProps } from '../Drawing/index.ts'
+import type { DrawingFigureProps, DrawingHandle, DrawingProps } from '../Drawing/index.ts'
 import type { Margin, PointCollection, Scale } from '../transforms/index.ts'
 
 /*
@@ -52,11 +52,15 @@ type PlotRange =
  * General plot props and handle.
  */
 
-export type PlotProps = Omit<DrawingProps, 'children' | 'view'> & PlotRange & {
+interface PlotOptions {
 	view: PlotView
 	axes?: Partial<PlotAxes<PlotAxisSettings>>
 	children?: ReactNode
 }
+
+export type PlotProps = Omit<DrawingProps, 'children' | 'view'> & PlotRange & PlotOptions
+
+export type PlotFigureProps = Omit<DrawingFigureProps, 'children' | 'view'> & PlotRange & PlotOptions
 
 export type PlotHandle = DrawingHandle
 
