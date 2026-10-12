@@ -1,6 +1,6 @@
 # MeasuredDrawing
 
-`MeasuredDrawing` extends `Drawing` with a view derived from named HTML or SVG targets after they render. The bounds passed to `calculateView` are indexed by the unique names in `targets` and use pixel coordinates. Consequently, `top` is the largest y-coordinate when `yDirection` is `up` and the smallest y-coordinate when it is `down`.
+`MeasuredDrawing` extends `Drawing` with a view derived from named HTML or SVG targets after they render. The `Bounds` objects passed to `calculateView` are indexed by the unique names in `targets` and use pixel coordinates. Their named sides and points follow the Drawing's configured `yDirection`: `top` is the largest y-coordinate when `yDirection` is `up` and the smallest y-coordinate when it is `down`.
 
 ```tsx
 <MeasuredDrawing

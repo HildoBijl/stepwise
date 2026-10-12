@@ -2,21 +2,11 @@ import { fromKeys, hasDuplicates, mapValues } from '@step-wise/js-utils'
 import type { Rectangle } from '@step-wise/geometry'
 
 import type { DrawingCoordinateSystem } from '../transforms/index.ts'
+import { Bounds } from '../positioning/Bounds.ts'
 
-// A supporting type for the MeasuredDrawing calculation function. It gives info in an easier form than a plain Rectangle object.
-export interface TargetBounds {
-	readonly rectangle: Rectangle
-	readonly left: number
-	readonly right: number
-	readonly top: number
-	readonly bottom: number
-	readonly width: number
-	readonly height: number
-}
-
-// A record of TargetBounds, indexed by target name.
+// A record of Bounds objects, indexed by target name.
 export type TargetBoundsRecord<Targets extends readonly string[]> = {
-	readonly [Target in Targets[number]]: TargetBounds
+	readonly [Target in Targets[number]]: Bounds
 }
 
 // A record of Rectangle objects, indexed by target name.
@@ -37,21 +27,7 @@ export function resolveTargetRectanglesRecord<Targets extends readonly string[]>
 	return Object.keys(rectangles).length === targets.length ? rectangles as TargetRectanglesRecord<Targets> : undefined
 }
 
-// Turn a Rectangle in render coordinates into the supporting TargetBounds type in pixel coordinates.
-export function toTargetBounds(renderRectangle: Rectangle, coordinateSystem: DrawingCoordinateSystem): TargetBounds {
-	const rectangle = coordinateSystem.renderToPixelTransformation.transform(renderRectangle)
-	return {
-		rectangle,
-		left: rectangle.min.x,
-		right: rectangle.max.x,
-		top: coordinateSystem.yDirection === 'up' ? rectangle.max.y : rectangle.min.y,
-		bottom: coordinateSystem.yDirection === 'up' ? rectangle.min.y : rectangle.max.y,
-		width: rectangle.width,
-		height: rectangle.height,
-	}
-}
-
-// Turn a record of Rectangles in render coordinates into a record of TargetBounds in pixel coordinates.
+// Turn a record of Rectangles in render coordinates into a record of Bounds objects in pixel coordinates.
 export function toTargetBoundsRecord<Targets extends readonly string[]>(rectangles: TargetRectanglesRecord<Targets>, coordinateSystem: DrawingCoordinateSystem): TargetBoundsRecord<Targets> {
-	return mapValues<Rectangle, TargetBounds>(rectangles, rectangle => toTargetBounds(rectangle, coordinateSystem)) as TargetBoundsRecord<Targets>
+	return mapValues<Rectangle, Bounds>(rectangles, rectangle => new Bounds(coordinateSystem.renderToPixelTransformation.transform(rectangle), coordinateSystem.yDirection)) as TargetBoundsRecord<Targets>
 }

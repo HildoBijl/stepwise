@@ -2,12 +2,11 @@ import { type Rectangle, Rectangle as RectangleClass, Transformation } from '@st
 
 import type { CustomView, DrawingCoordinateSystem, Margin } from '../transforms/index.ts'
 import { resolveMargin } from '../transforms/viewSupport.ts'
-
-import type { TargetBounds } from './targetBounds.ts'
+import type { Bounds } from '../positioning/Bounds.ts'
 
 // Given a set of bounds in pixel coordinates and an existing coordinate system, come up with a new view definition that encompasses the bounds and adds an optional margin around them.
 export function getViewAroundTargetBounds(
-	targetBounds: Readonly<Record<string, TargetBounds>>,
+	targetBounds: Readonly<Record<string, Bounds>>,
 	coordinateSystem: DrawingCoordinateSystem,
 	margin: Margin = 0,
 ): CustomView {

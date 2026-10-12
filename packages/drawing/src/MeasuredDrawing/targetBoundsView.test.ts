@@ -3,16 +3,16 @@ import { describe, expect, test } from 'vitest'
 import { Rectangle } from '@step-wise/geometry'
 
 import { DrawingCoordinateSystem, resolveDrawingView } from '../transforms/index.ts'
+import { Bounds } from '../positioning/Bounds.ts'
 
-import { toTargetBounds } from './targetBounds.ts'
 import { getViewAroundTargetBounds } from './targetBoundsView.ts'
 
 describe('target bounds views', () => {
 	test('places the target union inside the requested margins', () => {
 		const coordinates = new DrawingCoordinateSystem({ width: 100, height: 100 })
 		const view = getViewAroundTargetBounds({
-			first: toTargetBounds(new Rectangle([-10, 20], [40, 60]), coordinates),
-			second: toTargetBounds(new Rectangle([30, 10], [50, 70]), coordinates),
+			first: toBounds(new Rectangle([-10, 20], [40, 60]), coordinates),
+			second: toBounds(new Rectangle([30, 10], [50, 70]), coordinates),
 		}, coordinates, [[5, 10], [15, 20]])
 		const resolved = resolveDrawingView(view)
 
@@ -24,7 +24,7 @@ describe('target bounds views', () => {
 
 	test('preserves the visual shift for upward-pointing coordinates', () => {
 		const coordinates = new DrawingCoordinateSystem({ width: 100, height: 100, yDirection: 'up' })
-		const view = getViewAroundTargetBounds({ target: toTargetBounds(new Rectangle([20, 30], [70, 80]), coordinates) }, coordinates, 10)
+		const view = getViewAroundTargetBounds({ target: toBounds(new Rectangle([20, 30], [70, 80]), coordinates) }, coordinates, 10)
 		const resolved = resolveDrawingView(view)
 
 		expect(resolved.width).toBe(70)
@@ -32,3 +32,7 @@ describe('target bounds views', () => {
 		expect(resolved.drawingToRender([25, 65]).coordinates).toEqual([15, 15])
 	})
 })
+
+function toBounds(renderRectangle: Rectangle, coordinateSystem: DrawingCoordinateSystem): Bounds {
+	return new Bounds(coordinateSystem.renderToPixelTransformation.transform(renderRectangle), coordinateSystem.yDirection)
+}
