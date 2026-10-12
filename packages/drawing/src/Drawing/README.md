@@ -1,14 +1,14 @@
 # Drawing
 
-`Drawing` combines a logical coordinate system with synchronized SVG, HTML, and optional Canvas layers. It is responsive through `Figure`: the Drawing keeps fixed internal pixel dimensions while the complete result can scale to fit the page.
+`Drawing` combines a logical coordinate system with synchronized SVG, HTML, and optional Canvas layers at fixed dimensions. `DrawingFigure` wraps the same drawing surface in `Figure`, responsively scaling the complete result to fit the page. Use `Drawing` when the component should behave like an ordinary fixed-size HTML element—for example inside a separate pan-and-zoom system—and `DrawingFigure` for page content that should shrink or grow with its container.
 
 
 ## Basic example
 
 ```tsx
-import { Circle, Drawing, HtmlElement, Line, Rectangle, anchors } from '@step-wise/drawing'
+import { Circle, DrawingFigure, HtmlElement, Line, Rectangle, anchors } from '@step-wise/drawing'
 
-<Drawing
+<DrawingFigure
 	view={{ type: 'bounds', bounds: { min: [-1, -1], max: [7, 5] }, width: 640, height: 400, margin: 30, yDirection: 'up' }}
 	maxWidth={640}
 >
@@ -17,10 +17,10 @@ import { Circle, Drawing, HtmlElement, Line, Rectangle, anchors } from '@step-wi
 	<Circle center={[3, 3]} radius={{ pixelDistance: 6 }} fill="crimson" />
 	<HtmlElement position={[3, 3]} anchor={anchors.bottom} style={{ paddingBottom: 8 }}>Peak</HtmlElement>
 	<HtmlElement position={{ position: [6, 1], pixelOffset: [10, 0] }} anchor={anchors.left}>Endpoint</HtmlElement>
-</Drawing>
+</DrawingFigure>
 ```
 
-The rectangle and line use drawing coordinates. The circle has a fixed internal-pixel radius, and the endpoint label combines a drawing position with a pixel offset. All of them scale together when the complete Drawing is displayed responsively.
+The rectangle and line use drawing coordinates. The circle has a fixed internal-pixel radius, and the endpoint label combines a drawing position with a pixel offset. All of them scale together because this example uses `DrawingFigure`. Replacing it with `Drawing` keeps the resolved internal width and height without responsive scaling.
 
 
 ## Primitives
@@ -229,7 +229,7 @@ The `view` prop determines the Drawing dimensions and drawing-to-pixel transform
 - `custom` accepts dimensions and a custom drawing-to-pixel transformation.
 
 ```tsx
-<Drawing view={{
+<DrawingFigure view={{
 	type: 'fit',
 	points: [[-2, 0], [4, 3]],
 	maxWidth: 600,
@@ -238,7 +238,7 @@ The `view` prop determines the Drawing dimensions and drawing-to-pixel transform
 	yDirection: 'up',
 }}>
 	...
-</Drawing>
+</DrawingFigure>
 ```
 
 `scale` and `fit` accept an optional `pretransform`. Margins can be one number, one value per axis, or separate negative- and positive-side values for each axis. `resolveDrawingView` and the individual view resolvers are public when another component needs to resolve a view itself.
@@ -247,7 +247,7 @@ A custom drawing-to-pixel transformation must map each drawing axis onto a pixel
 
 ### Views based on measured targets
 
-Use `MeasuredDrawing` to derive a view from named HTML or SVG targets after they render. See the [MeasuredDrawing guide](../MeasuredDrawing/README.md) for custom view calculations, staged target resolution, and `TargetBoundsDrawing`.
+Use `MeasuredDrawing` to derive a fixed-size view from named HTML or SVG targets after they render, or `MeasuredDrawingFigure` for its responsive counterpart. See the [MeasuredDrawing guide](../MeasuredDrawing/README.md) for custom view calculations, staged target resolution, and the target-bounds variants.
 
 
 ## Layers, portals, and clipping
@@ -260,7 +260,7 @@ Drawing provides an optional Canvas layer, an SVG layer enabled by default, and 
 
 Package primitives select the correct portal automatically. Nested SVG portals reuse their surrounding SVG portal.
 
-Set `clip` on `Drawing` to clip every layer to its internal rectangle. Set `clip` on `SvgGroup` to clip only that group.
+Set `clip` on `Drawing` or `DrawingFigure` to clip every layer to its internal rectangle. Set `clip` on `SvgGroup` to clip only that group.
 
 ```tsx
 <Drawing clip view={view}>...</Drawing>

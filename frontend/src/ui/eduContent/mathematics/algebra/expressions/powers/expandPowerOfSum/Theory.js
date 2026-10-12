@@ -9,7 +9,7 @@ import { M, BM, BMList, BMPart } from '@step-wise/math-display'
 import { Translation, useTextTranslation } from 'i18n'
 import { usePrimaryColor } from 'ui/theme'
 import { Head, Par, List, Term } from 'ui/components'
-import { Drawing, Circle, Rectangle, Polygon, HtmlElement } from '@step-wise/drawing'
+import { DrawingFigure, Circle, Rectangle, Polygon, HtmlElement } from '@step-wise/drawing'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
@@ -93,7 +93,7 @@ const f = 2 / 3 // The factor to split the square width.
 const offset = 20 // The margin needed for the labels.
 function SquareVisualization() {
 	const primaryColor = usePrimaryColor()
-	return <Drawing view={{ type: 'identity', width: w + offset, height: w + offset }}>
+	return <DrawingFigure view={{ type: 'identity', width: w + offset, height: w + offset }}>
 		{/* Rectangles. */}
 		<Rectangle corners={[[offset, 0], [offset + w * f, w * (1 - f)]]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
 		<Rectangle corners={[[offset + w * f, 0], [offset + w, w * (1 - f)]]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
@@ -111,7 +111,7 @@ function SquareVisualization() {
 		<HtmlElement position={[offset + w * f + w * (1 - f) / 2, w * (1 - f) / 2]}><M>3^2</M></HtmlElement>
 		<HtmlElement position={[offset + w * f / 2, w * (1 - f) + w * f / 2]}><M>\left(2x\right)^2</M></HtmlElement>
 		<HtmlElement position={[offset + w * f + w * (1 - f) / 2, w * (1 - f) + w * f / 2]}><M>2x \cdot 3</M></HtmlElement>
-	</Drawing>
+	</DrawingFigure>
 }
 
 const df = 0.4 // How much are things scaled down when going into depth.
@@ -127,7 +127,7 @@ const topCenter = left.interpolate(topRight, f)
 const rightCenter = bottom.interpolate(topRight, f)
 function CubeVisualization() {
 	const primaryColor = usePrimaryColor()
-	return <Drawing view={{ type: 'identity', width: w + w * df + offset, height: w + w * df + offset }}>
+	return <DrawingFigure view={{ type: 'identity', width: w + w * df + offset, height: w + w * df + offset }}>
 		{/* Front rectangles. */}
 		<Rectangle corners={[bottomLeft, frontCenter]} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
 		<Rectangle corners={[left, frontCenter]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
@@ -166,7 +166,7 @@ function CubeVisualization() {
 
 		{/* Right labels. */}
 		<HtmlElement position={rightCenter.interpolate(right)} rotate={Math.PI / 2}><M>2x \cdot 3^2</M></HtmlElement>
-	</Drawing>
+	</DrawingFigure>
 }
 
 const n = 6 // How many rows to make?
@@ -179,7 +179,7 @@ const height = (n + 1) * rowHeight
 function PascalsTriangle() {
 	const primaryColor = usePrimaryColor()
 	const rowText = useTextTranslation('Row', 'PascalsTriangleRow')
-	return <Drawing view={{ type: 'identity', width: width, height: height }}>
+	return <DrawingFigure view={{ type: 'identity', width: width, height: height }}>
 		{repeat(n + 1, rowIndex => <Fragment key={rowIndex}>
 			{/* Row number. */}
 			<HtmlElement position={[indexWidth - 16, (rowIndex + 0.5) * rowHeight - 1]} anchor={[1, 0]}><strong>{rowText} {rowIndex}:</strong></HtmlElement>
@@ -193,5 +193,5 @@ function PascalsTriangle() {
 				</Fragment>
 			})}
 		</Fragment>)}
-	</Drawing>
+	</DrawingFigure>
 }

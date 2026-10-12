@@ -9,7 +9,7 @@ import { Beam, Force, HingeSupport, RollerHingeSupport } from '@step-wise/engine
 import { TranslationSection, Translation } from 'i18n'
 import { Student, Teacher, SignInButtons } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
-import { Drawing, SvgPortal, HtmlElement } from '@step-wise/drawing'
+import { DrawingFigure, SvgPortal, HtmlElement } from '@step-wise/drawing'
 
 export function Blocks() {
 	const paths = usePaths()
@@ -156,14 +156,14 @@ function PythagorasImage() {
 	const lineStyle = { fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinejoin: 'round', strokeMiterlimit: 10 }
 	const textScale = 0.85
 
-	return <Drawing view={{ type: 'identity', width: 48, height: 32 }} style={{ flex: '0 0 48px', margin: '0 0 0 8px', padding: 0, width: 48 }}>
+	return <DrawingFigure view={{ type: 'identity', width: 48, height: 32 }} style={{ flex: '0 0 48px', margin: '0 0 0 8px', padding: 0, width: 48 }}>
 		<SvgPortal>
 			<path style={lineStyle} d="M44.8,16.5L14.7,28.7L4.4,3.3L44.8,16.5z" />
 			<HtmlElement position={[36, 27]} scale={textScale}><M>a</M></HtmlElement>
 			<HtmlElement position={[3, 21]} scale={textScale}><M>b</M></HtmlElement>
 			<HtmlElement position={[28, 2]} scale={textScale}><M>c</M></HtmlElement>
 		</SvgPortal>
-	</Drawing>
+	</DrawingFigure>
 }
 
 function StructureImage() {
@@ -177,11 +177,11 @@ function StructureImage() {
 		width: 19.2,
 	}
 
-	return <Drawing view={{ type: 'identity', width: 120, height: 32 }} style={{ flex: '0 0 96px', margin: '0 0 0 8px', padding: 0, width: 96 }}>
+	return <DrawingFigure view={{ type: 'identity', width: 120, height: 32 }} style={{ flex: '0 0 96px', margin: '0 0 0 8px', padding: 0, width: 96 }}>
 		<Beam positions={[[16, 5.8], [104, 5.8]]} thickness={3} />
 		<HingeSupport {...supportProps} position={[16, 5.8]} />
 		<RollerHingeSupport {...supportProps} position={[104, 5.8]} wheelRadius={2.4} />
 		<Force angle={Math.PI / 2} applicationPointAt="start" length={{ pixelDistance: 24.6 }} position={[48.3, 5.5]} strokeWidth={2} />
 		<Force angle={Math.PI / 2} applicationPointAt="start" length={{ pixelDistance: 24.6 }} position={[71.7, 5.5]} strokeWidth={2} />
-	</Drawing>
+	</DrawingFigure>
 }

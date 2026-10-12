@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from '@mui/material'
 
 import * as c from '@step-wise/cas'
-import { Arc, Axes, Circle, Crosshair, Curve, Drawing, DrawingTarget, Grid, HtmlElement, Line, Plot, PlotArea, Polygon, Rectangle, TargetBoundsDrawing, anchors, useDrawingPointerState } from '@step-wise/drawing'
+import { Arc, Axes, Circle, Crosshair, Curve, DrawingFigure, DrawingTarget, Grid, HtmlElement, Line, PlotFigure, PlotArea, Polygon, Rectangle, TargetBoundsDrawingFigure, anchors, useDrawingPointerState } from '@step-wise/drawing'
 import * as m from '@step-wise/math-input-value'
 import { Unit, PrecisionNumber, Quantity } from '@step-wise/physics-core'
 import { M, BM } from '@step-wise/math-display'
@@ -44,7 +44,7 @@ export function Test() {
 			<Par>This note shows the CI scripts are using the main branch. Currently we're also using workspaces. And Vite is used as a bundler.</Par>
 
 			<Head>Target bounds drawing</Head>
-			<TargetBoundsDrawing margin={20} targets={['first-box', 'second-box']}>
+			<TargetBoundsDrawingFigure margin={20} targets={['first-box', 'second-box']}>
 				<HtmlElement anchor={anchors.topLeft} position={[0, 0]} style={targetBoundsBoxStyle} target="first-box">First HTML component</HtmlElement>
 				<HtmlElement
 					anchor={anchors.topLeft}
@@ -54,10 +54,10 @@ export function Test() {
 				>
 					Second HTML component
 				</HtmlElement>
-			</TargetBoundsDrawing>
+			</TargetBoundsDrawingFigure>
 
 			<Head>Plot toolbox</Head>
-			<Plot
+			<PlotFigure
 				bounds={{ min: [-3, -2], max: [3, 8] }}
 				view={{ type: 'fit', maxWidth: 600, maxHeight: 360, margin: [20, 10] }}
 				maxWidth={600}
@@ -71,10 +71,10 @@ export function Test() {
 				{plotPoints.map((point, index) => <Circle key={index} center={point} radius={{ pixelDistance: 4 }} style={{ fill: '#1565c0' }} />)}
 				<Axes x={{ label: <M>x</M> }} y={{ label: <M>f\left(x\right) = x^2</M> }} />
 				<Crosshair getPointLabel={([x, y]) => `(${x.toFixed(2)}, ${y.toFixed(2)})`} labelProps={{ style: { background: 'white', border: '1px solid currentColor', borderRadius: 3, padding: '1px 4px' } }} />
-			</Plot>
+			</PlotFigure>
 
 			<Head>Drawing toolbox</Head>
-			<Drawing
+			<DrawingFigure
 				view={{ type: 'bounds', bounds: { min: [0, 0], max: [10, 6] }, width: 600, height: 360, margin: 30, yDirection: 'up' }}
 				maxWidth={600}
 				style={{ color: '#1565c0' }}
@@ -129,7 +129,7 @@ export function Test() {
 				</HtmlElement>
 
 				<PointerMarker />
-			</Drawing>
+			</DrawingFigure>
 		</>
 	)
 }

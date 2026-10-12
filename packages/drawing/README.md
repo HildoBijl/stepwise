@@ -27,12 +27,12 @@ See the [Figure guide](https://github.com/HildoBijl/stepwise/blob/main/packages/
 
 ## Drawing
 
-`Drawing` adds drawing coordinates and synchronized SVG, HTML, and optional Canvas layers. Its primitives accept logical drawing positions as well as fixed pixel offsets.
+`Drawing` adds drawing coordinates and synchronized SVG, HTML, and optional Canvas layers at fixed dimensions. `DrawingFigure` wraps it in a responsive `Figure`, scaling the complete drawing to the available width.
 
 ```tsx
-import { Circle, Drawing, HtmlElement, Line, Rectangle, anchors } from '@step-wise/drawing'
+import { Circle, DrawingFigure, HtmlElement, Line, Rectangle, anchors } from '@step-wise/drawing'
 
-<Drawing
+<DrawingFigure
 	view={{ type: 'bounds', bounds: { min: [-1, -1], max: [7, 5] }, width: 640, height: 400, margin: 30, yDirection: 'up' }}
 	maxWidth={640}
 >
@@ -41,26 +41,26 @@ import { Circle, Drawing, HtmlElement, Line, Rectangle, anchors } from '@step-wi
 	<Circle center={[3, 3]} radius={{ pixelDistance: 6 }} fill="crimson" />
 	<HtmlElement position={[3, 3]} anchor={anchors.bottom} style={{ paddingBottom: 8 }}>Peak</HtmlElement>
 	<HtmlElement position={{ position: [6, 1], pixelOffset: [10, 0] }} anchor={anchors.left}>Endpoint</HtmlElement>
-</Drawing>
+</DrawingFigure>
 ```
 
 See the [Drawing guide](https://github.com/HildoBijl/stepwise/blob/main/packages/drawing/src/Drawing/README.md) for primitives, views, coordinate systems, positions, targets, layers, pointer tracking, and Canvas access.
 
 The Drawing guide also documents the hooks for resolving target bounds, positions, and distances in either drawing or pixel coordinates.
 
-For content-dependent dimensions, `MeasuredDrawing` calculates a view from named target bounds, while `TargetBoundsDrawing` automatically encompasses named targets with a margin. See the [MeasuredDrawing guide](https://github.com/HildoBijl/stepwise/blob/main/packages/drawing/src/MeasuredDrawing/README.md) for measured views and automatic target bounds.
+For content-dependent dimensions, `MeasuredDrawing` calculates a fixed-size view from named target bounds, while `TargetBoundsDrawing` automatically encompasses named targets with a margin. Their responsive counterparts are `MeasuredDrawingFigure` and `TargetBoundsDrawingFigure`. See the [MeasuredDrawing guide](https://github.com/HildoBijl/stepwise/blob/main/packages/drawing/src/MeasuredDrawing/README.md) for measured views and automatic target bounds.
 
 
 ## Plot
 
-`Plot` extends `Drawing` with domains, ticks, axes, grids, plot-area clipping, and pointer-aware crosshairs.
+`Plot` extends the fixed-size `Drawing` with domains, ticks, axes, grids, plot-area clipping, and pointer-aware crosshairs. Use `PlotFigure` for the responsive form.
 
 ```tsx
-import { Axes, Curve, Grid, Plot, PlotArea } from '@step-wise/drawing'
+import { Axes, Curve, Grid, PlotArea, PlotFigure } from '@step-wise/drawing'
 
 const points = [[-2, 4], [-1, 1], [0, 0], [1, 1], [2, 4]]
 
-<Plot
+<PlotFigure
 	points={points}
 	view={{ type: 'fit', maxWidth: 600, maxHeight: 360, margin: 45 }}
 	axes={{ x: { ticks: { step: 1 } }, y: { ticks: { desiredCount: 5 } } }}
@@ -68,7 +68,7 @@ const points = [[-2, 4], [-1, 1], [0, 0], [1, 1], [2, 4]]
 	<Grid />
 	<Axes x={{ label: 'x' }} y={{ label: 'f(x)' }} />
 	<Curve positions={points} smoothing={{ mode: 'through', ratio: 0.7 }} stroke="steelblue" />
-</Plot>
+</PlotFigure>
 ```
 
 Curve smoothing ratios normally range from `0` to `1`. Higher values are accepted, but may overshoot or self-intersect.

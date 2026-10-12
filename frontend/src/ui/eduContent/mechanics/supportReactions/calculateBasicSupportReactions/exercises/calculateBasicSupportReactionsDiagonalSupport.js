@@ -7,7 +7,7 @@ import { M, BM } from '@step-wise/math-display'
 
 import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
-import { Drawing } from '@step-wise/drawing'
+import { DrawingFigure } from '@step-wise/drawing'
 import { useInput, InputSpace } from 'ui/form'
 import { useCurrentBackgroundColor, QuantityInput } from 'ui/inputs'
 import { StepExercise, getCurrentStep, useSolution, getFieldInputFeedback } from 'ui/eduTools'
@@ -158,7 +158,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const snappers = [...Object.values(points), Line.fromPointAndAngle(points.C, -Math.PI / 2 + angleRad)]
 	return isInputField ?
 		<FBDInput id="loads" view={view} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)} getLoadNames={loads => getNamedLoads(loads, solution)}>{schematics}</FBDInput> :
-		<Drawing view={view}>{schematics}</Drawing>
+		<DrawingFigure view={view}>{schematics}</DrawingFigure>
 }
 
 function Schematics({ l1, l2, angle, angleRad, anglePoints, points, loads, externalLoad, loadNameDefinitions, showSupports = true }) {

@@ -3,7 +3,7 @@ import React from 'react'
 import { infoEmail } from 'settings'
 import { TranslationSection, Translation } from 'i18n'
 import { Par, Head, SubHead, List, Student } from 'ui/components'
-import { Drawing, SvgPortal, HtmlElement } from '@step-wise/drawing'
+import { DrawingFigure, SvgPortal, HtmlElement } from '@step-wise/drawing'
 
 import { PageTranslationFile } from '../PageTranslationFile'
 
@@ -87,7 +87,7 @@ function SettingGoals() {
 	const targetCenterStyle = { fill: '#ffffff' }
 	const targetCircleStyle = { stroke: targetCenterStyle.fill, strokeWidth: 2.5, fill: 'none' }
 
-	return <Drawing view={{ type: 'identity', width: 600, height: 340 }}>
+	return <DrawingFigure view={{ type: 'identity', width: 600, height: 340 }}>
 		<SvgPortal>
 			<path style={blockStyle} d="M100.4,48.8c0,5-4.1,9-9,9H18.5c-4.9,0-9-4-9-9v-29c0-4.9,4.1-9,9-9h72.9c4.9,0,9,4.1,9,9V48.8z" />
 			<path style={blockStyle} d="M100.4,140.3c0,4.9-4.1,9-9,9H18.5c-4.9,0-9-4.1-9-9v-29c0-5,4.1-9,9-9h72.9c4.9,0,9,4,9,9V140.3z" />
@@ -126,7 +126,7 @@ function SettingGoals() {
 				<circle style={targetCenterStyle} cx="436.1" cy="217.4" r="4" />
 			</g>
 		</SvgPortal>
-	</Drawing>
+	</DrawingFigure>
 }
 
 function DefiningPriorKnowledge() {
@@ -137,7 +137,7 @@ function DefiningPriorKnowledge() {
 	const checkStyle = { fill: '#ffffff' }
 	const fadeOut = { opacity: 0.2 }
 
-	return <Drawing view={{ type: 'identity', width: 600, height: 340 }}>
+	return <DrawingFigure view={{ type: 'identity', width: 600, height: 340 }}>
 		<SvgPortal>
 			<path style={blockStyle} d="M100.4,48.8c0,5-4.1,9-9,9H18.5c-4.9,0-9-4-9-9v-29c0-4.9,4.1-9,9-9h72.9c4.9,0,9,4.1,9,9V48.8z" />
 			<path style={blockStyle} d="M100.4,140.3c0,4.9-4.1,9-9,9H18.5c-4.9,0-9-4.1-9-9v-29c0-5,4.1-9,9-9h72.9c4.9,0,9,4,9,9V140.3z" />
@@ -186,7 +186,7 @@ function DefiningPriorKnowledge() {
 	s6.7,15,15,15s15-6.7,15-15S553.4,110.8,545.1,110.8 M545.1,137.8c-6.6,0-12-5.4-12-12c0-6.6,5.4-12,12-12s12,5.4,12,12
 	C557.1,132.4,551.7,137.8,545.1,137.8"/>
 		</SvgPortal>
-	</Drawing>
+	</DrawingFigure>
 }
 
 function DefiningBlocks() {
@@ -202,7 +202,7 @@ function DefiningBlocks() {
 	const fadeB3 = { opacity: 1 }
 	const number = { fill: '#ffffff', fontSize: '20px' }
 
-	return <Drawing view={{ type: 'identity', width: 600, height: 340 }}>
+	return <DrawingFigure view={{ type: 'identity', width: 600, height: 340 }}>
 		<SvgPortal>
 			<path style={{ ...blockStyle, ...fadePK }} d="M100.4,48.8c0,5-4.1,9-9,9H18.5c-4.9,0-9-4-9-9v-29c0-4.9,4.1-9,9-9h72.9c4.9,0,9,4.1,9,9V48.8z" />
 			<path style={{ ...blockStyle, ...fadeB2 }} d="M100.4,140.3c0,4.9-4.1,9-9,9H18.5c-4.9,0-9-4.1-9-9v-29c0-5,4.1-9,9-9h72.9c4.9,0,9,4,9,9V140.3z" />
@@ -265,7 +265,7 @@ function DefiningBlocks() {
 			<text transform="matrix(1 0 0 1 103.885 223.8963)" style={number}>2</text>
 			<text transform="matrix(1 0 0 1 267.1848 41.8)" style={number}>1</text>
 		</SvgPortal>
-	</Drawing>
+	</DrawingFigure>
 }
 
 function ClassOverview() {
@@ -280,7 +280,7 @@ function ClassOverview() {
 	const arrowInactiveStyle = { ...arrowActiveStyle, opacity: 0.2 }
 
 	return <TranslationSection entry="classOverviewImage">
-		<Drawing view={{ type: 'identity', width: 600, height: 300 }}>
+		<DrawingFigure view={{ type: 'identity', width: 600, height: 300 }}>
 			<SvgPortal>
 				<HtmlElement position={[264.3, 14]} style={headStyle}><Translation entry="head1">Mastery</Translation></HtmlElement>
 				<HtmlElement position={[374.8, 14]} style={headStyle}><Translation entry="head2">Exercises</Translation></HtmlElement>
@@ -363,7 +363,7 @@ function ClassOverview() {
 				<circle style={indicatorBGStyle} cx="480.5" cy="268.3" r="16.9" />
 				<path style={indicatorLineStyle} d="M480.5,251.5c2.3,0,4.5,0.5,6.6,1.3" />
 			</SvgPortal>
-		</Drawing>
+		</DrawingFigure>
 	</TranslationSection>
 }
 
@@ -382,7 +382,7 @@ function StudentOverview() {
 	const flaskContentStyle = { fill: '#414141' }
 
 	return <TranslationSection entry="studentOverviewImage">
-		<Drawing view={{ type: 'identity', width: 600, height: 300 }}>
+		<DrawingFigure view={{ type: 'identity', width: 600, height: 300 }}>
 			<SvgPortal>
 				<HtmlElement position={[30.5, 14]} style={headStyle} anchor={[-1, 0]}><Translation entry="student">Alex Adams</Translation></HtmlElement>
 				<HtmlElement position={[264.3, 14]} style={headStyle}><Translation entry="head1">Mastery</Translation></HtmlElement>
@@ -465,7 +465,7 @@ function StudentOverview() {
 				<circle style={indicatorBGStyle} cx="480.5" cy="268.3" r="16.9" />
 				<path style={indicatorLineStyle} d="M480.5,251.5c1.6,0,3.2,0.2,4.7,0.7" />
 			</SvgPortal>
-		</Drawing>
+		</DrawingFigure>
 	</TranslationSection>
 }
 
@@ -474,7 +474,7 @@ function StudentSearch() {
 	const nameStyle = { fontSize: '13px', fontFamily: 'roboto' }
 
 	return <TranslationSection entry="studentSearchImage">
-		<Drawing view={{ type: 'identity', width: 400, height: 170 }}>
+		<DrawingFigure view={{ type: 'identity', width: 400, height: 170 }}>
 			<SvgPortal>
 				<path style={{ fill: '#ffffff', stroke: '#000000' }} d="M381,36.6c0,5.5-4.5,10-10,10H29.6c-5.5,0-10-4.5-10-10V25.2c0-5.5,4.5-10,10-10H371c5.5,0,10,4.5,10,10V36.6z" />
 
@@ -494,6 +494,6 @@ function StudentSearch() {
 				<path style={blockStyle} d="M255.6,144.3c0,5.5-4.5,10-10,10h-92.5c-5.5,0-10-4.5-10-10V71.1c0-5.5,4.5-10,10-10h92.5c5.5,0,10,4.5,10,10V144.3z" />
 				<path style={blockStyle} d="M381,144.3c0,5.5-4.5,10-10,10h-92.5c-5.5,0-10-4.5-10-10V71.1c0-5.5,4.5-10,10-10H371c5.5,0,10,4.5,10,10V144.3z" />
 			</SvgPortal>
-		</Drawing>
+		</DrawingFigure>
 	</TranslationSection>
 }

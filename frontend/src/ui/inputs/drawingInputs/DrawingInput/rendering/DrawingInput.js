@@ -14,7 +14,7 @@ export const defaultDrawingInputOptions = {
 	...defaultDrawingInputHullOptions,
 }
 
-// The DrawingInput wrapper wraps a Drawing into an Input object for Input functionalities. It forwards the Ref to the Drawing element.
+// The DrawingInput wrapper wraps a drawing into an Input object for Input functionalities. It forwards the ref to the drawing element.
 export const DrawingInput = forwardRef((options, drawingRef) => {
 	options = mergeDefaults(options, defaultDrawingInputOptions)
 	drawingRef = useForwardedRef(drawingRef)
@@ -33,7 +33,7 @@ export const DrawingInput = forwardRef((options, drawingRef) => {
 		element: drawing?.element, // Inform the input field which element should monitor clicks/focusing.
 		contextData: { // Add extra data to the context.
 			...options.contextData,
-			drawingRef, // So elements inside can access the Drawing. (Although a Drawing component also has its own context.)
+			drawingRef, // So elements inside can access the drawing. (The drawing component also has its own context.)
 			inDrawingInput: true, // To note that we're in a DrawingInput. Some elements need this to determine the current background color.
 			cursor, setCursor, // To define the cursor of the drawing input.
 		},

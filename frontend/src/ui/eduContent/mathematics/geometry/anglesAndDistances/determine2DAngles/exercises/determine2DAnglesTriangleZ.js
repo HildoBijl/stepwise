@@ -4,7 +4,7 @@ import { Transformation, Vector, Line } from '@step-wise/geometry'
 import { M, BM } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
-import { Drawing, Polygon, BoundedLine, CornerLabel } from '@step-wise/drawing'
+import { DrawingFigure, Polygon, BoundedLine, CornerLabel } from '@step-wise/drawing'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback } from 'ui/eduTools'
@@ -96,7 +96,7 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0 }) {
 	if (reflection) pretransform = Transformation.fromHyperplaneReflection(Vector.getUnitVector(0, 2)).then(pretransform)
 
 	// Render the figure.
-	return <Drawing view={{ type: 'fit', points, pretransform, maxWidth: size, maxHeight: size, margin: 20 }}>
+	return <DrawingFigure view={{ type: 'fit', points, pretransform, maxWidth: size, maxHeight: size, margin: 20 }}>
 		<Polygon positions={[bottomLeft, topRight, bottomRight]} style={{ fill: '#aaccff' }} />
 		<Polygon positions={[topLeft, bottomLeft, topRight]} style={{ fill: '#ffaabb' }} />
 		<BoundedLine through={[bottomLeft, bottomRight]} style={{ strokeWidth: 2 }} />
@@ -109,7 +109,7 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0 }) {
 		<CornerLabel positions={[bottomLeft, bottomRight, topRight]} size={{ pixelDistance: labelNumberSize }}><M>{a}^\circ</M></CornerLabel>
 		<CornerLabel positions={[bottomLeft, topRight, bottomRight]} size={{ pixelDistance: labelNumberSize }}><M>{b}^\circ</M></CornerLabel>
 		<CornerLabel positions={[topLeft, bottomLeft, topRight]} size={{ pixelDistance: labelNumberSize }}><M>{c}^\circ</M></CornerLabel>
-	</Drawing>
+	</DrawingFigure>
 }
 
 function getPoints(solution) {

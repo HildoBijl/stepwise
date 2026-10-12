@@ -12,7 +12,7 @@ import { useIsSignedIn } from 'api'
 import { TranslationSection, Translation, Check } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par, Head, SubHead, Button } from 'ui/components'
-import { Drawing, SvgPortal, HtmlElement } from '@step-wise/drawing'
+import { DrawingFigure, SvgPortal, HtmlElement } from '@step-wise/drawing'
 import { SkillFlask } from 'ui/eduTools'
 
 import { PageTranslationFile } from '../PageTranslationFile'
@@ -90,7 +90,7 @@ const buttonTextStyle = { color: '#ffffff', fontSize: '12px' }
 
 function TheoryImage() {
 	return <TranslationSection entry="theoryImage">
-		<Drawing view={{ type: 'identity', width: 600, height: 300 }}>
+		<DrawingFigure view={{ type: 'identity', width: 600, height: 300 }}>
 			<SvgPortal>
 				<rect width="100%" height="100%" fill={background} />
 
@@ -110,13 +110,13 @@ function TheoryImage() {
 				<text transform="matrix(1 0 0 1 20.7243 236.1647)" style={textStyle}>...</text>
 				<text transform="matrix(1 0 0 1 20.7243 262.9371)" style={textStyle}>...</text>
 			</SvgPortal>
-		</Drawing>
+		</DrawingFigure>
 	</TranslationSection>
 }
 
 function PracticeImage() {
 	return <TranslationSection entry="practiceImage">
-		<Drawing view={{ type: 'identity', width: 600, height: 220 }}>
+		<DrawingFigure view={{ type: 'identity', width: 600, height: 220 }}>
 			<SvgPortal>
 				<rect width="100%" height="100%" fill={background} />
 
@@ -144,13 +144,13 @@ function PracticeImage() {
 		L432.3,190L432.3,190z"/>
 				<HtmlElement position={[510, 177]}><span style={buttonTextStyle}><Translation entry="submitButton">Submit and check</Translation></span></HtmlElement>
 			</SvgPortal>
-		</Drawing>
+		</DrawingFigure>
 	</TranslationSection>
 }
 
 function StepsImage() {
 	return <TranslationSection entry="practiceImage">
-		<Drawing view={{ type: 'identity', width: 600, height: 280 }}>
+		<DrawingFigure view={{ type: 'identity', width: 600, height: 280 }}>
 			<SvgPortal>
 				<rect width="100%" height="100%" fill={background} />
 
@@ -178,7 +178,7 @@ function StepsImage() {
 				<path style={buttonStyle} d="M432.3,250c0,1.6-1.4,3-3,3H282.1c-1.6,0-3-1.4-3-3v-23.2c0-1.6,1.4-3,3-3h147.2c1.6,0,3,1.4,3,3 L432.3,250L432.3,250z" />
 				<HtmlElement position={[510, 237]}><span style={buttonTextStyle}><Translation entry="submitButton">Submit and check</Translation></span></HtmlElement>
 			</SvgPortal>
-		</Drawing>
+		</DrawingFigure>
 	</TranslationSection>
 }
 
@@ -286,7 +286,7 @@ function SkillTreeImage() {
 	const lineStyle = { fill: 'none', stroke: '#404040', strokeWidth: '2', strokeMiterlimit: 10 }
 	const blockStyle = { fill: lineStyle.stroke }
 
-	return <Drawing view={{ type: 'identity', width: 600, height: 340 }}>
+	return <DrawingFigure view={{ type: 'identity', width: 600, height: 340 }}>
 		<SvgPortal>
 			<path style={blockStyle} d="M100.4,48.8c0,5-4.1,9-9,9H18.5c-4.9,0-9-4-9-9v-29c0-4.9,4.1-9,9-9h72.9c4.9,0,9,4.1,9,9V48.8z" />
 			<path style={blockStyle} d="M100.4,140.3c0,4.9-4.1,9-9,9H18.5c-4.9,0-9-4.1-9-9v-29c0-5,4.1-9,9-9h72.9c4.9,0,9,4,9,9V140.3z" />
@@ -315,7 +315,7 @@ function SkillTreeImage() {
 			<path style={lineStyle} d="M436.1,240.9v13.2c0,4.9-4,9-9,9H296.8c-5,0-9,4-9,9v13.2" />
 			<path style={lineStyle} d="M109.5,240.9v13.2c0,4.9,4,9,9,9h130.3c4.9,0,9,4,9,9v13.2" />
 		</SvgPortal>
-	</Drawing>
+	</DrawingFigure>
 }
 
 function DeficiencyImage() {
@@ -323,7 +323,7 @@ function DeficiencyImage() {
 	const blockStyle = { fill: lineStyle.stroke }
 	const iconStyle = { fill: '#ffffff' }
 
-	return <Drawing view={{ type: 'identity', width: 340, height: 170 }}>
+	return <DrawingFigure view={{ type: 'identity', width: 340, height: 170 }}>
 		<SvgPortal>
 			<path style={blockStyle} d="M105.8,54c0,5-4.1,9-9,9H23.8c-5,0-9-4-9-9v-29c0-4.9,4-9,9-9h72.9c4.9,0,9,4.1,9,9V54z" />
 			<path style={iconStyle} d="M67.2,32.8l-9.9,9.9l-5.4-5.4l-2.1,2.1l7.5,7.5l12-12L67.2,32.8z M60.3,24.4c-8.3,0-15,6.7-15,15s6.7,15,15,15
@@ -345,5 +345,5 @@ function DeficiencyImage() {
 			<path style={lineStyle} d="M60.3,63v13.2c0,5,4,9,9,9h75.9c4.9,0,9,4.1,9,9v13.2" />
 			<path style={lineStyle} d="M278.2,63v13.2c0,5-4.1,9-9,9h-75.9c-4.9,0-9,4.1-9,9v13.2" />
 		</SvgPortal>
-	</Drawing>
+	</DrawingFigure>
 }

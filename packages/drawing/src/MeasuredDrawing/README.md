@@ -1,9 +1,9 @@
 # MeasuredDrawing
 
-`MeasuredDrawing` extends `Drawing` with a view derived from named HTML or SVG targets after they render. The `Bounds` objects passed to `calculateView` are indexed by the unique names in `targets` and use pixel coordinates. Their named sides and points follow the Drawing's configured `yDirection`: `top` is the largest y-coordinate when `yDirection` is `up` and the smallest y-coordinate when it is `down`.
+`MeasuredDrawing` extends the fixed-size `Drawing` with a view derived from named HTML or SVG targets after they render. `MeasuredDrawingFigure` provides the same measurement behavior inside a responsive `Figure`. The `Bounds` objects passed to `calculateView` are indexed by the unique names in `targets` and use pixel coordinates. Their named sides and points follow the Drawing's configured `yDirection`: `top` is the largest y-coordinate when `yDirection` is `up` and the smallest y-coordinate when it is `down`.
 
 ```tsx
-<MeasuredDrawing
+<MeasuredDrawingFigure
 	initialView={{ type: 'identity', width: 1000, height: 600 }}
 	targets={['contents']}
 	calculateView={({ contents }) => ({
@@ -13,7 +13,7 @@
 	})}
 >
 	<DrawingTarget as="div" target="contents">Measured contents</DrawingTarget>
-</MeasuredDrawing>
+</MeasuredDrawingFigure>
 ```
 
 The default initial view is an identity view of `800` by `600` pixels. The drawing is hidden until every requested target has been measured, but remains rendered so measurement can take place. Set `pendingVisibility="visible"` to show the provisional layout.
@@ -26,7 +26,7 @@ The default initial view is an identity view of `800` by `600` pixels. The drawi
 Targets can resolve in stages. Here the second table waits for the first table's measured bottom, after which the Drawing waits for the second table before setting its final height.
 
 ```tsx
-<MeasuredDrawing
+<MeasuredDrawingFigure
 	initialView={{ type: 'identity', width: 1000, height: 600 }}
 	targets={['second-table']}
 	calculateView={({ 'second-table': secondTable }) => ({ type: 'identity', width: 1000, height: secondTable.bottom + 20 })}
@@ -42,16 +42,16 @@ Targets can resolve in stages. Here the second table waits for the first table's
 		}}>
 		<DrawingTarget as="div" target="second-table"><SecondTable /></DrawingTarget>
 	</HtmlElement>
-</MeasuredDrawing>
+</MeasuredDrawingFigure>
 ```
 
 
 ## TargetBoundsDrawing
 
-`TargetBoundsDrawing` provides the common case where the view should encompass one or more targets with a margin.
+`TargetBoundsDrawing` provides the fixed-size case where the view should encompass one or more targets with a margin. Use `TargetBoundsDrawingFigure` when that measured result should responsively fit its container.
 
 ```tsx
-<TargetBoundsDrawing targets={['title', 'table']} margin={20}>
+<TargetBoundsDrawingFigure targets={['title', 'table']} margin={20}>
 	<HtmlElement anchor={anchors.topLeft} position={[0, 0]} target="title">Results</HtmlElement>
 	<HtmlElement
 		anchor={anchors.topLeft}
@@ -60,5 +60,5 @@ Targets can resolve in stages. Here the second table waits for the first table's
 	>
 		<ResultsTable />
 	</HtmlElement>
-</TargetBoundsDrawing>
+</TargetBoundsDrawingFigure>
 ```

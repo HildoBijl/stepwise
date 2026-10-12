@@ -2,12 +2,12 @@ import React, { forwardRef } from 'react'
 
 import { isVectorLike } from '@step-wise/geometry'
 import { M } from '@step-wise/math-display'
-import { Arc, BoundedLine, Circle, CornerLabel as DrawingCornerLabel, Curve, DistanceMarker, Drawing, HtmlElement, Label as DrawingLabel, Line as DrawingLine, Polygon, Rectangle, RightAngle, Square, SvgGroup, SvgText, useDrawingCoordinateSystem } from '@step-wise/drawing'
+import { Arc, BoundedLine, Circle, CornerLabel as DrawingCornerLabel, Curve, DistanceMarker, DrawingFigure, HtmlElement, Label as DrawingLabel, Line as DrawingLine, Polygon, Rectangle, RightAngle, Square, SvgGroup, SvgText, useDrawingCoordinateSystem } from '@step-wise/drawing'
 import { Beam as EngineeringBeam, LoadLabel as EngineeringLoadLabel, defaultEngineeringDiagramColors, renderEngineeringDiagram } from '@step-wise/engineering-diagrams'
 import { loadNameToVariable } from '@step-wise/mechanics-exercises'
 
 export * from '@step-wise/engineering-diagrams'
-export { Arc, BoundedLine, Circle, Curve, Drawing, Polygon, Rectangle, RightAngle, Square, SvgText }
+export { Arc, BoundedLine, Circle, Curve, DrawingFigure, Polygon, Rectangle, RightAngle, Square, SvgText }
 
 export const loadColors = defaultEngineeringDiagramColors
 export function render(data, ref) {

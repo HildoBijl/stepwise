@@ -6,7 +6,7 @@ import { PrecisionNumber } from '@step-wise/physics-core'
 import { M, BM } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
-import { Drawing, Polygon, CornerLabel, LineLabel } from '@step-wise/drawing'
+import { DrawingFigure, Polygon, CornerLabel, LineLabel } from '@step-wise/drawing'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
 import { useExerciseData, StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
@@ -120,14 +120,14 @@ function ExerciseFigure({ showa, showβ }) {
 	const labelSize = 30
 
 	// Render the figure.
-	return <Drawing view={{ type: 'fit', points, pretransform, maxWidth: 300, maxHeight: 300, margin: 20 }}>
+	return <DrawingFigure view={{ type: 'fit', points, pretransform, maxWidth: 300, maxHeight: 300, margin: 20 }}>
 		<Polygon positions={points} style={{ fill: '#aaccff' }} />
 		<LineLabel positions={[points[0], points[1]]} oppositeTo={points[2]}><M>{c}</M></LineLabel>
 		{showa ? <LineLabel positions={[points[1], points[2]]} oppositeTo={points[0]}><M>{a}</M></LineLabel> : null}
 		<LineLabel positions={[points[2], points[0]]} oppositeTo={points[1]}><M>{b}</M></LineLabel>
 		<CornerLabel positions={[points[2], points[0], points[1]]} size={{ pixelDistance: labelSize }}><M>{α}^\circ</M></CornerLabel>
 		{showβ ? <CornerLabel positions={[points[0], points[1], points[2]]} size={{ pixelDistance: labelSize }}><M>{β}</M></CornerLabel> : null}
-	</Drawing>
+	</DrawingFigure>
 }
 
 function getPoints(solution) {

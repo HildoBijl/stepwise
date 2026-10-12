@@ -5,7 +5,7 @@ import { Vector, Rectangle } from '@step-wise/geometry'
 import { Quantity } from '@step-wise/physics-core'
 import { M, BM } from '@step-wise/math-display'
 import { loadNameToVariable } from '@step-wise/mechanics-exercises'
-import { Drawing, CornerLabel, Circle, Rectangle as SvgRectangle, Line, DistanceMarker, HtmlElement, Label, anchors } from '@step-wise/drawing'
+import { DrawingFigure, CornerLabel, Circle, Rectangle as SvgRectangle, Line, DistanceMarker, HtmlElement, Label, anchors } from '@step-wise/drawing'
 import { LoadLabel, renderEngineeringDiagram, defaultForceLengthInPixels, defaultEngineeringDiagramColors } from '@step-wise/engineering-diagrams'
 
 import { Par } from 'ui/components'
@@ -105,7 +105,7 @@ function Diagram({ decompose = false, showIntersection = false }) {
 	const forceStart2 = force2.position.subtract(Vector.fromPolar(force2.relativeMagnitude * defaultForceLengthInPixels / scale, force2.angle))
 	const lineEndpoint2 = new Vector(force2.position.x, forceStart2.y)
 
-	return <Drawing view={{ type: 'scale', points: [Vector.zero, new Vector(4, 4)], scale, margin: 70, yDirection: 'up' }}>
+	return <DrawingFigure view={{ type: 'scale', points: [Vector.zero, new Vector(4, 4)], scale, margin: 70, yDirection: 'up' }}>
 		<SvgRectangle corners={[rectangle.min, rectangle.max]} cornerRadius={0.2} fill="#aaccff" stroke="#777" />
 		{grid.map((point, index) => <Circle key={index} center={point} fill="#777" radius={{ pixelDistance: 3 }} />)}
 
@@ -132,7 +132,7 @@ function Diagram({ decompose = false, showIntersection = false }) {
 
 		<CornerLabel positions={[forceStart2, force2.position, lineEndpoint2]} size={{ pixelDistance: 28 }}><M>45^\circ</M></CornerLabel>
 		<Line positions={[force2.position, lineEndpoint2]} stroke="#777" />
-	</Drawing>
+	</DrawingFigure>
 }
 
 function getFeedback(exerciseData) {
