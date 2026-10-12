@@ -184,7 +184,7 @@ describe('Drawing targets', () => {
 			<CoordinateHookOutput />
 		</Drawing>)
 
-		expect(screen.getByText('bounds:10,35,20,40|pixels:20,70,40,80|maps:10,35,20,40;20,70,40,80|positions:3,8;6,8|positionLists:3,8/1,2/undefined;6,16/2,4/undefined|distances:4;6|distanceLists:4/3/undefined;8/6/undefined')).toBeTruthy()
+		expect(screen.getByText('bounds:10,35,20,40|pixels:20,70,40,80|sides:40,35;80,70|maps:10,35,20,40;20,70,40,80|positions:3,8;6,8|positionLists:3,8/1,2/undefined;6,16/2,4/undefined|distances:4;6|distanceLists:4/3/undefined;8/6/undefined')).toBeTruthy()
 	})
 })
 
@@ -232,6 +232,7 @@ function CoordinateHookOutput() {
 	return <output>{[
 		`bounds:${formatRectangle(drawingBounds)}`,
 		`pixels:${formatRectangle(pixelBounds)}`,
+		`sides:${drawingBounds.top},${drawingBounds.bottom};${pixelBounds.top},${pixelBounds.bottom}`,
 		`maps:${formatRectangle(drawingBoundsMap.get('label'))};${formatRectangle(pixelBoundsMap.get('label'))}`,
 		`positions:${drawingPosition.coordinates};${pixelPosition.coordinates}`,
 		`positionLists:${drawingPositions.map(position => position?.coordinates ?? 'undefined').join('/')};${pixelPositions.map(position => position?.coordinates ?? 'undefined').join('/')}`,

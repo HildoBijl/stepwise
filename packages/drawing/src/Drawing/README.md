@@ -201,7 +201,7 @@ useDrawingTextTarget('population-heading', tableRef, 'Population', { parentDepth
 
 Named anchors such as `anchors.top`, `anchors.left`, and `anchors.bottomRight` retain their visual meaning for either y-direction. Custom anchors use normalized coordinates from `-1` to `1` and follow the pixel-coordinate y-direction.
 
-Use `useDrawingTargetBounds` or `useDrawingTargetPixelBounds` to read a target's measured rectangle in drawing or pixel coordinates. The corresponding `useDrawingTargetBoundsMap` and `useDrawingTargetPixelBoundsMap` hooks subscribe to multiple target names at once.
+Use `useDrawingTargetBounds` or `useDrawingTargetPixelBounds` to read a target's measured bounds in drawing or pixel coordinates. The corresponding `useDrawingTargetBoundsMap` and `useDrawingTargetPixelBoundsMap` hooks subscribe to multiple target names at once.
 
 ```ts
 const drawingBounds = useDrawingTargetBounds('table')
@@ -210,6 +210,8 @@ const pixelBounds = useDrawingTargetPixelBounds('table')
 const drawingBoundsMap = useDrawingTargetBoundsMap(['table', 'heading'])
 const pixelBoundsMap = useDrawingTargetPixelBoundsMap(['table', 'heading'])
 ```
+
+These hooks return `Bounds` objects. Their `minX`, `maxX`, `minY`, and `maxY` properties describe the coordinate range, while `top`, `bottom`, `topLeft`, `center`, and the other named points follow the Drawing's configured `yDirection`. Use `bounds.rectangle` when an ordinary geometry `Rectangle` is needed, or `bounds.getAnchor(anchor)` to resolve a named anchor directly.
 
 Targets are observed only while a position or bounds hook refers to them. A target-dependent value remains unresolved until the target has rendered and been measured. Dependency-cycle detection is deliberately not included; a layout cycle remains unresolved and does not render.
 

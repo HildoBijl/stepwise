@@ -1,4 +1,5 @@
 export * from './anchors.ts'
+export * from './Bounds.ts'
 export * from './positions.ts'
 export * from './distances.ts'
 export * from './targetBoundsHooks.ts'
