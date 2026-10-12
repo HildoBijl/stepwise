@@ -75,13 +75,15 @@ function getCurvePathAround(inputPositions: readonly Vector[], close: boolean, s
 	const lines = repeat(positions.length - 1, index => {
 		const start = positions[index]
 		const end = positions[index + 1]
+		const maxStartRatio = !close && index === positions.length - 2 ? 1 : 0.5
+		const maxEndRatio = !close && index === 0 ? 1 : 0.5
 		if (smoothingDistance !== undefined) {
-			const factor = Math.min(smoothingDistance / start.subtract(end).magnitude, 0.5)
-			return [start.interpolate(end, factor), end.interpolate(start, factor)]
+			const ratio = smoothingDistance / start.subtract(end).magnitude
+			return [start.interpolate(end, Math.min(ratio, maxStartRatio)), end.interpolate(start, Math.min(ratio, maxEndRatio))]
 		}
 		if (smoothingRatio === undefined) throw new Error('Invalid Curve smoothing: expected a ratio or a distance.')
-		const startRatio = smoothingRatio * (!close && index === positions.length - 2 ? 1 : 0.5)
-		const endRatio = smoothingRatio * (!close && index === 0 ? 1 : 0.5)
+		const startRatio = smoothingRatio * maxStartRatio
+		const endRatio = smoothingRatio * maxEndRatio
 		return [start.interpolate(end, startRatio), end.interpolate(start, endRatio)]
 	})
 
