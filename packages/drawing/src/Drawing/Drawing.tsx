@@ -46,10 +46,10 @@ export const Drawing = forwardRef<DrawingHandle, DrawingProps>(function Drawing(
 	return <DrawingContextProvider value={context}>
 		<DrawingTargetRegistryProvider element={element} coordinateSystem={coordinateSystem}>
 			<Figure {...figureProps} width={width} height={height}>
-				<div ref={setElement} style={{ height, overflow: clip ? 'hidden' : 'visible', position: 'relative', userSelect: 'none', width }}>
+				<div ref={setElement} style={{ height, overflow: clip ? 'hidden' : 'visible', position: 'relative', width }}>
 					{useCanvas && <canvas height={height} ref={setCanvas} width={width} style={layerStyle(0)} />}
 					<div ref={setHtmlBehind} style={{ ...layerStyle(1), pointerEvents: 'none' }} />
-					{useSvg && <svg ref={setSvg} viewBox={`0 0 ${width} ${height}`} style={{ ...layerStyle(2), overflow: 'visible', pointerEvents: 'none' }}>
+					{useSvg && <svg ref={setSvg} viewBox={`0 0 ${width} ${height}`} style={{ ...layerStyle(2), overflow: 'visible', pointerEvents: 'none', userSelect: 'none' }}>
 						<defs ref={setSvgDefs}>
 							<clipPath id={clipPathId}>
 								<rect height={height} width={width} x={0} y={0} />

@@ -41,7 +41,7 @@ Primitives accept their normal SVG or HTML properties, styles, class names, even
 <CornerLabel positions={[[4, 0], [0, 0], [0, 4]]} size={{ pixelDistance: 30 }}>α</CornerLabel>
 ```
 
-`HtmlElement` contents do not wrap by default. Set a width and `whiteSpace` through `style` when wrapping is desired. Mouse interaction is ignored by default; set `ignoreMouse={false}` for interactive contents. Use `behind` to place an element below the SVG layer.
+`HtmlElement` contents do not wrap by default. Set a width and `whiteSpace` through `style` when wrapping is desired. Mouse interaction and text selection are ignored by default; set `ignoreMouse={false}` for normal interactive HTML behavior, including text selection. Use `behind` to place an element below the SVG layer.
 
 ### SVG primitives
 

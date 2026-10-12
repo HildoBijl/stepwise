@@ -31,8 +31,10 @@ describe('Drawing', () => {
 		expect(svg.style.zIndex).toBe('2')
 		expect(htmlLayers[1].style.zIndex).toBe('3')
 		expect(svg.style.pointerEvents).toBe('none')
+		expect(svg.style.userSelect).toBe('none')
 		expect(htmlLayers[0].style.pointerEvents).toBe('none')
 		expect(htmlLayers[1].style.pointerEvents).toBe('none')
+		expect(canvas.parentElement!.style.userSelect).toBe('')
 	})
 
 	test('renders portal contents into their corresponding layers', () => {

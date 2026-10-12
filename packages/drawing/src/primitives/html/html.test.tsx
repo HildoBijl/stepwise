@@ -29,7 +29,14 @@ describe('HTML drawing primitives', () => {
 
 	test('supports interactive elements explicitly', () => {
 		renderDrawing(<HtmlElement ignoreMouse={false} position={[0, 0]}>Interactive</HtmlElement>)
-		expect(screen.getByText('Interactive').style.pointerEvents).toBe('auto')
+		const element = screen.getByText('Interactive')
+		expect(element.style.pointerEvents).toBe('auto')
+		expect(element.style.userSelect).toBe('')
+	})
+
+	test('prevents selection for non-interactive elements', () => {
+		renderDrawing(<HtmlElement position={[0, 0]}>Non-interactive</HtmlElement>)
+		expect(screen.getByText('Non-interactive').style.userSelect).toBe('none')
 	})
 
 	test('does not wrap contents unless wrapping is explicitly enabled', () => {
