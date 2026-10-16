@@ -79,7 +79,7 @@ export function Test() {
 				maxWidth={600}
 				style={{ color: '#1565c0' }}
 			>
-				<Rectangle corners={[[0, 0], [10, 6]]} cornerRadius={{ pixelDistance: 12 }} fill="#e3f2fd" stroke="currentColor" strokeWidth={2} style={{ opacity: 0.5 }} />
+				<Rectangle rectangle={[[0, 0], [10, 6]]} cornerRadius={{ pixelDistance: 12 }} fill="#e3f2fd" stroke="currentColor" strokeWidth={2} style={{ opacity: 0.5 }} />
 
 				<Line endArrow positions={[[1, 1], [3, 4.5], [5, 1.5]]} stroke="#f0897b" strokeWidth={3} />
 

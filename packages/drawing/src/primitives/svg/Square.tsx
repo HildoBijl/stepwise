@@ -13,7 +13,7 @@ export interface SquareProps extends SvgRectangleProps {
 }
 
 export function Square(props: SquareProps) {
-	const { center = [0, 0], ref, side, ...rectangleProps } = props
+	const { center = [0, 0], side, ...rectangleProps } = props
 
 	// Resolve positions/distances and abort if they are not valid.
 	const resolvedCenter = useRenderPosition(center)
@@ -23,6 +23,6 @@ export function Square(props: SquareProps) {
 
 	// Render the shape.
 	return <SvgPortal>
-		<rect {...rectangleProps} height={resolvedSide} ref={ref} width={resolvedSide} x={resolvedCenter.x - resolvedSide / 2} y={resolvedCenter.y - resolvedSide / 2} />
+		<rect {...rectangleProps} height={resolvedSide} width={resolvedSide} x={resolvedCenter.x - resolvedSide / 2} y={resolvedCenter.y - resolvedSide / 2} />
 	</SvgPortal>
 }

@@ -27,7 +27,7 @@ export interface CurveProps extends Omit<SvgPathProps, 'smoothing'>, PointSequen
 }
 
 export function Curve(props: CurveProps) {
-	const { close = false, endArrow, fill = 'none', positions, ref, smoothing, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
+	const { close = false, endArrow, fill = 'none', positions, smoothing, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
 	const startArrowOptions = resolveArrowHeadOptions(startArrow)
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)
 
@@ -57,7 +57,7 @@ export function Curve(props: CurveProps) {
 	// Determine the path and render it with any arrowheads.
 	const path = (mode === 'through' ? getCurvePathThrough : getCurvePathAround)(shaftPositions, close, smoothingRatio, smoothingDistance)
 	return <SvgPortal>
-		<path {...pathProps} d={path} fill={fill} ref={ref} stroke={stroke} strokeWidth={strokeWidth} />
+		<path {...pathProps} d={path} fill={fill} stroke={stroke} strokeWidth={strokeWidth} />
 		{startArrowOptions && <ResolvedArrowHead {...startPolygonProps} direction={arrowedPositions!.directions.startDirection} fill={startFill} position={first(resolvedPositions)} size={startArrowSize} />}
 		{endArrowOptions && <ResolvedArrowHead {...endPolygonProps} direction={arrowedPositions!.directions.endDirection} fill={endFill} position={last(resolvedPositions)} size={endArrowSize} />}
 	</SvgPortal>

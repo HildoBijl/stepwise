@@ -12,7 +12,7 @@ import type { PointSequenceProps, SvgPathProps } from './types.ts'
 export interface LineProps extends SvgPathProps, PointSequenceProps, ArrowedPathProps { }
 
 export function Line(props: LineProps) {
-	const { close = false, endArrow, fill = 'none', positions, ref, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
+	const { close = false, endArrow, fill = 'none', positions, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
 	const startArrowOptions = resolveArrowHeadOptions(startArrow)
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)
 
@@ -32,7 +32,7 @@ export function Line(props: LineProps) {
 
 	// Render the shape.
 	return <SvgPortal>
-		<path {...pathProps} d={getLinePath(shaftPositions, close)} fill={fill} ref={ref} stroke={stroke} strokeWidth={strokeWidth} />
+		<path {...pathProps} d={getLinePath(shaftPositions, close)} fill={fill} stroke={stroke} strokeWidth={strokeWidth} />
 		{startArrowOptions && <ResolvedArrowHead {...startPolygonProps} direction={arrowedPositions!.directions.startDirection} fill={startFill} position={first(resolvedPositions)} size={startArrowSize} />}
 		{endArrowOptions && <ResolvedArrowHead {...endPolygonProps} direction={arrowedPositions!.directions.endDirection} fill={endFill} position={last(resolvedPositions)} size={endArrowSize} />}
 	</SvgPortal>

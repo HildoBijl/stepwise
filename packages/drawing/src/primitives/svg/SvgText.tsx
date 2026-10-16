@@ -11,7 +11,7 @@ export interface SvgTextProps extends Omit<SVGProps<SVGTextElement>, 'x' | 'y'> 
 }
 
 export function SvgText(props: SvgTextProps) {
-	const { position, ref, textAnchor = 'middle', ...textProps } = props
+	const { position, textAnchor = 'middle', ...textProps } = props
 
 	// Resolve the position and abort if it is not valid.
 	const resolvedPosition = useRenderPosition(position)
@@ -19,6 +19,6 @@ export function SvgText(props: SvgTextProps) {
 
 	// Render the text element at the resolved position with the specified text anchor.
 	return <SvgPortal>
-		<text {...textProps} ref={ref} textAnchor={textAnchor} x={resolvedPosition.x} y={resolvedPosition.y} />
+		<text {...textProps} textAnchor={textAnchor} x={resolvedPosition.x} y={resolvedPosition.y} />
 	</SvgPortal>
 }

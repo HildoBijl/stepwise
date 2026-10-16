@@ -8,7 +8,7 @@ export interface RightAngleProps extends Omit<LineProps, 'close' | 'positions'> 
 }
 
 export function RightAngle(props: RightAngleProps) {
-	const { positions, ref, size, ...lineProps } = props
+	const { positions, size, ...lineProps } = props
 	// Resolve positions/distances and abort if they are not valid.
 	if (!Array.isArray(positions) || positions.length !== 3) throw new Error('Invalid RightAngle positions: expected exactly three positions.')
 	const resolvedPositions = useDrawingPixelPositions(positions)
@@ -22,5 +22,5 @@ export function RightAngle(props: RightAngleProps) {
 	const markerPositions = [corner.add(vector1), corner.add(vector1).add(vector2), corner.add(vector2)]
 
 	// Render the shape.
-	return <Line {...lineProps} positions={markerPositions.map(position => ({ pixelPosition: position }))} ref={ref} />
+	return <Line {...lineProps} positions={markerPositions.map(position => ({ pixelPosition: position }))} />
 }

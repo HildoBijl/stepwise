@@ -36,7 +36,7 @@ import { Circle, DrawingFigure, HtmlElement, Line, Rectangle, anchors } from '@s
 	view={{ type: 'bounds', bounds: { min: [-1, -1], max: [7, 5] }, width: 640, height: 400, margin: 30, yDirection: 'up' }}
 	maxWidth={640}
 >
-	<Rectangle corners={[[0, 0], [6, 4]]} fill="#e3f2fd" />
+	<Rectangle rectangle={[[0, 0], [6, 4]]} fill="#e3f2fd" />
 	<Line positions={[[0, 0], [3, 3], [6, 1]]} stroke="steelblue" />
 	<Circle center={[3, 3]} radius={{ pixelDistance: 6 }} fill="crimson" />
 	<HtmlElement position={[3, 3]} anchor={anchors.bottom} style={{ paddingBottom: 8 }}>Peak</HtmlElement>

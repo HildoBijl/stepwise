@@ -26,7 +26,7 @@ export interface ArrowedPathProps {
 }
 
 export function ArrowHead(props: ArrowHeadProps) {
-	const { direction, position, ref, size = defaultArrowHeadSize, ...polygonProps } = props
+	const { direction, position, size = defaultArrowHeadSize, ...polygonProps } = props
 	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// Resolve the position and size, and abort if they are not valid.
@@ -40,7 +40,7 @@ export function ArrowHead(props: ArrowHeadProps) {
 
 	// Render the arrowhead at the resolved position with the specified direction and size.
 	return <SvgPortal>
-		<ResolvedArrowHead {...polygonProps} direction={renderDirection} position={resolvedPosition} ref={ref} size={resolvedSize} />
+		<ResolvedArrowHead {...polygonProps} direction={renderDirection} position={resolvedPosition} size={resolvedSize} />
 	</SvgPortal>
 }
 
@@ -52,7 +52,7 @@ interface ResolvedArrowHeadProps extends Omit<SVGProps<SVGPolygonElement>, 'dire
 
 // Render an arrowhead from values that have already been converted to render coordinates.
 export function ResolvedArrowHead(props: ResolvedArrowHeadProps) {
-	const { direction, fill = 'currentColor', position, ref, size, ...polygonProps } = props
+	const { direction, fill = 'currentColor', position, size, ...polygonProps } = props
 
 	// Validate the size and direction.
 	const resolvedSize = ensureNumber(size, { nonNegative: true, nonZero: true })
@@ -65,7 +65,7 @@ export function ResolvedArrowHead(props: ResolvedArrowHeadProps) {
 	const transform = `translate(${position.x} ${position.y}) rotate(${direction.angle * 180 / Math.PI})`
 
 	// Render the arrowhead polygon.
-	return <polygon {...polygonProps} fill={fill} points={points} ref={ref} transform={transform} />
+	return <polygon {...polygonProps} fill={fill} points={points} transform={transform} />
 }
 
 export function resolveArrowHeadOptions(input?: ArrowHeadInput): ArrowHeadOptions | undefined {

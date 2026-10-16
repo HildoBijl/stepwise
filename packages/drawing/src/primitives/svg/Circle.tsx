@@ -13,7 +13,7 @@ export interface CircleProps extends SvgCircleProps {
 }
 
 export function Circle(props: CircleProps) {
-	const { center = [0, 0], radius, ref, ...circleProps } = props
+	const { center = [0, 0], radius, ...circleProps } = props
 
 	// Resolve positions/distances and abort if they are not valid.
 	const resolvedCenter = useRenderPosition(center)
@@ -25,6 +25,6 @@ export function Circle(props: CircleProps) {
 
 	// Render the shape.
 	return <SvgPortal>
-		<circle {...circleProps} cx={resolvedCenter.x} cy={resolvedCenter.y} r={resolvedRadius} ref={ref} />
+		<circle {...circleProps} cx={resolvedCenter.x} cy={resolvedCenter.y} r={resolvedRadius} />
 	</SvgPortal>
 }

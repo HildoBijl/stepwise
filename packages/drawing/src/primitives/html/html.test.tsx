@@ -4,6 +4,8 @@ import { type ReactNode, createRef } from 'react'
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
+import { LineSegment } from '@step-wise/geometry'
+
 import { Drawing } from '../../Drawing/index.ts'
 import { anchors } from '../../positioning/index.ts'
 
@@ -19,9 +21,14 @@ afterEach(() => {
 
 describe('HTML drawing primitives', () => {
 	test('accepts refs as regular React 19 props', () => {
-		const ref = createRef<HTMLDivElement>()
-		renderDrawing(<HtmlElement position={[10, 20]} ref={ref}>Element</HtmlElement>)
-		expect(ref.current).toBe(screen.getByText('Element'))
+		const elementRef = createRef<HTMLDivElement>()
+		const labelRef = createRef<HTMLDivElement>()
+		renderDrawing(<>
+			<HtmlElement position={[10, 20]} ref={elementRef}>Element</HtmlElement>
+			<Label position={[10, 20]} ref={labelRef}>Label</Label>
+		</>)
+		expect(elementRef.current).toBe(screen.getByText('Element'))
+		expect(labelRef.current).toBe(screen.getByText('Label'))
 	})
 
 	test('positions and anchors an HTML element in the Drawing HTML layer', () => {
@@ -87,10 +94,14 @@ describe('HTML drawing primitives', () => {
 	})
 
 	test('places line labels opposite a supplied position', () => {
-		renderDrawing(<LineLabel distance={{ pixelDistance: 10 }} oppositeTo={[5, 10]} positions={[[0, 0], [10, 0]]}>Line</LineLabel>)
+		renderDrawing(<>
+			<LineLabel distance={{ pixelDistance: 10 }} oppositeTo={[5, 10]} positions={[[0, 0], [10, 0]]}>Line</LineLabel>
+			<LineLabel lineSegment={new LineSegment([0, 20], [10, 20])} oppositeTo={[5, 30]}>Segment</LineLabel>
+		</>)
 		const label = screen.getByText('Line')
 		expect(Number.parseFloat(label.style.left)).toBeCloseTo(5)
 		expect(Number.parseFloat(label.style.top)).toBeCloseTo(-10)
+		expect(Number.parseFloat(screen.getByText('Segment').style.left)).toBeCloseTo(5)
 	})
 
 	test('places corner labels inside the angle', () => {

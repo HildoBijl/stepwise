@@ -95,10 +95,10 @@ function SquareVisualization() {
 	const primaryColor = usePrimaryColor()
 	return <DrawingFigure view={{ type: 'identity', width: w + offset, height: w + offset }}>
 		{/* Rectangles. */}
-		<Rectangle corners={[[offset, 0], [offset + w * f, w * (1 - f)]]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
-		<Rectangle corners={[[offset + w * f, 0], [offset + w, w * (1 - f)]]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
-		<Rectangle corners={[[offset, w * (1 - f)], [offset + w * f, w]]} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
-		<Rectangle corners={[[offset + w * f, w * (1 - f)], [offset + w, w]]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
+		<Rectangle rectangle={[[offset, 0], [offset + w * f, w * (1 - f)]]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
+		<Rectangle rectangle={[[offset + w * f, 0], [offset + w, w * (1 - f)]]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
+		<Rectangle rectangle={[[offset, w * (1 - f)], [offset + w * f, w]]} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
+		<Rectangle rectangle={[[offset + w * f, w * (1 - f)], [offset + w, w]]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
 
 		{/* Labels left/below the square. */}
 		<HtmlElement anchor={[1, 0]} position={[offset - 5, w * (1 - f) / 2]}><M>3</M></HtmlElement>
@@ -129,10 +129,10 @@ function CubeVisualization() {
 	const primaryColor = usePrimaryColor()
 	return <DrawingFigure view={{ type: 'identity', width: w + w * df + offset, height: w + w * df + offset }}>
 		{/* Front rectangles. */}
-		<Rectangle corners={[bottomLeft, frontCenter]} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
-		<Rectangle corners={[left, frontCenter]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
-		<Rectangle corners={[bottom, frontCenter]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
-		<Rectangle corners={[center, frontCenter]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
+		<Rectangle rectangle={[bottomLeft, frontCenter]} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
+		<Rectangle rectangle={[left, frontCenter]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
+		<Rectangle rectangle={[bottom, frontCenter]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
+		<Rectangle rectangle={[center, frontCenter]} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
 
 		{/* Top shapes. */}
 		<Polygon positions={[left, left.interpolate(top, f), topCenter, left.interpolate(center, f)]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }}></Polygon>

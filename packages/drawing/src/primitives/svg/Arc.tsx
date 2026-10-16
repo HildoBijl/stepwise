@@ -18,7 +18,7 @@ export interface ArcProps extends Omit<SvgPathProps, 'radius'>, ArrowedPathProps
 }
 
 export function Arc(props: ArcProps) {
-	const { center = [0, 0], endAngle = Math.PI, endArrow, fill = 'none', radius, ref, startAngle = 0, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
+	const { center = [0, 0], endAngle = Math.PI, endArrow, fill = 'none', radius, startAngle = 0, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
 	const coordinateSystem = useDrawingCoordinateSystem()
 	const startArrowOptions = resolveArrowHeadOptions(startArrow)
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)
@@ -68,7 +68,7 @@ export function Arc(props: ArcProps) {
 
 	// Render the arc with any arrowheads.
 	return <SvgPortal>
-		<path {...pathProps} d={path} fill={fill} ref={ref} stroke={stroke} strokeWidth={strokeWidth} />
+		<path {...pathProps} d={path} fill={fill} stroke={stroke} strokeWidth={strokeWidth} />
 		{startArrowOptions && <ResolvedArrowHead {...startPolygonProps} direction={startDirection} fill={startFill} position={start} size={startArrowSize} />}
 		{endArrowOptions && <ResolvedArrowHead {...endPolygonProps} direction={endDirection} fill={endFill} position={end} size={endArrowSize} />}
 	</SvgPortal>

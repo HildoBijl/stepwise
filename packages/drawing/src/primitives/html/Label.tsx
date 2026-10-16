@@ -16,7 +16,7 @@ export interface LabelProps extends Omit<HtmlElementProps, 'anchor' | 'position'
 }
 
 export function Label(props: LabelProps) {
-	const { anchor, angle = -Math.PI * 3 / 4, distance = { pixelDistance: 6 }, position, ref, rotate = 0, ...elementProps } = props
+	const { anchor, angle = -Math.PI * 3 / 4, distance = { pixelDistance: 6 }, position, rotate = 0, ...elementProps } = props
 	// Resolve data and abort if not known yet.
 	const resolvedPosition = useDrawingPixelPosition(position)
 	const resolvedDistance = useDrawingPixelDistance(distance)
@@ -26,7 +26,7 @@ export function Label(props: LabelProps) {
 	const pixelOffset = VectorClass.fromPolar(resolvedDistance, angle)
 	const pixelPosition = resolvedPosition.add(pixelOffset)
 	const resolvedAnchor = anchor ?? getAnchorFromAngle(angle - rotate + Math.PI)
-	return <HtmlElement {...elementProps} anchor={resolvedAnchor} position={{ pixelPosition }} ref={ref} rotate={rotate} />
+	return <HtmlElement {...elementProps} anchor={resolvedAnchor} position={{ pixelPosition }} rotate={rotate} />
 }
 
 // Find the element anchor nearest to the supplied direction. Angles and the returned anchor follow pixel-coordinate directions.

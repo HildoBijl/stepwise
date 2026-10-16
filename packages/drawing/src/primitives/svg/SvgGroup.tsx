@@ -15,7 +15,7 @@ export interface SvgGroupProps extends Omit<SVGProps<SVGGElement>, 'clip'> {
 }
 
 export function SvgGroup(props: SvgGroupProps) {
-	const { children, clip, position, ref, rotate = 0, scale = 1, style, ...groupProps } = props
+	const { children, clip, position, rotate = 0, scale = 1, style, ...groupProps } = props
 	const { clipPathId } = useDrawing()
 	const coordinateSystem = useDrawingCoordinateSystem()
 
@@ -30,6 +30,6 @@ export function SvgGroup(props: SvgGroupProps) {
 	const transform = `translate(${translation.x} ${translation.y}) rotate(${rotation * 180 / Math.PI}) scale(${resolvedScale})`
 
 	// Render the transformed group, optionally inside an untransformed clipping group.
-	const group = <g {...groupProps} ref={ref} style={style} transform={transform}>{children}</g>
+	const group = <g {...groupProps} style={style} transform={transform}>{children}</g>
 	return <SvgPortal>{clip ? <g clipPath={`url(#${clipPathId})`}>{group}</g> : group}</SvgPortal>
 }

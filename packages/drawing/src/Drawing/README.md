@@ -12,7 +12,7 @@ import { Circle, DrawingFigure, HtmlElement, Line, Rectangle, anchors } from '@s
 	view={{ type: 'bounds', bounds: { min: [-1, -1], max: [7, 5] }, width: 640, height: 400, margin: 30, yDirection: 'up' }}
 	maxWidth={640}
 >
-	<Rectangle corners={[[0, 0], [6, 4]]} fill="#e3f2fd" />
+	<Rectangle rectangle={[[0, 0], [6, 4]]} fill="#e3f2fd" />
 	<Line positions={[[0, 0], [3, 3], [6, 1]]} stroke="steelblue" />
 	<Circle center={[3, 3]} radius={{ pixelDistance: 6 }} fill="crimson" />
 	<HtmlElement position={[3, 3]} anchor={anchors.bottom} style={{ paddingBottom: 8 }}>Peak</HtmlElement>
@@ -57,9 +57,13 @@ Primitives accept their normal SVG or HTML properties, styles, class names, even
 <Line positions={[[0, 0], [2, 3], [5, 1]]} />
 <Polygon positions={[[0, 0], [4, 0], [2, 3]]} fill="currentColor" />
 <Circle center={[2, 3]} radius={1} />
-<Rectangle corners={[[0, 0], [4, 3]]} cornerRadius={{ pixelDistance: 4 }} />
+<Rectangle rectangle={[[0, 0], [4, 3]]} cornerRadius={{ pixelDistance: 4 }} />
 <Arc center={[0, 0]} radius={2} startAngle={0} endAngle={Math.PI / 2} />
 ```
+
+The `Rectangle` component's `rectangle` prop accepts any `RectangleLike` value from `@step-wise/geometry`, including a pair of vector-like corners, a rectangle definition object, or a `Rectangle` instance. Use its mutually exclusive `corners` prop instead when either corner is a target-based, calculated, or otherwise advanced drawing `Position`.
+
+Likewise, `BoundedLine` accepts either a geometry `LineLike` through `line` or two drawing positions through `through`. `DistanceMarker` and `LineLabel` accept either a geometry `LineSegmentLike` through `lineSegment` or two drawing positions through `positions`. The position-based alternatives support target-based and calculated positions.
 
 `Curve` supports paths that pass through their positions or round around them. Ratio and distance smoothing are mutually exclusive. A smoothing ratio normally ranges from `0` (no smoothing) to `1` (the highest normally sensible smoothing); values above `1` are accepted but may overshoot or self-intersect. Both through-curves and around-curves default to a ratio of `0.8`. For open around-curves, rounding next to the endpoints may use the full adjacent section, while rounding along interior sections is limited to half of the section. This applies to both ratio- and distance-based smoothing. Open through-curves keep their endpoint control points at the endpoints themselves.
 

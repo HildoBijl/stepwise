@@ -12,7 +12,7 @@ export interface CornerLabelProps extends Omit<HtmlElementProps, 'position'> {
 }
 
 export function CornerLabel(props: CornerLabelProps) {
-	const { positions, ref, size = { pixelDistance: 30 }, ...elementProps } = props
+	const { positions, size = { pixelDistance: 30 }, ...elementProps } = props
 
 	// Resolve the three positions and the size, and abort if any are not known yet.
 	if (!Array.isArray(positions) || positions.length !== 3) throw new Error('Invalid CornerLabel positions: expected exactly three positions.')
@@ -27,5 +27,5 @@ export function CornerLabel(props: CornerLabelProps) {
 	const vector2 = third.subtract(corner).normalize()
 	const adjustedDistance = resolvedSize / 2 * Math.sqrt(2 / Math.max(0.1, 1 - vector1.dotProduct(vector2)))
 	const position = corner.add(vector1.interpolate(vector2).normalize().multiply(adjustedDistance))
-	return <HtmlElement {...elementProps} position={{ pixelPosition: position }} ref={ref} />
+	return <HtmlElement {...elementProps} position={{ pixelPosition: position }} />
 }

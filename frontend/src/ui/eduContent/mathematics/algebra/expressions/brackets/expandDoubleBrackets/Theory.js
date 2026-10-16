@@ -50,10 +50,10 @@ function BlockDrawing({ useLetters = false }) {
 	const primaryColor = usePrimaryColor()
 	const rectangleStyle = { fill: alpha(primaryColor, 0.2), stroke: primaryColor, strokeWidth: 2 }
 	return <DrawingFigure view={{ type: 'identity', width: left + (c + d) * size + delta, height: top + (a + b) * size }}>
-		{repeatMultidimensional([c, a], (x, y) => <Rectangle key={`${x}-${y}`} corners={[[left + x * size, top + y * size], [left + (x + 1) * size, top + (y + 1) * size]]} style={rectangleStyle} />).flat()}
-		{repeatMultidimensional([c, b], (x, y) => <Rectangle key={`${x}-${y}`} corners={[[left + x * size, top + (a + y) * size + delta], [left + (x + 1) * size, top + (a + y + 1) * size + delta]]} style={rectangleStyle} />).flat()}
-		{repeatMultidimensional([d, a], (x, y) => <Rectangle key={`${x}-${y}`} corners={[[left + (c + x) * size + delta, top + y * size], [left + (c + x + 1) * size + delta, top + (y + 1) * size]]} style={rectangleStyle} />).flat()}
-		{repeatMultidimensional([d, b], (x, y) => <Rectangle key={`${x}-${y}`} corners={[[left + (c + x) * size + delta, top + (a + y) * size + delta], [left + (c + x + 1) * size + delta, top + (a + y + 1) * size + delta]]} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([c, a], (x, y) => <Rectangle key={`${x}-${y}`} rectangle={[[left + x * size, top + y * size], [left + (x + 1) * size, top + (y + 1) * size]]} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([c, b], (x, y) => <Rectangle key={`${x}-${y}`} rectangle={[[left + x * size, top + (a + y) * size + delta], [left + (x + 1) * size, top + (a + y + 1) * size + delta]]} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([d, a], (x, y) => <Rectangle key={`${x}-${y}`} rectangle={[[left + (c + x) * size + delta, top + y * size], [left + (c + x + 1) * size + delta, top + (y + 1) * size]]} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([d, b], (x, y) => <Rectangle key={`${x}-${y}`} rectangle={[[left + (c + x) * size + delta, top + (a + y) * size + delta], [left + (c + x + 1) * size + delta, top + (a + y + 1) * size + delta]]} style={rectangleStyle} />).flat()}
 		<HtmlElement anchor={[1, 0]} position={[left - 6, top + (a / 2) * size]}><M>{useLetters ? 'a' : a}</M></HtmlElement>
 		<HtmlElement anchor={[1, 0]} position={[left - 6, top + (a + b / 2) * size]}><M>{useLetters ? 'b' : b}</M></HtmlElement>
 		<HtmlElement anchor={[0, 1]} position={[left + (c / 2) * size, top - 1]}><M>{useLetters ? 'c' : c}</M></HtmlElement>
