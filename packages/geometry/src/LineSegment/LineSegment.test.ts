@@ -10,6 +10,17 @@ describe('LineSegment', () => {
 		expect(() => new LineSegment({ start: [1, 2], end: [4, 6], vector: [1, 1] })).toThrow()
 	})
 
+	it('accepts an endpoint tuple as a single input', () => {
+		const endpoints = [[1, 2], [4, 6]] as const
+		const segment = new LineSegment(endpoints)
+
+		expect(segment.start.coordinates).toEqual([1, 2])
+		expect(segment.end.coordinates).toEqual([4, 6])
+		expect(segment.vector.coordinates).toEqual([3, 4])
+		expect(isLineSegmentLike(endpoints)).toBe(true)
+		expect(ensureLineSegment(endpoints, { dimension: 2 }).equals(segment)).toBe(true)
+	})
+
 	it('provides segment properties and comparisons', () => {
 		const segment = new LineSegment([0, 0], [2, 2])
 		expect(segment.midpoint.coordinates).toEqual([1, 1])
@@ -44,6 +55,8 @@ describe('LineSegment', () => {
 		expect(ensureLineSegment(segment, { dimension: 2 }).equals(segment)).toBe(true)
 		expect(LineSegment.fromStorageValue(segment.toStorageValue()).equals(segment)).toBe(true)
 		expect(deserializeLineSegment(serializeLineSegment(segment)).equals(segment)).toBe(true)
+		expect(isLineSegmentLike([[0, 0]])).toBe(false)
+		expect(() => new LineSegment([[0, 0]] as never)).toThrow('exactly two')
 		expect(() => ensureLineSegment(segment, { dimension: 3 })).toThrow()
 	})
 })

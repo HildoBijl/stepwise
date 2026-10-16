@@ -41,7 +41,7 @@
 	"dependencies": {
 		"@step-wise/drawing": "^0.5.0",
 		"@step-wise/engineering-mechanics": "^0.1.0",
-		"@step-wise/geometry": "^0.1.0",
+		"@step-wise/geometry": "^0.1.1",
 		"@step-wise/js-utils": "^0.1.2"
 	},
 	"peerDependencies": {

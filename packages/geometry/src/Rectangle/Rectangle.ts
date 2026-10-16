@@ -5,7 +5,7 @@ import { type LineLike, ensureLine } from '../Line/index.ts'
 import { type LineSegmentLike, LineSegment, ensureLineSegment } from '../LineSegment/index.ts'
 
 import type { RectangleInput, RectangleStorageValue } from './types.ts'
-import { isRectangleObject, getMinAndMax } from './support.ts'
+import { isRectangleCorners, isRectangleObject, getMinAndMax } from './support.ts'
 
 export const RectangleType = 'Rectangle'
 export type RectangleType = typeof RectangleType
@@ -43,8 +43,15 @@ export class Rectangle {
 				return
 			}
 
+			// On a pair of corners, normalize their coordinate bounds.
+			if (Array.isArray(value)) {
+				if (!isRectangleCorners(value)) throw new Error('Invalid Rectangle corners: expected exactly two vector-like corner points.');
+				[this._min, this._max] = getMinAndMax(value[0], value[1])
+				return
+			}
+
 			// Make sure we have a Rectangle object.
-			if (!isRectangleObject(value)) throw new Error(`Invalid Rectangle value: expected an object with "min", "max" and/or "size" points (two out of the three) but received something of type "${typeof value}".`)
+			if (!isRectangleObject(value)) throw new Error(`Invalid Rectangle value: expected two corner points or an object with "min", "max" and/or "size" points (two out of the three) but received something of type "${typeof value}".`)
 
 			// Look at the various cases of what is provided.
 			const hasMin = value.min !== undefined
