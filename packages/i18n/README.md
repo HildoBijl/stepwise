@@ -1,6 +1,8 @@
 # @step-wise/i18n
 
-`@step-wise/i18n` provides the shared React runtime for internationalization in Step-Wise applications. It is a deliberately thin integration around Lingui: applications own their supported locales, catalogs, catalog resolution, and extraction configuration.
+`@step-wise/i18n` provides reusable internationalization logic and React integration for Step-Wise applications. The package is transitioning from its initial Lingui trial to a semantic message model backed by XLIFF 2.1 catalogs.
+
+The format-independent message model is available now. It represents text, variables, components with named translatable slots, plurals, and selections as a typed AST. It also provides normalization, validation, deterministic fingerprints, and source-compatibility classification. See [XLIFF.md](./XLIFF.md) for the catalog profile being implemented around this model.
 
 
 ## Installation
@@ -49,4 +51,4 @@ The consuming application is responsible for configuring the Lingui compiler and
 
 ## Package boundary
 
-This package exposes shared runtime integration and generic lazy-catalog coordination. Application-specific catalogs, path resolution, locale selection, fallback policy, and build tooling belong to the consuming application. Additional abstractions should only be added where Lingui does not already provide a sufficiently clear API.
+This package owns the format-independent message model, catalog semantics, React integration, and generic lazy-catalog coordination. Applications own their supported locales, catalog paths, and locale selection. Node-only XLIFF and build tooling will be exposed separately from the browser runtime so filesystem dependencies cannot enter frontend bundles.

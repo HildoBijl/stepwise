@@ -30,7 +30,8 @@
 	},
 	"files": [
 		"dist",
-		"README.md"
+		"README.md",
+		"XLIFF.md"
 	],
 	"scripts": {
 		"build": "tsc -b tsconfig.build.json",
