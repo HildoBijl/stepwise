@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
 
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { Trans } from '@lingui/react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
-import { I18nProvider, setupI18n } from './index.ts'
+import { I18nProvider, setupI18n, TranslationCatalog } from './index.ts'
 
 describe('I18nProvider', () => {
 	it('renders and updates translated messages', () => {
@@ -21,5 +21,25 @@ describe('I18nProvider', () => {
 		i18n.activate('nl')
 		view.rerender(<I18nProvider i18n={i18n}><Trans id="greeting" message="Hello" /></I18nProvider>)
 		expect(screen.getByText('Hallo')).toBeTruthy()
+	})
+
+	it('loads, caches, and switches lazy catalogs', async () => {
+		const i18n = setupI18n({ locale: 'en', messages: { en: {}, nl: {} } })
+		const loadCatalog = vi.fn(async (locale: string) => ({ greeting: locale === 'nl' ? 'Hallo' : 'Hello' }))
+		render(<I18nProvider i18n={i18n} loadCatalog={loadCatalog}>
+			<TranslationCatalog path="example" fallback="Loading">
+				<Trans id="greeting" />
+			</TranslationCatalog>
+			<TranslationCatalog path="example"><span /></TranslationCatalog>
+		</I18nProvider>)
+
+		expect(screen.getByText('Loading')).toBeTruthy()
+		expect(await screen.findByText('Hello')).toBeTruthy()
+		expect(loadCatalog).toHaveBeenCalledTimes(1)
+
+		act(() => i18n.activate('nl'))
+		expect(screen.getByText('Loading')).toBeTruthy()
+		expect(await screen.findByText('Hallo')).toBeTruthy()
+		expect(loadCatalog).toHaveBeenCalledTimes(2)
 	})
 })

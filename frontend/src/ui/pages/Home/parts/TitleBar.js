@@ -1,16 +1,16 @@
 import React from 'react'
 import { Box, Container, Grid, Stack } from '@mui/material'
+import { useLingui } from '@lingui/react'
 
-import { websiteName, websiteNameAddendum } from 'settings'
-import { useTextTranslator } from 'i18n'
 import logo from 'ui/images/logoAlternate.svg'
 import { Rectangle } from 'ui/components'
 
+import { homeMessages } from '../messages'
+
 export function TitleBar() {
-	// Load language-dependent texts.
-	const translate = useTextTranslator('main')
-	const websiteNameTranslation = translate(websiteName, 'websiteName')
-	const websiteNameAddendumTranslation = translate(websiteNameAddendum, 'websiteNameAddendum')
+	const { _ } = useLingui()
+	const websiteName = _(homeMessages.websiteName)
+	const websiteNameAddendum = _(homeMessages.websiteNameAddendum)
 
 	return <Container maxWidth='lg' sx={{ flexFlow: 'row nowrap', flexDirection: 'row-reverse', paddingBottom: 'min(2vw,25px)' }}>
 		<Grid container direction="row">
@@ -34,14 +34,14 @@ export function TitleBar() {
 							position: 'absolute',
 						},
 					})}>
-						{websiteNameTranslation}
+						{websiteName}
 					</Box>
 					<Box sx={theme => ({
 						color: theme.palette.secondary.main,
 						fontSize: 'min(3.5vw,45px)',
 						fontWeight: '300',
 					})}>
-						{websiteNameAddendumTranslation}
+						{websiteNameAddendum}
 					</Box>
 				</Stack>
 			</Grid>

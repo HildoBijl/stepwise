@@ -7,7 +7,7 @@ import { I18nProvider as LinguiI18nProvider } from '@step-wise/i18n'
 
 import { useUser, ActiveGroupProvider, SkillLevelProvider } from 'api'
 import { I18nProvider, useLanguage, useLanguageSetting } from 'i18n'
-import { activateLinguiLanguage, linguiI18n } from 'i18nNext'
+import { activateLinguiLanguage, linguiI18n, loadLinguiCatalog } from 'i18nNext'
 import theme from 'ui/theme'
 
 import { PrivacyPolicyWrapper } from './PrivacyPolicy'
@@ -30,7 +30,7 @@ export function App({ apolloClient }) {
 		<ApolloProvider client={apolloClient}>
 			<HelmetProvider>
 				<I18nProvider>
-					<LinguiI18nProvider i18n={linguiI18n}>
+					<LinguiI18nProvider i18n={linguiI18n} loadCatalog={loadLinguiCatalog}>
 						<ThemeProvider theme={theme}>
 							<CssBaseline />
 							<UserLanguageSynchronizer />
