@@ -18,6 +18,7 @@
 		{ "path": "./packages/geometry/tsconfig.build.json" },
 		{ "path": "./packages/input-exercises/tsconfig.build.json" },
 		{ "path": "./packages/input-interpretation/tsconfig.build.json" },
+		{ "path": "./packages/i18n/tsconfig.build.json" },
 		{ "path": "./packages/interpolation/tsconfig.build.json" },
 		{ "path": "./packages/math-display/tsconfig.build.json" },
 		{ "path": "./packages/math-input-value/tsconfig.build.json" },

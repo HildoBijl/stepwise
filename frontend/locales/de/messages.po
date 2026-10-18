@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-18 13:20+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Test.js
+msgid "i18nTrial.messages"
+msgstr "{messageCount, plural, one {Es gibt eine übersetzte Nachricht.} other {Es gibt # übersetzte Nachrichten.}}"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Test.js
+msgid "i18nTrial.richText"
+msgstr "<emphasis>Subtil</emphasis> ist dies, aber <strong>wichtig</strong> ist es. Dies ist <strong>also wichtig</strong>."
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Test.js
+msgid "i18nTrial.plain"
+msgstr "Dieser Text wurde mit Lingui übersetzt."
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Test.js
+msgid "i18nTrial.variable"
+msgstr "Willkommen beim Lingui-Test, {visitorName}!"

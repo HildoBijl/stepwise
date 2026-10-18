@@ -2,10 +2,11 @@ import { fileURLToPath, URL } from 'node:url'
 import { readFileSync, readdirSync } from 'node:fs'
 
 import react from '@vitejs/plugin-react'
+import { lingui } from '@lingui/vite-plugin'
 import { defineConfig, transformWithOxc } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
-const sourceDirectories = ['api', 'i18n', 'tests', 'ui', 'util']
+const sourceDirectories = ['api', 'i18n', 'i18nNext', 'tests', 'ui', 'util']
 const sourceFiles = ['settings']
 const packagesDirectory = fileURLToPath(new URL('../packages', import.meta.url))
 const workspacePackages = readdirSync(packagesDirectory, { withFileTypes: true })
@@ -35,6 +36,11 @@ const frontendJavaScriptAsJsx = {
 
 export default defineConfig({
 	plugins: [
+		lingui({
+			macroTransform: {
+				parser: { syntax: 'typescript', tsx: true, decorators: true },
+			},
+		}),
 		frontendJavaScriptAsJsx,
 		react({ include: /\.[jt]sx?$/ }),
 		VitePWA({

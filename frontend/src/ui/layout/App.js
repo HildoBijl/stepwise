@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ThemeProvider, CssBaseline } from '@mui/material'
 import { ApolloProvider } from '@apollo/client/react'
 import { HelmetProvider } from 'react-helmet-async'
 
+import { I18nProvider as LinguiI18nProvider } from '@step-wise/i18n'
+
 import { useUser, ActiveGroupProvider, SkillLevelProvider } from 'api'
-import { I18nProvider, useLanguageSetting } from 'i18n'
+import { I18nProvider, useLanguage, useLanguageSetting } from 'i18n'
+import { activateLinguiLanguage, linguiI18n } from 'i18nNext'
 import theme from 'ui/theme'
 
 import { PrivacyPolicyWrapper } from './PrivacyPolicy'
@@ -16,26 +19,35 @@ function UserLanguageSynchronizer() {
 	return null
 }
 
+function LinguiLanguageSynchronizer() {
+	const language = useLanguage()
+	useEffect(() => activateLinguiLanguage(language), [language])
+	return null
+}
+
 export function App({ apolloClient }) {
 	return (
 		<ApolloProvider client={apolloClient}>
 			<HelmetProvider>
 				<I18nProvider>
-					<ThemeProvider theme={theme}>
-						<CssBaseline />
-						<UserLanguageSynchronizer />
-						<div id="app">
-							<div id="appInner">
-								<PrivacyPolicyWrapper>
-									<ActiveGroupProvider>
-										<SkillLevelProvider>
-											<Routing />
-										</SkillLevelProvider>
-									</ActiveGroupProvider>
-								</PrivacyPolicyWrapper>
+					<LinguiI18nProvider i18n={linguiI18n}>
+						<ThemeProvider theme={theme}>
+							<CssBaseline />
+							<UserLanguageSynchronizer />
+							<LinguiLanguageSynchronizer />
+							<div id="app">
+								<div id="appInner">
+									<PrivacyPolicyWrapper>
+										<ActiveGroupProvider>
+											<SkillLevelProvider>
+												<Routing />
+											</SkillLevelProvider>
+										</ActiveGroupProvider>
+									</PrivacyPolicyWrapper>
+								</div>
 							</div>
-						</div>
-					</ThemeProvider>
+						</ThemeProvider>
+					</LinguiI18nProvider>
 				</I18nProvider>
 			</HelmetProvider>
 		</ApolloProvider>
