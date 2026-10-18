@@ -14,13 +14,13 @@ msgstr "{messageCount, plural, one {There is one translated message.} other {The
 
 #. js-lingui-explicit-id
 #: src/ui/pages/Test.js
-msgid "i18nTrial.richText"
-msgstr "This <strong>is important</strong>, but this is <emphasis>subtle</emphasis>. This is <strong>also important</strong>."
+msgid "i18nTrial.plain"
+msgstr "This text is translated through Lingui."
 
 #. js-lingui-explicit-id
 #: src/ui/pages/Test.js
-msgid "i18nTrial.plain"
-msgstr "This text is translated through Lingui."
+msgid "i18nTrial.richText"
+msgstr "This <strong>is important</strong>, but this is <emphasis>subtle</emphasis>. This is <strong>also important</strong>."
 
 #. js-lingui-explicit-id
 #: src/ui/pages/Test.js

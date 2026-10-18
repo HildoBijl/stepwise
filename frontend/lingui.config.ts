@@ -6,12 +6,14 @@ import { defineConfig } from '@lingui/cli'
 import { formatter } from '@lingui/format-po'
 
 const sourceDirectory = fileURLToPath(new URL('./src', import.meta.url))
+const messageIdCollator = new Intl.Collator('en', { numeric: true })
 
 export default defineConfig({
 	sourceLocale: 'en',
 	locales: ['en', 'nl', 'de'],
 	fallbackLocales: { default: 'en' },
 	catalogs: findTranslationCatalogs(sourceDirectory),
+	orderBy: (first, second) => messageIdCollator.compare(first.messageId, second.messageId),
 	format: formatter({ lineNumbers: false }),
 	macro: {
 		jsxPlaceholderAttribute: '_t',
