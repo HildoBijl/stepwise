@@ -2,9 +2,9 @@ import React from 'react'
 import { Box, alpha } from '@mui/material'
 
 import { useSetLanguage } from 'api'
-import { Translation, useLanguage } from 'i18n'
+import { useLanguage } from 'i18n'
 
-export function Language({ Flag, language, text }) {
+export function Language({ children, Flag, language }) {
 	const currentLanguage = useLanguage()
 	const [setUserLanguage] = useSetLanguage()
 	const active = language === currentLanguage
@@ -21,6 +21,6 @@ export function Language({ Flag, language, text }) {
 		padding: `0.5em 0.75em`,
 	})}>
 		<Box sx={{ marginRight: '0.75em', height: '1.2em', width: '1.8em' }}><Flag /></Box>
-		<Box><Translation entry={language}>{text}</Translation></Box>
+		<Box>{children}</Box>
 	</Box>
 }

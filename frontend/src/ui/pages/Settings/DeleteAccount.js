@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Button, TextField } from '@mui/material'
+import { Trans } from '@lingui/react/macro'
 
 import { signOutAddress } from 'settings'
 import { useDeleteAccount } from 'api'
-import { TranslationSection, Translation } from 'i18n'
 import { Par, Head } from 'ui/components'
 
 export function DeleteAccount() {
@@ -29,26 +29,26 @@ export function DeleteAccount() {
 	let helperText = ''
 	if (error && confirmEmail === lastSubmission) {
 		isError = true
-		helperText = <Translation entry="invalidEmail">Failed to delete account. This email address is not coupled to your account.</Translation>
+		helperText = <Trans id="settings.deleteAccount.invalidEmail">Failed to delete account. This email address is not coupled to your account.</Trans>
 	}
 
 	// Check if a success message should be displayed.
 	if (succeeded)
-		helperText = <Translation entry="successfulDeletion">Your account has been deleted. You will be sent back to the home page.</Translation>
+		helperText = <Trans id="settings.deleteAccount.success">Your account has been deleted. You will be sent back to the home page.</Trans>
 
-	return <TranslationSection entry="deleteAccount">
-		<Head><Translation entry="title">Delete account</Translation></Head>
-		<Par><Translation entry="explanation">If you delete your account, then <strong>all</strong> your data on Step-Wise will be erased. This cannot be undone. Of course you can create a new account afterwards, but this account will start from zero.</Translation></Par>
-		<Par><Translation entry="confirmation">Are you sure you wish to delete your account? Then enter your email address below as confirmation.</Translation></Par>
+	return <>
+		<Head><Trans id="settings.deleteAccount.title">Delete account</Trans></Head>
+		<Par><Trans id="settings.deleteAccount.explanation">If you delete your account, then <strong>all</strong> your data on Step-Wise will be erased. This cannot be undone. Of course you can create a new account afterwards, but this account will start from zero.</Trans></Par>
+		<Par><Trans id="settings.deleteAccount.confirmation">Are you sure you wish to delete your account? Then enter your email address below as confirmation.</Trans></Par>
 		<form noValidate autoComplete="off" onSubmit={submitForm}>
-			<TextField id="confirmEmail" label={<Translation entry="fieldPlaceholder">Email address</Translation>} variant="outlined" size="small" value={confirmEmail} onChange={(evt) => setConfirmEmail(evt.target.value)} error={isError} helperText={helperText} sx={{
+			<TextField id="confirmEmail" label={<Trans id="settings.deleteAccount.email">Email address</Trans>} variant="outlined" size="small" value={confirmEmail} onChange={(evt) => setConfirmEmail(evt.target.value)} error={isError} helperText={helperText} sx={{
 				mb: 1, mr: 1,
 				width: 'min(50ch, 100%)',
 				'& input': {
 					background: '#fff',
 				}
 			}} />
-			<Button variant="contained" color="secondary" onClick={submitForm}><Translation entry="buttonText">Delete account</Translation></Button>
+			<Button variant="contained" color="secondary" onClick={submitForm}><Trans id="settings.deleteAccount.button">Delete account</Trans></Button>
 		</form>
-	</TranslationSection>
+	</>
 }

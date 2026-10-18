@@ -55,5 +55,5 @@ function findSourceFiles(directory: string): string[] {
 function catalogSource(file: string): string {
 	const fileName = basename(file, extname(file)).toLowerCase()
 	const directory = dirname(file)
-	return fileName === basename(directory).toLowerCase() ? directory : file
+	return fileName === 'index' || fileName === basename(directory).toLowerCase() ? directory : file
 }

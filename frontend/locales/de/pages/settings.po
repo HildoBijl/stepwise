@@ -1,0 +1,73 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-18 16:11+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.button"
+msgstr "Konto löschen"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.confirmation"
+msgstr "Bist du sicher, dass du dein Konto löschen möchtest? Dann gib deine E-Mail-Adresse zur Bestätigung unten ein."
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.email"
+msgstr "E-Mail-Adresse"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.explanation"
+msgstr "Wenn du dein Konto löschst, werden <strong>alle</strong> deiner Daten auf Step-Wise gelöscht. Dies kann nicht rückgängig gemacht werden! Natürlich kannst du danach ein komplett neues Konto erstellen, aber das fängt dann wieder bei Null an."
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.invalidEmail"
+msgstr "Fehlgeschlagen. Diese E-Mail-Adresse ist nicht mit Ihrem Konto verbunden."
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.success"
+msgstr "Erfolgreich. Das Konto wurde gelöscht. Du wirst weitergeleitet."
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.title"
+msgstr "Konto löschen"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/index.js
+msgid "settings.introduction"
+msgstr "Du bist angemeldet als {name} <{email}>."
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/LanguageSettings.js
+msgid "settings.language.de"
+msgstr "Deutsch"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/LanguageSettings.js
+msgid "settings.language.en"
+msgstr "Englisch"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/LanguageSettings.js
+msgid "settings.language.nl"
+msgstr "Niederländisch"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/LanguageSettings.js
+msgid "settings.language.title"
+msgstr "Spracheinstellungen"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/LanguageSettings.js
+msgid "settings.language.warning"
+msgstr "Möglicherweise sind nicht alle Inhalte in dieser Sprache verfügbar. Es können Inhalte in anderen Sprachen erscheinen."

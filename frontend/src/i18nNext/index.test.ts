@@ -17,8 +17,10 @@ describe('Lingui trial catalogs', () => {
 
 	it('discovers separate page catalogs', async () => {
 		linguiI18n.load('nl', await loadLinguiCatalog('nl', 'pages/home'))
+		linguiI18n.load('nl', await loadLinguiCatalog('nl', 'pages/settings'))
 		activateLinguiLanguage('nl')
 		expect(linguiI18n._('home.websiteNameAddendum')).toBe('Oefenopgaven op maat')
+		expect(linguiI18n._('settings.language.title')).toBe('Taalinstellingen')
 	})
 
 	it('rejects unsupported languages', () => {

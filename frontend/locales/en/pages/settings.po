@@ -1,0 +1,73 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-18 16:11+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.button"
+msgstr "Delete account"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.confirmation"
+msgstr "Are you sure you wish to delete your account? Then enter your email address below as confirmation."
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.email"
+msgstr "Email address"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.explanation"
+msgstr "If you delete your account, then <strong>all</strong> your data on Step-Wise will be erased. This cannot be undone. Of course you can create a new account afterwards, but this account will start from zero."
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.invalidEmail"
+msgstr "Failed to delete account. This email address is not coupled to your account."
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.success"
+msgstr "Your account has been deleted. You will be sent back to the home page."
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/DeleteAccount.js
+msgid "settings.deleteAccount.title"
+msgstr "Delete account"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/index.js
+msgid "settings.introduction"
+msgstr "You are signed in as {name} <{email}>."
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/LanguageSettings.js
+msgid "settings.language.de"
+msgstr "German"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/LanguageSettings.js
+msgid "settings.language.en"
+msgstr "English"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/LanguageSettings.js
+msgid "settings.language.nl"
+msgstr "Dutch"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/LanguageSettings.js
+msgid "settings.language.title"
+msgstr "Language settings"
+
+#. js-lingui-explicit-id
+#: src/ui/pages/Settings/LanguageSettings.js
+msgid "settings.language.warning"
+msgstr "Not all content may be available in this language. Content in other languages may occasionally still appear."
