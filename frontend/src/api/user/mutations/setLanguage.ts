@@ -2,14 +2,14 @@ import { useCallback } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
-import type { Language } from '@step-wise/settings'
+import type { Language } from '../../../i18n/settings.ts'
 
 import type { UseSetLanguageResult } from '../types.ts'
 
 type SetLanguageData = {
 	setLanguage: {
 		id: string
-		accountData: { language: Language | null }
+		accountData: { language: string | null }
 	}
 }
 type SetLanguageVariables = { language: Language }

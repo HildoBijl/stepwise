@@ -1,4 +1,4 @@
-import type { Language } from '@step-wise/settings'
+import type { Language } from '../../i18n/settings.ts'
 
 import type { ApiMutationResult, ApiQueryResult } from '../types.ts'
 
@@ -23,7 +23,7 @@ export type PrivacyPolicyConsent = {
 
 export type UserWithAccountData = UserWithSharedData & {
 	role: UserRole
-	language?: Language
+	language?: string
 	privacyPolicyConsent: PrivacyPolicyConsent
 	createdAt: Date
 	updatedAt: Date

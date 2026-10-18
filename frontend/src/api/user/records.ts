@@ -1,5 +1,3 @@
-import type { Language } from '@step-wise/settings'
-
 import type { UserRole } from './types.ts'
 
 export type UserRecord = {
@@ -21,7 +19,7 @@ export type PrivacyPolicyConsentRecord = {
 
 export type UserAccountDataRecord = {
 	role: UserRole
-	language: Language | null
+	language: string | null
 	privacyPolicyConsent: PrivacyPolicyConsentRecord
 	createdAt: string
 	updatedAt: string

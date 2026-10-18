@@ -1,4 +1,4 @@
-import { currentPrivacyPolicyVersion, languages } from '@step-wise/settings'
+import { currentPrivacyPolicyVersion } from '@step-wise/settings'
 
 import { InvalidInputError } from '../../errors.ts'
 
@@ -37,8 +37,8 @@ const userResolvers = {
 	Mutation: {
 		setLanguage: async (_source: unknown, { language }: { language: string }, { ensureSignedIn, user }: UserContext) => {
 			ensureSignedIn()
-			if (!(languages as readonly string[]).includes(language)) throw new Error(`Invalid language setting: the language "${language}" is not in the list of supported languages.`)
-			await user!.update({ language })
+			const normalizedLanguage = normalizeLanguage(language)
+			await user!.update({ language: normalizedLanguage })
 			return user
 		},
 
@@ -55,6 +55,14 @@ const userResolvers = {
 			return user!.id
 		},
 	},
+}
+
+function normalizeLanguage(language: string): string {
+	try {
+		return new Intl.Locale(language).toString()
+	} catch {
+		throw new InvalidInputError(`Invalid language setting: "${language}" is not a valid locale.`)
+	}
 }
 
 export function createUserResolvers(sharedDataAccessRules: UserSharedDataAccessRule[] = []) {

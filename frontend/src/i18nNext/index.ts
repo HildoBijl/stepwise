@@ -1,5 +1,6 @@
 import { type Messages, setupI18n } from '@step-wise/i18n'
-import { type Language, defaultLanguage, languages } from '@step-wise/settings'
+
+import { type Language, defaultLanguage, languages } from '../i18n/settings.ts'
 
 type CatalogModule = { messages: Messages }
 

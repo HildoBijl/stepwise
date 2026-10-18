@@ -1,7 +1,6 @@
 import { ensureString } from '@step-wise/js-utils'
-import { languages } from '@step-wise/settings'
 
-import { localStorageKey, countryToLanguage } from './settings'
+import { languages, localStorageKey, countryToLanguage } from './settings'
 
 export function pathAsArray(path) {
 	return Array.isArray(path) ? path : path.split('/')

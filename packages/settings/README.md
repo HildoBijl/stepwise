@@ -13,12 +13,9 @@ npm install @step-wise/settings
 ## Quick start
 
 ```ts
-import { defaultLanguage, i18nLoadPath, languages, type Language } from '@step-wise/settings'
+import { i18nLoadPath } from '@step-wise/settings'
 
-const language: Language = defaultLanguage
-const mainTranslations = i18nLoadPath(language, 'main')
-
-console.log(languages) // ['en', 'nl', 'de']
+const mainTranslations = i18nLoadPath('en', 'main')
 console.log(mainTranslations) // /locales/en/main.json
 ```
 
@@ -27,9 +24,6 @@ console.log(mainTranslations) // /locales/en/main.json
 
 **Internationalization**
 
-- `languages`: the supported language codes (`en`, `nl`, and `de`).
-- `Language`: the TypeScript union derived from `languages`.
-- `defaultLanguage`: the first entry in `languages`.
 - `i18nLoadPath(language, path)`: builds the public JSON path for a translation resource.
 - `i18nUpdatePath`: the development translation-update endpoint.
 - `i18nUpdateLogPath`: the public path to the translation update log.
@@ -43,6 +37,4 @@ console.log(mainTranslations) // /locales/en/main.json
 - `defaultDecimalSeparator`: the site-wide decimal separator.
 
 
-## Behavioral constraints
-
-Supported languages are a compile-time contract: adding a language requires a code change, matching locale files, and a deployment.
+The internationalization exports support the legacy JSON translation toolbox. Applications own their supported languages; these paths remain here only until that toolbox has been replaced.

@@ -3,14 +3,14 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import express, { type NextFunction, type Request, type Response, type Router } from 'express'
 
-import { type Language, i18nLoadPath, i18nUpdateLogPath } from '@step-wise/settings'
+import { i18nLoadPath, i18nUpdateLogPath } from '@step-wise/settings'
 import { getByPath, isPlainObject, setByPath } from '@step-wise/js-utils'
 
 type JsonObject = Record<string, unknown>
 type I18nUpdates = Record<string, Record<string, Record<string, unknown>>>
 
 const pathToPublicFolder = '../frontend/public'
-function filePath(language: Language, path: string) {
+function filePath(language: string, path: string) {
 	return `${pathToPublicFolder}${i18nLoadPath(language, path)}`
 }
 const logPath = `${pathToPublicFolder}${i18nUpdateLogPath}`
@@ -37,7 +37,7 @@ async function updateLanguageFiles(request: Request, response: Response, next: N
 	try {
 		const updates = request.body as I18nUpdates
 		const files = Object.entries(updates).flatMap(([language, paths]) =>
-			Object.entries(paths).map(([path, entries]) => ({ language: language as Language, path, entries })))
+			Object.entries(paths).map(([path, entries]) => ({ language, path, entries })))
 
 		let log: JsonObject
 		try {

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { currentPrivacyPolicyVersion, languages } from '@step-wise/settings'
+import { currentPrivacyPolicyVersion } from '@step-wise/settings'
 
 import { InvalidInputError } from '../../../../src/errors.ts'
 import { createUserResolvers } from '../../../../src/modules/user/resolvers.ts'
@@ -77,13 +77,13 @@ describe('user resolvers', () => {
 		expect(createUserResolvers().UserAccountData.privacyPolicyConsent(user)).toEqual({ version: currentPrivacyPolicyVersion, acceptedAt, isLatestVersion: true })
 	})
 
-	it('sets a supported language and rejects unsupported languages', async () => {
+	it('normalizes valid locales and rejects invalid locales', async () => {
 		const user = createUser()
 		const context = createContext(user)
 		const mutation = createUserResolvers().Mutation.setLanguage
-		await expect(mutation(undefined, { language: languages[0] }, context)).resolves.toBe(user)
-		expect(user.update).toHaveBeenCalledWith({ language: languages[0] })
-		await expect(mutation(undefined, { language: 'unsupported' }, context)).rejects.toThrow('unsupported')
+		await expect(mutation(undefined, { language: 'EN-us' }, context)).resolves.toBe(user)
+		expect(user.update).toHaveBeenCalledWith({ language: 'en-US' })
+		await expect(mutation(undefined, { language: 'not_a_locale' }, context)).rejects.toThrow(InvalidInputError)
 	})
 
 	it('accepts the latest privacy policy only when needed', async () => {

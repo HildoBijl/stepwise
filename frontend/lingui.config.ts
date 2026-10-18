@@ -5,13 +5,15 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig } from '@lingui/cli'
 import { formatter } from '@lingui/format-po'
 
+import { defaultLanguage, languages } from './src/i18n/settings.ts'
+
 const sourceDirectory = fileURLToPath(new URL('./src', import.meta.url))
 const messageIdCollator = new Intl.Collator('en', { numeric: true })
 
 export default defineConfig({
-	sourceLocale: 'en',
-	locales: ['en', 'nl', 'de'],
-	fallbackLocales: { default: 'en' },
+	sourceLocale: defaultLanguage,
+	locales: [...languages],
+	fallbackLocales: { default: defaultLanguage },
 	catalogs: findTranslationCatalogs(sourceDirectory),
 	orderBy: (first, second) => messageIdCollator.compare(first.messageId, second.messageId),
 	format: formatter({ lineNumbers: false }),

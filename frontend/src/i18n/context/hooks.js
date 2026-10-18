@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 
 import { fromKeys } from '@step-wise/js-utils'
-import { languages, defaultLanguage } from '@step-wise/settings'
 
+import { languages, defaultLanguage } from '../settings'
 import { pathAsString, setStoredLanguage } from '../util'
 
 import { useI18nData } from './provider'
