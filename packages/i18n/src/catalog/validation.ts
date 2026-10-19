@@ -3,7 +3,7 @@ import { type Message } from '../message/types.ts'
 import { validateMessage } from '../message/validation.ts'
 import { isMessageFingerprint } from '../message/signatures.ts'
 import { validateMessageForLocale } from '../message/localeValidation.ts'
-import { type Catalog } from './types.ts'
+import { type Catalog, type CatalogEntry, type CatalogUnit } from './types.ts'
 
 /*
  * Error types.
@@ -41,34 +41,44 @@ export function validateCatalog(catalog: Catalog): CatalogValidationIssue[] {
 	const sourceLocaleIsValid = validateLocale(catalog.sourceLocale, '$.sourceLocale', issues)
 	const targetLocaleIsValid = catalog.targetLocale === undefined || validateLocale(catalog.targetLocale, '$.targetLocale', issues)
 
-	// Iterate over the units and check them.
-	const keys = new Set<string>()
-	catalog.units.forEach((unit, index) => {
-		// Check the unit's ID, path and (when put together) its key.
-		const path = `$.units[${index}]`
-		if (!unit.id) issues.push({ path: `${path}.id`, message: 'A unit ID is required.' })
-		if (unit.groupPath?.some(group => !group)) issues.push({ path: `${path}.groupPath`, message: 'Group IDs must not be empty.' })
-		const key = [...unit.groupPath ?? [], unit.id].join('/')
-		if (keys.has(key)) issues.push({ path: `${path}.id`, message: `Duplicate catalog unit "${key}".` })
-		keys.add(key)
-
-		// Check the message contents, both the structure and locale-related matters.
-		addMessageIssues(unit.source, `${path}.source`, issues)
-		if (sourceLocaleIsValid) addLocaleMessageIssues(unit.source, catalog.sourceLocale, `${path}.source`, issues)
-
-		// Check the target contents, if a target exists.
-		if (!unit.target) return
-		if (!catalog.targetLocale) issues.push({ path: `${path}.target`, message: 'Source-only catalogs cannot contain targets.' })
-		addMessageIssues(unit.target.message, `${path}.target.message`, issues)
-		if (catalog.targetLocale && targetLocaleIsValid) addLocaleMessageIssues(unit.target.message, catalog.targetLocale, `${path}.target.message`, issues)
-
-		// Check the target's fingerprints.
-		if (!isMessageFingerprint(unit.target.reviewedSourceContentFingerprint)) issues.push({ path: `${path}.target.reviewedSourceContentFingerprint`, message: 'Fingerprints must contain 16 lowercase hexadecimal characters.' })
-		if (!isMessageFingerprint(unit.target.reviewedSourceStructureFingerprint)) issues.push({ path: `${path}.target.reviewedSourceStructureFingerprint`, message: 'Fingerprints must contain 16 lowercase hexadecimal characters.' })
-	})
+	// Recursively validate all groups and units.
+	validateEntries(catalog.entries, '$.entries', catalog, sourceLocaleIsValid, targetLocaleIsValid, issues)
 
 	// Report on any issues that arose.
 	return issues
+}
+
+// Validate the entries at one catalog level, including their IDs and any nested entries.
+function validateEntries(entries: readonly CatalogEntry[], path: string, catalog: Catalog, sourceLocaleIsValid: boolean, targetLocaleIsValid: boolean, issues: CatalogValidationIssue[]): void {
+	const ids = new Set<string>()
+	entries.forEach((entry, index) => {
+		// Check that every entry has an ID that is unique among its siblings.
+		const entryPath = `${path}[${index}]`
+		if (!entry.id) issues.push({ path: `${entryPath}.id`, message: `${entry.type === 'group' ? 'Group' : 'Unit'} IDs must not be empty.` })
+		if (ids.has(entry.id)) issues.push({ path: `${entryPath}.id`, message: `Duplicate catalog entry "${entry.id}".` })
+		ids.add(entry.id)
+
+		// Recurse into groups and validate individual units.
+		if (entry.type === 'group') validateEntries(entry.entries, `${entryPath}.entries`, catalog, sourceLocaleIsValid, targetLocaleIsValid, issues)
+		else validateUnit(entry, entryPath, catalog, sourceLocaleIsValid, targetLocaleIsValid, issues)
+	})
+}
+
+// Validate the contents of one catalog unit.
+function validateUnit(unit: CatalogUnit, path: string, catalog: Catalog, sourceLocaleIsValid: boolean, targetLocaleIsValid: boolean, issues: CatalogValidationIssue[]): void {
+	// Check the message contents, both the structure and locale-related matters.
+	addMessageIssues(unit.source, `${path}.source`, issues)
+	if (sourceLocaleIsValid) addLocaleMessageIssues(unit.source, catalog.sourceLocale, `${path}.source`, issues)
+
+	// Check the target contents, if a target exists.
+	if (!unit.target) return
+	if (!catalog.targetLocale) issues.push({ path: `${path}.target`, message: 'Source-only catalogs cannot contain targets.' })
+	addMessageIssues(unit.target.message, `${path}.target.message`, issues)
+	if (catalog.targetLocale && targetLocaleIsValid) addLocaleMessageIssues(unit.target.message, catalog.targetLocale, `${path}.target.message`, issues)
+
+	// Check the target's fingerprints.
+	if (!isMessageFingerprint(unit.target.reviewedSourceContentFingerprint)) issues.push({ path: `${path}.target.reviewedSourceContentFingerprint`, message: 'Fingerprints must contain 16 lowercase hexadecimal characters.' })
+	if (!isMessageFingerprint(unit.target.reviewedSourceStructureFingerprint)) issues.push({ path: `${path}.target.reviewedSourceStructureFingerprint`, message: 'Fingerprints must contain 16 lowercase hexadecimal characters.' })
 }
 
 /*

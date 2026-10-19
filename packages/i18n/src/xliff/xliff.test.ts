@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import {
 	type Catalog,
 	type Message,
+	getCatalogUnits,
 	getCatalogUnitStatus,
 	getMessageContentFingerprint,
 	getMessageStructureFingerprint,
@@ -84,15 +85,23 @@ function createCatalog(): Catalog {
 	return {
 		sourceLocale: 'en',
 		targetLocale: 'nl',
-		units: [{
-			id: 'problem',
-			groupPath: ['exercise', 'step-1'],
-			source,
-			target: {
-				message: target,
-				reviewedSourceContentFingerprint: getMessageContentFingerprint(source),
-				reviewedSourceStructureFingerprint: getMessageStructureFingerprint(source),
-			},
+		entries: [{
+			type: 'group',
+			id: 'exercise',
+			entries: [{
+				type: 'group',
+				id: 'step-1',
+				entries: [{
+					type: 'unit',
+					id: 'problem',
+					source,
+					target: {
+						message: target,
+						reviewedSourceContentFingerprint: getMessageContentFingerprint(source),
+						reviewedSourceStructureFingerprint: getMessageStructureFingerprint(source),
+					},
+				}],
+			}],
 		}],
 	}
 }
@@ -111,13 +120,18 @@ describe('XLIFF serialization', () => {
 	it('round-trips source-only catalogs and copied components', () => {
 		const catalog: Catalog = {
 			sourceLocale: 'en',
-			units: [{
+			entries: [{
+				type: 'unit',
 				id: 'message',
 				source: [
 					{ type: 'component', id: 'strong-1', component: 'strong', slots: { children: [{ type: 'text', value: 'First' }] } },
 					{ type: 'text', value: ' and ' },
 					{ type: 'component', id: 'strong-2', component: 'strong', slots: { children: [{ type: 'text', value: 'second' }] }, copyOf: 'strong-1' },
 				],
+			}, {
+				type: 'group',
+				id: 'empty-section',
+				entries: [],
 			}],
 		}
 
@@ -146,18 +160,16 @@ describe('XLIFF validation', () => {
 
 	it('rejects plural categories not used by the message locale', () => {
 		const catalog = createCatalog()
-		const unit = catalog.units[0]!
+		const unit = getCatalogUnits(catalog)[0]!
 		const invalidTarget: Message = [{ type: 'plural', variable: 'count', branches: { zero: [], other: [] } }]
-		expect(() => serializeXliff({
-			...catalog,
-			units: [{ ...unit, target: { ...unit.target!, message: invalidTarget } }],
-		})).toThrow(/Plural category "zero" is not used by locale "nl"/)
+		unit.target!.message = invalidTarget
+		expect(() => serializeXliff(catalog)).toThrow(/Plural category "zero" is not used by locale "nl"/)
 	})
 })
 
 describe('catalog status', () => {
 	it('classifies current, changed, structurally stale, and missing targets', () => {
-		const [unit] = createCatalog().units
+		const [unit] = getCatalogUnits(createCatalog())
 		const changedText: Message = [{ type: 'text', value: 'Apply ' }, ...source.slice(1)]
 		expect(getCatalogUnitStatus(unit!)).toBe('current')
 		expect(getCatalogUnitStatus({ ...unit!, source: changedText })).toBe('needs-review')

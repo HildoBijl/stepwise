@@ -54,20 +54,29 @@ The consuming application is responsible for configuring the Lingui compiler and
 Catalog and unit types are available from the main package entry point. The XML codec has a separate entry point so importing the React integration does not load an XML parser:
 
 ```ts
-import { type Catalog, assertValidCatalog, getCatalogUnitStatus, validateCatalog } from '@step-wise/i18n'
+import { type Catalog, assertValidCatalog, getCatalogUnits, getCatalogUnitStatus, validateCatalog } from '@step-wise/i18n'
 import { parseXliff, serializeXliff } from '@step-wise/i18n/xliff'
 
 const catalog: Catalog = {
 	sourceLocale: 'en',
-	units: [{
-		id: 'welcome',
-		source: [{ type: 'text', value: 'Welcome!' }],
+	entries: [{
+		type: 'group',
+		id: 'home',
+		entries: [{
+			type: 'unit',
+			id: 'welcome',
+			source: [{ type: 'text', value: 'Welcome!' }],
+		}],
+	}, {
+		type: 'unit',
+		id: 'footer',
+		source: [{ type: 'text', value: 'Made with care.' }],
 	}],
 }
 
 const xml = serializeXliff(catalog)
 const restoredCatalog = parseXliff(xml)
-const status = getCatalogUnitStatus(restoredCatalog.units[0]!)
+const status = getCatalogUnitStatus(getCatalogUnits(restoredCatalog)[0]!)
 ```
 
 Use `validateCatalog` to collect semantic catalog issues and `assertValidCatalog` when invalid data should throw immediately. Serialization asserts and normalizes its input. Parsing rejects malformed XML and documents outside the supported profile with `InvalidXliffError`.

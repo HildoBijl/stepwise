@@ -1,14 +1,22 @@
 import { type Message, type TranslationStatus } from '../message/types.ts'
 
 export type Catalog = {
-	units: readonly CatalogUnit[]
 	sourceLocale: string
 	targetLocale?: string
+	entries: readonly CatalogEntry[]
+}
+
+export type CatalogEntry = CatalogGroup | CatalogUnit
+
+export type CatalogGroup = {
+	type: 'group'
+	id: string
+	entries: readonly CatalogEntry[]
 }
 
 export type CatalogUnit = {
+	type: 'unit'
 	id: string
-	groupPath?: readonly string[]
 	source: Message
 	target?: CatalogTarget
 }

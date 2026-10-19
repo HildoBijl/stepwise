@@ -7,7 +7,7 @@ The package uses XLIFF 2.1 as its persistent catalog format. This document defin
 
 English catalogs are source-only XLIFF documents with `srcLang="en"`. Target catalogs additionally set `trgLang` and contain `<target>` elements. Each catalog path maps to one XLIFF document, nested message sections map to `<group>` elements, and a translation entry maps to a `<unit>` containing one `<segment>`.
 
-The runtime representation is `Catalog`. A unit contains its ID, optional group path, source message, and optional target. Use `serializeXliff` and `parseXliff` from `@step-wise/i18n/xliff` to convert between that representation and XML.
+The runtime representation is a nested `Catalog`. Its ordered entries are groups or translation units, and groups recursively contain their own ordered entries. This mirrors the XLIFF hierarchy, preserves mixed group/unit ordering and permits empty groups. Use `serializeXliff` and `parseXliff` from `@step-wise/i18n/xliff` to convert between that representation and XML.
 
 Application extensions use the namespace `https://step-wise.com/ns/i18n` and the conventional prefix `swi18n`. The URI identifies the vocabulary; it does not imply that processing requires network access.
 

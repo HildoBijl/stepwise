@@ -1,30 +1,6 @@
-export { compareSourceMessages } from './comparison.ts'
-export { validateMessageForLocale } from './localeValidation.ts'
-export { normalizeMessage } from './normalization.ts'
-export {
-	getMessageContentFingerprint,
-	getMessageContentSignature,
-	getMessageStructureFingerprint,
-	getMessageStructureSignature,
-	isMessageFingerprint,
-} from './signatures.ts'
-export {
-	InvalidMessageError,
-	assertValidMessage,
-	type MessageValidationIssue,
-	validateMessage,
-} from './validation.ts'
-export {
-	type ComponentNode,
-	type Message,
-	type MessageNode,
-	type PluralBranches,
-	type PluralCategory,
-	type PluralNode,
-	pluralCategories,
-	type SelectBranches,
-	type SelectNode,
-	type TextNode,
-	type TranslationStatus,
-	type VariableNode,
-} from './types.ts'
+export * from './types.ts'
+export * from './normalization.ts'
+export * from './signatures.ts'
+export * from './comparison.ts'
+export * from './validation.ts'
+export * from './localeValidation.ts'
