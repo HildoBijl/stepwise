@@ -4,6 +4,8 @@
 
 The format-independent message model represents text, variables, components with named translatable slots, plurals, and selections as a typed AST. It provides normalization, validation, deterministic fingerprints, and source-compatibility classification. Catalogs can be parsed from and serialized to the package's [XLIFF 2.1 profile](./XLIFF.md).
 
+The new React integration can register component translation behavior and convert authored React content into this message model. Rendering translated messages and the public authoring components are still under development while the existing Lingui trial remains available.
+
 
 ## Installation
 
@@ -47,6 +49,33 @@ export function Greeting() {
 ```
 
 The consuming application is responsible for configuring the Lingui compiler and extractor.
+
+
+## React message conversion
+
+Ordinary custom components and native elements such as `strong` use the default behavior automatically: their kebab-case component name becomes the tag and their children are translated. Wrap components whose behavior differs from these defaults.
+
+```tsx
+import { reactNodeToMessage, variable, withTranslation } from '@step-wise/i18n'
+
+const TranslatedEquation = withTranslation(Equation, {
+	tag: 'equation',
+	translatedProps: [],
+	canCopy: false,
+	canDelete: false,
+})
+
+const TranslatedInput = withTranslation(Input, {
+	tag: 'input-field',
+	translatedProps: ['label'],
+})
+
+const message = reactNodeToMessage(
+	<>Welcome {variable('name', name)}. <TranslatedInput label="Your answer" /> <TranslatedEquation>x^2</TranslatedEquation></>,
+)
+```
+
+`translatedProps` defaults to `['children']`. Each listed prop becomes a named message slot; unlisted props remain in the original React element and do not enter translation catalogs. Anonymous components must be wrapped with an explicit tag because no stable default can be derived for them. Copying and deletion are allowed by default and can be disabled independently for required or identity-sensitive components.
 
 
 ## XLIFF catalogs
