@@ -7,6 +7,8 @@ The package uses XLIFF 2.1 as its persistent catalog format. This document defin
 
 English catalogs are source-only XLIFF documents with `srcLang="en"`. Target catalogs additionally set `trgLang` and contain `<target>` elements. Each catalog path maps to one XLIFF document, nested message sections map to `<group>` elements, and a translation entry maps to a `<unit>` containing one `<segment>`.
 
+The runtime representation is `Catalog`. A unit contains its ID, optional group path, source message, and optional target. Use `serializeXliff` and `parseXliff` from `@step-wise/i18n/xliff` to convert between that representation and XML.
+
 Application extensions use the namespace `https://step-wise.com/ns/i18n` and the conventional prefix `swi18n`. The URI identifies the vocabulary; it does not imply that processing requires network access.
 
 
@@ -26,6 +28,12 @@ Component behavior such as whether it may be copied or deleted is defined by its
 ## Named component slots
 
 A component with one translatable property stores that property directly in its `<pc>` contents. The component registration identifies the property. A component with multiple translatable properties uses nested slot codes:
+
+```xml
+<pc id="c1" type="ui" subType="swi18n:paragraph" swi18n:slot="children">Some contents</pc>
+```
+
+For multiple properties, the slots are explicit:
 
 ```xml
 <pc id="c1" type="ui" subType="swi18n:container">
@@ -52,6 +60,8 @@ A plural remains inside its surrounding translation unit. It is represented by a
 
 Targets may add branches required by their locale. Every plural requires `other`; additional categories are validated against `Intl.PluralRules` for the target locale. Exact-number branches are distinct from grammatical plural categories.
 
+Selections use `swi18n:select` containers with `swi18n:select-branch` children. Each branch stores its value in `swi18n:value`, and every selection requires an `other` branch.
+
 
 ## Source compatibility
 
@@ -69,6 +79,8 @@ An approved target records the source fingerprints it was reviewed against. Comp
 - `invalid`: the target cannot be parsed or violates semantic/component rules.
 
 Only current targets render in normal production operation. All other states fall back to the English React source.
+
+The fingerprints are stored on `<target>` as `swi18n:sourceContentFingerprint` and `swi18n:sourceStructureFingerprint`. They describe the English source against which that target was reviewed, not necessarily the latest source currently stored beside it.
 
 
 ## Catalog reconciliation

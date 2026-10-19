@@ -1,10 +1,12 @@
 export { compareSourceMessages } from './comparison.ts'
+export { validateMessageForLocale } from './localeValidation.ts'
 export { normalizeMessage } from './normalization.ts'
 export {
 	getMessageContentFingerprint,
 	getMessageContentSignature,
 	getMessageStructureFingerprint,
 	getMessageStructureSignature,
+	isMessageFingerprint,
 } from './signatures.ts'
 export {
 	InvalidMessageError,

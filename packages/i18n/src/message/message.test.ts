@@ -1,12 +1,14 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+	type Message,
 	compareSourceMessages,
 	getMessageContentFingerprint,
 	getMessageStructureFingerprint,
+	isMessageFingerprint,
 	normalizeMessage,
-	type Message,
 	validateMessage,
+	validateMessageForLocale,
 } from './index.ts'
 
 describe('message normalization', () => {
@@ -89,6 +91,21 @@ describe('message validation', () => {
 	})
 })
 
+describe('locale-dependent message validation', () => {
+	it('validates plural categories for the given locale', () => {
+		const message: Message = [{ type: 'plural', variable: 'count', branches: { zero: [], other: [] } }]
+		expect(validateMessageForLocale(message, 'nl').map(issue => issue.message)).toEqual([
+			'Plural category "zero" is not used by locale "nl".',
+		])
+	})
+
+	it('reports invalid locales instead of throwing', () => {
+		expect(validateMessageForLocale([], 'invalid_locale').map(issue => issue.message)).toEqual([
+			'Invalid locale "invalid_locale".',
+		])
+	})
+})
+
 describe('message compatibility', () => {
 	const original: Message = [{
 		type: 'component',
@@ -125,4 +142,11 @@ describe('message compatibility', () => {
 		expect(compareSourceMessages(original, changed)).toBe('stale')
 	})
 
+})
+
+describe('message fingerprints', () => {
+	it('recognizes the format generated for messages', () => {
+		expect(isMessageFingerprint(getMessageContentFingerprint([]))).toBe(true)
+		expect(isMessageFingerprint('invalid')).toBe(false)
+	})
 })

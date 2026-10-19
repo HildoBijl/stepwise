@@ -26,6 +26,11 @@
 			"types": "./dist/index.d.ts",
 			"development": "./src/index.ts",
 			"import": "./dist/index.js"
+		},
+		"./xliff": {
+			"types": "./dist/xliff/index.d.ts",
+			"development": "./src/xliff/index.ts",
+			"import": "./dist/xliff/index.js"
 		}
 	},
 	"files": [
@@ -41,7 +46,8 @@
 	},
 	"dependencies": {
 		"@lingui/core": "^6.10.0",
-		"@lingui/react": "^6.10.0"
+		"@lingui/react": "^6.10.0",
+		"saxes": "^6.0.0"
 	},
 	"peerDependencies": {
 		"react": "^19.2.0"

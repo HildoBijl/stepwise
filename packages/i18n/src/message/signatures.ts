@@ -1,6 +1,10 @@
 import { normalizeMessage } from './normalization.ts'
 import { type Message, type MessageNode } from './types.ts'
 
+/*
+* Message signatures: a JSON string of a normalized message.
+*/
+
 type SignatureMode = 'content' | 'structure'
 
 // Get a string describing the canonical semantic representation of the message contents. Used to detect any source change.
@@ -11,16 +15,6 @@ export function getMessageContentSignature(message: Message): string {
 // Get a string describing the canonical semantic representation of the message structure. Used to detect any source change.
 export function getMessageStructureSignature(message: Message): string {
 	return JSON.stringify(encodeMessage(normalizeMessage(message), 'structure'))
-}
-
-// Get a hash representing the message contents.
-export function getMessageContentFingerprint(message: Message): string {
-	return fingerprint(getMessageContentSignature(message))
-}
-
-// Get a hash representing the message structure.
-export function getMessageStructureFingerprint(message: Message): string {
-	return fingerprint(getMessageStructureSignature(message))
 }
 
 // Turn a message into an array, or array of arrays, whose contents uniquely define the message.
@@ -51,6 +45,25 @@ function encodeNode(node: MessageNode, mode: SignatureMode): unknown {
 			Object.entries(node.branches).map(([value, message]) => [value, encodeMessage(message, mode)]),
 		]
 	}
+}
+
+/*
+ * Message fingerprints: a hash of the signature.
+ */
+
+// Get a hash representing the message contents.
+export function getMessageContentFingerprint(message: Message): string {
+	return fingerprint(getMessageContentSignature(message))
+}
+
+// Get a hash representing the message structure.
+export function getMessageStructureFingerprint(message: Message): string {
+	return fingerprint(getMessageStructureSignature(message))
+}
+
+// Check whether a value has the format produced by the message fingerprint functions.
+export function isMessageFingerprint(value: string): boolean {
+	return /^[0-9a-f]{16}$/.test(value)
 }
 
 // A deterministic, non-cryptographic fingerprint for change detection rather than security decisions.

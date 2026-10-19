@@ -21,8 +21,14 @@ export class InvalidMessageError extends Error {
 }
 
 /*
- * Public functions.
+ * Public functions for message validation. Note: this only checks the structure, it does not do locale-dependent validation.
  */
+
+// Assume that the message is a valid message: no issues.
+export function assertValidMessage(message: Message): void {
+	const issues = validateMessage(message)
+	if (issues.length > 0) throw new InvalidMessageError(issues)
+}
 
 // Validate semantic rules that are independent of React components and target locales.
 export function validateMessage(message: Message): MessageValidationIssue[] {
@@ -30,12 +36,6 @@ export function validateMessage(message: Message): MessageValidationIssue[] {
 	const componentIds = new Set<string>()
 	validateNodes(message, '$', componentIds, issues)
 	return issues
-}
-
-// Assume that the message is a valid message: no issues.
-export function assertValidMessage(message: Message): void {
-	const issues = validateMessage(message)
-	if (issues.length > 0) throw new InvalidMessageError(issues)
 }
 
 /*
@@ -67,6 +67,7 @@ function validateNode(node: MessageNode, path: string, componentIds: Set<string>
 
 		case 'select':
 			validateSelect(node, path, componentIds, issues)
+			return
 	}
 }
 

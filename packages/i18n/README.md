@@ -2,7 +2,7 @@
 
 `@step-wise/i18n` provides reusable internationalization logic and React integration for Step-Wise applications. The package is transitioning from its initial Lingui trial to a semantic message model backed by XLIFF 2.1 catalogs.
 
-The format-independent message model is available now. It represents text, variables, components with named translatable slots, plurals, and selections as a typed AST. It also provides normalization, validation, deterministic fingerprints, and source-compatibility classification. See [XLIFF.md](./XLIFF.md) for the catalog profile being implemented around this model.
+The format-independent message model represents text, variables, components with named translatable slots, plurals, and selections as a typed AST. It provides normalization, validation, deterministic fingerprints, and source-compatibility classification. Catalogs can be parsed from and serialized to the package's [XLIFF 2.1 profile](./XLIFF.md).
 
 
 ## Installation
@@ -49,6 +49,30 @@ export function Greeting() {
 The consuming application is responsible for configuring the Lingui compiler and extractor.
 
 
+## XLIFF catalogs
+
+Catalog and unit types are available from the main package entry point. The XML codec has a separate entry point so importing the React integration does not load an XML parser:
+
+```ts
+import { type Catalog, assertValidCatalog, getCatalogUnitStatus, validateCatalog } from '@step-wise/i18n'
+import { parseXliff, serializeXliff } from '@step-wise/i18n/xliff'
+
+const catalog: Catalog = {
+	sourceLocale: 'en',
+	units: [{
+		id: 'welcome',
+		source: [{ type: 'text', value: 'Welcome!' }],
+	}],
+}
+
+const xml = serializeXliff(catalog)
+const restoredCatalog = parseXliff(xml)
+const status = getCatalogUnitStatus(restoredCatalog.units[0]!)
+```
+
+Use `validateCatalog` to collect semantic catalog issues and `assertValidCatalog` when invalid data should throw immediately. Serialization asserts and normalizes its input. Parsing rejects malformed XML and documents outside the supported profile with `InvalidXliffError`.
+
+
 ## Package boundary
 
-This package owns the format-independent message model, catalog semantics, React integration, and generic lazy-catalog coordination. Applications own their supported locales, catalog paths, and locale selection. Node-only XLIFF and build tooling will be exposed separately from the browser runtime so filesystem dependencies cannot enter frontend bundles.
+This package owns the format-independent message model, catalog semantics, XLIFF codec, React integration, and generic lazy-catalog coordination. Applications own their supported locales, catalog paths, and locale selection. Future filesystem-based synchronization and validation tools will remain separate from the browser runtime.
