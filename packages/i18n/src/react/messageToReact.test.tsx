@@ -57,10 +57,10 @@ describe('message-to-React rendering', () => {
 
 describe('translation constructs', () => {
 	it('renders exact and locale-specific plural branches', () => {
-		const source = <Plural value={variable('count', 2)}>
+		const source = <Plural value={{ count: 2 }}>
 			<Plural.Exact value={0}>No messages</Plural.Exact>
 			<Plural.One>One message</Plural.One>
-			<Plural.Other>{variable('count', 2)} messages</Plural.Other>
+			<Plural.Other><Plural.Value /> messages</Plural.Other>
 		</Plural>
 
 		render(<Translation id="messages" locale="en">{source}</Translation>)
@@ -68,7 +68,7 @@ describe('translation constructs', () => {
 	})
 
 	it('renders the matching select branch and falls back to other', () => {
-		const source = <Select value={variable('role', 'teacher')}>
+		const source = <Select value={{ role: 'teacher' }}>
 			<Select.Case value="student">Student</Select.Case>
 			<Select.Case value="teacher">Teacher</Select.Case>
 			<Select.Other>Member</Select.Other>

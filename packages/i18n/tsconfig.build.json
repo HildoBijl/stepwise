@@ -9,5 +9,8 @@
 		"tsBuildInfoFile": "tsconfig.tsbuildinfo",
 		"jsx": "react-jsx"
 	},
+	"references": [
+		{ "path": "../js-utils/tsconfig.build.json" }
+	],
 	"include": ["src/**/*.ts", "src/**/*.tsx"]
 }

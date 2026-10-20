@@ -1,7 +1,7 @@
 import { createElement, Fragment, type ReactNode } from 'react'
 import { describe, expect, it } from 'vitest'
 
-import { getTranslationComponentDefinition, reactToMessage, variable, withTranslation } from './index.ts'
+import { getTranslationComponentDefinition, Plural, reactToMessage, Select, variable, withTranslation } from './index.ts'
 
 function Paragraph({ children }: { children: ReactNode }) {
 	return <p>{children}</p>
@@ -66,6 +66,64 @@ describe('React message conversion', () => {
 		])
 	})
 
+	it('supports shorthand named variables', () => {
+		const name = 'Ada'
+		expect(reactToMessage(<>Hello {{ name }}!</>)).toEqual([
+			{ type: 'text', value: 'Hello ' },
+			{ type: 'variable', name: 'name' },
+			{ type: 'text', value: '!' },
+		])
+		expect(reactToMessage(<TranslatedParagraph>Hello {{ name }}!</TranslatedParagraph>)).toMatchObject([{
+			slots: { children: [{ type: 'text', value: 'Hello ' }, { type: 'variable', name: 'name' }, { type: 'text', value: '!' }] },
+		}])
+	})
+
+	it('assigns raw construct values internal names and resolves scoped values', () => {
+		expect(reactToMessage(<>
+			<Plural value={2}><Plural.Other><Plural.Value /> messages</Plural.Other></Plural>
+			<Select value="teacher"><Select.Other><Select.Value /></Select.Other></Select>
+		</>)).toEqual([
+			{
+				type: 'plural',
+				variable: '$plural1',
+				branches: { other: [{ type: 'variable', name: '$plural1' }, { type: 'text', value: ' messages' }] },
+				form: 'cardinal',
+			},
+			{
+				type: 'select',
+				variable: '$select1',
+				branches: { other: [{ type: 'variable', name: '$select1' }] },
+			},
+		])
+	})
+
+	it('uses shorthand construct variable names', () => {
+		const count = 2
+		expect(reactToMessage(
+			<Plural value={{ count }}><Plural.Other><Plural.Value /> messages</Plural.Other></Plural>,
+		)).toMatchObject([{ variable: 'count', branches: { other: [{ type: 'variable', name: 'count' }, { type: 'text', value: ' messages' }] } }])
+	})
+
+	it('resolves Value against the nearest matching nested construct', () => {
+		expect(reactToMessage(
+			<Plural value={2}><Plural.Other>
+				<Plural value={3}><Plural.Other><Plural.Value /></Plural.Other></Plural>
+				<Plural.Value />
+			</Plural.Other></Plural>,
+		)).toMatchObject([{
+			variable: '$plural1',
+			branches: { other: [
+				{ variable: '$plural2', branches: { other: [{ type: 'variable', name: '$plural2' }] } },
+				{ type: 'variable', name: '$plural1' },
+			] },
+		}])
+	})
+
+	it('rejects Value components outside their corresponding constructs', () => {
+		expect(() => reactToMessage(<Plural.Value />)).toThrow('Plural.Value must be used inside')
+		expect(() => reactToMessage(<Select.Value />)).toThrow('Select.Value must be used inside')
+	})
+
 	it('converts translated contents and attributes into named slots', () => {
 		const contents = <TranslatedContainer header="Title">
 			<TranslatedParagraph>Enter <TranslatedInput label="your answer" />.</TranslatedParagraph>
@@ -105,7 +163,7 @@ describe('React message conversion', () => {
 		}])
 	})
 
-	it('rejects unmarked runtime values', () => {
-		expect(() => reactToMessage(createElement(TranslatedParagraph, null, { name: 'Ada' }))).toThrow('Wrap runtime values with variable')
+	it('rejects malformed variable shorthand', () => {
+		expect(() => reactToMessage(createElement(TranslatedParagraph, null, { first: 'Ada', last: 'Lovelace' }))).toThrow('Unsupported value')
 	})
 })

@@ -1,10 +1,11 @@
-import { Fragment, type ReactNode } from 'react'
+import { Fragment } from 'react'
 
 import { messageToReact } from './messageToReact.tsx'
 import { reactToMessage } from './reactToMessage.ts'
+import { type TranslatableReactNode } from './variable.ts'
 
 export type TranslationProps = {
-	children: ReactNode | unknown
+	children: TranslatableReactNode
 	id: string
 	locale?: string
 }
