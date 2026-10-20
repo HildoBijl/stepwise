@@ -3,7 +3,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material'
 import { ApolloProvider } from '@apollo/client/react'
 import { HelmetProvider } from 'react-helmet-async'
 
-import { I18nProvider as LinguiI18nProvider } from '@step-wise/i18n'
+import { LinguiI18nProvider } from '@step-wise/i18n'
 
 import { useUser, ActiveGroupProvider, SkillLevelProvider } from 'api'
 import { I18nProvider, useLanguage, useLanguageSetting } from 'i18n'

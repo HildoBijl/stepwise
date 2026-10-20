@@ -16,15 +16,27 @@ npm install @step-wise/i18n react
 
 ## Usage
 
-Create and configure an i18n instance in the application, then provide it to React:
+The new XLIFF runtime receives the active and source locales from the application. Its catalog loader returns parsed `Catalog` values:
 
 ```tsx
-import { I18nProvider, setupI18n, TranslationCatalog } from '@step-wise/i18n'
+import { I18nProvider } from '@step-wise/i18n'
+
+export function App({ children }: { children: React.ReactNode }) {
+	return <I18nProvider locale={locale} sourceLocale="en" loadCatalog={applicationCatalogLoader}>{children}</I18nProvider>
+}
+```
+
+The runtime caches catalogs by locale and path, deduplicates concurrent loads, and exposes its state through `useI18n`. Catalog-bound message resolution will be connected in the next implementation stage.
+
+The temporary Lingui trial remains available through `LinguiI18nProvider` and `TranslationCatalog` while frontend pages migrate to the XLIFF runtime:
+
+```tsx
+import { LinguiI18nProvider, setupI18n, TranslationCatalog } from '@step-wise/i18n'
 
 const i18n = setupI18n({ locale: 'en', messages: { en: {} } })
 
-export function App({ children }: { children: React.ReactNode }) {
-	return <I18nProvider i18n={i18n} loadCatalog={applicationCatalogLoader}>{children}</I18nProvider>
+export function Trial({ children }: { children: React.ReactNode }) {
+	return <LinguiI18nProvider i18n={i18n} loadCatalog={linguiCatalogLoader}>{children}</LinguiI18nProvider>
 }
 ```
 

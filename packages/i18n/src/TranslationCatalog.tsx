@@ -1,7 +1,7 @@
 import { type ReactNode, useEffect, useState } from 'react'
 import { useLingui } from '@lingui/react'
 
-import { getCatalogKey, useCatalogLoading } from './I18nProvider.tsx'
+import { getLinguiCatalogKey, useLinguiCatalogLoading } from './LinguiI18nProvider.tsx'
 
 type TranslationCatalogProps = {
 	children: ReactNode
@@ -14,12 +14,12 @@ export function TranslationCatalog({ children, path, fallback = null }: Translat
 	// Determine the file key from the language local and the path.
 	const { i18n } = useLingui()
 	const locale = i18n.locale
-	const key = getCatalogKey(locale, path)
+	const key = getLinguiCatalogKey(locale, path)
 
 	// Track the loading status for the given key.
 	const [loadedKey, setLoadedKey] = useState<string>()
 	const [error, setError] = useState<unknown>()
-	const catalogLoading = useCatalogLoading()
+	const catalogLoading = useLinguiCatalogLoading()
 	const loaded = loadedKey === key || catalogLoading.isLoaded(locale, path)
 
 	// Load in the respective language file.
