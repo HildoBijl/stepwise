@@ -56,7 +56,7 @@ The consuming application is responsible for configuring the Lingui compiler and
 Ordinary custom components and native elements such as `strong` use the default behavior automatically: their kebab-case component name becomes the tag and their children are translated. Wrap components whose behavior differs from these defaults.
 
 ```tsx
-import { reactNodeToMessage, variable, withTranslation } from '@step-wise/i18n'
+import { reactToMessage, variable, withTranslation } from '@step-wise/i18n'
 
 const TranslatedEquation = withTranslation(Equation, {
 	tag: 'equation',
@@ -70,12 +70,32 @@ const TranslatedInput = withTranslation(Input, {
 	translatedProps: ['label'],
 })
 
-const message = reactNodeToMessage(
+const message = reactToMessage(
 	<>Welcome {variable('name', name)}. <TranslatedInput label="Your answer" /> <TranslatedEquation>x^2</TranslatedEquation></>,
 )
 ```
 
 `translatedProps` defaults to `['children']`. Each listed prop becomes a named message slot; unlisted props remain in the original React element and do not enter translation catalogs. Anonymous components must be wrapped with an explicit tag because no stable default can be derived for them. Copying and deletion are allowed by default and can be disabled independently for required or identity-sensitive components.
+
+Use `Translation`, `Plural`, and `Select` to author messages. Plural and selection values are named with `variable`, allowing translated messages to refer to the same runtime values.
+
+```tsx
+<Translation id="messages">
+	<Plural value={variable('count', count)}>
+		<Plural.One>There is one message.</Plural.One>
+		<Plural.Other>There are {variable('count', count)} messages.</Plural.Other>
+	</Plural>
+</Translation>
+
+<Translation id="role">
+	<Select value={variable('role', role)}>
+		<Select.Case value="teacher">Teacher</Select.Case>
+		<Select.Other>Member</Select.Other>
+	</Select>
+</Translation>
+```
+
+`messageToReact` applies a translated `Message` to its original React source. It retains preserved props, correlates reordered components by occurrence ID, resolves variables and constructs, and enforces component copy/delete permissions. Until the XLIFF catalog runtime is connected, `Translation` renders its English source.
 
 
 ## XLIFF catalogs

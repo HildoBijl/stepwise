@@ -1,7 +1,7 @@
 import { type Catalog, type CatalogEntry, type CatalogUnit } from '../catalog/types.ts'
 import { assertValidCatalog } from '../catalog/validation.ts'
 import { normalizeMessage } from '../message/normalization.ts'
-import { type ComponentNode, type Message, type MessageNode, pluralCategories } from '../message/types.ts'
+import { type ComponentNode, type Message, type MessageNode, type PluralNode, type SelectNode, pluralCategories } from '../message/types.ts'
 import { componentSubTypePrefix, stepWiseNamespace, variableSubType } from './constants.ts'
 
 type SerializationContext = {
@@ -94,7 +94,7 @@ function serializeComponent(node: ComponentNode, context: SerializationContext):
 }
 
 // Serialize a plural: wrap its branches and exact branches into their own tags and add to a container tag.
-function serializePlural(node: Extract<MessageNode, { type: 'plural' }>, context: SerializationContext): string {
+function serializePlural(node: PluralNode, context: SerializationContext): string {
 	const id = nextGeneratedId(context)
 
 	// Add the plural categories that exist within this plural node.
@@ -111,7 +111,7 @@ function serializePlural(node: Extract<MessageNode, { type: 'plural' }>, context
 }
 
 // Serialize a select: serialize its branches and wrap them in a tag.
-function serializeSelect(node: Extract<MessageNode, { type: 'select' }>, context: SerializationContext): string {
+function serializeSelect(node: SelectNode, context: SerializationContext): string {
 	const id = nextGeneratedId(context)
 	const branches = Object.entries(node.branches).map(([value, message]) => `<pc id="${nextGeneratedId(context)}" type="other" subType="swi18n:select-branch" swi18n:value="${escapeAttribute(value)}">${serializeMessage(message, context)}</pc>`).join('')
 	return `<pc id="${id}" type="other" subType="swi18n:select" swi18n:variable="${escapeAttribute(node.variable)}">${branches}</pc>`

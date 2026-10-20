@@ -1,7 +1,7 @@
 import { type ComponentProps, type ComponentType, type ElementType, type JSXElementConstructor, createElement } from 'react'
 
 /*
- * Option types.
+ * Types.
  */
 
 // The options that can be passed when setting up a Translation Component.
@@ -27,7 +27,7 @@ type RegisteredTranslationComponent = JSXElementConstructor<unknown> & {
 }
 
 /*
- * Wrapping functions.
+ * Component wrapper.
  */
 
 // Wrap a React component and describe how it participates in translated messages.

@@ -1,4 +1,4 @@
-import { pluralCategories, type Message, type MessageNode } from './types.ts'
+import { type ComponentNode, type Message, type MessageNode, type PluralNode, type SelectNode, pluralCategories } from './types.ts'
 
 /*
  * Error types.
@@ -79,7 +79,7 @@ function validateVariableName(name: string, path: string, issues: MessageValidat
 	if (!isValidName(name)) addIssue(issues, path, 'Variable names must be non-empty identifiers.')
 }
 
-function validateComponent(node: Extract<MessageNode, { type: 'component' }>, path: string, componentIds: Set<string>, issues: MessageValidationIssue[]): void {
+function validateComponent(node: ComponentNode, path: string, componentIds: Set<string>, issues: MessageValidationIssue[]): void {
 	// Check the node ID.
 	if (!isValidXmlId(node.id)) addIssue(issues, `${path}.id`, 'Component IDs must be valid XLIFF NMTOKEN-compatible values.')
 	else if (componentIds.has(node.id)) addIssue(issues, `${path}.id`, `Duplicate component ID "${node.id}".`)
@@ -97,7 +97,7 @@ function validateComponent(node: Extract<MessageNode, { type: 'component' }>, pa
 	})
 }
 
-function validatePlural(node: Extract<MessageNode, { type: 'plural' }>, path: string, componentIds: Set<string>, issues: MessageValidationIssue[]): void {
+function validatePlural(node: PluralNode, path: string, componentIds: Set<string>, issues: MessageValidationIssue[]): void {
 	// Check the variable.
 	validateVariableName(node.variable, `${path}.variable`, issues)
 
@@ -115,7 +115,7 @@ function validatePlural(node: Extract<MessageNode, { type: 'plural' }>, path: st
 	})
 }
 
-function validateSelect(node: Extract<MessageNode, { type: 'select' }>, path: string, componentIds: Set<string>, issues: MessageValidationIssue[]): void {
+function validateSelect(node: SelectNode, path: string, componentIds: Set<string>, issues: MessageValidationIssue[]): void {
 	// Check the variable.
 	validateVariableName(node.variable, `${path}.variable`, issues)
 

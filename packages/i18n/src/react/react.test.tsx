@@ -1,7 +1,7 @@
 import { createElement, Fragment, type ReactNode } from 'react'
 import { describe, expect, it } from 'vitest'
 
-import { getTranslationComponentDefinition, reactNodeToMessage, variable, withTranslation } from './index.ts'
+import { getTranslationComponentDefinition, reactToMessage, variable, withTranslation } from './index.ts'
 
 function Paragraph({ children }: { children: ReactNode }) {
 	return <p>{children}</p>
@@ -52,7 +52,7 @@ describe('withTranslation', () => {
 describe('React message conversion', () => {
 	it('converts text, variables, fragments and native elements', () => {
 		const contents = <Fragment>Hello {variable('name', 'Ada')}, <strong>welcome</strong>!</Fragment>
-		expect(reactNodeToMessage(contents)).toEqual([
+		expect(reactToMessage(contents)).toEqual([
 			{ type: 'text', value: 'Hello ' },
 			{ type: 'variable', name: 'name' },
 			{ type: 'text', value: ', ' },
@@ -70,7 +70,7 @@ describe('React message conversion', () => {
 		const contents = <TranslatedContainer header="Title">
 			<TranslatedParagraph>Enter <TranslatedInput label="your answer" />.</TranslatedParagraph>
 		</TranslatedContainer>
-		expect(reactNodeToMessage(contents)).toEqual([{
+		expect(reactToMessage(contents)).toEqual([{
 			type: 'component',
 			id: 'c1',
 			component: 'container',
@@ -91,13 +91,13 @@ describe('React message conversion', () => {
 	})
 
 	it('omits preserved component contents from the message', () => {
-		expect(reactNodeToMessage(<TranslatedEquation>x^2</TranslatedEquation>)).toEqual([
+		expect(reactToMessage(<TranslatedEquation>x^2</TranslatedEquation>)).toEqual([
 			{ type: 'component', id: 'c1', component: 'equation', slots: {} },
 		])
 	})
 
 	it('uses default behavior for ordinary custom components', () => {
-		expect(reactNodeToMessage(<Paragraph>Text</Paragraph>)).toEqual([{
+		expect(reactToMessage(<Paragraph>Text</Paragraph>)).toEqual([{
 			type: 'component',
 			id: 'c1',
 			component: 'paragraph',
@@ -106,6 +106,6 @@ describe('React message conversion', () => {
 	})
 
 	it('rejects unmarked runtime values', () => {
-		expect(() => reactNodeToMessage(createElement(TranslatedParagraph, null, { name: 'Ada' }))).toThrow('Wrap runtime values with variable')
+		expect(() => reactToMessage(createElement(TranslatedParagraph, null, { name: 'Ada' }))).toThrow('Wrap runtime values with variable')
 	})
 })

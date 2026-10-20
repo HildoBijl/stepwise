@@ -2,7 +2,7 @@ import { type SaxesAttributeNS, type SaxesTagNS, SaxesParser } from 'saxes'
 
 import { type Catalog, type CatalogEntry, type CatalogGroup, type CatalogUnit } from '../catalog/types.ts'
 import { validateCatalog } from '../catalog/validation.ts'
-import { type Message, type MessageNode, pluralCategories } from '../message/types.ts'
+import { type Message, type MessageNode, type PluralBranches, type SelectBranches, pluralCategories } from '../message/types.ts'
 import { componentSubTypePrefix, stepWiseNamespace, variableSubType, xliffNamespace } from './constants.ts'
 import { InvalidXliffError } from './errors.ts'
 
@@ -248,7 +248,7 @@ function parsePlural(element: XmlElement, path: string): MessageNode {
 	return {
 		type: 'plural',
 		variable: requireAttribute(element, 'variable', path, stepWiseNamespace),
-		branches: branches as Extract<MessageNode, { type: 'plural' }>['branches'],
+		branches: branches as PluralBranches,
 		...(Object.keys(exactBranches).length > 0 && { exactBranches }),
 		form,
 	}
@@ -271,7 +271,7 @@ function parseSelect(element: XmlElement, path: string): MessageNode {
 	return {
 		type: 'select',
 		variable: requireAttribute(element, 'variable', path, stepWiseNamespace),
-		branches: branches as Extract<MessageNode, { type: 'select' }>['branches'],
+		branches: branches as SelectBranches,
 	}
 }
 
