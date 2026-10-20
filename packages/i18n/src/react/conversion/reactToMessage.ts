@@ -1,11 +1,11 @@
 import { Children, Fragment, isValidElement, type ReactElement, type ReactNode } from 'react'
 
-import { type ComponentNode, type Message, type MessageNode, type PluralBranches, type PluralCategory, type SelectBranches, normalizeMessage } from '../message/index.ts'
+import { type ComponentNode, type Message, type MessageNode, type PluralBranches, type PluralCategory, type SelectBranches, normalizeMessage } from '../../message/index.ts'
 
-import { getTranslationComponentDefinition, type TranslationComponentDefinition } from './withTranslation.tsx'
-import { type ExactPluralBranchProps, type PluralBranchProps, type PluralProps, getPluralBranch, isPluralConstruct, isPluralValue } from './Plural.tsx'
-import { type SelectBranchProps, type SelectOtherProps, type SelectProps, Select, isSelectBranch, isSelectConstruct, isSelectValue } from './Select.tsx'
-import { type TranslationVariable, getTranslationVariableShorthand, isTranslationVariable, isTranslationVariableShorthand, variable } from './variable.ts'
+import { getTranslationComponentDefinition, type TranslationComponentDefinition } from '../authoring/withTranslation.tsx'
+import { type ExactPluralBranchProps, type PluralBranchProps, type PluralProps, getPluralBranch, isPluralConstruct, isPluralValue } from '../authoring/Plural.tsx'
+import { type SelectBranchProps, type SelectOtherProps, type SelectProps, Select, isSelectBranch, isSelectConstruct, isSelectValue } from '../authoring/Select.tsx'
+import { type TranslationVariable, type TranslationVariableShorthand, isTranslationVariable, isTranslationVariableShorthand, variable } from '../authoring/variable.ts'
 
 /*
  * Types.
@@ -66,7 +66,7 @@ function convertNode(node: unknown, context: ConversionContext): MessageNode[] {
 		return [{ type: 'variable', name: node.name }]
 	}
 	if (isTranslationVariableShorthand(node)) {
-		const shorthand = getTranslationVariableShorthand(node)
+		const shorthand = translationVariableFromShorthand(node)
 		addVariable(shorthand.name, shorthand.value, context)
 		return [{ type: 'variable', name: shorthand.name }]
 	}
@@ -204,9 +204,15 @@ function addVariable(name: string, value: unknown, context: ConversionContext): 
 // Resolve an explicit variable or assign a deterministic internal name to a raw construct value.
 function resolveConstructVariable(value: unknown, construct: 'plural' | 'select', context: ConversionContext): TranslationVariable {
 	if (isTranslationVariable(value)) return value
-	if (isTranslationVariableShorthand(value)) return getTranslationVariableShorthand(value)
+	if (isTranslationVariableShorthand(value)) return translationVariableFromShorthand(value)
 	const counter = construct === 'plural' ? context.nextPluralVariableId++ : context.nextSelectVariableId++
 	return variable(`$${construct}${counter}`, value)
+}
+
+// Turn the {{ name: value }} shorthand into a named translation variable.
+function translationVariableFromShorthand(value: TranslationVariableShorthand): TranslationVariable {
+	const name = Object.keys(value)[0]!
+	return variable(name, value[name])
 }
 
 // Get the last variable name from a stack of tracked variables.

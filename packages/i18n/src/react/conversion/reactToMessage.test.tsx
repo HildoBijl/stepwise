@@ -1,7 +1,11 @@
-import { createElement, Fragment, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { describe, expect, it } from 'vitest'
 
-import { getTranslationComponentDefinition, Plural, reactToMessage, Select, variable, withTranslation } from './index.ts'
+import { Plural } from '../authoring/Plural.tsx'
+import { Select } from '../authoring/Select.tsx'
+import { variable } from '../authoring/variable.ts'
+import { withTranslation } from '../authoring/withTranslation.tsx'
+import { reactToMessage } from './reactToMessage.ts'
 
 function Paragraph({ children }: { children: ReactNode }) {
 	return <p>{children}</p>
@@ -19,39 +23,14 @@ function Equation({ children }: { children: ReactNode }) {
 	return <span>{children}</span>
 }
 
-const TranslatedParagraph = withTranslation(Paragraph, { tag: 'paragraph' })
 const TranslatedInput = withTranslation(Input, { tag: 'input-field', translatedProps: ['label'] })
+const TranslatedParagraph = withTranslation(Paragraph, { tag: 'paragraph' })
 const TranslatedContainer = withTranslation(Container, { tag: 'container', translatedProps: ['children', 'header'] })
 const TranslatedEquation = withTranslation(Equation, { tag: 'equation', translatedProps: [], canCopy: false, canDelete: false })
 
-describe('withTranslation', () => {
-	it('defines defaults and preserves configured component behavior', () => {
-		expect(getTranslationComponentDefinition(TranslatedParagraph)).toEqual({
-			tag: 'paragraph',
-			translatedProps: ['children'],
-			canCopy: true,
-			canDelete: true,
-		})
-		expect(getTranslationComponentDefinition(TranslatedEquation)).toMatchObject({
-			tag: 'equation',
-			translatedProps: [],
-			canCopy: false,
-			canDelete: false,
-		})
-	})
-
-	it('derives a kebab-case tag from the wrapped component name', () => {
-		const Translated = withTranslation(Paragraph)
-		function HTMLInput() { return <input /> }
-
-		expect(getTranslationComponentDefinition(Translated)?.tag).toBe('paragraph')
-		expect(getTranslationComponentDefinition(HTMLInput)?.tag).toBe('html-input')
-	})
-})
-
 describe('React message conversion', () => {
 	it('converts text, variables, fragments and native elements', () => {
-		const contents = <Fragment>Hello {variable('name', 'Ada')}, <strong>welcome</strong>!</Fragment>
+		const contents = ['Hello ', variable('name', 'Ada'), ', ', <strong key="strong">welcome</strong>, '!']
 		expect(reactToMessage(contents)).toEqual([
 			{ type: 'text', value: 'Hello ' },
 			{ type: 'variable', name: 'name' },
@@ -68,14 +47,11 @@ describe('React message conversion', () => {
 
 	it('supports shorthand named variables', () => {
 		const name = 'Ada'
-		expect(reactToMessage(<>Hello {{ name }}!</>)).toEqual([
+		expect(reactToMessage(['Hello ', { name }, '!'])).toEqual([
 			{ type: 'text', value: 'Hello ' },
 			{ type: 'variable', name: 'name' },
 			{ type: 'text', value: '!' },
 		])
-		expect(reactToMessage(<TranslatedParagraph>Hello {{ name }}!</TranslatedParagraph>)).toMatchObject([{
-			slots: { children: [{ type: 'text', value: 'Hello ' }, { type: 'variable', name: 'name' }, { type: 'text', value: '!' }] },
-		}])
 	})
 
 	it('assigns raw construct values internal names and resolves scoped values', () => {
@@ -155,6 +131,7 @@ describe('React message conversion', () => {
 	})
 
 	it('uses default behavior for ordinary custom components', () => {
+		function Paragraph({ children }: { children: ReactNode }) { return <p>{children}</p> }
 		expect(reactToMessage(<Paragraph>Text</Paragraph>)).toEqual([{
 			type: 'component',
 			id: 'c1',
@@ -164,6 +141,6 @@ describe('React message conversion', () => {
 	})
 
 	it('rejects malformed variable shorthand', () => {
-		expect(() => reactToMessage(createElement(TranslatedParagraph, null, { first: 'Ada', last: 'Lovelace' }))).toThrow('Unsupported value')
+		expect(() => reactToMessage({ first: 'Ada', last: 'Lovelace' })).toThrow('Unsupported value')
 	})
 })

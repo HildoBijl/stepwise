@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react'
 
-import { type PluralCategory } from '../message/index.ts'
+import { type PluralCategory } from '../../message/index.ts'
 import { type TranslatableReactNode, type TranslationVariable, type TranslationVariableShorthand } from './variable.ts'
 
 export type PluralProps = { children: TranslatableReactNode, value: number | TranslationVariable | TranslationVariableShorthand, form?: 'cardinal' | 'ordinal' }

@@ -31,7 +31,7 @@ function findTranslationCatalogs(directory: string) {
 	const catalogs = new Map<string, { path: string, include: string[] }>()
 	findSourceFiles(directory).forEach(file => {
 		const source = readFileSync(file, 'utf8')
-		const paths = source.matchAll(/<TranslationCatalog\s+path=["']([^"']+)["']/g)
+		const paths = source.matchAll(/<LinguiTranslationCatalog\s+path=["']([^"']+)["']/g)
 		for (const [, path] of paths) {
 			if (!path) continue
 			const include = catalogSource(file)

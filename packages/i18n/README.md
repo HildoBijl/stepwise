@@ -28,10 +28,10 @@ export function App({ children }: { children: React.ReactNode }) {
 
 The runtime caches catalogs by locale and path, deduplicates concurrent loads, and exposes its state through `useI18n`. Catalog-bound message resolution will be connected in the next implementation stage.
 
-The temporary Lingui trial remains available through `LinguiI18nProvider` and `TranslationCatalog` while frontend pages migrate to the XLIFF runtime:
+The temporary Lingui trial remains available through `LinguiI18nProvider` and `LinguiTranslationCatalog` while frontend pages migrate to the XLIFF runtime:
 
 ```tsx
-import { LinguiI18nProvider, setupI18n, TranslationCatalog } from '@step-wise/i18n'
+import { LinguiI18nProvider, LinguiTranslationCatalog, setupI18n } from '@step-wise/i18n'
 
 const i18n = setupI18n({ locale: 'en', messages: { en: {} } })
 
@@ -43,9 +43,9 @@ export function Trial({ children }: { children: React.ReactNode }) {
 Catalog boundaries load and cache the requested catalog for the active locale:
 
 ```tsx
-<TranslationCatalog path="pages/home" fallback={<LoadingPage />}>
+<LinguiTranslationCatalog path="pages/home" fallback={<LoadingPage />}>
 	<Home />
-</TranslationCatalog>
+</LinguiTranslationCatalog>
 ```
 
 The application decides how paths resolve to catalog modules. Bundler-specific discovery such as Vite's `import.meta.glob` therefore remains outside this package.

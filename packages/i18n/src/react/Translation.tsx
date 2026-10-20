@@ -1,16 +1,17 @@
 import { Fragment } from 'react'
 
-import { messageToReact } from './messageToReact.tsx'
-import { reactToMessage } from './reactToMessage.ts'
-import { type TranslatableReactNode } from './variable.ts'
+import { type TranslatableReactNode } from './authoring/variable.ts'
+import { messageToReact } from './conversion/messageToReact.tsx'
+import { reactToMessage } from './conversion/reactToMessage.ts'
+import { useI18n } from './context/hooks.ts'
 
 export type TranslationProps = {
 	children: TranslatableReactNode
 	id: string
-	locale?: string
 }
 
 // Render translatable React content using its source message until catalog resolution is connected.
-export function Translation({ children, locale = 'en' }: TranslationProps) {
+export function Translation({ children }: TranslationProps) {
+	const { locale } = useI18n()
 	return <Fragment>{messageToReact(reactToMessage(children), children, locale)}</Fragment>
 }

@@ -4,8 +4,11 @@ import { render, screen } from '@testing-library/react'
 import { type ReactNode } from 'react'
 import { describe, expect, it } from 'vitest'
 
-import { type Message } from '../message/index.ts'
-import { messageToReact, Plural, Select, Translation, variable, withTranslation } from './index.ts'
+import { type Message } from '../../message/index.ts'
+
+import { variable } from '../authoring/variable.ts'
+import { withTranslation } from '../authoring/withTranslation.tsx'
+import { messageToReact } from './messageToReact.tsx'
 
 function Equation({ children }: { children: ReactNode }) {
 	return <span data-testid="equation">{children}</span>
@@ -53,29 +56,4 @@ describe('message-to-React rendering', () => {
 		expect(() => messageToReact(copied, source, 'en')).toThrow('may not be copied')
 		expect(() => messageToReact([], source, 'en')).toThrow('may not be deleted')
 	})
-})
-
-describe('translation constructs', () => {
-	it('renders exact and locale-specific plural branches', () => {
-		const source = <Plural value={{ count: 2 }}>
-			<Plural.Exact value={0}>No messages</Plural.Exact>
-			<Plural.One>One message</Plural.One>
-			<Plural.Other><Plural.Value /> messages</Plural.Other>
-		</Plural>
-
-		render(<Translation id="messages" locale="en">{source}</Translation>)
-		expect(screen.getByText('2 messages')).toBeTruthy()
-	})
-
-	it('renders the matching select branch and falls back to other', () => {
-		const source = <Select value={{ role: 'teacher' }}>
-			<Select.Case value="student">Student</Select.Case>
-			<Select.Case value="teacher">Teacher</Select.Case>
-			<Select.Other>Member</Select.Other>
-		</Select>
-
-		render(<Translation id="role">{source}</Translation>)
-		expect(screen.getByText('Teacher')).toBeTruthy()
-	})
-
 })

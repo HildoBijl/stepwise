@@ -2,6 +2,8 @@ import { type ReactNode } from 'react'
 
 import { isPlainObject } from '@step-wise/js-utils'
 
+export type TranslatableReactNode = ReactNode | TranslationVariable | TranslationVariableShorthand
+
 /*
  * Regular translation variables through variable('name', value).
  */
@@ -30,17 +32,8 @@ export function isTranslationVariable(value: unknown): value is TranslationVaria
  */
 
 export type TranslationVariableShorthand = { readonly [name: string]: unknown }
-export type TranslatableReactNode = ReactNode | TranslationVariableShorthand
 
 // Check if a value uses the {{ name: value }} translation variable shorthand.
 export function isTranslationVariableShorthand(value: unknown): value is TranslationVariableShorthand {
 	return isPlainObject(value) && Object.keys(value).length === 1
-}
-
-// Turn the {{ name: value }} shorthand into a named translation variable.
-export function getTranslationVariableShorthand(value: TranslationVariableShorthand): TranslationVariable {
-	const names = Object.keys(value)
-	if (names.length !== 1) throw new Error('Translation variable shorthand must contain exactly one property.')
-	const name = names[0]!
-	return variable(name, value[name])
 }

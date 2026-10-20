@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { Box } from '@mui/material'
 import { useLingui } from '@lingui/react'
 
-import { TranslationCatalog } from '@step-wise/i18n'
+import { LinguiTranslationCatalog } from '@step-wise/i18n'
 
 import { PageTranslationFile } from '../PageTranslationFile'
 
@@ -12,9 +12,9 @@ import { LanguageBar, TitleBar, Description, Blocks } from './parts'
 
 export function Home() {
 	return <PageTranslationFile page="home">
-		<TranslationCatalog path="pages/home">
+		<LinguiTranslationCatalog path="pages/home">
 			<HomeContents />
-		</TranslationCatalog>
+		</LinguiTranslationCatalog>
 	</PageTranslationFile>
 }
 

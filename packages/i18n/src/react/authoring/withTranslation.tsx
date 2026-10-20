@@ -22,7 +22,8 @@ export type TranslationComponentDefinition = {
 
 // The type of the wrapped Translation Component.
 const translationComponent = Symbol('translationComponent')
-type RegisteredTranslationComponent = JSXElementConstructor<unknown> & {
+type TranslationComponent = string | JSXElementConstructor<any>
+type RegisteredTranslationComponent = TranslationComponent & {
 	[translationComponent]?: TranslationComponentDefinition
 }
 
@@ -50,12 +51,12 @@ export function withTranslation<Component extends ElementType>(Component: Compon
 }
 
 // Return the registered translation definition or derive the default definition for an ordinary component.
-export function getTranslationComponentDefinition(component: string | JSXElementConstructor<unknown>): TranslationComponentDefinition {
+export function getTranslationComponentDefinition(component: TranslationComponent): TranslationComponentDefinition {
 	return (component as RegisteredTranslationComponent)[translationComponent] ?? getDefaultTranslationComponentDefinition(component)
 }
 
 // Set up the default translation definition for a component.
-function getDefaultTranslationComponentDefinition(component: string | JSXElementConstructor<unknown>): TranslationComponentDefinition {
+function getDefaultTranslationComponentDefinition(component: TranslationComponent): TranslationComponentDefinition {
 	return {
 		tag: getDefaultComponentTag(component),
 		translatedProps: ['children'],
@@ -65,7 +66,7 @@ function getDefaultTranslationComponentDefinition(component: string | JSXElement
 }
 
 // Derive a kebab-case translation tag from a React component's name or displayName property (whichever is present).
-function getDefaultComponentTag(component: string | JSXElementConstructor<unknown>): string {
+function getDefaultComponentTag(component: TranslationComponent): string {
 	if (typeof component === 'string') return component
 	const namedComponent = component as { displayName?: string, name?: string }
 	const name = namedComponent.name ?? namedComponent.displayName

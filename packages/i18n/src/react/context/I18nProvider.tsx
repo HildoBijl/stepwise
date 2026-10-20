@@ -1,6 +1,6 @@
 import { type ReactNode, useCallback, useMemo, useRef, useState } from 'react'
 
-import { type Catalog, assertValidCatalog } from '../catalog/index.ts'
+import { type Catalog, assertValidCatalog } from '../../catalog/index.ts'
 
 import { type SourceRegistrar, I18nContext } from './context.ts'
 

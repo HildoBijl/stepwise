@@ -4,7 +4,7 @@ import { act, render, screen } from '@testing-library/react'
 import { Trans } from '@lingui/react'
 import { describe, expect, it, vi } from 'vitest'
 
-import { type I18nRuntime, I18nProvider, LinguiI18nProvider, setupI18n, TranslationCatalog, useI18n } from './index.ts'
+import { type I18nRuntime, I18nProvider, LinguiI18nProvider, LinguiTranslationCatalog, setupI18n, useI18n } from './index.ts'
 
 describe('LinguiI18nProvider', () => {
 	it('renders and updates translated messages', () => {
@@ -27,10 +27,10 @@ describe('LinguiI18nProvider', () => {
 		const i18n = setupI18n({ locale: 'en', messages: { en: {}, nl: {} } })
 		const loadCatalog = vi.fn(async (locale: string) => ({ greeting: locale === 'nl' ? 'Hallo' : 'Hello' }))
 		render(<LinguiI18nProvider i18n={i18n} loadCatalog={loadCatalog}>
-			<TranslationCatalog path="example" fallback="Loading">
+			<LinguiTranslationCatalog path="example" fallback="Loading">
 				<Trans id="greeting" />
-			</TranslationCatalog>
-			<TranslationCatalog path="example"><span /></TranslationCatalog>
+			</LinguiTranslationCatalog>
+			<LinguiTranslationCatalog path="example"><span /></LinguiTranslationCatalog>
 		</LinguiI18nProvider>)
 
 		expect(screen.getByText('Loading')).toBeTruthy()

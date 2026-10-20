@@ -1,6 +1,6 @@
 import { type ReactElement, type ReactNode, cloneElement } from 'react'
 
-import { type ComponentNode, type Message, type MessageNode, type PluralNode, type SelectNode, assertValidMessage } from '../message/index.ts'
+import { type ComponentNode, type Message, type MessageNode, type PluralNode, type SelectNode, assertValidMessage } from '../../message/index.ts'
 
 import { type ReactComponentBinding, type ReactMessageSource, createReactMessageSource } from './reactToMessage.ts'
 

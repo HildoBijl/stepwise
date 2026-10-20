@@ -6,7 +6,7 @@ import { Plural, Trans } from '@lingui/react/macro'
 
 import * as c from '@step-wise/cas'
 import { Arc, Axes, Circle, Crosshair, Curve, Drawing, DrawingTarget, Grid, HtmlElement, Line, Plot, PlotArea, Polygon, Rectangle, anchors, useDrawingPointerState } from '@step-wise/drawing'
-import { TranslationCatalog } from '@step-wise/i18n'
+import { LinguiTranslationCatalog } from '@step-wise/i18n'
 import * as m from '@step-wise/math-input-value'
 import { Unit, PrecisionNumber, Quantity } from '@step-wise/physics-core'
 import { M, BM } from '@step-wise/math-display'
@@ -27,9 +27,9 @@ window.PrecisionNumber = PrecisionNumber
 window.Quantity = Quantity
 
 export function Test() {
-	return <TranslationCatalog path="pages/test">
+	return <LinguiTranslationCatalog path="pages/test">
 		<TestContents />
-	</TranslationCatalog>
+	</LinguiTranslationCatalog>
 }
 
 function TestContents() {

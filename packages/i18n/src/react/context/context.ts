@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 
-import { type Catalog } from '../catalog/index.ts'
-import { type Message } from '../message/index.ts'
+import { type Catalog } from '../../catalog/index.ts'
+import { type Message } from '../../message/index.ts'
 
 export type I18nRuntime = {
 	locale: string

@@ -3,14 +3,14 @@ import { useLingui } from '@lingui/react'
 
 import { getLinguiCatalogKey, useLinguiCatalogLoading } from './LinguiI18nProvider.tsx'
 
-type TranslationCatalogProps = {
+type LinguiTranslationCatalogProps = {
 	children: ReactNode
 	path: string
 	fallback?: ReactNode
 }
 
 // Wrapper that makes sure the translation file is loaded for the given path.
-export function TranslationCatalog({ children, path, fallback = null }: TranslationCatalogProps) {
+export function LinguiTranslationCatalog({ children, path, fallback = null }: LinguiTranslationCatalogProps) {
 	// Determine the file key from the language local and the path.
 	const { i18n } = useLingui()
 	const locale = i18n.locale
