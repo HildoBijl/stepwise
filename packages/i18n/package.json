@@ -32,6 +32,11 @@
 			"development": "./src/catalog/index.ts",
 			"import": "./dist/catalog/index.js"
 		},
+		"./locale": {
+			"types": "./dist/locale.d.ts",
+			"development": "./src/locale.ts",
+			"import": "./dist/locale.js"
+		},
 		"./xliff": {
 			"types": "./dist/xliff/index.d.ts",
 			"development": "./src/xliff/index.ts",

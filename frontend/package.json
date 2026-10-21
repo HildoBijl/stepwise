@@ -61,6 +61,7 @@
 		"i18n:check": "node --conditions=development src/i18nNext/cli/checkCatalogs.mjs",
 		"i18n:review": "node --conditions=development src/i18nNext/cli/reviewCatalog.mjs",
 		"i18n:sync": "node --conditions=development src/i18nNext/cli/syncCatalogs.mjs",
+		"i18n:init": "node --conditions=development src/i18nNext/cli/initializeLanguage.mjs",
 		"preview": "vite preview",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run",
