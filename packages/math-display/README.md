@@ -1,6 +1,6 @@
 # @step-wise/math-display
 
-`@step-wise/math-display` provides concise React components for displaying inline and block mathematics with KaTeX. It is intended for readable mathematical prose and builds on `@step-wise/react-components` for horizontally scrollable block content.
+`@step-wise/math-display` provides concise React components for displaying inline and block mathematics with KaTeX. It is intended for readable mathematical prose and builds on `@step-wise/i18n` for translation integration and `@step-wise/react-components` for horizontally scrollable block content.
 
 
 ## Installation
@@ -46,7 +46,7 @@ export function QuadraticSolutions() {
 | `BMPart` | Displays one equation within a `BMList`. |
 | `MathContent` | Low-level renderer supporting explicit inline or display mode without a scroller. |
 
-The authoring components retain `tag` and `translation` metadata used by translation tooling.
+The authoring components are registered with `@step-wise/i18n` as mandatory, non-copyable components. Individual equations are opaque: translations can reposition them, but cannot alter their LaTeX. A `BMList` exposes its list of opaque `BMPart` children so those equations can be reordered. The components temporarily retain the old `tag` and `translation` metadata while consumers migrate from the legacy translation toolbox.
 
 
 ## LaTeX content

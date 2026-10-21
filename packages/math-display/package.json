@@ -39,6 +39,7 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
+		"@step-wise/i18n": "^0.1.0",
 		"@step-wise/react-components": "^0.1.0",
 		"katex": "0.12.0"
 	},

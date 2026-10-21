@@ -22,6 +22,11 @@
 					<source>This <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">is important</pc>, but this is <pc id="c2" type="ui" subType="swi18n:em" swi18n:slot="children">subtle</pc>. This is <pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children">also important</pc>.</source>
 				</segment>
 			</unit>
+			<unit id="equations">
+				<segment>
+					<source>We should put <ph id="c1" type="ui" subType="swi18n:inline-math"/> after <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+				</segment>
+			</unit>
 		</group>
 	</file>
 </xliff>

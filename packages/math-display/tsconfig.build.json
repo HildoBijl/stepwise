@@ -10,6 +10,7 @@
 		"jsx": "react-jsx"
 	},
 	"references": [
+		{ "path": "../i18n/tsconfig.build.json" },
 		{ "path": "../react-components/tsconfig.build.json" }
 	],
 	"include": ["src/**/*.ts", "src/**/*.tsx"]

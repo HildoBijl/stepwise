@@ -26,6 +26,12 @@
 					<target swi18n:sourceContentFingerprint="475dcc82198babf5" swi18n:sourceStructureFingerprint="1ab55a29c4236818">Dies <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">ist wichtig</pc>, aber dies ist <pc id="c2" type="ui" subType="swi18n:em" swi18n:slot="children">subtil</pc>. Dies ist <pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children">auch wichtig</pc>.</target>
 				</segment>
 			</unit>
+			<unit id="equations">
+				<segment>
+					<source>We should put <ph id="c1" type="ui" subType="swi18n:inline-math"/> after <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+					<target swi18n:sourceContentFingerprint="7554be8037185896" swi18n:sourceStructureFingerprint="98f3255e641e5524">Wir sollten <ph id="c1" type="ui" subType="swi18n:inline-math"/> hinter <ph id="c2" type="ui" subType="swi18n:inline-math"/> setzen.</target>
+				</segment>
+			</unit>
 		</group>
 	</file>
 </xliff>

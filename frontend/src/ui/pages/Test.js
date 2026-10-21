@@ -63,6 +63,7 @@ function TestContents() {
 					<Button onClick={() => setMessageCount(count => count + 1)}>Add message</Button>
 				</Par>
 				<Par><Translation id="richText">This <strong>is important</strong>, but this is <em>subtle</em>. This is <strong>also important</strong>.</Translation></Par>
+				<Par><Translation id="equations">We should put <M>x</M> after <M>y</M>.</Translation></Par>
 			</TranslationGroup>
 			<Head>SURFconext sign-in</Head>
 			{user ?
