@@ -1,6 +1,7 @@
 import { getMessageContentSignature, getMessageStructureSignature } from '../message/signatures.ts'
 import { type Catalog, type CatalogEntry, type CatalogGroup, type CatalogUnit } from './types.ts'
 import { getCatalogUnitStatus } from './status.ts'
+import { assertSourceCatalog, assertTargetCatalog } from './validation.ts'
 
 /*
  * Applying synchronization.
@@ -39,10 +40,11 @@ function synchronizeEntries(sourceEntries: readonly CatalogEntry[], targetEntrie
 
 // Check that the two catalogs have matching locales that the target can be matched to the source.
 function assertCatalogPair(sourceCatalog: Catalog, targetLocale: string, targetCatalog?: Catalog): void {
-	if (sourceCatalog.targetLocale) throw new Error('The source Catalog must not have a target locale.')
+	assertSourceCatalog(sourceCatalog)
 	if (!targetCatalog) return
+	assertTargetCatalog(targetCatalog)
 	if (targetCatalog.sourceLocale !== sourceCatalog.sourceLocale) throw new Error(`Target Catalog source locale "${targetCatalog.sourceLocale}" does not match "${sourceCatalog.sourceLocale}".`)
-	if (targetCatalog.targetLocale !== targetLocale) throw new Error(`Expected target locale "${targetLocale}", but received "${targetCatalog.targetLocale ?? 'none'}".`)
+	if (targetCatalog.targetLocale !== targetLocale) throw new Error(`Expected target locale "${targetLocale}", but received "${targetCatalog.targetLocale}".`)
 }
 
 /*

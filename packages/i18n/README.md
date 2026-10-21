@@ -136,7 +136,7 @@ The logic-only `@step-wise/i18n/catalog` entry point exposes `synchronizeCatalog
 
 `validateCatalogSynchronization` checks that every source unit exists in the target Catalog, that its source snapshot is current, and that its translation status is `current`. Applications can use these format-independent operations in filesystem or service-specific tooling.
 
-Step-Wise exposes `npm run i18n:sync` to update its Dutch and German XLIFF files and `npm run i18n:check` for a read-only CI check. Obsolete target entries remain a manual cleanup concern.
+Step-Wise exposes `npm run i18n:sync` to update its Dutch and German XLIFF files and `npm run i18n:check` for a read-only CI check. After updating a target, use `npm run i18n:review -- <locale> <catalog.xlf> [group ...] <unit>` to record that one translation was reviewed against its current source, or pass `--all` after the catalog path to review every existing target in that catalog. Obsolete target entries remain a manual cleanup concern.
 
 
 ## Package boundary

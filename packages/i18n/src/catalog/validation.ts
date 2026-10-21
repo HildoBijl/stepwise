@@ -81,6 +81,16 @@ function validateUnit(unit: CatalogUnit, path: string, catalog: Catalog, sourceL
 	if (!isMessageFingerprint(unit.target.reviewedSourceStructureFingerprint)) issues.push({ path: `${path}.target.reviewedSourceStructureFingerprint`, message: 'Fingerprints must contain 16 lowercase hexadecimal characters.' })
 }
 
+// Assert that a Catalog is configured as a source Catalog.
+export function assertSourceCatalog(catalog: Catalog): asserts catalog is Catalog & { targetLocale?: undefined } {
+	if (catalog.targetLocale) throw new Error('Expected a source Catalog without a target locale.')
+}
+
+// Assert that a Catalog is configured for a target locale.
+export function assertTargetCatalog(catalog: Catalog): asserts catalog is Catalog & { targetLocale: string } {
+	if (!catalog.targetLocale) throw new Error('Expected a target Catalog with a target locale.')
+}
+
 /*
  * Support functions.
  */
