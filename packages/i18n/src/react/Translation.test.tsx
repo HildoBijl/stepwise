@@ -3,9 +3,13 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
+import { getMessageContentFingerprint, getMessageStructureFingerprint } from '../message/index.ts'
+
 import { Plural } from './authoring/Plural.tsx'
 import { Select } from './authoring/Select.tsx'
 import { I18nProvider } from './context/I18nProvider.tsx'
+import { TranslationCatalog } from './scoping/TranslationCatalog.tsx'
+import { TranslationGroup } from './scoping/TranslationGroup.tsx'
 import { Translation } from './Translation.tsx'
 
 describe('Translation', () => {
@@ -15,7 +19,9 @@ describe('Translation', () => {
 			<Plural.Other>Plural</Plural.Other>
 		</Plural>
 
-		render(<I18nProvider locale="fr" sourceLocale="en"><Translation id="messages">{source}</Translation></I18nProvider>)
+		render(<I18nProvider locale="fr" sourceLocale="en">
+			<TranslationCatalog name="test"><Translation id="messages">{source}</Translation></TranslationCatalog>
+		</I18nProvider>)
 		expect(screen.getByText('Singular')).toBeTruthy()
 	})
 
@@ -26,7 +32,9 @@ describe('Translation', () => {
 			<Plural.Other><Plural.Value /> messages</Plural.Other>
 		</Plural>
 
-		render(<I18nProvider locale="en" sourceLocale="en"><Translation id="messages">{source}</Translation></I18nProvider>)
+		render(<I18nProvider locale="en" sourceLocale="en">
+			<TranslationCatalog name="test"><Translation id="messages">{source}</Translation></TranslationCatalog>
+		</I18nProvider>)
 		expect(screen.getByText('2 messages')).toBeTruthy()
 	})
 
@@ -37,7 +45,39 @@ describe('Translation', () => {
 			<Select.Other>Member</Select.Other>
 		</Select>
 
-		render(<I18nProvider locale="en" sourceLocale="en"><Translation id="role">{source}</Translation></I18nProvider>)
+		render(<I18nProvider locale="en" sourceLocale="en">
+			<TranslationCatalog name="test"><Translation id="role">{source}</Translation></TranslationCatalog>
+		</I18nProvider>)
 		expect(screen.getByText('Teacher')).toBeTruthy()
+	})
+
+	it('loads and renders a current translation from the scoped Catalog unit', async () => {
+		const source = [{ type: 'text', value: 'Hello' }] as const
+		const loadCatalog = async () => ({
+			sourceLocale: 'en',
+			targetLocale: 'nl',
+			entries: [{
+				type: 'group' as const,
+				id: 'greetings',
+				entries: [{
+					type: 'unit' as const,
+					id: 'welcome',
+					source,
+					target: {
+						message: [{ type: 'text' as const, value: 'Hallo' }],
+						reviewedSourceContentFingerprint: getMessageContentFingerprint(source),
+						reviewedSourceStructureFingerprint: getMessageStructureFingerprint(source),
+					},
+				}],
+			}],
+		})
+
+		render(<I18nProvider locale="nl" sourceLocale="en" loadCatalog={loadCatalog}>
+			<TranslationCatalog name="test">
+				<TranslationGroup path="greetings"><Translation id="welcome">Hello</Translation></TranslationGroup>
+			</TranslationCatalog>
+		</I18nProvider>)
+
+		expect(await screen.findByText('Hallo')).toBeTruthy()
 	})
 })

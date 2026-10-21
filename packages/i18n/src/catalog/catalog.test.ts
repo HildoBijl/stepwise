@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { getCatalogUnits, visitCatalogUnits } from './traversal.ts'
-import { type Catalog } from './types.ts'
+import { findCatalogUnit, getCatalogUnits, visitCatalogUnits } from './traversal.ts'
+import { type Catalog, type CatalogUnit } from './types.ts'
 import { InvalidCatalogError, assertValidCatalog, validateCatalog } from './validation.ts'
 
 describe('catalog validation', () => {
@@ -43,11 +43,12 @@ describe('catalog validation', () => {
 
 describe('catalog traversal', () => {
 	it('visits nested units in catalog order with their group paths', () => {
+		const problem: CatalogUnit = { type: 'unit', id: 'problem', source: [] }
 		const catalog: Catalog = {
 			sourceLocale: 'en',
 			entries: [
 				{ type: 'unit', id: 'introduction', source: [] },
-				{ type: 'group', id: 'exercise', entries: [{ type: 'unit', id: 'problem', source: [] }] },
+				{ type: 'group', id: 'exercise', entries: [problem] },
 			],
 		}
 		const visited: [string, readonly string[]][] = []
@@ -55,5 +56,7 @@ describe('catalog traversal', () => {
 
 		expect(visited).toEqual([['introduction', []], ['problem', ['exercise']]])
 		expect(getCatalogUnits(catalog).map(unit => unit.id)).toEqual(['introduction', 'problem'])
+		expect(findCatalogUnit(catalog, ['exercise'], 'problem')).toBe(problem)
+		expect(findCatalogUnit(catalog, [], 'problem')).toBeUndefined()
 	})
 })

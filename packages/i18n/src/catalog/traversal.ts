@@ -1,4 +1,4 @@
-import { type Catalog, type CatalogEntry, type CatalogUnit } from './types.ts'
+import { type Catalog, type CatalogEntry, type CatalogGroup, type CatalogUnit } from './types.ts'
 import { type CatalogGroupPath } from './addressing.ts'
 
 export type CatalogUnitVisitor = (unit: CatalogUnit, groupPath: CatalogGroupPath) => void
@@ -20,4 +20,15 @@ export function getCatalogUnits(catalog: Catalog): CatalogUnit[] {
 	const units: CatalogUnit[] = []
 	visitCatalogUnits(catalog, unit => units.push(unit))
 	return units
+}
+
+// Find the unit with the given ID inside the exact nested group path.
+export function findCatalogUnit(catalog: Catalog, groupPath: CatalogGroupPath, id: string): CatalogUnit | undefined {
+	let entries = catalog.entries
+	for (const groupId of groupPath) {
+		const group = entries.find((entry): entry is CatalogGroup => entry.type === 'group' && entry.id === groupId)
+		if (!group) return undefined
+		entries = group.entries
+	}
+	return entries.find((entry): entry is CatalogUnit => entry.type === 'unit' && entry.id === id)
 }

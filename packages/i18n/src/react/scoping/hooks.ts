@@ -1,12 +1,12 @@
 import { useContext, useMemo } from 'react'
 
-import { type CatalogAddress } from '../../catalog/index.ts'
+import { type CatalogAddress, type CatalogUnitAddress } from '../../catalog/index.ts'
 
 import { type UseCatalogResult, useCatalog } from '../context/hooks.ts'
 
 import { TranslationScopeContext } from './context.ts'
-import { resolveCatalogAddress } from './resolution.ts'
-import { type CatalogAddressInput } from './types.ts'
+import { resolveCatalogAddress, resolveCatalogUnitAddress } from './resolution.ts'
+import { type CatalogAddressInput, type CatalogUnitAddressInput } from './types.ts'
 
 export type UseScopedCatalogResult = UseCatalogResult & {
 	address: CatalogAddress
@@ -20,6 +20,12 @@ export function useCatalogAddress(input: CatalogAddressInput = {}): CatalogAddre
 	const scope = useTranslationScope()
 	const { folder, catalog } = input
 	return useMemo(() => resolveCatalogAddress(scope, input), [scope, folder, catalog])
+}
+
+export function useCatalogUnitAddress(input: CatalogUnitAddressInput): CatalogUnitAddress {
+	const scope = useTranslationScope()
+	const { folder, catalog, group, id } = input
+	return useMemo(() => resolveCatalogUnitAddress(scope, input), [scope, folder, catalog, group, id])
 }
 
 export function useScopedCatalog(input: CatalogAddressInput = {}): UseScopedCatalogResult {

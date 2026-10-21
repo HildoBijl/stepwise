@@ -1,17 +1,33 @@
-import { Fragment } from 'react'
+import { Fragment, useMemo } from 'react'
+
+import { findCatalogUnit, getCatalogUnitStatus } from '../catalog/index.ts'
+import { compareSourceMessages } from '../message/index.ts'
 
 import { type TranslatableReactNode } from './authoring/variable.ts'
 import { messageToReact } from './conversion/messageToReact.tsx'
 import { reactToMessage } from './conversion/reactToMessage.ts'
 import { useI18n } from './context/hooks.ts'
+import { useCatalogUnitAddress, useScopedCatalog } from './scoping/hooks.ts'
+import { type CatalogUnitAddressInput } from './scoping/types.ts'
 
-export type TranslationProps = {
+export type TranslationProps = CatalogUnitAddressInput & {
 	children: TranslatableReactNode
-	id: string
 }
 
-// Render translatable React content using its source message until catalog resolution is connected.
-export function Translation({ children }: TranslationProps) {
-	const { locale } = useI18n()
-	return <Fragment>{messageToReact(reactToMessage(children), children, locale)}</Fragment>
+// Load and render a translated Catalog unit, falling back to its authored source when necessary.
+export function Translation({ children, ...addressInput }: TranslationProps) {
+	const { locale, sourceLocale } = useI18n()
+
+	// Load in the catalog's respective unit.
+	const address = useCatalogUnitAddress(addressInput)
+	const { catalog } = useScopedCatalog(address)
+	const unit = catalog && findCatalogUnit(catalog, address.group, address.id)
+
+	// Check the source and see if the translation is still valid.
+	const source = useMemo(() => reactToMessage(children), [children])
+	const targetIsCurrent = unit && getCatalogUnitStatus(unit) === 'current' && compareSourceMessages(unit.source, source) === 'current'
+
+	// Determine the message that should be rendered, and apply it to the contents.
+	const message = locale !== sourceLocale && targetIsCurrent ? unit.target!.message : source
+	return <Fragment>{messageToReact(message, children, locale)}</Fragment>
 }
