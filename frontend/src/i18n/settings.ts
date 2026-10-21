@@ -3,6 +3,7 @@ export const languages = ['en', 'nl', 'de'] as const
 export type Language = typeof languages[number]
 export const defaultLanguage: Language = languages[0]
 export const localStorageKey = 'language' // What key is used to store the language in localStorage?
+export const sourceRegistrationEndpoint = '/__step-wise/i18n/source'
 
 // countryToLanguage gets an ISO 3166 Alpha-2 country code and turns it into one of the available languages used on the site.
 export const countryToLanguage = (country: string): Language => {

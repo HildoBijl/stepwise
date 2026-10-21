@@ -22,7 +22,12 @@ The new XLIFF runtime receives the active and source locales from the applicatio
 import { I18nProvider } from '@step-wise/i18n'
 
 export function App({ children }: { children: React.ReactNode }) {
-	return <I18nProvider locale={locale} sourceLocale="en" loadCatalog={applicationCatalogLoader}>{children}</I18nProvider>
+	return <I18nProvider
+		locale={locale}
+		sourceLocale="en"
+		loadCatalog={applicationCatalogLoader}
+		registerSource={developmentSourceRegistrar}
+	>{children}</I18nProvider>
 }
 ```
 
@@ -38,7 +43,9 @@ The runtime caches catalogs by locale and path, deduplicates concurrent loads, a
 </TranslationFolder>
 ```
 
-Folders and groups extend their parent scope by default and accept `extend={false}` to start from their respective root. Their `path` accepts either one segment as a string or multiple segments as an array; strings are never split on punctuation. A catalog can provide an absolute `folder` directly and always resets the group scope. Nested catalogs replace the active catalog for their subtree and restore the outer scope afterward. Catalogs are loaded on demand through `useCatalog`. `Translation` resolves its scoped Catalog unit, renders a current target for the active locale, and falls back to its authored source while loading or when no usable target exists. Source registration and catalog writing will be connected in a later implementation stage.
+Folders and groups extend their parent scope by default and accept `extend={false}` to start from their respective root. Their `path` accepts either one segment as a string or multiple segments as an array; strings are never split on punctuation. A catalog can provide an absolute `folder` directly and always resets the group scope. Nested catalogs replace the active catalog for their subtree and restore the outer scope afterward. Catalogs are loaded on demand through `useCatalog`. `Translation` resolves its scoped Catalog unit, renders a current target for the active locale, and falls back to its authored source while loading or when no usable target exists.
+
+Every rendered `Translation` also supplies its authored source to the optional `registerSource` callback, regardless of the currently displayed locale. Applications can use this hook in development to persist encountered sources. Filesystem access and bundler integration remain application-owned; production applications should omit the callback.
 
 The application decides how paths resolve to catalog modules. Bundler-specific discovery such as Vite's `import.meta.glob` therefore remains outside this package.
 

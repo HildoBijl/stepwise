@@ -1,6 +1,7 @@
 import { createContext } from 'react'
 
 import { type Message } from '../../message/index.ts'
+import { type CatalogUnitAddress } from '../../catalog/index.ts'
 
 import { type CatalogStore } from './catalogStore.ts'
 
@@ -16,10 +17,7 @@ export type I18nRuntime = {
 }
 
 export type SourceRegistrar = (registration: SourceRegistration) => void
-
-export type SourceRegistration = {
-	catalogPath: string
-	id: string
+export type SourceRegistration = CatalogUnitAddress & {
 	source: Message
 }
 

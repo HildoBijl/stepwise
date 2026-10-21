@@ -8,7 +8,7 @@ import { I18nProvider as TranslationProvider } from '@step-wise/i18n'
 import { useUser, ActiveGroupProvider, SkillLevelProvider } from 'api'
 import { I18nProvider, useLanguage, useLanguageSetting } from 'i18n'
 import { defaultLanguage } from 'i18n/settings'
-import { loadCatalog } from 'i18nNext'
+import { loadCatalog, registerSource } from 'i18nNext'
 import theme from 'ui/theme'
 
 import { PrivacyPolicyWrapper } from './PrivacyPolicy'
@@ -22,7 +22,7 @@ function UserLanguageSynchronizer() {
 
 function ApplicationTranslationProvider({ children }) {
 	const language = useLanguage()
-	return <TranslationProvider locale={language} sourceLocale={defaultLanguage} loadCatalog={loadCatalog}>{children}</TranslationProvider>
+	return <TranslationProvider locale={language} sourceLocale={defaultLanguage} loadCatalog={loadCatalog} registerSource={registerSource}>{children}</TranslationProvider>
 }
 
 export function App({ apolloClient }) {

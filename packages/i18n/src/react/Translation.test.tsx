@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { getMessageContentFingerprint, getMessageStructureFingerprint } from '../message/index.ts'
 
@@ -79,5 +79,22 @@ describe('Translation', () => {
 		</I18nProvider>)
 
 		expect(await screen.findByText('Hallo')).toBeTruthy()
+	})
+
+	it('registers its authored source under every active locale', () => {
+		const registerSource = vi.fn()
+		render(<I18nProvider locale="nl" sourceLocale="en" registerSource={registerSource}>
+			<TranslationCatalog folder={['pages']} name="test">
+				<TranslationGroup path="greetings"><Translation id="welcome">Hello</Translation></TranslationGroup>
+			</TranslationCatalog>
+		</I18nProvider>)
+
+		expect(registerSource).toHaveBeenCalledWith({
+			folder: ['pages'],
+			catalog: 'test',
+			group: ['greetings'],
+			id: 'welcome',
+			source: [{ type: 'text', value: 'Hello' }],
+		})
 	})
 })

@@ -5,6 +5,9 @@ import react from '@vitejs/plugin-react'
 import { defineConfig, transformWithOxc } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+import { defaultLanguage } from './src/i18n/settings.ts'
+import { i18nSourcePlugin } from './src/i18nNext/vite/sourcePlugin.mjs'
+
 const sourceDirectories = ['api', 'i18n', 'i18nNext', 'tests', 'ui', 'util']
 const sourceFiles = ['settings']
 const packagesDirectory = fileURLToPath(new URL('../packages', import.meta.url))
@@ -35,6 +38,7 @@ const frontendJavaScriptAsJsx = {
 
 export default defineConfig({
 	plugins: [
+		i18nSourcePlugin({ catalogRoot: fileURLToPath(new URL('./locales', import.meta.url)), sourceLocale: defaultLanguage }),
 		frontendJavaScriptAsJsx,
 		react({ include: /\.[jt]sx?$/ }),
 		VitePWA({
