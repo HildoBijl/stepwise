@@ -50,4 +50,14 @@ describe('Catalog reviews', () => {
 		expect(() => reviewCatalogUnit(catalog, ['group', 'nested'], 'translated')).toThrow('Could not find translation group "group/nested".')
 		expect(() => reviewCatalogUnit(catalog, ['group'], 'unknown')).toThrow('Could not find translation unit "group/unknown".')
 	})
+
+	it('refuses to review an incompatible target', () => {
+		const incompatibleCatalog: Catalog = { sourceLocale: 'en', targetLocale: 'nl', entries: [{
+			type: 'unit',
+			id: 'variable',
+			source: [{ type: 'variable', name: 'current' }],
+			target: { ...target, message: [{ type: 'variable', name: 'outdated' }] },
+		}] }
+		expect(() => reviewCatalogUnit(incompatibleCatalog, [], 'variable')).toThrow('Translation references unknown variable "outdated".')
+	})
 })

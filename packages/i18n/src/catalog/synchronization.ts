@@ -1,4 +1,5 @@
 import { getMessageContentSignature, getMessageStructureSignature } from '../message/signatures.ts'
+import { validateMessageCompatibility } from '../message/compatibility.ts'
 import { type Catalog, type CatalogEntry, type CatalogGroup, type CatalogUnit } from './types.ts'
 import { getCatalogUnitStatus } from './status.ts'
 import { assertSourceCatalog, assertTargetCatalog } from './validation.ts'
@@ -106,8 +107,10 @@ function validateSynchronizedUnit(sourceUnit: CatalogUnit, targetUnit: CatalogUn
 	const structureMatches = getMessageStructureSignature(sourceUnit.source) === getMessageStructureSignature(targetUnit.source)
 	if (!contentMatches || !structureMatches) {
 		issues.push({ path: `${path}.source`, message: 'The target Catalog contains an outdated source snapshot.' })
-		return
 	}
+
+	// Check whether the translation is semantically compatible with the latest source.
+	if (targetUnit.target) issues.push(...validateMessageCompatibility(sourceUnit.source, targetUnit.target.message).map(issue => ({ ...issue, path: `${path}.target.message${issue.path.slice(1)}` })))
 
 	// If the source has been updated, but the target has not been adjusted accordingly. This is shown by the status.
 	const status = getCatalogUnitStatus(targetUnit)

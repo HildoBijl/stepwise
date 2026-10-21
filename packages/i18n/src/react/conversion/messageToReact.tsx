@@ -1,8 +1,8 @@
 import { type ReactElement, type ReactNode, cloneElement } from 'react'
 
-import { type ComponentNode, type Message, type MessageNode, type PluralNode, type SelectNode, assertValidMessage } from '../../message/index.ts'
+import { type ComponentNode, type Message, type MessageNode, type PluralNode, type SelectNode, assertCompatibleMessage, assertValidMessage } from '../../message/index.ts'
 
-import { type ReactComponentBinding, type ReactMessageSource, createReactMessageSource } from './reactToMessage.ts'
+import { type ReactMessageSource, createReactMessageSource } from './reactToMessage.ts'
 
 type RenderingContext = {
 	locale: string
@@ -17,7 +17,8 @@ type RenderingContext = {
 export function messageToReact(message: Message, sourceNode: unknown, locale: string): ReactNode {
 	assertValidMessage(message)
 	const source = createReactMessageSource(sourceNode)
-	assertCompatibleComponents(message, source)
+	assertCompatibleMessage(source.message, message)
+	assertValidComponentUsage(source, message)
 	return renderMessage(message, { locale, source }, '$')
 }
 
@@ -79,33 +80,22 @@ function renderSelect(node: SelectNode, context: RenderingContext, path: string)
  * Shape checking.
  */
 
-// Recursively validate slots within the component.
-function assertCompatibleComponents(message: Message, source: ReactMessageSource): void {
+// Enforce the React-specific component copy and deletion rules.
+function assertValidComponentUsage(source: ReactMessageSource, message: Message): void {
+	// Count how often a component is used. Check if the component isn't accidentally copied when not allowed.
 	const uses = new Map<string, number>()
-	visitComponents(message, '$', node => {
+	visitComponents(message, node => {
 		const sourceId = node.copyOf ?? node.id
-		const binding = source.components.get(sourceId)
-		if (!binding) throw new Error(`Component references unknown source occurrence "${sourceId}".`)
-		if (node.copyOf && source.components.has(node.id)) throw new Error(`Copied component ID "${node.id}" collides with a source occurrence.`)
-		if (node.component !== binding.source.component)
-			throw new Error(`Expected component "${binding.source.component}", received "${node.component}".`)
-		assertMatchingSlots(node, binding, `Component "${node.id}"`)
-
+		const binding = source.components.get(sourceId)!
 		const count = (uses.get(sourceId) ?? 0) + 1
 		uses.set(sourceId, count)
 		if (count > 1 && !binding.definition.canCopy) throw new Error(`Component "${sourceId}" may not be copied.`)
 	})
-	source.components.forEach(binding => {
-		if ((uses.get(binding.source.id) ?? 0) === 0 && !binding.definition.canDelete)
-			throw new Error(`Component "${binding.source.id}" may not be deleted.`)
-	})
-}
 
-// Assume the slots of the node (the target) and its binding (the source) line up.
-function assertMatchingSlots(node: ComponentNode, binding: ReactComponentBinding, path: string): void {
-	const sourceSlots = Object.keys(binding.source.slots).sort()
-	const targetSlots = Object.keys(node.slots).sort()
-	if (sourceSlots.length !== targetSlots.length || sourceSlots.some((slot, index) => slot !== targetSlots[index])) throw new Error(`${path}: Component "${binding.source.id}" must retain its translated props: ${sourceSlots.join(', ') || '(none)'}.`)
+	// Check that no component has been deleted (unless allowed).
+	source.components.forEach(binding => {
+		if ((uses.get(binding.source.id) ?? 0) === 0 && !binding.definition.canDelete) throw new Error(`Component "${binding.source.id}" may not be deleted.`)
+	})
 }
 
 /*
@@ -113,17 +103,16 @@ function assertMatchingSlots(node: ComponentNode, binding: ReactComponentBinding
  */
 
 // Traverse through all the nodes inside a message.
-function visitComponents(message: Message, path: string, visit: (node: ComponentNode, path: string) => void): void {
-	message.forEach((node, index) => {
-		const nodePath = `${path}[${index}]`
+function visitComponents(message: Message, visit: (node: ComponentNode) => void): void {
+	message.forEach(node => {
 		if (node.type === 'component') {
-			visit(node, nodePath)
-			Object.entries(node.slots).forEach(([name, slot]) => visitComponents(slot, `${nodePath}.slots.${name}`, visit))
+			visit(node)
+			Object.values(node.slots).forEach(slot => visitComponents(slot, visit))
 		} else if (node.type === 'plural') {
-			Object.entries(node.branches).forEach(([name, branch]) => visitComponents(branch, `${nodePath}.branches.${name}`, visit))
-			Object.entries(node.exactBranches ?? {}).forEach(([value, branch]) => visitComponents(branch, `${nodePath}.exactBranches.${value}`, visit))
+			Object.values(node.branches).forEach(branch => visitComponents(branch, visit))
+			Object.values(node.exactBranches ?? {}).forEach(branch => visitComponents(branch, visit))
 		} else if (node.type === 'select') {
-			Object.entries(node.branches).forEach(([name, branch]) => visitComponents(branch, `${nodePath}.branches.${name}`, visit))
+			Object.values(node.branches).forEach(branch => visitComponents(branch, visit))
 		}
 	})
 }

@@ -1,4 +1,5 @@
 import { getMessageContentFingerprint, getMessageStructureFingerprint } from '../message/signatures.ts'
+import { assertCompatibleMessage } from '../message/compatibility.ts'
 
 import { type Catalog, type CatalogEntry, type CatalogGroup, type CatalogTarget, type CatalogUnit } from './types.ts'
 import { type CatalogGroupPath } from './addressing.ts'
@@ -28,6 +29,7 @@ function reviewAllEntry(entry: CatalogEntry): CatalogEntry {
 // Apply review to a single Catalog unit.
 function reviewUnit(unit: CatalogUnit): CatalogUnit {
 	if (!unit.target) throw new Error(`Translation unit "${unit.id}" has no target to review.`)
+	assertCompatibleMessage(unit.source, unit.target.message)
 
 	// Check what the target should be.
 	const reviewedTarget: CatalogTarget = {
