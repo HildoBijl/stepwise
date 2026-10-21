@@ -1,16 +1,14 @@
 import React from 'react'
 import { Box, Container, Grid, Stack } from '@mui/material'
-import { useLingui } from '@lingui/react'
+
+import { useTranslation } from '@step-wise/i18n'
 
 import logo from 'ui/images/logoAlternate.svg'
 import { Rectangle } from 'ui/components'
 
-import { homeMessages } from '../messages'
-
 export function TitleBar() {
-	const { _ } = useLingui()
-	const websiteName = _(homeMessages.websiteName)
-	const websiteNameAddendum = _(homeMessages.websiteNameAddendum)
+	const websiteName = useTranslation({ id: 'websiteName', children: 'Step-Wise' })
+	const websiteNameAddendum = useTranslation({ id: 'websiteNameAddendum', children: 'Practice exercises on your level' })
 
 	return <Container maxWidth='lg' sx={{ flexFlow: 'row nowrap', flexDirection: 'row-reverse', paddingBottom: 'min(2vw,25px)' }}>
 		<Grid container direction="row">

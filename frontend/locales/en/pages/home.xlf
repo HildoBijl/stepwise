@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<unit id="websiteName">
+			<segment>
+				<source>Step-Wise</source>
+			</segment>
+		</unit>
+		<unit id="websiteNameAddendum">
+			<segment>
+				<source>Practice exercises on your level</source>
+			</segment>
+		</unit>
+	</file>
+</xliff>

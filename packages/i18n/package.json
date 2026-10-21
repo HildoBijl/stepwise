@@ -45,8 +45,6 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@lingui/core": "^6.10.0",
-		"@lingui/react": "^6.10.0",
 		"@step-wise/js-utils": "^0.1.2",
 		"saxes": "^6.0.0"
 	},

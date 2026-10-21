@@ -1,10 +1,10 @@
 # @step-wise/i18n
 
-`@step-wise/i18n` provides reusable internationalization logic and React integration for Step-Wise applications. The package is transitioning from its initial Lingui trial to a semantic message model backed by XLIFF 2.1 catalogs.
+`@step-wise/i18n` provides reusable internationalization logic and React integration for Step-Wise applications, backed by a semantic message model and XLIFF 2.1 catalogs.
 
 The format-independent message model represents text, variables, components with named translatable slots, plurals, and selections as a typed AST. It provides normalization, validation, deterministic fingerprints, and source-compatibility classification. Catalogs can be parsed from and serialized to the package's [XLIFF 2.1 profile](./XLIFF.md).
 
-The new React integration can register component translation behavior and convert authored React content into this message model. Rendering translated messages and the public authoring components are still under development while the existing Lingui trial remains available.
+The React integration can register component translation behavior, convert authored React content into this message model, and render translated catalogs lazily at runtime.
 
 
 ## Installation
@@ -40,39 +40,7 @@ The runtime caches catalogs by locale and path, deduplicates concurrent loads, a
 
 Folders and groups extend their parent scope by default and accept `extend={false}` to start from their respective root. Their `path` accepts either one segment as a string or multiple segments as an array; strings are never split on punctuation. A catalog can provide an absolute `folder` directly and always resets the group scope. Nested catalogs replace the active catalog for their subtree and restore the outer scope afterward. Catalogs are loaded on demand through `useCatalog`. `Translation` resolves its scoped Catalog unit, renders a current target for the active locale, and falls back to its authored source while loading or when no usable target exists. Source registration and catalog writing will be connected in a later implementation stage.
 
-The temporary Lingui trial remains available through `LinguiI18nProvider` and `LinguiTranslationCatalog` while frontend pages migrate to the XLIFF runtime:
-
-```tsx
-import { LinguiI18nProvider, LinguiTranslationCatalog, setupI18n } from '@step-wise/i18n'
-
-const i18n = setupI18n({ locale: 'en', messages: { en: {} } })
-
-export function Trial({ children }: { children: React.ReactNode }) {
-	return <LinguiI18nProvider i18n={i18n} loadCatalog={linguiCatalogLoader}>{children}</LinguiI18nProvider>
-}
-```
-
-Catalog boundaries load and cache the requested catalog for the active locale:
-
-```tsx
-<LinguiTranslationCatalog path="pages/home" fallback={<LoadingPage />}>
-	<Home />
-</LinguiTranslationCatalog>
-```
-
 The application decides how paths resolve to catalog modules. Bundler-specific discovery such as Vite's `import.meta.glob` therefore remains outside this package.
-
-Messages are authored with Lingui's React macros:
-
-```tsx
-import { Trans } from '@lingui/react/macro'
-
-export function Greeting() {
-	return <Trans>Hello!</Trans>
-}
-```
-
-The consuming application is responsible for configuring the Lingui compiler and extractor.
 
 
 ## React message conversion
@@ -119,7 +87,7 @@ Use `Translation`, `Plural`, and `Select` to author messages. The `{{ name }}` s
 </Translation>
 ```
 
-`messageToReact` applies a translated `Message` to its original React source. It retains preserved props, correlates reordered components by occurrence ID, resolves variables and constructs, and enforces component copy/delete permissions. Until the XLIFF catalog runtime is connected, `Translation` renders its English source.
+`messageToReact` applies a translated `Message` to its original React source. It retains preserved props, correlates reordered components by occurrence ID, resolves variables and constructs, and enforces component copy/delete permissions.
 
 
 ## XLIFF catalogs

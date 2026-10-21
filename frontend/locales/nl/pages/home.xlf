@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<unit id="websiteName">
+			<segment>
+				<source>Step-Wise</source>
+				<target swi18n:sourceContentFingerprint="b6905bdad0d76f47" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Step-Wise</target>
+			</segment>
+		</unit>
+		<unit id="websiteNameAddendum">
+			<segment>
+				<source>Practice exercises on your level</source>
+				<target swi18n:sourceContentFingerprint="8408b51b90c0ca50" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oefenopgaven op maat</target>
+			</segment>
+		</unit>
+	</file>
+</xliff>

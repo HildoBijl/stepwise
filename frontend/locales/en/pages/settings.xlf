@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<unit id="introduction">
+			<segment>
+				<source>You are signed in as <ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/> &lt;<ph id="x2" type="ui" subType="xlf:var" swi18n:name="email"/>&gt;.</source>
+			</segment>
+		</unit>
+		<group id="language">
+			<unit id="title">
+				<segment>
+					<source>Language settings</source>
+				</segment>
+			</unit>
+			<unit id="en">
+				<segment>
+					<source>English</source>
+				</segment>
+			</unit>
+			<unit id="nl">
+				<segment>
+					<source>Dutch</source>
+				</segment>
+			</unit>
+			<unit id="de">
+				<segment>
+					<source>German</source>
+				</segment>
+			</unit>
+			<unit id="warning">
+				<segment>
+					<source>Not all content may be available in this language. Content in other languages may occasionally still appear.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="deleteAccount">
+			<unit id="title">
+				<segment>
+					<source>Delete account</source>
+				</segment>
+			</unit>
+			<unit id="explanation">
+				<segment>
+					<source>If you delete your account, then <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">all</pc> your data on Step-Wise will be erased. This cannot be undone. Of course you can create a new account afterwards, but this account will start from zero.</source>
+				</segment>
+			</unit>
+			<unit id="confirmation">
+				<segment>
+					<source>Are you sure you wish to delete your account? Then enter your email address below as confirmation.</source>
+				</segment>
+			</unit>
+			<unit id="email">
+				<segment>
+					<source>Email address</source>
+				</segment>
+			</unit>
+			<unit id="button">
+				<segment>
+					<source>Delete account</source>
+				</segment>
+			</unit>
+			<unit id="invalidEmail">
+				<segment>
+					<source>Failed to delete account. This email address is not coupled to your account.</source>
+				</segment>
+			</unit>
+			<unit id="success">
+				<segment>
+					<source>Your account has been deleted. You will be sent back to the home page.</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

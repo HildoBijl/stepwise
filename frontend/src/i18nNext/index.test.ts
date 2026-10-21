@@ -1,29 +1,34 @@
-import { afterEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
-import { activateLinguiLanguage, linguiI18n, loadLinguiCatalog } from './index.ts'
+import { findCatalogUnit } from '@step-wise/i18n'
 
-afterEach(() => activateLinguiLanguage('en'))
+import { loadCatalog } from './index.ts'
 
-describe('Lingui trial catalogs', () => {
-	it('loads and activates translated application catalogs', async () => {
-		linguiI18n.load('nl', await loadLinguiCatalog('nl', 'pages/test'))
-		activateLinguiLanguage('nl')
-		expect(linguiI18n._('i18nTrial.plain')).toBe('Deze tekst is vertaald met Lingui.')
+describe('XLIFF catalogs', () => {
+	it('loads translated application catalogs', async () => {
+		const dutch = await loadCatalog('nl', 'pages/test')
+		expect(findCatalogUnit(dutch, ['i18nTrial'], 'plain')?.target?.message).toEqual([
+			{ type: 'text', value: 'Deze tekst is vertaald met XLIFF.' },
+		])
 
-		linguiI18n.load('de', await loadLinguiCatalog('de', 'pages/test'))
-		activateLinguiLanguage('de')
-		expect(linguiI18n._('i18nTrial.plain')).toBe('Dieser Text wurde mit Lingui übersetzt.')
+		const german = await loadCatalog('de', 'pages/test')
+		expect(findCatalogUnit(german, ['i18nTrial'], 'plain')?.target?.message).toEqual([
+			{ type: 'text', value: 'Dieser Text wurde mit XLIFF übersetzt.' },
+		])
 	})
 
 	it('discovers separate page catalogs', async () => {
-		linguiI18n.load('nl', await loadLinguiCatalog('nl', 'pages/home'))
-		linguiI18n.load('nl', await loadLinguiCatalog('nl', 'pages/settings'))
-		activateLinguiLanguage('nl')
-		expect(linguiI18n._('home.websiteNameAddendum')).toBe('Oefenopgaven op maat')
-		expect(linguiI18n._('settings.language.title')).toBe('Taalinstellingen')
+		const home = await loadCatalog('nl', 'pages/home')
+		const settings = await loadCatalog('nl', 'pages/settings')
+		expect(findCatalogUnit(home, [], 'websiteNameAddendum')?.target?.message).toEqual([
+			{ type: 'text', value: 'Oefenopgaven op maat' },
+		])
+		expect(findCatalogUnit(settings, ['language'], 'title')?.target?.message).toEqual([
+			{ type: 'text', value: 'Taalinstellingen' },
+		])
 	})
 
-	it('rejects unsupported languages', () => {
-		expect(() => activateLinguiLanguage('fr')).toThrow('Unsupported language: fr')
+	it('rejects unsupported languages', async () => {
+		await expect(loadCatalog('fr', 'pages/test')).rejects.toThrow('Unsupported language: fr')
 	})
 })

@@ -1,27 +1,26 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Box } from '@mui/material'
-import { useLingui } from '@lingui/react'
 
-import { LinguiTranslationCatalog } from '@step-wise/i18n'
+import { TranslationCatalog, TranslationFolder, useTranslation } from '@step-wise/i18n'
 
 import { PageTranslationFile } from '../PageTranslationFile'
 
-import { homeMessages } from './messages'
 import { LanguageBar, TitleBar, Description, Blocks } from './parts'
 
 export function Home() {
 	return <PageTranslationFile page="home">
-		<LinguiTranslationCatalog path="pages/home">
-			<HomeContents />
-		</LinguiTranslationCatalog>
+		<TranslationFolder path="pages">
+			<TranslationCatalog name="home">
+				<HomeContents />
+			</TranslationCatalog>
+		</TranslationFolder>
 	</PageTranslationFile>
 }
 
 function HomeContents() {
-	const { _ } = useLingui()
-	const websiteName = _(homeMessages.websiteName)
-	const websiteNameAddendum = _(homeMessages.websiteNameAddendum)
+	const websiteName = useTranslation({ id: 'websiteName', children: 'Step-Wise' })
+	const websiteNameAddendum = useTranslation({ id: 'websiteNameAddendum', children: 'Practice exercises on your level' })
 
 	return <>
 		<Helmet><title>{`${websiteName} | ${websiteNameAddendum}`}</title></Helmet>

@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
 import { Button } from '@mui/material'
 
-import { ph } from '@lingui/core/macro'
-import { Plural, Trans } from '@lingui/react/macro'
-
 import * as c from '@step-wise/cas'
 import { Arc, Axes, Circle, Crosshair, Curve, Drawing, DrawingTarget, Grid, HtmlElement, Line, Plot, PlotArea, Polygon, Rectangle, anchors, useDrawingPointerState } from '@step-wise/drawing'
-import { I18nProvider as XliffI18nProvider, LinguiTranslationCatalog, Translation, TranslationCatalog, TranslationFolder, TranslationGroup } from '@step-wise/i18n'
+import { Plural, Translation, TranslationCatalog, TranslationFolder, TranslationGroup } from '@step-wise/i18n'
 import * as m from '@step-wise/math-input-value'
 import { Unit, PrecisionNumber, Quantity } from '@step-wise/physics-core'
 import { M, BM } from '@step-wise/math-display'
@@ -14,8 +11,6 @@ import { M, BM } from '@step-wise/math-display'
 // import { getHexColor } from 'ui/theme'
 import { useUser } from 'api'
 import { useLanguage, useSetLanguage } from 'i18n'
-import { defaultLanguage } from 'i18n/settings'
-import { loadXliffCatalog } from 'i18nNext'
 import { apiAddress } from 'settings'
 import { Par, Head } from 'ui/components'
 
@@ -29,9 +24,11 @@ window.PrecisionNumber = PrecisionNumber
 window.Quantity = Quantity
 
 export function Test() {
-	return <LinguiTranslationCatalog path="pages/test">
-		<TestContents />
-	</LinguiTranslationCatalog>
+	return <TranslationFolder path="pages">
+		<TranslationCatalog name="test">
+			<TestContents />
+		</TranslationCatalog>
+	</TranslationFolder>
 }
 
 function TestContents() {
@@ -46,37 +43,27 @@ function TestContents() {
 	return (
 		<>
 			<Par>This is a test page. It's used to test small functionalities and see how they work. Often it contains random left-over stuff. Like silly equations such as <M>E = mc^2.</M></Par>
-			<Head>Lingui trial</Head>
+			<Head>XLIFF translation trial</Head>
 			<Par>
 				Current language: {language}.{' '}
 				<Button onClick={() => setLanguage('en')}>English</Button>{' '}
 				<Button onClick={() => setLanguage('nl')}>Nederlands</Button>{' '}
 				<Button onClick={() => setLanguage('de')}>Deutsch</Button>
 			</Par>
-			<Par><Trans id="i18nTrial.plain">This text is translated through Lingui.</Trans></Par>
-			<Par><Trans id="i18nTrial.variable">Welcome to the Lingui trial, {ph({ visitorName })}!</Trans></Par>
-			<Par>
-				<Plural
-					id="i18nTrial.messages"
-					value={messageCount}
-					one="There is one translated message."
-					other="There are # translated messages."
-				/>{' '}
-				<Button onClick={() => setMessageCount(count => count + 1)}>Add message</Button>
-			</Par>
-			<Par><Trans id="i18nTrial.richText">This <strong>is important</strong>, but this is <em>subtle</em>. This is <strong>also important</strong>.</Trans></Par>
-			<Head>XLIFF toolbox trial</Head>
-			<XliffI18nProvider locale={language} sourceLocale={defaultLanguage} loadCatalog={loadXliffCatalog}>
-				<TranslationFolder path="pages">
-					<TranslationCatalog name="test">
-						<TranslationGroup path="xliffTrial">
-							<Par><Translation id="introduction">This paragraph is translated through the new XLIFF toolbox.</Translation></Par>
-							<Par><Translation id="languageSwitch">Changing the language should replace all three paragraphs.</Translation></Par>
-							<Par><Translation id="richText">This is an <strong>important</strong> rich-text translation.</Translation></Par>
-						</TranslationGroup>
-					</TranslationCatalog>
-				</TranslationFolder>
-			</XliffI18nProvider>
+			<TranslationGroup path="i18nTrial">
+				<Par><Translation id="plain">This text is translated through XLIFF.</Translation></Par>
+				<Par><Translation id="variable">Welcome to the XLIFF trial, {{ visitorName }}!</Translation></Par>
+				<Par>
+					<Translation id="messages">
+						<Plural value={{ messageCount }}>
+							<Plural.One>There is one translated message.</Plural.One>
+							<Plural.Other>There are <Plural.Value /> translated messages.</Plural.Other>
+						</Plural>
+					</Translation>{' '}
+					<Button onClick={() => setMessageCount(count => count + 1)}>Add message</Button>
+				</Par>
+				<Par><Translation id="richText">This <strong>is important</strong>, but this is <em>subtle</em>. This is <strong>also important</strong>.</Translation></Par>
+			</TranslationGroup>
 			<Head>SURFconext sign-in</Head>
 			{user ?
 				<Par>Signed in as {user.name} &lt;{user.email}&gt;</Par> :

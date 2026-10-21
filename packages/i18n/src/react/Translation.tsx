@@ -7,15 +7,15 @@ import { type TranslatableReactNode } from './authoring/variable.ts'
 import { messageToReact } from './conversion/messageToReact.tsx'
 import { reactToMessage } from './conversion/reactToMessage.ts'
 import { useI18n } from './context/hooks.ts'
-import { useCatalogUnitAddress, useScopedCatalog } from './scoping/hooks.ts'
 import { type CatalogUnitAddressInput } from './scoping/types.ts'
+import { useCatalogUnitAddress, useScopedCatalog } from './scoping/hooks.ts'
 
 export type TranslationProps = CatalogUnitAddressInput & {
 	children: TranslatableReactNode
 }
 
 // Load and render a translated Catalog unit, falling back to its authored source when necessary.
-export function Translation({ children, ...addressInput }: TranslationProps) {
+export function useTranslation({ children, ...addressInput }: TranslationProps) {
 	const { locale, sourceLocale } = useI18n()
 
 	// Load in the catalog's respective unit.
@@ -29,5 +29,9 @@ export function Translation({ children, ...addressInput }: TranslationProps) {
 
 	// Determine the message that should be rendered, and apply it to the contents.
 	const message = locale !== sourceLocale && targetIsCurrent ? unit.target!.message : source
-	return <Fragment>{messageToReact(message, children, locale)}</Fragment>
+	return messageToReact(message, children, locale)
+}
+
+export function Translation(props: TranslationProps) {
+	return <Fragment>{useTranslation(props)}</Fragment>
 }

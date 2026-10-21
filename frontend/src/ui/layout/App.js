@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { ThemeProvider, CssBaseline } from '@mui/material'
 import { ApolloProvider } from '@apollo/client/react'
 import { HelmetProvider } from 'react-helmet-async'
 
-import { LinguiI18nProvider } from '@step-wise/i18n'
+import { I18nProvider as TranslationProvider } from '@step-wise/i18n'
 
 import { useUser, ActiveGroupProvider, SkillLevelProvider } from 'api'
 import { I18nProvider, useLanguage, useLanguageSetting } from 'i18n'
-import { activateLinguiLanguage, linguiI18n, loadLinguiCatalog } from 'i18nNext'
+import { defaultLanguage } from 'i18n/settings'
+import { loadCatalog } from 'i18nNext'
 import theme from 'ui/theme'
 
 import { PrivacyPolicyWrapper } from './PrivacyPolicy'
@@ -19,10 +20,9 @@ function UserLanguageSynchronizer() {
 	return null
 }
 
-function LinguiLanguageSynchronizer() {
+function ApplicationTranslationProvider({ children }) {
 	const language = useLanguage()
-	useEffect(() => activateLinguiLanguage(language), [language])
-	return null
+	return <TranslationProvider locale={language} sourceLocale={defaultLanguage} loadCatalog={loadCatalog}>{children}</TranslationProvider>
 }
 
 export function App({ apolloClient }) {
@@ -30,11 +30,10 @@ export function App({ apolloClient }) {
 		<ApolloProvider client={apolloClient}>
 			<HelmetProvider>
 				<I18nProvider>
-					<LinguiI18nProvider i18n={linguiI18n} loadCatalog={loadLinguiCatalog}>
+					<ApplicationTranslationProvider>
 						<ThemeProvider theme={theme}>
 							<CssBaseline />
 							<UserLanguageSynchronizer />
-							<LinguiLanguageSynchronizer />
 							<div id="app">
 								<div id="appInner">
 									<PrivacyPolicyWrapper>
@@ -47,7 +46,7 @@ export function App({ apolloClient }) {
 								</div>
 							</div>
 						</ThemeProvider>
-					</LinguiI18nProvider>
+					</ApplicationTranslationProvider>
 				</I18nProvider>
 			</HelmetProvider>
 		</ApolloProvider>

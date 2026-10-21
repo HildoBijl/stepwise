@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<unit id="introduction">
+			<segment>
+				<source>You are signed in as <ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/> &lt;<ph id="x2" type="ui" subType="xlf:var" swi18n:name="email"/>&gt;.</source>
+				<target swi18n:sourceContentFingerprint="361cc47d734fd873" swi18n:sourceStructureFingerprint="4bcfffaef8de1d7b">Je bent ingelogd als <ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/> &lt;<ph id="x2" type="ui" subType="xlf:var" swi18n:name="email"/>&gt;.</target>
+			</segment>
+		</unit>
+		<group id="language">
+			<unit id="title">
+				<segment>
+					<source>Language settings</source>
+					<target swi18n:sourceContentFingerprint="dd30780ad5cd2295" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Taalinstellingen</target>
+				</segment>
+			</unit>
+			<unit id="en">
+				<segment>
+					<source>English</source>
+					<target swi18n:sourceContentFingerprint="f5c9acdf6aa914fc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Engels</target>
+				</segment>
+			</unit>
+			<unit id="nl">
+				<segment>
+					<source>Dutch</source>
+					<target swi18n:sourceContentFingerprint="9bc8e97c3d9db5c2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nederlands</target>
+				</segment>
+			</unit>
+			<unit id="de">
+				<segment>
+					<source>German</source>
+					<target swi18n:sourceContentFingerprint="f164037b9d4d947e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Duits</target>
+				</segment>
+			</unit>
+			<unit id="warning">
+				<segment>
+					<source>Not all content may be available in this language. Content in other languages may occasionally still appear.</source>
+					<target swi18n:sourceContentFingerprint="73593467dfe7b529" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Mogelijk is niet alle inhoud beschikbaar in deze taal. Er kan inhoud in andere talen verschijnen.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="deleteAccount">
+			<unit id="title">
+				<segment>
+					<source>Delete account</source>
+					<target swi18n:sourceContentFingerprint="58159374e6c2647c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Account verwijderen</target>
+				</segment>
+			</unit>
+			<unit id="explanation">
+				<segment>
+					<source>If you delete your account, then <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">all</pc> your data on Step-Wise will be erased. This cannot be undone. Of course you can create a new account afterwards, but this account will start from zero.</source>
+					<target swi18n:sourceContentFingerprint="4c9089d4ad49f7a9" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Als je je account verwijdert, dan worden <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">alle</pc> gegevens van je op Step-Wise gewist. Dit kan niet ongedaan gemaakt worden! Je kunt daarna uiteraard wel een volledig nieuwe account aanmaken, maar deze begint weer vanaf nul.</target>
+				</segment>
+			</unit>
+			<unit id="confirmation">
+				<segment>
+					<source>Are you sure you wish to delete your account? Then enter your email address below as confirmation.</source>
+					<target swi18n:sourceContentFingerprint="8a66c0998ca53283" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Weet je zeker dat je je account wilt verwijderen? Vul dan hieronder ter bevestiging je emailadres in.</target>
+				</segment>
+			</unit>
+			<unit id="email">
+				<segment>
+					<source>Email address</source>
+					<target swi18n:sourceContentFingerprint="77436fd9c04c3ca4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Emailadres</target>
+				</segment>
+			</unit>
+			<unit id="button">
+				<segment>
+					<source>Delete account</source>
+					<target swi18n:sourceContentFingerprint="58159374e6c2647c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Verwijder account</target>
+				</segment>
+			</unit>
+			<unit id="invalidEmail">
+				<segment>
+					<source>Failed to delete account. This email address is not coupled to your account.</source>
+					<target swi18n:sourceContentFingerprint="c248a8d893cbaa98" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Niet gelukt. Dit emailadres is niet gekoppeld aan je account.</target>
+				</segment>
+			</unit>
+			<unit id="success">
+				<segment>
+					<source>Your account has been deleted. You will be sent back to the home page.</source>
+					<target swi18n:sourceContentFingerprint="4f37841be732827a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gelukt. Het account is verwijderd. Je wordt doorgestuurd.</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

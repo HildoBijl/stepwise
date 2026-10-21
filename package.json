@@ -22,8 +22,6 @@
 		"dev:fast": "concurrently --kill-others-on-fail --names api,frontend --prefix-colors yellow,magenta \"npm:dev:api\" \"npm:dev:frontend\"",
 		"dev:api": "npm run dev --workspace=@step-wise/api",
 		"dev:frontend": "npm start --workspace=@step-wise/frontend",
-		"i18n:check": "npm run i18n:check --workspace=@step-wise/frontend",
-		"i18n:extract": "npm run i18n:extract --workspace=@step-wise/frontend",
 		"start:api": "npm start --workspace=@step-wise/api",
 		"test": "npm run test:packages && npm run test:api && npm run test:frontend",
 		"test:packages": "vitest run --configLoader runner --config vitest.config.ts",
