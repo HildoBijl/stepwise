@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="xliffTrial">
+			<unit id="introduction">
+				<segment>
+					<source>This paragraph is translated through the new XLIFF toolbox.</source>
+					<target swi18n:sourceContentFingerprint="07e967b42824a832" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deze alinea is vertaald met de nieuwe XLIFF-toolbox.</target>
+				</segment>
+			</unit>
+			<unit id="languageSwitch">
+				<segment>
+					<source>Changing the language should replace all three paragraphs.</source>
+					<target swi18n:sourceContentFingerprint="14c29d0ae51a48cf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Als je de taal wijzigt, worden alle drie de alinea's vervangen.</target>
+				</segment>
+			</unit>
+			<unit id="richText">
+				<segment>
+					<source>This is an <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">important</pc> rich-text translation.</source>
+					<target swi18n:sourceContentFingerprint="431b179b935c87a7" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Dit is een <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">belangrijke</pc> rich-textvertaling.</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

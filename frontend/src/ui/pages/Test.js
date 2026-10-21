@@ -6,7 +6,7 @@ import { Plural, Trans } from '@lingui/react/macro'
 
 import * as c from '@step-wise/cas'
 import { Arc, Axes, Circle, Crosshair, Curve, Drawing, DrawingTarget, Grid, HtmlElement, Line, Plot, PlotArea, Polygon, Rectangle, anchors, useDrawingPointerState } from '@step-wise/drawing'
-import { LinguiTranslationCatalog } from '@step-wise/i18n'
+import { I18nProvider as XliffI18nProvider, LinguiTranslationCatalog, Translation, TranslationCatalog, TranslationFolder, TranslationGroup } from '@step-wise/i18n'
 import * as m from '@step-wise/math-input-value'
 import { Unit, PrecisionNumber, Quantity } from '@step-wise/physics-core'
 import { M, BM } from '@step-wise/math-display'
@@ -14,6 +14,8 @@ import { M, BM } from '@step-wise/math-display'
 // import { getHexColor } from 'ui/theme'
 import { useUser } from 'api'
 import { useLanguage, useSetLanguage } from 'i18n'
+import { defaultLanguage } from 'i18n/settings'
+import { loadXliffCatalog } from 'i18nNext'
 import { apiAddress } from 'settings'
 import { Par, Head } from 'ui/components'
 
@@ -63,6 +65,18 @@ function TestContents() {
 				<Button onClick={() => setMessageCount(count => count + 1)}>Add message</Button>
 			</Par>
 			<Par><Trans id="i18nTrial.richText">This <strong>is important</strong>, but this is <em>subtle</em>. This is <strong>also important</strong>.</Trans></Par>
+			<Head>XLIFF toolbox trial</Head>
+			<XliffI18nProvider locale={language} sourceLocale={defaultLanguage} loadCatalog={loadXliffCatalog}>
+				<TranslationFolder path="pages">
+					<TranslationCatalog name="test">
+						<TranslationGroup path="xliffTrial">
+							<Par><Translation id="introduction">This paragraph is translated through the new XLIFF toolbox.</Translation></Par>
+							<Par><Translation id="languageSwitch">Changing the language should replace all three paragraphs.</Translation></Par>
+							<Par><Translation id="richText">This is an <strong>important</strong> rich-text translation.</Translation></Par>
+						</TranslationGroup>
+					</TranslationCatalog>
+				</TranslationFolder>
+			</XliffI18nProvider>
 			<Head>SURFconext sign-in</Head>
 			{user ?
 				<Par>Signed in as {user.name} &lt;{user.email}&gt;</Par> :

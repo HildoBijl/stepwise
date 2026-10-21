@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="xliffTrial">
+			<unit id="introduction">
+				<segment>
+					<source>This paragraph is translated through the new XLIFF toolbox.</source>
+				</segment>
+			</unit>
+			<unit id="languageSwitch">
+				<segment>
+					<source>Changing the language should replace all three paragraphs.</source>
+				</segment>
+			</unit>
+			<unit id="richText">
+				<segment>
+					<source>This is an <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">important</pc> rich-text translation.</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>
