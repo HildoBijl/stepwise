@@ -1,15 +1,39 @@
-export type TranslationFolderPath = readonly string[]
-export type TranslationSectionPath = readonly string[]
+import { type CatalogFolderPath, type CatalogGroupPath } from '../../catalog/index.ts'
 
+// Input for scoping components.
+export type TranslationFolderPathInput = string | CatalogFolderPath
+export type TranslationGroupPathInput = string | CatalogGroupPath
+
+// Output of the scoping components.
 export type TranslationScope = {
-	folder: TranslationFolderPath
+	folder: CatalogFolderPath
 	catalog?: string
-	section: TranslationSectionPath
+	group: CatalogGroupPath
 }
 
-export type TranslationAddress = {
-	folder: TranslationFolderPath
+// Input for the resolution of a Catalog address.
+export type CatalogAddressInput = {
+	folder?: never
+	catalog?: string
+} | {
+	folder: CatalogFolderPath
 	catalog: string
-	section: TranslationSectionPath
+}
+
+// Input for the determination of a Catalog unit address.
+export type CatalogUnitAddressInput = {
+	folder?: never
+	catalog?: never
+	group?: CatalogGroupPath
+	id: string
+} | {
+	folder?: never
+	catalog: string
+	group: CatalogGroupPath
+	id: string
+} | {
+	folder: CatalogFolderPath
+	catalog: string
+	group: CatalogGroupPath
 	id: string
 }

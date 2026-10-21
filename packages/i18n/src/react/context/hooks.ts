@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useSyncExternalStore } from 'react'
 
-import { type TranslationFolderPath } from '../scoping/types.ts'
+import { type CatalogFolderPath } from '../../catalog/index.ts'
 
 import { type CatalogSnapshot } from './catalogStore.ts'
 import { I18nContext, type I18nRuntime } from './context.ts'
@@ -15,7 +15,7 @@ export function useI18n(): I18nRuntime {
 }
 
 // Load in a Catalog file.
-export function useCatalog(folder: TranslationFolderPath, catalogName: string): UseCatalogResult {
+export function useCatalog(folder: CatalogFolderPath, catalogName: string): UseCatalogResult {
 	const { catalogStore, locale } = useI18n()
 
 	// Subscribe to updates for this specific Catalog file.

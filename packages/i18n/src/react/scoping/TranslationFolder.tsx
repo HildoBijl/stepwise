@@ -3,11 +3,11 @@ import { type ReactNode, useMemo } from 'react'
 import { TranslationScopeContext } from './context.ts'
 import { useTranslationScope } from './hooks.ts'
 import { resolveFolderScope } from './resolution.ts'
-import { type TranslationFolderPath } from './types.ts'
+import { type TranslationFolderPathInput } from './types.ts'
 
 export type TranslationFolderProps = {
 	children: ReactNode
-	path: TranslationFolderPath
+	path: TranslationFolderPathInput
 	extend?: boolean
 }
 

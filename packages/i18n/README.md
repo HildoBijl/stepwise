@@ -26,19 +26,19 @@ export function App({ children }: { children: React.ReactNode }) {
 }
 ```
 
-The runtime caches catalogs by locale and path, deduplicates concurrent loads, and exposes its state through `useI18n`. Translation scopes distinguish folder paths, loadable catalogs, and nested catalog sections:
+The runtime caches catalogs by locale and path, deduplicates concurrent loads, and exposes its state through `useI18n`. Translation scopes distinguish folder paths, loadable catalogs, and nested catalog groups:
 
 ```tsx
 <TranslationFolder path={['eduContent', ...groupPath]}>
 	<TranslationCatalog name={moduleId}>
-		<TranslationSection id="practice">
+		<TranslationGroup path="practice">
 			<Translation id="introduction">Let us practice.</Translation>
-		</TranslationSection>
+		</TranslationGroup>
 	</TranslationCatalog>
 </TranslationFolder>
 ```
 
-Folders and sections extend their parent scope by default and accept `extend={false}` to start from their respective root. A catalog can provide an absolute `folder` directly and always resets the section scope. Nested catalogs replace the active catalog for their subtree and restore the outer scope afterward. Catalogs are loaded on demand through `useCatalog`; catalog-bound message resolution will be connected in the next implementation stage.
+Folders and groups extend their parent scope by default and accept `extend={false}` to start from their respective root. Their `path` accepts either one segment as a string or multiple segments as an array; strings are never split on punctuation. A catalog can provide an absolute `folder` directly and always resets the group scope. Nested catalogs replace the active catalog for their subtree and restore the outer scope afterward. Catalogs are loaded on demand through `useCatalog`. `useScopedCatalog` resolves only the contextual or explicitly overridden folder and catalog before loading it; translation groups and IDs are resolved separately as part of the complete Translation address. Catalog-bound message rendering will be connected in the next implementation stage.
 
 The temporary Lingui trial remains available through `LinguiI18nProvider` and `LinguiTranslationCatalog` while frontend pages migrate to the XLIFF runtime:
 

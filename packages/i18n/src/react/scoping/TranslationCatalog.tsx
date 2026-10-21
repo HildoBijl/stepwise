@@ -1,14 +1,15 @@
 import { type ReactNode, useMemo } from 'react'
 
+import { type CatalogFolderPath } from '../../catalog/index.ts'
+
 import { TranslationScopeContext } from './context.ts'
 import { useTranslationScope } from './hooks.ts'
 import { resolveCatalogScope } from './resolution.ts'
-import { type TranslationFolderPath } from './types.ts'
 
 export type TranslationCatalogProps = {
 	children: ReactNode
 	name: string
-	folder?: TranslationFolderPath
+	folder?: CatalogFolderPath
 }
 
 export function TranslationCatalog({ children, folder, name }: TranslationCatalogProps) {

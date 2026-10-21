@@ -4,7 +4,7 @@ import { type TranslationScope } from './types.ts'
 
 export const rootTranslationScope: TranslationScope = {
 	folder: [],
-	section: [],
+	group: [],
 }
 
 export const TranslationScopeContext = createContext<TranslationScope>(rootTranslationScope)

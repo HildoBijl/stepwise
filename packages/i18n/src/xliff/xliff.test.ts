@@ -130,7 +130,7 @@ describe('XLIFF serialization', () => {
 				],
 			}, {
 				type: 'group',
-				id: 'empty-section',
+				id: 'empty-group',
 				entries: [],
 			}],
 		}
