@@ -4,7 +4,7 @@ import { act, render, screen } from '@testing-library/react'
 import { Trans } from '@lingui/react'
 import { describe, expect, it, vi } from 'vitest'
 
-import { type I18nRuntime, I18nProvider, LinguiI18nProvider, LinguiTranslationCatalog, setupI18n, useI18n } from './index.ts'
+import { type I18nRuntime, I18nProvider, LinguiI18nProvider, LinguiTranslationCatalog, setupI18n, useCatalog, useI18n } from './index.ts'
 
 describe('LinguiI18nProvider', () => {
 	it('renders and updates translated messages', () => {
@@ -45,6 +45,58 @@ describe('LinguiI18nProvider', () => {
 })
 
 describe('I18nProvider', () => {
+	it('loads and provides a catalog through useCatalog', async () => {
+		const catalog = { sourceLocale: 'en', targetLocale: 'nl', entries: [] } as const
+		const loadCatalog = vi.fn(async () => catalog)
+		let result: ReturnType<typeof useCatalog> | undefined
+
+		function Consumer() {
+			result = useCatalog(['pages'], 'home')
+			return null
+		}
+
+		render(<I18nProvider locale="nl" sourceLocale="en" loadCatalog={loadCatalog}><Consumer /></I18nProvider>)
+		expect(result).toEqual({ catalog: undefined, error: undefined, loading: true })
+		await act(async () => {})
+		expect(loadCatalog).toHaveBeenCalledWith('nl', 'pages/home')
+		expect(result).toEqual({ catalog, error: undefined, loading: false })
+	})
+
+	it('provides catalog loading errors through useCatalog', async () => {
+		const error = new Error('Catalog unavailable')
+		const loadCatalog = vi.fn(async () => { throw error })
+		let result: ReturnType<typeof useCatalog> | undefined
+
+		function Consumer() {
+			result = useCatalog(['pages'], 'home')
+			return null
+		}
+
+		render(<I18nProvider locale="nl" sourceLocale="en" loadCatalog={loadCatalog}><Consumer /></I18nProvider>)
+		await act(async () => {})
+		expect(result).toEqual({ catalog: undefined, error, loading: false })
+	})
+
+	it('does not rerender a useCatalog consumer when an unrelated catalog loads', async () => {
+		const catalog = { sourceLocale: 'en', targetLocale: 'nl', entries: [] } as const
+		const loadCatalog = vi.fn(async () => catalog)
+		let runtime: I18nRuntime | undefined
+		let renderCount = 0
+
+		function Consumer() {
+			runtime = useI18n()
+			useCatalog(['pages'], 'home')
+			renderCount++
+			return null
+		}
+
+		render(<I18nProvider locale="nl" sourceLocale="en" loadCatalog={loadCatalog}><Consumer /></I18nProvider>)
+		await act(async () => {})
+		const renderCountAfterHomeLoaded = renderCount
+		await act(async () => { await runtime!.loadCatalog('nl', 'pages/settings') })
+		expect(renderCount).toBe(renderCountAfterHomeLoaded)
+	})
+
 	it('provides locale settings and loads each catalog once', async () => {
 		const catalog = { sourceLocale: 'en', targetLocale: 'nl', entries: [] } as const
 		const loadCatalog = vi.fn(async () => catalog)

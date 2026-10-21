@@ -1,17 +1,17 @@
 import { createContext } from 'react'
 
-import { type Catalog } from '../../catalog/index.ts'
 import { type Message } from '../../message/index.ts'
+
+import { type CatalogStore } from './catalogStore.ts'
 
 export type I18nRuntime = {
 	locale: string
 	sourceLocale: string
-	catalogs: ReadonlyMap<string, Catalog>
-	loadingCatalogs: ReadonlySet<string>
-	getCatalog: (locale: string, path: string) => Catalog | undefined
-	isCatalogLoaded: (locale: string, path: string) => boolean
-	isCatalogLoading: (locale: string, path: string) => boolean
-	loadCatalog: (locale: string, path: string) => Promise<Catalog>
+	catalogStore: CatalogStore
+	getCatalog: CatalogStore['getCatalog']
+	isCatalogLoaded: CatalogStore['isCatalogLoaded']
+	isCatalogLoading: CatalogStore['isCatalogLoading']
+	loadCatalog: CatalogStore['loadCatalog']
 	registerSource?: SourceRegistrar
 }
 

@@ -26,7 +26,19 @@ export function App({ children }: { children: React.ReactNode }) {
 }
 ```
 
-The runtime caches catalogs by locale and path, deduplicates concurrent loads, and exposes its state through `useI18n`. Catalog-bound message resolution will be connected in the next implementation stage.
+The runtime caches catalogs by locale and path, deduplicates concurrent loads, and exposes its state through `useI18n`. Translation scopes distinguish folder paths, loadable catalogs, and nested catalog sections:
+
+```tsx
+<TranslationFolder path={['eduContent', ...groupPath]}>
+	<TranslationCatalog name={moduleId}>
+		<TranslationSection id="practice">
+			<Translation id="introduction">Let us practice.</Translation>
+		</TranslationSection>
+	</TranslationCatalog>
+</TranslationFolder>
+```
+
+Folders and sections extend their parent scope by default and accept `extend={false}` to start from their respective root. A catalog can provide an absolute `folder` directly and always resets the section scope. Nested catalogs replace the active catalog for their subtree and restore the outer scope afterward. Catalogs are loaded on demand through `useCatalog`; catalog-bound message resolution will be connected in the next implementation stage.
 
 The temporary Lingui trial remains available through `LinguiI18nProvider` and `LinguiTranslationCatalog` while frontend pages migrate to the XLIFF runtime:
 
