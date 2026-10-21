@@ -27,6 +27,11 @@
 			"development": "./src/index.ts",
 			"import": "./dist/index.js"
 		},
+		"./catalog": {
+			"types": "./dist/catalog/index.d.ts",
+			"development": "./src/catalog/index.ts",
+			"import": "./dist/catalog/index.js"
+		},
 		"./xliff": {
 			"types": "./dist/xliff/index.d.ts",
 			"development": "./src/xliff/index.ts",

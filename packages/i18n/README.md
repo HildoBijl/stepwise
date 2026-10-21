@@ -130,6 +130,15 @@ const status = getCatalogUnitStatus(getCatalogUnits(restoredCatalog)[0]!)
 Use `validateCatalog` to collect semantic catalog issues and `assertValidCatalog` when invalid data should throw immediately. Serialization asserts and normalizes its input. Parsing rejects malformed XML and documents outside the supported profile with `InvalidXliffError`.
 
 
+## Catalog synchronization
+
+The logic-only `@step-wise/i18n/catalog` entry point exposes `synchronizeCatalog` to copy the latest source hierarchy and messages into a target Catalog. Existing translations and obsolete target entries are retained. A changed source automatically makes the preserved target `needs-review` or `stale` through its reviewed-source fingerprints; a newly introduced unit is `missing`.
+
+`validateCatalogSynchronization` checks that every source unit exists in the target Catalog, that its source snapshot is current, and that its translation status is `current`. Applications can use these format-independent operations in filesystem or service-specific tooling.
+
+Step-Wise exposes `npm run i18n:sync` to update its Dutch and German XLIFF files and `npm run i18n:check` for a read-only CI check. Obsolete target entries remain a manual cleanup concern.
+
+
 ## Package boundary
 
-This package owns the format-independent message model, catalog semantics, XLIFF codec, React integration, and generic lazy-catalog coordination. Applications own their supported locales, catalog paths, and locale selection. Future filesystem-based synchronization and validation tools will remain separate from the browser runtime.
+This package owns the format-independent message model, catalog semantics, synchronization checks, XLIFF codec, React integration, and generic lazy-catalog coordination. Applications own their supported locales, catalog paths, locale selection, and filesystem tooling.
