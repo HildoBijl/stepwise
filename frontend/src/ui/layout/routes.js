@@ -1,5 +1,5 @@
 import { isTeacher, isAdmin } from 'api'
-import { ForStudents, ForTeachers, About, SkillTrackerExplainer, Test, Home, SkillOverview, Settings, SignOut, Groups, NewGroup } from 'ui/pages'
+import { ForStudents, ForTeachers, About, Test, Home, SkillOverview, Settings, SignOut, Groups, NewGroup } from 'ui/pages'
 import { UserInspection, UserInspectionTitle, UserOverview, TestProvider } from 'ui/admin'
 
 import { CoursesPage, CoursePage, CourseProvider, CourseName, AddCoursePage, SkillAdvice, FreePracticePage, CourseSettingsPage, CourseSettingsIcon, SkillPage, SkillName, SkillIndicator, BlankExercise, ExerciseName, CourseStudentPage, CourseStudentName, CourseStudentSkillPage } from 'ui/eduTools'
@@ -22,13 +22,6 @@ export function getRoutes(user = undefined) {
 			id: 'about',
 			page: About,
 			name: 'About Step-Wise',
-			children: {
-				'tracker': {
-					id: 'skillTrackerExplainer',
-					page: SkillTrackerExplainer,
-					name: 'Tracking skill levels',
-				},
-			},
 		},
 		'skill/:skillId/:tab': {
 			id: 'skillTab',

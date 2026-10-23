@@ -8,7 +8,8 @@ import { Drawing, SvgPortal, HtmlElement } from '@step-wise/drawing'
 import { Condition, Translation, TranslationGroup } from '@step-wise/i18n'
 import { M } from '@step-wise/math-display'
 import { skill } from '@step-wise/skill-setup'
-import { applySkillLevelDecay } from '@step-wise/skill-tracking'
+import { createModuleTree } from '@step-wise/module-tree-definition'
+import { SkillLevelSet, getInitialSkillLevel } from '@step-wise/skill-tracking'
 
 import { useIsSignedIn } from 'api'
 import { usePaths } from 'ui/routingTools'
@@ -87,6 +88,9 @@ const textStyle = { fontSize: '18px' }
 const fieldStyle = { fill: '#ffffff', stroke: '#000000', strokeMiterlimit: 10 }
 const buttonStyle = { fill: inactiveTabStyle.fill }
 const buttonTextStyle = { color: '#ffffff', fontSize: '12px' }
+const trialSkillId = 'trial'
+const trialSkillSetup = skill(trialSkillId)
+const trialModuleTree = createModuleTree({ [trialSkillId]: { type: 'skill' } })
 
 function TheoryImage() {
 	return <TranslationGroup path="theoryImage">
@@ -183,37 +187,20 @@ function StepsImage() {
 }
 
 function SingleSkillTrial() {
-	const label = 'X'
-
-	// Keep track of the coefficients on changes.
-	const [coef, setCoef] = useState([1])
-	const [numPracticed, setNumPracticed] = useState(0)
+	const [storedSkillLevel, setStoredSkillLevel] = useState(getInitialSkillLevel)
 	const applyUpdate = (correct) => {
-		const options = {
-			elapsedTime: 0,
-			applyPracticeEffect: true,
-			practiceCount: numPracticed,
-		}
-		const coefficientSet = { [label]: applySkillLevelDecay(coef, options) }
-		const setup = skill(label)
-		const newCoefficientSet = setup.processObservation(coefficientSet, correct)
-		setCoef(newCoefficientSet[label])
-		setNumPracticed(numPracticed + 1)
+		setStoredSkillLevel(currentSkillLevel => {
+			const skillLevels = new SkillLevelSet(trialModuleTree, { [trialSkillId]: currentSkillLevel })
+			const update = skillLevels.applyObservation({ setup: trialSkillSetup, correct })[trialSkillId]
+			return { ...currentSkillLevel, ...update }
+		})
 	}
 	const applyCorrect = () => applyUpdate(true)
 	const applyIncorrect = () => applyUpdate(false)
-	const reset = () => {
-		setCoef([1])
-		setNumPracticed(0)
-	}
+	const reset = () => setStoredSkillLevel(getInitialSkillLevel())
 
-	// Apply smoothing based on the latest data.
-	const options = {
-		elapsedTime: 0,
-		applyPracticeEffect: true,
-		practiceCount: numPracticed,
-	}
-	const smoothedCoef = applySkillLevelDecay(coef, options)
+	const skillLevels = new SkillLevelSet(trialModuleTree, { [trialSkillId]: storedSkillLevel })
+	const smoothedCoef = skillLevels.getInferredCoefficients(trialSkillId)
 
 	// Render contents.
 	return <TranslationGroup path="applet">

@@ -17,8 +17,7 @@
     "test": "Testpagina",
     "freePractice": "Vrij-oefenen-modus",
     "notFoundForStranger": "Home",
-    "notFoundForUser": "Cursussen",
-    "skillTrackerExplainer": "Vaardigheidsniveaus bijhouden"
+    "notFoundForUser": "Cursussen"
   },
   "menu": {
     "home": "Home",
