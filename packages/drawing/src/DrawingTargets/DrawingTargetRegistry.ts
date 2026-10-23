@@ -12,14 +12,22 @@ export type DrawingTargetRenderBoundsOptions =
 type TargetEntry = {
 	node?: DrawingTargetNode
 	bounds?: Rectangle
+	clientBounds?: Rectangle
+	drawingClientBounds?: Rectangle
 	coordinateSystem?: DrawingCoordinateSystem
 	boundsListeners: Set<() => void>
 	nodeListeners: Set<() => void>
 	observer?: ResizeObserver
 }
 
+type BoundsMeasurement = {
+	bounds: Rectangle
+	clientBounds: Rectangle
+	drawingClientBounds: Rectangle
+}
+
 // Browser layout measurements can fluctuate by tiny subpixel amounts between otherwise equivalent renders.
-const measurementTolerance = { absoluteTolerance: 0.01 } as const
+const clientMeasurementTolerance = { absoluteTolerance: 0.1 } as const
 
 /// A registry for managing drawing targets, their bounds, and listeners for changes in those bounds. It tracks specific elements inside of it, their rectangles in a given coordinate system, and registers listeners for when the elements and/or their bounds change.
 export class DrawingTargetRegistry {
@@ -154,17 +162,29 @@ export class DrawingTargetRegistry {
 
 	// Update the stored bounds of a target, returning whether they changed.
 	private updateBounds(entry: TargetEntry): boolean {
-		const bounds = this.getRenderBounds(entry.node)
-		const coordinateSystem = bounds === undefined ? undefined : this.coordinateSystem
-		const boundsChanged = bounds === undefined ? entry.bounds !== undefined : entry.bounds === undefined || !areRectanglesEquivalent(bounds, entry.bounds)
-		const changed = entry.coordinateSystem !== coordinateSystem || boundsChanged
+		// Measure the bounds of the entry.
+		const measurement = this.measureBounds(entry.node)
+		const coordinateSystem = measurement === undefined ? undefined : this.coordinateSystem
+
+		// On equal bounds, or almost-equal bounds (client-space subpixel jitter), don't update anything.
+		if (measurement && coordinateSystem === entry.coordinateSystem && entry.clientBounds && entry.drawingClientBounds && areClientBoundsEquivalent(measurement.clientBounds, entry.clientBounds) && areClientBoundsEquivalent(measurement.drawingClientBounds, entry.drawingClientBounds)) return false
+
+		// If the bounds are equal, keep reference equality. (This may happen when the drawing only moves, but nothing within the drawing changes.)
+		const bounds = measurement?.bounds
+		const boundsChanged = bounds === undefined ? entry.bounds !== undefined : entry.bounds === undefined || !bounds.equals(entry.bounds)
 		if (boundsChanged) entry.bounds = bounds
+
+		// Store all measurements.
+		entry.clientBounds = measurement?.clientBounds
+		entry.drawingClientBounds = measurement?.drawingClientBounds
 		entry.coordinateSystem = coordinateSystem
-		return changed
+
+		// Return whether or not a change occurred.
+		return boundsChanged || entry.coordinateSystem !== coordinateSystem
 	}
 
-	// Get the bounds of the target in render coordinates, if possible.
-	private getRenderBounds(node?: DrawingTargetNode): Rectangle | undefined {
+	// Measure the target in client coordinates and convert its bounds to render coordinates.
+	private measureBounds(node?: DrawingTargetNode): BoundsMeasurement | undefined {
 		if (!node || !this.element || !this.coordinateSystem) return undefined
 
 		// Get the bounds of the full drawing in client coordinates.
@@ -175,7 +195,11 @@ export class DrawingTargetRegistry {
 		const targetRectangle = getNodeBounds(node)
 		const min = this.coordinateSystem.clientToRender([targetRectangle.left, targetRectangle.top], drawingRectangle)
 		const max = this.coordinateSystem.clientToRender([targetRectangle.left + targetRectangle.width, targetRectangle.top + targetRectangle.height], drawingRectangle)
-		return new RectangleClass(min, max)
+		return {
+			bounds: new RectangleClass(min, max),
+			clientBounds: toClientBounds(targetRectangle),
+			drawingClientBounds: toClientBounds(drawingRectangle),
+		}
 	}
 
 	/*
@@ -227,9 +251,13 @@ export class DrawingTargetRegistry {
 	}
 }
 
-// Check if two measured rectangles match, subject to our own specified measurement tolerances.
-function areRectanglesEquivalent(first: Rectangle, second: Rectangle): boolean {
-	return numbersEqual(first.min.x, second.min.x, measurementTolerance) && numbersEqual(first.min.y, second.min.y, measurementTolerance) && numbersEqual(first.max.x, second.max.x, measurementTolerance) && numbersEqual(first.max.y, second.max.y, measurementTolerance)
+// Check if two client-space measurements match closely enough to represent the same browser layout.
+function areClientBoundsEquivalent(first: Rectangle, second: Rectangle): boolean {
+	return numbersEqual(first.min.x, second.min.x, clientMeasurementTolerance) && numbersEqual(first.min.y, second.min.y, clientMeasurementTolerance) && numbersEqual(first.max.x, second.max.x, clientMeasurementTolerance) && numbersEqual(first.max.y, second.max.y, clientMeasurementTolerance)
+}
+
+function toClientBounds(rectangle: DOMRect): Rectangle {
+	return new RectangleClass([rectangle.left, rectangle.top], [rectangle.left + rectangle.width, rectangle.top + rectangle.height])
 }
 
 /// Get the bounds of the node in client coordinates, using getBoundingClientRect for elements and a Range for text nodes.

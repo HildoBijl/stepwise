@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { useEffect, useLayoutEffect, useRef } from 'react'
-import { cleanup, render, screen, waitFor } from '@testing-library/react'
+import { act, cleanup, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import { Transformation } from '@step-wise/geometry'
@@ -70,6 +70,28 @@ describe('Drawing targets', () => {
 		</Drawing>)
 		expect(screen.getByText('85,35')).toBeTruthy()
 		expect(onUnmount).not.toHaveBeenCalled()
+	})
+
+	test('ignores insignificant client-space measurement fluctuations', () => {
+		let targetLeft = 30
+		vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+			if (this.style.position === 'relative') return rectangle(10, 20, 100, 100)
+			if (this.textContent === 'Label') return rectangle(targetLeft, 40, 20, 10)
+			return rectangle(0, 0, 100, 100)
+		})
+		render(<Drawing view={{ type: 'identity', width: 100, height: 100 }}>
+			<DrawingTarget target="label">Label</DrawingTarget>
+			<ResolvedTargetPosition />
+		</Drawing>)
+		expect(screen.getByText('45,35')).toBeTruthy()
+
+		targetLeft = 30.05
+		act(() => { ResizeObserverMock.notify() })
+		expect(screen.getByText('45,35')).toBeTruthy()
+
+		targetLeft = 30.2
+		act(() => { ResizeObserverMock.notify() })
+		expect(screen.getByText('45.2,35')).toBeTruthy()
 	})
 
 	test('only observes a target once it is referenced', () => {
@@ -281,15 +303,22 @@ function DynamicTextTarget({ text }: { text: string }) {
 
 class ResizeObserverMock {
 	static readonly observed: Element[] = []
+	static readonly callbacks = new Set<ResizeObserverCallback>()
 
-	constructor(private readonly callback: ResizeObserverCallback) {}
+	constructor(private readonly callback: ResizeObserverCallback) {
+		ResizeObserverMock.callbacks.add(callback)
+	}
+
+	static notify() {
+		for (const callback of this.callbacks) callback([], {} as ResizeObserver)
+	}
 
 	observe(element: Element) {
 		ResizeObserverMock.observed.push(element)
 		this.callback([], this as unknown as ResizeObserver)
 	}
 
-	disconnect() {}
+	disconnect() { ResizeObserverMock.callbacks.delete(this.callback) }
 	unobserve() {}
 }
 
