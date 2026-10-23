@@ -96,6 +96,13 @@ Use `Translation`, `Plural`, and `Select` to author messages. The `{{ name }}` s
 
 `messageToReact` applies a translated `Message` to its original React source. It retains preserved props, correlates reordered components by occurrence ID, resolves variables and constructs, and enforces component copy/delete permissions.
 
+`LocalizedList` formats a list of strings or React nodes with the active locale's punctuation and conjunctions. It is opaque inside an outer translation because it performs its own locale-sensitive rendering:
+
+```tsx
+<LocalizedList items={['Alex', <strong>Bob</strong>, 'Carl']} />
+<LocalizedList items={options} type="disjunction" style="short" />
+```
+
 
 ## XLIFF catalogs
 

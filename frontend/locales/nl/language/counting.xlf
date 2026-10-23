@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="cardinal">
+			<unit id="0">
+				<segment>
+					<source>zero</source>
+					<target swi18n:sourceContentFingerprint="a22aae7b3e98dac6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">nul</target>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>one</source>
+					<target swi18n:sourceContentFingerprint="7864e5a38a356fe8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">één</target>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>two</source>
+					<target swi18n:sourceContentFingerprint="5f68962e60b4e30e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">twee</target>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>three</source>
+					<target swi18n:sourceContentFingerprint="7e51798c3ca18184" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">drie</target>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>four</source>
+					<target swi18n:sourceContentFingerprint="de3353db0ad8d200" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">vier</target>
+				</segment>
+			</unit>
+			<unit id="5">
+				<segment>
+					<source>five</source>
+					<target swi18n:sourceContentFingerprint="50d268d39723d1ec" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">vijf</target>
+				</segment>
+			</unit>
+			<unit id="6">
+				<segment>
+					<source>six</source>
+					<target swi18n:sourceContentFingerprint="e09671fd14a023b4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">zes</target>
+				</segment>
+			</unit>
+			<unit id="7">
+				<segment>
+					<source>seven</source>
+					<target swi18n:sourceContentFingerprint="250a66baa41821a7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">zeven</target>
+				</segment>
+			</unit>
+			<unit id="8">
+				<segment>
+					<source>eight</source>
+					<target swi18n:sourceContentFingerprint="584299af7690becd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">acht</target>
+				</segment>
+			</unit>
+			<unit id="9">
+				<segment>
+					<source>nine</source>
+					<target swi18n:sourceContentFingerprint="ef280efd5f7f3e2c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">negen</target>
+				</segment>
+			</unit>
+			<unit id="10">
+				<segment>
+					<source>ten</source>
+					<target swi18n:sourceContentFingerprint="2d53c703277a6bf1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">tien</target>
+				</segment>
+			</unit>
+			<unit id="11">
+				<segment>
+					<source>eleven</source>
+					<target swi18n:sourceContentFingerprint="71c2498049cc71c7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">elf</target>
+				</segment>
+			</unit>
+			<unit id="12">
+				<segment>
+					<source>twelve</source>
+					<target swi18n:sourceContentFingerprint="c55ca229fc136787" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">twaalf</target>
+				</segment>
+			</unit>
+			<unit id="13">
+				<segment>
+					<source>thirteen</source>
+					<target swi18n:sourceContentFingerprint="42affe1b73d379e9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">dertien</target>
+				</segment>
+			</unit>
+			<unit id="14">
+				<segment>
+					<source>fourteen</source>
+					<target swi18n:sourceContentFingerprint="6de11011b8675fc4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">veertien</target>
+				</segment>
+			</unit>
+			<unit id="15">
+				<segment>
+					<source>fifteen</source>
+					<target swi18n:sourceContentFingerprint="bd07357650c8432b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">vijftien</target>
+				</segment>
+			</unit>
+			<unit id="16">
+				<segment>
+					<source>sixteen</source>
+					<target swi18n:sourceContentFingerprint="d09ff16305ea0ce8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">zestien</target>
+				</segment>
+			</unit>
+			<unit id="17">
+				<segment>
+					<source>seventeen</source>
+					<target swi18n:sourceContentFingerprint="51ffdab08e8df30b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">zeventien</target>
+				</segment>
+			</unit>
+			<unit id="18">
+				<segment>
+					<source>eighteen</source>
+					<target swi18n:sourceContentFingerprint="188c985e61c168bb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">achttien</target>
+				</segment>
+			</unit>
+			<unit id="19">
+				<segment>
+					<source>nineteen</source>
+					<target swi18n:sourceContentFingerprint="12fee66ffa9e5270" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">negentien</target>
+				</segment>
+			</unit>
+			<unit id="20">
+				<segment>
+					<source>twenty</source>
+					<target swi18n:sourceContentFingerprint="ace2b392124c3a5f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">twintig</target>
+				</segment>
+			</unit>
+			<unit id="30">
+				<segment>
+					<source>thirty</source>
+					<target swi18n:sourceContentFingerprint="ecfb80f68796fa4c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">dertig</target>
+				</segment>
+			</unit>
+			<unit id="40">
+				<segment>
+					<source>forty</source>
+					<target swi18n:sourceContentFingerprint="f60eee8ba08165b4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">veertig</target>
+				</segment>
+			</unit>
+			<unit id="50">
+				<segment>
+					<source>fifty</source>
+					<target swi18n:sourceContentFingerprint="a57e846b20615b7a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">vijftig</target>
+				</segment>
+			</unit>
+			<unit id="60">
+				<segment>
+					<source>sixty</source>
+					<target swi18n:sourceContentFingerprint="a6fdaddfbf44ef09" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">zestig</target>
+				</segment>
+			</unit>
+			<unit id="70">
+				<segment>
+					<source>seventy</source>
+					<target swi18n:sourceContentFingerprint="27ee771fdb32475a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">zeventig</target>
+				</segment>
+			</unit>
+			<unit id="80">
+				<segment>
+					<source>eighty</source>
+					<target swi18n:sourceContentFingerprint="a2d3485b138e0dea" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">tachtig</target>
+				</segment>
+			</unit>
+			<unit id="90">
+				<segment>
+					<source>ninety</source>
+					<target swi18n:sourceContentFingerprint="a5dcf68f3bbb7611" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">negentig</target>
+				</segment>
+			</unit>
+			<unit id="100">
+				<segment>
+					<source>hundred</source>
+					<target swi18n:sourceContentFingerprint="843ba43b1f52dff8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">honderd</target>
+				</segment>
+			</unit>
+			<unit id="1000">
+				<segment>
+					<source>thousand</source>
+					<target swi18n:sourceContentFingerprint="428f5e3cc2ddaaa2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">duizend</target>
+				</segment>
+			</unit>
+			<unit id="10000">
+				<segment>
+					<source>ten thousand</source>
+					<target swi18n:sourceContentFingerprint="39d3d3b8b290819d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">tienduizend</target>
+				</segment>
+			</unit>
+			<unit id="100000">
+				<segment>
+					<source>hundred thousand</source>
+					<target swi18n:sourceContentFingerprint="fb97be43f0aaae6e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">honderdduizend</target>
+				</segment>
+			</unit>
+			<unit id="1000000">
+				<segment>
+					<source>a million</source>
+					<target swi18n:sourceContentFingerprint="5c89ca515abc6635" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">een miljoen</target>
+				</segment>
+			</unit>
+			<unit id="1000000000">
+				<segment>
+					<source>a billion</source>
+					<target swi18n:sourceContentFingerprint="5a7daaf04c9a6882" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">een miljard</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="ordinal">
+			<unit id="0">
+				<segment>
+					<source>zeroth</source>
+					<target swi18n:sourceContentFingerprint="99f84bcaff05b06a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">nulde</target>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>first</source>
+					<target swi18n:sourceContentFingerprint="096ef8288ef735ca" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">eerste</target>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>second</source>
+					<target swi18n:sourceContentFingerprint="abe7e40158039c80" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">tweede</target>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>third</source>
+					<target swi18n:sourceContentFingerprint="393081dbece07013" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">derde</target>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>fourth</source>
+					<target swi18n:sourceContentFingerprint="16b6a8ecaab5e20c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">vierde</target>
+				</segment>
+			</unit>
+			<unit id="5">
+				<segment>
+					<source>fifth</source>
+					<target swi18n:sourceContentFingerprint="3efc9af7b4e8b53b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">vijfde</target>
+				</segment>
+			</unit>
+			<unit id="6">
+				<segment>
+					<source>sixth</source>
+					<target swi18n:sourceContentFingerprint="2a85985ce10eea68" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">zesde</target>
+				</segment>
+			</unit>
+			<unit id="7">
+				<segment>
+					<source>seventh</source>
+					<target swi18n:sourceContentFingerprint="162a0daee3b8f69b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">zevende</target>
+				</segment>
+			</unit>
+			<unit id="8">
+				<segment>
+					<source>eighth</source>
+					<target swi18n:sourceContentFingerprint="66809dde1aa3dc8b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">achtste</target>
+				</segment>
+			</unit>
+			<unit id="9">
+				<segment>
+					<source>ninth</source>
+					<target swi18n:sourceContentFingerprint="1e0782d0842835cb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">negende</target>
+				</segment>
+			</unit>
+			<unit id="10">
+				<segment>
+					<source>tenth</source>
+					<target swi18n:sourceContentFingerprint="431b59736e1ef935" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">tiende</target>
+				</segment>
+			</unit>
+			<unit id="11">
+				<segment>
+					<source>eleventh</source>
+					<target swi18n:sourceContentFingerprint="7db9512d66e3e2bb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">elfde</target>
+				</segment>
+			</unit>
+			<unit id="12">
+				<segment>
+					<source>twelfth</source>
+					<target swi18n:sourceContentFingerprint="7945b6f41e1a33aa" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">twaalfde</target>
+				</segment>
+			</unit>
+			<unit id="13">
+				<segment>
+					<source>thirteenth</source>
+					<target swi18n:sourceContentFingerprint="55ba15fb162cd1fd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">dertiende</target>
+				</segment>
+			</unit>
+			<unit id="14">
+				<segment>
+					<source>fourteenth</source>
+					<target swi18n:sourceContentFingerprint="4627d399f5124e18" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">veertiende</target>
+				</segment>
+			</unit>
+			<unit id="15">
+				<segment>
+					<source>fifteenth</source>
+					<target swi18n:sourceContentFingerprint="f29105dff9f0c487" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">vijftiende</target>
+				</segment>
+			</unit>
+			<unit id="16">
+				<segment>
+					<source>sixteenth</source>
+					<target swi18n:sourceContentFingerprint="55890fcc25fa7444" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">zestiende</target>
+				</segment>
+			</unit>
+			<unit id="17">
+				<segment>
+					<source>seventeenth</source>
+					<target swi18n:sourceContentFingerprint="e84f9e976a2f47e7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">zeventiende</target>
+				</segment>
+			</unit>
+			<unit id="18">
+				<segment>
+					<source>eighteenth</source>
+					<target swi18n:sourceContentFingerprint="8a7d4c614ab915f7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">achttiende</target>
+				</segment>
+			</unit>
+			<unit id="19">
+				<segment>
+					<source>nineteenth</source>
+					<target swi18n:sourceContentFingerprint="95a79fb89219b89c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">negentiende</target>
+				</segment>
+			</unit>
+			<unit id="20">
+				<segment>
+					<source>twentieth</source>
+					<target swi18n:sourceContentFingerprint="c4aeed861f759328" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">twintigste</target>
+				</segment>
+			</unit>
+			<unit id="30">
+				<segment>
+					<source>thirtieth</source>
+					<target swi18n:sourceContentFingerprint="beeeb06b117b9ec5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">dertigste</target>
+				</segment>
+			</unit>
+			<unit id="40">
+				<segment>
+					<source>fortieth</source>
+					<target swi18n:sourceContentFingerprint="487b042e728f536d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">veertigste</target>
+				</segment>
+			</unit>
+			<unit id="50">
+				<segment>
+					<source>fiftieth</source>
+					<target swi18n:sourceContentFingerprint="d375cc404098db17" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">vijftigste</target>
+				</segment>
+			</unit>
+			<unit id="60">
+				<segment>
+					<source>sixtieth</source>
+					<target swi18n:sourceContentFingerprint="9c4ba9a70080a04e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">zestigste</target>
+				</segment>
+			</unit>
+			<unit id="70">
+				<segment>
+					<source>seventieth</source>
+					<target swi18n:sourceContentFingerprint="933558b5bf7b2df7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">zeventigste</target>
+				</segment>
+			</unit>
+			<unit id="80">
+				<segment>
+					<source>eightieth</source>
+					<target swi18n:sourceContentFingerprint="272f31c0e447f667" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">tachtigste</target>
+				</segment>
+			</unit>
+			<unit id="90">
+				<segment>
+					<source>ninetieth</source>
+					<target swi18n:sourceContentFingerprint="453433cfa77160d6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">negentigste</target>
+				</segment>
+			</unit>
+			<unit id="100">
+				<segment>
+					<source>hundredth</source>
+					<target swi18n:sourceContentFingerprint="f1f2d261355a07b4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">honderdste</target>
+				</segment>
+			</unit>
+			<unit id="1000">
+				<segment>
+					<source>thousandth</source>
+					<target swi18n:sourceContentFingerprint="50fc60efc3865f6e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">duizendste</target>
+				</segment>
+			</unit>
+			<unit id="10000">
+				<segment>
+					<source>ten thousandth</source>
+					<target swi18n:sourceContentFingerprint="950860a3d8d98159" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">tienduizendste</target>
+				</segment>
+			</unit>
+			<unit id="100000">
+				<segment>
+					<source>hundred thousandth</source>
+					<target swi18n:sourceContentFingerprint="916f512842fd4fa2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">honderdduizendste</target>
+				</segment>
+			</unit>
+			<unit id="1000000">
+				<segment>
+					<source>millionth</source>
+					<target swi18n:sourceContentFingerprint="1ad2109e3eada0d4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">miljoenste</target>
+				</segment>
+			</unit>
+			<unit id="1000000000">
+				<segment>
+					<source>billionth</source>
+					<target swi18n:sourceContentFingerprint="fca8583a771bc1eb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">miljardste</target>
+				</segment>
+			</unit>
+			<unit id="numeric">
+				<segment>
+					<source><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="value" swi18n:form="ordinal"><pc id="x2" type="other" subType="swi18n:plural-one"><ph id="x3" type="ui" subType="xlf:var" swi18n:name="value"/>st</pc><pc id="x4" type="other" subType="swi18n:plural-two"><ph id="x5" type="ui" subType="xlf:var" swi18n:name="value"/>nd</pc><pc id="x6" type="other" subType="swi18n:plural-few"><ph id="x7" type="ui" subType="xlf:var" swi18n:name="value"/>rd</pc><pc id="x8" type="other" subType="swi18n:plural-other"><ph id="x9" type="ui" subType="xlf:var" swi18n:name="value"/>th</pc></pc></source>
+					<target swi18n:sourceContentFingerprint="7173fb1c6d96bae4" swi18n:sourceStructureFingerprint="8d434443f96c9675"><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="value" swi18n:form="ordinal"><pc id="x2" type="other" subType="swi18n:plural-other"><ph id="x3" type="ui" subType="xlf:var" swi18n:name="value"/>e</pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>
