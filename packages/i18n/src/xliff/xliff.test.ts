@@ -46,6 +46,13 @@ const source: Message = [
 			other: [{ type: 'text', value: 'Inspect it.' }],
 		},
 	},
+	{ type: 'text', value: ' ' },
+	{
+		type: 'condition',
+		variable: 'available',
+		true: [{ type: 'text', value: 'Available.' }],
+		false: [{ type: 'text', value: 'Unavailable.' }],
+	},
 ]
 
 const target: Message = [
@@ -78,6 +85,13 @@ const target: Message = [
 			student: [{ type: 'text', value: 'Probeer het.' }],
 			other: [{ type: 'text', value: 'Bekijk het.' }],
 		},
+	},
+	{ type: 'text', value: ' ' },
+	{
+		type: 'condition',
+		variable: 'available',
+		true: [{ type: 'text', value: 'Beschikbaar.' }],
+		false: [{ type: 'text', value: 'Niet beschikbaar.' }],
 	},
 ]
 
@@ -144,6 +158,7 @@ describe('XLIFF validation', () => {
 		['malformed XML', '<xliff>'],
 		['the wrong XLIFF version', '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en"><file id="catalog"/></xliff>'],
 		['a plural without an other branch', '<?xml version="1.0"?><xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en"><file id="catalog"><unit id="bad"><segment><source><pc id="x1" subType="swi18n:plural" swi18n:variable="count"><pc id="x2" subType="swi18n:plural-one">One</pc></pc></source></segment></unit></file></xliff>'],
+		['a condition without both branches', '<?xml version="1.0"?><xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en"><file id="catalog"><unit id="bad"><segment><source><pc id="x1" subType="swi18n:condition" swi18n:variable="enabled"><pc id="x2" subType="swi18n:condition-true">Enabled</pc></pc></source></segment></unit></file></xliff>'],
 	])('rejects %s', (_, xml) => {
 		expect(() => parseXliff(xml)).toThrow(InvalidXliffError)
 	})

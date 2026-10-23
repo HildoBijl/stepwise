@@ -32,12 +32,12 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To bring a rational equation like <M>\frac(2)(x-4) + 2 = \frac(3)(x+1)</M> into standard form, take the following steps.</Par>
-			<List items={[
-				<>If <M>x</M> is in some fraction denominator, <SkillLink skillId="multiplyAllEquationTerms">multiply all equation terms</SkillLink> by this denominator to get it out. For our example we do this twice to get <M>2\left(x+1\right) + 2\left(x-4\right)\left(x+1\right) = 3\left(x-4\right)</M>.</>,
-				<><SkillLink skillId="expandDoubleBrackets">Expand all brackets</SkillLink> in the equation. This turns our example into <M>2x + 2 + 2x^2 + 2x - 8x - 8 = 3x - 12</M>.</>,
-				<><SkillLink skillId="moveEquationTerm">Move all terms to the left</SkillLink> and <SkillLink skillId="mergeSimilarTerms">merge similar terms</SkillLink>, sorting them by the power of <M>x</M>, with the highest power first. For our example we end up with <M>2x^2 - 7x + 6 = 0</M>.</>,
-				<>Depending on the exact requirements, you may need to normalize the equation or get rid of potential number fractions. <SkillLink skillId="multiplyAllEquationTerms">Multiply/divide</SkillLink> by the right number to make this happen. For our example, if we need to normalize the equation, we divide by <M>2</M> to get <M>x^2 - \frac(7)(2)x + 3 = 0</M>.</>,
-			]} />
+			<List>
+				<List.Item><>If <M>x</M> is in some fraction denominator, <SkillLink skillId="multiplyAllEquationTerms">multiply all equation terms</SkillLink> by this denominator to get it out. For our example we do this twice to get <M>2\left(x+1\right) + 2\left(x-4\right)\left(x+1\right) = 3\left(x-4\right)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="expandDoubleBrackets">Expand all brackets</SkillLink> in the equation. This turns our example into <M>2x + 2 + 2x^2 + 2x - 8x - 8 = 3x - 12</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="moveEquationTerm">Move all terms to the left</SkillLink> and <SkillLink skillId="mergeSimilarTerms">merge similar terms</SkillLink>, sorting them by the power of <M>x</M>, with the highest power first. For our example we end up with <M>2x^2 - 7x + 6 = 0</M>.</></List.Item>
+				<List.Item><>Depending on the exact requirements, you may need to normalize the equation or get rid of potential number fractions. <SkillLink skillId="multiplyAllEquationTerms">Multiply/divide</SkillLink> by the right number to make this happen. For our example, if we need to normalize the equation, we divide by <M>2</M> to get <M>x^2 - \frac(7)(2)x + 3 = 0</M>.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

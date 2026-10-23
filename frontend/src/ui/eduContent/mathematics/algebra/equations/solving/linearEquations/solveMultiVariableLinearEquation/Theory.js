@@ -26,12 +26,12 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To solve a linear equation like <M>a\left(x + 2\right) = bx + c</M> for the target variable <M>x</M>, take the following steps.</Par>
-			<List items={[
-				<>If there are any brackets containing the target variable, <SkillLink skillId="expandBrackets">expand them</SkillLink>. This turns the example into <M>ax + 2a = bx + c</M>.</>,
-				<><SkillLink skillId="moveEquationTerms">Move all terms</SkillLink> with the target variable to one side and all terms without the target variable to the other side. For the example, if we move everything with <M>x</M> to the left and the rest to the right, we get <M>ax - bx = c - 2a</M>.</>,
-				<><SkillLink skillId="pullFactorOutOfBrackets">Pull the target variable out of the brackets</SkillLink>. Pulling <M>x</M> out will turn the example into <M>\left(a-b\right)x = c-2a</M>.</>,
-				<><SkillLink skillId="solveMultiVariableProductEquation">Solve the resulting product equation</SkillLink> by moving the factor between brackets to the other side. Also simplify the result where possible and check it. For the example we end up with <M>x = \frac(c-2a)(a-b)</M>, which can be shown to balance the equation.</>,
-			]} />
+			<List>
+				<List.Item><>If there are any brackets containing the target variable, <SkillLink skillId="expandBrackets">expand them</SkillLink>. This turns the example into <M>ax + 2a = bx + c</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="moveEquationTerms">Move all terms</SkillLink> with the target variable to one side and all terms without the target variable to the other side. For the example, if we move everything with <M>x</M> to the left and the rest to the right, we get <M>ax - bx = c - 2a</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="pullFactorOutOfBrackets">Pull the target variable out of the brackets</SkillLink>. Pulling <M>x</M> out will turn the example into <M>\left(a-b\right)x = c-2a</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="solveMultiVariableProductEquation">Solve the resulting product equation</SkillLink> by moving the factor between brackets to the other side. Also simplify the result where possible and check it. For the example we end up with <M>x = \frac(c-2a)(a-b)</M>, which can be shown to balance the equation.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

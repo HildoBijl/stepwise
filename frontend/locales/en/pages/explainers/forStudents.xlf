@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<unit id="intro">
+			<segment>
+				<source>People learn best by doing. That's why Step-Wise is focused around (1) you <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">practicing</pc>, and (2) on <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">coaching</pc> you to practice on your level.</source>
+			</segment>
+		</unit>
+		<group id="practice">
+			<unit id="head">
+				<segment>
+					<source>Practice</source>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>When starting to practice, it helps to know the <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">structure</pc> behind Step-Wise.</source>
+				</segment>
+			</unit>
+			<group id="skills">
+				<unit id="head">
+					<segment>
+						<source>Focused around skills</source>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>In Step-Wise, all educational content is split up into small <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">skills</pc>: something that you can actually do. Every skill has roughly 2-10 minutes worth of information. We'll tell you exactly how it works, from an intuitive point of view, and which steps you need to take to apply said skill.</source>
+					</segment>
+				</unit>
+				<group id="theoryImage">
+					<unit id="theory">
+						<segment>
+							<source>Theory</source>
+						</segment>
+					</unit>
+					<unit id="practice">
+						<segment>
+							<source>Practice</source>
+						</segment>
+					</unit>
+					<unit id="background">
+						<segment>
+							<source>Background</source>
+						</segment>
+					</unit>
+					<unit id="head1">
+						<segment>
+							<source>How it works</source>
+						</segment>
+					</unit>
+					<unit id="head2">
+						<segment>
+							<source>The steps to take</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="feedback">
+				<unit id="head">
+					<segment>
+						<source>Exercises give specific feedback</source>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>Everyone makes small mistakes every now and then. When you do, we have you covered. You'll get <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">specific feedback</pc> on where the error might be. This teaches you to find your own mistakes, so that you won't make them anymore in the future.</source>
+					</segment>
+				</unit>
+				<group id="practiceImage">
+					<unit id="theory">
+						<segment>
+							<source>Theory</source>
+						</segment>
+					</unit>
+					<unit id="practice">
+						<segment>
+							<source>Practice</source>
+						</segment>
+					</unit>
+					<unit id="background">
+						<segment>
+							<source>Background</source>
+						</segment>
+					</unit>
+					<unit id="exercise">
+						<segment>
+							<source>Calculate <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="hint">
+						<segment>
+							<source>Check the carry.</source>
+						</segment>
+					</unit>
+					<unit id="stepWiseButton">
+						<segment>
+							<source>Solve this Step-Wise</source>
+						</segment>
+					</unit>
+					<unit id="submitButton">
+						<segment>
+							<source>Submit and check</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="steps">
+				<unit id="head">
+					<segment>
+						<source>Split up exercises into steps</source>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>If you've got no idea on how to solve an exercise, then you can always <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">split it up into steps</pc>. Each step is a skill that you've practiced before, ensuring that you'll reach the final result. On top of that, each step always has clear and intuitive solutions.</source>
+					</segment>
+				</unit>
+				<group id="practiceImage">
+					<unit id="theory">
+						<segment>
+							<source>Theory</source>
+						</segment>
+					</unit>
+					<unit id="practice">
+						<segment>
+							<source>Practice</source>
+						</segment>
+					</unit>
+					<unit id="background">
+						<segment>
+							<source>Background</source>
+						</segment>
+					</unit>
+					<unit id="exercise">
+						<segment>
+							<source>Calculate <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="step1">
+						<segment>
+							<source>Step 1</source>
+						</segment>
+					</unit>
+					<unit id="giveUpButton">
+						<segment>
+							<source>I give up this step</source>
+						</segment>
+					</unit>
+					<unit id="submitButton">
+						<segment>
+							<source>Submit and check</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+		<group id="coaching">
+			<unit id="head">
+				<segment>
+					<source>Coaching</source>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>The hardest part of studying is knowing <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">where to start</pc>, and <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">what to practice next</pc>. This is exactly where Step-Wise shines.</source>
+				</segment>
+			</unit>
+			<group id="tracking">
+				<unit id="head">
+					<segment>
+						<source>Live progress tracking</source>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>For every skill, we constantly <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">estimate the chance</pc> that you're going to apply it correctly on the next attempt. Obviously we share these estimates with you too, so you know where you stand. Curious how it works? Try it out for yourself!</source>
+					</segment>
+				</unit>
+				<group id="applet">
+					<group id="buttons">
+						<unit id="correct">
+							<segment>
+								<source>Correct</source>
+							</segment>
+						</unit>
+						<unit id="incorrect">
+							<segment>
+								<source>Incorrect</source>
+							</segment>
+						</unit>
+						<unit id="reset">
+							<segment>
+								<source>Reset</source>
+							</segment>
+						</unit>
+					</group>
+					<unit id="estimate">
+						<segment>
+							<source>The chance of a correct result is estimated to be <ph id="x1" type="ui" subType="xlf:var" swi18n:name="a"/>%.</source>
+						</segment>
+					</unit>
+					<unit id="estimateAddendum1">
+						<segment>
+							<source>But honestly we don't have a clue yet.</source>
+						</segment>
+					</unit>
+					<unit id="estimateAddendum2">
+						<segment>
+							<source>But it's still fairly uncertain.</source>
+						</segment>
+					</unit>
+					<unit id="estimateAddendum3">
+						<segment>
+							<source>This estimate has a bit of accuracy.</source>
+						</segment>
+					</unit>
+					<unit id="estimateAddendum4">
+						<segment>
+							<source>This is a fairly accurate estimate.</source>
+						</segment>
+					</unit>
+					<unit id="estimateAddendum5">
+						<segment>
+							<source>We're quite certain of this.</source>
+						</segment>
+					</unit>
+					<unit id="estimateAddendum6">
+						<segment>
+							<source>This is based on a large number of exercises, and is hence an accurate estimation.</source>
+						</segment>
+					</unit>
+				</group>
+				<unit id="par2">
+					<segment>
+						<source>The above is only for a single skill. In practice we also take into account lots of other factors, like links between skills, time decay, and more.</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="recommendations">
+				<unit id="head">
+					<segment>
+						<source>Skill-tree-based practice recommendations</source>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>Behind the scenes, Step-Wise makes heavy use of <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">skill trees</pc>. You start with the basic skills at the top, and these skills then combine (form the steps of) the more advanced skills below them. Through this tree structure, we can always tell you exactly what the right skill is for you to practice next. It also gives you a good overview of how far along you are in the course.</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="deficiencies">
+				<unit id="head">
+					<segment>
+						<source>Deficiency detection and tackling</source>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>When you're struggling with the exercises of a skill, we're also there for you. Keep in mind: every exercise can be split up into steps. This doesn't only help you, but it also allows us to figure out exactly what you're struggling with. So when we notice something is up, we can recommend you to <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">separately practice a specific subskill</pc> a bit more. Doing so allows you to tackle your deficiency and come back stronger.</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="getStarted">
+			<unit id="head">
+				<segment>
+					<source>Get started</source>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>Want to try it out? <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Head to the <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children">Courses page</pc> and start practicing.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Head back to the <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">home page</pc>, sign in (it's free!) and start practicing.</pc></pc></source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

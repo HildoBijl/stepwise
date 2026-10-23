@@ -75,19 +75,21 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To solve a quadratic equation, like <M>2x^2 - 8x + 6 = 0</M>, take the following steps.</Par>
-			<List items={[
-				<>Compare the equation to the standard form <M>ax^2 + bx + c = 0</M> to determine <M>a</M>, <M>b</M> and <M>c</M>. If there is a minus sign, the corresponding number should be negative. For our example we have <M>a = 2</M>, <M>b = -8</M> and <M>c = 6</M>.</>,
-				<><SkillLink skillId="substituteANumber">Substitute</SkillLink> <M>a</M>, <M>b</M> and <M>c</M> into the general solution <M>x = \frac(-b \pm \sqrt(b^2 - 4ac))(2a)</M>. For our example we get <M>x = \frac(8 \pm \sqrt(8^2 - 4 \cdot 2 \cdot 6))(2 \cdot 2)</M>.</>,
-				<><SkillLink skillId="simplifyRoot">Simplify the root</SkillLink> and use the number within it (the discriminant) to determine the number of solutions.
-					<List items={[
-						<>If the discriminant is <Emp>positive</Emp> then there are <Emp>two solutions</Emp>.</>,
-						<>If the discriminant is <Emp>negative</Emp> then there are <Emp>no solutions</Emp>.</>,
-						<>If the discriminant is <Emp>zero</Emp> then there is exactly <Emp>one solution</Emp>.</>,
-					]} />
-					For our example we get <M>\sqrt(16)</M> so there are two solutions.</>,
-				<><SkillLink skillId="simplifyFractionSum">Simplify the resulting fraction</SkillLink>, canceling fraction factors where possible. For our example <M>x = \frac(8 \pm 4)(4)</M> reduces to <M>x = 2 \pm 1</M>.</>,
-				<>Finally write the two solutions (if they exist) side by side. For our example we get <M>x = 1</M> and <M>x = 3</M>.</>,
-			]} />
+			<List>
+				<List.Item><>Compare the equation to the standard form <M>ax^2 + bx + c = 0</M> to determine <M>a</M>, <M>b</M> and <M>c</M>. If there is a minus sign, the corresponding number should be negative. For our example we have <M>a = 2</M>, <M>b = -8</M> and <M>c = 6</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="substituteANumber">Substitute</SkillLink> <M>a</M>, <M>b</M> and <M>c</M> into the general solution <M>x = \frac(-b \pm \sqrt(b^2 - 4ac))(2a)</M>. For our example we get <M>x = \frac(8 \pm \sqrt(8^2 - 4 \cdot 2 \cdot 6))(2 \cdot 2)</M>.</></List.Item>
+				<List.Item>
+					<><SkillLink skillId="simplifyRoot">Simplify the root</SkillLink> and use the number within it (the discriminant) to determine the number of solutions.
+					<List>
+						<List.Item><>If the discriminant is <Emp>positive</Emp> then there are <Emp>two solutions</Emp>.</></List.Item>
+						<List.Item><>If the discriminant is <Emp>negative</Emp> then there are <Emp>no solutions</Emp>.</></List.Item>
+						<List.Item><>If the discriminant is <Emp>zero</Emp> then there is exactly <Emp>one solution</Emp>.</></List.Item>
+					</List>
+					For our example we get <M>\sqrt(16)</M> so there are two solutions.</>
+				</List.Item>
+				<List.Item><><SkillLink skillId="simplifyFractionSum">Simplify the resulting fraction</SkillLink>, canceling fraction factors where possible. For our example <M>x = \frac(8 \pm 4)(4)</M> reduces to <M>x = 2 \pm 1</M>.</></List.Item>
+				<List.Item><>Finally write the two solutions (if they exist) side by side. For our example we get <M>x = 1</M> and <M>x = 3</M>.</></List.Item>
+			</List>
 		</Translation>
 
 		<Translation entry="derivation">

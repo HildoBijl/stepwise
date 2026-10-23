@@ -22,28 +22,39 @@ function validateNodes(message: Message, locale: string, cardinalRules: Intl.Plu
 
 // Check if all the plurals in a given node are valid, and push an issue otherwise.
 function validateNode(node: MessageNode, locale: string, cardinalRules: Intl.PluralRules, path: string, issues: MessageValidationIssue[]): void {
-	// For components, iterate over the slots to find potential plurals.
-	if (node.type === 'component') {
-		Object.entries(node.slots).forEach(([name, message]) => validateNodes(message, locale, cardinalRules, `${path}.slots.${name}`, issues))
-		return
+	switch (node.type) {
+		// Text and variables contain no nested messages requiring locale validation.
+		case 'text':
+		case 'variable':
+			return
+
+		// For components, iterate over the slots to validate their contents.
+		case 'component':
+			Object.entries(node.slots).forEach(([name, message]) => validateNodes(message, locale, cardinalRules, `${path}.slots.${name}`, issues))
+			return
+
+		// For selects, iterate over the branches.
+		case 'select':
+			Object.entries(node.branches).forEach(([value, message]) => validateNodes(message, locale, cardinalRules, `${path}.branches.${value}`, issues))
+			return
+
+		// For conditions, iterate over the two options.
+		case 'condition':
+			validateNodes(node.true, locale, cardinalRules, `${path}.true`, issues)
+			validateNodes(node.false, locale, cardinalRules, `${path}.false`, issues)
+			return
+
+		// For plurals, check their categories against the locale and recursively validate every branch.
+		case 'plural': {
+			const rules = node.form === 'ordinal' ? new Intl.PluralRules(locale, { type: 'ordinal' }) : cardinalRules
+			const categories = new Set(rules.resolvedOptions().pluralCategories)
+			Object.entries(node.branches).forEach(([category, branch]) => {
+				if (!categories.has(category as PluralCategory))
+					issues.push({ path: `${path}.branches.${category}`, message: `Plural category "${category}" is not used by locale "${locale}".` })
+				validateNodes(branch, locale, cardinalRules, `${path}.branches.${category}`, issues)
+			})
+			Object.entries(node.exactBranches ?? {}).forEach(([value, branch]) => validateNodes(branch, locale, cardinalRules, `${path}.exactBranches.${value}`, issues))
+			return
+		}
 	}
-
-	// For selects, iterate over the branches to find potential plurals.
-	if (node.type === 'select') {
-		Object.entries(node.branches).forEach(([value, message]) => validateNodes(message, locale, cardinalRules, `${path}.branches.${value}`, issues))
-		return
-	}
-
-	// For text/variable, there can be no plural.
-	if (node.type !== 'plural') return
-
-	// For plurals, extract the current locale's plural categories and check if there is any that falls outside of them. Also iterate over branches and exact branches.
-	const rules = node.form === 'ordinal' ? new Intl.PluralRules(locale, { type: 'ordinal' }) : cardinalRules
-	const categories = new Set(rules.resolvedOptions().pluralCategories)
-	Object.entries(node.branches).forEach(([category, branch]) => {
-		if (!categories.has(category as PluralCategory))
-			issues.push({ path: `${path}.branches.${category}`, message: `Plural category "${category}" is not used by locale "${locale}".` })
-		validateNodes(branch, locale, cardinalRules, `${path}.branches.${category}`, issues)
-	})
-	Object.entries(node.exactBranches ?? {}).forEach(([value, branch]) => validateNodes(branch, locale, cardinalRules, `${path}.exactBranches.${value}`, issues))
 }

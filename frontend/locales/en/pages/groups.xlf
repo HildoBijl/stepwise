@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="notifications">
+			<unit id="groupsLoading">
+				<segment>
+					<source>Groups are being loaded...</source>
+				</segment>
+			</unit>
+			<unit id="groupsLoadingError">
+				<segment>
+					<source>Oops ... something went wrong when loading the groups.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="createGroup">
+			<unit id="title">
+				<segment>
+					<source>New practice group</source>
+				</segment>
+			</unit>
+			<unit id="step1">
+				<segment>
+					<source>Create a group code/link.</source>
+				</segment>
+			</unit>
+			<unit id="step2">
+				<segment>
+					<source>Share it with fellow students.</source>
+				</segment>
+			</unit>
+			<unit id="step3">
+				<segment>
+					<source>Practice with the same exercises.</source>
+				</segment>
+			</unit>
+			<unit id="confirmationButton">
+				<segment>
+					<source>Create new practice group</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="newGroup">
+			<unit id="paragraph1">
+				<segment>
+					<source>You are about to create a new practice group. This will give you a code/link to share with your fellow students. Each person entering the code will get access to the practice group. This includes:</source>
+				</segment>
+			</unit>
+			<unit id="paragraph2">
+				<segment>
+					<source>You can always leave and/or forget a practice group. Upon forgetting a practice group, all your traces from the group will be permanently erased.</source>
+				</segment>
+			</unit>
+			<unit id="agreeButton">
+				<segment>
+					<source>Yes, I agree</source>
+				</segment>
+			</unit>
+			<unit id="disagreeButton">
+				<segment>
+					<source>No, I don't want that</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="groupPossibilities">
+			<unit id="entry1">
+				<segment>
+					<source>See who is active in the group and whether they are online/active.</source>
+				</segment>
+			</unit>
+			<unit id="entry2">
+				<segment>
+					<source>At exercises: view the submissions of other group members.</source>
+				</segment>
+			</unit>
+			<unit id="entry3">
+				<segment>
+					<source>Get suggestions on which skill is best to practice, also based on the level of other active group members.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="olderGroups">
+			<unit id="title">
+				<segment>
+					<source>Previous groups</source>
+				</segment>
+			</unit>
+			<unit id="code">
+				<segment>
+					<source>Code</source>
+				</segment>
+			</unit>
+			<unit id="forgetGroup">
+				<segment>
+					<source>Forget this group</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="activeGroup">
+			<unit id="activeGroup">
+				<segment>
+					<source>Your active group: <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="code"/></pc></source>
+				</segment>
+			</unit>
+			<unit id="emptyGroup">
+				<segment>
+					<source>There is no one else in group <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="code"/></pc>. Share the code/<pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">link</pc> with your fellow students to practice together.</source>
+				</segment>
+			</unit>
+			<unit id="deactivateButton">
+				<segment>
+					<source>Leave this group</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="indicator">
+			<unit id="noOthers">
+				<segment>
+					<source>No other group members are present yet.</source>
+				</segment>
+			</unit>
+			<unit id="others">
+				<segment>
+					<source>You are working together with <ph id="c1" type="ui" subType="swi18n:localized-list"/>.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="joinGroup">
+			<unit id="title">
+				<segment>
+					<source>Join existing group</source>
+				</segment>
+			</unit>
+			<unit id="instruction">
+				<segment>
+					<source>Enter an existing group code.</source>
+				</segment>
+			</unit>
+			<unit id="fieldLabel">
+				<segment>
+					<source>Group code</source>
+				</segment>
+			</unit>
+			<unit id="confirmationButton">
+				<segment>
+					<source>Become a group member</source>
+				</segment>
+			</unit>
+			<group id="feedback">
+				<unit id="numberOfCharacters">
+					<segment>
+						<source>Codes must have four characters.</source>
+					</segment>
+				</unit>
+				<unit id="useLettersNumbers">
+					<segment>
+						<source>Only use letters/numbers.</source>
+					</segment>
+				</unit>
+				<unit id="nonexistingGroup">
+					<segment>
+						<source>This group code does not exist.</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="joinGroupConditions">
+			<unit id="paragraph1">
+				<segment>
+					<source>You are about to join the practice group <ph id="x1" type="ui" subType="xlf:var" swi18n:name="code"/>. This will allow you to:</source>
+				</segment>
+			</unit>
+			<unit id="paragraph2">
+				<segment>
+					<source>All current and future members of the practice group are of course also able to do so. You can always leave and/or forget a practice group. If you leave a practice group, all your traces from this group will be permanently erased.</source>
+				</segment>
+			</unit>
+			<unit id="agreeButton">
+				<segment>
+					<source>Yes, I agree</source>
+				</segment>
+			</unit>
+			<unit id="disagreeButton">
+				<segment>
+					<source>No, I don't want that</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

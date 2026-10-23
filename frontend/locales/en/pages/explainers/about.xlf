@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<unit id="intro">
+			<segment>
+				<source>Step-Wise is a free tutoring web-app that brushes up mathematics, physics and/or mechanics skills to (pre-)university level. Want to know how it works? Then read the dedicated pages <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children">for students</pc> and <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">for teachers</pc>. Below you find more historic and technical information about Step-Wise.</source>
+			</segment>
+		</unit>
+		<group id="contact">
+			<unit id="head">
+				<segment>
+					<source>Contact us</source>
+				</segment>
+			</unit>
+			<unit id="par1">
+				<segment>
+					<source>Want to report a bug? Ask for a new feature? Or simply have an interesting discussion on education? Whatever the reason: we're always open for a quick exchange of ideas! Just send an email to <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="infoEmail"/></pc> (Hildo) and you'll get a reply within the day.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="origins">
+			<unit id="head">
+				<segment>
+					<source>Step-Wise origins</source>
+				</segment>
+			</unit>
+			<unit id="par1">
+				<segment>
+					<source>In 2020, when the corona pandemic hit, everyone was stuck at home. Sure, teachers could provide digital lectures, but the more useful practice sessions were not. You can't exactly quickly look over a student's shoulder and give feedback through a video connection. Students were missing out on proper support.</source>
+				</segment>
+			</unit>
+			<unit id="par2">
+				<segment>
+					<source>With too much time available during the lock-down, Utrecht University of Applied Sciences teacher <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Hildo Bijl</pc> decided to program a small web app that could provide at least some support and coaching. And so Step-Wise was born.</source>
+				</segment>
+			</unit>
+			<unit id="par3">
+				<segment>
+					<source>During the first year the focus was on basic thermodynamics. Students were very enthusiastic, especially about the infinite practice material, the intuitive input, and the automated feedback provided by the intelligent physics engine. As a result, the next year also mathematics and engineering mechanics subjects were added. The amount of content grew steadily.</source>
+				</segment>
+			</unit>
+			<unit id="par4">
+				<segment>
+					<source>With the pandemic subsiding, students went back into the classroom. It turned out that Step-Wise also added significant value there. With the app supporting students and automatically answering most questions, teachers had more time available to support the students that had bigger struggles than could be solved by a web-app. On top of that, a collaboration mode was added so that students could also practice together during classroom sessions.</source>
+				</segment>
+			</unit>
+			<unit id="par5">
+				<segment>
+					<source>In 2023 Hildo moved to Germany, which led to Step-Wise being available in both English and German as well, on top of Dutch. Various trial applications arose at the Bochum University of Applied Sciences. Slowly more functionalities are being added, allowing multiple universities across various countries to use Step-Wise simultaneously in a fluent manner.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="technical">
+			<unit id="head">
+				<segment>
+					<source>Technical details</source>
+				</segment>
+			</unit>
+			<unit id="par1">
+				<segment>
+					<source>The Step-Wise app is a so-called <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Progressive Web App</pc>: a website that can pretend to be a smartphone app too. It is designed for usage on a laptop, but it can also be added to the home screen of your smartphone.</source>
+				</segment>
+			</unit>
+			<unit id="par2">
+				<segment>
+					<source>Do you want to know more about how it works behind the scenes? The app is open-source, so all source code is available on the <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">GitHub repository</pc>. But we'll briefly give you the summary.</source>
+				</segment>
+			</unit>
+			<unit id="list">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c2" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children">Front-end:</pc> The front side of the app is made using <pc id="c4" type="ui" subType="swi18n:a" swi18n:slot="children">React</pc> on top of the <pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Create-React-App</pc>. This allows us to easily add interactive elements.</pc><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:strong" swi18n:slot="children">Design:</pc> The looks of the app are based on the <pc id="c8" type="ui" subType="swi18n:a" swi18n:slot="children">Material UI guidelines</pc>, with styling done through <pc id="c9" type="ui" subType="swi18n:a" swi18n:slot="children">JSS</pc>.</pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:strong" swi18n:slot="children">Images:</pc> Not being satisfied with existing tools, we have developed our own <pc id="c12" type="ui" subType="swi18n:a" swi18n:slot="children">easy-to-use toolbox</pc> to dynamically generate simple web images, ranging from mathematical geometries to interactive plots.</pc><pc id="c13" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:strong" swi18n:slot="children">Equations:</pc> Mathematical expressions and equations are rendedered using <pc id="c15" type="ui" subType="swi18n:a" swi18n:slot="children">KaTeX</pc>, although we have added our own plug-ins to easily convert equations and physics quantities into TeX code.</pc><pc id="c16" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c17" type="ui" subType="swi18n:strong" swi18n:slot="children">Mathematics/physics:</pc> Wanting to stick to only one programming language (Javascript), no suitable Computer Algebra System (CAS) was available. So we have set up <pc id="c18" type="ui" subType="swi18n:a" swi18n:slot="children">our own CAS</pc>, including a physics engine, to handle all evaluations in Step-Wise.</pc><pc id="c19" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c20" type="ui" subType="swi18n:strong" swi18n:slot="children">Back-end:</pc> When an exercise is submitted, it is sent to our <pc id="c21" type="ui" subType="swi18n:a" swi18n:slot="children">GraphQL API</pc> to be evaluated. This API runs on <pc id="c22" type="ui" subType="swi18n:a" swi18n:slot="children">Apollo</pc>.</pc><pc id="c23" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c24" type="ui" subType="swi18n:strong" swi18n:slot="children">Server:</pc> We use a server based in Amsterdam, provided and maintained by <pc id="c25" type="ui" subType="swi18n:a" swi18n:slot="children">DigitalOcean</pc>.</pc><pc id="c26" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c27" type="ui" subType="swi18n:strong" swi18n:slot="children">Database:</pc> All user data is stored in a <pc id="c28" type="ui" subType="swi18n:a" swi18n:slot="children">PostgreSQL database</pc>. It is kept up-to-date and secure by <pc id="c29" type="ui" subType="swi18n:a" swi18n:slot="children">DigitalOcean</pc>.</pc></pc></source>
+				</segment>
+			</unit>
+			<unit id="par3">
+				<segment>
+					<source>With Step-Wise being open source, everyone can contribute too. Do you want to get involved? (With or without programming knowledge.) Then drop us a note at <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="infoEmail"/></pc> and we'll see what's possible!</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="privacy">
+			<unit id="head">
+				<segment>
+					<source>Privacy</source>
+				</segment>
+			</unit>
+			<unit id="par1">
+				<segment>
+					<source>At Step-Wise we take your privacy seriously. Proper user data handling is built into every part of the app. It's based on two fundamental ideas.</source>
+				</segment>
+			</unit>
+			<unit id="list">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c2" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children">Need to know:</pc> You only get access to the data that you need to do what you want to do. Nothing more, nothing less.</pc><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:strong" swi18n:slot="children">Ask when needed:</pc> When you engage in an action that allows others to access some of your data (like registering for a course) we will note this and ask for your permission at that exact moment. Not before, and certainly not after.</pc></pc></source>
+				</segment>
+			</unit>
+			<unit id="par2">
+				<segment>
+					<source>This gives you a fluent user experience, while at the same time keeping your data secure. Want to know more about how we treat your data? Then check out our full <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Privacy Policy</pc>. This is also the policy you approve of when first signing in.</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

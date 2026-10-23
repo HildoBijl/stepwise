@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest'
 
 import { type Message } from '../../message/index.ts'
 
+import { Condition } from '../authoring/Condition.tsx'
 import { variable } from '../authoring/variable.ts'
 import { withTranslation } from '../authoring/withTranslation.tsx'
 import { messageToReact } from './messageToReact.tsx'
@@ -55,5 +56,20 @@ describe('message-to-React rendering', () => {
 
 		expect(() => messageToReact(copied, source, 'en')).toThrow('may not be copied')
 		expect(() => messageToReact([], source, 'en')).toThrow('may not be deleted')
+	})
+
+	it('renders Condition branches', () => {
+		const target: Message = [{
+			type: 'condition',
+			variable: '$condition1',
+			true: [{ type: 'text', value: 'Enabled' }],
+			false: [{ type: 'text', value: 'Disabled' }],
+		}]
+
+		const { rerender } = render(<>{messageToReact(target, <Condition value={true}><Condition.True>On</Condition.True><Condition.False>Off</Condition.False></Condition>, 'en')}</>)
+		expect(document.body.textContent).toContain('Enabled')
+
+		rerender(<>{messageToReact(target, <Condition value={false}><Condition.True>On</Condition.True><Condition.False>Off</Condition.False></Condition>, 'en')}</>)
+		expect(document.body.textContent).toContain('Disabled')
 	})
 })

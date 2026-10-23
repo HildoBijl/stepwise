@@ -32,12 +32,12 @@ const Problem = ({ medium }) => {
 	const { m, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 } = useSolution()
 	return <>
 		<Par>We voeren een Carnot-proces uit met <M>{m}</M> {Dutch[medium]}. De doorlopen stappen zijn:</Par>
-		<List items={[
-			'Stap 1-2: een isentrope compressie.',
-			'Stap 2-3: een isotherme compressie.',
-			'Stap 3-4: een isentrope expansie.',
-			'Stap 4-1: een isotherme expansie.',
-		]} />
+		<List>
+			<List.Item>{'Stap 1-2: een isentrope compressie.'}</List.Item>
+			<List.Item>{'Stap 2-3: een isotherme compressie.'}</List.Item>
+			<List.Item>{'Stap 3-4: een isentrope expansie.'}</List.Item>
+			<List.Item>{'Stap 4-1: een isotherme expansie.'}</List.Item>
+		</List>
 		<Par>Op elk van de punten 1, 2, 3 en 4 heeft het gas de volgende eigenschappen.</Par>
 		<Table colHeads={['Druk', 'Volume', 'Temperatuur']} rowHeads={['Punt 1', 'Punt 2', 'Punt 3', 'Punt 4']} fields={[[<M>{p1.setUnit('bar')}</M>, <M>{V1}</M>, <M>{T1}</M>], [<M>{p2.setUnit('bar')}</M>, <M>{V2}</M>, <M>{T2}</M>], [<M>{p3.setUnit('bar')}</M>, <M>{V3}</M>, <M>{T3}</M>], [<M>{p4.setUnit('bar')}</M>, <M>{V4}</M>, <M>{T4}</M>]]} style={{ minWidth: '500px', maxWidth: '540px' }} />
 		<Par>Bereken de toegevoerde warmte <M>Q</M> en de door het gas geleverde arbeid <M>W</M> bij elke stap.</Par>

@@ -25,10 +25,10 @@ export function Theory() {
 			<Head>Input fields for decimal numbers with units</Head>
 			<Par>Physical quantities always have a number and a unit. For instance, a distance might be <M>{dist}</M> or a temperature may be <M>{temp}</M>. Without the unit, the number is meaningless.</Par>
 			<Par>Entering physical quantities in Step-Wise is easy: we once more have a custom input field. This field has two parts.</Par>
-			<List items={[
-				<>A <Term>number part</Term>: this is where you enter the number, which may also include a ten-power.</>,
-				<>A <Term>unit part</Term>: this is where you enter the unit, as you are used to.</>,
-			]} />
+			<List>
+				<List.Item><>A <Term>number part</Term>: this is where you enter the number, which may also include a ten-power.</></List.Item>
+				<List.Item><>A <Term>unit part</Term>: this is where you enter the unit, as you are used to.</></List.Item>
+			</List>
 			<Par>Each of these two parts has its own internal keyboards, which adjusts automatically as you move from one part to the other. This allows you to easily enter any physical quantity that might come out of your calculations.</Par>
 		</Translation>
 	</>

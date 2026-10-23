@@ -43,16 +43,16 @@ export default function Component() {
 
 		<Head>Een aircoproces doorrekenen: de stappen</Head>
 		<Par>Als je een aircoproces door wilt rekenen, teken het proces dan altijd in een Mollier diagram. Afhankelijk van wat gegeven en gevraagd is volg je de volgende stappen.</Par>
-		<List useNumbers={true} items={[
-			<>Teken het beginpunt in. Je kunt deze <SkillLink skillId="readMollierDiagram">opzoeken</SkillLink> via de aanvangstemperatuur en de aanvangsluchtvochtigheid.</>,
-			<>Teken het eindpunt in. Je kunt deze <SkillLink skillId="readMollierDiagram">opzoeken</SkillLink> via de eindtemperatuur en de eindluchtvochtigheid.</>,
-			<>Teken het tussenpunt in, na afloop van het koelproces. Deze ligt altijd verticaal onder het eindpunt (dus op dezelfde absolute luchtvochtigheid), en wel op de dikke lijn van maximale luchtvochtigheid.</>,
-		]} />
+		<List useNumbers={true}>
+			<List.Item><>Teken het beginpunt in. Je kunt deze <SkillLink skillId="readMollierDiagram">opzoeken</SkillLink> via de aanvangstemperatuur en de aanvangsluchtvochtigheid.</></List.Item>
+			<List.Item><>Teken het eindpunt in. Je kunt deze <SkillLink skillId="readMollierDiagram">opzoeken</SkillLink> via de eindtemperatuur en de eindluchtvochtigheid.</></List.Item>
+			<List.Item><>Teken het tussenpunt in, na afloop van het koelproces. Deze ligt altijd verticaal onder het eindpunt (dus op dezelfde absolute luchtvochtigheid), en wel op de dikke lijn van maximale luchtvochtigheid.</></List.Item>
+		</List>
 		<Par>Als je dit hebt ingetekend, dan kun je hiermee ook verschillende andere waarden berekenen.</Par>
-		<List items={[
-			<>De horizontale afstand tussen het beginpunt en het eindpunt zegt iets over de hoeveelheid water die gecondenseerd is. Zo zie je hoeveel water afgevoerd moet worden.</>,
-			<>De verticale afstanden tussen de punten zegt iets over de temperatuursveranderingen die optreden. Zo kun je bepalen hoeveel koelvermogen of verwarmingsvermogen nodig is.</>,
-		]} />
+		<List>
+			<List.Item><>De horizontale afstand tussen het beginpunt en het eindpunt zegt iets over de hoeveelheid water die gecondenseerd is. Zo zie je hoeveel water afgevoerd moet worden.</></List.Item>
+			<List.Item><>De verticale afstanden tussen de punten zegt iets over de temperatuursveranderingen die optreden. Zo kun je bepalen hoeveel koelvermogen of verwarmingsvermogen nodig is.</></List.Item>
+		</List>
 		<Par>Hiermee kun je alle relevante eigenschappen van je airco bepalen.</Par>
 	</>
 }

@@ -25,10 +25,10 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To solve a linear equation in disguise, like <M>\frac(2)(x+3)=\frac(5)(x+7)</M>, take the following steps.</Par>
-			<List items={[
-				<>Whenever the unknown is in any fraction denominator, <SkillLink skillId="moveEquationFactor">move this denominator (as factor) to the other side of the equation</SkillLink> to fix this. For the example we do this twice to get <M>2\left(x+7\right) = 5\left(x+3\right)</M>.</>,
-				<>If the equation that comes out is a linear equation, then <SkillLink skillId="solveLinearEquation">solve it</SkillLink> in the default way. For the example, we indeed get a linear equation, whose solution can be found as <M>x = -\frac(1)(3)</M>.</>,
-			]} />
+			<List>
+				<List.Item><>Whenever the unknown is in any fraction denominator, <SkillLink skillId="moveEquationFactor">move this denominator (as factor) to the other side of the equation</SkillLink> to fix this. For the example we do this twice to get <M>2\left(x+7\right) = 5\left(x+3\right)</M>.</></List.Item>
+				<List.Item><>If the equation that comes out is a linear equation, then <SkillLink skillId="solveLinearEquation">solve it</SkillLink> in the default way. For the example, we indeed get a linear equation, whose solution can be found as <M>x = -\frac(1)(3)</M>.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

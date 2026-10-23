@@ -62,6 +62,8 @@ Targets may add branches required by their locale. Every plural requires `other`
 
 Selections use `swi18n:select` containers with `swi18n:select-branch` children. Each branch stores its value in `swi18n:value`, and every selection requires an `other` branch.
 
+Boolean conditions use `swi18n:condition` containers with exactly one `swi18n:condition-true` and one `swi18n:condition-false` child. Either branch may be empty.
+
 
 ## Source compatibility
 

@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom'
 import { Box, Button, useMediaQuery } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
+import { Translation, TranslationGroup } from '@step-wise/i18n'
+
 import { useLeaveGroup, useSortedGroupMembers } from 'api'
-import { Translation } from 'i18n'
+
 import { usePaths } from 'ui/routingTools'
 import { Head, MemberList } from 'ui/components'
 
 export function OtherGroups({ groups, hasActiveGroup }) {
-	return <>
-		<Head><Translation entry="olderGroups.title">Previous groups</Translation></Head>
+	return <TranslationGroup path="olderGroups">
+		<Head><Translation id="title">Previous groups</Translation></Head>
 		<Box sx={{
 			display: 'grid',
 			gap: '0.5rem 0.5rem',
@@ -20,7 +22,7 @@ export function OtherGroups({ groups, hasActiveGroup }) {
 		}}>
 			{groups.map(group => <OtherGroup key={group.code} group={group} />)}
 		</Box>
-	</>
+	</TranslationGroup>
 }
 
 function OtherGroup({ group }) {
@@ -31,9 +33,9 @@ function OtherGroup({ group }) {
 
 	return <>
 		<Link to={paths.group({ code: group.code })} style={{ width: '100%' }}>
-			<Button variant="contained" size="small" color="primary" sx={{ width: '100%' }}>{wideScreen ? <><Translation entry="olderGroups.code">Code</Translation> </> : ''}{group.code}</Button>
+			<Button variant="contained" size="small" color="primary" sx={{ width: '100%' }}>{wideScreen ? <><Translation id="code">Code</Translation> </> : ''}{group.code}</Button>
 		</Link>
 		<MemberList members={membersSorted} />
-		<Button variant="contained" size="small" color="secondary" endIcon={wideScreen ? <Clear /> : null} onClick={leaveGroup} sx={{ width: '100%' }}>{wideScreen ? <Translation entry="olderGroups.forgetGroup">Forget this group</Translation> : <Clear />}</Button>
+		<Button variant="contained" size="small" color="secondary" endIcon={wideScreen ? <Clear /> : null} onClick={leaveGroup} sx={{ width: '100%' }}>{wideScreen ? <Translation id="forgetGroup">Forget this group</Translation> : <Clear />}</Button>
 	</>
 }

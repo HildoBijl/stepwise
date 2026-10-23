@@ -38,13 +38,13 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To solve a system of linear equation like <M>ax + 3y = b</M> and <M>cx - ay = 8</M> for target variables <M>x</M> and <M>y</M>, take the following steps.</Par>
-			<List items={[
-				<><SkillLink skillId="solveMultiVariableLinearEquation">Solve one equation for one variable</SkillLink>. For the example, we can solve the first equation for <M>x</M> to find <M>x = \frac(b - 3y)(a)</M>.</>,
-				<><SkillLink skillId="substituteAnExpression">Substitute this solution</SkillLink> into the <Emp>other</Emp> equation. For the example, we get <M>c\left((b - 3y)(a)\right) - ay = 8</M>.</>,
-				<><SkillLink skillId="solveMultiVariableLinearEquation">Solve the resulting equation</SkillLink> for the remaining target variable. In our example we end up with <M>y = \frac(bc - 8a)(a^2 + 3c)</M>.</>,
-				<><SkillLink skillId="substituteAnExpression">Insert the found value</SkillLink> into the solution you found in the second step and subsequently <SkillLink skillId="simplifyFractionOfFractionSumsWithMultipleVariables">simplify it</SkillLink>. In the example, we insert the solution for <M>y</M> into the earlier result for <M>x</M> and simplify the result to find <M>x = \frac(ab + 24)(a^2 + 3c)</M>.</>,
-				<>Check your solution by <SkillLink skillId="substituteAnExpression">inserting both results</SkillLink> into the original equations. In the example, we find that both <M>a\frac(ab + 24)(a^2 + 3c) + 3\frac(bc - 8a)(a^2 + 3c) = b</M> and <M>c\frac(ab + 24)(a^2 + 3c) - a\frac(bc - 8a)(a^2 + 3c) = 8</M> indeed hold true.</>,
-			]} />
+			<List>
+				<List.Item><><SkillLink skillId="solveMultiVariableLinearEquation">Solve one equation for one variable</SkillLink>. For the example, we can solve the first equation for <M>x</M> to find <M>x = \frac(b - 3y)(a)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="substituteAnExpression">Substitute this solution</SkillLink> into the <Emp>other</Emp> equation. For the example, we get <M>c\left((b - 3y)(a)\right) - ay = 8</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="solveMultiVariableLinearEquation">Solve the resulting equation</SkillLink> for the remaining target variable. In our example we end up with <M>y = \frac(bc - 8a)(a^2 + 3c)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="substituteAnExpression">Insert the found value</SkillLink> into the solution you found in the second step and subsequently <SkillLink skillId="simplifyFractionOfFractionSumsWithMultipleVariables">simplify it</SkillLink>. In the example, we insert the solution for <M>y</M> into the earlier result for <M>x</M> and simplify the result to find <M>x = \frac(ab + 24)(a^2 + 3c)</M>.</></List.Item>
+				<List.Item><>Check your solution by <SkillLink skillId="substituteAnExpression">inserting both results</SkillLink> into the original equations. In the example, we find that both <M>a\frac(ab + 24)(a^2 + 3c) + 3\frac(bc - 8a)(a^2 + 3c) = b</M> and <M>c\frac(ab + 24)(a^2 + 3c) - a\frac(bc - 8a)(a^2 + 3c) = 8</M> indeed hold true.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

@@ -50,10 +50,12 @@ export function CourseLearningGoals({ course }) {
 		<TranslationSection entry={translationSection}>
 			<Head><Translation entry="learningGoals.title">Learning goals</Translation></Head>
 			<Par><Translation entry="learningGoals.description">The course has the following final <Plurals value={course.courseDefinition.learningGoalIds.length}><Plurals.One>goal</Plurals.One><Plurals.NotOne>goals</Plurals.NotOne></Plurals>.</Translation></Par>
-			<List items={course.courseDefinition.learningGoalIds.map(goalId => {
+			<List>
+				{course.courseDefinition.learningGoalIds.map(goalId => {
 				const skill = moduleTree[goalId]
-				return <Link to={paths.skill({ skillId: goalId })}><Translation path="eduContent/skillNames" entry={`${skill.groupPath.join('.')}.${skill.id}`}>{moduleCatalog[skill.id].name}</Translation></Link>
-			})} />
+				return <List.Item key={goalId}><Link to={paths.skill({ skillId: goalId })}><Translation path="eduContent/skillNames" entry={`${skill.groupPath.join('.')}.${skill.id}`}>{moduleCatalog[skill.id].name}</Translation></Link></List.Item>
+			})}
+			</List>
 		</TranslationSection>
 	</TranslationFile>
 }

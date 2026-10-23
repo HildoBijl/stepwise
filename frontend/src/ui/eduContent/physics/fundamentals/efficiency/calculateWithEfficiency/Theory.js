@@ -21,11 +21,11 @@ export default function Component() {
 
 		<Head>Met rendement rekenen: de stappen</Head>
 		<Par>Vaak wil je een rendement uitrekenen. Je volgt dan de volgende stappen.</Par>
-		<List useNumbers={true} items={[
-			<>Bepaal de invoer van het systeem: wat gaat erin?</>,
-			<>Bepaal de nuttige uitvoer van het systeem: wat levert het op? Controleer dat deze waarde inderdaad kleiner is dan de invoer.</>,
-			<>Gebruik de formule <M>\eta = \frac(E_(nuttig))(E_(invoer))</M> of soortgelijk om het rendement te berekenen.</>,
-		]} />
+		<List useNumbers={true}>
+			<List.Item><>Bepaal de invoer van het systeem: wat gaat erin?</></List.Item>
+			<List.Item><>Bepaal de nuttige uitvoer van het systeem: wat levert het op? Controleer dat deze waarde inderdaad kleiner is dan de invoer.</></List.Item>
+			<List.Item><>Gebruik de formule <M>\eta = \frac(E_(nuttig))(E_(invoer))</M> of soortgelijk om het rendement te berekenen.</></List.Item>
+		</List>
 		<Par>In sommige gevallen is het rendement al bekend, maar wil je juist een invoerwaarde of een nuttige waarde berekenen. In dit zijn de stappen hetzelfde, maar moet je tussendoor nog de vergelijking voor <M>E_(nuttig)</M> of <M>E_(invoer)</M> oplossen.</Par>
 	</>
 }

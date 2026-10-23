@@ -36,13 +36,13 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To solve a system of linear equations like <M>8a + 6b = 9</M> and <M>2a + 5b = 4</M>, take the following steps.</Par>
-			<List items={[
-				<><SkillLink skillId="solveMultiVariableLinearEquation">Solve one equation for one variable</SkillLink>. For the example, we can solve the second equation for <M>a</M> to find <M>a = 2 - \frac(5)(2)b</M>.</>,
-				<><SkillLink skillId="substituteAnExpression">Substitute this solution</SkillLink> into the <Emp>other</Emp> equation. For the example, we get <M>8\left(2 - \frac(5)(2)b\right) + 6b = 9</M>.</>,
-				<><SkillLink skillId="solveLinearEquation">Solve the resulting equation</SkillLink> for the remaining variable. In our example we end up with <M>b = \frac(1)(2)</M>.</>,
-				<><SkillLink skillId="substituteANumber">Insert the found value</SkillLink> into the solution you found in the second step. In the example, we insert <M>b = \frac(1)(2)</M> into the earlier result to find <M>a = \frac(3)(4)</M>.</>,
-				<>Check your solution by <SkillLink skillId="substituteANumber">inserting both results</SkillLink> into the original equations. In the example, we find that both <M>8\cdot \frac(3)(4) + 6 \cdot \frac(1)(2) = 9</M> and <M>2 \cdot \frac(3)(4) + 5 \cdot \frac(1)(2) = 4</M> indeed hold true.</>,
-			]} />
+			<List>
+				<List.Item><><SkillLink skillId="solveMultiVariableLinearEquation">Solve one equation for one variable</SkillLink>. For the example, we can solve the second equation for <M>a</M> to find <M>a = 2 - \frac(5)(2)b</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="substituteAnExpression">Substitute this solution</SkillLink> into the <Emp>other</Emp> equation. For the example, we get <M>8\left(2 - \frac(5)(2)b\right) + 6b = 9</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="solveLinearEquation">Solve the resulting equation</SkillLink> for the remaining variable. In our example we end up with <M>b = \frac(1)(2)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="substituteANumber">Insert the found value</SkillLink> into the solution you found in the second step. In the example, we insert <M>b = \frac(1)(2)</M> into the earlier result to find <M>a = \frac(3)(4)</M>.</></List.Item>
+				<List.Item><>Check your solution by <SkillLink skillId="substituteANumber">inserting both results</SkillLink> into the original equations. In the example, we find that both <M>8\cdot \frac(3)(4) + 6 \cdot \frac(1)(2) = 9</M> and <M>2 \cdot \frac(3)(4) + 5 \cdot \frac(1)(2) = 4</M> indeed hold true.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

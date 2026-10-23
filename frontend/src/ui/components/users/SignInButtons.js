@@ -3,9 +3,11 @@ import { Helmet } from 'react-helmet-async'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Box, Alert, AlertTitle } from '@mui/material'
 
+import { Translation } from '@step-wise/i18n'
+
 import { apiAddress, googleClientId, googleRedirectAddress } from 'settings'
 import { useIsUserLoading } from 'api'
-import { Translation, useLanguage } from 'i18n'
+import { useLanguage } from 'i18n'
 import HUlogo from 'ui/images/HU.png'
 
 export function SignInButtons({ redirect = window.location.pathname + window.location.search, centered = true }) {
@@ -84,8 +86,8 @@ function GoogleSignInButton({ redirect }) {
 }
 
 const errorCode2Message = {
-	INVALID_AUTHENTICATION: <Translation entry="signInError.invalidAuthentication">We could not determine your identity. If possible try another account.</Translation>,
-	INTERNAL_ERROR: <Translation entry="signInError.internalError">A server error occurred while signing in. Please try again later.</Translation>,
+	INVALID_AUTHENTICATION: <Translation folder={['pages']} catalog="home" group={['getStarted', 'signInError']} id="invalidAuthentication">We could not determine your identity. If possible try another account.</Translation>,
+	INTERNAL_ERROR: <Translation folder={['pages']} catalog="home" group={['getStarted', 'signInError']} id="internalError">A server error occurred while signing in. Please try again later.</Translation>,
 }
 
 function SignInError() {
@@ -97,7 +99,7 @@ function SignInError() {
 		const queryParams = new URLSearchParams(location.search)
 		if (queryParams.has('error')) {
 			const code = queryParams.get('error')
-			setErrorMessage(errorCode2Message[code] || <Translation entry="signInError.unspecifiedError">Something went wrong while signing in. Please try again later.</Translation>)
+			setErrorMessage(errorCode2Message[code] || <Translation folder={['pages']} catalog="home" group={['getStarted', 'signInError']} id="unspecifiedError">Something went wrong while signing in. Please try again later.</Translation>)
 			queryParams.delete('error')
 			navigate({ search: queryParams.toString() }, { replace: true })
 		}
@@ -106,7 +108,7 @@ function SignInError() {
 	if (!errorMessage)
 		return null
 	return <Alert severity="error" sx={{ mb: 2 }}>
-		<AlertTitle><Translation entry="signInError.title">Sign-in unsuccessful</Translation></AlertTitle>
+		<AlertTitle><Translation folder={['pages']} catalog="home" group={['getStarted', 'signInError']} id="title">Sign-in unsuccessful</Translation></AlertTitle>
 		{errorMessage}
 	</Alert>
 }
@@ -162,7 +164,7 @@ function HUSignInButton({ redirect }) {
 				flexGrow: '1',
 				fontWeight: '500',
 			}}>
-				<Translation path="pages/home" entry="getStarted.signInHU">Sign in through Hogeschool Utrecht</Translation>
+				<Translation folder={['pages']} catalog="home" group={['getStarted']} id="signInHU">Sign in through Hogeschool Utrecht</Translation>
 			</Box>
 		</Box>
 	</Box>

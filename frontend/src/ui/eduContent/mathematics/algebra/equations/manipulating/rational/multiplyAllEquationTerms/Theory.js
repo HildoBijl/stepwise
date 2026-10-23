@@ -25,11 +25,11 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To multiply or divide all terms in an equation by a factor, like when multiplying <M>2 + \frac(3)(x) = 5x</M> by <M>x</M>, take the following steps.</Par>
-			<List items={[
-				<><SkillLink skillId="multiplyBothEquationSides">Apply the multiplication/division</SkillLink> to the full equation. This turns the example into <M>\left(2 + \frac(3)(x)\right)x = 5x \cdot x</M>.</>,
-				<>On a multiplication <SkillLink skillId="expanddBrackets">expand the brackets</SkillLink>, or on a division <SkillLink skillId="addLikeFractionWithVariables">split up the fraction</SkillLink>. For the example, we get <M>2x + \frac(3x)(x) = 5x \cdot x</M>.</>,
-				<>Simplify the resulting outcome, which usually comes down to <SkillLink skillId="simplifyFractionWithVariables">simplifying various fractions</SkillLink>, canceling terms where needed. This reduces the example to <M>2x+3=5x^2</M>.</>,
-			]} />
+			<List>
+				<List.Item><><SkillLink skillId="multiplyBothEquationSides">Apply the multiplication/division</SkillLink> to the full equation. This turns the example into <M>\left(2 + \frac(3)(x)\right)x = 5x \cdot x</M>.</></List.Item>
+				<List.Item><>On a multiplication <SkillLink skillId="expanddBrackets">expand the brackets</SkillLink>, or on a division <SkillLink skillId="addLikeFractionWithVariables">split up the fraction</SkillLink>. For the example, we get <M>2x + \frac(3x)(x) = 5x \cdot x</M>.</></List.Item>
+				<List.Item><>Simplify the resulting outcome, which usually comes down to <SkillLink skillId="simplifyFractionWithVariables">simplifying various fractions</SkillLink>, canceling terms where needed. This reduces the example to <M>2x+3=5x^2</M>.</></List.Item>
+			</List>
 		</Translation>
 
 		<Translation entry="shortCut">

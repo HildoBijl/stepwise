@@ -1,4 +1,4 @@
-import { type ComponentNode, type Message, type MessageNode, type PluralNode, type SelectNode, pluralCategories } from './types.ts'
+import { type ComponentNode, type ConditionNode, type Message, type MessageNode, type PluralNode, type SelectNode, pluralCategories } from './types.ts'
 
 /*
  * Error types.
@@ -68,6 +68,10 @@ function validateNode(node: MessageNode, path: string, componentIds: Set<string>
 		case 'select':
 			validateSelect(node, path, componentIds, issues)
 			return
+
+		case 'condition':
+			validateCondition(node, path, componentIds, issues)
+			return
 	}
 }
 
@@ -125,6 +129,12 @@ function validateSelect(node: SelectNode, path: string, componentIds: Set<string
 		if (value.length === 0) addIssue(issues, `${path}.branches`, 'Select branch names must not be empty.')
 		validateNodes(branch, `${path}.branches.${value}`, componentIds, issues)
 	})
+}
+
+function validateCondition(node: ConditionNode, path: string, componentIds: Set<string>, issues: MessageValidationIssue[]): void {
+	validateVariableName(node.variable, `${path}.variable`, issues)
+	validateNodes(node.true, `${path}.true`, componentIds, issues)
+	validateNodes(node.false, `${path}.false`, componentIds, issues)
 }
 
 /*

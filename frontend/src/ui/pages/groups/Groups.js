@@ -2,9 +2,10 @@ import React, { useEffect, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import { sortBy } from '@step-wise/js-utils'
+import { Translation } from '@step-wise/i18n'
 
 import { useUserId, useMyGroups, useActivateGroup } from 'api'
-import { TranslationFile, Translation } from 'i18n'
+import { TranslationFile } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par } from 'ui/components'
 
@@ -48,9 +49,9 @@ export function Groups() {
 
 	// Deal with data loading issues.
 	if (error)
-		return <Par><Translation path={translationPath} entry="notifications.groupsLoadingError">Oops ... something went wrong when loading the groups.</Translation></Par>
+		return <Par><Translation folder={['pages']} catalog="groups" group={['notifications']} id="groupsLoadingError">Oops ... something went wrong when loading the groups.</Translation></Par>
 	if (loading)
-		return <Par><Translation path={translationPath} entry="notifications.groupsLoading">Groups are being loaded...</Translation></Par>
+		return <Par><Translation folder={['pages']} catalog="groups" group={['notifications']} id="groupsLoading">Groups are being loaded...</Translation></Par>
 
 	// If a code has been provided to join a group, and this group is not already joined, show a join confirmation screen.
 	if (code && !myGroups.find(group => group.code === code))

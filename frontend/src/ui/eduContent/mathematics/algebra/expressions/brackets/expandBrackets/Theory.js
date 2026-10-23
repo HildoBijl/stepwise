@@ -29,11 +29,11 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To expand brackets, like for instance with <M>4x \left(2x + 3\right)</M>, take the following steps.</Par>
-			<List items={[
-				<>Multiply the factor outside of the brackets separately with each term inside the brackets. So <M>4x \left(2x + 3\right)</M> becomes <M>4x \cdot 2x + 4x \cdot 3</M>.</>,
-				<>For each of the resulting terms, <SkillLink skillId="simplifyNumberProduct">simplify any potential number multiplications</SkillLink>. So <M>4x \cdot 2x</M> becomes <M>8\cdot x \cdot x</M> and <M>4x \cdot 3</M> becomes <M>12x</M>.</>,
-				<>Also <SkillLink skillId="rewritePower">merge any multiplications of equal factors into powers</SkillLink>. So <M>8 \cdot x \cdot x</M> becomes <M>8x^2</M>.</>
-			]} />
+			<List>
+				<List.Item><>Multiply the factor outside of the brackets separately with each term inside the brackets. So <M>4x \left(2x + 3\right)</M> becomes <M>4x \cdot 2x + 4x \cdot 3</M>.</></List.Item>
+				<List.Item><>For each of the resulting terms, <SkillLink skillId="simplifyNumberProduct">simplify any potential number multiplications</SkillLink>. So <M>4x \cdot 2x</M> becomes <M>8\cdot x \cdot x</M> and <M>4x \cdot 3</M> becomes <M>12x</M>.</></List.Item>
+				<List.Item><>Also <SkillLink skillId="rewritePower">merge any multiplications of equal factors into powers</SkillLink>. So <M>8 \cdot x \cdot x</M> becomes <M>8x^2</M>.</></List.Item>
+			</List>
 			<Par>The final result <M>8x^2 + 12x</M> is as easy as you can possibly write it.</Par>
 		</Translation>
 	</>

@@ -36,15 +36,15 @@ export default function Component() {
 
 		<Head>Het Mollier diagram aflezen: de stappen</Head>
 		<Par>Wil je in het Mollier diagram voor een gegeven temperatuur en absolute luchtvochtigheid de relatieve luchtvochtigheid bepalen? Dat gaat als volgt.</Par>
-		<List useNumbers={true} items={[
-			<>Zoek voor de gegeven <M>T</M> en <M>AV</M> het snijpunt op.</>,
-			<>Volg de gebogen lijnen om te kijken welke relatieve luchtvochtigheid (welk percentage) erbij hoort.</>,
-		]} />
+		<List useNumbers={true}>
+			<List.Item><>Zoek voor de gegeven <M>T</M> en <M>AV</M> het snijpunt op.</></List.Item>
+			<List.Item><>Volg de gebogen lijnen om te kijken welke relatieve luchtvochtigheid (welk percentage) erbij hoort.</></List.Item>
+		</List>
 		<Par>Of wil je juist voor een gegeven relatieve luchtvochtigheid bepalen wat de absolute luchtvochtigheid is? Dat gaat volgens de volgende stappen.</Par>
-		<List useNumbers={true} items={[
-			<>Volg de gebogen lijn voor de gegeven <M>RV</M> tot je bij de gegeven <M>T</M> komt.</>,
-			<>Lees voor dit punt op de horizontale as af welke <M>AV</M> erbij hoort.</>,
-		]} />
+		<List useNumbers={true}>
+			<List.Item><>Volg de gebogen lijn voor de gegeven <M>RV</M> tot je bij de gegeven <M>T</M> komt.</></List.Item>
+			<List.Item><>Lees voor dit punt op de horizontale as af welke <M>AV</M> erbij hoort.</></List.Item>
+		</List>
 		<Par>Als je dit bepalen kan, dan kun je punten uit het Mollier diagram aflezen.</Par>
 	</>
 }

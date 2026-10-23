@@ -2,7 +2,7 @@
  * General types.
  */
 
-export type MessageNode = TextNode | VariableNode | ComponentNode | PluralNode | SelectNode
+export type MessageNode = TextNode | VariableNode | ComponentNode | PluralNode | SelectNode | ConditionNode
 export type Message = readonly MessageNode[]
 
 export type TranslationStatus = 'current' | 'missing' | 'needs-review' | 'stale' | 'invalid'
@@ -60,4 +60,15 @@ export type SelectNode = {
 	type: 'select'
 	variable: string
 	branches: SelectBranches
+}
+
+/*
+ * Condition.
+ */
+
+export type ConditionNode = {
+	type: 'condition'
+	variable: string
+	true: Message
+	false: Message
 }

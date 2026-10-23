@@ -69,5 +69,7 @@ function SameGroup({ skillId }) {
 }
 
 function SkillList({ skillIds }) {
-	return <List items={skillIds.map(skillId => <SkillLink skillId={skillId} />)} />
+	return <List>
+		{skillIds.map(skillId => <List.Item key={skillId}><SkillLink skillId={skillId} /></List.Item>)}
+	</List>
 }

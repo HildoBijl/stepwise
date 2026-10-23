@@ -2,9 +2,11 @@ import React from 'react'
 import { Box, Button } from '@mui/material'
 import { Check, Clear } from '@mui/icons-material'
 
+import { Translation, TranslationGroup } from '@step-wise/i18n'
+
 import { signOutAddress } from 'settings'
 import { useUser, useAcceptLatestPrivacyPolicy } from 'api'
-import { TranslationSection, Translation } from 'i18n'
+import { List } from 'ui/components'
 import { linkStyle } from 'ui/theme'
 
 import { PageTranslationFile } from '../pages'
@@ -73,10 +75,10 @@ export function ApprovePrivacyPolicy({ firstTime }) {
 							},
 						},
 					})}>
-						<TranslationSection entry="buttons">
-							<Button variant="contained" startIcon={<Clear />} onClick={() => signOut()} color="secondary"><Translation entry="reject">Do not approve: sign out</Translation></Button>
-							<Button variant="contained" startIcon={<Check />} onClick={() => acceptLatestPrivacyPolicy()} color="primary"><Translation entry="approve">Approve: finish signing in</Translation></Button>
-						</TranslationSection>
+						<TranslationGroup path="buttons">
+							<Button variant="contained" startIcon={<Clear />} onClick={() => signOut()} color="secondary"><Translation id="reject">Do not approve: sign out</Translation></Button>
+							<Button variant="contained" startIcon={<Check />} onClick={() => acceptLatestPrivacyPolicy()} color="primary"><Translation id="approve">Approve: finish signing in</Translation></Button>
+						</TranslationGroup>
 					</Box>
 				</Box>
 			</Box>
@@ -85,22 +87,22 @@ export function ApprovePrivacyPolicy({ firstTime }) {
 }
 
 function FirstTimeContent() {
-	return <TranslationSection entry="firstTime">
-		<h1><Translation entry="title">Privacy Policy</Translation></h1>
-		<p style={{ fontSize: '1.3em' }}><Translation entry="intro">To use Step-Wise, you must approve of the <a href="/PrivacyPolicy.pdf" target="_blank" rel="noreferrer">Privacy Policy</a>. In short:</Translation></p>
-		<Translation entry="list">
-			<Box component="ul" sx={{ marginTop: '0.2rem', marginBottom: '0.2rem', textAlign: 'left', '& li': { margin: '0.2rem' } }}>
-				<li>We use cookies only for sign-in and site settings purposes. No tracking/ads.</li>
-				<li>We won't share personal identifiable data with others unless after specific approval.</li>
-				<li>You can always remove all your data by deleting your account.</li>
-			</Box>
+	return <TranslationGroup path="firstTime">
+		<h1><Translation id="title">Privacy Policy</Translation></h1>
+		<p style={{ fontSize: '1.3em' }}><Translation id="intro">To use Step-Wise, you must approve of the <a href="/PrivacyPolicy.pdf" target="_blank" rel="noreferrer">Privacy Policy</a>. In short:</Translation></p>
+		<Translation id="list">
+			<List sx={{ marginTop: '0.2rem', marginBottom: '0.2rem', textAlign: 'left', '& li': { margin: '0.2rem' } }}>
+				<List.Item>We use cookies only for sign-in and site settings purposes. No tracking/ads.</List.Item>
+				<List.Item>We won't share personal identifiable data with others unless after specific approval.</List.Item>
+				<List.Item>You can always remove all your data by deleting your account.</List.Item>
+			</List>
 		</Translation>
-	</TranslationSection>
+	</TranslationGroup>
 }
 
 function UpdateContent() {
-	return <TranslationSection entry="update">
-		<h1><Translation entry="title">Privacy Policy Update</Translation></h1>
-		<p className="intro"><Translation entry="intro">Our <a href="/PrivacyPolicy.pdf" target="_blank" rel="noreferrer">Privacy Policy</a> has been updated. To continue using Step-Wise, you must approve of this version.</Translation></p>
-	</TranslationSection>
+	return <TranslationGroup path="update">
+		<h1><Translation id="title">Privacy Policy Update</Translation></h1>
+		<p className="intro"><Translation id="intro">Our <a href="/PrivacyPolicy.pdf" target="_blank" rel="noreferrer">Privacy Policy</a> has been updated. To continue using Step-Wise, you must approve of this version.</Translation></p>
+	</TranslationGroup>
 }

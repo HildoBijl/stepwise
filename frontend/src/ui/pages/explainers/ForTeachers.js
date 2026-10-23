@@ -1,83 +1,84 @@
 import React from 'react'
 
-import { infoEmail } from 'settings'
-import { TranslationSection, Translation } from 'i18n'
-import { Par, Head, SubHead, List, Student } from 'ui/components'
 import { Drawing, SvgPortal, HtmlElement } from '@step-wise/drawing'
+import { Translation, TranslationGroup } from '@step-wise/i18n'
+
+import { infoEmail } from 'settings'
+import { Par, Head, SubHead, Student, List } from 'ui/components'
 
 import { PageTranslationFile } from '../PageTranslationFile'
 
 export function ForTeachers() {
 	return <PageTranslationFile page="explainers/forTeachers">
-		<Translation entry="intro">
+		<Translation id="intro">
 			<Par>You can see Step-Wise as a <strong>textbook</strong>: it has theory and lots of practice exercises. No need for you to create any content. It's already there!</Par>
 			<Par>
 				But Step-Wise goes far beyond a simple textbook.
-				<List items={[
-					<>It's <strong>interactive</strong>! Students can play around with the contents and experience it more actively.</>,
-					<>It's very <strong>modular</strong>. You can select, up to the finest detail, what students need to learn and when.</>,
-					<>It <strong>tracks</strong> your students. You always know exactly how far along the class or any individual student is, and how much work they put in.</>,
-				]} />
+				<List>
+					<List.Item>It's <strong>interactive</strong>! Students can play around with the contents and experience it more actively.</List.Item>
+					<List.Item>It's very <strong>modular</strong>. You can select, up to the finest detail, what students need to learn and when.</List.Item>
+					<List.Item>It <strong>tracks</strong> your students. You always know exactly how far along the class or any individual student is, and how much work they put in.</List.Item>
+				</List>
 				Want to see how it works? Read on about how to set up a course or inspect your class!
 			</Par>
 		</Translation>
 
-		<TranslationSection entry="courses">
-			<Head><Translation entry="head">Define your course</Translation></Head>
-			<Par><Translation entry="intro">If you want your students to use Step-Wise, the first thing you do is set up your course. There are three steps to do so.</Translation></Par>
+		<TranslationGroup path="courses">
+			<Head><Translation id="head">Define your course</Translation></Head>
+			<Par><Translation id="intro">If you want your students to use Step-Wise, the first thing you do is set up your course. There are three steps to do so.</Translation></Par>
 
-			<TranslationSection entry="goals">
-				<SubHead><Translation entry="head">Choose the end goals</Translation></SubHead>
-				<Par><Translation entry="par1">Step-Wise is based around small modules called <strong>skills</strong>. These are things students can actually do, like solve a particular type of equation or calculate a certain quantity. Each skill is roughly 2-10 minutes worth of information.</Translation></Par>
-				<Par><Translation entry="par2">Skills have all sorts of links between between them. For example, to execute a skill, you often have to execute two or three subskills in order. These links are visualized in a <strong>skill tree</strong>. Basic skills are at the top, and skills are combined into more advanced skills as we move downwards.</Translation></Par>
+			<TranslationGroup path="goals">
+				<SubHead><Translation id="head">Choose the end goals</Translation></SubHead>
+				<Par><Translation id="par1">Step-Wise is based around small modules called <strong>skills</strong>. These are things students can actually do, like solve a particular type of equation or calculate a certain quantity. Each skill is roughly 2-10 minutes worth of information.</Translation></Par>
+				<Par><Translation id="par2">Skills have all sorts of links between between them. For example, to execute a skill, you often have to execute two or three subskills in order. These links are visualized in a <strong>skill tree</strong>. Basic skills are at the top, and skills are combined into more advanced skills as we move downwards.</Translation></Par>
 				<SettingGoals />
-				<Par><Translation entry="par3">To set up your course, you first have to <strong>pick the end goals</strong>. These are the skills that students should have mastered at the end of the course. Skills above them will also be taught. Skills below them will not.</Translation></Par>
-			</TranslationSection>
+				<Par><Translation id="par3">To set up your course, you first have to <strong>pick the end goals</strong>. These are the skills that students should have mastered at the end of the course. Skills above them will also be taught. Skills below them will not.</Translation></Par>
+			</TranslationGroup>
 
-			<TranslationSection entry="priorKnowledge">
-				<SubHead><Translation entry="head">Define prior knowledge</Translation></SubHead>
-				<Par><Translation entry="par1">If we walk upwards from the final course goals, we find all the skills that the students have to master altogether. But if we go upwards far enough, we will surely reach skills that the students already mastered previously. These skills are not part of the course: they are <strong>prior knowledge</strong>.</Translation></Par>
+			<TranslationGroup path="priorKnowledge">
+				<SubHead><Translation id="head">Define prior knowledge</Translation></SubHead>
+				<Par><Translation id="par1">If we walk upwards from the final course goals, we find all the skills that the students have to master altogether. But if we go upwards far enough, we will surely reach skills that the students already mastered previously. These skills are not part of the course: they are <strong>prior knowledge</strong>.</Translation></Par>
 				<DefiningPriorKnowledge />
-				<Par><Translation entry="par2">Step two to set up your course is to define this prior knowledge. We'll simply <strong>walk up from the goals</strong> and you'll have to tell us for each skill "Can students already do this? Or do they need to learn it as part of the course?" Of course, if we find that some students haven't properly mastered the prior knowledge yet, we will support them to learn it.</Translation></Par>
-			</TranslationSection>
+				<Par><Translation id="par2">Step two to set up your course is to define this prior knowledge. We'll simply <strong>walk up from the goals</strong> and you'll have to tell us for each skill "Can students already do this? Or do they need to learn it as part of the course?" Of course, if we find that some students haven't properly mastered the prior knowledge yet, we will support them to learn it.</Translation></Par>
+			</TranslationGroup>
 
-			<TranslationSection entry="blocks">
-				<SubHead><Translation entry="head">Divide into weeks/blocks</Translation></SubHead>
-				<Par><Translation entry="par1">Once we know the skills that are part of the course, we can <strong>divide the course into blocks</strong>. Usually a "block" is a week within a course, but it can also be a lecture, a month, or anything else.</Translation></Par>
+			<TranslationGroup path="blocks">
+				<SubHead><Translation id="head">Divide into weeks/blocks</Translation></SubHead>
+				<Par><Translation id="par1">Once we know the skills that are part of the course, we can <strong>divide the course into blocks</strong>. Usually a "block" is a week within a course, but it can also be a lecture, a month, or anything else.</Translation></Par>
 				<DefiningBlocks />
-				<Par><Translation entry="par2">To define your blocks, you <strong>specify the final goals for each block</strong>. From this, the exact contents of the blocks automatically follow. Your course is then fully set up.</Translation></Par>
-			</TranslationSection>
-		</TranslationSection>
+				<Par><Translation id="par2">To define your blocks, you <strong>specify the final goals for each block</strong>. From this, the exact contents of the blocks automatically follow. Your course is then fully set up.</Translation></Par>
+			</TranslationGroup>
+		</TranslationGroup>
 
-		<TranslationSection entry="tracking">
-			<Head><Translation entry="head">Track your students</Translation></Head>
-			<Par><Translation entry="intro">Once your course is ready, you can invite your students, or they can add the course themselves. This allows them to easily access the contents, but you can also <strong>follow their progress</strong>.</Translation></Par>
+		<TranslationGroup path="tracking">
+			<Head><Translation id="head">Track your students</Translation></Head>
+			<Par><Translation id="intro">Once your course is ready, you can invite your students, or they can add the course themselves. This allows them to easily access the contents, but you can also <strong>follow their progress</strong>.</Translation></Par>
 
-			<TranslationSection entry="classOverview">
-				<SubHead><Translation entry="head">Get class overviews</Translation></SubHead>
-				<Par><Translation entry="par1">The first thing you can track is the <strong>general class progress</strong>, both per block and per skill. You can investigate the student <strong>level</strong> (have they mastered it) and the <strong>activity</strong> (how many times did they on average practice it). In this way you can immediately detect where the class struggles, and if this is because of their effort or because of other reasons.</Translation></Par>
+			<TranslationGroup path="classOverview">
+				<SubHead><Translation id="head">Get class overviews</Translation></SubHead>
+				<Par><Translation id="par1">The first thing you can track is the <strong>general class progress</strong>, both per block and per skill. You can investigate the student <strong>level</strong> (have they mastered it) and the <strong>activity</strong> (how many times did they on average practice it). In this way you can immediately detect where the class struggles, and if this is because of their effort or because of other reasons.</Translation></Par>
 				<ClassOverview />
-			</TranslationSection>
+			</TranslationGroup>
 
-			<TranslationSection entry="studentOverview">
-				<SubHead><Translation entry="head">Get student overviews</Translation></SubHead>
-				<Par><Translation entry="par1">Next to a full class overview, you can also <strong>check out individual students</strong>. What is the student's progress? And how much has been practiced? This overview is very useful for coaching interviews, not only by course teachers but also by mentors that are not fluent in the content matter.</Translation></Par>
+			<TranslationGroup path="studentOverview">
+				<SubHead><Translation id="head">Get student overviews</Translation></SubHead>
+				<Par><Translation id="par1">Next to a full class overview, you can also <strong>check out individual students</strong>. What is the student's progress? And how much has been practiced? This overview is very useful for coaching interviews, not only by course teachers but also by mentors that are not fluent in the content matter.</Translation></Par>
 				<StudentOverview />
-			</TranslationSection>
+			</TranslationGroup>
 
-			<TranslationSection entry="liveHelping">
-				<SubHead><Translation entry="head">Help students live with exercises</Translation></SubHead>
-				<Par><Translation entry="par1">Step-Wise is very well suited to be used in the classroom during practice sessions. There is even a <strong>collaboration mode</strong> where students can practice together, ensuring they get the same exercises to solve together. Whenever students struggle, the app will help them out.</Translation></Par>
-				<Par><Translation entry="par2">However, there are always special cases where Step-Wise cannot optimally support a student. And that's where the teacher (you) comes in. When a student asks a question, it's possible to <strong>quickly look up a student</strong> on your tablet/smartphone, and directly check out the last active exercise, including solution, to optimally get the student back on track again.</Translation></Par>
+			<TranslationGroup path="liveHelping">
+				<SubHead><Translation id="head">Help students live with exercises</Translation></SubHead>
+				<Par><Translation id="par1">Step-Wise is very well suited to be used in the classroom during practice sessions. There is even a <strong>collaboration mode</strong> where students can practice together, ensuring they get the same exercises to solve together. Whenever students struggle, the app will help them out.</Translation></Par>
+				<Par><Translation id="par2">However, there are always special cases where Step-Wise cannot optimally support a student. And that's where the teacher (you) comes in. When a student asks a question, it's possible to <strong>quickly look up a student</strong> on your tablet/smartphone, and directly check out the last active exercise, including solution, to optimally get the student back on track again.</Translation></Par>
 				<StudentSearch />
-				<Par><Translation entry="par3">Experience has shown that using Step-Wise during live practice sessions allows for an <strong>increase of the student-to-teacher ratio by a factor three</strong>, while keeping (and even increasing) student satisfaction ratings! This allows for lots of extra teacher time, to support the students even more.</Translation></Par>
-			</TranslationSection>
-		</TranslationSection>
+				<Par><Translation id="par3">Experience has shown that using Step-Wise during live practice sessions allows for an <strong>increase of the student-to-teacher ratio by a factor three</strong>, while keeping (and even increasing) student satisfaction ratings! This allows for lots of extra teacher time, to support the students even more.</Translation></Par>
+			</TranslationGroup>
+		</TranslationGroup>
 
-		<TranslationSection entry="getStarted">
-			<Head><Translation entry="head">Get started</Translation></Head>
-			<Par><Translation entry="intro">Do you want to use Step-Wise in your course? Step-Wise is still in the <strong>beta phase</strong>. So the good news is: it's free to use! The bad news: not all content may be there yet. The best thing you can do is <strong>send an email</strong> to <a href={`mailto:${infoEmail}`}>{{ infoEmail }}</a> (Hildo) and we can check out the possibilities together. It's always great to have more people use Step-Wise!</Translation></Par>
-		</TranslationSection>
+		<TranslationGroup path="getStarted">
+			<Head><Translation id="head">Get started</Translation></Head>
+			<Par><Translation id="intro">Do you want to use Step-Wise in your course? Step-Wise is still in the <strong>beta phase</strong>. So the good news is: it's free to use! The bad news: not all content may be there yet. The best thing you can do is <strong>send an email</strong> to <a href={`mailto:${infoEmail}`}>{{ infoEmail }}</a> (Hildo) and we can check out the possibilities together. It's always great to have more people use Step-Wise!</Translation></Par>
+		</TranslationGroup>
 	</PageTranslationFile>
 }
 
@@ -279,12 +280,12 @@ function ClassOverview() {
 	const arrowActiveStyle = { fill: 'none', stroke: '#000000', strokeWidth: '2px' }
 	const arrowInactiveStyle = { ...arrowActiveStyle, opacity: 0.2 }
 
-	return <TranslationSection entry="classOverviewImage">
+	return <TranslationGroup path="classOverviewImage">
 		<Drawing view={{ type: 'identity', width: 600, height: 300 }}>
 			<SvgPortal>
-				<HtmlElement position={[264.3, 14]} style={headStyle}><Translation entry="head1">Mastery</Translation></HtmlElement>
-				<HtmlElement position={[374.8, 14]} style={headStyle}><Translation entry="head2">Exercises</Translation></HtmlElement>
-				<HtmlElement position={[480.5, 14]} style={headStyle}><Translation entry="head3">Time spent</Translation></HtmlElement>
+				<HtmlElement position={[264.3, 14]} style={headStyle}><Translation id="head1">Mastery</Translation></HtmlElement>
+				<HtmlElement position={[374.8, 14]} style={headStyle}><Translation id="head2">Exercises</Translation></HtmlElement>
+				<HtmlElement position={[480.5, 14]} style={headStyle}><Translation id="head3">Time spent</Translation></HtmlElement>
 
 				<path style={blockStyle} d="M582.9,68.6c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10V40.9c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V68.6z" />
 				<path style={blockStyle} d="M582.9,122c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10V94.3c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V122z" />
@@ -292,11 +293,11 @@ function ClassOverview() {
 				<path style={skillStyle} d="M582.9,228.8c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10v-27.7c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V228.8z" />
 				<path style={blockStyle} d="M582.9,282.2c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10v-27.7c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V282.2z" />
 
-				<HtmlElement position={[30.5, 54.8]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="block1">Opening week</Translation></HtmlElement>
-				<HtmlElement position={[30.5, 108.2]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="block2">Middle week</Translation></HtmlElement>
-				<HtmlElement position={[30.5, 161.6]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="skill1">Some basic skill</Translation></HtmlElement>
-				<HtmlElement position={[30.5, 215.1]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="skill2">A more advanced skill</Translation></HtmlElement>
-				<HtmlElement position={[30.5, 268.4]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="block3">Closing week</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 54.8]} anchor={[-1, 0]} style={blockTextStyle}><Translation id="block1">Opening week</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 108.2]} anchor={[-1, 0]} style={blockTextStyle}><Translation id="block2">Middle week</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 161.6]} anchor={[-1, 0]} style={blockTextStyle}><Translation id="skill1">Some basic skill</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 215.1]} anchor={[-1, 0]} style={blockTextStyle}><Translation id="skill2">A more advanced skill</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 268.4]} anchor={[-1, 0]} style={blockTextStyle}><Translation id="block3">Closing week</Translation></HtmlElement>
 
 				<HtmlElement position={[264.3, 54.8]} style={indicatorTextStyle}>22/25</HtmlElement>
 				<HtmlElement position={[374.8, 54.8]} style={indicatorTextStyle}>7,8</HtmlElement>
@@ -364,7 +365,7 @@ function ClassOverview() {
 				<path style={indicatorLineStyle} d="M480.5,251.5c2.3,0,4.5,0.5,6.6,1.3" />
 			</SvgPortal>
 		</Drawing>
-	</TranslationSection>
+	</TranslationGroup>
 }
 
 function StudentOverview() {
@@ -381,13 +382,13 @@ function StudentOverview() {
 	const flaskBGStyle = { fill: '#d3d3d3' }
 	const flaskContentStyle = { fill: '#414141' }
 
-	return <TranslationSection entry="studentOverviewImage">
+	return <TranslationGroup path="studentOverviewImage">
 		<Drawing view={{ type: 'identity', width: 600, height: 300 }}>
 			<SvgPortal>
-				<HtmlElement position={[30.5, 14]} style={headStyle} anchor={[-1, 0]}><Translation entry="student">Alex Adams</Translation></HtmlElement>
-				<HtmlElement position={[264.3, 14]} style={headStyle}><Translation entry="head1">Mastery</Translation></HtmlElement>
-				<HtmlElement position={[374.8, 14]} style={headStyle}><Translation entry="head2">Exercises</Translation></HtmlElement>
-				<HtmlElement position={[480.5, 14]} style={headStyle}><Translation entry="head3">Time spent</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 14]} style={headStyle} anchor={[-1, 0]}><Translation id="student">Alex Adams</Translation></HtmlElement>
+				<HtmlElement position={[264.3, 14]} style={headStyle}><Translation id="head1">Mastery</Translation></HtmlElement>
+				<HtmlElement position={[374.8, 14]} style={headStyle}><Translation id="head2">Exercises</Translation></HtmlElement>
+				<HtmlElement position={[480.5, 14]} style={headStyle}><Translation id="head3">Time spent</Translation></HtmlElement>
 
 				<path style={blockStyle} d="M582.9,68.6c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10V40.9c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V68.6z" />
 				<path style={blockStyle} d="M582.9,122c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10V94.3c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V122z" />
@@ -395,11 +396,11 @@ function StudentOverview() {
 				<path style={skillStyle} d="M582.9,228.8c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10v-27.7c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V228.8z" />
 				<path style={blockStyle} d="M582.9,282.2c0,5.5-4.5,10-10,10H24.9c-5.5,0-10-4.5-10-10v-27.7c0-5.5,4.5-10,10-10h548.1c5.5,0,10,4.5,10,10V282.2z" />
 
-				<HtmlElement position={[30.5, 54.8]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="block1">Opening week</Translation></HtmlElement>
-				<HtmlElement position={[30.5, 108.2]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="block2">Middle week</Translation></HtmlElement>
-				<HtmlElement position={[30.5, 161.6]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="skill1">Some basic skill</Translation></HtmlElement>
-				<HtmlElement position={[30.5, 215.1]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="skill2">A more advanced skill</Translation></HtmlElement>
-				<HtmlElement position={[30.5, 268.4]} anchor={[-1, 0]} style={blockTextStyle}><Translation entry="block3">Closing week</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 54.8]} anchor={[-1, 0]} style={blockTextStyle}><Translation id="block1">Opening week</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 108.2]} anchor={[-1, 0]} style={blockTextStyle}><Translation id="block2">Middle week</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 161.6]} anchor={[-1, 0]} style={blockTextStyle}><Translation id="skill1">Some basic skill</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 215.1]} anchor={[-1, 0]} style={blockTextStyle}><Translation id="skill2">A more advanced skill</Translation></HtmlElement>
+				<HtmlElement position={[30.5, 268.4]} anchor={[-1, 0]} style={blockTextStyle}><Translation id="block3">Closing week</Translation></HtmlElement>
 
 				<HtmlElement position={[264.3, 54.8]} style={indicatorTextStyle}>3/3</HtmlElement>
 				<HtmlElement position={[374.8, 54.8]} style={indicatorTextStyle}>11</HtmlElement>
@@ -466,14 +467,14 @@ function StudentOverview() {
 				<path style={indicatorLineStyle} d="M480.5,251.5c1.6,0,3.2,0.2,4.7,0.7" />
 			</SvgPortal>
 		</Drawing>
-	</TranslationSection>
+	</TranslationGroup>
 }
 
 function StudentSearch() {
 	const blockStyle = { fill: '#e4e4e4' }
 	const nameStyle = { fontSize: '13px', fontFamily: 'roboto' }
 
-	return <TranslationSection entry="studentSearchImage">
+	return <TranslationGroup path="studentSearchImage">
 		<Drawing view={{ type: 'identity', width: 400, height: 170 }}>
 			<SvgPortal>
 				<path style={{ fill: '#ffffff', stroke: '#000000' }} d="M381,36.6c0,5.5-4.5,10-10,10H29.6c-5.5,0-10-4.5-10-10V25.2c0-5.5,4.5-10,10-10H371c5.5,0,10,4.5,10,10V36.6z" />
@@ -481,11 +482,11 @@ function StudentSearch() {
 				<path style={{ fill: '#bebebe' }} d="M38.9,33.8h-0.8l-0.3-0.3c1-1.1,1.6-2.6,1.6-4.2c0-3.6-2.9-6.5-6.5-6.5s-6.5,2.9-6.5,6.5s2.9,6.5,6.5,6.5
 				c1.6,0,3.1-0.6,4.2-1.6l0.3,0.3v0.8l5,5l1.5-1.5L38.9,33.8z M32.9,33.8c-2.5,0-4.5-2-4.5-4.5c0-2.5,2-4.5,4.5-4.5c2.5,0,4.5,2,4.5,4.5C37.4,31.7,35.4,33.8,32.9,33.8"/>
 
-				<text transform="matrix(1 0 0 1 49.3966 36.1551)" style={{ fill: '#bebebe', fontSize: '16px', fontFamily: 'roboto' }}><Translation entry="search">Search</Translation></text>
+				<text transform="matrix(1 0 0 1 49.3966 36.1551)" style={{ fill: '#bebebe', fontSize: '16px', fontFamily: 'roboto' }}><Translation id="search">Search</Translation></text>
 
-				<HtmlElement position={[75.9, 136]} style={nameStyle}><Translation entry="name1">Alex Adams</Translation></HtmlElement>
-				<HtmlElement position={[199.4, 136]} style={nameStyle}><Translation entry="name2">Bob Baker</Translation></HtmlElement>
-				<HtmlElement position={[322.8, 136]} style={nameStyle}><Translation entry="name3">Carmen Clarke</Translation></HtmlElement>
+				<HtmlElement position={[75.9, 136]} style={nameStyle}><Translation id="name1">Alex Adams</Translation></HtmlElement>
+				<HtmlElement position={[199.4, 136]} style={nameStyle}><Translation id="name2">Bob Baker</Translation></HtmlElement>
+				<HtmlElement position={[322.8, 136]} style={nameStyle}><Translation id="name3">Carmen Clarke</Translation></HtmlElement>
 				<HtmlElement position={[75.9, 102]} style={nameStyle} scale={2}><Student /></HtmlElement>
 				<HtmlElement position={[199.4, 102]} style={nameStyle} scale={2}><Student /></HtmlElement>
 				<HtmlElement position={[322.8, 102]} style={nameStyle} scale={2}><Student /></HtmlElement>
@@ -495,5 +496,5 @@ function StudentSearch() {
 				<path style={blockStyle} d="M381,144.3c0,5.5-4.5,10-10,10h-92.5c-5.5,0-10-4.5-10-10V71.1c0-5.5,4.5-10,10-10H371c5.5,0,10,4.5,10,10V144.3z" />
 			</SvgPortal>
 		</Drawing>
-	</TranslationSection>
+	</TranslationGroup>
 }

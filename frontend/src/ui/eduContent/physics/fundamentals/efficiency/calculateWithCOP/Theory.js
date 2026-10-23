@@ -12,16 +12,16 @@ export default function Component() {
 		<Head>Een verschillend doel: warmte opnemen of afstaan</Head>
 		<Par>De <Term>koudefactor</Term> <M>\varepsilon</M> en de <Term>warmtefactor</Term> <M>\varepsilon_w</M> zijn, net als het <SkillLink skillId="calculateWithEfficiency">rendement</SkillLink>, zogenaamde "prestatiefactoren". Deze bereken je altijd met de formule <BM>\varepsilon = \frac(\rm nuttig)(\rm invoer).</BM> De grote vraag is echter: wat is nuttig en wat is invoer?</Par>
 		<Par>Als eerste bekijken we een koelkast.
-			<List items={[
-				<>Het doel van de koelkast is warmte <Emp>onttrekken</Emp> uit een te koelen ruimte. De "nuttige" energiestroom is dus de opgenomen warmte <M>Q_(opg).</M></>,
-				<>Onze koelkast krijgt energie uit elektriciteit. Deze elektriciteit wordt gebruikt in de compressor, om het koudemiddel te comprimeren. De compressorarbeid <M>W_(comp)</M> is hierbij dus de "invoer" voor het systeem.</>,
-			]} />
+			<List>
+				<List.Item><>Het doel van de koelkast is warmte <Emp>onttrekken</Emp> uit een te koelen ruimte. De "nuttige" energiestroom is dus de opgenomen warmte <M>Q_(opg).</M></></List.Item>
+				<List.Item><>Onze koelkast krijgt energie uit elektriciteit. Deze elektriciteit wordt gebruikt in de compressor, om het koudemiddel te comprimeren. De compressorarbeid <M>W_(comp)</M> is hierbij dus de "invoer" voor het systeem.</></List.Item>
+			</List>
 			Hiermee komen we uit op de formule voor de <Term>koudefactor</Term> <BM>\varepsilon = \frac(Q_(opg))(W_(comp)).</BM></Par>
 		<Par>Bij een warmtepomp werkt dit anders.
-			<List items={[
-				<>Het doel van de warmtepomp is warmte <em>leveren</em> aan een op te warmen ruimte. De "nuttige" energiestroom is dus de geleverde warmte <M>Q_(gelev).</M></>,
-				<>Net als bij de koelkast geldt de compressorarbeid <M>W_(comp)</M> als "invoer".</>,
-			]} />
+			<List>
+				<List.Item><>Het doel van de warmtepomp is warmte <em>leveren</em> aan een op te warmen ruimte. De "nuttige" energiestroom is dus de geleverde warmte <M>Q_(gelev).</M></></List.Item>
+				<List.Item><>Net als bij de koelkast geldt de compressorarbeid <M>W_(comp)</M> als "invoer".</></List.Item>
+			</List>
 			Zo vinden we de formule voor de <Term>warmtefactor</Term> <BM>\varepsilon_w = \frac(Q_(gelev))(W_(comp)).</BM> De warmtefactor wordt in de wandelgangen ook wel de <Term>Coefficient Of Performance</Term> (COP) genoemd. Dit betekent exact hetzelfde: de COP is de warmtefactor.</Par>
 
 		<Head>Tips bij rekenen met koudefactoren/warmtefactoren</Head>
@@ -35,11 +35,11 @@ export default function Component() {
 
 		<Head>Met koudefactoren/warmtefactoren rekenen: de stappen</Head>
 		<Par>Het uitrekenen van de koudefactor/warmtefactor is erg soortgelijk aan het uitrekenen van het <SkillLink skillId="calculateWithEfficiency">rendement</SkillLink>.</Par>
-		<List useNumbers={true} items={[
-			<>Bepaal de invoer van het systeem: wat gaat erin? Vaak is dit de compressorarbeid of soortgelijk.</>,
-			<>Bepaal de nuttige uitvoer van het systeem: wat is ons doel? Hierbij moet je goed kijken naar wat voor apparaat we precies hebben. Bij een koelkast is de opgenomen warmte <M>Q_(opg)</M> nuttig, maar bij de warmtepomp is dit juist de geleverde warmte <M>Q_(gelev).</M></>,
-			<>Gebruik de formules <M>\varepsilon = \frac(Q_(opg))(W_(comp))</M> en/of <M>\varepsilon_w = \frac(Q_(gelev))(W_(comp)),</M> of identiek met vermogen, om de relevante factor(en) te berekenen.</>,
-		]} />
+		<List useNumbers={true}>
+			<List.Item><>Bepaal de invoer van het systeem: wat gaat erin? Vaak is dit de compressorarbeid of soortgelijk.</></List.Item>
+			<List.Item><>Bepaal de nuttige uitvoer van het systeem: wat is ons doel? Hierbij moet je goed kijken naar wat voor apparaat we precies hebben. Bij een koelkast is de opgenomen warmte <M>Q_(opg)</M> nuttig, maar bij de warmtepomp is dit juist de geleverde warmte <M>Q_(gelev).</M></></List.Item>
+			<List.Item><>Gebruik de formules <M>\varepsilon = \frac(Q_(opg))(W_(comp))</M> en/of <M>\varepsilon_w = \frac(Q_(gelev))(W_(comp)),</M> of identiek met vermogen, om de relevante factor(en) te berekenen.</></List.Item>
+		</List>
 		<Par>Indien de betreffende factor al bekend is en je juist een energiestroom of vermogen uit moet rekenen, dan moet je de formule vòòr het invullen nog herschrijven.</Par>
 	</>
 }

@@ -29,12 +29,12 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To pull a factor out of brackets, like when pulling <M>4x</M> out of <M>8x^2 - 12x</M>, take the following steps.</Par>
-			<List items={[
-				<>Start by writing down <M>\rm({originalExpression}) = \rm({factor}) \cdot \left(\frac(\rm({originalExpression}))(\rm({factor}))\right)</M>. For our example we hence write <M>8x^2 - 12x = 4x\left(\frac(8x^2 - 12x)(4x)\right)</M>.</>,
-				<>Split the fraction inside the brackets up into multiple fractions using the default rules for <SkillLink skillId="addLikeFractionsWithVariables">merging/splitting fractions</SkillLink>. For the example we hence get <M>4x\left(\frac(8x^2)(4x) - \frac(12x)(4x)\right)</M>.</>,
-				<><SkillLink skillId="simplifyFractionWithVariables">Simplify all fractions</SkillLink> within the brackets, canceling factors where possible. This turns our example into <M>4x \left(2x - 3\right)</M>.</>,
-				<>Check your result by <SkillLink skillId="expandBrackets">expanding the brackets</SkillLink> in your final result. You should wind up with exactly what you started with. And indeed, if we expand the brackets for <M>4x\left(2x - 3\right)</M> then we get <M>8x^2 - 12x</M>.</>
-			]} />
+			<List>
+				<List.Item><>Start by writing down <M>\rm({originalExpression}) = \rm({factor}) \cdot \left(\frac(\rm({originalExpression}))(\rm({factor}))\right)</M>. For our example we hence write <M>8x^2 - 12x = 4x\left(\frac(8x^2 - 12x)(4x)\right)</M>.</></List.Item>
+				<List.Item><>Split the fraction inside the brackets up into multiple fractions using the default rules for <SkillLink skillId="addLikeFractionsWithVariables">merging/splitting fractions</SkillLink>. For the example we hence get <M>4x\left(\frac(8x^2)(4x) - \frac(12x)(4x)\right)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="simplifyFractionWithVariables">Simplify all fractions</SkillLink> within the brackets, canceling factors where possible. This turns our example into <M>4x \left(2x - 3\right)</M>.</></List.Item>
+				<List.Item><>Check your result by <SkillLink skillId="expandBrackets">expanding the brackets</SkillLink> in your final result. You should wind up with exactly what you started with. And indeed, if we expand the brackets for <M>4x\left(2x - 3\right)</M> then we get <M>8x^2 - 12x</M>.</></List.Item>
+			</List>
 			<Par>Note that there are short-cuts that directly get you the required result, if you have the insights to use them properly.</Par>
 		</Translation>
 	</>

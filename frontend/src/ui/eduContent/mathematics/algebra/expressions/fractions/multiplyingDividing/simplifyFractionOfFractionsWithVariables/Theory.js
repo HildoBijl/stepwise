@@ -31,11 +31,11 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To simplify a fraction where the numerator and/or the denominator contain fractions and/or negative powers, like for instance with <M>\frac(6\left(x+2\right)^2)(10\left(x+2\right)^5x^(-4))</M>, take the following steps.</Par>
-			<List items={[
-				<><SkillLink skillId="rewriteNegativePower">Rewrite any negative powers as fractions</SkillLink>. This turns the example into <M>\frac(6\left(x+2\right)^2)(10\left(x+2\right)^5/x^4)</M>.</>,
-				<>Use the default rules of <SkillLink skillId="multiplyDivideFractions">multiplying and dividing fractions</SkillLink> to turn everything into a single fraction. For the example we move the denominator of the denominator (here <M>x^4</M>) into the numerator to get <M>\frac(6\left(x+2\right)^2x^4)(10\left(x+2\right)^5)</M>.</>,
-				<><SkillLink skillId="simplifyFractionWithVariables">Simplify the resulting fraction</SkillLink>, canceling as many factors as possible, both numeric and with variables. For the example, we end up with <M>\frac(3x^4)(5\left(x+2\right)^3)</M>.</>,
-			]} />
+			<List>
+				<List.Item><><SkillLink skillId="rewriteNegativePower">Rewrite any negative powers as fractions</SkillLink>. This turns the example into <M>\frac(6\left(x+2\right)^2)(10\left(x+2\right)^5/x^4)</M>.</></List.Item>
+				<List.Item><>Use the default rules of <SkillLink skillId="multiplyDivideFractions">multiplying and dividing fractions</SkillLink> to turn everything into a single fraction. For the example we move the denominator of the denominator (here <M>x^4</M>) into the numerator to get <M>\frac(6\left(x+2\right)^2x^4)(10\left(x+2\right)^5)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="simplifyFractionWithVariables">Simplify the resulting fraction</SkillLink>, canceling as many factors as possible, both numeric and with variables. For the example, we end up with <M>\frac(3x^4)(5\left(x+2\right)^3)</M>.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

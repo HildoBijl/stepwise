@@ -29,11 +29,11 @@ function Solution({ unit }) {
 		return <Par><Translation entry={unit.str}>To enter <M>Ω</M> you can type "Ohm" or "Omega". Note: this is case-sensitive! Simply typing "ohm" won't work.</Translation></Par>
 	if (unit.equals(new Unit('mum')))
 		return <Par><Translation entry={unit.str}>For the symbol <M>μ</M> you type "mu". So for the unit <M>{unit}</M> you basically enter "mum".</Translation></Par>
-	return <Par><Translation entry="other">You click on the input field and enter <M>{unit}</M>.<List items={[
-		<>For multiplications use the star "*" or the period ".". The space bar also works as short-cut.</>,
-		<>For divisions use the slash "/" or the downward arrow.</>,
-		<>For powers you can use the power hat "^" but this isn't even needed: directly entering numbers also works.</>,
-	]} /></Translation></Par>
+	return <Par><Translation entry="other">You click on the input field and enter <M>{unit}</M>.<List>
+		<List.Item><>For multiplications use the star "*" or the period ".". The space bar also works as short-cut.</></List.Item>
+		<List.Item><>For divisions use the slash "/" or the downward arrow.</></List.Item>
+		<List.Item><>For powers you can use the power hat "^" but this isn't even needed: directly entering numbers also works.</></List.Item>
+	</List></Translation></Par>
 }
 
 function getFeedback(exerciseData) {

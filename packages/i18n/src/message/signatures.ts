@@ -44,6 +44,7 @@ function encodeNode(node: MessageNode, mode: SignatureMode): unknown {
 			node.variable,
 			Object.entries(node.branches).map(([value, message]) => [value, encodeMessage(message, mode)]),
 		]
+		case 'condition': return ['condition', node.variable, encodeMessage(node.true, mode), encodeMessage(node.false, mode)]
 	}
 }
 

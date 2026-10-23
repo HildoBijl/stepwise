@@ -31,12 +31,12 @@ const Problem = () => {
 	const { p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 } = useSolution()
 	return <>
 		<Par>Een hoeveelheid lucht in een geïmproviseerde warmtepomp doorloopt continu een Braytoncyclus in negatieve richting. De stappen hierbij zijn:</Par>
-		<List items={[
-			'Stap 1-2: een isentrope compressie.',
-			'Stap 2-3: een isobare koeling.',
-			'Stap 3-4: een isentrope expansie.',
-			'Stap 4-1: een isobare verwarming.',
-		]} />
+		<List>
+			<List.Item>{'Stap 1-2: een isentrope compressie.'}</List.Item>
+			<List.Item>{'Stap 2-3: een isobare koeling.'}</List.Item>
+			<List.Item>{'Stap 3-4: een isentrope expansie.'}</List.Item>
+			<List.Item>{'Stap 4-1: een isobare verwarming.'}</List.Item>
+		</List>
 		<Par>Op elk van de punten 1, 2, 3 en 4 heeft het gas de volgende eigenschappen.</Par>
 		<Table colHeads={['Druk', 'Specifiek volume', 'Temperatuur']} rowHeads={['Punt 1', 'Punt 2', 'Punt 3', 'Punt 4']} fields={[[<M>{p1.setUnit('bar')}</M>, <M>{v1}</M>, <M>{T1}</M>], [<M>{p2.setUnit('bar')}</M>, <M>{v2}</M>, <M>{T2}</M>], [<M>{p3.setUnit('bar')}</M>, <M>{v3}</M>, <M>{T3}</M>], [<M>{p4.setUnit('bar')}</M>, <M>{v4}</M>, <M>{T4}</M>]]} style={{ minWidth: '500px', maxWidth: '540px' }} />
 		<Par>Bereken de toegevoerde specifieke warmte <M>q</M> en de door het gas geleverde specifieke technische arbeid <M>w_t</M> bij elke stap.</Par>

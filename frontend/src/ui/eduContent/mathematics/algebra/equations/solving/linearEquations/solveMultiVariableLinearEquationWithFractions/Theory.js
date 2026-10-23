@@ -30,11 +30,11 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To solve a linear equation in disguise, like <M>\frac(a)(b+1/x) = \frac(c)(3)</M>, for a target variable <M>x</M>, take the following steps.</Par>
-			<List items={[
-				<>If there are any fractions within fractions, <SkillLink skillId="simplifyFractionOfFractionSumsWithMultipleVariables">reduce these to single fractions</SkillLink>. This turns the example into <M>\frac(ax)(bx+1) = \frac(c)(3)</M>.</>,
-				<>If the target variable is in any denominator, <SkillLink skillId="multiplyAllEquationTerms">multiply all terms by this denominator</SkillLink> to fix this. Optionally, you can get rid of all fractions; also those without the target variable in the denominator. For the example, we rewrite the equation to <M>3ax = c\left(bx+1\right)</M>.</>,
-				<>If the equation indeed is linear, then <SkillLink skillId="solveMultiVariableLinearEquation">solve the linear equation</SkillLink> in the standard way. In the example, if we expand brackets, move terms around, pull <M>x</M> out of brackets and divide by this factor, we end up with <M>x = \frac(c)(3a - bc)</M>.</>,
-			]} />
+			<List>
+				<List.Item><>If there are any fractions within fractions, <SkillLink skillId="simplifyFractionOfFractionSumsWithMultipleVariables">reduce these to single fractions</SkillLink>. This turns the example into <M>\frac(ax)(bx+1) = \frac(c)(3)</M>.</></List.Item>
+				<List.Item><>If the target variable is in any denominator, <SkillLink skillId="multiplyAllEquationTerms">multiply all terms by this denominator</SkillLink> to fix this. Optionally, you can get rid of all fractions; also those without the target variable in the denominator. For the example, we rewrite the equation to <M>3ax = c\left(bx+1\right)</M>.</></List.Item>
+				<List.Item><>If the equation indeed is linear, then <SkillLink skillId="solveMultiVariableLinearEquation">solve the linear equation</SkillLink> in the standard way. In the example, if we expand brackets, move terms around, pull <M>x</M> out of brackets and divide by this factor, we end up with <M>x = \frac(c)(3a - bc)</M>.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

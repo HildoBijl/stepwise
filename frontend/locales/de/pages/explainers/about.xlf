@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<unit id="intro">
+			<segment>
+				<source>Step-Wise is a free tutoring web-app that brushes up mathematics, physics and/or mechanics skills to (pre-)university level. Want to know how it works? Then read the dedicated pages <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children">for students</pc> and <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">for teachers</pc>. Below you find more historic and technical information about Step-Wise.</source>
+				<target swi18n:sourceContentFingerprint="9e563e1d5a5eab0f" swi18n:sourceStructureFingerprint="fe44e9958136073c">Step-Wise ist eine kostenlose Nachhilfe-Web-App, mit der man Mathematik-, Physik- und/oder Mechanikfähigkeiten auf (Vor-)Universitätsniveau auffrischen kann. Möchtest du wissen, wie es funktioniert? Dann lies die speziellen Seiten für <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children">Studierende</pc> und für <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">Lehrende</pc>. Weitere historische und technische Informationen über Step-Wise findest du weiter unten.</target>
+			</segment>
+		</unit>
+		<group id="contact">
+			<unit id="head">
+				<segment>
+					<source>Contact us</source>
+					<target swi18n:sourceContentFingerprint="e6861d633ba4418c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kontakt aufnehmen</target>
+				</segment>
+			</unit>
+			<unit id="par1">
+				<segment>
+					<source>Want to report a bug? Ask for a new feature? Or simply have an interesting discussion on education? Whatever the reason: we're always open for a quick exchange of ideas! Just send an email to <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="infoEmail"/></pc> (Hildo) and you'll get a reply within the day.</source>
+					<target swi18n:sourceContentFingerprint="8b077c03ede22d16" swi18n:sourceStructureFingerprint="0419c42e4ba07bdc">Möchtest du einen Bug melden? Eine neue Funktion beantragen? Oder einfach eine interessante Diskussion über Bildung führen? Aus welchem Grund auch immer: Wir sind immer offen für einen schnellen Gedankenaustausch! Schicke einfach eine E-Mail an <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="infoEmail"/></pc> (Hildo) und du wirst innerhalb eines Tages eine Antwort erhalten.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="origins">
+			<unit id="head">
+				<segment>
+					<source>Step-Wise origins</source>
+					<target swi18n:sourceContentFingerprint="781463ce20b9e6f2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Herkunft von Step-Wise</target>
+				</segment>
+			</unit>
+			<unit id="par1">
+				<segment>
+					<source>In 2020, when the corona pandemic hit, everyone was stuck at home. Sure, teachers could provide digital lectures, but the more useful practice sessions were not. You can't exactly quickly look over a student's shoulder and give feedback through a video connection. Students were missing out on proper support.</source>
+					<target swi18n:sourceContentFingerprint="eb245681a0bd4842" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Im Jahr 2020, mit dem Ausbruch der Corona-Pandemie, saßen plötzlich alle zu Hause. Sicher, Lehrer konnten online Vorlesungen halten, aber die nützlicheren Übungsstunden waren nicht mehr möglich. Man kann den Studierenden nicht einfach über die Schulter schauen und über eine Videoverbindung Feedback geben. Den Studierenden fehlte die richtige Unterstützung.</target>
+				</segment>
+			</unit>
+			<unit id="par2">
+				<segment>
+					<source>With too much time available during the lock-down, Utrecht University of Applied Sciences teacher <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Hildo Bijl</pc> decided to program a small web app that could provide at least some support and coaching. And so Step-Wise was born.</source>
+					<target swi18n:sourceContentFingerprint="df2695fb96cd47ae" swi18n:sourceStructureFingerprint="be2367f53b7c141b">Da er während der Sperre zu viel Zeit hatte, beschloss der Hochschule-Utrecht-Dozent <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Hildo Bijl</pc>, eine kleine Web-App zu entwickeln, die dennoch ein wenig Unterstützung und Coaching bieten könnte. Und so begann Step-Wise.</target>
+				</segment>
+			</unit>
+			<unit id="par3">
+				<segment>
+					<source>During the first year the focus was on basic thermodynamics. Students were very enthusiastic, especially about the infinite practice material, the intuitive input, and the automated feedback provided by the intelligent physics engine. As a result, the next year also mathematics and engineering mechanics subjects were added. The amount of content grew steadily.</source>
+					<target swi18n:sourceContentFingerprint="6d3a3f7be3988755" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Im ersten Jahr lag der Schwerpunkt auf der Thermodynamik. Die Studierenden waren begeistert, vor allem von der unendlichen Menge an Übungsaufgaben, den intuitiven Eingabemöglichkeiten und dem automatischen Feedback der intelligenten Physik-Skripte. Daraufhin wurden im folgenden Jahr Teile der Mathematik und Mechanik hinzugefügt. Der Umfang des Materials wuchs stetig.</target>
+				</segment>
+			</unit>
+			<unit id="par4">
+				<segment>
+					<source>With the pandemic subsiding, students went back into the classroom. It turned out that Step-Wise also added significant value there. With the app supporting students and automatically answering most questions, teachers had more time available to support the students that had bigger struggles than could be solved by a web-app. On top of that, a collaboration mode was added so that students could also practice together during classroom sessions.</source>
+					<target swi18n:sourceContentFingerprint="28ccc305fa79d895" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nach dem Ende der Pandemie kehrten die Studierenden in die Klassenzimmer zurück. Es stellte sich heraus, dass Step-Wise auch dort einen großen Mehrwert darstellte. Während die App den meisten Studierenden helfen und viele Fragen beantworten konnte, blieb den Lehrkräften mehr Zeit, um den Studierenden bei größeren Schwierigkeiten zu helfen, als dies mit einer Web-App möglich war. Darüber hinaus wurde ein Kollaborationsmodus hinzugefügt, so dass die Studierenden auch gemeinsam im Klassenzimmer üben konnten.</target>
+				</segment>
+			</unit>
+			<unit id="par5">
+				<segment>
+					<source>In 2023 Hildo moved to Germany, which led to Step-Wise being available in both English and German as well, on top of Dutch. Various trial applications arose at the Bochum University of Applied Sciences. Slowly more functionalities are being added, allowing multiple universities across various countries to use Step-Wise simultaneously in a fluent manner.</source>
+					<target swi18n:sourceContentFingerprint="280dc436bab8f44a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Im Jahr 2023 zog Hildo nach Deutschland, was dazu führte, dass Step-Wise neben Niederländisch auch auf Englisch und Deutsch verfügbar wurde. Dies ermöglichte es, mehrere kleine Tests an der Hochschule Bochum einzurichten. Nach und nach wurden weitere Funktionalitäten hinzugefügt, so dass mehrere Hochschulen aus verschiedenen Ländern Step-Wise reibungslos nutzen konnten.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="technical">
+			<unit id="head">
+				<segment>
+					<source>Technical details</source>
+					<target swi18n:sourceContentFingerprint="5ff19410488ac42b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Technische Einzelheiten</target>
+				</segment>
+			</unit>
+			<unit id="par1">
+				<segment>
+					<source>The Step-Wise app is a so-called <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Progressive Web App</pc>: a website that can pretend to be a smartphone app too. It is designed for usage on a laptop, but it can also be added to the home screen of your smartphone.</source>
+					<target swi18n:sourceContentFingerprint="9210efc6592abd2b" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Die Step-Wise App ist als so genannte <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Progressive Web App</pc> eingerichtet: eine Website, die sich auch als Smartphone-App ausgeben kann. Sie ist für die Nutzung auf einem Laptop konzipiert, kann aber auch als App auf dem Startbildschirm Ihres Smartphones angezeigt werden.</target>
+				</segment>
+			</unit>
+			<unit id="par2">
+				<segment>
+					<source>Do you want to know more about how it works behind the scenes? The app is open-source, so all source code is available on the <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">GitHub repository</pc>. But we'll briefly give you the summary.</source>
+					<target swi18n:sourceContentFingerprint="ec153d49453014f4" swi18n:sourceStructureFingerprint="be2367f53b7c141b">Möchtest du mehr darüber erfahren, wie es hinter den Kulissen funktioniert? Die App ist open-source: Der gesamte Quellcode ist im <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">GitHub Repository</pc> verfügbar. Aber wir geben dir eine kurze Zusammenfassung.</target>
+				</segment>
+			</unit>
+			<unit id="list">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c2" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children">Front-end:</pc> The front side of the app is made using <pc id="c4" type="ui" subType="swi18n:a" swi18n:slot="children">React</pc> on top of the <pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Create-React-App</pc>. This allows us to easily add interactive elements.</pc><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:strong" swi18n:slot="children">Design:</pc> The looks of the app are based on the <pc id="c8" type="ui" subType="swi18n:a" swi18n:slot="children">Material UI guidelines</pc>, with styling done through <pc id="c9" type="ui" subType="swi18n:a" swi18n:slot="children">JSS</pc>.</pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:strong" swi18n:slot="children">Images:</pc> Not being satisfied with existing tools, we have developed our own <pc id="c12" type="ui" subType="swi18n:a" swi18n:slot="children">easy-to-use toolbox</pc> to dynamically generate simple web images, ranging from mathematical geometries to interactive plots.</pc><pc id="c13" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:strong" swi18n:slot="children">Equations:</pc> Mathematical expressions and equations are rendedered using <pc id="c15" type="ui" subType="swi18n:a" swi18n:slot="children">KaTeX</pc>, although we have added our own plug-ins to easily convert equations and physics quantities into TeX code.</pc><pc id="c16" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c17" type="ui" subType="swi18n:strong" swi18n:slot="children">Mathematics/physics:</pc> Wanting to stick to only one programming language (Javascript), no suitable Computer Algebra System (CAS) was available. So we have set up <pc id="c18" type="ui" subType="swi18n:a" swi18n:slot="children">our own CAS</pc>, including a physics engine, to handle all evaluations in Step-Wise.</pc><pc id="c19" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c20" type="ui" subType="swi18n:strong" swi18n:slot="children">Back-end:</pc> When an exercise is submitted, it is sent to our <pc id="c21" type="ui" subType="swi18n:a" swi18n:slot="children">GraphQL API</pc> to be evaluated. This API runs on <pc id="c22" type="ui" subType="swi18n:a" swi18n:slot="children">Apollo</pc>.</pc><pc id="c23" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c24" type="ui" subType="swi18n:strong" swi18n:slot="children">Server:</pc> We use a server based in Amsterdam, provided and maintained by <pc id="c25" type="ui" subType="swi18n:a" swi18n:slot="children">DigitalOcean</pc>.</pc><pc id="c26" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c27" type="ui" subType="swi18n:strong" swi18n:slot="children">Database:</pc> All user data is stored in a <pc id="c28" type="ui" subType="swi18n:a" swi18n:slot="children">PostgreSQL database</pc>. It is kept up-to-date and secure by <pc id="c29" type="ui" subType="swi18n:a" swi18n:slot="children">DigitalOcean</pc>.</pc></pc></source>
+					<target swi18n:sourceContentFingerprint="61da33834e4a05cc" swi18n:sourceStructureFingerprint="bbc04a015f2890e9"><pc id="c1" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c2" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children">Front-end:</pc> Das Frontend der App wurde mit <pc id="c4" type="ui" subType="swi18n:a" swi18n:slot="children">React</pc> auf der Basis der <pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Create-React-App</pc> erstellt. Dies ermöglicht uns die einfache Erstellung interaktiver Komponenten.</pc><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:strong" swi18n:slot="children">Design:</pc> Das Aussehen der App basiert auf den <pc id="c8" type="ui" subType="swi18n:a" swi18n:slot="children">Material UI-Richtlinien</pc>, wobei das Styling über <pc id="c9" type="ui" subType="swi18n:a" swi18n:slot="children">JSS</pc> erfolgt.</pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:strong" swi18n:slot="children">Bilder:</pc> Da wir mit den vorhandenen Möglichkeiten unzufrieden waren, haben wir unsere eigene, leicht zu verwendende <pc id="c12" type="ui" subType="swi18n:a" swi18n:slot="children">Bild-Toolbox</pc> entwickelt, um einfache Web-Bilder dynamisch zu generieren - von mathematisch-geometrischen Layouts bis hin zu interaktiven Diagrammen.</pc><pc id="c13" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:strong" swi18n:slot="children">Gleichungen:</pc> Mathematische Ausdrücke und Gleichungen werden mit <pc id="c15" type="ui" subType="swi18n:a" swi18n:slot="children">KaTeX</pc> gerendert, obwohl wir eigene Plug-ins hinzugefügt haben, um Gleichungen und physikalische Größen einfach in TeX-Code umzuwandeln.</pc><pc id="c16" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c17" type="ui" subType="swi18n:strong" swi18n:slot="children">Mathematik/Physik:</pc> Da wir nur eine Programmiersprache (Javascript) für die App verwenden wollten, gab es kein geeignetes Computer-Algebra-System (CAS) für uns. Also haben wir <pc id="c18" type="ui" subType="swi18n:a" swi18n:slot="children">unser eigenes CAS</pc> eingerichtet, einschließlich Physik-Skripten, um alles richtig zu überprüfen.</pc><pc id="c19" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c20" type="ui" subType="swi18n:strong" swi18n:slot="children">Back-end:</pc> Wenn eine Übungsaufgabe eingereicht wird, wird sie zur Überprüfung an unsere <pc id="c21" type="ui" subType="swi18n:a" swi18n:slot="children">GraphQL-API</pc> gesendet. Diese API läuft auf <pc id="c22" type="ui" subType="swi18n:a" swi18n:slot="children">Apollo</pc>.</pc><pc id="c23" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c24" type="ui" subType="swi18n:strong" swi18n:slot="children">Server:</pc> Wir verwenden einen Server in Amsterdam, der von <pc id="c25" type="ui" subType="swi18n:a" swi18n:slot="children">DigitalOcean</pc> bereitgestellt und gewartet wird.</pc><pc id="c26" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c27" type="ui" subType="swi18n:strong" swi18n:slot="children">Datenbank:</pc> Alle Benutzerdaten werden in einer <pc id="c28" type="ui" subType="swi18n:a" swi18n:slot="children">PostgreSQL-Datenbank</pc> gespeichert. Diese wird von <pc id="c29" type="ui" subType="swi18n:a" swi18n:slot="children">DigitalOcean</pc> sicher und aktuell gehalten.</pc></pc></target>
+				</segment>
+			</unit>
+			<unit id="par3">
+				<segment>
+					<source>With Step-Wise being open source, everyone can contribute too. Do you want to get involved? (With or without programming knowledge.) Then drop us a note at <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="infoEmail"/></pc> and we'll see what's possible!</source>
+					<target swi18n:sourceContentFingerprint="8259477dd1532ab4" swi18n:sourceStructureFingerprint="0419c42e4ba07bdc">Da Step-Wise Open-Source ist, kann jeder dazu beitragen. Möchtest du auch mitmachen? (Mit oder ohne Programmierkenntnisse.) Dann schick eine E-Mail über <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="infoEmail"/></pc> und wir schauen uns gemeinsam die Möglichkeiten an!</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="privacy">
+			<unit id="head">
+				<segment>
+					<source>Privacy</source>
+					<target swi18n:sourceContentFingerprint="49a26318689a63ac" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Datenschutz</target>
+				</segment>
+			</unit>
+			<unit id="par1">
+				<segment>
+					<source>At Step-Wise we take your privacy seriously. Proper user data handling is built into every part of the app. It's based on two fundamental ideas.</source>
+					<target swi18n:sourceContentFingerprint="ceaebd2f57248578" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bei Step-Wise nehmen wir deine Datensicherheit ernst. Der korrekte und integre Umgang mit Daten ist für jeden Teil der App von zentraler Bedeutung. Dabei nutzen wir zwei grundlegende Ideen.</target>
+				</segment>
+			</unit>
+			<unit id="list">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c2" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children">Need to know:</pc> You only get access to the data that you need to do what you want to do. Nothing more, nothing less.</pc><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:strong" swi18n:slot="children">Ask when needed:</pc> When you engage in an action that allows others to access some of your data (like registering for a course) we will note this and ask for your permission at that exact moment. Not before, and certainly not after.</pc></pc></source>
+					<target swi18n:sourceContentFingerprint="5ffb4a5fe25a32f7" swi18n:sourceStructureFingerprint="df6765446aedcae5"><pc id="c1" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c2" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children">Need to know:</pc> Man erhält nur Zugang zu den Daten, die man für das, was man tun will, benötigt. Nicht mehr und nicht weniger.</pc><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:strong" swi18n:slot="children">Fragen, wenn nötig:</pc> Wenn du eine Aktion durchführst, die dazu führt, dass andere Zugang zu deinen Daten erhalten (z. B. die Anmeldung zu einem Kurs), werden wir dich genau in diesem Moment informieren und um deine Erlaubnis bitten. Nicht vorher und schon gar nicht nachher.</pc></pc></target>
+				</segment>
+			</unit>
+			<unit id="par2">
+				<segment>
+					<source>This gives you a fluent user experience, while at the same time keeping your data secure. Want to know more about how we treat your data? Then check out our full <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Privacy Policy</pc>. This is also the policy you approve of when first signing in.</source>
+					<target swi18n:sourceContentFingerprint="8d89595e879abb68" swi18n:sourceStructureFingerprint="be2367f53b7c141b">Dies bietet dir ein gutes Nutzererlebnis und schützt gleichzeitig deine Daten. Möchtest du mehr darüber erfahren, wie wir mit deinen Daten umgehen? Dann lies unsere vollständige <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Datenschutzrichtlinie</pc>. Du siehst sie übrigens auch, wenn du dich zum ersten Mal anmeldest.</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

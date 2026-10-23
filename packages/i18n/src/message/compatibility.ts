@@ -1,6 +1,6 @@
 import { shallowEqualArrays } from '@step-wise/js-utils'
 
-import { type ComponentNode, type Message, type MessageNode, type PluralNode, type SelectNode } from './types.ts'
+import { type ComponentNode, type ConditionNode, type Message, type MessageNode, type PluralNode, type SelectNode } from './types.ts'
 import { type MessageValidationIssue } from './validation.ts'
 
 // Set up a custom error type for incompatible messages.
@@ -36,6 +36,7 @@ export function validateMessageCompatibility(source: Message, target: Message): 
 	validateComponents(sourceShape.components, targetShape.components, issues)
 	validateConstructs(sourceShape.plurals, targetShape.plurals, pluralKey, 'plural', issues)
 	validateConstructs(sourceShape.selects, targetShape.selects, selectKey, 'select', issues)
+	validateConstructs(sourceShape.conditions, targetShape.conditions, conditionKey, 'condition', issues)
 	return issues
 }
 
@@ -48,6 +49,7 @@ type MessageShape = {
 	components: Map<string, LocatedNode<ComponentNode>>
 	plurals: LocatedNode<PluralNode>[]
 	selects: LocatedNode<SelectNode>[]
+	conditions: LocatedNode<ConditionNode>[]
 }
 
 type LocatedNode<Node extends MessageNode> = {
@@ -57,7 +59,7 @@ type LocatedNode<Node extends MessageNode> = {
 
 // Turn a given message into a MessageShape object.
 function collectMessageShape(message: Message): MessageShape {
-	const shape: MessageShape = { variables: new Map(), components: new Map(), plurals: [], selects: [] }
+	const shape: MessageShape = { variables: new Map(), components: new Map(), plurals: [], selects: [], conditions: [] }
 	collectNodes(message, '$', shape)
 	return shape
 }
@@ -89,6 +91,13 @@ function collectNodes(message: Message, path: string, shape: MessageShape): void
 				shape.variables.set(node.variable, `${nodePath}.variable`)
 				shape.selects.push({ node, path: nodePath })
 				Object.entries(node.branches).forEach(([name, branch]) => collectNodes(branch, `${nodePath}.branches.${name}`, shape))
+				return
+
+			case 'condition':
+				shape.variables.set(node.variable, `${nodePath}.variable`)
+				shape.conditions.push({ node, path: nodePath })
+				collectNodes(node.true, `${nodePath}.true`, shape)
+				collectNodes(node.false, `${nodePath}.false`, shape)
 				return
 		}
 	})
@@ -129,7 +138,7 @@ function validateComponents(source: Map<string, LocatedNode<ComponentNode>>, tar
 }
 
 // Check if a constructs (Plural, Select) of a message line up with those of the source message.
-function validateConstructs<Node extends PluralNode | SelectNode>(source: LocatedNode<Node>[], target: LocatedNode<Node>[], getKey: (node: Node) => string, type: string, issues: MessageValidationIssue[]): void {
+function validateConstructs<Node extends PluralNode | SelectNode | ConditionNode>(source: LocatedNode<Node>[], target: LocatedNode<Node>[], getKey: (node: Node) => string, type: string, issues: MessageValidationIssue[]): void {
 	// Match the target constructs with those in the source.
 	const remainingSource = [...source]
 	target.forEach(({ node, path }) => {
@@ -158,4 +167,9 @@ function pluralKey(node: PluralNode): string {
 // Get the key for a Select node.
 function selectKey(node: SelectNode): string {
 	return JSON.stringify([node.variable, Object.keys(node.branches).sort()])
+}
+
+// Get the key for a Condition node.
+function conditionKey(node: ConditionNode): string {
+	return node.variable
 }

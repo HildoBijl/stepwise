@@ -15,11 +15,11 @@ export function Theory() {
 		<Translation entry="calculationSteps">
 			<Head>The steps</Head>
 			<Par>To calculate an expression like <M>16 + 3 \cdot 5</M>, you take the following <Term>steps</Term>.</Par>
-			<List items={[
-				<>Determine the <Term>order</Term> in which operations should be applied. Multiplications is always done before summation, so <M>3 \cdot 5</M> should be calculated before anything is added up.</>,
-				<>Calculate the <Term>multiplication(s)</Term>. We turn <M>3 \cdot 5</M> into <M>15</M>.</>,
-				<>Calculate the <Term>addition</Term>. This then turns <M>16 + 15</M> into <M>31</M> which is the final result.</>,
-			]} />
+			<List>
+				<List.Item><>Determine the <Term>order</Term> in which operations should be applied. Multiplications is always done before summation, so <M>3 \cdot 5</M> should be calculated before anything is added up.</></List.Item>
+				<List.Item><>Calculate the <Term>multiplication(s)</Term>. We turn <M>3 \cdot 5</M> into <M>15</M>.</></List.Item>
+				<List.Item><>Calculate the <Term>addition</Term>. This then turns <M>16 + 15</M> into <M>31</M> which is the final result.</></List.Item>
+			</List>
 		</Translation>
 
 		<Translation entry="stepWiseExercises">

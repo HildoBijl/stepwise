@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="notifications">
+			<unit id="groupsLoading">
+				<segment>
+					<source>Groups are being loaded...</source>
+					<target swi18n:sourceContentFingerprint="2a8ecf0c5ec9a6a0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Groepen worden geladen...</target>
+				</segment>
+			</unit>
+			<unit id="groupsLoadingError">
+				<segment>
+					<source>Oops ... something went wrong when loading the groups.</source>
+					<target swi18n:sourceContentFingerprint="144c050eccbd780f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oops ... er ging iets mis met het laden van de groepen.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="createGroup">
+			<unit id="title">
+				<segment>
+					<source>New practice group</source>
+					<target swi18n:sourceContentFingerprint="009542480db921a0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nieuwe samenwerkingsgroep</target>
+				</segment>
+			</unit>
+			<unit id="step1">
+				<segment>
+					<source>Create a group code/link.</source>
+					<target swi18n:sourceContentFingerprint="837dc99deb7fc6a8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Maak een groepscode/link aan.</target>
+				</segment>
+			</unit>
+			<unit id="step2">
+				<segment>
+					<source>Share it with fellow students.</source>
+					<target swi18n:sourceContentFingerprint="d64c9ce839aa1087" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deel deze met studiegenoten.</target>
+				</segment>
+			</unit>
+			<unit id="step3">
+				<segment>
+					<source>Practice with the same exercises.</source>
+					<target swi18n:sourceContentFingerprint="5fba4164c7b4b76f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Krijg samen dezelfde opgaven.</target>
+				</segment>
+			</unit>
+			<unit id="confirmationButton">
+				<segment>
+					<source>Create new practice group</source>
+					<target swi18n:sourceContentFingerprint="98e3eb41773834d4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Maak nieuwe samenwerkingsgroep</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="newGroup">
+			<unit id="paragraph1">
+				<segment>
+					<source>You are about to create a new practice group. This will give you a code/link to share with your fellow students. Each person entering the code will get access to the practice group. This includes:</source>
+					<target swi18n:sourceContentFingerprint="d7baa1eed4d7d2d2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Je staat op het punt om een nieuwe samenwerkingsgroep aan te maken. Je krijgt dan een code/link om met je studiegenoten te delen. Elke persoon die de code invoert krijgt toegang tot de samenwerkingsgroep. Dit omvat:</target>
+				</segment>
+			</unit>
+			<unit id="paragraph2">
+				<segment>
+					<source>You can always leave and/or forget a practice group. Upon forgetting a practice group, all your traces from the group will be permanently erased.</source>
+					<target swi18n:sourceContentFingerprint="2dcda5e76fbd4a36" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Je kunt een samenwerkingsgroep altijd verlaten en/of vergeten. Als je een samenwerkingsgroep vergeet, dan worden al je sporen uit deze samenwerkingsgroep permanent gewist.</target>
+				</segment>
+			</unit>
+			<unit id="agreeButton">
+				<segment>
+					<source>Yes, I agree</source>
+					<target swi18n:sourceContentFingerprint="c46197863411e43e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ja, ik ga akkoord</target>
+				</segment>
+			</unit>
+			<unit id="disagreeButton">
+				<segment>
+					<source>No, I don't want that</source>
+					<target swi18n:sourceContentFingerprint="7d223fa48a4e3c15" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nee, dat wil ik niet</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="groupPossibilities">
+			<unit id="entry1">
+				<segment>
+					<source>See who is active in the group and whether they are online/active.</source>
+					<target swi18n:sourceContentFingerprint="21e121db3bffe008" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Zien wie er in de samenwerkingsgroep zit en of ze online/actief zijn.</target>
+				</segment>
+			</unit>
+			<unit id="entry2">
+				<segment>
+					<source>At exercises: view the submissions of other group members.</source>
+					<target swi18n:sourceContentFingerprint="0b72550a779cccc0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bij opgaven: de inzendingen van groepsgenoten inzien.</target>
+				</segment>
+			</unit>
+			<unit id="entry3">
+				<segment>
+					<source>Get suggestions on which skill is best to practice, also based on the level of other active group members.</source>
+					<target swi18n:sourceContentFingerprint="1094d84a859a7a77" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Tips krijgen over welke vaardigheid handig is om te oefenen, gezien het niveau van actieve groepsgenoten.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="olderGroups">
+			<unit id="title">
+				<segment>
+					<source>Previous groups</source>
+					<target swi18n:sourceContentFingerprint="8bb1e6d8e087e9b1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Eerdere groepen</target>
+				</segment>
+			</unit>
+			<unit id="code">
+				<segment>
+					<source>Code</source>
+					<target swi18n:sourceContentFingerprint="02c0fd6c912d9327" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Code</target>
+				</segment>
+			</unit>
+			<unit id="forgetGroup">
+				<segment>
+					<source>Forget this group</source>
+					<target swi18n:sourceContentFingerprint="15c1c4b5da9a2d6c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vergeet deze groep</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="activeGroup">
+			<unit id="activeGroup">
+				<segment>
+					<source>Your active group: <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="code"/></pc></source>
+					<target swi18n:sourceContentFingerprint="a3dee1f0aa91e3df" swi18n:sourceStructureFingerprint="3f26e640386cf809">Je actieve groep: <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="code"/></pc></target>
+				</segment>
+			</unit>
+			<unit id="emptyGroup">
+				<segment>
+					<source>There is no one else in group <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="code"/></pc>. Share the code/<pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">link</pc> with your fellow students to practice together.</source>
+					<target swi18n:sourceContentFingerprint="0bdc8acef44ef5aa" swi18n:sourceStructureFingerprint="a1a9023fc7e873e6">Er zit nog niemand anders in groep <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="code"/></pc>. Deel de code/<pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">link</pc> met je studiegenoten om samen te kunnen oefenen.</target>
+				</segment>
+			</unit>
+			<unit id="deactivateButton">
+				<segment>
+					<source>Leave this group</source>
+					<target swi18n:sourceContentFingerprint="c0df58d73a10e3e6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Verlaat deze groep</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="indicator">
+			<unit id="noOthers">
+				<segment>
+					<source>No other group members are present yet.</source>
+					<target swi18n:sourceContentFingerprint="6cc5b53acc136054" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er zijn nog geen anderen aanwezig.</target>
+				</segment>
+			</unit>
+			<unit id="others">
+				<segment>
+					<source>You are working together with <ph id="c1" type="ui" subType="swi18n:localized-list"/>.</source>
+					<target swi18n:sourceContentFingerprint="05759c279c4b7150" swi18n:sourceStructureFingerprint="cf74ad102bd1727e">Je werkt samen met <ph id="c1" type="ui" subType="swi18n:localized-list"/>.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="joinGroup">
+			<unit id="title">
+				<segment>
+					<source>Join existing group</source>
+					<target swi18n:sourceContentFingerprint="52c1eea1e9446b22" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Meedoen met bestaande groep</target>
+				</segment>
+			</unit>
+			<unit id="instruction">
+				<segment>
+					<source>Enter an existing group code.</source>
+					<target swi18n:sourceContentFingerprint="1aa31c8722b56ff0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voer een bestaande groepscode in.</target>
+				</segment>
+			</unit>
+			<unit id="fieldLabel">
+				<segment>
+					<source>Group code</source>
+					<target swi18n:sourceContentFingerprint="8c377b2cabd38f7c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Groepscode</target>
+				</segment>
+			</unit>
+			<unit id="confirmationButton">
+				<segment>
+					<source>Become a group member</source>
+					<target swi18n:sourceContentFingerprint="5e73e33f1fc10a63" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Word lid van de groep</target>
+				</segment>
+			</unit>
+			<group id="feedback">
+				<unit id="numberOfCharacters">
+					<segment>
+						<source>Codes must have four characters.</source>
+						<target swi18n:sourceContentFingerprint="a4fc5168930d848d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Codes hebben altijd vier tekens.</target>
+					</segment>
+				</unit>
+				<unit id="useLettersNumbers">
+					<segment>
+						<source>Only use letters/numbers.</source>
+						<target swi18n:sourceContentFingerprint="ff023f894b2f8c4b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gebruik alleen letters/cijfers.</target>
+					</segment>
+				</unit>
+				<unit id="nonexistingGroup">
+					<segment>
+						<source>This group code does not exist.</source>
+						<target swi18n:sourceContentFingerprint="e635c6437e9cc525" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deze groepscode bestaat niet.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="joinGroupConditions">
+			<unit id="paragraph1">
+				<segment>
+					<source>You are about to join the practice group <ph id="x1" type="ui" subType="xlf:var" swi18n:name="code"/>. This will allow you to:</source>
+					<target swi18n:sourceContentFingerprint="7b42f739916548d1" swi18n:sourceStructureFingerprint="5ce32a78035d0ac4">Je staat op het punt om lid te worden van de samenwerkingsgroep <ph id="x1" type="ui" subType="xlf:var" swi18n:name="code"/>. Je kan dan:</target>
+				</segment>
+			</unit>
+			<unit id="paragraph2">
+				<segment>
+					<source>All current and future members of the practice group are of course also able to do so. You can always leave and/or forget a practice group. If you leave a practice group, all your traces from this group will be permanently erased.</source>
+					<target swi18n:sourceContentFingerprint="a0c545a7414ad5ef" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Alle huidige en toekomstige leden van deze samenwerkingsgroep kunnen dit uiteraard ook. Je kunt een samenwerkingsgroep altijd verlaten en/of vergeten. Als je een samenwerkingsgroep vergeet, dan worden al je sporen uit de samenwerkingsgroep permanent gewist.</target>
+				</segment>
+			</unit>
+			<unit id="agreeButton">
+				<segment>
+					<source>Yes, I agree</source>
+					<target swi18n:sourceContentFingerprint="c46197863411e43e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ja, ik ga akkoord</target>
+				</segment>
+			</unit>
+			<unit id="disagreeButton">
+				<segment>
+					<source>No, I don't want that</source>
+					<target swi18n:sourceContentFingerprint="7d223fa48a4e3c15" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nee, dat wil ik niet</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

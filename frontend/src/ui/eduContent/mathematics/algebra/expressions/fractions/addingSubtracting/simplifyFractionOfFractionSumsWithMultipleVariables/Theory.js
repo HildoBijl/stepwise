@@ -25,10 +25,10 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To simplify a fraction of fraction sums, like <M>\left(\frac(a)(2) + \frac(b)(3)\right) / \left(\frac(5)(4c)\right)</M>, take the following steps.</Par>
-			<List items={[
-				<><SkillLink skillId="addFractionsWithMultipleVariables">Write all additions/subtractions of fractions as single fractions</SkillLink>. This turns the example into <M>\left(\frac(3a + 2b)(6)\right) / \left(\frac(5)(4c)\right)</M>.</>,
-				<><SkillLink skillId="simplifyFractionOfFractionsWithVariables">Simplify the fraction of fractions</SkillLink>, writing it as a single fraction and canceling factors where possible. For the example we get the final result <M>\frac(2c\left(3a + 2b\right))(15)</M>.</>,
-			]} />
+			<List>
+				<List.Item><><SkillLink skillId="addFractionsWithMultipleVariables">Write all additions/subtractions of fractions as single fractions</SkillLink>. This turns the example into <M>\left(\frac(3a + 2b)(6)\right) / \left(\frac(5)(4c)\right)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="simplifyFractionOfFractionsWithVariables">Simplify the fraction of fractions</SkillLink>, writing it as a single fraction and canceling factors where possible. For the example we get the final result <M>\frac(2c\left(3a + 2b\right))(15)</M>.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

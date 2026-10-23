@@ -22,10 +22,10 @@ export function Theory() {
 		<Translation entry="exercises">
 			<Head>Exercises</Head>
 			<Par>To get better with a skill, you can practice with a variety of randomly generated <Term>exercises</Term>. There are two types.</Par>
-			<List items={[
-				<>The <Term>example exercises</Term> are basic exercises for free experimentation. You can view the solution in advance if you so desire. Playing around with them doesn't affect your ratings in any way.</>,
-				<>The <Term>practice exercises</Term> are slightly more involved exercises to practice on. Every action you make there does effect your estimated success chance.</>
-			]} />
+			<List>
+				<List.Item><>The <Term>example exercises</Term> are basic exercises for free experimentation. You can view the solution in advance if you so desire. Playing around with them doesn't affect your ratings in any way.</></List.Item>
+				<List.Item><>The <Term>practice exercises</Term> are slightly more involved exercises to practice on. Every action you make there does effect your estimated success chance.</></List.Item>
+			</List>
 			<Par>Go ahead and try it out! The Step-Wise input system is <Term>smartphone-compatible</Term> with our own internally designed keyboards. It's all easy to use. You'll figure it out.</Par>
 			<Par>Once you've reached the goal set for the skill level, you'll get a notification that you can continue to the next skill. Keep on practicing until you've got it!</Par>
 		</Translation>

@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react'
 import { describe, expect, it } from 'vitest'
 
+import { Condition } from '../authoring/Condition.tsx'
 import { Plural } from '../authoring/Plural.tsx'
 import { Select } from '../authoring/Select.tsx'
 import { variable } from '../authoring/variable.ts'
@@ -78,6 +79,26 @@ describe('React message conversion', () => {
 		expect(reactToMessage(
 			<Plural value={{ count }}><Plural.Other><Plural.Value /> messages</Plural.Other></Plural>,
 		)).toMatchObject([{ variable: 'count', branches: { other: [{ type: 'variable', name: 'count' }, { type: 'text', value: ' messages' }] } }])
+	})
+
+	it('converts boolean conditions', () => {
+		expect(reactToMessage(
+			<Condition value={true}>
+				<Condition.True>Enabled</Condition.True>
+				<Condition.False>Disabled</Condition.False>
+			</Condition>,
+		)).toEqual([{
+			type: 'condition',
+			variable: '$condition1',
+			true: [{ type: 'text', value: 'Enabled' }],
+			false: [{ type: 'text', value: 'Disabled' }],
+		}])
+	})
+
+	it('uses an empty message when a Condition branch is omitted', () => {
+		expect(reactToMessage(
+			<Condition value={true}><Condition.True>Enabled</Condition.True></Condition>,
+		)).toEqual([{ type: 'condition', variable: '$condition1', true: [{ type: 'text', value: 'Enabled' }], false: [] }])
 	})
 
 	it('resolves Value against the nearest matching nested construct', () => {

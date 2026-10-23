@@ -170,7 +170,8 @@ function parseInlineNode(element: XmlElement, path: string): MessageNode {
 	if (element.localName === 'ph') return parsePlaceholder(element, subType, path)
 	if (subType === 'swi18n:plural') return parsePlural(element, path)
 	if (subType === 'swi18n:select') return parseSelect(element, path)
-	if (subType === 'swi18n:slot' || subType.startsWith('swi18n:plural-') || subType === 'swi18n:select-branch') throwXliff(path, `${subType} is only valid inside its parent construct.`)
+	if (subType === 'swi18n:condition') return parseCondition(element, path)
+	if (subType === 'swi18n:slot' || subType.startsWith('swi18n:plural-') || subType === 'swi18n:select-branch' || subType.startsWith('swi18n:condition-')) throwXliff(path, `${subType} is only valid inside its parent construct.`)
 	return parseComponent(element, subType, path)
 }
 
@@ -272,6 +273,27 @@ function parseSelect(element: XmlElement, path: string): MessageNode {
 		type: 'select',
 		variable: requireAttribute(element, 'variable', path, stepWiseNamespace),
 		branches: branches as SelectBranches,
+	}
+}
+
+// Turn an XML condition tag into a Condition message node.
+function parseCondition(element: XmlElement, path: string): MessageNode {
+	const branches: Partial<Record<'true' | 'false', Message>> = {}
+	assertNoTextChildren(element, path)
+	getElementChildren(element).forEach((branch, index) => {
+		const branchPath = `${path}.branches[${index}]`
+		const subType = requireAttribute(branch, 'subType', branchPath)
+		const value = subType === 'swi18n:condition-true' ? 'true' : subType === 'swi18n:condition-false' ? 'false' : undefined
+		if (!value) throwXliff(branchPath, 'Conditions may only contain true and false branches.')
+		if (branches[value]) throwXliff(branchPath, `Duplicate condition branch "${value}".`)
+		branches[value] = parseMessage(branch.children, branchPath)
+	})
+	if (!branches.true || !branches.false) throwXliff(path, 'Conditions must contain exactly one true and one false branch.')
+	return {
+		type: 'condition',
+		variable: requireAttribute(element, 'variable', path, stepWiseNamespace),
+		true: branches.true,
+		false: branches.false,
 	}
 }
 

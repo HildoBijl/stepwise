@@ -32,12 +32,12 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To solve a product equation, like <M>6 = \frac(9)(2x)</M>, take the following steps.</Par>
-			<List items={[
-				<>If the unknown is in a denominator, get it out of there by <SkillLink skillId="moveEquationFactor">moving it to the other side of the equation</SkillLink>. For the example, we get <M>6x = \frac(9)(2)</M>.</>,
-				<><SkillLink skillId="moveEquationFactor">Move all factors</SkillLink> that are on the same side as the unknown to the other side. This turns the example into <M>x = \frac(9/2)(6)</M>.</>,
-				<><SkillLink skillId="simplifyFraction">Simplify</SkillLink> the result as much as possible. Our example reduces to <M>x = \frac(3)(4)</M>.</>,
-				<><SkillLink skillId="checkEquationSolution">Check your solution</SkillLink> by inserting it into the original equation and verifying that both sides reduce to the same number. For the example, inserting the solution reduces both sides to <M>6</M>, which matches.</>,
-			]} />
+			<List>
+				<List.Item><>If the unknown is in a denominator, get it out of there by <SkillLink skillId="moveEquationFactor">moving it to the other side of the equation</SkillLink>. For the example, we get <M>6x = \frac(9)(2)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="moveEquationFactor">Move all factors</SkillLink> that are on the same side as the unknown to the other side. This turns the example into <M>x = \frac(9/2)(6)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="simplifyFraction">Simplify</SkillLink> the result as much as possible. Our example reduces to <M>x = \frac(3)(4)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="checkEquationSolution">Check your solution</SkillLink> by inserting it into the original equation and verifying that both sides reduce to the same number. For the example, inserting the solution reduces both sides to <M>6</M>, which matches.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

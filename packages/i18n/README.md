@@ -76,7 +76,7 @@ const message = reactToMessage(
 
 `translatedProps` defaults to `['children']`. Each listed prop becomes a named message slot; unlisted props remain in the original React element and do not enter translation catalogs. Anonymous components must be wrapped with an explicit tag because no stable default can be derived for them. Copying and deletion are allowed by default and can be disabled independently for required or identity-sensitive components.
 
-Use `Translation`, `Plural`, and `Select` to author messages. The `{{ name }}` shorthand creates a named runtime variable; `variable('name', value)` remains available when an explicit expression is clearer. Raw plural and select values receive deterministic internal names and can be rendered through their scoped `Value` components. Passing a one-property object names the construct variable explicitly.
+Use `Translation`, `Plural`, `Select`, and `Condition` to author messages. The `{{ name }}` shorthand creates a named runtime variable; `variable('name', value)` remains available when an explicit expression is clearer. Raw construct values receive deterministic internal names. Passing a one-property object names the construct variable explicitly.
 
 ```tsx
 <Translation id="messages">
@@ -92,7 +92,16 @@ Use `Translation`, `Plural`, and `Select` to author messages. The `{{ name }}` s
 		<Select.Other><Select.Value /> is a member</Select.Other>
 	</Select>
 </Translation>
+
+<Translation id="availability">
+	<Condition value={isAvailable}>
+		<Condition.True>Available</Condition.True>
+		<Condition.False>Unavailable</Condition.False>
+	</Condition>
+</Translation>
 ```
+
+`Condition` represents an exhaustive boolean choice. Either branch may be omitted in React authoring; an omitted outcome is stored as an empty branch and renders nothing.
 
 `messageToReact` applies a translated `Message` to its original React source. It retains preserved props, correlates reordered components by occurrence ID, resolves variables and constructs, and enforces component copy/delete permissions.
 

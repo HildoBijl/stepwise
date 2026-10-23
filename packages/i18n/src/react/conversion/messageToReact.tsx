@@ -1,6 +1,6 @@
 import { type ReactElement, type ReactNode, cloneElement } from 'react'
 
-import { type ComponentNode, type Message, type MessageNode, type PluralNode, type SelectNode, assertCompatibleMessage, assertValidMessage } from '../../message/index.ts'
+import { type ComponentNode, type ConditionNode, type Message, type MessageNode, type PluralNode, type SelectNode, assertCompatibleMessage, assertValidMessage } from '../../message/index.ts'
 
 import { type ReactMessageSource, createReactMessageSource } from './reactToMessage.ts'
 
@@ -33,6 +33,7 @@ function renderNode(node: MessageNode, context: RenderingContext, path: string):
 		case 'component': return renderComponent(node, context, path)
 		case 'plural': return renderPlural(node, context, path)
 		case 'select': return renderSelect(node, context, path)
+		case 'condition': return renderCondition(node, context, path)
 	}
 }
 
@@ -76,6 +77,13 @@ function renderSelect(node: SelectNode, context: RenderingContext, path: string)
 	return renderMessage(node.branches[value] ?? node.branches.other, context, `${path}.branches.${value}`)
 }
 
+// Apply a translated Condition node by rendering the branch matching its boolean value.
+function renderCondition(node: ConditionNode, context: RenderingContext, path: string): ReactNode {
+	const value = getVariable(node.variable, context)
+	if (typeof value !== 'boolean') throw new Error(`${path}: Condition variable "${node.variable}" must be a boolean.`)
+	return renderMessage(node[value ? 'true' : 'false'], context, `${path}.${value}`)
+}
+
 /*
  * Shape checking.
  */
@@ -113,6 +121,9 @@ function visitComponents(message: Message, visit: (node: ComponentNode) => void)
 			Object.values(node.exactBranches ?? {}).forEach(branch => visitComponents(branch, visit))
 		} else if (node.type === 'select') {
 			Object.values(node.branches).forEach(branch => visitComponents(branch, visit))
+		} else if (node.type === 'condition') {
+			visitComponents(node.true, visit)
+			visitComponents(node.false, visit)
 		}
 	})
 }

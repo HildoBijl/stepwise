@@ -12,18 +12,18 @@ export function ErrorNote({ text, error }) {
 		<Alert severity="error">
 			<AlertTitle>Oops ... something went wrong.</AlertTitle>
 			<Par>The page could not be loaded/displayed properly. {{ reason: text || '' }} We recommend you try the following.</Par>
-			<List items={[
-				<>Refresh the page (F5). Maybe your connection briefly flaked.</>,
-				<>Make sure the URL is correct. No typos?</>,
-				<>Try a hard refresh (Shift+F5) to ensure you don't have an old version of the web-app still cached on your device.</>,
-				<>The above attempts all fail? It's probably us. Try again later.</>
-			]} />
+			<List>
+				<List.Item><>Refresh the page (F5). Maybe your connection briefly flaked.</></List.Item>
+				<List.Item><>Make sure the URL is correct. No typos?</></List.Item>
+				<List.Item><>Try a hard refresh (Shift+F5) to ensure you don't have an old version of the web-app still cached on your device.</></List.Item>
+				<List.Item><>The above attempts all fail? It's probably us. Try again later.</></List.Item>
+			</List>
 			<Par>Is the bug still present later on? Then please send an email to <Link to={infoEmail}>{{ infoEmail }}</Link> (Hildo). I'll fix the bug, so that both you and others won't continue running into it. If possible, also add:</Par>
-			<List items={[
-				<>Where the bug occurred: for instance which skill/exercise.</>,
-				<>What you did right before the bug appeared.</>,
-				<>Possibly a screenshot of any red error message in the Developer's Tools console (F12).</>,
-			]} />
+			<List>
+				<List.Item><>Where the bug occurred: for instance which skill/exercise.</></List.Item>
+				<List.Item><>What you did right before the bug appeared.</></List.Item>
+				<List.Item><>Possibly a screenshot of any red error message in the Developer's Tools console (F12).</></List.Item>
+			</List>
 		</Alert >
 	</Translation>
 }

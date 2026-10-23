@@ -1,6 +1,192 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
 	<file id="catalog">
+		<unit id="head">
+			<segment>
+				<source>How does it work?</source>
+				<target swi18n:sourceContentFingerprint="1a1dee1328d05d6a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Hoe werkt het?</target>
+			</segment>
+		</unit>
+		<unit id="step1">
+			<segment>
+				<source>You practice exercises in the web-app.</source>
+				<target swi18n:sourceContentFingerprint="f3292d15125b5a67" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Jij maakt oefenopgaven in de web-app.</target>
+			</segment>
+		</unit>
+		<unit id="step2">
+			<segment>
+				<source>Every exercise gives you detailed feedback.</source>
+				<target swi18n:sourceContentFingerprint="e8d714ed246cdaab" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Elke opgave geeft je gedetailleerde feedback.</target>
+			</segment>
+		</unit>
+		<unit id="step3">
+			<segment>
+				<source>The app tracks what you're struggling with.</source>
+				<target swi18n:sourceContentFingerprint="36f3541ca68d65f1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De app houdt bij waar je moeite mee hebt.</target>
+			</segment>
+		</unit>
+		<unit id="step4">
+			<segment>
+				<source>You get more exercises on your level.</source>
+				<target swi18n:sourceContentFingerprint="dbafbf4dc59b1b27" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Je krijgt op jouw niveau nieuwe opgaven.</target>
+			</segment>
+		</unit>
+		<unit id="description">
+			<segment>
+				<source>Step-Wise is a free tutoring web-app that brushes up your mathematics, physics and/or mechanics skills to (pre-)university level.</source>
+				<target swi18n:sourceContentFingerprint="12d38987553eb7bc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Step-Wise is een gratis bijles-web-app waarmee je je wiskunde-, natuurkunde- en mechanicavaardigheden kan bijspijkeren tot (pre-)universiteitsniveau.</target>
+			</segment>
+		</unit>
+		<group id="getStarted">
+			<unit id="title">
+				<segment>
+					<source>Get started</source>
+					<target swi18n:sourceContentFingerprint="dc10f29075effdf3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Direct aan de slag</target>
+				</segment>
+			</unit>
+			<unit id="description">
+				<segment>
+					<source>Sign in to directly start practicing.</source>
+					<target swi18n:sourceContentFingerprint="b015fb1d393034d3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Log in om gelijk te beginnen met oefenen.</target>
+				</segment>
+			</unit>
+			<unit id="signInHU">
+				<segment>
+					<source>Sign in through Hogeschool Utrecht</source>
+					<target swi18n:sourceContentFingerprint="5f9e73d508136bbd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Inloggen met Hogeschool Utrecht</target>
+				</segment>
+			</unit>
+			<group id="signInError">
+				<unit id="title">
+					<segment>
+						<source>Sign-in unsuccessful</source>
+						<target swi18n:sourceContentFingerprint="cc258b549a729aa8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Niet gelukt om in te loggen</target>
+					</segment>
+				</unit>
+				<unit id="invalidAuthentication">
+					<segment>
+						<source>We could not determine your identity. If possible try another account.</source>
+						<target swi18n:sourceContentFingerprint="2f338deaac08edd9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">We konden niet bepalen wie je bent. Probeer indien mogelijk een andere account.</target>
+					</segment>
+				</unit>
+				<unit id="internalError">
+					<segment>
+						<source>A server error occurred while signing in. Please try again later.</source>
+						<target swi18n:sourceContentFingerprint="dd4b7c32b1f1c709" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er ging bij het inloggen iets mis op onze server. Probeer het later nog eens.</target>
+					</segment>
+				</unit>
+				<unit id="unspecifiedError">
+					<segment>
+						<source>Something went wrong while signing in. Please try again later.</source>
+						<target swi18n:sourceContentFingerprint="6eed908a12261dc5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er ging iets mis bij het inloggen. Probeer het later nog eens.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="explainers">
+			<unit id="title">
+				<segment>
+					<source>Explainers</source>
+					<target swi18n:sourceContentFingerprint="7a72c81d895cd36f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Korte uitleg</target>
+				</segment>
+			</unit>
+			<unit id="description">
+				<segment>
+					<source>Briefly read up on what Step-Wise is.</source>
+					<target swi18n:sourceContentFingerprint="ede5ede0d9d89a94" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lees meer over wat Step-Wise is.</target>
+				</segment>
+			</unit>
+			<group id="buttons">
+				<unit id="forStudents">
+					<segment>
+						<source>Step-Wise for students</source>
+						<target swi18n:sourceContentFingerprint="879b159bd83c3466" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Step-Wise voor studenten</target>
+					</segment>
+				</unit>
+				<unit id="forTeachers">
+					<segment>
+						<source>Step-Wise for teachers</source>
+						<target swi18n:sourceContentFingerprint="43c2faee54cbdea3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Step-Wise voor docenten</target>
+					</segment>
+				</unit>
+				<unit id="about">
+					<segment>
+						<source>About Step-Wise</source>
+						<target swi18n:sourceContentFingerprint="534832a9e18cf4dc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Over Step-Wise</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="exampleSkills">
+			<unit id="title">
+				<segment>
+					<source>Example skills</source>
+					<target swi18n:sourceContentFingerprint="898297b4a275f1f4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voorbeeldvaardigheden</target>
+				</segment>
+			</unit>
+			<unit id="description">
+				<segment>
+					<source>Try out for yourself how it works.</source>
+					<target swi18n:sourceContentFingerprint="c6e3bfa0fb2cdb7a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Probeer zelf uit hoe het werkt.</target>
+				</segment>
+			</unit>
+			<group id="algebra">
+				<unit id="title">
+					<segment>
+						<source>Algebra</source>
+						<target swi18n:sourceContentFingerprint="349559948ccbd3dc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Algebra</target>
+					</segment>
+				</unit>
+				<unit id="contents">
+					<segment>
+						<source>Solve  <ph id="c1" type="ui" subType="swi18n:inline-math"/></source>
+						<target swi18n:sourceContentFingerprint="42fd82b953c95764" swi18n:sourceStructureFingerprint="1d03ee5e29fb06e3">Los <ph id="c1" type="ui" subType="swi18n:inline-math"/> op</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="geometry">
+				<unit id="title">
+					<segment>
+						<source>Geometry</source>
+						<target swi18n:sourceContentFingerprint="9380c55422abca4c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Meetkunde</target>
+					</segment>
+				</unit>
+				<unit id="contents">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Calculate <ph id="c2" type="ui" subType="swi18n:inline-math"/> in </pc><ph id="c3" type="ui" subType="swi18n:pythagoras-image"/></source>
+						<target swi18n:sourceContentFingerprint="1769e5159bf19f94" swi18n:sourceStructureFingerprint="79113a4a3695652b"><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Bereken <ph id="c2" type="ui" subType="swi18n:inline-math"/> in </pc><ph id="c3" type="ui" subType="swi18n:pythagoras-image"/></target>
+					</segment>
+				</unit>
+			</group>
+			<group id="thermodynamics">
+				<unit id="title">
+					<segment>
+						<source>Thermodynamics</source>
+						<target swi18n:sourceContentFingerprint="c008ae927f0408ef" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Thermodynamica</target>
+					</segment>
+				</unit>
+				<unit id="contents">
+					<segment>
+						<source>Apply  <ph id="c1" type="ui" subType="swi18n:inline-math"/></source>
+						<target swi18n:sourceContentFingerprint="62e12e9e8e9c08cb" swi18n:sourceStructureFingerprint="1d03ee5e29fb06e3">Pas <ph id="c1" type="ui" subType="swi18n:inline-math"/> toe</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="statics">
+				<unit id="title">
+					<segment>
+						<source>Statics</source>
+						<target swi18n:sourceContentFingerprint="43c9f7d0eaa3cef1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Statica</target>
+					</segment>
+				</unit>
+				<unit id="contents">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Analyze </pc><ph id="c2" type="ui" subType="swi18n:structure-image"/></source>
+						<target swi18n:sourceContentFingerprint="5ba64bc146f3000c" swi18n:sourceStructureFingerprint="980a38a21326c22c"><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Analyseer </pc><ph id="c2" type="ui" subType="swi18n:structure-image"/></target>
+					</segment>
+				</unit>
+			</group>
+		</group>
 		<unit id="websiteName">
 			<segment>
 				<source>Step-Wise</source>

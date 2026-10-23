@@ -57,4 +57,13 @@ describe('message compatibility', () => {
 		const changedTarget: Message = [{ type: 'select', variable: 'role', branches: { teacher: [], other: [] } }]
 		expect(validateMessageCompatibility(source, changedTarget).some(issue => issue.message.includes('unknown or changed select'))).toBe(true)
 	})
+
+	it('retains conditions while allowing their contents to change', () => {
+		const source: Message = [{ type: 'condition', variable: 'available', true: [{ type: 'text', value: 'Yes' }], false: [{ type: 'text', value: 'No' }] }]
+		const target: Message = [{ type: 'condition', variable: 'available', true: [{ type: 'text', value: 'Ja' }], false: [{ type: 'text', value: 'Nee' }] }]
+		expect(validateMessageCompatibility(source, target)).toEqual([])
+
+		const changedTarget: Message = [{ type: 'condition', variable: 'enabled', true: [], false: [] }]
+		expect(validateMessageCompatibility(source, changedTarget).some(issue => issue.message.includes('unknown or changed condition'))).toBe(true)
+	})
 })

@@ -2,10 +2,11 @@ import { Children, Fragment, isValidElement, type ReactElement, type ReactNode }
 
 import { type ComponentNode, type Message, type MessageNode, type PluralBranches, type PluralCategory, type SelectBranches, normalizeMessage } from '../../message/index.ts'
 
-import { getTranslationComponentDefinition, type TranslationComponentDefinition } from '../authoring/withTranslation.tsx'
+import { type ConditionBranchProps, type ConditionProps, getConditionBranch, isConditionConstruct } from '../authoring/Condition.tsx'
 import { type ExactPluralBranchProps, type PluralBranchProps, type PluralProps, getPluralBranch, isPluralConstruct, isPluralValue } from '../authoring/Plural.tsx'
 import { type SelectBranchProps, type SelectOtherProps, type SelectProps, Select, isSelectBranch, isSelectConstruct, isSelectValue } from '../authoring/Select.tsx'
 import { type TranslationVariable, type TranslationVariableShorthand, isTranslationVariable, isTranslationVariableShorthand, variable } from '../authoring/variable.ts'
+import { type TranslationComponentDefinition, getTranslationComponentDefinition } from '../authoring/withTranslation.tsx'
 
 /*
  * Types.
@@ -19,6 +20,7 @@ type ConversionContext = {
 	pluralVariables: string[]
 	nextSelectVariableId: number
 	selectVariables: string[]
+	nextConditionVariableId: number
 }
 
 export type ReactMessageSource = {
@@ -52,6 +54,7 @@ export function createReactMessageSource(node: unknown): ReactMessageSource {
 		pluralVariables: [],
 		nextSelectVariableId: 1,
 		selectVariables: [],
+		nextConditionVariableId: 1,
 	}
 	const message = normalizeMessage(convertNode(node, context))
 	return { message, components: context.components, variables: context.variables }
@@ -78,6 +81,7 @@ function convertNode(node: unknown, context: ConversionContext): MessageNode[] {
 	if (isSelectValue(node.type)) return [{ type: 'variable', name: getScopedVariable(context.selectVariables, 'Select.Value') }]
 	if (isPluralConstruct(node.type)) return [convertPlural(node, context)]
 	if (isSelectConstruct(node.type)) return [convertSelect(node, context)]
+	if (isConditionConstruct(node.type)) return [convertCondition(node, context)]
 	return [convertElement(node, context)]
 }
 
@@ -168,6 +172,28 @@ function convertSelect(element: ReactElement, context: ConversionContext): Messa
 	return { type: 'select', variable: variable.name, branches: branches as SelectBranches }
 }
 
+// Convert a boolean condition and register its runtime value.
+function convertCondition(element: ReactElement, context: ConversionContext): MessageNode {
+	const props = element.props as ConditionProps
+
+	// Check/process the variable.
+	const variable = resolveConstructVariable(props.value, 'condition', context)
+	if (typeof variable.value !== 'boolean') throw new Error('Condition value must be a boolean.')
+	addVariable(variable.name, variable.value, context)
+
+	// Check/process the branches.
+	const branches: { true?: Message, false?: Message } = {}
+	getElementChildren(props.children, 'Condition').forEach(branch => {
+		const value = getConditionBranch(branch.type)
+		if (!value) throw new Error('Condition may only contain Condition.True or Condition.False children.')
+		if (branches[value]) throw new Error(`Condition contains duplicate Condition.${value === 'true' ? 'True' : 'False'} branch.`)
+		branches[value] = normalizeMessage(convertNode((branch.props as ConditionBranchProps).children, context))
+	})
+
+	// Return the outcome as a Message object.
+	return { type: 'condition', variable: variable.name, true: branches.true ?? [], false: branches.false ?? [] }
+}
+
 /*
  * Support functions.
  */
@@ -202,10 +228,10 @@ function addVariable(name: string, value: unknown, context: ConversionContext): 
 }
 
 // Resolve an explicit variable or assign a deterministic internal name to a raw construct value.
-function resolveConstructVariable(value: unknown, construct: 'plural' | 'select', context: ConversionContext): TranslationVariable {
+function resolveConstructVariable(value: unknown, construct: 'plural' | 'select' | 'condition', context: ConversionContext): TranslationVariable {
 	if (isTranslationVariable(value)) return value
 	if (isTranslationVariableShorthand(value)) return translationVariableFromShorthand(value)
-	const counter = construct === 'plural' ? context.nextPluralVariableId++ : context.nextSelectVariableId++
+	const counter = construct === 'plural' ? context.nextPluralVariableId++ : construct === 'select' ? context.nextSelectVariableId++ : context.nextConditionVariableId++
 	return variable(`$${construct}${counter}`, value)
 }
 

@@ -1,6 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
 	<file id="catalog">
+		<unit id="head">
+			<segment>
+				<source>How does it work?</source>
+			</segment>
+		</unit>
+		<unit id="step1">
+			<segment>
+				<source>You practice exercises in the web-app.</source>
+			</segment>
+		</unit>
+		<unit id="step2">
+			<segment>
+				<source>Every exercise gives you detailed feedback.</source>
+			</segment>
+		</unit>
+		<unit id="step3">
+			<segment>
+				<source>The app tracks what you're struggling with.</source>
+			</segment>
+		</unit>
+		<unit id="step4">
+			<segment>
+				<source>You get more exercises on your level.</source>
+			</segment>
+		</unit>
+		<unit id="description">
+			<segment>
+				<source>Step-Wise is a free tutoring web-app that brushes up your mathematics, physics and/or mechanics skills to (pre-)university level.</source>
+			</segment>
+		</unit>
+		<group id="getStarted">
+			<unit id="title">
+				<segment>
+					<source>Get started</source>
+				</segment>
+			</unit>
+			<unit id="description">
+				<segment>
+					<source>Sign in to directly start practicing.</source>
+				</segment>
+			</unit>
+			<unit id="signInHU">
+				<segment>
+					<source>Sign in through Hogeschool Utrecht</source>
+				</segment>
+			</unit>
+			<group id="signInError">
+				<unit id="title">
+					<segment>
+						<source>Sign-in unsuccessful</source>
+					</segment>
+				</unit>
+				<unit id="invalidAuthentication">
+					<segment>
+						<source>We could not determine your identity. If possible try another account.</source>
+					</segment>
+				</unit>
+				<unit id="internalError">
+					<segment>
+						<source>A server error occurred while signing in. Please try again later.</source>
+					</segment>
+				</unit>
+				<unit id="unspecifiedError">
+					<segment>
+						<source>Something went wrong while signing in. Please try again later.</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="explainers">
+			<unit id="title">
+				<segment>
+					<source>Explainers</source>
+				</segment>
+			</unit>
+			<unit id="description">
+				<segment>
+					<source>Briefly read up on what Step-Wise is.</source>
+				</segment>
+			</unit>
+			<group id="buttons">
+				<unit id="forStudents">
+					<segment>
+						<source>Step-Wise for students</source>
+					</segment>
+				</unit>
+				<unit id="forTeachers">
+					<segment>
+						<source>Step-Wise for teachers</source>
+					</segment>
+				</unit>
+				<unit id="about">
+					<segment>
+						<source>About Step-Wise</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="exampleSkills">
+			<unit id="title">
+				<segment>
+					<source>Example skills</source>
+				</segment>
+			</unit>
+			<unit id="description">
+				<segment>
+					<source>Try out for yourself how it works.</source>
+				</segment>
+			</unit>
+			<group id="algebra">
+				<unit id="title">
+					<segment>
+						<source>Algebra</source>
+					</segment>
+				</unit>
+				<unit id="contents">
+					<segment>
+						<source>Solve  <ph id="c1" type="ui" subType="swi18n:inline-math"/></source>
+					</segment>
+				</unit>
+			</group>
+			<group id="geometry">
+				<unit id="title">
+					<segment>
+						<source>Geometry</source>
+					</segment>
+				</unit>
+				<unit id="contents">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Calculate <ph id="c2" type="ui" subType="swi18n:inline-math"/> in </pc><ph id="c3" type="ui" subType="swi18n:pythagoras-image"/></source>
+					</segment>
+				</unit>
+			</group>
+			<group id="thermodynamics">
+				<unit id="title">
+					<segment>
+						<source>Thermodynamics</source>
+					</segment>
+				</unit>
+				<unit id="contents">
+					<segment>
+						<source>Apply  <ph id="c1" type="ui" subType="swi18n:inline-math"/></source>
+					</segment>
+				</unit>
+			</group>
+			<group id="statics">
+				<unit id="title">
+					<segment>
+						<source>Statics</source>
+					</segment>
+				</unit>
+				<unit id="contents">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Analyze </pc><ph id="c2" type="ui" subType="swi18n:structure-image"/></source>
+					</segment>
+				</unit>
+			</group>
+		</group>
 		<unit id="websiteName">
 			<segment>
 				<source>Step-Wise</source>

@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<unit id="intro">
+			<segment>
+				<source>People learn best by doing. That's why Step-Wise is focused around (1) you <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">practicing</pc>, and (2) on <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">coaching</pc> you to practice on your level.</source>
+				<target swi18n:sourceContentFingerprint="5998070a633d970c" swi18n:sourceStructureFingerprint="ffc1729663679c98">De beste manier om iets te leren is door het te doen. Daarom richt Step-Wise zich op (1) jou helpen met <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">oefenen</pc>, en (2) jou <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">coachen</pc> om te oefenen op jouw niveau.</target>
+			</segment>
+		</unit>
+		<group id="practice">
+			<unit id="head">
+				<segment>
+					<source>Practice</source>
+					<target swi18n:sourceContentFingerprint="7c0e2586199aed33" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oefenen</target>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>When starting to practice, it helps to know the <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">structure</pc> behind Step-Wise.</source>
+					<target swi18n:sourceContentFingerprint="d7cf5650e3680413" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Als je begint met oefenen, helpt het om de <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">structuur</pc> achter Step-Wise te kennen.</target>
+				</segment>
+			</unit>
+			<group id="skills">
+				<unit id="head">
+					<segment>
+						<source>Focused around skills</source>
+						<target swi18n:sourceContentFingerprint="f38795b5d2c6903c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Opgebouwd rond vaardigheden</target>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>In Step-Wise, all educational content is split up into small <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">skills</pc>: something that you can actually do. Every skill has roughly 2-10 minutes worth of information. We'll tell you exactly how it works, from an intuitive point of view, and which steps you need to take to apply said skill.</source>
+						<target swi18n:sourceContentFingerprint="39dae97b8f48e1cd" swi18n:sourceStructureFingerprint="4c5edc7f50011465">In Step-Wise is al het lesmateriaal opgesplitst in kleine <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">vaardigheden</pc>: iets dat je daadwerkelijk kan doen. Elke vaardigheid heeft grofweg 2-10 minuten aan informatie. We vertellen je precies hoe het werkt, vanuit een intuïtief oogpunt, en welke stappen je moet uitvoeren om de vaardigheid toe te passen.</target>
+					</segment>
+				</unit>
+				<group id="theoryImage">
+					<unit id="theory">
+						<segment>
+							<source>Theory</source>
+							<target swi18n:sourceContentFingerprint="f271c089afcf5263" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Theorie</target>
+						</segment>
+					</unit>
+					<unit id="practice">
+						<segment>
+							<source>Practice</source>
+							<target swi18n:sourceContentFingerprint="7c0e2586199aed33" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oefenen</target>
+						</segment>
+					</unit>
+					<unit id="background">
+						<segment>
+							<source>Background</source>
+							<target swi18n:sourceContentFingerprint="52df82c15e8303c8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Achtergrondinfo</target>
+						</segment>
+					</unit>
+					<unit id="head1">
+						<segment>
+							<source>How it works</source>
+							<target swi18n:sourceContentFingerprint="ed4a5d49cb19da1b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Hoe het werkt</target>
+						</segment>
+					</unit>
+					<unit id="head2">
+						<segment>
+							<source>The steps to take</source>
+							<target swi18n:sourceContentFingerprint="356acb0c1e3935fc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De stappen</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="feedback">
+				<unit id="head">
+					<segment>
+						<source>Exercises give specific feedback</source>
+						<target swi18n:sourceContentFingerprint="ed8e1cb0e511b159" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oefenopgaven geven gerichte feedback</target>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>Everyone makes small mistakes every now and then. When you do, we have you covered. You'll get <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">specific feedback</pc> on where the error might be. This teaches you to find your own mistakes, so that you won't make them anymore in the future.</source>
+						<target swi18n:sourceContentFingerprint="b196738652ff64e8" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Iedereen maakt wel eens een foutje. Als dat gebeurt, dan heb je ondersteuning. Je krijgt <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">gerichte feedback</pc> op waar de fout kan liggen. Dit leert je om je eigen fouten te vinden, zodat je ze in de toekomst niet nogmaals maakt.</target>
+					</segment>
+				</unit>
+				<group id="practiceImage">
+					<unit id="theory">
+						<segment>
+							<source>Theory</source>
+							<target swi18n:sourceContentFingerprint="f271c089afcf5263" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Theorie</target>
+						</segment>
+					</unit>
+					<unit id="practice">
+						<segment>
+							<source>Practice</source>
+							<target swi18n:sourceContentFingerprint="7c0e2586199aed33" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oefenen</target>
+						</segment>
+					</unit>
+					<unit id="background">
+						<segment>
+							<source>Background</source>
+							<target swi18n:sourceContentFingerprint="52df82c15e8303c8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Achtergrondinfo</target>
+						</segment>
+					</unit>
+					<unit id="exercise">
+						<segment>
+							<source>Calculate <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="5c8ccd0b83329f68" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Bereken <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="hint">
+						<segment>
+							<source>Check the carry.</source>
+							<target swi18n:sourceContentFingerprint="55ccdc614ebce662" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Controleer het overdragen.</target>
+						</segment>
+					</unit>
+					<unit id="stepWiseButton">
+						<segment>
+							<source>Solve this Step-Wise</source>
+							<target swi18n:sourceContentFingerprint="c092faafdcbd5cb4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Los stapsgewijs op</target>
+						</segment>
+					</unit>
+					<unit id="submitButton">
+						<segment>
+							<source>Submit and check</source>
+							<target swi18n:sourceContentFingerprint="7d168d9513e3eac7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Controleer</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="steps">
+				<unit id="head">
+					<segment>
+						<source>Split up exercises into steps</source>
+						<target swi18n:sourceContentFingerprint="dd9ba4804271d061" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Opgaven in stappen opsplitsen</target>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>If you've got no idea on how to solve an exercise, then you can always <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">split it up into steps</pc>. Each step is a skill that you've practiced before, ensuring that you'll reach the final result. On top of that, each step always has clear and intuitive solutions.</source>
+						<target swi18n:sourceContentFingerprint="f6a4ee14b190ee44" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Als je geen idee hebt hoe je een oefenopgave aan moet pakken, dan kun je hem altijd <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">in stappen opsplitsen</pc>. Elke stap is een vaardigheid die je eerder al geoefend hebt, waardoor je gegarandeerd tot het eindresultaat weet te komen. Daarnaast heeft elke stap altijd duidelijke en intuïtief uitgelegde oplossingen.</target>
+					</segment>
+				</unit>
+				<group id="practiceImage">
+					<unit id="theory">
+						<segment>
+							<source>Theory</source>
+							<target swi18n:sourceContentFingerprint="f271c089afcf5263" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Theorie</target>
+						</segment>
+					</unit>
+					<unit id="practice">
+						<segment>
+							<source>Practice</source>
+							<target swi18n:sourceContentFingerprint="7c0e2586199aed33" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oefenen</target>
+						</segment>
+					</unit>
+					<unit id="background">
+						<segment>
+							<source>Background</source>
+							<target swi18n:sourceContentFingerprint="52df82c15e8303c8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Achtergrondinfo</target>
+						</segment>
+					</unit>
+					<unit id="exercise">
+						<segment>
+							<source>Calculate <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="5c8ccd0b83329f68" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Bereken <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="step1">
+						<segment>
+							<source>Step 1</source>
+							<target swi18n:sourceContentFingerprint="182748ee2ed8a7b7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Stap 1</target>
+						</segment>
+					</unit>
+					<unit id="giveUpButton">
+						<segment>
+							<source>I give up this step</source>
+							<target swi18n:sourceContentFingerprint="843e19b84587b131" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ik geef deze stap op</target>
+						</segment>
+					</unit>
+					<unit id="submitButton">
+						<segment>
+							<source>Submit and check</source>
+							<target swi18n:sourceContentFingerprint="7d168d9513e3eac7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Controleer</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+		<group id="coaching">
+			<unit id="head">
+				<segment>
+					<source>Coaching</source>
+					<target swi18n:sourceContentFingerprint="c339b3eed48c210a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Coaching</target>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>The hardest part of studying is knowing <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">where to start</pc>, and <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">what to practice next</pc>. This is exactly where Step-Wise shines.</source>
+					<target swi18n:sourceContentFingerprint="11731d860f19f336" swi18n:sourceStructureFingerprint="ffc1729663679c98">Het moeilijkste van studeren is weten <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">waar je moet beginnen</pc>, en <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">wat je vervolgens moet oefenen</pc>. Dit is precies waar Step-Wise uitblinkt.</target>
+				</segment>
+			</unit>
+			<group id="tracking">
+				<unit id="head">
+					<segment>
+						<source>Live progress tracking</source>
+						<target swi18n:sourceContentFingerprint="71bc9f198c20a8e2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Live voortgang volgen</target>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>For every skill, we constantly <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">estimate the chance</pc> that you're going to apply it correctly on the next attempt. Obviously we share these estimates with you too, so you know where you stand. Curious how it works? Try it out for yourself!</source>
+						<target swi18n:sourceContentFingerprint="5666f40063d69c84" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Bij elke vaardigheid schatten we continu de <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">kans</pc> dat je hem bij de volgende poging correct toe gaat passen. Natuurlijk delen we deze schattingen ook met jou, waardoor je altijd precies weet hoe ver je bent. Nieuwsgierig hoe het werkt? Probeer het zelf uit!</target>
+					</segment>
+				</unit>
+				<group id="applet">
+					<group id="buttons">
+						<unit id="correct">
+							<segment>
+								<source>Correct</source>
+								<target swi18n:sourceContentFingerprint="3e974e57c581760a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Correct</target>
+							</segment>
+						</unit>
+						<unit id="incorrect">
+							<segment>
+								<source>Incorrect</source>
+								<target swi18n:sourceContentFingerprint="702b220459444965" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Incorrect</target>
+							</segment>
+						</unit>
+						<unit id="reset">
+							<segment>
+								<source>Reset</source>
+								<target swi18n:sourceContentFingerprint="74102683aea04a11" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Reset</target>
+							</segment>
+						</unit>
+					</group>
+					<unit id="estimate">
+						<segment>
+							<source>The chance of a correct result is estimated to be <ph id="x1" type="ui" subType="xlf:var" swi18n:name="a"/>%.</source>
+							<target swi18n:sourceContentFingerprint="a2c2873d82ef835f" swi18n:sourceStructureFingerprint="78908b0cba4e0756">De kans op een correcte uitkomst wordt geschat op zo'n <ph id="x1" type="ui" subType="xlf:var" swi18n:name="a"/>%.</target>
+						</segment>
+					</unit>
+					<unit id="estimateAddendum1">
+						<segment>
+							<source>But honestly we don't have a clue yet.</source>
+							<target swi18n:sourceContentFingerprint="f2af86f87ca3fdc7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Maar eigenlijk hebben we nog geen idee.</target>
+						</segment>
+					</unit>
+					<unit id="estimateAddendum2">
+						<segment>
+							<source>But it's still fairly uncertain.</source>
+							<target swi18n:sourceContentFingerprint="858ade22fc84ed60" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Maar het is nog redelijk onzeker.</target>
+						</segment>
+					</unit>
+					<unit id="estimateAddendum3">
+						<segment>
+							<source>This estimate has a bit of accuracy.</source>
+							<target swi18n:sourceContentFingerprint="585df9cae37b9b36" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deze schatting heeft een beetje nauwkeurigheid.</target>
+						</segment>
+					</unit>
+					<unit id="estimateAddendum4">
+						<segment>
+							<source>This is a fairly accurate estimate.</source>
+							<target swi18n:sourceContentFingerprint="be96cf980b308eb6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dit is een redelijk zekere schatting.</target>
+						</segment>
+					</unit>
+					<unit id="estimateAddendum5">
+						<segment>
+							<source>We're quite certain of this.</source>
+							<target swi18n:sourceContentFingerprint="91e1f277d8c4c315" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">We zijn hier grotendeels zeker van.</target>
+						</segment>
+					</unit>
+					<unit id="estimateAddendum6">
+						<segment>
+							<source>This is based on a large number of exercises, and is hence an accurate estimation.</source>
+							<target swi18n:sourceContentFingerprint="7883515431b7fbcb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dit is gebaseerd op een groot aantal oefeningen, en is dus een nauwkeurige schatting.</target>
+						</segment>
+					</unit>
+				</group>
+				<unit id="par2">
+					<segment>
+						<source>The above is only for a single skill. In practice we also take into account lots of other factors, like links between skills, time decay, and more.</source>
+						<target swi18n:sourceContentFingerprint="53ed02e326785720" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Het bovenstaande is voor slechts een enkele vaardigheid. In de praktijk rekenen we ook tal van andere factoren mee, zoals links tussen vaardigheden, tijdsverval en meer.</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="recommendations">
+				<unit id="head">
+					<segment>
+						<source>Skill-tree-based practice recommendations</source>
+						<target swi18n:sourceContentFingerprint="c0f358738f30905d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Skill-Tree-gebaseerde oefensuggesties</target>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>Behind the scenes, Step-Wise makes heavy use of <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">skill trees</pc>. You start with the basic skills at the top, and these skills then combine (form the steps of) the more advanced skills below them. Through this tree structure, we can always tell you exactly what the right skill is for you to practice next. It also gives you a good overview of how far along you are in the course.</source>
+						<target swi18n:sourceContentFingerprint="f982a4927916912d" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Achter de schermen maakt Step-Wise veel gebruik van <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Skill Trees</pc>. Je begint bij de basisvaardigheden bovenin, en deze vaardigheden komen dan samen (als stappen) in de meer geavanceerde vaardigheden eronder. Via deze boomstructuur kunnen we je altijd precies vertellen welke vaardigheid je nu het beste kunt oefenen. Het geeft je ook een goed overzicht van hoe ver je met de gehele cursus bent.</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="deficiencies">
+				<unit id="head">
+					<segment>
+						<source>Deficiency detection and tackling</source>
+						<target swi18n:sourceContentFingerprint="4b1fff9a9e1b5c8c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Opmerken en aanpakken van begripsfouten</target>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>When you're struggling with the exercises of a skill, we're also there for you. Keep in mind: every exercise can be split up into steps. This doesn't only help you, but it also allows us to figure out exactly what you're struggling with. So when we notice something is up, we can recommend you to <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">separately practice a specific subskill</pc> a bit more. Doing so allows you to tackle your deficiency and come back stronger.</source>
+						<target swi18n:sourceContentFingerprint="aed19d81482ff211" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Als je moeite hebt met de opgaven van een vaardigheid, dan helpen we je ook. Onthoud: elke opgave kan in stappen opgesplitst worden. Dit helpt niet alleen jou, maar het stelt ons ook in staat om precies te zien waar je struikelt. Dus als we merken dat het oefenen even wat minder gaat, dan kunnen we je aanraden om een bepaalde <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">subvaardigheid nog eens los te oefenen</pc>. Hiermee pak je je begripsfouten aan, zodat je erna met volle kracht weer verder kan.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="getStarted">
+			<unit id="head">
+				<segment>
+					<source>Get started</source>
+					<target swi18n:sourceContentFingerprint="dc10f29075effdf3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Aan de slag</target>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>Want to try it out? <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Head to the <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children">Courses page</pc> and start practicing.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Head back to the <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">home page</pc>, sign in (it's free!) and start practicing.</pc></pc></source>
+					<target swi18n:sourceContentFingerprint="367725177eff7d06" swi18n:sourceStructureFingerprint="7f83f141a1f687e3">Wil je het uitproberen? <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Ga dan naar de <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children">Cursussenpagina</pc> en begin met oefenen.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Ga dan terug naar de <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">home-pagina</pc>, log in (het is gratis!) en begin met oefenen.</pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

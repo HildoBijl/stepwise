@@ -29,13 +29,15 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To expand double brackets, like for instance with <M>\left(2x + 3\right) \left(4x + 5\right)</M>, take the following steps.</Par>
-			<List items={[
-				<><SkillLink skillId="expandBrackets">Expand the left brackets</SkillLink>. (Or identically, you may start with the right set too.) Keep the other brackets as they are, treating them as a single number. For the example, this gives <BM>\left(2x + 3\right) \left(4x + 5\right) = 2x \left(4x + 5\right) + 3\left(4x + 5\right).</BM></>,
-				<>Continue by <SkillLink skillId="expandBrackets">expanding the remaining brackets</SkillLink>. For our example, this then gives
+			<List>
+				<List.Item><><SkillLink skillId="expandBrackets">Expand the left brackets</SkillLink>. (Or identically, you may start with the right set too.) Keep the other brackets as they are, treating them as a single number. For the example, this gives <BM>\left(2x + 3\right) \left(4x + 5\right) = 2x \left(4x + 5\right) + 3\left(4x + 5\right).</BM></></List.Item>
+				<List.Item>
+					<>Continue by <SkillLink skillId="expandBrackets">expanding the remaining brackets</SkillLink>. For our example, this then gives
 					<BM>2x \left(4x + 5\right) + 3\left(4x + 5\right) = 8x^2 + 10x + 12x + 15.</BM>
-					Note that we can also use a short-cut by directly multiplying each of the terms of the left brackets with each of the terms of the right brackets.</>,
-				<><SkillLink skillId="mergeSimilarTerms">Merge similar terms</SkillLink> - terms that are identical, apart from their number factor - into a single term. In the example, we merge <M>10x</M> and <M>12x</M> together into <M>22x</M>.</>
-			]} />
+					Note that we can also use a short-cut by directly multiplying each of the terms of the left brackets with each of the terms of the right brackets.</>
+				</List.Item>
+				<List.Item><><SkillLink skillId="mergeSimilarTerms">Merge similar terms</SkillLink> - terms that are identical, apart from their number factor - into a single term. In the example, we merge <M>10x</M> and <M>12x</M> together into <M>22x</M>.</></List.Item>
+			</List>
 			<Par>The final result <M>8x^2 + 22x + 15</M> is as easy as you can possibly write it.</Par>
 		</Translation>
 	</>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container } from '@mui/material'
 
-import { Translation } from 'i18n'
+import { Translation } from '@step-wise/i18n'
 
 export function Description() {
 	return <Container maxWidth='lg' sx={theme => ({
@@ -14,7 +14,7 @@ export function Description() {
 			padding: '2em',
 		},
 	})}>
-		<Translation entry="description">
+		<Translation id="description">
 			Step-Wise is a free tutoring web-app that brushes up your mathematics, physics and/or mechanics skills to (pre-)university level.
 		</Translation>
 	</Container>

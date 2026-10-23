@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Button, Paper, TextField } from '@mui/material'
 
+import { Translation, TranslationGroup } from '@step-wise/i18n'
+
 import { useGroupExists } from 'api'
-import { TranslationSection, Translation } from 'i18n'
+
 import { usePaths } from 'ui/routingTools'
 
 export function GroupCreation() {
@@ -52,20 +54,20 @@ export function GroupCreation() {
 function CreateGroup() {
 	const paths = usePaths()
 	const navigate = useNavigate()
-	return <TranslationSection entry="createGroup">
+	return <TranslationGroup path="createGroup">
 		<Paper className="block" elevation={3}>
-			<h1><Translation entry="title">New practice group</Translation></h1>
-			<p><Translation entry="step1">Create a group code/link.</Translation></p>
-			<p><Translation entry="step2">Share it with fellow students.</Translation></p>
-			<p><Translation entry="step3">Practice with the same exercises.</Translation></p>
+			<h1><Translation id="title">New practice group</Translation></h1>
+			<p><Translation id="step1">Create a group code/link.</Translation></p>
+			<p><Translation id="step2">Share it with fellow students.</Translation></p>
+			<p><Translation id="step3">Practice with the same exercises.</Translation></p>
 			<Button
 				className="createButton"
 				variant="contained"
 				color="primary"
 				onClick={() => navigate(paths.newGroup())}
-			><Translation entry="confirmationButton">Create new practice group</Translation></Button>
+			><Translation id="confirmationButton">Create new practice group</Translation></Button>
 		</Paper>
-	</TranslationSection>
+	</TranslationGroup>
 }
 
 function JoinGroup() {
@@ -111,15 +113,15 @@ function JoinGroup() {
 	}, [submittedCode, loading, exists, navigate, paths])
 
 	// Render the component.
-	return <TranslationSection entry="joinGroup">
+	return <TranslationGroup path="joinGroup">
 		<Paper className="block" elevation={3}>
-			<h1><Translation entry="title">Join existing group</Translation></h1>
-			<p><Translation entry="instruction">Enter an existing group code.</Translation></p>
+			<h1><Translation id="title">Join existing group</Translation></h1>
+			<p><Translation id="instruction">Enter an existing group code.</Translation></p>
 			<Box component="form" onSubmit={submit} sx={{ margin: '0.5rem auto' }}>
 				<TextField
 					id="code"
 					error={code === submittedCode && problem !== problems.allOK}
-					label={<Translation entry="fieldLabel">Group code</Translation>}
+					label={<Translation id="fieldLabel">Group code</Translation>}
 					variant="outlined"
 					placeholder="ABCD"
 					value={code}
@@ -141,9 +143,9 @@ function JoinGroup() {
 				variant="contained"
 				color="primary"
 				onClick={submit}
-			><Translation entry="confirmationButton">Become a group member</Translation></Button>
+			><Translation id="confirmationButton">Become a group member</Translation></Button>
 		</Paper>
-	</TranslationSection>
+	</TranslationGroup>
 }
 
 const problems = {
@@ -154,9 +156,9 @@ const problems = {
 }
 const helperText = {
 	0: '',
-	1: <Translation entry="feedback.numberOfCharacters">Codes must have four characters.</Translation>,
-	2: <Translation entry="feedback.useLettersNumbers">Only use letters/numbers.</Translation>,
-	3: <Translation entry="feedback.nonexistingGroup">This group code does not exist.</Translation>,
+	1: <TranslationGroup path="feedback"><Translation id="numberOfCharacters">Codes must have four characters.</Translation></TranslationGroup>,
+	2: <TranslationGroup path="feedback"><Translation id="useLettersNumbers">Only use letters/numbers.</Translation></TranslationGroup>,
+	3: <TranslationGroup path="feedback"><Translation id="nonexistingGroup">This group code does not exist.</Translation></TranslationGroup>,
 }
 
 function isValidCode(code) {

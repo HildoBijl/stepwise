@@ -33,12 +33,12 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To solve a product equation like <M>2a = \frac(3b)(ax)</M> for a target variable like <M>x</M>, take the following steps.</Par>
-			<List items={[
-				<>If the target variable is in a denominator, get it out of there by <SkillLink skillId="moveEquationFactor">moving it to the other side of the equation</SkillLink>. For the example, we get <M>2ax = \frac(3b)(a)</M>.</>,
-				<><SkillLink skillId="moveEquationFactor">Move all factors</SkillLink> that are on the same side as the target variable to the other side. This turns the example into <M>x = \frac(3b)(a \cdot 2a)</M>.</>,
-				<><SkillLink skillId="simplifyFractionWithVariables">Simplify</SkillLink> the result as much as possible. Our example reduces to <M>x = \frac(3b)(2a^2)</M>.</>,
-				<><SkillLink skillId="checkMultiVariableEquationSolution">Check your solution</SkillLink> by inserting it into the original equation and verifying that both sides reduce to the same expression. For the example, inserting the solution reduces both sides to <M>2a</M>, which matches.</>,
-			]} />
+			<List>
+				<List.Item><>If the target variable is in a denominator, get it out of there by <SkillLink skillId="moveEquationFactor">moving it to the other side of the equation</SkillLink>. For the example, we get <M>2ax = \frac(3b)(a)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="moveEquationFactor">Move all factors</SkillLink> that are on the same side as the target variable to the other side. This turns the example into <M>x = \frac(3b)(a \cdot 2a)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="simplifyFractionWithVariables">Simplify</SkillLink> the result as much as possible. Our example reduces to <M>x = \frac(3b)(2a^2)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="checkMultiVariableEquationSolution">Check your solution</SkillLink> by inserting it into the original equation and verifying that both sides reduce to the same expression. For the example, inserting the solution reduces both sides to <M>2a</M>, which matches.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

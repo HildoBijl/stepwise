@@ -1,7 +1,7 @@
 import { type Catalog, type CatalogEntry, type CatalogUnit } from '../catalog/types.ts'
 import { assertValidCatalog } from '../catalog/validation.ts'
 import { normalizeMessage } from '../message/normalization.ts'
-import { type ComponentNode, type Message, type MessageNode, type PluralNode, type SelectNode, pluralCategories } from '../message/types.ts'
+import { type ComponentNode, type ConditionNode, type Message, type MessageNode, type PluralNode, type SelectNode, pluralCategories } from '../message/types.ts'
 import { componentSubTypePrefix, stepWiseNamespace, variableSubType } from './constants.ts'
 
 type SerializationContext = {
@@ -73,6 +73,7 @@ function serializeNode(node: MessageNode, context: SerializationContext): string
 		case 'component': return serializeComponent(node, context)
 		case 'plural': return serializePlural(node, context)
 		case 'select': return serializeSelect(node, context)
+		case 'condition': return serializeCondition(node, context)
 	}
 }
 
@@ -117,6 +118,14 @@ function serializeSelect(node: SelectNode, context: SerializationContext): strin
 	return `<pc id="${id}" type="other" subType="swi18n:select" swi18n:variable="${escapeAttribute(node.variable)}">${branches}</pc>`
 }
 
+// Serialize a condition with its two exhaustive branches.
+function serializeCondition(node: ConditionNode, context: SerializationContext): string {
+	const id = nextGeneratedId(context)
+	const trueBranch = `<pc id="${nextGeneratedId(context)}" type="other" subType="swi18n:condition-true">${serializeMessage(node.true, context)}</pc>`
+	const falseBranch = `<pc id="${nextGeneratedId(context)}" type="other" subType="swi18n:condition-false">${serializeMessage(node.false, context)}</pc>`
+	return `<pc id="${id}" type="other" subType="swi18n:condition" swi18n:variable="${escapeAttribute(node.variable)}">${trueBranch}${falseBranch}</pc>`
+}
+
 /*
  * Support functions.
  */
@@ -139,6 +148,9 @@ function collectComponentIds(message: Message, ids: Set<string>): void {
 			Object.values(node.exactBranches ?? {}).forEach(branch => collectComponentIds(branch, ids))
 		} else if (node.type === 'select') {
 			Object.values(node.branches).forEach(branch => collectComponentIds(branch, ids))
+		} else if (node.type === 'condition') {
+			collectComponentIds(node.true, ids)
+			collectComponentIds(node.false, ids)
 		}
 	})
 }

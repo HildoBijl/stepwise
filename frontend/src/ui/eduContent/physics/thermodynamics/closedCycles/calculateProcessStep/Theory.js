@@ -15,13 +15,13 @@ export default function Component() {
 
 		<Head>De stappen</Head>
 		<Par>Om een thermodynamisch proces door te rekenen, en het <M>p</M>-<M>V</M>-<M>T</M>-tabel te vullen, voer je de volgende stappen uit.</Par>
-		<List useNumbers={true} items={[
-			<Par>Zet alle constante gaseigenschappen op een rijtje. Dit zijn de opgezochte eigenschappen <M>R_s,</M> <M>k,</M> <M>c_v</M> en <M>c_p,</M> en (indien bekend) ook de massa <M>m.</M></Par>,
-			<Par>Maak een <M>p</M>-<M>V</M>-<M>T</M>-tabel en vul de gegeven toestandseigenschappen hier al in.</Par>,
-			<Par>In de beginsituatie zijn meestal twee van de drie toestandseigenschappen bekend. Via de <SkillLink skillId="gasLaw">gaswet</SkillLink> kunnen we de derde waarde vinden. (Of soms: als alle drie de waarden gegeven zijn, maar de massa <M>m</M> nog niet bekend is, gebruik dan de <SkillLink skillId="gasLaw">gaswet</SkillLink> om de massa te berekenen.)</Par>,
-			<Par>In de eindsituatie is vaak één waarde gegeven: hoe ver het proces doorgezet wordt. Gebruik <SkillLink skillId="poissonsLaw">Poisson's wet</SkillLink> om de tweede waarde te vinden. (Soms is het niet nodig om Poisson's wet te gebruiken: als een waarde (bijvoorbeeld de druk) constant blijft, dan kun je deze waarde ook direct overnemen uit de vorige rij.)</Par>,
-			<Par>Gebruik wederom de <SkillLink skillId="gasLaw">gaswet</SkillLink>, maar nu in de eindsituatie. Hiermee vind je de laatste waarde uit je tabel.</Par>,
-		]} />
+		<List useNumbers={true}>
+			<List.Item><Par>Zet alle constante gaseigenschappen op een rijtje. Dit zijn de opgezochte eigenschappen <M>R_s,</M> <M>k,</M> <M>c_v</M> en <M>c_p,</M> en (indien bekend) ook de massa <M>m.</M></Par></List.Item>
+			<List.Item><Par>Maak een <M>p</M>-<M>V</M>-<M>T</M>-tabel en vul de gegeven toestandseigenschappen hier al in.</Par></List.Item>
+			<List.Item><Par>In de beginsituatie zijn meestal twee van de drie toestandseigenschappen bekend. Via de <SkillLink skillId="gasLaw">gaswet</SkillLink> kunnen we de derde waarde vinden. (Of soms: als alle drie de waarden gegeven zijn, maar de massa <M>m</M> nog niet bekend is, gebruik dan de <SkillLink skillId="gasLaw">gaswet</SkillLink> om de massa te berekenen.)</Par></List.Item>
+			<List.Item><Par>In de eindsituatie is vaak één waarde gegeven: hoe ver het proces doorgezet wordt. Gebruik <SkillLink skillId="poissonsLaw">Poisson's wet</SkillLink> om de tweede waarde te vinden. (Soms is het niet nodig om Poisson's wet te gebruiken: als een waarde (bijvoorbeeld de druk) constant blijft, dan kun je deze waarde ook direct overnemen uit de vorige rij.)</Par></List.Item>
+			<List.Item><Par>Gebruik wederom de <SkillLink skillId="gasLaw">gaswet</SkillLink>, maar nu in de eindsituatie. Hiermee vind je de laatste waarde uit je tabel.</Par></List.Item>
+		</List>
 		<Par>Het eindresultaat is een volledig ingevuld <M>p</M>-<M>V</M>-<M>T</M>-tabel.</Par>
 	</>
 }

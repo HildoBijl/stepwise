@@ -33,11 +33,11 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To add/subtract two fractions with variables, like <M>\frac(x+1)(3x) - \frac(2)(x+7)</M>, take the following steps.</Par>
-			<List items={[
-				<>Rewrite the fractions so they all have the same denominator. For this, <SkillLink skillId="cancelFractionFactors">multiply both sides</SkillLink> of the left fraction by the denominator of the right fraction, and similarly <SkillLink skillId="cancelFractionFactors">multiply both sides</SkillLink> of the right fraction by the denominator of the left fraction. For the example this gives <M>\frac(\left(x+1\right)\left(x+7\right))(3x\left(x+7\right)) - \frac(3x \cdot 2)(3x\left(7+x\right))</M>.</>,
-				<><SkillLink skillId="expandDoubleBrackets">Expand all (often double) brackets</SkillLink> in the numerators. For the example we get <M>\frac(x^2 + 8x + 7)(3x\left(x+7\right)) - \frac(6x)(3x\left(7+x\right))</M>.</>,
-				<><SkillLink skillId="addLikeFractionsWithVariables">Add the like fractions</SkillLink> and simplify the result as much as possible. For the example the final result is <M>\frac(x^2 + 2x + 7)(3x\left(7+x\right))</M>.</>,
-			]} />
+			<List>
+				<List.Item><>Rewrite the fractions so they all have the same denominator. For this, <SkillLink skillId="cancelFractionFactors">multiply both sides</SkillLink> of the left fraction by the denominator of the right fraction, and similarly <SkillLink skillId="cancelFractionFactors">multiply both sides</SkillLink> of the right fraction by the denominator of the left fraction. For the example this gives <M>\frac(\left(x+1\right)\left(x+7\right))(3x\left(x+7\right)) - \frac(3x \cdot 2)(3x\left(7+x\right))</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="expandDoubleBrackets">Expand all (often double) brackets</SkillLink> in the numerators. For the example we get <M>\frac(x^2 + 8x + 7)(3x\left(x+7\right)) - \frac(6x)(3x\left(7+x\right))</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="addLikeFractionsWithVariables">Add the like fractions</SkillLink> and simplify the result as much as possible. For the example the final result is <M>\frac(x^2 + 2x + 7)(3x\left(7+x\right))</M>.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

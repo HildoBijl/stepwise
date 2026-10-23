@@ -25,10 +25,10 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To solve a rewritten quadratic equation, like <M>\frac(2)(x-4) + 2 = \frac(3)(x+1)</M>, take the following steps.</Par>
-			<List items={[
-				<>First (regardless of the equation type) <SkillLink skillId="bringEquationToStandardForm">bring it to the standard form</SkillLink>. For our example the equation is tidied up as <M>2x^2 - 7x + 6 = 0</M>.</>,
-				<>Based on the form of the equation, determine how to solve it. If we are dealing with a quadratic equation, then apply the standard plan for <SkillLink skillId="solveQuadraticEquation">solving a quadratic equation</SkillLink>. For our example this results in <M>x = \frac(7 \pm 1)(4)</M> which can be written as <M>x = \frac(3)(2)</M> and <M>x = 2</M>.</>,
-			]} />
+			<List>
+				<List.Item><>First (regardless of the equation type) <SkillLink skillId="bringEquationToStandardForm">bring it to the standard form</SkillLink>. For our example the equation is tidied up as <M>2x^2 - 7x + 6 = 0</M>.</></List.Item>
+				<List.Item><>Based on the form of the equation, determine how to solve it. If we are dealing with a quadratic equation, then apply the standard plan for <SkillLink skillId="solveQuadraticEquation">solving a quadratic equation</SkillLink>. For our example this results in <M>x = \frac(7 \pm 1)(4)</M> which can be written as <M>x = \frac(3)(2)</M> and <M>x = 2</M>.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

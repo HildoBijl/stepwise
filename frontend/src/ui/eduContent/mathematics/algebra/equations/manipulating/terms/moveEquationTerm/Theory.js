@@ -25,19 +25,19 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To move a term from one side of an equation to the other, like when moving the term <M>2x</M> in the equation <M>x^2 + 2x = 3</M>, take the following steps.</Par>
-			<List items={[
-				<>If the term is being added (has a plus sign), <SkillLink skillId="addToBothEquationSides">subtract this term from both sides of the equation</SkillLink>. Or alternatively, if the term is being subtracted (has a minus sign), <SkillLink skillId="addToBothEquationSides">add this term to both sides of the equation</SkillLink>. For the example, we subtract <M>2x</M> to get <M>x^2 + 2x - 2x = 3 - 2x</M>.</>,
-				<><SkillLink skillId="cancelSumTerms">Cancel sum terms</SkillLink> to get rid of the term that has to be moved. For the example, we have <M>+2x-2x</M> disappearing, leaving the equation as <M>x^2 = 3 - 2x</M>.</>,
-			]} />
+			<List>
+				<List.Item><>If the term is being added (has a plus sign), <SkillLink skillId="addToBothEquationSides">subtract this term from both sides of the equation</SkillLink>. Or alternatively, if the term is being subtracted (has a minus sign), <SkillLink skillId="addToBothEquationSides">add this term to both sides of the equation</SkillLink>. For the example, we subtract <M>2x</M> to get <M>x^2 + 2x - 2x = 3 - 2x</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="cancelSumTerms">Cancel sum terms</SkillLink> to get rid of the term that has to be moved. For the example, we have <M>+2x-2x</M> disappearing, leaving the equation as <M>x^2 = 3 - 2x</M>.</></List.Item>
+			</List>
 		</Translation>
 
 		<Translation entry="shortCut">
 			<Head>The short-cut</Head>
 			<Par>Instead of going through all of the above steps, we can also take a short-cut and directly move the equation term.</Par>
-			<List items={[
-				<>If the term was added (had a plus sign) on the original side, then it will be subtracted (have a minus sign) on the other side. So <M>x^2 + 2x = 3</M> directly turns into <M>x^2 = 3 - 2x</M>.</>,
-				<>If the term was subtracted (had a minus sign) on the original side, then it will be added (have a plus sign) on the other side. So <M>x^2 - 2x = 3</M> directly turns into <M>x^2 = 3 + 2x</M>.</>
-			]} />
+			<List>
+				<List.Item><>If the term was added (had a plus sign) on the original side, then it will be subtracted (have a minus sign) on the other side. So <M>x^2 + 2x = 3</M> directly turns into <M>x^2 = 3 - 2x</M>.</></List.Item>
+				<List.Item><>If the term was subtracted (had a minus sign) on the original side, then it will be added (have a plus sign) on the other side. So <M>x^2 - 2x = 3</M> directly turns into <M>x^2 = 3 + 2x</M>.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

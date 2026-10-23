@@ -40,11 +40,11 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To simplify a combination of products of powers, like for instance <M>3x^3\left(2x\right)^2</M>, take the following steps.</Par>
-			<List items={[
-				<>Apply any of the rules to simplify a part of your expression. Rules involving powers (rules 2 and 3) usually go before rules using products (rule 1). In the example, we apply the second rule to get <M>3x^3 \cdot 2^2x^2</M>.</>,
-				<><SkillLink skillId="simplifyNumberProduct">Simplify any number products</SkillLink>. In the example, we can reduce <M>3 \cdot 2^2</M> to <M>12</M>.</>,
-				<>If necessary, apply more rules to simplify things further. In the example, we rewrite the product of powers (rule 1) to get <M>12x^5</M>.</>,
-			]} />
+			<List>
+				<List.Item><>Apply any of the rules to simplify a part of your expression. Rules involving powers (rules 2 and 3) usually go before rules using products (rule 1). In the example, we apply the second rule to get <M>3x^3 \cdot 2^2x^2</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="simplifyNumberProduct">Simplify any number products</SkillLink>. In the example, we can reduce <M>3 \cdot 2^2</M> to <M>12</M>.</></List.Item>
+				<List.Item><>If necessary, apply more rules to simplify things further. In the example, we rewrite the product of powers (rule 1) to get <M>12x^5</M>.</></List.Item>
+			</List>
 			<Par>If you cannot remember the exact rules, keep in mind that a power is just a <SkillLink skillId="rewritePower">repeated multiplication</SkillLink> and things will sort itself out.</Par>
 		</Translation>
 	</>

@@ -23,13 +23,13 @@ export default function Component() {
 
 		<SubHead>Formuleoverzicht</SubHead>
 		<Par>We hebben dus twee formules om de arbeid te berekenen, maar beiden zijn ze relatief ingewikkeld. Voor specifieke situaties (bijvoorbeeld voor een bepaald soort proces) kunnen we deze formules wel makkelijker schrijven. En met behulp van de gaswet kunnen we de formule ook nog anders opschrijven. Zo krijgen we een verzameling van formules, elk voor bepaalde soorten processen.</Par>
-		<List items={[
-			<>Voor <Term>isobare processen</Term> geldt <BMList><BMPart>W_(1-2) = p\left(V_2 - V_1\right),</BMPart><BMPart>W_(1-2) = mR_s\left(T_2 - T_1\right).</BMPart></BMList></>,
-			<>Voor <Term>isochore processen</Term> geldt altijd <M>W_(1-2) = 0.</M> Immers, het volume blijft constant, dus er wordt niets weggeduwd. Er wordt dus ook geen arbeid verricht.</>,
-			<>Voor <Term>isotherme processen</Term> geldt <BMList><BMPart>W_(1-2) = pV \ln\left(\frac(V_2)(V_1)\right),</BMPart><BMPart>W_(1-2) = mR_sT \ln\left(\frac(V_2)(V_1)\right).</BMPart></BMList></>,
-			<>Voor <Term>isentrope processen</Term> geldt <BMList><BMPart>W_(1-2) = -\frac(1)(k-1) \left(p_2V_2 - p_1V_1\right),</BMPart><BMPart>W_(1-2) = -\frac(mR_s)(k-1)\left(T_2 - T_1\right).</BMPart></BMList></>,
-			<>Voor <Term>polytrope processen</Term>, met een algemene <M>n,</M> geldt <BMList><BMPart>W_(1-2) = -\frac(1)(n-1) \left(p_2V_2 - p_1V_1\right),</BMPart><BMPart>W_(1-2) = -\frac(mR_s)(n-1)\left(T_2 - T_1\right).</BMPart></BMList></>,
-		]} />
+		<List>
+			<List.Item><>Voor <Term>isobare processen</Term> geldt <BMList><BMPart>W_(1-2) = p\left(V_2 - V_1\right),</BMPart><BMPart>W_(1-2) = mR_s\left(T_2 - T_1\right).</BMPart></BMList></></List.Item>
+			<List.Item><>Voor <Term>isochore processen</Term> geldt altijd <M>W_(1-2) = 0.</M> Immers, het volume blijft constant, dus er wordt niets weggeduwd. Er wordt dus ook geen arbeid verricht.</></List.Item>
+			<List.Item><>Voor <Term>isotherme processen</Term> geldt <BMList><BMPart>W_(1-2) = pV \ln\left(\frac(V_2)(V_1)\right),</BMPart><BMPart>W_(1-2) = mR_sT \ln\left(\frac(V_2)(V_1)\right).</BMPart></BMList></></List.Item>
+			<List.Item><>Voor <Term>isentrope processen</Term> geldt <BMList><BMPart>W_(1-2) = -\frac(1)(k-1) \left(p_2V_2 - p_1V_1\right),</BMPart><BMPart>W_(1-2) = -\frac(mR_s)(k-1)\left(T_2 - T_1\right).</BMPart></BMList></></List.Item>
+			<List.Item><>Voor <Term>polytrope processen</Term>, met een algemene <M>n,</M> geldt <BMList><BMPart>W_(1-2) = -\frac(1)(n-1) \left(p_2V_2 - p_1V_1\right),</BMPart><BMPart>W_(1-2) = -\frac(mR_s)(n-1)\left(T_2 - T_1\right).</BMPart></BMList></></List.Item>
+		</List>
 		<Par>Bij elk van de processen hierboven staan twee formules. Beide formules zijn net zo geldig, maar afhankelijk van wat je weet is ofwel de eerste ofwel de tweede formule handiger om te gebruiken.</Par>
 
 		<SubHead>Tekenconventie</SubHead>
@@ -42,25 +42,25 @@ export default function Component() {
 
 		<SubHead>De soortelijke warmte</SubHead>
 		<Par>De <Term>soortelijke warmte</Term> <M>c</M> is, per definitie, de hoeveelheid energie (in Joule) die nodig is om één kilogram van een stof één graad Celsius (of één Kelvin) op te warmen. Voor vaste en vloeibare stoffen is deze waarde ongeveer constant, waardoor <BM>Q = mc \, \Delta T.</BM> Voor gassen is dit echter niet zo: de waarde van <M>c</M> hangt óók af van het soort proces! Laten we dit voor de ons bekende processen (isobaar, isochoor, isotherm, isentroop en (algemeen) polytroop) nader bekijken.</Par>
-		<List items={[
-			<>Bij een <Term>isobaar proces</Term> is de soortelijke warmte (per definitie) gelijk aan de <Term>soortelijke warmte bij constante druk</Term> <M>c_p.</M> Dit is een gaseigenschap die je op kan zoeken. Er geldt dus <M>c = c_p.</M></>,
-			<>Bij een <Term>isochoor proces</Term> is de soortelijke warmte (per definitie) gelijk aan de <Term>soortelijke warmte bij constant volume</Term> <M>c_v.</M> Dit is een gaseigenschap die je op kan zoeken. Er geldt dus <M>c = c_v.</M></>,
-			<>Bij een <Term>isotherm proces</Term> neemt de temperatuur nooit toe. Er kan wel warmteuitwisseling zijn, maar dan op zo'n manier dat de temperatuur niet verandert. In dit geval geldt <M>c = \infty.</M></>,
-			<>Bij een <Term>isentroop proces</Term> is er nooit warmteuitwisseling. De temperatuur kan wel veranderen. In dit geval geldt <M>c = 0.</M></>,
-			<>Bij een <Term>polytroop proces</Term> met procescoëfficiënt <M>n</M> kun je de soortelijke warmte <M>c</M> berekenen. Dit gaat via de formule <BM>c = c_v - \frac(R_s)(n-1).</BM></>,
-		]} />
+		<List>
+			<List.Item><>Bij een <Term>isobaar proces</Term> is de soortelijke warmte (per definitie) gelijk aan de <Term>soortelijke warmte bij constante druk</Term> <M>c_p.</M> Dit is een gaseigenschap die je op kan zoeken. Er geldt dus <M>c = c_p.</M></></List.Item>
+			<List.Item><>Bij een <Term>isochoor proces</Term> is de soortelijke warmte (per definitie) gelijk aan de <Term>soortelijke warmte bij constant volume</Term> <M>c_v.</M> Dit is een gaseigenschap die je op kan zoeken. Er geldt dus <M>c = c_v.</M></></List.Item>
+			<List.Item><>Bij een <Term>isotherm proces</Term> neemt de temperatuur nooit toe. Er kan wel warmteuitwisseling zijn, maar dan op zo'n manier dat de temperatuur niet verandert. In dit geval geldt <M>c = \infty.</M></></List.Item>
+			<List.Item><>Bij een <Term>isentroop proces</Term> is er nooit warmteuitwisseling. De temperatuur kan wel veranderen. In dit geval geldt <M>c = 0.</M></></List.Item>
+			<List.Item><>Bij een <Term>polytroop proces</Term> met procescoëfficiënt <M>n</M> kun je de soortelijke warmte <M>c</M> berekenen. Dit gaat via de formule <BM>c = c_v - \frac(R_s)(n-1).</BM></></List.Item>
+		</List>
 		<Par>Met het bovenstaande overzicht kunnen we dus altijd de soortelijke warmte <M>c</M> horende bij ons proces bepalen. Als we die weten, dan vinden we via <M>Q = mc \, \Delta T</M> ook de toegevoerde warmte.</Par>
 		<Par>Er is één uitzondering op het bovenstaande. Bij isotherme processen gaat het mis: we vermenigvuldigen dan nul met oneindig, wat niet gedefinieerd is. In dit geval is er een andere formule, en wel <BM>Q_(1-2) = W_(1-2) = pV \ln\left(\frac(V_2)(V_1)\right).</BM> Merk op dat dit dezelfde formule is als voor de arbeid <M>W_(1-2).</M> Dit is bij isotherme processen altijd zo: de toegevoerde warmte is (vanwege energiebehoud) gelijk aan de geleverde arbeid.</Par>
 
 		<SubHead>Formuleoverzicht</SubHead>
 		<Par>Net als bij de arbeid, kunnen we voor de warmte ook de formules toespitsen op het soort proces. In dat geval krijgen we de volgende formules.</Par>
-		<List items={[
-			<>Voor <Term>isobare processen</Term> geldt <BMList><BMPart>Q_(1-2) = \frac(k)(k-1) p\left(V_2 - V_1\right),</BMPart><BMPart>Q_(1-2) = mc_p \left(T_2 - T_1\right).</BMPart></BMList></>,
-			<>Voor <Term>isochore processen</Term> geldt <BMList><BMPart>Q_(1-2) = \frac(1)(k-1) V\left(p_2 - p_1\right),</BMPart><BMPart>Q_(1-2) = mc_v \left(T_2 - T_1\right).</BMPart></BMList></>,
-			<>Voor <Term>isotherme processen</Term> geldt <BMList><BMPart>Q_(1-2) = pV \ln\left(\frac(V_2)(V_1)\right),</BMPart><BMPart>Q_(1-2) = mR_sT \ln\left(\frac(V_2)(V_1)\right).</BMPart></BMList></>,
-			<>Voor <Term>isentrope processen</Term> geldt altijd <M>Q_(1-2) = 0.</M> Immers, een isentroop proces is per definitie een proces zonder warmteuitwisseling.</>,
-			<>Voor <Term>polytrope processen</Term>, met een algemene <M>n,</M> bereken je eerste <M>c = c_v - \frac(R_s)(n-1).</M> Vervolgens geldt <BMList><BMPart>Q_(1-2) = \frac(c)(R_s) \left(p_2V_2 - p_1V_1\right),</BMPart><BMPart>Q_(1-2) = mc \left(T_2 - T_1\right).</BMPart></BMList></>,
-		]} />
+		<List>
+			<List.Item><>Voor <Term>isobare processen</Term> geldt <BMList><BMPart>Q_(1-2) = \frac(k)(k-1) p\left(V_2 - V_1\right),</BMPart><BMPart>Q_(1-2) = mc_p \left(T_2 - T_1\right).</BMPart></BMList></></List.Item>
+			<List.Item><>Voor <Term>isochore processen</Term> geldt <BMList><BMPart>Q_(1-2) = \frac(1)(k-1) V\left(p_2 - p_1\right),</BMPart><BMPart>Q_(1-2) = mc_v \left(T_2 - T_1\right).</BMPart></BMList></></List.Item>
+			<List.Item><>Voor <Term>isotherme processen</Term> geldt <BMList><BMPart>Q_(1-2) = pV \ln\left(\frac(V_2)(V_1)\right),</BMPart><BMPart>Q_(1-2) = mR_sT \ln\left(\frac(V_2)(V_1)\right).</BMPart></BMList></></List.Item>
+			<List.Item><>Voor <Term>isentrope processen</Term> geldt altijd <M>Q_(1-2) = 0.</M> Immers, een isentroop proces is per definitie een proces zonder warmteuitwisseling.</></List.Item>
+			<List.Item><>Voor <Term>polytrope processen</Term>, met een algemene <M>n,</M> bereken je eerste <M>c = c_v - \frac(R_s)(n-1).</M> Vervolgens geldt <BMList><BMPart>Q_(1-2) = \frac(c)(R_s) \left(p_2V_2 - p_1V_1\right),</BMPart><BMPart>Q_(1-2) = mc \left(T_2 - T_1\right).</BMPart></BMList></></List.Item>
+		</List>
 		<Par>Wederom geldt dat welke van de twee genoemde formules handiger is om te gebruiken afhankelijk is van wat je precies weet. Vaak zijn ze beiden net zo bruikbaar en geven ze dezelfde waarde.</Par>
 
 		<SubHead>Tekenconventie</SubHead>
@@ -68,11 +68,11 @@ export default function Component() {
 
 		<Head>De stappen</Head>
 		<Par>Om een hoeveelheid arbeid en/of warmte te berekenen volg je de volgende stappen.</Par>
-		<List useNumbers={true} items={[
-			<>Bepaal het <SkillLink skillId="recognizeProcessTypes">soort proces</SkillLink>.</>,
-			<>Zoek de bijbehorende formule op in het formuleoverzicht en bepaal welke het handigst is om te gebruiken.</>,
-			<>Zoek de bijbehorende constanten (de <SkillLink skillId="specificGasConstant">specifieke gasconstante</SkillLink>, de <SkillLink skillId="specificHeatRatio"><M>k</M>-waarde</SkillLink> en/of de <SkillLink skillId="specificHeats">soortelijke warmten</SkillLink>) van het betreffende gas op.</>,
-			<>Pas de opgezochte formules toe, gebruik makend van standaard eenheden.</>,
-		]} />
+		<List useNumbers={true}>
+			<List.Item><>Bepaal het <SkillLink skillId="recognizeProcessTypes">soort proces</SkillLink>.</></List.Item>
+			<List.Item><>Zoek de bijbehorende formule op in het formuleoverzicht en bepaal welke het handigst is om te gebruiken.</></List.Item>
+			<List.Item><>Zoek de bijbehorende constanten (de <SkillLink skillId="specificGasConstant">specifieke gasconstante</SkillLink>, de <SkillLink skillId="specificHeatRatio"><M>k</M>-waarde</SkillLink> en/of de <SkillLink skillId="specificHeats">soortelijke warmten</SkillLink>) van het betreffende gas op.</></List.Item>
+			<List.Item><>Pas de opgezochte formules toe, gebruik makend van standaard eenheden.</></List.Item>
+		</List>
 	</>
 }

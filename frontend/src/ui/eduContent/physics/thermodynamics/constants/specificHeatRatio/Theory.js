@@ -17,10 +17,10 @@ export default function Component() {
 
 		<Head>Hoe het werkt</Head>
 		<Par>Als je een <M>k</M>-waarde nodig hebt, dan zoek je deze altijd op, net als bij de specifieke gasconstante.</Par>
-		<List items={[
-			<>In de <SkillLink tab="references">bijlage bij deze vaardigheid</SkillLink>. Zie het tabblad rechtsboven.</>,
-			<>In een thermodynamicaboek. Vaak vind je in de bijlage wel een tabel "Eigenschappen van gassen" of soortgelijk.</>,
-			<>Online. Zoek in dit geval bij voorkeur in het Engels. Bijvoorbeeld "specific heat ratio air" om de verhouding van soortelijke warmten van lucht op te zoeken.</>,
-		]} />
+		<List>
+			<List.Item><>In de <SkillLink tab="references">bijlage bij deze vaardigheid</SkillLink>. Zie het tabblad rechtsboven.</></List.Item>
+			<List.Item><>In een thermodynamicaboek. Vaak vind je in de bijlage wel een tabel "Eigenschappen van gassen" of soortgelijk.</></List.Item>
+			<List.Item><>Online. Zoek in dit geval bij voorkeur in het Engels. Bijvoorbeeld "specific heat ratio air" om de verhouding van soortelijke warmten van lucht op te zoeken.</></List.Item>
+		</List>
 	</>
 }

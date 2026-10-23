@@ -20,10 +20,10 @@ export default function Component() {
 
 		<Head>De stappen</Head>
 		<Par>Bij het rekenen met inwendige energie moeten we goed kijken naar welke formule we kunnen gebruiken.
-			<List items={[
-				<>Weten we de temperaturen <M>T_1</M> en <M>T_2</M> aan het begin en aan het einde? Of kunnen we die berekenen, bijvoorbeeld via de <SkillLink skillId="gasLaw">gaswet</SkillLink> of <SkillLink skillId="poissonsLaw">Poisson's wet</SkillLink>? Dan gebruiken we <M>\Delta U = mc_v \, \Delta T.</M></>,
-				<>Weten we de temperaturen niet, maar kunnen we wel de warmte <M>Q</M> en de arbeid <M>W</M> van het proces berekenen? (Eventueel wederom na het gebruik van de <SkillLink skillId="gasLaw">gaswet</SkillLink> of <SkillLink skillId="poissonsLaw">Poisson's wet</SkillLink>.) Dan berekenen we die waarden en passen we vervolgens <M>\Delta U = Q - W</M> toe.</>,
-			]} />
+			<List>
+				<List.Item><>Weten we de temperaturen <M>T_1</M> en <M>T_2</M> aan het begin en aan het einde? Of kunnen we die berekenen, bijvoorbeeld via de <SkillLink skillId="gasLaw">gaswet</SkillLink> of <SkillLink skillId="poissonsLaw">Poisson's wet</SkillLink>? Dan gebruiken we <M>\Delta U = mc_v \, \Delta T.</M></></List.Item>
+				<List.Item><>Weten we de temperaturen niet, maar kunnen we wel de warmte <M>Q</M> en de arbeid <M>W</M> van het proces berekenen? (Eventueel wederom na het gebruik van de <SkillLink skillId="gasLaw">gaswet</SkillLink> of <SkillLink skillId="poissonsLaw">Poisson's wet</SkillLink>.) Dan berekenen we die waarden en passen we vervolgens <M>\Delta U = Q - W</M> toe.</></List.Item>
+			</List>
 			Zo kunnen we altijd de toename <M>\Delta U</M> in inwendige energie berekenen.
 		</Par>
 	</>

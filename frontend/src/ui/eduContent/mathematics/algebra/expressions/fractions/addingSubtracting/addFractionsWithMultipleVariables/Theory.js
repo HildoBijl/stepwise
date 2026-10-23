@@ -29,16 +29,16 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To add/subtract two fractions with multiple variables, like <M>\frac(1)(4a) + \frac(1)(6b)</M>, take the following steps.</Par>
-			<List items={[
-				<>Find the least common multiple of the two fraction denominators. For the example, this is <M>12ab</M>.</>,
-				<>Rewrite both fractions, <SkillLink skillId="cancelFractionFactors">adding factors</SkillLink>, to give both fractions this denominator. This turns the example into <M>\frac(3b)(12ab) + \frac(2a)(12ab)</M>.</>,
-				<><SkillLink skillId="addLikeFractionsWithVariables">Add the like fractions</SkillLink> together in the usual way. For the example we get the final result <M>\frac(3b+2a)(12ab)</M>.</>,
-			]} />
+			<List>
+				<List.Item><>Find the least common multiple of the two fraction denominators. For the example, this is <M>12ab</M>.</></List.Item>
+				<List.Item><>Rewrite both fractions, <SkillLink skillId="cancelFractionFactors">adding factors</SkillLink>, to give both fractions this denominator. This turns the example into <M>\frac(3b)(12ab) + \frac(2a)(12ab)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="addLikeFractionsWithVariables">Add the like fractions</SkillLink> together in the usual way. For the example we get the final result <M>\frac(3b+2a)(12ab)</M>.</></List.Item>
+			</List>
 			<Par>For the opposite, when splitting up a fraction like <M>\frac(3b+2a)(12ab)</M>, the steps are similar.</Par>
-			<List items={[
-				<><SkillLink skillId="addLikeFractionsWithVariables">Split the fraction into like fractions</SkillLink>. This turns the example into <M>\frac(3b)(12ab) + \frac(2a)(12ab)</M>.</>,
-				<><SkillLink skillId="simplifyFractionWithVariables">Simplify the fractions</SkillLink> as much as possible. For the example, the final result becomes <M>\frac(1)(4a) + \frac(1)(6b)</M>.</>,
-			]} />
+			<List>
+				<List.Item><><SkillLink skillId="addLikeFractionsWithVariables">Split the fraction into like fractions</SkillLink>. This turns the example into <M>\frac(3b)(12ab) + \frac(2a)(12ab)</M>.</></List.Item>
+				<List.Item><><SkillLink skillId="simplifyFractionWithVariables">Simplify the fractions</SkillLink> as much as possible. For the example, the final result becomes <M>\frac(1)(4a) + \frac(1)(6b)</M>.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

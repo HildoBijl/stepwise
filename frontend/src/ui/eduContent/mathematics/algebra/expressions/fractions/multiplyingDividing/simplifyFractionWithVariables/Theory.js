@@ -31,10 +31,10 @@ export function Theory() {
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To simplify a fraction with various multiplications and powers, like <M>\frac(6 \cdot 7x^5)(14 x^3 \left(x+1\right))</M>, take the following steps.</Par>
-			<List items={[
-				<>Pull all numeric factors to the front and <SkillLink skillId="simplifyFraction">simplify the numeric fraction</SkillLink>. For the example we turn <M>\frac(6 \cdot 7)(14)</M> into <M>3</M>.</>,
-				<>Find equal factors in the numerator and the denominator, and use the rule <M>\frac(x^a)(x^b) = x^(a-b) = \frac(1)(x^(b-a))</M> to remove as many as possible. So in <M>\frac(3x^5)(x^3 \left(x+1\right))</M> both the numerator and the denominator have three factors of <M>x</M> which can be removed, leaving us with <M>\frac(3x^2)(x+1)</M>.</>,
-			]} />
+			<List>
+				<List.Item><>Pull all numeric factors to the front and <SkillLink skillId="simplifyFraction">simplify the numeric fraction</SkillLink>. For the example we turn <M>\frac(6 \cdot 7)(14)</M> into <M>3</M>.</></List.Item>
+				<List.Item><>Find equal factors in the numerator and the denominator, and use the rule <M>\frac(x^a)(x^b) = x^(a-b) = \frac(1)(x^(b-a))</M> to remove as many as possible. So in <M>\frac(3x^5)(x^3 \left(x+1\right))</M> both the numerator and the denominator have three factors of <M>x</M> which can be removed, leaving us with <M>\frac(3x^2)(x+1)</M>.</></List.Item>
+			</List>
 		</Translation>
 	</>
 }

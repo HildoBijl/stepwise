@@ -1,4 +1,4 @@
-import { type ComponentNode, type Message, type MessageNode, type PluralNode, type SelectNode, pluralCategories } from './types.ts'
+import { type ComponentNode, type ConditionNode, type Message, type MessageNode, type PluralNode, type SelectNode, pluralCategories } from './types.ts'
 
 // Return a canonical message without empty or adjacent text nodes and with stable map ordering.
 export function normalizeMessage(message: Message): Message {
@@ -24,6 +24,7 @@ function normalizeNode(node: MessageNode): MessageNode {
 		case 'component': return normalizeComponent(node)
 		case 'plural': return normalizePlural(node)
 		case 'select': return normalizeSelect(node)
+		case 'condition': return normalizeCondition(node)
 	}
 }
 
@@ -62,4 +63,9 @@ function normalizeSelect(node: SelectNode): SelectNode {
 			.sort(([left], [right]) => left.localeCompare(right))
 			.map(([value, message]) => [value, normalizeMessage(message)])) as SelectNode['branches'],
 	}
+}
+
+// For a condition, normalize both exhaustive branches.
+function normalizeCondition(node: ConditionNode): ConditionNode {
+	return { ...node, true: normalizeMessage(node.true), false: normalizeMessage(node.false) }
 }

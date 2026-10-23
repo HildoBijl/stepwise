@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<unit id="intro">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">You can see Step-Wise as a <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">textbook</pc>: it has theory and lots of practice exercises. No need for you to create any content. It's already there!</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">But Step-Wise goes far beyond a simple textbook.<pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children">It's <pc id="c6" type="ui" subType="swi18n:strong" swi18n:slot="children">interactive</pc>! Students can play around with the contents and experience it more actively.</pc><pc id="c7" type="ui" subType="swi18n:item" swi18n:slot="children">It's very <pc id="c8" type="ui" subType="swi18n:strong" swi18n:slot="children">modular</pc>. You can select, up to the finest detail, what students need to learn and when.</pc><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children">It <pc id="c10" type="ui" subType="swi18n:strong" swi18n:slot="children">tracks</pc> your students. You always know exactly how far along the class or any individual student is, and how much work they put in.</pc></pc>Want to see how it works? Read on about how to set up a course or inspect your class!</pc></source>
+				<target swi18n:sourceContentFingerprint="dc2ecc3110543fce" swi18n:sourceStructureFingerprint="ff1714d39f92cdc0"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Man kann sich Step-Wise wie ein <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">Lehrbuch</pc> vorstellen: Es enthält Theorie und eine Menge Übungsaufgaben. Daher brauchst du kein Lehrmaterial zu entwickeln. Es ist bereits vorhanden!</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Aber Step-Wise geht viel weiter als ein einfaches Lehrbuch.<pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children">Es ist <pc id="c6" type="ui" subType="swi18n:strong" swi18n:slot="children">interaktiv</pc>. Die Studierenden können mit dem Inhalt experimentieren und ihn aktiv erleben.</pc><pc id="c7" type="ui" subType="swi18n:item" swi18n:slot="children">Es ist <pc id="c8" type="ui" subType="swi18n:strong" swi18n:slot="children">modular</pc> aufgebaut. Du kannst bis ins kleinste Detail genau auswählen, was die Studierenden zu welchem Zeitpunkt lernen sollen.</pc><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children">Es <pc id="c10" type="ui" subType="swi18n:strong" swi18n:slot="children">verfolgt</pc> deine Studierenden. Du weißt immer genau, wie weit die ganze Gruppe oder ein einzelner Student fortgeschritten ist und wie viel Zeit er oder sie investiert hat.</pc></pc>Möchtest du sehen, wie es funktioniert? Dann lies weiter, um herauszufinden, wie du einen Kurs einrichtest oder deine Klasse inspizierst.</pc></target>
+			</segment>
+		</unit>
+		<group id="courses">
+			<unit id="head">
+				<segment>
+					<source>Define your course</source>
+					<target swi18n:sourceContentFingerprint="ef5445b25b936381" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bestimme deinen Kurs</target>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>If you want your students to use Step-Wise, the first thing you do is set up your course. There are three steps to do so.</source>
+					<target swi18n:sourceContentFingerprint="755dd677859078fd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Wenn du willst, dass deine Studierenden Step-Wise nutzen, richtest du zunächst einen Kurs ein. Dies geschieht in drei Schritten.</target>
+				</segment>
+			</unit>
+			<group id="goals">
+				<unit id="head">
+					<segment>
+						<source>Choose the end goals</source>
+						<target swi18n:sourceContentFingerprint="cc96d6b100dc5bf1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lege die Endziele fest</target>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>Step-Wise is based around small modules called <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">skills</pc>. These are things students can actually do, like solve a particular type of equation or calculate a certain quantity. Each skill is roughly 2-10 minutes worth of information.</source>
+						<target swi18n:sourceContentFingerprint="350dc1a023138b5f" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Step-Wise ist auf kleinen Modulen aufgebaut, die als <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Kompetenzen</pc> bezeichnet werden. Dabei handelt es sich um Dinge, die die Studierenden tun können, wie z. B. das Lösen einer bestimmten Art von Gleichung oder das Berechnen eines bestimmten physikalischen Werts. Jede Kompetenz umfasst etwa 2-10 Minuten an Informationen.</target>
+					</segment>
+				</unit>
+				<unit id="par2">
+					<segment>
+						<source>Skills have all sorts of links between between them. For example, to execute a skill, you often have to execute two or three subskills in order. These links are visualized in a <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">skill tree</pc>. Basic skills are at the top, and skills are combined into more advanced skills as we move downwards.</source>
+						<target swi18n:sourceContentFingerprint="e6d8bf80775ac22c" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Kompetenzen sind in vielfältiger Weise miteinander verknüpft. Um beispielsweise eine Kompetenz auszuführen, muss man oft zwei oder drei Unterkompetenzen nacheinander ausführen. Diese Verknüpfungen werden in einem <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Skill-Tree</pc> (Kompetenzbaum) dargestellt. Die Grundkompetenzen stehen ganz oben und gehen in komplexere Kompetenzen über, je weiter man nach unten geht.</target>
+					</segment>
+				</unit>
+				<unit id="par3">
+					<segment>
+						<source>To set up your course, you first have to <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">pick the end goals</pc>. These are the skills that students should have mastered at the end of the course. Skills above them will also be taught. Skills below them will not.</source>
+						<target swi18n:sourceContentFingerprint="4236cbccb5cc4619" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Um einen Kurs einzurichten, muss man zunächst die <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Endziele festlegen</pc>. Das sind die Kompetenzen, die die Studierenden am Ende des Kurses beherrschen müssen. Kompetenzen, die über diesen Zielen liegen, werden auch gelehrt, Kompetenzen, die darunter liegen, jedoch nicht.</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="priorKnowledge">
+				<unit id="head">
+					<segment>
+						<source>Define prior knowledge</source>
+						<target swi18n:sourceContentFingerprint="92a48012b27632d9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ermittle die Vorkenntnisse</target>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>If we walk upwards from the final course goals, we find all the skills that the students have to master altogether. But if we go upwards far enough, we will surely reach skills that the students already mastered previously. These skills are not part of the course: they are <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">prior knowledge</pc>.</source>
+						<target swi18n:sourceContentFingerprint="84c47d1ddd2c3377" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Wenn wir von den Endzielen aus nach oben klettern, werden wir alle Kompetenzen finden, die die Studierenden letztendlich beherrschen sollten. Wenn wir aber nur weit genug nach oben gehen, werden wir bestimmt auf Kompetenzen stoßen, die die Studierenden bereits vorher gelernt haben. Diese Kompetenzen sind nicht Teil unseres Kurses: Sie sind <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Vorkenntnisse</pc>.</target>
+					</segment>
+				</unit>
+				<unit id="par2">
+					<segment>
+						<source>Step two to set up your course is to define this prior knowledge. We'll simply <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">walk up from the goals</pc> and you'll have to tell us for each skill "Can students already do this? Or do they need to learn it as part of the course?" Of course, if we find that some students haven't properly mastered the prior knowledge yet, we will support them to learn it.</source>
+						<target swi18n:sourceContentFingerprint="eb2e5bb488b46e7e" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Schritt zwei bei der Einrichtung des Kurses besteht darin, diese Vorkenntnisse zu definieren. Wir werden <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">von den Endzielen aus aufsteigen</pc>, und für jede Kompetenz muss angegeben werden: "Können die Lernenden dies bereits tun? Oder müssen sie es im Rahmen dieses Kurses lernen?" Wenn wir feststellen, dass bestimmte Studierende diese Vorkenntnisse nicht gut beherrschen, unterstützen wir sie natürlich weiter.</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="blocks">
+				<unit id="head">
+					<segment>
+						<source>Divide into weeks/blocks</source>
+						<target swi18n:sourceContentFingerprint="b2cf28bdc55b6aa5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Erstelle einer Wochen-/Blockeinteilung</target>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>Once we know the skills that are part of the course, we can <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">divide the course into blocks</pc>. Usually a "block" is a week within a course, but it can also be a lecture, a month, or anything else.</source>
+						<target swi18n:sourceContentFingerprint="b3488e80502ef011" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Sobald wir wissen, welche Kompetenzen Teil des Kurses sind, können wir den Kurs in <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Blöcke unterteilen</pc>. Normalerweise ist ein "Block" eine Woche eines Kurses, aber es kann auch eine Lektion, ein Monat, oder was auch immer sein.</target>
+					</segment>
+				</unit>
+				<unit id="par2">
+					<segment>
+						<source>To define your blocks, you <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">specify the final goals for each block</pc>. From this, the exact contents of the blocks automatically follow. Your course is then fully set up.</source>
+						<target swi18n:sourceContentFingerprint="c0b617e4b5e076a0" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Um die Blöcke zu definieren, gibst du die <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Endziele für jeden Block</pc> an. Daraus ergibt sich automatisch der genaue Inhalt der einzelnen Blöcke. Dein Kurs ist dann vollständig definiert.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="tracking">
+			<unit id="head">
+				<segment>
+					<source>Track your students</source>
+					<target swi18n:sourceContentFingerprint="d38ea9e5f2749726" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Die Studierenden verfolgen</target>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>Once your course is ready, you can invite your students, or they can add the course themselves. This allows them to easily access the contents, but you can also <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">follow their progress</pc>.</source>
+					<target swi18n:sourceContentFingerprint="6da0afa129e06442" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Sobald der Kurs eingerichtet ist, kannst du die Studierenden einladen oder sie können sich selbst zu dem Kurs hinzufügen. So haben sie einfachen Zugang zu den Inhalten und du kannst ihre <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Fortschritte verfolgen</pc>.</target>
+				</segment>
+			</unit>
+			<group id="classOverview">
+				<unit id="head">
+					<segment>
+						<source>Get class overviews</source>
+						<target swi18n:sourceContentFingerprint="ec84c05e587f5fb0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Überblick über die Gruppe</target>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>The first thing you can track is the <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">general class progress</pc>, both per block and per skill. You can investigate the student <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">level</pc> (have they mastered it) and the <pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children">activity</pc> (how many times did they on average practice it). In this way you can immediately detect where the class struggles, and if this is because of their effort or because of other reasons.</source>
+						<target swi18n:sourceContentFingerprint="7f8ea1626aa8df6b" swi18n:sourceStructureFingerprint="b6cb5bd7a27d0d7d">Als erstes kannst du den <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Gesamtfortschritt der Gruppe</pc> verfolgen, sowohl nach Blöcken als auch nach Kompetenzen. Du kannst das <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">Niveau</pc> der Studierenden verfolgen (haben sie es gemeistert) und die <pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children">Aktivität</pc> (wie viele Übungen haben sie im Durchschnitt gemacht). So kann man sofort sehen, womit die Gruppe Schwierigkeiten hat, und ob dies auf ihre Bemühungen oder andere Gründe zurückzuführen ist.</target>
+					</segment>
+				</unit>
+				<group id="classOverviewImage">
+					<unit id="head1">
+						<segment>
+							<source>Mastery</source>
+							<target swi18n:sourceContentFingerprint="254af53fbb4a5a8f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kompetenzen</target>
+						</segment>
+					</unit>
+					<unit id="head2">
+						<segment>
+							<source>Exercises</source>
+							<target swi18n:sourceContentFingerprint="d6dfc7dde2552e5d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Übungen</target>
+						</segment>
+					</unit>
+					<unit id="head3">
+						<segment>
+							<source>Time spent</source>
+							<target swi18n:sourceContentFingerprint="563e74224f3d9daf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Zeitaufwand</target>
+						</segment>
+					</unit>
+					<unit id="block1">
+						<segment>
+							<source>Opening week</source>
+							<target swi18n:sourceContentFingerprint="e50ba5398d1b2800" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Öffnungswoche</target>
+						</segment>
+					</unit>
+					<unit id="block2">
+						<segment>
+							<source>Middle week</source>
+							<target swi18n:sourceContentFingerprint="2dbf7302a6c2da39" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Mittlere Woche</target>
+						</segment>
+					</unit>
+					<unit id="skill1">
+						<segment>
+							<source>Some basic skill</source>
+							<target swi18n:sourceContentFingerprint="67c14e0c13b78515" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Eine Grundkompetenz</target>
+						</segment>
+					</unit>
+					<unit id="skill2">
+						<segment>
+							<source>A more advanced skill</source>
+							<target swi18n:sourceContentFingerprint="9cfcad3d8e3448e5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Etwas komplizierter</target>
+						</segment>
+					</unit>
+					<unit id="block3">
+						<segment>
+							<source>Closing week</source>
+							<target swi18n:sourceContentFingerprint="3e291dfef72bc4cf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Abschlusswoche</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="studentOverview">
+				<unit id="head">
+					<segment>
+						<source>Get student overviews</source>
+						<target swi18n:sourceContentFingerprint="91281f4f6cc2fa5d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Überblick über einen Studierenden</target>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>Next to a full class overview, you can also <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">check out individual students</pc>. What is the student's progress? And how much has been practiced? This overview is very useful for coaching interviews, not only by course teachers but also by mentors that are not fluent in the content matter.</source>
+						<target swi18n:sourceContentFingerprint="b931a4ee05b3a4b8" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Neben einem vollständigen Überblick über die Gruppe kannst du auch <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">einzelne Studierende anschauen</pc>. Wie ist ihr Fortschritt? Und wie viel wurde schon geübt? Diese Übersicht ist sehr nützlich für Coaching-Gespräche, nicht nur für Lehrer, sondern auch für Mentoren ohne Fachkenntnisse.</target>
+					</segment>
+				</unit>
+				<group id="studentOverviewImage">
+					<unit id="student">
+						<segment>
+							<source>Alex Adams</source>
+							<target swi18n:sourceContentFingerprint="405ba6bbbf4273cc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Alex Albrecht</target>
+						</segment>
+					</unit>
+					<unit id="head1">
+						<segment>
+							<source>Mastery</source>
+							<target swi18n:sourceContentFingerprint="254af53fbb4a5a8f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kompetenzen</target>
+						</segment>
+					</unit>
+					<unit id="head2">
+						<segment>
+							<source>Exercises</source>
+							<target swi18n:sourceContentFingerprint="d6dfc7dde2552e5d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Übungen</target>
+						</segment>
+					</unit>
+					<unit id="head3">
+						<segment>
+							<source>Time spent</source>
+							<target swi18n:sourceContentFingerprint="563e74224f3d9daf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Zeitaufwand</target>
+						</segment>
+					</unit>
+					<unit id="block1">
+						<segment>
+							<source>Opening week</source>
+							<target swi18n:sourceContentFingerprint="e50ba5398d1b2800" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Öffnungswoche</target>
+						</segment>
+					</unit>
+					<unit id="block2">
+						<segment>
+							<source>Middle week</source>
+							<target swi18n:sourceContentFingerprint="2dbf7302a6c2da39" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Mittlere Woche</target>
+						</segment>
+					</unit>
+					<unit id="skill1">
+						<segment>
+							<source>Some basic skill</source>
+							<target swi18n:sourceContentFingerprint="67c14e0c13b78515" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Eine Grundkompetenz</target>
+						</segment>
+					</unit>
+					<unit id="skill2">
+						<segment>
+							<source>A more advanced skill</source>
+							<target swi18n:sourceContentFingerprint="9cfcad3d8e3448e5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Etwas komplizierter</target>
+						</segment>
+					</unit>
+					<unit id="block3">
+						<segment>
+							<source>Closing week</source>
+							<target swi18n:sourceContentFingerprint="3e291dfef72bc4cf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Abschlusswoche</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="liveHelping">
+				<unit id="head">
+					<segment>
+						<source>Help students live with exercises</source>
+						<target swi18n:sourceContentFingerprint="444e28a8c56a9efc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Unterstutze die Studierenden beim Üben</target>
+					</segment>
+				</unit>
+				<unit id="par1">
+					<segment>
+						<source>Step-Wise is very well suited to be used in the classroom during practice sessions. There is even a <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">collaboration mode</pc> where students can practice together, ensuring they get the same exercises to solve together. Whenever students struggle, the app will help them out.</source>
+						<target swi18n:sourceContentFingerprint="881290fb672f3f73" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Step-Wise ist hervorragend geeignet, um auch im Unterricht eingesetzt zu werden. Es gibt sogar einen <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Kollaborationsmodus</pc>, in dem die Studierenden gemeinsam üben können: So erhalten sie gemeinsam die gleichen Aufgaben. Und wenn die Studierenden nicht weiterkommen, hilft ihnen die App weiter.</target>
+					</segment>
+				</unit>
+				<unit id="par2">
+					<segment>
+						<source>However, there are always special cases where Step-Wise cannot optimally support a student. And that's where the teacher (you) comes in. When a student asks a question, it's possible to <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">quickly look up a student</pc> on your tablet/smartphone, and directly check out the last active exercise, including solution, to optimally get the student back on track again.</source>
+						<target swi18n:sourceContentFingerprint="bcd2f7c3f8058b78" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Es gibt natürlich immer Sonderfälle, in denen Step-Wise einen Studierenden nicht optimal unterstützen kann. Und da kommt dann der Lehrende (du) ins Spiel. Wenn ein Kursteilnehmer eine Frage stellt, kannst du ihn/sie <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">schnell nachschlagen</pc> auf deinem Tablet/Smartphone und sofort die zuletzt aktivierte Übungsaufgabe inklusive Lösung sehen, um dem Kursteilnehmer optimal auf seinem Weg zu helfen.</target>
+					</segment>
+				</unit>
+				<unit id="par3">
+					<segment>
+						<source>Experience has shown that using Step-Wise during live practice sessions allows for an <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">increase of the student-to-teacher ratio by a factor three</pc>, while keeping (and even increasing) student satisfaction ratings! This allows for lots of extra teacher time, to support the students even more.</source>
+						<target swi18n:sourceContentFingerprint="273a0bae1200f5a1" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Die Erfahrung zeigt, dass mit Step-Wise das <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Studenten-Lehrer-Verhältnis um das Dreifache steigen kann</pc>, während die Zufriedenheit der Studenten auf dem gleichen Niveau bleibt oder sogar steigt! So bleibt den Lehrenden viel Zeit, um die Studierenden noch mehr zu unterstützen.</target>
+					</segment>
+				</unit>
+				<group id="studentSearchImage">
+					<unit id="search">
+						<segment>
+							<source>Search</source>
+							<target swi18n:sourceContentFingerprint="4bcada8a5cfc1b30" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Suchen</target>
+						</segment>
+					</unit>
+					<unit id="name1">
+						<segment>
+							<source>Alex Adams</source>
+							<target swi18n:sourceContentFingerprint="405ba6bbbf4273cc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Alex Albrecht</target>
+						</segment>
+					</unit>
+					<unit id="name2">
+						<segment>
+							<source>Bob Baker</source>
+							<target swi18n:sourceContentFingerprint="2e386c2993746116" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bob Becker</target>
+						</segment>
+					</unit>
+					<unit id="name3">
+						<segment>
+							<source>Carmen Clarke</source>
+							<target swi18n:sourceContentFingerprint="a9ac5d365724c606" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Carmen Cramer</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+		<group id="getStarted">
+			<unit id="head">
+				<segment>
+					<source>Get started</source>
+					<target swi18n:sourceContentFingerprint="dc10f29075effdf3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Los geht's</target>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>Do you want to use Step-Wise in your course? Step-Wise is still in the <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">beta phase</pc>. So the good news is: it's free to use! The bad news: not all content may be there yet. The best thing you can do is <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">send an email</pc> to <pc id="c3" type="ui" subType="swi18n:a" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="infoEmail"/></pc> (Hildo) and we can check out the possibilities together. It's always great to have more people use Step-Wise!</source>
+					<target swi18n:sourceContentFingerprint="d95459050109f0de" swi18n:sourceStructureFingerprint="7ec3017ed4ba5124">Möchtest du Step-Wise in deinem Kurs verwenden? Step-Wise befindet sich noch in der <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Beta-Phase</pc>. Die gute Nachricht ist also: Die Nutzung ist kostenlos! Die schlechte Nachricht ist: Es sind möglicherweise noch nicht alle Inhalte verfügbar. Am besten schickst du einfach eine <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">E-Mail</pc> an <pc id="c3" type="ui" subType="swi18n:a" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="infoEmail"/></pc> (Hildo) und wir schauen uns gemeinsam die Möglichkeiten an. Es ist immer schön, wenn mehr Leute Step-Wise nutzen!</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

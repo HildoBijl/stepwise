@@ -16,12 +16,12 @@ export default function Component() {
 
 		<Head>De stappen</Head>
 		<Par>Bij het toepassen van Poisson's wet voer je de volgende stappen uit.</Par>
-		<List useNumbers={true} items={[
-			<Par>Kies het begin (punt 1) en het eindpunt (punt 2) van het proces. Zet alle gegeven waarden in eenheden waarmee je mag rekenen.</Par>,
-			<Par>Bepaal het soort proces, en hiermee ook de procescoëfficiënt <M>n.</M> Indien het een isentropisch proces is, waarbij <M>n = k,</M> zoek dan ook de <M>k</M>-waarde van het gas op.</Par>,
-			<Par>Kies de vorm van Poisson's wet die het handigst is om te gebruiken. Kijk hiervoor naar wat je al weet en wat je nog wilt weten. Schrijf deze wet op voor punten 1 en 2. Als je bijvoorbeeld met druk en volume gaat rekenen, dan schrijf je <BM>p_1V_1^n = p_2V_2^n.</BM></Par>,
-			<Par>Los met wiskunde de vergelijking op voor de onbekende waarde.</Par>,
-			<Par>Vul getallen in om de onbekende waarde uit te rekenen.</Par>,
-		]} />
+		<List useNumbers={true}>
+			<List.Item><Par>Kies het begin (punt 1) en het eindpunt (punt 2) van het proces. Zet alle gegeven waarden in eenheden waarmee je mag rekenen.</Par></List.Item>
+			<List.Item><Par>Bepaal het soort proces, en hiermee ook de procescoëfficiënt <M>n.</M> Indien het een isentropisch proces is, waarbij <M>n = k,</M> zoek dan ook de <M>k</M>-waarde van het gas op.</Par></List.Item>
+			<List.Item><Par>Kies de vorm van Poisson's wet die het handigst is om te gebruiken. Kijk hiervoor naar wat je al weet en wat je nog wilt weten. Schrijf deze wet op voor punten 1 en 2. Als je bijvoorbeeld met druk en volume gaat rekenen, dan schrijf je <BM>p_1V_1^n = p_2V_2^n.</BM></Par></List.Item>
+			<List.Item><Par>Los met wiskunde de vergelijking op voor de onbekende waarde.</Par></List.Item>
+			<List.Item><Par>Vul getallen in om de onbekende waarde uit te rekenen.</Par></List.Item>
+		</List>
 	</>
 }

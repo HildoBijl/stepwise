@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { Box, Tooltip } from '@mui/material'
 
 import { usePrevious } from '@step-wise/react-utils'
+import { LocalizedList, Translation, TranslationGroup } from '@step-wise/i18n'
 
 import { useActiveGroup, useOtherGroupMembers } from 'api'
-import { TranslationFile, TranslationSection, Translation, WordList } from 'i18n'
+import { TranslationFile } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 
 import { translationPath } from './support'
@@ -39,8 +40,8 @@ function GroupIndicatorInternal({ group }) {
 
 	// Render the indicator.
 	return <TranslationFile path={translationPath} extend={false}>
-		<TranslationSection entry="indicator">
-			<Tooltip title={<span>{numActiveMembers <= 1 ? <Translation entry="noOthers">No other group members are present yet.</Translation> : <Translation entry="others">You are working together with <WordList words={names} />.</Translation>}</span>} arrow>
+		<TranslationGroup path="indicator">
+			<Tooltip title={<span>{numActiveMembers <= 1 ? <Translation id="noOthers">No other group members are present yet.</Translation> : <Translation id="others">You are working together with <LocalizedList items={names} />.</Translation>}</span>} arrow>
 				<Box onClick={() => navigate(paths.groups({ code: group.code }))} sx={theme => ({
 					alignItems: 'center',
 					background: ({ lastEvent }) => lastEvent ? (lastEvent.increase ? theme.palette.primary.main : theme.palette.secondary.main) : theme.palette.info.main,
@@ -65,6 +66,6 @@ function GroupIndicatorInternal({ group }) {
 					})}>{activeMembers.length}</Box>
 				</Box>
 			</Tooltip>
-		</TranslationSection>
+		</TranslationGroup>
 	</TranslationFile>
 }

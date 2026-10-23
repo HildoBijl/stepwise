@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { Box, Container, Grid, Button, useTheme } from '@mui/material'
 import { Info as InfoIcon } from '@mui/icons-material'
 
-import { M } from '@step-wise/math-display'
+import { Drawing, SvgPortal, HtmlElement } from '@step-wise/drawing'
 import { Beam, Force, HingeSupport, RollerHingeSupport } from '@step-wise/engineering-diagrams'
+import { Translation, TranslationGroup } from '@step-wise/i18n'
+import { M } from '@step-wise/math-display'
 
-import { TranslationSection, Translation } from 'i18n'
 import { Student, Teacher, SignInButtons } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
-import { Drawing, SvgPortal, HtmlElement } from '@step-wise/drawing'
 
 export function Blocks() {
 	const paths = usePaths()
@@ -38,17 +38,17 @@ export function Blocks() {
 	})}>
 		<Grid container columnSpacing={0} rowSpacing={2}>
 			<Grid size={{ xs: 12, md: 6, lg: 4 }} className="block">
-				<TranslationSection entry="getStarted">
-					<Box className="title"><Translation entry="title">Get started</Translation></Box>
-					<Box className="description"><Translation entry="description">Sign in to directly start practicing.</Translation></Box>
+				<TranslationGroup path="getStarted">
+					<Box className="title"><Translation id="title">Get started</Translation></Box>
+					<Box className="description"><Translation id="description">Sign in to directly start practicing.</Translation></Box>
 					<SignInButtons />
-				</TranslationSection>
+				</TranslationGroup>
 			</Grid>
 			<Grid size={{ xs: 12, md: 6, lg: 4 }} className="block">
-				<TranslationSection entry="explainers">
-					<Box className="title"><Translation entry="title">Explainers</Translation></Box>
-					<Box className="description"><Translation entry="description">Briefly read up on what Step-Wise is.</Translation></Box>
-					<Box sx={{
+				<TranslationGroup path="explainers">
+					<Box className="title"><Translation id="title">Explainers</Translation></Box>
+					<Box className="description"><Translation id="description">Briefly read up on what Step-Wise is.</Translation></Box>
+					<TranslationGroup path="buttons"><Box sx={{
 						alignItems: 'center',
 						display: 'flex',
 						flexFlow: 'column nowrap',
@@ -58,16 +58,16 @@ export function Blocks() {
 							width: '280px',
 						},
 					}}>
-						<Button variant="contained" className="button" startIcon={<Student />} onClick={() => navigate(paths.forStudents())} color="primary"><Translation entry="buttons.forStudents">Step-Wise for students</Translation></Button>
-						<Button variant="contained" className="button" startIcon={<Teacher />} onClick={() => navigate(paths.forTeachers())} color="primary"><Translation entry="buttons.forTeachers">Step-Wise for teachers</Translation></Button>
-						<Button variant="contained" className="button" startIcon={<InfoIcon />} onClick={() => navigate(paths.about())} color="primary"><Translation entry="buttons.about">About Step-Wise</Translation></Button>
-					</Box>
-				</TranslationSection>
+						<Button variant="contained" className="button" startIcon={<Student />} onClick={() => navigate(paths.forStudents())} color="primary"><Translation id="forStudents">Step-Wise for students</Translation></Button>
+						<Button variant="contained" className="button" startIcon={<Teacher />} onClick={() => navigate(paths.forTeachers())} color="primary"><Translation id="forTeachers">Step-Wise for teachers</Translation></Button>
+						<Button variant="contained" className="button" startIcon={<InfoIcon />} onClick={() => navigate(paths.about())} color="primary"><Translation id="about">About Step-Wise</Translation></Button>
+					</Box></TranslationGroup>
+				</TranslationGroup>
 			</Grid>
 			<Grid size={{ xs: 12, md: 12, lg: 4 }} className="block">
-				<TranslationSection entry="exampleSkills">
-					<Box className="title"><Translation entry="title">Example skills</Translation></Box>
-					<Box className="description"><Translation entry="description">Try out for yourself how it works.</Translation></Box>
+				<TranslationGroup path="exampleSkills">
+					<Box className="title"><Translation id="title">Example skills</Translation></Box>
+					<Box className="description"><Translation id="description">Try out for yourself how it works.</Translation></Box>
 					<Grid container spacing={0} sx={{
 						margin: '4px',
 						'& button': {
@@ -91,62 +91,62 @@ export function Blocks() {
 					}}>
 						<Grid size={{ xs: 12, md: 3, lg: 6 }}>
 							<Button variant="contained" className="button" onClick={() => navigate(paths.skill({ skillId: 'solveMultiVariableLinearEquation' }))} color="secondary">
-								<TranslationSection entry="algebra">
+								<TranslationGroup path="algebra">
 									<Box className="container">
-										<Box><Translation entry="title">Algebra</Translation></Box>
+										<Box><Translation id="title">Algebra</Translation></Box>
 										<Box className="example">
-											<Translation entry="contents">
+											<Translation id="contents">
 												Solve&nbsp;&nbsp;<M>\left(ax+b\right)\!y = cx</M>
 											</Translation>
 										</Box>
 									</Box>
-								</TranslationSection>
+								</TranslationGroup>
 							</Button>
 						</Grid>
 						<Grid size={{ xs: 12, md: 3, lg: 6 }}>
 							<Button variant="contained" className="button" onClick={() => navigate(paths.skill({ skillId: 'applyPythagoreanTheorem' }))} color="secondary">
-								<TranslationSection entry="geometry">
+								<TranslationGroup path="geometry">
 									<Box className="container">
-										<Box><Translation entry="title">Geometry</Translation></Box>
+										<Box><Translation id="title">Geometry</Translation></Box>
 										<Box className="example">
-											<Translation entry="contents">
+											<Translation id="contents">
 												<span>Calculate <M>b</M> in </span><PythagorasImage />
 											</Translation>
 										</Box>
 									</Box>
-								</TranslationSection>
+								</TranslationGroup>
 							</Button>
 						</Grid>
 						<Grid size={{ xs: 12, md: 3, lg: 6 }}>
 							<Button variant="contained" className="button" onClick={() => navigate(paths.skill({ skillId: 'gasLaw' }))} color="secondary">
-								<TranslationSection entry="thermodynamics">
+								<TranslationGroup path="thermodynamics">
 									<Box className="container">
-										<Box><Translation entry="title">Thermodynamics</Translation></Box>
+										<Box><Translation id="title">Thermodynamics</Translation></Box>
 										<Box className="example">
-											<Translation entry="contents">
+											<Translation id="contents">
 												Apply&nbsp;&nbsp;<M>pV \! = mR_sT</M>
 											</Translation>
 										</Box>
 									</Box>
-								</TranslationSection>
+								</TranslationGroup>
 							</Button>
 						</Grid>
 						<Grid size={{ xs: 12, md: 3, lg: 6 }}>
 							<Button variant="contained" className="button" onClick={() => navigate(paths.skill({ skillId: 'calculateBasicSupportReactions' }))} color="secondary">
-								<TranslationSection entry="statics">
+								<TranslationGroup path="statics">
 									<Box className="container">
-										<Box><Translation entry="title">Statics</Translation></Box>
+										<Box><Translation id="title">Statics</Translation></Box>
 										<Box className="example">
-											<Translation entry="contents">
+											<Translation id="contents">
 												<span>Analyze </span><StructureImage />
 											</Translation>
 										</Box>
 									</Box>
-								</TranslationSection>
+								</TranslationGroup>
 							</Button>
 						</Grid>
 					</Grid>
-				</TranslationSection>
+				</TranslationGroup>
 			</Grid>
 		</Grid>
 	</Container>

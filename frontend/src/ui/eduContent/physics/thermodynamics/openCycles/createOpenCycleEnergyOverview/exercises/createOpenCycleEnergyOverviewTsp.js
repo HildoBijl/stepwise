@@ -29,11 +29,11 @@ const Problem = ({ medium }) => {
 	const { p1, v1, T1, p2, v2, T2, p3, v3, T3 } = useSolution()
 	return <>
 		<Par>We voeren een open kringproces uit met {Dutch[medium]}. Hierin doorloopt het gas drie stappen:</Par>
-		<List items={[
-			'Stap 1-2: een isotherme compressie.',
-			'Stap 2-3: een isentrope expansie.',
-			'Stap 3-1: een isobare opwarming.',
-		]} />
+		<List>
+			<List.Item>{'Stap 1-2: een isotherme compressie.'}</List.Item>
+			<List.Item>{'Stap 2-3: een isentrope expansie.'}</List.Item>
+			<List.Item>{'Stap 3-1: een isobare opwarming.'}</List.Item>
+		</List>
 		<Par>Op elk van de punten 1, 2 en 3 heeft het gas de volgende eigenschappen.</Par>
 		<Table colHeads={['Druk', 'Specifiek volume', 'Temperatuur']} rowHeads={['Punt 1', 'Punt 2', 'Punt 3']} fields={[[<M>{p1.setUnit('bar')}</M>, <M>{v1}</M>, <M>{T1}</M>], [<M>{p2.setUnit('bar')}</M>, <M>{v2}</M>, <M>{T2}</M>], [<M>{p3.setUnit('bar')}</M>, <M>{v3}</M>, <M>{T3}</M>]]} style={{ minWidth: '500px', maxWidth: '540px' }} />
 		<Par>Bereken de toegevoerde specifieke warmte <M>q</M> en de door het gas geleverde specifieke technische arbeid <M>w_t</M> bij elke stap.</Par>
