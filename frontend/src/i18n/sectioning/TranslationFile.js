@@ -1,5 +1,6 @@
 import React, { createContext, useContext } from 'react'
 
+import { TranslationCatalog } from '@step-wise/i18n'
 import { ensureString } from '@step-wise/js-utils'
 
 import { ResetTranslationSection } from './TranslationSection'
@@ -15,12 +16,18 @@ export function TranslationFile({ children, path, extend = true }) {
 	if (extend && parentPath)
 		path = `${parentPath}/${path}`
 
-	// Render the provider. Also reset any potential section.
+	// Split the old file path into the new Catalog's folder and name.
+	const pathParts = path.split('/')
+	const catalog = pathParts.pop()
+
+	// Render both providers during the transition. A new Catalog also resets its group scope.
 	return (
 		<TranslationFileContext.Provider value={path}>
-			<ResetTranslationSection>
-				{children}
-			</ResetTranslationSection>
+			<TranslationCatalog folder={pathParts} name={catalog}>
+				<ResetTranslationSection>
+					{children}
+				</ResetTranslationSection>
+			</TranslationCatalog>
 		</TranslationFileContext.Provider>
 	)
 }

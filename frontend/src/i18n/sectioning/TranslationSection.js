@@ -1,5 +1,6 @@
 import React, { createContext, useContext } from 'react'
 
+import { TranslationGroup } from '@step-wise/i18n'
 import { ensureString } from '@step-wise/js-utils'
 
 const TranslationSectionContext = createContext()
@@ -13,10 +14,12 @@ export function TranslationSection({ children, entry, extend = true }) {
 	if (extend && parentEntry)
 		entry = `${parentEntry}.${entry}`
 
-	// Render the provider.
+	// Render both providers during the transition. The resolved old entry is already absolute, so do not extend the new group again.
 	return (
 		<TranslationSectionContext.Provider value={entry}>
-			{children}
+			<TranslationGroup path={entry.split('.')} extend={false}>
+				{children}
+			</TranslationGroup>
 		</TranslationSectionContext.Provider>
 	)
 }
