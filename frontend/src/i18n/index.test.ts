@@ -6,14 +6,14 @@ import { loadCatalog } from './index.ts'
 
 describe('XLIFF catalogs', () => {
 	it('loads translated application catalogs', async () => {
-		const dutch = await loadCatalog('nl', 'pages/test')
-		expect(findCatalogUnit(dutch, ['i18nTrial'], 'plain')?.target?.message).toEqual([
-			{ type: 'text', value: 'Deze tekst is vertaald met XLIFF.' },
+		const dutch = await loadCatalog('nl', 'pages/home')
+		expect(findCatalogUnit(dutch, [], 'head')?.target?.message).toEqual([
+			{ type: 'text', value: 'Hoe werkt het?' },
 		])
 
-		const german = await loadCatalog('de', 'pages/test')
-		expect(findCatalogUnit(german, ['i18nTrial'], 'plain')?.target?.message).toEqual([
-			{ type: 'text', value: 'Dieser Text wurde mit XLIFF übersetzt.' },
+		const german = await loadCatalog('de', 'pages/home')
+		expect(findCatalogUnit(german, [], 'head')?.target?.message).toEqual([
+			{ type: 'text', value: 'Wie funktioniert es?' },
 		])
 	})
 
@@ -29,6 +29,6 @@ describe('XLIFF catalogs', () => {
 	})
 
 	it('rejects unsupported languages', async () => {
-		await expect(loadCatalog('fr', 'pages/test')).rejects.toThrow('Unsupported language: fr')
+		await expect(loadCatalog('fr', 'pages/home')).rejects.toThrow('Unsupported language: fr')
 	})
 })
