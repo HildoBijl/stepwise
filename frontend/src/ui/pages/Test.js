@@ -1,16 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button } from '@mui/material'
 
 import * as c from '@step-wise/cas'
 import { Arc, Axes, Circle, Crosshair, Curve, DrawingFigure, DrawingTarget, Grid, HtmlElement, Line, PlotFigure, PlotArea, Polygon, Rectangle, TargetBoundsDrawingFigure, anchors, useDrawingPointerState } from '@step-wise/drawing'
-import { Plural, Translation, TranslationCatalog, TranslationFolder, TranslationGroup } from '@step-wise/i18n'
 import * as m from '@step-wise/math-input-value'
 import { Unit, PrecisionNumber, Quantity } from '@step-wise/physics-core'
 import { M, BM } from '@step-wise/math-display'
 
 // import { getHexColor } from 'ui/theme'
 import { useUser } from 'api'
-import { useLanguage, useSetLanguage } from 'i18n'
 import { apiAddress } from 'settings'
 import { Par, Head } from 'ui/components'
 
@@ -24,48 +22,18 @@ window.PrecisionNumber = PrecisionNumber
 window.Quantity = Quantity
 
 export function Test() {
-	return <TranslationFolder path="pages">
-		<TranslationCatalog name="test">
-			<TestContents />
-		</TranslationCatalog>
-	</TranslationFolder>
+	return <TestContents />
 }
 
 function TestContents() {
 	// const [primary, info, warning] = getHexColor(['primary', 'info', 'warning'])
 	const eq = c.asEquation('E=mc^2')
 	const user = useUser()
-	const language = useLanguage()
-	const setLanguage = useSetLanguage()
-	const [messageCount, setMessageCount] = useState(1)
-	const visitorName = user?.givenName || 'visitor'
 	const plotPoints = [[-3, 7], [-2, 2], [-1, -1], [0, -2], [1, -1], [2, 2], [3, 7]]
 
 	return (
 		<>
 			<Par>This is a test page. It's used to test small functionalities and see how they work. Often it contains random left-over stuff. Like silly equations such as <M>E = mc^2.</M></Par>
-			<Head>XLIFF translation trial</Head>
-			<Par>
-				Current language: {language}.{' '}
-				<Button onClick={() => setLanguage('en')}>English</Button>{' '}
-				<Button onClick={() => setLanguage('nl')}>Nederlands</Button>{' '}
-				<Button onClick={() => setLanguage('de')}>Deutsch</Button>
-			</Par>
-			<TranslationGroup path="i18nTrial">
-				<Par><Translation id="plain">This text is translated through XLIFF.</Translation></Par>
-				<Par><Translation id="variable">Welcome to the XLIFF trial, {{ visitorName }}!</Translation></Par>
-				<Par>
-					<Translation id="messages">
-						<Plural value={{ messageCount }}>
-							<Plural.One>There is one translated message.</Plural.One>
-							<Plural.Other>There are <Plural.Value /> translated messages.</Plural.Other>
-						</Plural>
-					</Translation>{' '}
-					<Button onClick={() => setMessageCount(count => count + 1)}>Add message</Button>
-				</Par>
-				<Par><Translation id="richText">This <strong>is important</strong>, but this is <em>subtle</em>. This is <strong>also important</strong>.</Translation></Par>
-				<Par><Translation id="equations">We should put <M>x</M> after <M>y</M>.</Translation></Par>
-			</TranslationGroup>
 			<Head>SURFconext sign-in</Head>
 			{user ?
 				<Par>Signed in as {user.name} &lt;{user.email}&gt;</Par> :
