@@ -1,4 +1,4 @@
-import { type SVGProps, forwardRef } from 'react'
+import type { SVGProps } from 'react'
 
 import { SvgPortal } from '../Drawing/index.ts'
 
@@ -8,10 +8,10 @@ export interface PlotAreaProps extends Omit<SVGProps<SVGGElement>, 'clip'> {
 	clip?: boolean
 }
 
-export const PlotArea = forwardRef<SVGGElement, PlotAreaProps>(function PlotArea(props, ref) {
-	const { children, clip = true, ...groupProps } = props
+export function PlotArea(props: PlotAreaProps) {
+	const { children, clip = true, ref, ...groupProps } = props
 	const { clipPathId } = usePlot()
 	return <SvgPortal>
 		<g {...groupProps} clipPath={clip ? `url(#${clipPathId})` : undefined} ref={ref}>{children}</g>
 	</SvgPortal>
-})
+}

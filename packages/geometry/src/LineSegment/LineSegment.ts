@@ -2,7 +2,7 @@ import { type VectorLike, Vector, ensureVector } from '../Vector/index.ts'
 import { type LineLike, Line, ensureLine } from '../Line/index.ts'
 
 import type { LineSegmentInput, LineSegmentStorageValue } from './types.ts'
-import { isLineSegmentObject } from './support.ts'
+import { isLineSegmentEndpoints, isLineSegmentObject } from './support.ts'
 
 export const LineSegmentType = 'LineSegment'
 export type LineSegmentType = typeof LineSegmentType
@@ -33,8 +33,16 @@ export class LineSegment {
 				return
 			}
 
+			// On a pair of endpoints, preserve their order as start and end.
+			if (Array.isArray(value)) {
+				if (!isLineSegmentEndpoints(value)) throw new Error('Invalid LineSegment endpoints: expected exactly two vector-like points.')
+				this._start = ensureVector(value[0])
+				this._end = ensureVector(value[1], { dimension: this._start.dimension })
+				return
+			}
+
 			// Make sure we have a LineSegment object.
-			if (!isLineSegmentObject(value)) throw new Error(`Invalid LineSegment value: expected an object with "start", "end" and/or "vector" points (two out of the three) but received something of type "${typeof value}".`)
+			if (!isLineSegmentObject(value)) throw new Error(`Invalid LineSegment value: expected two endpoints or an object with "start", "end" and/or "vector" points (two out of the three) but received something of type "${typeof value}".`)
 
 			// Look at the various cases of what is provided.
 			const hasStart = value.start !== undefined

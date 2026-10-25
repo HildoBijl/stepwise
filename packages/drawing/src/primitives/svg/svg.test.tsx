@@ -1,8 +1,10 @@
 // @vitest-environment jsdom
 
-import type { ReactNode } from 'react'
+import { type ReactNode, createRef } from 'react'
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, test, vi } from 'vitest'
+
+import { Line as GeometryLine, LineSegment, Rectangle as GeometryRectangle } from '@step-wise/geometry'
 
 import { Drawing } from '../../Drawing/index.ts'
 
@@ -26,6 +28,17 @@ afterEach(() => {
 })
 
 describe('SVG drawing primitives', () => {
+	test('accepts refs as regular React 19 props', () => {
+		const circleRef = createRef<SVGCircleElement>()
+		const polygonRef = createRef<SVGPathElement>()
+		renderDrawing(<>
+			<Circle center={[20, 30]} radius={{ pixelDistance: 5 }} ref={circleRef} />
+			<Polygon positions={[[0, 0], [10, 0], [5, 10]]} ref={polygonRef} />
+		</>)
+		expect(circleRef.current?.tagName).toBe('circle')
+		expect(polygonRef.current?.tagName).toBe('path')
+	})
+
 	test('resolves lines and polygons into SVG paths', () => {
 		const { container } = renderDrawing(<>
 			<Line data-testid="line" positions={[[0, 0], [10, 20]]} stroke="red" strokeWidth={4} />
@@ -44,12 +57,17 @@ describe('SVG drawing primitives', () => {
 		renderDrawing(<>
 			<Circle center={[20, 30]} data-testid="circle" radius={{ pixelDistance: 5 }} />
 			<Rectangle cornerRadius={{ pixelDistance: 2 }} corners={[[10, 20], [40, 60]]} data-testid="rectangle" />
+			<Rectangle data-testid="rectangle-like" rectangle={[[12, 22], [42, 62]]} />
+			<Rectangle data-testid="rectangle-instance" rectangle={new GeometryRectangle([15, 25], [45, 65])} />
 			<Square center={[50, 50]} data-testid="square" side={{ pixelDistance: 20 }} />
 		</>)
 		expect(screen.getByTestId('circle').getAttribute('cx')).toBe('20')
 		expect(screen.getByTestId('circle').getAttribute('r')).toBe('5')
 		expect(screen.getByTestId('rectangle').getAttribute('width')).toBe('30')
 		expect(screen.getByTestId('rectangle').getAttribute('rx')).toBe('2')
+		expect(screen.getByTestId('rectangle-like').getAttribute('y')).toBe('22')
+		expect(screen.getByTestId('rectangle-instance').getAttribute('height')).toBe('40')
+		expect(screen.getByTestId('rectangle-instance').getAttribute('x')).toBe('15')
 		expect(screen.getByTestId('square').getAttribute('x')).toBe('40')
 	})
 
@@ -57,13 +75,24 @@ describe('SVG drawing primitives', () => {
 		renderDrawing(<>
 			<Arc data-testid="arc" radius={{ pixelDistance: 10 }} />
 			<Curve data-testid="curve" positions={[[0, 0], [10, 10], [20, 0]]} />
+			<Curve data-testid="curve-half" positions={[[0, 0], [10, 10], [20, 0]]} smoothing={{ ratio: 0.5 }} />
+			<Curve data-testid="curve-distance" positions={[[0, 0], [10, 0], [30, 0], [40, 0]]} smoothing={{ distance: { pixelDistance: 8 } }} />
+			<Curve data-testid="curve-with-shared-segment" positions={[[0, 0], [10, 10], [20, 10], [30, 0]]} />
 			<Curve data-testid="through-curve" positions={[[0, 0], [10, 10], [20, 0]]} smoothing={{ mode: 'through' }} />
+			<Curve data-testid="through-curve-half" positions={[[0, 0], [10, 10], [20, 0]]} smoothing={{ mode: 'through', ratio: 0.5 }} />
+			<Curve data-testid="through-curve-full" positions={[[0, 0], [10, 10], [20, 0]]} smoothing={{ mode: 'through', ratio: 1 }} />
 		</>)
-		expect(screen.getByTestId('arc').getAttribute('d')).toBe('M10 0 A10 10 0 0 1 -10 1.2246467991473533e-15')
+		expect(screen.getByTestId('arc').getAttribute('d')).toBe('M10 0 A10 10 0 0 1 -10 0')
 		expect(screen.getByTestId('arc').getAttribute('stroke-width')).toBe('1')
-		expect(screen.getByTestId('curve').getAttribute('d')).toContain('Q')
+		expect(screen.getByTestId('curve').getAttribute('d')).toBe('M0 0L2 2Q10 10 18 2L20 0')
+		expect(screen.getByTestId('curve-half').getAttribute('d')).toBe('M0 0L5 5Q10 10 15 5L20 0')
+		expect(screen.getByTestId('curve-distance').getAttribute('d')).toBe('M0 0L2 0Q10 0 18 0L22 0Q30 0 38 0L40 0')
+		expect(screen.getByTestId('curve-with-shared-segment').getAttribute('d')).toBe('M0 0L2 2Q10 10 14 10L16 10Q20 10 28 2L30 0')
 		expect(screen.getByTestId('curve').getAttribute('stroke-width')).toBe('1')
 		expect(screen.getByTestId('through-curve').getAttribute('d')).toContain('C')
+		expect(screen.getByTestId('through-curve').getAttribute('d')).toBe('M0 0C0 0 6 10 10 10C14 10 20 0 20 0')
+		expect(screen.getByTestId('through-curve-half').getAttribute('d')).toBe('M0 0C0 0 7.5 10 10 10C12.5 10 20 0 20 0')
+		expect(screen.getByTestId('through-curve-full').getAttribute('d')).toBe('M0 0C0 0 5 10 10 10C15 10 20 0 20 0')
 	})
 
 	test('renders standalone and path arrowheads with shortened shafts', () => {
@@ -103,15 +132,21 @@ describe('SVG drawing primitives', () => {
 	test('renders bounded lines and right-angle markers', () => {
 		renderDrawing(<>
 			<BoundedLine data-testid="bounded" through={[[-10, 50], [110, 50]]} />
+			<BoundedLine data-testid="bounded-line" line={new GeometryLine([0, 20], [1, 0])} />
 			<RightAngle data-testid="right-angle" positions={[[20, 0], [0, 0], [0, 20]]} size={{ pixelDistance: 5 }} />
 		</>)
 		expect(screen.getByTestId('bounded').getAttribute('d')).toBe('M0 50 L100 50')
+		expect(screen.getByTestId('bounded-line').getAttribute('d')).toBe('M0 20 L100 20')
 		expect(screen.getByTestId('right-angle').getAttribute('d')).toBe('M5 0 L5 5 L0 5')
 	})
 
 	test('renders a distance marker and its arrowhead definition', () => {
-		const { container } = renderDrawing(<DistanceMarker data-testid="distance" positions={[[10, 10], [30, 10]]} />)
+		const { container } = renderDrawing(<>
+			<DistanceMarker data-testid="distance" positions={[[10, 10], [30, 10]]} />
+			<DistanceMarker data-testid="distance-segment" lineSegment={new LineSegment([10, 20], [30, 20])} />
+		</>)
 		expect(screen.getByTestId('distance').style.markerStart).toContain('distance-marker')
+		expect(screen.getByTestId('distance-segment').getAttribute('d')).toBe('M10 20 L30 20')
 		expect(container.querySelector('defs marker')?.getAttribute('refX')).toBe('10')
 		expect(container.querySelector('defs marker path')?.getAttribute('d')).toBe('M0 0 L10 5 L0 10')
 		expect(container.querySelector('defs marker path')?.getAttribute('fill')).toBe('none')

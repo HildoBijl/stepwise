@@ -1,16 +1,25 @@
-import type { ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, ReactNode, Ref } from 'react'
 
 import type { Vector, VectorLike } from '@step-wise/geometry'
 
 import type { FigureProps } from '../Figure/index.ts'
 import type { DrawingCoordinateSystem, DrawingView } from '../transforms/index.ts'
 
-export type DrawingProps = Omit<FigureProps, 'children' | 'height' | 'width'> & {
+export interface DrawingOptions {
 	children?: ReactNode
 	clip?: boolean
-	view: DrawingView
 	useCanvas?: boolean
 	useSvg?: boolean
+}
+
+export type DrawingProps = Omit<ComponentPropsWithoutRef<'div'>, 'children'> & DrawingOptions & {
+	ref?: Ref<DrawingHandle>
+	view: DrawingView
+}
+
+export type DrawingFigureProps = Omit<FigureProps, 'children' | 'height' | 'ref' | 'width'> & DrawingOptions & {
+	ref?: Ref<DrawingHandle>
+	view: DrawingView
 }
 
 export interface DrawingHandle {

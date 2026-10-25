@@ -1,6 +1,5 @@
 export * from './types.ts'
-export { useDrawing, useDrawingId, useDrawingCoordinateSystem } from './context.ts'
-export type { DrawingContextValue } from './context.ts'
+export { type DrawingContextValue, useDrawing, useDrawingCoordinateSystem, useDrawingId } from './context.ts'
 export * from './portals.tsx'
 export * from './pointer.ts'
 export * from './Drawing.tsx'

@@ -2,16 +2,20 @@ import { isPlainObject } from '@step-wise/js-utils'
 
 import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector/index.ts'
 
-import type { RectangleInput } from './types.ts'
+import type { RectangleCorners, RectangleInput, RectangleObject } from './types.ts'
 
-export function isRectangleObject(value: unknown): value is RectangleInput {
+export function isRectangleCorners(value: unknown): value is RectangleCorners {
+	return Array.isArray(value) && value.length === 2 && isVectorLike(value[0]) && isVectorLike(value[1])
+}
+
+export function isRectangleObject(value: unknown): value is RectangleObject {
 	if (!isPlainObject(value)) return false
 
 	const hasMin = value.min !== undefined
 	const hasMax = value.max !== undefined
 	const hasSize = value.size !== undefined
 
-	// A line segment must at least specify two of the three.
+	// A rectangle object must at least specify two of the three.
 	const count = Number(hasMin) + Number(hasMax) + Number(hasSize)
 	if (count < 2) return false
 	if (hasMin && !isVectorLike(value.min)) return false
@@ -21,7 +25,7 @@ export function isRectangleObject(value: unknown): value is RectangleInput {
 }
 
 export function isRectangleInput(value: unknown): value is RectangleInput {
-	return isRectangleObject(value)
+	return isRectangleCorners(value) || isRectangleObject(value)
 }
 
 export function getMinAndMax(start: VectorLike, end: VectorLike): [Vector, Vector] {

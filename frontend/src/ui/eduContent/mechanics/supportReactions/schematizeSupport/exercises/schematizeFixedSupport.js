@@ -3,7 +3,7 @@ import React from 'react'
 import { degreesToRadians, anglesEqual } from '@step-wise/js-utils'
 import { Vector, Line } from '@step-wise/geometry'
 import { isForce, isMoment } from '@step-wise/engineering-mechanics'
-import { Drawing } from '@step-wise/drawing'
+import { DrawingFigure } from '@step-wise/drawing'
 
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -161,7 +161,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const snappers = [A, Line.fromPointAndAngle(A, degreesToRadians(wallRotation)), Line.fromPointAndAngle(A, degreesToRadians(wallRotation + 90)), Line.fromPointAndAngle(A, degreesToRadians(wallRotation + beamRotation)), Line.fromPointAndAngle(A, degreesToRadians(wallRotation + beamRotation + 90))]
 	return isInputField ?
 		<FBDInput id="loads" view={view} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)}>{schematics}</FBDInput> :
-		<Drawing view={view}>{schematics}</Drawing>
+		<DrawingFigure view={view}>{schematics}</DrawingFigure>
 }
 
 function Schematics({ loads, showSupports = true }) {

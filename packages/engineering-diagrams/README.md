@@ -14,17 +14,17 @@ npm install @step-wise/engineering-diagrams @step-wise/drawing @step-wise/engine
 
 The package deliberately contains presentation only. `@step-wise/engineering-mechanics` remains independent of React and this package depends on it, never the reverse. Diagram components use ordinary Drawing positions and distances, so drawing coordinates, pixel offsets, target positions, and responsive scaling remain available.
 
-Use the components inside a `Drawing` from `@step-wise/drawing`:
+Use the components inside a fixed-size `Drawing` or responsive `DrawingFigure` from `@step-wise/drawing`:
 
 ```tsx
-import { Drawing } from '@step-wise/drawing'
+import { DrawingFigure } from '@step-wise/drawing'
 import { Beam, FixedSupport, Force } from '@step-wise/engineering-diagrams'
 
-<Drawing view={{ type: 'bounds', bounds: { min: [-1, -1], max: [11, 5] }, width: 600, height: 300, yDirection: 'up' }}>
+<DrawingFigure view={{ type: 'bounds', bounds: { min: [-1, -1], max: [11, 5] }, width: 600, height: 300, yDirection: 'up' }}>
 	<Beam positions={[[0, 0], [10, 0]]} />
 	<FixedSupport position={[0, 0]} angle={Math.PI} />
 	<Force position={[7, 0]} angle={-Math.PI / 2} color="crimson" />
-</Drawing>
+</DrawingFigure>
 ```
 
 
@@ -37,7 +37,7 @@ Structural components include `Beam`, `Hinge`, and `HalfHinge`. Complete support
 - `RollerSupport` and `AdjacentRollerSupport`;
 - `RollerHingeSupport` and `RollerHalfHingeSupport`.
 
-Symbol dimensions are internal Drawing pixels by default. They therefore scale together with the surrounding Drawing when its responsive Figure shrinks.
+Symbol dimensions are internal Drawing pixels by default. They therefore scale together with the surrounding drawing when a `DrawingFigure` shrinks.
 
 
 ## Loads and labels

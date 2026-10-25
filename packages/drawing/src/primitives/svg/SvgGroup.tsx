@@ -1,9 +1,11 @@
-import { type SVGProps, forwardRef } from 'react'
+import type { SVGProps } from 'react'
 
 import { ensureNumber } from '@step-wise/js-utils'
 
 import { SvgPortal, useDrawing, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
-import { type Position, useResolvedPosition } from '../../positioning/index.ts'
+import type { Position } from '../../positioning/index.ts'
+
+import { useRenderPosition } from '../resolution.ts'
 
 export interface SvgGroupProps extends Omit<SVGProps<SVGGElement>, 'clip'> {
 	clip?: boolean
@@ -12,13 +14,13 @@ export interface SvgGroupProps extends Omit<SVGProps<SVGGElement>, 'clip'> {
 	scale?: number
 }
 
-export const SvgGroup = forwardRef<SVGGElement, SvgGroupProps>(function SvgGroup(props, ref) {
+export function SvgGroup(props: SvgGroupProps) {
 	const { children, clip, position, rotate = 0, scale = 1, style, ...groupProps } = props
 	const { clipPathId } = useDrawing()
 	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// Resolve an explicit position and abort if it is not valid.
-	const resolvedPosition = useResolvedPosition(position)
+	const resolvedPosition = useRenderPosition(position)
 	if (position !== undefined && resolvedPosition === undefined) return null
 	const translation = resolvedPosition ?? { x: 0, y: 0 }
 
@@ -28,6 +30,6 @@ export const SvgGroup = forwardRef<SVGGElement, SvgGroupProps>(function SvgGroup
 	const transform = `translate(${translation.x} ${translation.y}) rotate(${rotation * 180 / Math.PI}) scale(${resolvedScale})`
 
 	// Render the transformed group, optionally inside an untransformed clipping group.
-	const group = <g {...groupProps} ref={ref} style={style} transform={transform}>{children}</g>
+	const group = <g {...groupProps} style={style} transform={transform}>{children}</g>
 	return <SvgPortal>{clip ? <g clipPath={`url(#${clipPathId})`}>{group}</g> : group}</SvgPortal>
-})
+}

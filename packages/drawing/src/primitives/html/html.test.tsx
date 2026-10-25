@@ -1,8 +1,10 @@
 // @vitest-environment jsdom
 
-import type { ReactNode } from 'react'
+import { type ReactNode, createRef } from 'react'
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, test, vi } from 'vitest'
+
+import { LineSegment } from '@step-wise/geometry'
 
 import { Drawing } from '../../Drawing/index.ts'
 import { anchors } from '../../positioning/index.ts'
@@ -18,6 +20,17 @@ afterEach(() => {
 })
 
 describe('HTML drawing primitives', () => {
+	test('accepts refs as regular React 19 props', () => {
+		const elementRef = createRef<HTMLDivElement>()
+		const labelRef = createRef<HTMLDivElement>()
+		renderDrawing(<>
+			<HtmlElement position={[10, 20]} ref={elementRef}>Element</HtmlElement>
+			<Label position={[10, 20]} ref={labelRef}>Label</Label>
+		</>)
+		expect(elementRef.current).toBe(screen.getByText('Element'))
+		expect(labelRef.current).toBe(screen.getByText('Label'))
+	})
+
 	test('positions and anchors an HTML element in the Drawing HTML layer', () => {
 		const { container } = renderDrawing(<HtmlElement anchor={anchors.topLeft} position={[10, 20]} scale={2}>Element</HtmlElement>)
 		const element = screen.getByText('Element')
@@ -29,7 +42,14 @@ describe('HTML drawing primitives', () => {
 
 	test('supports interactive elements explicitly', () => {
 		renderDrawing(<HtmlElement ignoreMouse={false} position={[0, 0]}>Interactive</HtmlElement>)
-		expect(screen.getByText('Interactive').style.pointerEvents).toBe('auto')
+		const element = screen.getByText('Interactive')
+		expect(element.style.pointerEvents).toBe('auto')
+		expect(element.style.userSelect).toBe('')
+	})
+
+	test('prevents selection for non-interactive elements', () => {
+		renderDrawing(<HtmlElement position={[0, 0]}>Non-interactive</HtmlElement>)
+		expect(screen.getByText('Non-interactive').style.userSelect).toBe('none')
 	})
 
 	test('does not wrap contents unless wrapping is explicitly enabled', () => {
@@ -74,10 +94,14 @@ describe('HTML drawing primitives', () => {
 	})
 
 	test('places line labels opposite a supplied position', () => {
-		renderDrawing(<LineLabel distance={{ pixelDistance: 10 }} oppositeTo={[5, 10]} positions={[[0, 0], [10, 0]]}>Line</LineLabel>)
+		renderDrawing(<>
+			<LineLabel distance={{ pixelDistance: 10 }} oppositeTo={[5, 10]} positions={[[0, 0], [10, 0]]}>Line</LineLabel>
+			<LineLabel lineSegment={new LineSegment([0, 20], [10, 20])} oppositeTo={[5, 30]}>Segment</LineLabel>
+		</>)
 		const label = screen.getByText('Line')
 		expect(Number.parseFloat(label.style.left)).toBeCloseTo(5)
 		expect(Number.parseFloat(label.style.top)).toBeCloseTo(-10)
+		expect(Number.parseFloat(screen.getByText('Segment').style.left)).toBeCloseTo(5)
 	})
 
 	test('places corner labels inside the angle', () => {

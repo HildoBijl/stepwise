@@ -1,26 +1,26 @@
 # Drawing
 
-`Drawing` combines a logical coordinate system with synchronized SVG, HTML, and optional Canvas layers. It is responsive through `Figure`: the Drawing keeps fixed internal pixel dimensions while the complete result can scale to fit the page.
+`Drawing` combines a logical coordinate system with synchronized SVG, HTML, and optional Canvas layers at fixed dimensions. `DrawingFigure` wraps the same drawing surface in `Figure`, responsively scaling the complete result to fit the page. Use `Drawing` when the component should behave like an ordinary fixed-size HTML element—for example inside a separate pan-and-zoom system—and `DrawingFigure` for page content that should shrink or grow with its container.
 
 
 ## Basic example
 
 ```tsx
-import { Circle, Drawing, HtmlElement, Line, Rectangle, anchors } from '@step-wise/drawing'
+import { Circle, DrawingFigure, HtmlElement, Line, Rectangle, anchors } from '@step-wise/drawing'
 
-<Drawing
+<DrawingFigure
 	view={{ type: 'bounds', bounds: { min: [-1, -1], max: [7, 5] }, width: 640, height: 400, margin: 30, yDirection: 'up' }}
 	maxWidth={640}
 >
-	<Rectangle corners={[[0, 0], [6, 4]]} fill="#e3f2fd" />
+	<Rectangle rectangle={[[0, 0], [6, 4]]} fill="#e3f2fd" />
 	<Line positions={[[0, 0], [3, 3], [6, 1]]} stroke="steelblue" />
 	<Circle center={[3, 3]} radius={{ pixelDistance: 6 }} fill="crimson" />
 	<HtmlElement position={[3, 3]} anchor={anchors.bottom} style={{ paddingBottom: 8 }}>Peak</HtmlElement>
 	<HtmlElement position={{ position: [6, 1], pixelOffset: [10, 0] }} anchor={anchors.left}>Endpoint</HtmlElement>
-</Drawing>
+</DrawingFigure>
 ```
 
-The rectangle and line use drawing coordinates. The circle has a fixed internal-pixel radius, and the endpoint label combines a drawing position with a pixel offset. All of them scale together when the complete Drawing is displayed responsively.
+The rectangle and line use drawing coordinates. The circle has a fixed internal-pixel radius, and the endpoint label combines a drawing position with a pixel offset. All of them scale together because this example uses `DrawingFigure`. Replacing it with `Drawing` keeps the resolved internal width and height without responsive scaling.
 
 
 ## Primitives
@@ -41,7 +41,7 @@ Primitives accept their normal SVG or HTML properties, styles, class names, even
 <CornerLabel positions={[[4, 0], [0, 0], [0, 4]]} size={{ pixelDistance: 30 }}>α</CornerLabel>
 ```
 
-`HtmlElement` contents do not wrap by default. Set a width and `whiteSpace` through `style` when wrapping is desired. Mouse interaction is ignored by default; set `ignoreMouse={false}` for interactive contents. Use `behind` to place an element below the SVG layer.
+`HtmlElement` contents do not wrap by default. Set a width and `whiteSpace` through `style` when wrapping is desired. Mouse interaction and text selection are ignored by default; set `ignoreMouse={false}` for normal interactive HTML behavior, including text selection. Use `behind` to place an element below the SVG layer.
 
 ### SVG primitives
 
@@ -57,11 +57,15 @@ Primitives accept their normal SVG or HTML properties, styles, class names, even
 <Line positions={[[0, 0], [2, 3], [5, 1]]} />
 <Polygon positions={[[0, 0], [4, 0], [2, 3]]} fill="currentColor" />
 <Circle center={[2, 3]} radius={1} />
-<Rectangle corners={[[0, 0], [4, 3]]} cornerRadius={{ pixelDistance: 4 }} />
+<Rectangle rectangle={[[0, 0], [4, 3]]} cornerRadius={{ pixelDistance: 4 }} />
 <Arc center={[0, 0]} radius={2} startAngle={0} endAngle={Math.PI / 2} />
 ```
 
-`Curve` supports paths that pass through their positions or round around them. Ratio and distance smoothing are mutually exclusive.
+The `Rectangle` component's `rectangle` prop accepts any `RectangleLike` value from `@step-wise/geometry`, including a pair of vector-like corners, a rectangle definition object, or a `Rectangle` instance. Use its mutually exclusive `corners` prop instead when either corner is a target-based, calculated, or otherwise advanced drawing `Position`.
+
+Likewise, `BoundedLine` accepts either a geometry `LineLike` through `line` or two drawing positions through `through`. `DistanceMarker` and `LineLabel` accept either a geometry `LineSegmentLike` through `lineSegment` or two drawing positions through `positions`. The position-based alternatives support target-based and calculated positions.
+
+`Curve` supports paths that pass through their positions or round around them. Ratio and distance smoothing are mutually exclusive. A smoothing ratio normally ranges from `0` (no smoothing) to `1` (the highest normally sensible smoothing); values above `1` are accepted but may overshoot or self-intersect. Both through-curves and around-curves default to a ratio of `0.8`. For open around-curves, rounding next to the endpoints may use the full adjacent section, while rounding along interior sections is limited to half of the section. This applies to both ratio- and distance-based smoothing. Open through-curves keep their endpoint control points at the endpoints themselves.
 
 ```tsx
 <Curve positions={points} smoothing={{ mode: 'through', ratio: 0.7 }} />
@@ -125,7 +129,15 @@ Positions may also refer to measured targets or calculate a result from other po
 }
 ```
 
-`resolvePosition` resolves a specification with an explicit coordinate system. `useResolvedPosition` resolves one in the current Drawing and returns a render position, or `undefined` while a required target is unavailable.
+`resolvePosition` resolves a specification to pixels using an explicit coordinate system. Its optional third argument is a function that retrieves target bounds when the position refers to measured targets. Inside a Drawing, `useDrawingPosition` returns drawing coordinates and `useDrawingPixelPosition` returns pixel coordinates. Their plural counterparts, `useDrawingPositions` and `useDrawingPixelPositions`, preserve the input array and return `undefined` for individual positions whose required targets are unavailable. The public positioning API therefore stays independent of SVG's render-coordinate conventions, including when `yDirection` is `up`.
+
+```ts
+const drawingPosition = useDrawingPosition(position)
+const pixelPosition = useDrawingPixelPosition(position)
+
+const drawingPositions = useDrawingPositions(positions)
+const pixelPositions = useDrawingPixelPositions(positions)
+```
 
 Distances follow the same pattern:
 
@@ -135,10 +147,16 @@ Distances follow the same pattern:
 { pixelDistance: 200 }
 ```
 
-`resolveDistance` and `useResolvedDistance` resolve them. A calculated distance can derive a value from multiple positions.
+`resolveDistance` resolves to pixels using an explicit coordinate system and accepts the same optional target-bounds function. The hooks `useDrawingDistance` and `useDrawingPixelDistance` return drawing and pixel distances respectively; `useDrawingDistances` and `useDrawingPixelDistances` resolve arrays while preserving unresolved entries as `undefined`. A calculated distance can derive a value from multiple positions.
 
 ```ts
-const distance = useResolvedDistance({
+const drawingDistance = useDrawingDistance(distance)
+const pixelDistance = useDrawingPixelDistance(distance)
+
+const drawingDistances = useDrawingDistances(distances)
+const pixelDistances = useDrawingPixelDistances(distances)
+
+const calculatedDistance = useDrawingPixelDistance({
 	positions: [{ target: 'first' }, { target: 'second' }],
 	calculate: ([first, second]) => second.subtract(first).magnitude,
 })
@@ -168,7 +186,17 @@ const targetRef = useDrawingTarget<HTMLTableCellElement>('population-heading')
 <th ref={targetRef}>Population</th>
 ```
 
-It can also register a text node. `useDrawingTextTarget` searches an existing DOM subtree for matching text and optionally targets one of its parent elements.
+`useDrawingElementTarget` resolves an element inside a container and keeps the registration synchronized as the container's DOM changes. Containers can be nodes, refs, or the name of another registered target.
+
+```tsx
+useDrawingElementTarget(
+	'population-cell',
+	'table',
+	table => table.querySelector('[data-column="population"]'),
+)
+```
+
+`useDrawingTextTarget` uses the same observed lifecycle to search an existing DOM subtree for matching text and optionally target one of its parent elements.
 
 ```tsx
 const tableRef = useRef<HTMLTableElement>(null)
@@ -177,7 +205,21 @@ useDrawingTextTarget('population-heading', tableRef, 'Population', { parentDepth
 
 Named anchors such as `anchors.top`, `anchors.left`, and `anchors.bottomRight` retain their visual meaning for either y-direction. Custom anchors use normalized coordinates from `-1` to `1` and follow the pixel-coordinate y-direction.
 
-Targets are observed only while a position refers to them. A target-dependent position remains unresolved until the target has rendered and been measured. Dependency-cycle detection is deliberately not included; a layout cycle remains unresolved and does not render.
+Use `useDrawingTargetBounds` or `useDrawingTargetPixelBounds` to read a target's measured bounds in drawing or pixel coordinates. The corresponding `useDrawingTargetBoundsMap` and `useDrawingTargetPixelBoundsMap` hooks subscribe to multiple target names at once.
+
+```ts
+const drawingBounds = useDrawingTargetBounds('table')
+const pixelBounds = useDrawingTargetPixelBounds('table')
+
+const drawingBoundsMap = useDrawingTargetBoundsMap(['table', 'heading'])
+const pixelBoundsMap = useDrawingTargetPixelBoundsMap(['table', 'heading'])
+```
+
+These hooks return `Bounds` objects. Their `minX`, `maxX`, `minY`, and `maxY` properties describe the coordinate range, while `top`, `bottom`, `topLeft`, `center`, and the other named points follow the Drawing's configured `yDirection`. Use `bounds.rectangle` when an ordinary geometry `Rectangle` is needed, or `bounds.getAnchor(anchor)` to resolve a named anchor directly.
+
+Targets are observed only while a position or bounds hook refers to them. A target-dependent value remains unresolved until the target has rendered and been measured. Dependency-cycle detection is deliberately not included; a layout cycle remains unresolved and does not render.
+
+During a view transition, ordinary target-dependent positions keep using the last measured bounds until fresh bounds become available. This keeps positioned content mounted while the Drawing settles. Measurements are considered settled only after a complete follow-up pass finds no meaningful changes, allowing chains of target-dependent elements to update before they affect a measured view. Measured drawings internally use a stricter mode that waits for settled bounds measured in the current coordinate system.
 
 
 ## Views
@@ -191,7 +233,7 @@ The `view` prop determines the Drawing dimensions and drawing-to-pixel transform
 - `custom` accepts dimensions and a custom drawing-to-pixel transformation.
 
 ```tsx
-<Drawing view={{
+<DrawingFigure view={{
 	type: 'fit',
 	points: [[-2, 0], [4, 3]],
 	maxWidth: 600,
@@ -200,10 +242,16 @@ The `view` prop determines the Drawing dimensions and drawing-to-pixel transform
 	yDirection: 'up',
 }}>
 	...
-</Drawing>
+</DrawingFigure>
 ```
 
 `scale` and `fit` accept an optional `pretransform`. Margins can be one number, one value per axis, or separate negative- and positive-side values for each axis. `resolveDrawingView` and the individual view resolvers are public when another component needs to resolve a view itself.
+
+A custom drawing-to-pixel transformation must map each drawing axis onto a pixel axis. Independent scaling, reflection, translation, and exchanging the x- and y-axes are supported; rotation to a non-axis-aligned direction and shear are rejected. This guarantees that target rectangles remain axis-aligned in drawing and pixel coordinates.
+
+### Views based on measured targets
+
+Use `MeasuredDrawing` to derive a fixed-size view from named HTML or SVG targets after they render, or `MeasuredDrawingFigure` for its responsive counterpart. See the [MeasuredDrawing guide](../MeasuredDrawing/README.md) for custom view calculations, staged target resolution, and the target-bounds variants.
 
 
 ## Layers, portals, and clipping
@@ -216,7 +264,7 @@ Drawing provides an optional Canvas layer, an SVG layer enabled by default, and 
 
 Package primitives select the correct portal automatically. Nested SVG portals reuse their surrounding SVG portal.
 
-Set `clip` on `Drawing` to clip every layer to its internal rectangle. Set `clip` on `SvgGroup` to clip only that group.
+Set `clip` on `Drawing` or `DrawingFigure` to clip every layer to its internal rectangle. Set `clip` on `SvgGroup` to clip only that group.
 
 ```tsx
 <Drawing clip view={view}>...</Drawing>

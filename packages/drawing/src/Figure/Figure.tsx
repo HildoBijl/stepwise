@@ -1,13 +1,13 @@
-import { forwardRef, useRef } from 'react'
+import { useRef } from 'react'
 
 import { ensureNumber } from '@step-wise/js-utils'
 import { useElementMeasurement } from '@step-wise/react-utils'
 
 import { type FigureAlignment, type FigureProps, ensureFigureAlignment } from './types.ts'
 
-export const Figure = forwardRef<HTMLDivElement, FigureProps>(function Figure(props, ref) {
+export function Figure(props: FigureProps) {
 	// Extract and check input.
-	const { children, width: widthInput, height: heightInput, maxWidth: maxWidthInput, alignment: alignmentInput = 'center', style, ...divProps } = props
+	const { alignment: alignmentInput = 'center', children, height: heightInput, maxWidth: maxWidthInput, ref, style, width: widthInput, ...divProps } = props
 	const width = ensureNumber(widthInput, { nonNegative: true, nonZero: true })
 	const height = ensureNumber(heightInput, { nonNegative: true, nonZero: true })
 	const maxWidth = maxWidthInput === 'none' ? 'none' : ensureNumber(maxWidthInput ?? width, { nonNegative: true, nonZero: true })
@@ -15,7 +15,7 @@ export const Figure = forwardRef<HTMLDivElement, FigureProps>(function Figure(pr
 
 	// Use the viewport width to determine the scale of the figure content.
 	const viewportRef = useRef<HTMLDivElement>(null)
-	const displayedWidth = useElementMeasurement(viewportRef, element => element.getBoundingClientRect().width)
+	const displayedWidth = useElementMeasurement(viewportRef, element => element.clientWidth)
 	const scale = displayedWidth === undefined || displayedWidth === 0 ? undefined : displayedWidth / width
 
 	// Render the figure.
@@ -45,7 +45,7 @@ export const Figure = forwardRef<HTMLDivElement, FigureProps>(function Figure(pr
 			</div>
 		</div>
 	</div>
-})
+}
 
 function getAlignmentMargin(alignment: FigureAlignment): string {
 	switch (alignment) {

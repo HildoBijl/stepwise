@@ -4,7 +4,7 @@ import { createRef } from 'react'
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
-import { Drawing } from './Drawing.tsx'
+import { Drawing, DrawingFigure } from './Drawing.tsx'
 import { useDrawingCoordinateSystem } from './context.ts'
 import { HtmlPortal, SvgDefsPortal, SvgPortal } from './portals.tsx'
 import type { DrawingHandle } from './types.ts'
@@ -31,8 +31,10 @@ describe('Drawing', () => {
 		expect(svg.style.zIndex).toBe('2')
 		expect(htmlLayers[1].style.zIndex).toBe('3')
 		expect(svg.style.pointerEvents).toBe('none')
+		expect(svg.style.userSelect).toBe('none')
 		expect(htmlLayers[0].style.pointerEvents).toBe('none')
 		expect(htmlLayers[1].style.pointerEvents).toBe('none')
+		expect(canvas.parentElement!.style.userSelect).toBe('')
 	})
 
 	test('renders portal contents into their corresponding layers', () => {
@@ -89,6 +91,19 @@ describe('Drawing', () => {
 		expect(drawingElement.style.overflow).toBe('hidden')
 		expect(clipRectangle.getAttribute('width')).toBe('300')
 		expect(clipRectangle.getAttribute('height')).toBe('200')
+	})
+
+	test('only scales drawings when explicitly wrapped in a DrawingFigure', () => {
+		vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(150)
+
+		const { container } = render(<DrawingFigure aria-label="Responsive drawing" view={{ type: 'identity', width: 300, height: 200 }} />)
+		const figure = screen.getByLabelText('Responsive drawing')
+		const scaledContents = figure.firstElementChild!.firstElementChild as HTMLElement
+		const drawing = container.querySelector('svg')!.parentElement!
+
+		expect(scaledContents.style.transform).toBe('scale(0.5)')
+		expect(drawing.style.width).toBe('300px')
+		expect(drawing.style.height).toBe('200px')
 	})
 })
 

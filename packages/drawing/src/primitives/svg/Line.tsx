@@ -1,9 +1,9 @@
-import { forwardRef } from 'react'
-
 import { first, last } from '@step-wise/js-utils'
 
 import { SvgPortal } from '../../Drawing/index.ts'
-import { useResolvedDistance, useResolvedPositions } from '../../positioning/index.ts'
+import { useDrawingPixelDistance } from '../../positioning/index.ts'
+
+import { useRenderPositions } from '../resolution.ts'
 
 import { type ArrowedPathProps, getDefaultPathArrowHeadSize, ResolvedArrowHead, resolveArrowHeadOptions } from './ArrowHead.tsx'
 import { getLinePath, prepareArrowedPositions } from './support.ts'
@@ -11,16 +11,16 @@ import type { PointSequenceProps, SvgPathProps } from './types.ts'
 
 export interface LineProps extends SvgPathProps, PointSequenceProps, ArrowedPathProps { }
 
-export const Line = forwardRef<SVGPathElement, LineProps>(function Line(props, ref) {
+export function Line(props: LineProps) {
 	const { close = false, endArrow, fill = 'none', positions, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
 	const startArrowOptions = resolveArrowHeadOptions(startArrow)
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)
 
 	// Resolve positions and abort if they are not valid.
-	const resolvedPositions = useResolvedPositions(positions)
+	const resolvedPositions = useRenderPositions(positions)
 	const defaultArrowSize = getDefaultPathArrowHeadSize(strokeWidth)
-	const startArrowSize = useResolvedDistance(startArrowOptions?.size ?? defaultArrowSize)
-	const endArrowSize = useResolvedDistance(endArrowOptions?.size ?? defaultArrowSize)
+	const startArrowSize = useDrawingPixelDistance(startArrowOptions?.size ?? defaultArrowSize)
+	const endArrowSize = useDrawingPixelDistance(endArrowOptions?.size ?? defaultArrowSize)
 	if (resolvedPositions === undefined || startArrowSize === undefined || endArrowSize === undefined) return null
 
 	// Calculate arrow directions and pull the line endpoints underneath any arrowheads.
@@ -32,8 +32,8 @@ export const Line = forwardRef<SVGPathElement, LineProps>(function Line(props, r
 
 	// Render the shape.
 	return <SvgPortal>
-		<path {...pathProps} d={getLinePath(shaftPositions, close)} fill={fill} ref={ref} stroke={stroke} strokeWidth={strokeWidth} />
+		<path {...pathProps} d={getLinePath(shaftPositions, close)} fill={fill} stroke={stroke} strokeWidth={strokeWidth} />
 		{startArrowOptions && <ResolvedArrowHead {...startPolygonProps} direction={arrowedPositions!.directions.startDirection} fill={startFill} position={first(resolvedPositions)} size={startArrowSize} />}
 		{endArrowOptions && <ResolvedArrowHead {...endPolygonProps} direction={arrowedPositions!.directions.endDirection} fill={endFill} position={last(resolvedPositions)} size={endArrowSize} />}
 	</SvgPortal>
-})
+}

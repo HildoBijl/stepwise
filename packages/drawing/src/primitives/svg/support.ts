@@ -3,9 +3,15 @@ import type { Vector } from '@step-wise/geometry'
 
 import { getArrowHeadInset } from './ArrowHead.tsx'
 
+const svgCoordinatePrecision = 12
+
+function formatCoordinate(value: number): string {
+	return Number(value.toFixed(svgCoordinatePrecision)).toString()
+}
+
 // Turn a position into a string that can be used in an SVG path.
 export function getPointPath(position: Vector): string {
-	return `${position.x} ${position.y}`
+	return `${formatCoordinate(position.x)} ${formatCoordinate(position.y)}`
 }
 
 // Turn a sequence of positions into a string that can be used in an SVG path.

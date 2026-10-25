@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { Box } from '@mui/material'
 
-import { Drawing, resolveDrawingView } from '@step-wise/drawing'
+import { DrawingFigure, resolveDrawingView } from '@step-wise/drawing'
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
 
 import { useInputData, useFeedbackResult } from '../../../Input'
@@ -13,7 +13,7 @@ export const defaultDrawingInputHullOptions = {
 	...defaultDrawingInputCoreOptions,
 
 	// Styling and contents.
-	DrawingElement: Drawing,
+	DrawingElement: DrawingFigure,
 	view: { type: 'identity', width: 400, height: 300, yDirection: 'up' },
 	maxWidth: undefined,
 	alignment: 'center',
@@ -30,7 +30,7 @@ export const defaultDrawingInputHullOptions = {
 const border = 0.0625 // em
 const glowRadius = 0.25 // em
 
-// The DrawingInputHull component renders the Drawing with an input-field-like box around it. It also has space to display feedback.
+// The DrawingInputHull component renders the drawing with an input-field-like box around it. It also has space to display feedback.
 export const DrawingInputHull = forwardRef((options, drawingRef) => {
 	options = mergeDefaults(options, defaultDrawingInputHullOptions)
 	let { maxWidth, DrawingElement, className, feedbackIconScale, children, view } = options

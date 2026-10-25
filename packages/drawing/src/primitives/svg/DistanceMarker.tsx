@@ -1,33 +1,42 @@
-import { forwardRef } from 'react'
-
 import { ensureNumber } from '@step-wise/js-utils'
-import { type VectorLike, ensureVector } from '@step-wise/geometry'
+import { type LineSegmentLike, type VectorLike, ensureLineSegment, ensureVector } from '@step-wise/geometry'
 
-import { SvgDefsPortal, useDrawingCoordinateSystem, useDrawingId } from '../../Drawing/index.ts'
-import { type Position, useResolvedPositions } from '../../positioning/index.ts'
+import { SvgDefsPortal, useDrawingId } from '../../Drawing/index.ts'
+import { type Position, useDrawingPixelPositions } from '../../positioning/index.ts'
 
 import { Line, type LineProps } from './Line.tsx'
 
-export interface DistanceMarkerProps extends Omit<LineProps, 'close' | 'positions'> {
-	positions: readonly [Position, Position]
+type DistanceMarkerDefinitionProps =
+	| { lineSegment: LineSegmentLike; positions?: never }
+	| { positions: readonly [Position, Position]; lineSegment?: never }
+
+export type DistanceMarkerProps = Omit<LineProps, 'close' | 'positions'> & DistanceMarkerDefinitionProps & {
 	pixelOffset?: VectorLike
 	markerSize?: number
 }
 
-export const DistanceMarker = forwardRef<SVGPathElement, DistanceMarkerProps>(function DistanceMarker(props, ref) {
-	const { markerSize = 5, pixelOffset = [0, 0], positions, style, ...lineProps } = props
-	const coordinateSystem = useDrawingCoordinateSystem()
+export function DistanceMarker(props: DistanceMarkerProps) {
+	const { lineSegment, markerSize = 5, pixelOffset = [0, 0], positions, style, ...lineProps } = props
 	const id = `${useDrawingId()}-distance-marker`
 
 	// Resolve positions and abort if they are not valid.
-	if (!Array.isArray(positions) || positions.length !== 2) throw new Error('Invalid DistanceMarker positions: expected exactly two positions.')
-	const resolvedPositions = useResolvedPositions(positions)
-	if (resolvedPositions === undefined) return null
+	if (lineSegment !== undefined && positions !== undefined) throw new Error('Invalid DistanceMarker definition: expected "lineSegment" or "positions", but not both.')
+	if (positions !== undefined && (!Array.isArray(positions) || positions.length !== 2)) throw new Error('Invalid DistanceMarker positions: expected exactly two positions.')
+	let inputPositions: readonly [Position, Position]
+	if (positions !== undefined) {
+		inputPositions = positions
+	} else {
+		if (lineSegment === undefined) throw new Error('Invalid DistanceMarker definition: expected "lineSegment" or "positions".')
+		const ensuredLineSegment = ensureLineSegment(lineSegment, { dimension: 2 })
+		inputPositions = [ensuredLineSegment.start, ensuredLineSegment.end]
+	}
+	const resolvedPositions = useDrawingPixelPositions(inputPositions)
+	if (!resolvedPositions?.every(position => position !== undefined)) return null
 	ensureNumber(markerSize, { nonNegative: true, nonZero: true })
 
 	// Apply the pixel offset to the resolved positions.
-	const offset = coordinateSystem.pixelVectorToRender(ensureVector(pixelOffset, { dimension: 2 }))
-	const shiftedPositions = resolvedPositions.map(position => ({ pixelPosition: coordinateSystem.renderToPixel(position.add(offset)) }))
+	const offset = ensureVector(pixelOffset, { dimension: 2 })
+	const shiftedPositions = resolvedPositions.map(position => ({ pixelPosition: position.add(offset) }))
 
 	// Render the shape with markers at both ends.
 	return <>
@@ -36,6 +45,6 @@ export const DistanceMarker = forwardRef<SVGPathElement, DistanceMarkerProps>(fu
 				<path d={`M0 0 L${markerSize * 2} ${markerSize} L0 ${markerSize * 2}`} fill="none" stroke="context-stroke" />
 			</marker>
 		</SvgDefsPortal>
-		<Line {...lineProps} positions={shiftedPositions} ref={ref} style={{ markerEnd: `url(#${id})`, markerStart: `url(#${id})`, ...style }} />
+		<Line {...lineProps} positions={shiftedPositions} style={{ markerEnd: `url(#${id})`, markerStart: `url(#${id})`, ...style }} />
 	</>
-})
+}

@@ -1,10 +1,10 @@
-import { forwardRef } from 'react'
-
 import { ensureNumber } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 
 import { SvgPortal, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
-import { type Distance, type Position, useResolvedDistance, useResolvedPosition } from '../../positioning/index.ts'
+import { type Distance, type Position, useDrawingPixelDistance } from '../../positioning/index.ts'
+
+import { useRenderPosition } from '../resolution.ts'
 
 import { type ArrowedPathProps, getArrowHeadDirectionInset, getArrowHeadInset, getDefaultPathArrowHeadSize, ResolvedArrowHead, resolveArrowHeadOptions } from './ArrowHead.tsx'
 import { getPointPath } from './support.ts'
@@ -17,18 +17,18 @@ export interface ArcProps extends Omit<SvgPathProps, 'radius'>, ArrowedPathProps
 	endAngle?: number
 }
 
-export const Arc = forwardRef<SVGPathElement, ArcProps>(function Arc(props, ref) {
+export function Arc(props: ArcProps) {
 	const { center = [0, 0], endAngle = Math.PI, endArrow, fill = 'none', radius, startAngle = 0, startArrow, stroke = 'currentColor', strokeWidth = 1, ...pathProps } = props
 	const coordinateSystem = useDrawingCoordinateSystem()
 	const startArrowOptions = resolveArrowHeadOptions(startArrow)
 	const endArrowOptions = resolveArrowHeadOptions(endArrow)
 
 	// Resolve positions/distances and abort if they are not valid.
-	const resolvedCenter = useResolvedPosition(center)
-	const resolvedRadius = useResolvedDistance(radius)
+	const resolvedCenter = useRenderPosition(center)
+	const resolvedRadius = useDrawingPixelDistance(radius)
 	const defaultArrowSize = getDefaultPathArrowHeadSize(strokeWidth)
-	const startArrowSize = useResolvedDistance(startArrowOptions?.size ?? defaultArrowSize)
-	const endArrowSize = useResolvedDistance(endArrowOptions?.size ?? defaultArrowSize)
+	const startArrowSize = useDrawingPixelDistance(startArrowOptions?.size ?? defaultArrowSize)
+	const endArrowSize = useDrawingPixelDistance(endArrowOptions?.size ?? defaultArrowSize)
 	if (resolvedCenter === undefined || resolvedRadius === undefined || startArrowSize === undefined || endArrowSize === undefined) return null
 
 	// Validate other input.
@@ -68,8 +68,8 @@ export const Arc = forwardRef<SVGPathElement, ArcProps>(function Arc(props, ref)
 
 	// Render the arc with any arrowheads.
 	return <SvgPortal>
-		<path {...pathProps} d={path} fill={fill} ref={ref} stroke={stroke} strokeWidth={strokeWidth} />
+		<path {...pathProps} d={path} fill={fill} stroke={stroke} strokeWidth={strokeWidth} />
 		{startArrowOptions && <ResolvedArrowHead {...startPolygonProps} direction={startDirection} fill={startFill} position={start} size={startArrowSize} />}
 		{endArrowOptions && <ResolvedArrowHead {...endPolygonProps} direction={endDirection} fill={endFill} position={end} size={endArrowSize} />}
 	</SvgPortal>
-})
+}

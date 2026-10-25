@@ -26,6 +26,7 @@ export class DrawingCoordinateSystem {
 
 		// Initialize transformations.
 		this.drawingToPixelTransformation = ensureTransformation(options.drawingToPixelTransformation ?? Transformation.getIdentity(2), { dimension: 2, invertible: true })
+		if (!this.drawingToPixelTransformation.matrix.isMonomial()) throw new Error('Invalid Drawing coordinate system: the drawing-to-pixel transformation must map each drawing axis onto a pixel axis.')
 		this.pixelToDrawingTransformation = this.drawingToPixelTransformation.inverse
 		this.pixelToRenderTransformation = getPixelToRenderTransformation(this.height, this.yDirection)
 		this.renderToPixelTransformation = this.pixelToRenderTransformation.inverse

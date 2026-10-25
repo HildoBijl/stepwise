@@ -1,10 +1,11 @@
-import { type CSSProperties, type HTMLAttributes, type ReactNode, forwardRef, useCallback } from 'react'
+import { type CSSProperties, type HTMLAttributes, type ReactNode, type Ref, useCallback } from 'react'
 
 import { ensureNumber } from '@step-wise/js-utils'
 import { useForwardedRef } from '@step-wise/react-utils'
 
 import { HtmlPortal, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
-import { anchors, type Anchor, type Position, resolveAnchor, useDrawingTarget, useResolvedPosition } from '../../positioning/index.ts'
+import { useDrawingTarget } from '../../DrawingTargets/index.ts'
+import { type Anchor, type Position, anchors, resolveAnchor, useDrawingPixelPosition } from '../../positioning/index.ts'
 
 export interface HtmlElementProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
 	children?: ReactNode
@@ -15,10 +16,11 @@ export interface HtmlElementProps extends Omit<HTMLAttributes<HTMLDivElement>, '
 	scale?: number
 	ignoreMouse?: boolean
 	target?: string
+	ref?: Ref<HTMLDivElement>
 }
 
-export const HtmlElement = forwardRef<HTMLDivElement, HtmlElementProps>(function HtmlElement(props, forwardedRef) {
-	const { anchor = anchors.center, behind = false, children, ignoreMouse = true, position, rotate = 0, scale = 1, style, target, ...divProps } = props
+export function HtmlElement(props: HtmlElementProps) {
+	const { anchor = anchors.center, behind = false, children, ignoreMouse = true, position, ref: forwardedRef, rotate = 0, scale = 1, style, target, ...divProps } = props
 	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// When there is a target given, attach a target ref to the element so that it's position is tracked.
@@ -30,28 +32,29 @@ export const HtmlElement = forwardRef<HTMLDivElement, HtmlElementProps>(function
 	}, [ref, targetRef])
 
 	// Resolve the position and abort if not known yet.
-	const resolvedPosition = useResolvedPosition(position)
+	const resolvedPosition = useDrawingPixelPosition(position)
 	if (resolvedPosition === undefined) return null
 
 	// Resolve the anchor, rotation, and scale, then calculate the positioning style for the element.
-	const resolvedAnchor = resolveAnchor(anchor, coordinateSystem)
+	const resolvedAnchor = coordinateSystem.pixelVectorToRender(resolveAnchor(anchor, coordinateSystem))
+	const renderPosition = coordinateSystem.pixelToRender(resolvedPosition)
 	const rotation = ensureNumber(rotate) * (coordinateSystem.yDirection === 'up' ? -1 : 1)
 	const resolvedScale = ensureNumber(scale)
 	const anchorX = (resolvedAnchor.x + 1) * 50
 	const anchorY = (resolvedAnchor.y + 1) * 50
 	const positioningStyle: CSSProperties = {
-		left: resolvedPosition.x,
+		left: renderPosition.x,
 		pointerEvents: ignoreMouse ? 'none' : 'auto',
 		position: 'absolute',
-		top: resolvedPosition.y,
+		top: renderPosition.y,
 		transform: `translate(${-anchorX}%, ${-anchorY}%) rotate(${rotation}rad) scale(${resolvedScale})`,
 		transformOrigin: `${anchorX}% ${anchorY}%`,
 	}
 
 	// Render the element inside a portal, applying the calculated positioning style and any additional styles or props.
 	return <HtmlPortal behind={behind}>
-		<div {...divProps} ref={setRef} style={{ whiteSpace: 'nowrap', ...style, ...positioningStyle }}>
+		<div {...divProps} ref={setRef} style={{ whiteSpace: 'nowrap', userSelect: ignoreMouse ? 'none' : undefined, ...style, ...positioningStyle }}>
 			{children}
 		</div>
 	</HtmlPortal>
-})
+}

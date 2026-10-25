@@ -79,12 +79,13 @@ Factories include `fromPoints`, `fromAngleAndDistance`, `fromPointAndAngle`, `ge
 
 ## Line segments
 
-`LineSegment` represents the finite interval between two points. It can be constructed from `start` and `end`, `start` and `vector`, or `end` and `vector`.
+`LineSegment` represents the finite interval between two points. It can be constructed from separate start and end points, a tuple containing those endpoints, or an object containing `start` and `end`, `start` and `vector`, or `end` and `vector`.
 
 ```ts
 import { LineSegment } from '@step-wise/geometry'
 
 const segment = new LineSegment({ start: [1, 2], vector: [3, 4] })
+const sameSegment = new LineSegment([[1, 2], [4, 6]])
 
 segment.end.coordinates // [4, 6]
 segment.midpoint.coordinates // [2.5, 4]
@@ -98,12 +99,13 @@ Use `sharesEndpointWith`, `liesOnLine`, `isCollinearWith` and `isOrthogonalTo` f
 
 ## Rectangles
 
-`Rectangle` represents an axis-aligned box in any dimension. The constructor accepts two corners in either order or an object containing any consistent two of `min`, `max` and `size`.
+`Rectangle` represents an axis-aligned box in any dimension. The constructor accepts two corners in either order, a tuple containing those two corners, or an object containing any consistent two of `min`, `max` and `size`.
 
 ```ts
 import { Rectangle } from '@step-wise/geometry'
 
 const rectangle = new Rectangle([4, 3], [0, 0])
+const sameRectangle = new Rectangle([[4, 3], [0, 0]])
 
 rectangle.min.coordinates // [0, 0]
 rectangle.size.coordinates // [4, 3]

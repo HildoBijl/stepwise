@@ -1,24 +1,37 @@
-import { forwardRef } from 'react'
-
 import { ensureNumber } from '@step-wise/js-utils'
+import { type RectangleLike, ensureRectangle } from '@step-wise/geometry'
 
 import { SvgPortal } from '../../Drawing/index.ts'
-import { type Distance, type Position, useResolvedDistance, useResolvedPositions } from '../../positioning/index.ts'
+import { type Distance, type Position, useDrawingPixelDistance } from '../../positioning/index.ts'
+
+import { useRenderPositions } from '../resolution.ts'
 
 import type { SvgRectangleProps } from './types.ts'
 
-export interface RectangleProps extends SvgRectangleProps {
-	corners: readonly [Position, Position]
+type RectangleDefinitionProps =
+	| { rectangle: RectangleLike; corners?: never }
+	| { corners: readonly [Position, Position]; rectangle?: never }
+
+export type RectangleProps = SvgRectangleProps & RectangleDefinitionProps & {
 	cornerRadius?: Distance
 }
 
-export const Rectangle = forwardRef<SVGRectElement, RectangleProps>(function Rectangle(props, ref) {
-	const { cornerRadius = { pixelDistance: 0 }, corners, ...rectangleProps } = props
+export function Rectangle(props: RectangleProps) {
+	const { corners, rectangle, cornerRadius = { pixelDistance: 0 }, ...rectangleProps } = props
 
 	// Resolve positions/distances and abort if they are not valid.
-	if (!Array.isArray(corners) || corners.length !== 2) throw new Error('Invalid Rectangle corners: expected exactly two positions.')
-	const resolvedCorners = useResolvedPositions(corners)
-	const resolvedRadius = useResolvedDistance(cornerRadius)
+	if (corners !== undefined && rectangle !== undefined) throw new Error('Invalid Rectangle definition: expected "corners" or "rectangle", but not both.')
+	if (corners !== undefined && (!Array.isArray(corners) || corners.length !== 2)) throw new Error('Invalid Rectangle corners: expected exactly two positions.')
+	let positions: readonly [Position, Position]
+	if (corners !== undefined) {
+		positions = corners
+	} else {
+		if (rectangle === undefined) throw new Error('Invalid Rectangle definition: expected "corners" or "rectangle".')
+		const ensuredRectangle = ensureRectangle(rectangle, { dimension: 2 })
+		positions = [ensuredRectangle.min, ensuredRectangle.max]
+	}
+	const resolvedCorners = useRenderPositions(positions)
+	const resolvedRadius = useDrawingPixelDistance(cornerRadius)
 	if (resolvedCorners === undefined || resolvedRadius === undefined) return null
 	ensureNumber(resolvedRadius, { nonNegative: true })
 
@@ -31,6 +44,6 @@ export const Rectangle = forwardRef<SVGRectElement, RectangleProps>(function Rec
 
 	// Render the shape.
 	return <SvgPortal>
-		<rect {...rectangleProps} height={height} ref={ref} rx={resolvedRadius} width={width} x={x} y={y} />
+		<rect {...rectangleProps} height={height} rx={resolvedRadius} width={width} x={x} y={y} />
 	</SvgPortal>
-})
+}

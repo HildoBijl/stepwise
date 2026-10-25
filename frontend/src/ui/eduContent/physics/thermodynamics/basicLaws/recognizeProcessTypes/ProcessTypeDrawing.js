@@ -3,7 +3,7 @@ import React, { Fragment } from 'react'
 import { first, last } from '@step-wise/js-utils'
 import { M } from '@step-wise/math-display'
 
-import { Drawing, Line as SvgLine, Curve as SvgCurve, HtmlElement } from '@step-wise/drawing'
+import { DrawingFigure, Line as SvgLine, Curve as SvgCurve, HtmlElement } from '@step-wise/drawing'
 
 // Define settings for the drawing.
 const displacement = 0.2
@@ -50,7 +50,7 @@ const processes = [
 ]
 
 export default function ProcessTypeDrawing() {
-	return <Drawing view={{ type: 'fit', points: [...xAxisPoints, ...yAxisPoints], maxWidth: 400, yDirection: 'up' }}>
+	return <DrawingFigure view={{ type: 'fit', points: [...xAxisPoints, ...yAxisPoints], maxWidth: 400, yDirection: 'up' }}>
 		{/* x-axis */}
 		<SvgLine positions={xAxisPoints} />
 		<HtmlElement anchor="topRight" position={{ position: xAxisPoints[1], pixelOffset: [-10, -5] }}><M>V</M></HtmlElement>
@@ -65,5 +65,5 @@ export default function ProcessTypeDrawing() {
 			<HtmlElement position={{ position: first(process.points), pixelOffset: process.nShift }} anchor={process.nAnchor || 'topRight'} style={{ color: process.color }}><M>n = {process.n}</M></HtmlElement>
 			<HtmlElement position={{ position: last(process.points), pixelOffset: process.nameShift }} anchor={process.nameAnchor || 'topRight'} style={{ color: process.color, fontWeight: 'bold' }}>{process.name}</HtmlElement>
 		</Fragment>)}
-	</Drawing>
+	</DrawingFigure>
 }

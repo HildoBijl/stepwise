@@ -3,7 +3,7 @@ import type { Vector } from '@step-wise/geometry'
 
 import type { DrawingCoordinateSystem } from '../transforms/index.ts'
 
-import { getPositionTargets, type Position, type PositionResolutionOptions, resolvePosition } from './positions.ts'
+import { type GetDrawingTargetBounds, type Position, getPositionTargets, resolvePosition } from './positions.ts'
 
 /*
  * Types.
@@ -30,7 +30,7 @@ export type Distance = number | DrawingDistance | PixelDistance | CalculatedDist
  */
 
 // Generally, resolve a distance to a number in pixels.
-export function resolveDistance(distance: Distance, coordinateSystem: DrawingCoordinateSystem, options: PositionResolutionOptions = {}): number | undefined {
+export function resolveDistance(distance: Distance, coordinateSystem: DrawingCoordinateSystem, getTargetBounds?: GetDrawingTargetBounds): number | undefined {
 	if (typeof distance === 'number') return resolveDrawingDistance({ distance }, coordinateSystem)
 	if (!isPlainObject(distance)) throw new Error('Invalid distance: expected a drawing distance, a pixel distance, a calculated distance, or a number.')
 	const hasDistance = 'distance' in distance
@@ -39,7 +39,7 @@ export function resolveDistance(distance: Distance, coordinateSystem: DrawingCoo
 	if (Number(hasDistance) + Number(hasPixelDistance) + Number(isCalculated) !== 1) throw new Error('Invalid distance: expected exactly one drawing distance, pixel distance, or calculated distance.')
 	if (hasDistance) return resolveDrawingDistance(distance as DrawingDistance, coordinateSystem)
 	if (hasPixelDistance) return resolvePixelDistance(distance as PixelDistance)
-	return resolveCalculatedDistance(distance as CalculatedDistance, coordinateSystem, options)
+	return resolveCalculatedDistance(distance as CalculatedDistance, coordinateSystem, getTargetBounds)
 }
 
 // For a drawing distance, convert it to pixels using the drawing coordinate system's scale and apply any pixel offset.
@@ -56,12 +56,12 @@ function resolvePixelDistance(distance: PixelDistance): number {
 }
 
 // For a calculated distance, resolve all the individual positions and then apply the provided calculation function.
-function resolveCalculatedDistance(distance: CalculatedDistance, coordinateSystem: DrawingCoordinateSystem, options: PositionResolutionOptions): number | undefined {
+function resolveCalculatedDistance(distance: CalculatedDistance, coordinateSystem: DrawingCoordinateSystem, getTargetBounds?: GetDrawingTargetBounds): number | undefined {
 	if (!Array.isArray(distance.positions) || distance.positions.length === 0) throw new Error('Invalid calculated distance: expected a non-empty positions array.')
 	if (typeof distance.calculate !== 'function') throw new Error('Invalid calculated distance: expected a calculate function.')
 	const resolvedPositions: Vector[] = []
 	for (const position of distance.positions) {
-		const resolved = resolvePosition(position, coordinateSystem, options)
+		const resolved = resolvePosition(position, coordinateSystem, getTargetBounds)
 		if (!resolved) return undefined
 		resolvedPositions.push(resolved)
 	}

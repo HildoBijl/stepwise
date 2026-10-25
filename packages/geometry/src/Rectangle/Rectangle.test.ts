@@ -15,6 +15,16 @@ describe('Rectangle', () => {
 		expect(rectangle.bottomMiddle.coordinates).toEqual([2, 2])
 	})
 
+	it('accepts a corner tuple as a single input', () => {
+		const corners = [[4, 6], [0, 2]] as const
+		const rectangle = new Rectangle(corners)
+
+		expect(rectangle.min.coordinates).toEqual([0, 2])
+		expect(rectangle.max.coordinates).toEqual([4, 6])
+		expect(isRectangleLike(corners)).toBe(true)
+		expect(ensureRectangle(corners, { dimension: 2 }).equals(rectangle)).toBe(true)
+	})
+
 	it('contains, bounds, and measures points', () => {
 		const rectangle = new Rectangle([0, 0], [4, 2])
 		expect(rectangle.containsPoint([2, 1])).toBe(true)
@@ -62,6 +72,8 @@ describe('Rectangle', () => {
 		expect(Rectangle.fromStorageValue(rectangle.toStorageValue()).equals(rectangle)).toBe(true)
 		expect(deserializeRectangle(serializeRectangle(rectangle)).equals(rectangle)).toBe(true)
 		expect(() => new Rectangle({ min: [0, 0], max: [4, 2], size: [3, 2] })).toThrow()
+		expect(isRectangleLike([[0, 0]])).toBe(false)
+		expect(() => new Rectangle([[0, 0]] as never)).toThrow('exactly two')
 		expect(() => ensureRectangle(rectangle, { dimension: 3 })).toThrow()
 	})
 })

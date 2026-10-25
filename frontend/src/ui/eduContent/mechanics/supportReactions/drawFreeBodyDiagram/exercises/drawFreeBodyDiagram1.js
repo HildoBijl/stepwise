@@ -7,7 +7,7 @@ import { freeBodyDiagramComparisonOptions, loadsEqual, isLoadAtPoint } from '@st
 import { M } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
-import { Drawing } from '@step-wise/drawing'
+import { DrawingFigure } from '@step-wise/drawing'
 import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { useCurrentBackgroundColor } from 'ui/inputs'
 import { StepExercise, useSolution } from 'ui/eduTools'
@@ -175,7 +175,7 @@ function Diagram({ isInputField = false, id, showSupports = true, showSolution =
 	const snappers = points
 	return isInputField ?
 		<FBDInput id={id} view={view} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)}>{schematics}</FBDInput> :
-		<Drawing view={view}>{schematics}</Drawing>
+		<DrawingFigure view={view}>{schematics}</DrawingFigure>
 }
 
 function Schematics({ loads, showSupports = true, zoom }) {

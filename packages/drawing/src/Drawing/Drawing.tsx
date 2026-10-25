@@ -1,19 +1,39 @@
-import { forwardRef, useId, useImperativeHandle, useMemo, useState } from 'react'
+import { useId, useImperativeHandle, useMemo, useState } from 'react'
+
+import { useStableValue } from '@step-wise/react-utils'
 
 import { Figure } from '../Figure/index.ts'
-import { DrawingTargetRegistryProvider } from '../positioning/DrawingTargets/DrawingTargetRegistryProvider.tsx'
-import { resolveDrawingView } from '../transforms/index.ts'
+import { type DrawingCoordinateSystem, resolveDrawingView } from '../transforms/index.ts'
+import { DrawingTargetRegistryProvider } from '../DrawingTargets/DrawingTargetRegistryProvider.tsx'
 
 import { DrawingContextProvider } from './context.ts'
-import type { DrawingHandle, DrawingProps } from './types.ts'
+import type { DrawingFigureProps, DrawingHandle, DrawingProps } from './types.ts'
 
-export const Drawing = forwardRef<DrawingHandle, DrawingProps>(function Drawing(props, ref) {
-	const { children, clip = false, view, useCanvas = false, useSvg = true, ...figureProps } = props
+export function Drawing(props: DrawingProps) {
+	const { ref, view, ...drawingProps } = props
+	const coordinateSystem = useResolvedDrawingCoordinateSystem(view)
+	return <ResolvedDrawing {...drawingProps} coordinateSystem={coordinateSystem} ref={ref} />
+}
+
+export function DrawingFigure(props: DrawingFigureProps) {
+	const { children, clip, ref, useCanvas, useSvg, view, ...figureProps } = props
+	const coordinateSystem = useResolvedDrawingCoordinateSystem(view)
+	const { width, height } = coordinateSystem
+	return <Figure {...figureProps} width={width} height={height}>
+		<ResolvedDrawing clip={clip} coordinateSystem={coordinateSystem} ref={ref} useCanvas={useCanvas} useSvg={useSvg}>
+			{children}
+		</ResolvedDrawing>
+	</Figure>
+}
+
+type ResolvedDrawingProps = Omit<DrawingProps, 'view'> & {
+	coordinateSystem: DrawingCoordinateSystem
+}
+
+function ResolvedDrawing(props: ResolvedDrawingProps) {
+	const { children, clip = false, coordinateSystem, ref, useCanvas = false, useSvg = true, ...divProps } = props
 	const id = useId()
 	const clipPathId = `${id}-drawing-clip`
-
-	// Resolve the drawing view to get the coordinate system and dimensions.
-	const coordinateSystem = useMemo(() => resolveDrawingView(view), [view])
 	const { width, height } = coordinateSystem
 
 	// Set up state for the drawing elements.
@@ -43,24 +63,26 @@ export const Drawing = forwardRef<DrawingHandle, DrawingProps>(function Drawing(
 	// Render the drawing.
 	return <DrawingContextProvider value={context}>
 		<DrawingTargetRegistryProvider element={element} coordinateSystem={coordinateSystem}>
-			<Figure {...figureProps} width={width} height={height}>
-				<div ref={setElement} style={{ height, overflow: clip ? 'hidden' : 'visible', position: 'relative', userSelect: 'none', width }}>
-					{useCanvas && <canvas height={height} ref={setCanvas} width={width} style={layerStyle(0)} />}
-					<div ref={setHtmlBehind} style={{ ...layerStyle(1), pointerEvents: 'none' }} />
-					{useSvg && <svg ref={setSvg} viewBox={`0 0 ${width} ${height}`} style={{ ...layerStyle(2), overflow: 'visible', pointerEvents: 'none' }}>
-						<defs ref={setSvgDefs}>
-							<clipPath id={clipPathId}>
-								<rect height={height} width={width} x={0} y={0} />
-							</clipPath>
-						</defs>
-					</svg>}
-					<div ref={setHtml} style={{ ...layerStyle(3), pointerEvents: 'none' }} />
-					{children}
-				</div>
-			</Figure>
+			<div {...divProps} ref={setElement} style={{ ...divProps.style, height, overflow: clip ? 'hidden' : 'visible', position: 'relative', width }}>
+				{useCanvas && <canvas height={height} ref={setCanvas} width={width} style={layerStyle(0)} />}
+				<div ref={setHtmlBehind} style={{ ...layerStyle(1), pointerEvents: 'none' }} />
+				{useSvg && <svg ref={setSvg} viewBox={`0 0 ${width} ${height}`} style={{ ...layerStyle(2), overflow: 'visible', pointerEvents: 'none', userSelect: 'none' }}>
+					<defs ref={setSvgDefs}>
+						<clipPath id={clipPathId}>
+							<rect height={height} width={width} x={0} y={0} />
+						</clipPath>
+					</defs>
+				</svg>}
+				<div ref={setHtml} style={{ ...layerStyle(3), pointerEvents: 'none' }} />
+				{children}
+			</div>
 		</DrawingTargetRegistryProvider>
 	</DrawingContextProvider>
-})
+}
+
+function useResolvedDrawingCoordinateSystem(view: DrawingProps['view']): DrawingCoordinateSystem {
+	return useStableValue(resolveDrawingView(view), areDrawingCoordinateSystemsEqual)
+}
 
 function layerStyle(zIndex: number) {
 	return {
@@ -71,4 +93,8 @@ function layerStyle(zIndex: number) {
 		width: '100%',
 		zIndex,
 	}
+}
+
+function areDrawingCoordinateSystemsEqual(current: DrawingCoordinateSystem, previous: DrawingCoordinateSystem): boolean {
+	return current.width === previous.width && current.height === previous.height && current.yDirection === previous.yDirection && current.drawingToPixelTransformation.equals(previous.drawingToPixelTransformation)
 }

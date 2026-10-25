@@ -1,19 +1,37 @@
 // @vitest-environment jsdom
 
-import { cleanup, render, screen } from '@testing-library/react'
-import { afterEach, describe, expect, test, vi } from 'vitest'
+import { act, cleanup, render, screen } from '@testing-library/react'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import { Figure } from './Figure.tsx'
+
+let layoutWidth: number
+let screenScale: number
+let resizeCallback: ResizeObserverCallback
+
+beforeEach(() => {
+	layoutWidth = 400
+	screenScale = 1
+	vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockImplementation(() => layoutWidth)
+	vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({ width: layoutWidth * screenScale } as DOMRect))
+	vi.stubGlobal('ResizeObserver', class ResizeObserverMock {
+		constructor(callback: ResizeObserverCallback) {
+			resizeCallback = callback
+		}
+		observe() {}
+		disconnect() {}
+		unobserve() {}
+	})
+})
 
 afterEach(() => {
 	cleanup()
 	vi.restoreAllMocks()
+	vi.unstubAllGlobals()
 })
 
 describe('Figure', () => {
 	test('uniformly scales fixed-size contents to the displayed width', () => {
-		vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({ width: 400 } as DOMRect)
-
 		render(<Figure width={800} height={500} maxWidth={600}><span>Contents</span></Figure>)
 
 		const contents = screen.getByText('Contents').parentElement!
@@ -26,7 +44,7 @@ describe('Figure', () => {
 	})
 
 	test('forwards div properties and its outer-element ref', () => {
-		vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({ width: 200 } as DOMRect)
+		layoutWidth = 200
 		let figure: HTMLDivElement | null = null
 
 		render(<Figure ref={element => { figure = element }} width={200} height={100} alignment="right" aria-label="Diagram" />)
@@ -36,7 +54,7 @@ describe('Figure', () => {
 	})
 
 	test('can grow beyond its internal width when no display maximum is requested', () => {
-		vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({ width: 600 } as DOMRect)
+		layoutWidth = 600
 
 		render(<Figure width={300} height={200} maxWidth="none"><span>Growing contents</span></Figure>)
 
@@ -46,12 +64,33 @@ describe('Figure', () => {
 	})
 
 	test('keeps contents hidden until a measurable width is available', () => {
-		vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({ width: 0 } as DOMRect)
+		layoutWidth = 0
 
 		const { container } = render(<Figure width={200} height={100}>Contents</Figure>)
 
 		const contents = container.firstElementChild!.firstElementChild!.firstElementChild as HTMLElement
 		expect(contents.style.visibility).toBe('hidden')
+	})
+
+	test.each([0.5, 1, 2])('ignores an ancestor screen scale of %s when calculating its responsive scale', ancestorScale => {
+		screenScale = ancestorScale
+		render(<Figure width={800} height={500}><span>Scaled ancestor contents</span></Figure>)
+
+		expect(screen.getByText('Scaled ancestor contents').parentElement!.style.transform).toBe('scale(0.5)')
+	})
+
+	test('responds to layout resizing but not ancestor zoom changes after mounting', () => {
+		const { rerender } = render(<Figure width={800} height={500}><span>Responsive contents</span></Figure>)
+		const contents = screen.getByText('Responsive contents').parentElement!
+		expect(contents.style.transform).toBe('scale(0.5)')
+
+		screenScale = 2
+		rerender(<Figure width={800} height={500}><span>Responsive contents</span></Figure>)
+		expect(contents.style.transform).toBe('scale(0.5)')
+
+		layoutWidth = 600
+		act(() => resizeCallback([{} as ResizeObserverEntry], {} as ResizeObserver))
+		expect(contents.style.transform).toBe('scale(0.75)')
 	})
 
 	test('rejects invalid dimensions and alignment', () => {

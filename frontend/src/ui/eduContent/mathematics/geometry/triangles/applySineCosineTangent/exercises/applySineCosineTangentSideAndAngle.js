@@ -5,7 +5,7 @@ import { expressionComparisons } from '@step-wise/cas'
 import { M, BM } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
-import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel } from '@step-wise/drawing'
+import { DrawingFigure, Polygon, RightAngle, CornerLabel, LineLabel } from '@step-wise/drawing'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'
 import { StepExercise, useExerciseData, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
@@ -120,14 +120,14 @@ function ExerciseFigure() {
 	const labelSize = 34
 
 	// Render the figure.
-	return <Drawing view={{ type: 'fit', points, pretransform, maxWidth: 300, maxHeight: 300, margin: 20 }}>
+	return <DrawingFigure view={{ type: 'fit', points, pretransform, maxWidth: 300, maxHeight: 300, margin: 20 }}>
 		<Polygon positions={points} style={{ fill: '#aaccff' }} />
 		<RightAngle positions={points} size={{ pixelDistance: 10 }} />
 
 		<LineLabel positions={[pointsInSideOrder[(known + 1) % 3], pointsInSideOrder[(known + 2) % 3]]} oppositeTo={pointsInSideOrder[known]}><M>{x}</M></LineLabel>
 		<LineLabel positions={[pointsInSideOrder[(requested + 1) % 3], pointsInSideOrder[(requested + 2) % 3]]} oppositeTo={pointsInSideOrder[requested]}><M>{y}</M></LineLabel>
 		<CornerLabel positions={[points[2], points[0], points[1]]} size={{ pixelDistance: labelSize }}><M>{parameters.beta}^\circ</M></CornerLabel>
-	</Drawing>
+	</DrawingFigure>
 }
 
 function getPoints(solution) {

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button } from '@mui/material'
 
 import * as c from '@step-wise/cas'
-import { Arc, Axes, Circle, Crosshair, Curve, Drawing, DrawingTarget, Grid, HtmlElement, Line, Plot, PlotArea, Polygon, Rectangle, anchors, useDrawingPointerState } from '@step-wise/drawing'
+import { Arc, Axes, Circle, Crosshair, Curve, DrawingFigure, DrawingTarget, Grid, HtmlElement, Line, PlotFigure, PlotArea, Polygon, Rectangle, TargetBoundsDrawingFigure, anchors, useDrawingPointerState } from '@step-wise/drawing'
 import { Plural, Translation, TranslationCatalog, TranslationFolder, TranslationGroup } from '@step-wise/i18n'
 import * as m from '@step-wise/math-input-value'
 import { Unit, PrecisionNumber, Quantity } from '@step-wise/physics-core'
@@ -39,6 +39,7 @@ function TestContents() {
 	const setLanguage = useSetLanguage()
 	const [messageCount, setMessageCount] = useState(1)
 	const visitorName = user?.givenName || 'visitor'
+	const plotPoints = [[-3, 7], [-2, 2], [-1, -1], [0, -2], [1, -1], [2, 2], [3, 7]]
 
 	return (
 		<>
@@ -78,8 +79,21 @@ function TestContents() {
 			<BM>{eq}</BM>
 			<Par>This note shows the CI scripts are using the main branch. Currently we're also using workspaces. And Vite is used as a bundler.</Par>
 
+			<Head>Target bounds drawing</Head>
+			<TargetBoundsDrawingFigure margin={20} targets={['first-box', 'second-box']}>
+				<HtmlElement anchor={anchors.topLeft} position={[0, 0]} style={targetBoundsBoxStyle} target="first-box">First HTML component</HtmlElement>
+				<HtmlElement
+					anchor={anchors.topLeft}
+					position={{ target: 'first-box', anchor: anchors.bottomLeft, pixelOffset: [0, 30] }}
+					style={targetBoundsBoxStyle}
+					target="second-box"
+				>
+					Second HTML component
+				</HtmlElement>
+			</TargetBoundsDrawingFigure>
+
 			<Head>Plot toolbox</Head>
-			<Plot
+			<PlotFigure
 				bounds={{ min: [-3, -2], max: [3, 8] }}
 				view={{ type: 'fit', maxWidth: 600, maxHeight: 360, margin: [20, 10] }}
 				maxWidth={600}
@@ -88,23 +102,24 @@ function TestContents() {
 			>
 				<Grid />
 				<PlotArea>
-					<Curve positions={[[-3, 7], [-2, 2], [-1, -1], [0, -2], [1, -1], [2, 2], [3, 7]]} smoothing={{ mode: 'through', ratio: 0.7 }} stroke="#1565c0" strokeWidth={3} />
+					<Curve positions={plotPoints} smoothing={{ mode: 'through' }} stroke="#1565c0" strokeWidth={3} />
 				</PlotArea>
+				{plotPoints.map((point, index) => <Circle key={index} center={point} radius={{ pixelDistance: 4 }} style={{ fill: '#1565c0' }} />)}
 				<Axes x={{ label: <M>x</M> }} y={{ label: <M>f\left(x\right) = x^2</M> }} />
 				<Crosshair getPointLabel={([x, y]) => `(${x.toFixed(2)}, ${y.toFixed(2)})`} labelProps={{ style: { background: 'white', border: '1px solid currentColor', borderRadius: 3, padding: '1px 4px' } }} />
-			</Plot>
+			</PlotFigure>
 
 			<Head>Drawing toolbox</Head>
-			<Drawing
+			<DrawingFigure
 				view={{ type: 'bounds', bounds: { min: [0, 0], max: [10, 6] }, width: 600, height: 360, margin: 30, yDirection: 'up' }}
 				maxWidth={600}
 				style={{ color: '#1565c0' }}
 			>
-				<Rectangle corners={[[0, 0], [10, 6]]} cornerRadius={{ pixelDistance: 12 }} fill="#e3f2fd" stroke="currentColor" strokeWidth={2} style={{ opacity: 0.5 }} />
+				<Rectangle rectangle={[[0, 0], [10, 6]]} cornerRadius={{ pixelDistance: 12 }} fill="#e3f2fd" stroke="currentColor" strokeWidth={2} style={{ opacity: 0.5 }} />
 
 				<Line endArrow positions={[[1, 1], [3, 4.5], [5, 1.5]]} stroke="#f0897b" strokeWidth={3} />
 
-				<Curve startArrow endArrow positions={[[1, 2], [2.5, 3.5], [4, 2.2], [5.5, 4.2]]} smoothing={{ distance: 0.7, mode: 'around' }} stroke="#8e24aa" strokeWidth={2} />
+				<Curve startArrow endArrow positions={[[1, 2], [2.5, 3.5], [4, 2.2], [5.5, 4.2]]} smoothing={{ ratio: 0.8, mode: 'around' }} stroke="#8e24aa" strokeWidth={2} />
 
 				<Polygon positions={[[6.2, 1], [8.8, 1.2], [8, 3.2], [6.5, 2.8]]} fill="#ffcc80" stroke="#ef6c00" strokeWidth={2} />
 
@@ -150,9 +165,16 @@ function TestContents() {
 				</HtmlElement>
 
 				<PointerMarker />
-			</Drawing>
+			</DrawingFigure>
 		</>
 	)
+}
+
+const targetBoundsBoxStyle = {
+	background: '#e3f2fd',
+	border: '1px solid #1565c0',
+	borderRadius: 4,
+	padding: '8px 10px',
 }
 
 function PointerMarker() {

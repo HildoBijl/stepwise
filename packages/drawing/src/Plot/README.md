@@ -1,16 +1,16 @@
 # Plot
 
-`Plot` extends `Drawing` with an upward mathematical coordinate system, x/y domains, axis positions, and tick values. Axes, grids, clipping, and crosshairs are explicit child components, so a plot can include only the features it needs.
+`Plot` extends the fixed-size `Drawing` with an upward mathematical coordinate system, x/y domains, axis positions, and tick values. `PlotFigure` wraps the same plot in a responsive `Figure`. Axes, grids, clipping, and crosshairs are explicit child components, so a plot can include only the features it needs.
 
 
 ## Basic example
 
 ```tsx
-import { Axes, Curve, Grid, Plot, PlotArea } from '@step-wise/drawing'
+import { Axes, Curve, Grid, PlotArea, PlotFigure } from '@step-wise/drawing'
 
 const points = [[-2, 4], [-1, 1], [0, 0], [1, 1], [2, 4]]
 
-<Plot
+<PlotFigure
 	points={points}
 	view={{ type: 'fit', maxWidth: 600, maxHeight: 360, margin: 45 }}
 	axes={{ x: { ticks: { step: 1 } }, y: { ticks: { desiredCount: 5 } } }}
@@ -20,10 +20,10 @@ const points = [[-2, 4], [-1, 1], [0, 0], [1, 1], [2, 4]]
 		<Curve positions={points} smoothing={{ mode: 'through', ratio: 0.7 }} stroke="steelblue" />
 	</PlotArea>
 	<Axes x={{ label: 'x' }} y={{ label: 'f(x)' }} />
-</Plot>
+</PlotFigure>
 ```
 
-`Plot` supplies the Drawing context as well as a Plot context. Ordinary Drawing primitives can therefore be used directly inside it.
+Both `Plot` and `PlotFigure` supply the Drawing context as well as a Plot context. Ordinary Drawing primitives can therefore be used directly inside either component. Use `Plot` for fixed-size or externally transformed content and `PlotFigure` for responsive page content.
 
 
 ## Domain and view

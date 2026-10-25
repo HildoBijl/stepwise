@@ -1,10 +1,12 @@
-import { type SVGProps, forwardRef } from 'react'
+import type { SVGProps } from 'react'
 
 import { ensureNumber } from '@step-wise/js-utils'
 import { type Vector, type VectorLike, ensureVector } from '@step-wise/geometry'
 
 import { SvgPortal, useDrawingCoordinateSystem } from '../../Drawing/index.ts'
-import { type Distance, type Position, useResolvedDistance, useResolvedPosition } from '../../positioning/index.ts'
+import { type Distance, type Position, useDrawingPixelDistance } from '../../positioning/index.ts'
+
+import { useRenderPosition } from '../resolution.ts'
 
 export const defaultArrowHeadSize = { pixelDistance: 12 } as const
 export const defaultArrowHeadStrokeRatio = 5
@@ -23,13 +25,13 @@ export interface ArrowedPathProps {
 	endArrow?: ArrowHeadInput
 }
 
-export const ArrowHead = forwardRef<SVGPolygonElement, ArrowHeadProps>(function ArrowHead(props, ref) {
+export function ArrowHead(props: ArrowHeadProps) {
 	const { direction, position, size = defaultArrowHeadSize, ...polygonProps } = props
 	const coordinateSystem = useDrawingCoordinateSystem()
 
 	// Resolve the position and size, and abort if they are not valid.
-	const resolvedPosition = useResolvedPosition(position)
-	const resolvedSize = useResolvedDistance(size)
+	const resolvedPosition = useRenderPosition(position)
+	const resolvedSize = useDrawingPixelDistance(size)
 	if (resolvedPosition === undefined || resolvedSize === undefined) return null
 
 	// Validate the direction and convert it to render coordinates.
@@ -38,9 +40,9 @@ export const ArrowHead = forwardRef<SVGPolygonElement, ArrowHeadProps>(function 
 
 	// Render the arrowhead at the resolved position with the specified direction and size.
 	return <SvgPortal>
-		<ResolvedArrowHead {...polygonProps} direction={renderDirection} position={resolvedPosition} ref={ref} size={resolvedSize} />
+		<ResolvedArrowHead {...polygonProps} direction={renderDirection} position={resolvedPosition} size={resolvedSize} />
 	</SvgPortal>
-})
+}
 
 interface ResolvedArrowHeadProps extends Omit<SVGProps<SVGPolygonElement>, 'direction' | 'points' | 'position' | 'size'> {
 	position: Vector
@@ -49,7 +51,7 @@ interface ResolvedArrowHeadProps extends Omit<SVGProps<SVGPolygonElement>, 'dire
 }
 
 // Render an arrowhead from values that have already been converted to render coordinates.
-export const ResolvedArrowHead = forwardRef<SVGPolygonElement, ResolvedArrowHeadProps>(function ResolvedArrowHead(props, ref) {
+export function ResolvedArrowHead(props: ResolvedArrowHeadProps) {
 	const { direction, fill = 'currentColor', position, size, ...polygonProps } = props
 
 	// Validate the size and direction.
@@ -63,8 +65,8 @@ export const ResolvedArrowHead = forwardRef<SVGPolygonElement, ResolvedArrowHead
 	const transform = `translate(${position.x} ${position.y}) rotate(${direction.angle * 180 / Math.PI})`
 
 	// Render the arrowhead polygon.
-	return <polygon {...polygonProps} fill={fill} points={points} ref={ref} transform={transform} />
-})
+	return <polygon {...polygonProps} fill={fill} points={points} transform={transform} />
+}
 
 export function resolveArrowHeadOptions(input?: ArrowHeadInput): ArrowHeadOptions | undefined {
 	if (input === undefined || input === false) return undefined

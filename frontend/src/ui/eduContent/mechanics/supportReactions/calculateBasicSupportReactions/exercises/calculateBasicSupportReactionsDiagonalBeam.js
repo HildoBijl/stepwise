@@ -6,7 +6,7 @@ import { loadNameToVariable } from '@step-wise/mechanics-exercises'
 import { M, BM } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
-import { Drawing } from '@step-wise/drawing'
+import { DrawingFigure } from '@step-wise/drawing'
 import { Translation, Condition } from '@step-wise/i18n'
 
 import { useInput, InputSpace } from 'ui/form'
@@ -162,7 +162,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const snappers = [...Object.values(points), Line.fromPoints(points.A, points.C)]
 	return isInputField ?
 		<FBDInput id="loads" view={view} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)} getLoadNames={loads => getNamedLoads(loads, solution)}>{schematics}</FBDInput> :
-		<Drawing view={view}>{schematics}</Drawing>
+		<DrawingFigure view={view}>{schematics}</DrawingFigure>
 }
 
 function Schematics({ l1, l2, l3, clockwise, angle, points, Bx, Cx, loads, externalLoad, loadNameDefinitions, showSupports = true }) {

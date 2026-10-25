@@ -4,7 +4,7 @@ import { Transformation, Vector } from '@step-wise/geometry'
 import { M, BM } from '@step-wise/math-display'
 
 import { Par } from 'ui/components'
-import { Drawing, Polygon, RightAngle, LineLabel } from '@step-wise/drawing'
+import { DrawingFigure, Polygon, RightAngle, LineLabel } from '@step-wise/drawing'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
 import { StepExercise, useExerciseData, useSolution, getFieldInputFeedback } from 'ui/eduTools'
@@ -105,7 +105,7 @@ function ExerciseFigure() {
 	if (reflection) pretransform = Transformation.fromHyperplaneReflection(Vector.getUnitVector(0, 2)).then(pretransform)
 
 	// Render the figure.
-	return <Drawing view={{ type: 'fit', points: [...triangle1, ...triangle2], pretransform, maxWidth: 300, maxHeight: 300, margin: 20 }}>
+	return <DrawingFigure view={{ type: 'fit', points: [...triangle1, ...triangle2], pretransform, maxWidth: 300, maxHeight: 300, margin: 20 }}>
 		<Polygon positions={triangle1} style={{ fill: '#aaccff' }} />
 		<RightAngle positions={triangle1} size={{ pixelDistance: 10 }} />
 
@@ -119,7 +119,7 @@ function ExerciseFigure() {
 		<LineLabel positions={[triangle2[0], triangle2[1]]} oppositeTo={triangle2[2]} distance={{ pixelDistance: 4 }}><M>{La}</M></LineLabel>
 		<LineLabel positions={[triangle2[1], triangle2[2]]} oppositeTo={triangle2[0]} distance={{ pixelDistance: 4 }}><M>{Lb}</M></LineLabel>
 		<LineLabel positions={[triangle2[0], triangle2[2]]} oppositeTo={triangle2[1]} distance={{ pixelDistance: 4 }}><M>{Lc}</M></LineLabel>
-	</Drawing>
+	</DrawingFigure>
 }
 
 function getPoints(solution) {
