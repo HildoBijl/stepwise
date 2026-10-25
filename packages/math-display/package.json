@@ -1,6 +1,7 @@
 {
 	"name": "@step-wise/math-display",
 	"version": "0.1.0",
+	"private": true,
 	"description": "React components and utilities for displaying mathematics with KaTeX.",
 	"license": "MIT",
 	"repository": {
@@ -12,9 +13,6 @@
 		"url": "https://github.com/HildoBijl/stepwise/issues"
 	},
 	"homepage": "https://github.com/HildoBijl/stepwise/tree/main/packages/math-display#readme",
-	"publishConfig": {
-		"access": "public"
-	},
 	"engines": {
 		"node": ">=24.12.0"
 	},
