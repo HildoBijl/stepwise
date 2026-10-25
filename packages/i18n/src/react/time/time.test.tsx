@@ -46,6 +46,15 @@ describe('RelativeTime', () => {
 		expect(container.textContent).toBe('in 5 minutes')
 	})
 
+	it('renders now below the selected precision', () => {
+		vi.useFakeTimers()
+		vi.setSystemTime(new Date('2026-01-01T12:00:00Z'))
+		const { container } = render(<I18nProvider locale="en" sourceLocale="en">
+			<RelativeTime date="2026-01-01T11:59:40Z" />
+		</I18nProvider>)
+		expect(container.textContent).toBe('now')
+	})
+
 	it('updates when the displayed value changes', () => {
 		vi.useFakeTimers()
 		vi.setSystemTime(new Date('2026-01-01T12:00:00Z'))

@@ -33,8 +33,8 @@ function RelativeTimeBase({ date, smallestUnit = 'minute', style = 'long' }: Rel
 		return () => clearTimeout(timer)
 	}, [display, now, smallestUnit, timestamp])
 
-	// Return the result.
-	return formatter.format(display.value, display.unit)
+	// Format the result. Ensure that, if the value is zero, the formatter always gives "Now" (which it only does for seconds) and not "This minute" or "This hour" (which it does for minutes/hours).
+	return formatter.format(display.value, display.value === 0 ? 'second' : display.unit)
 }
 
 // Normalize the date input, turning either a Date object or a Date-like string into a timestamp number.

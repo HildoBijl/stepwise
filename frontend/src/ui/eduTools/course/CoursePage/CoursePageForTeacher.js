@@ -7,8 +7,9 @@ import { fromKeysAndValues } from '@step-wise/js-utils'
 import { useLocalStorageState } from '@step-wise/react-utils'
 
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
+import { RelativeTime } from 'i18nNext'
 import { notSelectable } from 'ui/theme'
-import { Par, Info, TimeAgo } from 'ui/components'
+import { Par, Info } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
 import { processStudentForCourse } from '../../courses'
@@ -67,10 +68,10 @@ function StudentOverview({ course, courseDefinition, students }) {
 			align: 'center',
 			headerAlign: 'center',
 			renderHeader,
-			renderCell: cell => <TimeAgo ms={cell.value} />,
+			renderCell: cell => <RelativeTime date={cell.value} />,
 			sortComparator: (v1, v2) => {
-				const a = v1 === undefined || v1 === null ? Infinity : v1
-				const b = v2 === undefined || v2 === null ? Infinity : v2
+				const a = v1 === undefined || v1 === null ? Infinity : -new Date(v1).getTime()
+				const b = v2 === undefined || v2 === null ? Infinity : -new Date(v2).getTime()
 				return a - b
 			},
 		},
@@ -111,7 +112,7 @@ function StudentOverview({ course, courseDefinition, students }) {
 		return {
 			id: student.id,
 			name: student.name,
-			lastActive: student.lastActive && (new Date() - student.lastActive),
+			lastActive: student.lastActive,
 			all: student.analysis.numCompleted,
 			...fromKeysAndValues(blocks.map((_, index) => `block${index}`), blocks.map((block, index) => student.analysis.numCompletedPerBlock[index])),
 		}

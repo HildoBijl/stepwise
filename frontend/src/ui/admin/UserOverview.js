@@ -5,8 +5,9 @@ import { Box } from '@mui/material'
 import { HorizontalScroller } from '@step-wise/react-components'
 
 import { useAllUsers } from 'api'
+import { RelativeTime } from 'i18nNext'
 import { usePaths } from 'ui/routingTools'
-import { Par, TimeAgo } from 'ui/components'
+import { Par } from 'ui/components'
 
 export function UserOverview() {
 	const { users, loading, error } = useAllUsers()
@@ -57,8 +58,8 @@ function UserOverviewItem({ user }) {
 	const paths = usePaths()
 	return <>
 		<div className="name"><Link to={paths.userInspection({ userId: user.id })}>{user.name}</Link></div>
-		<div className="lastActiveAt"><TimeAgo date={user.lastActiveAt} displayMinutes={false} addAgo={true} /></div>
-		<div className="createdAt"><TimeAgo date={user.createdAt} displayMinutes={false} addAgo={true} /></div>
+		<div className="lastActiveAt"><RelativeTime date={user.lastActiveAt} smallestUnit="hour" /></div>
+		<div className="createdAt"><RelativeTime date={user.createdAt} smallestUnit="hour" /></div>
 		<div className="role">{user.role === 'admin' ? 'Admin' : (user.role === 'teacher' ? 'Docent' : 'Student')}</div>
 		<div className="email">{user.email}</div>
 	</>

@@ -1,7 +1,9 @@
 import { last } from '@step-wise/js-utils'
+import { LocalizedDuration } from '@step-wise/i18n'
 
 import { TranslationSection, Translation } from 'i18n'
-import { Par, TimeAgo } from 'ui/components'
+import { RelativeTime } from 'i18nNext'
+import { Par } from 'ui/components'
 
 export function SubmissionDate({ exercise, submissionIndex, events, event }) {
 	// Determine the previous input event.
@@ -16,11 +18,11 @@ export function SubmissionDate({ exercise, submissionIndex, events, event }) {
 	// Depending on the situation, determine the right message to show.
 	let message
 	if (!event)
-		message = <Translation entry="exerciseStart">Exercise started <strong><TimeAgo date={exerciseStartDate} displaySeconds={true} addAgo={true} /></strong>.</Translation>
+		message = <Translation entry="exerciseStart">Exercise started <strong><RelativeTime date={exerciseStartDate} smallestUnit="second" /></strong>.</Translation>
 	else if (previousInputEvent)
-		message = <Translation entry="timeAfterPreviousInput">Exercise started <strong><TimeAgo date={exerciseStartDate} displaySeconds={true} addAgo={true} /></strong>. Submission made <strong><TimeAgo ms={inputDate - previousInputDate} displaySeconds={true} /></strong> after the previous submission.</Translation>
+		message = <Translation entry="timeAfterPreviousInput">Exercise started <strong><RelativeTime date={exerciseStartDate} smallestUnit="second" /></strong>. Submission made <strong><LocalizedDuration milliseconds={inputDate - previousInputDate} smallestUnit="second" /></strong> after the previous submission.</Translation>
 	else
-		message = <Translation entry="timeAfterExerciseStart">Exercise started <strong><TimeAgo date={exerciseStartDate} displaySeconds={true} addAgo={true} /></strong>. Submission made <strong><TimeAgo ms={inputDate - exerciseStartDate} displaySeconds={true} /></strong> after starting the exercise.</Translation>
+		message = <Translation entry="timeAfterExerciseStart">Exercise started <strong><RelativeTime date={exerciseStartDate} smallestUnit="second" /></strong>. Submission made <strong><LocalizedDuration milliseconds={inputDate - exerciseStartDate} smallestUnit="second" /></strong> after starting the exercise.</Translation>
 
 	// Render the message.
 	return <TranslationSection entry="submissionDate">

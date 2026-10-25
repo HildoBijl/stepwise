@@ -8,7 +8,8 @@ import { hasExercises } from '@step-wise/exercises'
 
 import { useUserWithSkills } from 'api'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
-import { Head, Par, TimeAgo, LoadingIndicator, ErrorNote } from 'ui/components'
+import { RelativeTime } from 'i18nNext'
+import { Head, Par, LoadingIndicator, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
 
@@ -75,7 +76,7 @@ function LastActivity({ processedStudent, course, courseDefinition }) {
 							const lastActivity = getLastSkillActivity(studentSkill)
 							return <TableRow key={index} onClick={() => navigate(paths.courseStudentSkill({ courseCode: course.code, studentId: processedStudent.id, skillId: skill.id }))} sx={{ cursor: 'pointer', '&:hover': { backgroundColor: theme => theme.palette.action.hover } }}>
 								<TableCell align="center" sx={{ minWidth: 80, width: 100, fontSize: 12, fontWeight: 450, color: 'primary.main' }}>
-									<TimeAgo date={lastActivity} addAgo={true} />
+									<RelativeTime date={lastActivity} />
 								</TableCell>
 								<TableCell align="center" sx={{ minWidth: 60, width: 80 }}>
 									<SkillFlaskWithNumbers skillId={skill.id} student={processedStudent} courseDefinition={courseDefinition} />
