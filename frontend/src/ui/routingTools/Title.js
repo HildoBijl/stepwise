@@ -159,14 +159,14 @@ function TitleWrapper({ index, children }) {
 }
 
 // TitleItem is an element whose name must be the page title (a string). It can translate fixed names or receive dynamic names directly.
-export function TitleItem({ id, path, entry, name }) {
-	if (id) return <TranslatedTitleItem id={id} name={name} />
+export function TitleItem({ id, path, entry, name, ...address }) {
+	if (id) return <TranslatedTitleItem {...address} id={id} name={name} />
 	if (entry) return <LegacyTranslatedTitleItem path={path} entry={entry} name={name} />
 	return <ResolvedTitleItem name={name} />
 }
 
-function TranslatedTitleItem({ id, name }) {
-	return <ResolvedTitleItem name={useTranslation({ id, children: name })} />
+function TranslatedTitleItem({ id, name, ...address }) {
+	return <ResolvedTitleItem name={useTranslation({ ...address, id, children: name })} />
 }
 
 function LegacyTranslatedTitleItem({ path, entry, name }) {

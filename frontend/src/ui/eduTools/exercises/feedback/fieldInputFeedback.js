@@ -4,8 +4,8 @@ import { isPlainObject, mergeDefaults, deepEqual, mapValues, numbersEqual, check
 import { Expression, Equation } from '@step-wise/cas'
 import { PrecisionNumber, Unit, Quantity, adjustPrecisionNumberTolerances, adjustQuantityTolerances } from '@step-wise/physics-core'
 import { compareInputs as gradingCompare } from '@step-wise/exercise-grading'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomNonNumeric } from 'ui/inputs'
 
 import { processParameterOptions } from './util'
@@ -175,7 +175,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 	// On a correct answer, check if a margin warning is needed. Otherwise give the default message.
 	if (correct) {
 		if (!isEqual(currInput, currSolution, strictnessFactor))
-			return <Translation path="eduTools/feedback" entry="numeric.withinMargin">You're still within the margin, but this could be more accurate.</Translation>
+			return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="withinMargin">You're still within the margin, but this could be more accurate.</Translation>
 		return (previousFeedback && previousFeedback.correct && previousFeedback.text) || selectRandomCorrect()
 	}
 
@@ -188,11 +188,11 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 	const inputSign = Math.sign(getNumber(currInput))
 	const solutionSign = Math.sign(getNumber(currSolution))
 	if (inputSign * solutionSign === -1)
-		return <Translation path="eduTools/feedback" entry="numeric.wrongSign">You haven't used the right sign. Check your pluses and minuses.</Translation>
+		return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="wrongSign">You haven't used the right sign. Check your pluses and minuses.</Translation>
 
 	// Check for a near-hit.
 	if (isEqual(currInput, currSolution, closenessFactor))
-		return <Translation path="eduTools/feedback" entry="numeric.nearby">You're very close! Check for accuracy and rounding errors.</Translation>
+		return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="nearby">You're very close! Check for accuracy and rounding errors.</Translation>
 
 	// Check if we're too high or too low. On negative numbers flip the phrasing.
 	const numberEqualityResult = (currSolution instanceof Quantity ? equalityResult.value.number : currSolution instanceof PrecisionNumber ? equalityResult.number : equalityResult)
@@ -200,19 +200,19 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 	if (numberEqualityResult?.equal === false && direction !== undefined && direction !== 0) {
 		if (inputSign === 0) {
 			if (solutionSign === -1)
-				return <Translation path="eduTools/feedback" entry="numeric.notZeroNegative">Zero is sadly wrong. We do expect a (possibly negative) number here.</Translation>
+				return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="notZeroNegative">Zero is sadly wrong. We do expect a (possibly negative) number here.</Translation>
 			else
-				return <Translation path="eduTools/feedback" entry="numeric.notZeroPositive">Zero is sadly wrong. We do expect a number here.</Translation>
+				return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="notZeroPositive">Zero is sadly wrong. We do expect a number here.</Translation>
 		} else if (inputSign === -1) {
 			if (direction === 1)
-				return <Translation path="eduTools/feedback" entry="numeric.negativeTooLarge">Your answer is (magnitude-based) too small. We expected something even more negative.</Translation>
+				return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="negativeTooLarge">Your answer is (magnitude-based) too small. We expected something even more negative.</Translation>
 			else
-				return <Translation path="eduTools/feedback" entry="numeric.negativeTooSmall">Your answer is (magnitude-based) too large. We expected something closer to zero.</Translation>
+				return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="negativeTooSmall">Your answer is (magnitude-based) too large. We expected something closer to zero.</Translation>
 		} else {
 			if (direction === 1)
-				return <Translation path="eduTools/feedback" entry="numeric.positiveTooLarge">Your answer is too large.</Translation>
+				return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="positiveTooLarge">Your answer is too large.</Translation>
 			else
-				return <Translation path="eduTools/feedback" entry="numeric.positiveTooSmall">Your answer is too small.</Translation>
+				return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="positiveTooSmall">Your answer is too small.</Translation>
 		}
 	}
 
@@ -220,18 +220,18 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 	const significantDigitsResult = equalityResult.significantDigits ?? equalityResult.value?.significantDigits
 	if (significantDigitsResult !== undefined && significantDigitsResult.equal === false) {
 		if (significantDigitsResult.difference > 0)
-			return <Translation path="eduTools/feedback" entry="numeric.tooManySignificantDigits">You used too many significant digits.</Translation>
+			return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="tooManySignificantDigits">You used too many significant digits.</Translation>
 		else
-			return <Translation path="eduTools/feedback" entry="numeric.tooFewSignificantDigits">You used too few significant digits.</Translation>
+			return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="tooFewSignificantDigits">You used too few significant digits.</Translation>
 	}
 
 	// Check the power. (In case it was examined.)
 	const powerResult = equalityResult.power ?? equalityResult.value?.power
 	if (powerResult !== undefined && powerResult.equal === false) {
 		if (powerResult.difference > 0)
-			return <Translation path="eduTools/feedback" entry="numeric.tooLargePower">The exponent you used is too large.</Translation>
+			return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="tooLargePower">The exponent you used is too large.</Translation>
 		else
-			return <Translation path="eduTools/feedback" entry="numeric.tooSmallPower">The exponent you used is too small.</Translation>
+			return <Translation folder={['eduTools']} catalog="feedback" group={['numeric']} id="tooSmallPower">The exponent you used is too small.</Translation>
 	}
 
 	// Something else is wrong, but not sure what.

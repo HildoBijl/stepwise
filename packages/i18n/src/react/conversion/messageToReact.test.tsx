@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { render, screen } from '@testing-library/react'
-import { type ReactNode } from 'react'
+import { type ReactElement, type ReactNode } from 'react'
 import { describe, expect, it } from 'vitest'
 
 import { type Message } from '../../message/index.ts'
@@ -37,6 +37,19 @@ describe('message-to-React rendering', () => {
 		render(<>{messageToReact(target, source, 'nl')}</>)
 		expect(screen.getByText('belangrijk').tagName).toBe('STRONG')
 		expect(document.body.textContent).toContain('Hallo Ada, belangrijk.')
+	})
+
+	it('assigns stable keys to element-valued variables', () => {
+		const source = <>Contact {variable('emailLink', <a href="mailto:test@example.com">test@example.com</a>)}.</>
+		const target: Message = [
+			{ type: 'text', value: 'Contacteer ' },
+			{ type: 'variable', name: 'emailLink' },
+			{ type: 'text', value: '.' },
+		]
+
+		const result = messageToReact(target, source, 'nl')
+		expect(Array.isArray(result)).toBe(true)
+		expect((result as ReactElement[])[1].key).toBe('$[1]')
 	})
 
 	it('uses occurrence IDs when translated components are reordered', () => {

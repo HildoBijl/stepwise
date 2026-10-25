@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<unit id="example">
+			<segment>
+				<source>Example exercise</source>
+				<target swi18n:sourceContentFingerprint="a9cff989d4c6832c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voorbeeldopgave</target>
+			</segment>
+		</unit>
+		<unit id="exercise">
+			<segment>
+				<source>Practice exercise</source>
+				<target swi18n:sourceContentFingerprint="f8d957306534c6ff" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oefenopgave</target>
+			</segment>
+		</unit>
+		<unit id="solution">
+			<segment>
+				<source>Solution</source>
+				<target swi18n:sourceContentFingerprint="581e97f84c2e1a91" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oplossing</target>
+			</segment>
+		</unit>
+		<unit id="step">
+			<segment>
+				<source>Step <ph id="x1" type="ui" subType="xlf:var" swi18n:name="step"/></source>
+				<target swi18n:sourceContentFingerprint="73ab7efc224067f2" swi18n:sourceStructureFingerprint="f220b14c56cbd7bc">Stap <ph id="x1" type="ui" subType="xlf:var" swi18n:name="step"/></target>
+			</segment>
+		</unit>
+		<group id="loadingNotes">
+			<unit id="missingExerciseName">
+				<segment>
+					<source>The URL has no exercise name in it.</source>
+					<target swi18n:sourceContentFingerprint="b1525767f6a6b59a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De URL heeft geen opgave-ID.</target>
+				</segment>
+			</unit>
+			<unit id="loadingError">
+				<segment>
+					<source>The exercise failed to load. Please check if the exercise ID is correct.</source>
+					<target swi18n:sourceContentFingerprint="28aef9f9843138ba" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De opgave kon niet geladen worden. Controleer of het opgave-ID correct is.</target>
+				</segment>
+			</unit>
+			<unit id="loadingExercise">
+				<segment>
+					<source>Loading the exercise...</source>
+					<target swi18n:sourceContentFingerprint="b0c432805b0b9709" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De opgave wordt geladen...</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="stepsModal">
+			<unit id="title">
+				<segment>
+					<source>Are you sure?</source>
+					<target swi18n:sourceContentFingerprint="18dd8e655009fb7d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Weet je het zeker?</target>
+				</segment>
+			</unit>
+			<unit id="message">
+				<segment>
+					<source>The goal of Step-Wise is that you can eventually solve exercises without using steps. If you give up without trying, then this counts as an incorrect submission. Your skill rating will decrease.</source>
+					<target swi18n:sourceContentFingerprint="63f8b08e2a7912eb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Het doel van Step-Wise is dat je uiteindelijk opgaven op kunt lossen zonder de hulp van tussenstappen. Geef je het op zonder te proberen? Dan geldt dit als een foute inzending: je score gaat omlaag.</target>
+				</segment>
+			</unit>
+			<group id="buttons">
+				<unit id="no">
+					<segment>
+						<source>Not yet ...</source>
+						<target swi18n:sourceContentFingerprint="03bf6241ee2ff74b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Wacht even ...</target>
+					</segment>
+				</unit>
+				<unit id="yes">
+					<segment>
+						<source>Show me the steps</source>
+						<target swi18n:sourceContentFingerprint="33f9b4155e6705ff" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Laat me tussenstappen zien</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="buttons">
+			<unit id="giveUp">
+				<segment>
+					<source>I give up</source>
+					<target swi18n:sourceContentFingerprint="611a312ac782e00f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ik geef het op</target>
+				</segment>
+			</unit>
+			<unit id="check">
+				<segment>
+					<source>Submit and check</source>
+					<target swi18n:sourceContentFingerprint="7d168d9513e3eac7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Controleer</target>
+				</segment>
+			</unit>
+			<unit id="solveStepWise">
+				<segment>
+					<source>Solve this Step-Wise</source>
+					<target swi18n:sourceContentFingerprint="c092faafdcbd5cb4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Los stapsgewijs op</target>
+				</segment>
+			</unit>
+			<unit id="giveUpStep">
+				<segment>
+					<source>I give up this step</source>
+					<target swi18n:sourceContentFingerprint="843e19b84587b131" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ik geef deze stap op</target>
+				</segment>
+			</unit>
+			<unit id="nextExercise">
+				<segment>
+					<source>Next exercise</source>
+					<target swi18n:sourceContentFingerprint="26c68e79d1885c87" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Volgende opgave</target>
+				</segment>
+			</unit>
+			<unit id="solve">
+				<segment>
+					<source>Insert solution</source>
+					<target swi18n:sourceContentFingerprint="971a0acf92473ae4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vul oplossing in</target>
+				</segment>
+			</unit>
+			<group id="stepSelect">
+				<unit id="tryMain">
+					<segment>
+						<source>Try the main exercise</source>
+						<target swi18n:sourceContentFingerprint="173d11535a301b19" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Probeer de hoofdopgave</target>
+					</segment>
+				</unit>
+				<unit id="tryStep">
+					<segment>
+						<source>Try out step <ph id="x1" type="ui" subType="xlf:var" swi18n:name="step"/></source>
+						<target swi18n:sourceContentFingerprint="65db94eef83b5649" swi18n:sourceStructureFingerprint="f220b14c56cbd7bc">Probeer stap <ph id="x1" type="ui" subType="xlf:var" swi18n:name="step"/></target>
+					</segment>
+				</unit>
+			</group>
+			<unit id="showSteps">
+				<segment>
+					<source>Show steps</source>
+					<target swi18n:sourceContentFingerprint="6c7a5acdb3e2757a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Toon stappen</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="groupExercise">
+			<group id="status">
+				<unit id="submitted">
+					<segment>
+						<source>Submitted:</source>
+						<target swi18n:sourceContentFingerprint="93fb14a18a275bff" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ingezonden:</target>
+					</segment>
+				</unit>
+				<unit id="missingSubmissions">
+					<segment>
+						<source>Missing:</source>
+						<target swi18n:sourceContentFingerprint="6bf11826166bafba" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ontbrekend:</target>
+					</segment>
+				</unit>
+				<unit id="givenUp">
+					<segment>
+						<source>Given up:</source>
+						<target swi18n:sourceContentFingerprint="37928f7417e4fcbc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Opgegeven:</target>
+					</segment>
+				</unit>
+				<unit id="solveStepWise">
+					<segment>
+						<source>Solve Step-Wise:</source>
+						<target swi18n:sourceContentFingerprint="68b2f34f7c1185ac" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Stapsgewijs oplossen:</target>
+					</segment>
+				</unit>
+				<unit id="submissionsReceived">
+					<segment>
+						<source>All submissions have been received.</source>
+						<target swi18n:sourceContentFingerprint="9960f3689e9eeed7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Alle inzendingen zijn binnen.</target>
+					</segment>
+				</unit>
+				<unit id="allGaveUp">
+					<segment>
+						<source>Everyone gave up.</source>
+						<target swi18n:sourceContentFingerprint="adb1336df9d2a7d1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Iedereen heeft het opgegeven.</target>
+					</segment>
+				</unit>
+				<unit id="allStepWise">
+					<segment>
+						<source>Everyone votes for solving this Step-Wise.</source>
+						<target swi18n:sourceContentFingerprint="41eb91872503ff3e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Iedereen stemt voor stapsgewijs oplossen.</target>
+					</segment>
+				</unit>
+				<unit id="newGroupExercise">
+					<segment>
+						<source>Another group member has started a newer exercise.</source>
+						<target swi18n:sourceContentFingerprint="9a863dfdd99c3ad3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Een ander groepslid is aan een nieuwere opgave begonnen.</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="buttons">
+				<unit id="sendSubmission">
+					<segment>
+						<source>Send submission</source>
+						<target swi18n:sourceContentFingerprint="759ab531109fd822" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Insturen</target>
+					</segment>
+				</unit>
+				<unit id="cancelSubmission">
+					<segment>
+						<source>Cancel submission</source>
+						<target swi18n:sourceContentFingerprint="b3921de508e2186e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Inzending annuleren</target>
+					</segment>
+				</unit>
+				<unit id="cancelGivingUp">
+					<segment>
+						<source>Cancel giving up</source>
+						<target swi18n:sourceContentFingerprint="0de1f6e20dac3d67" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Opgeven annuleren</target>
+					</segment>
+				</unit>
+				<unit id="cancelSolveStepWise">
+					<segment>
+						<source>Cancel solving Step-Wise</source>
+						<target swi18n:sourceContentFingerprint="b547f4f30efb2ef5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Stapsgewijs oplossen annuleren</target>
+					</segment>
+				</unit>
+				<unit id="viewSubmission">
+					<segment>
+						<source>View submission</source>
+						<target swi18n:sourceContentFingerprint="34f0e532aa764429" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bekijken</target>
+					</segment>
+				</unit>
+				<unit id="submitTheSame">
+					<segment>
+						<source>Submit the same</source>
+						<target swi18n:sourceContentFingerprint="6543f6b0c8cd2911" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ook insturen</target>
+					</segment>
+				</unit>
+				<unit id="checkSubmissions">
+					<segment>
+						<source>Check submissions</source>
+						<target swi18n:sourceContentFingerprint="1395f33f7eb98ecf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Controleer inzendingen</target>
+					</segment>
+				</unit>
+				<unit id="confirmGivingUp">
+					<segment>
+						<source>Confirm giving up</source>
+						<target swi18n:sourceContentFingerprint="bb0ace1daba6aadd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Opgeven bevestigen</target>
+					</segment>
+				</unit>
+				<unit id="newGroupExercise">
+					<segment>
+						<source>Open latest exercise</source>
+						<target swi18n:sourceContentFingerprint="8f263a62ca7600d9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nieuwste opgave openen</target>
+					</segment>
+				</unit>
+				<unit id="confirmSolvingStepWise">
+					<segment>
+						<source>Confirm solving Step-Wise</source>
+						<target swi18n:sourceContentFingerprint="aada283038c8c0bb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Stapsgewijs oplossen bevestigen</target>
+					</segment>
+				</unit>
+			</group>
+			<unit id="unequalSolutionWarning">
+				<segment>
+					<source>The above input is not equal to your submitted solution.</source>
+					<target swi18n:sourceContentFingerprint="ddac510bf905d5a3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De invoer hierboven is niet gelijk aan je ingezonden antwoord.</target>
+				</segment>
+			</unit>
+			<unit id="notEnoughSubmissions">
+				<segment>
+					<source>When practicing together, at least two submissions are needed to complete an exercise. Invite a fellow student.</source>
+					<target swi18n:sourceContentFingerprint="186b8c3e1af1ae15" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">In de samenwerkingsmodus zijn minimaal twee inzendingen nodig om een opgave na te laten kijken. Nodig een studiegenoot uit.</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

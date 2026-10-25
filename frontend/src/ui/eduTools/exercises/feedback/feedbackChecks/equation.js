@@ -2,14 +2,13 @@
 
 import { findWithValue, resolveFunctionValuesDeep, resolveFunctionValue, identity } from '@step-wise/js-utils'
 import { asEquationEqualityOptions, expressionComparisons, equationComparisons } from '@step-wise/cas'
+import { Condition, Translation } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { CountingWord } from 'i18nNext'
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/inputs'
 
 import * as expressionFeedbackChecks from './expression'
 
-const translationPath = 'eduTools/feedback'
 
 /*
  * Full equation feedback functions: the standard function whenever feedback options are given.
@@ -59,30 +58,30 @@ export const fullEquationFeedback = (input, correct, solution, isCorrect, compar
 
 // The following functions are support functions for the full-equation feedback functions, rendering specific (reusable if needed) feedback messages.
 function oneSideCorrect(isLeftSideCorrect, isIncorrectSideEquivalent) {
-	return <Translation path={translationPath} entry="equation.fullFeedback.oneSideCorrect">The <Check value={isLeftSideCorrect}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of the equation is correct, but something's wrong on the <Check value={isLeftSideCorrect}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side. <Check value={isIncorrectSideEquivalent}><Check.True>You have not done what was required.</Check.True><Check.False>You took a wrong step somewhere.</Check.False></Check></Translation>
+	return <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="fullFeedback.oneSideCorrect">The <Condition value={isLeftSideCorrect}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> side of the equation is correct, but something's wrong on the <Condition value={isLeftSideCorrect}><Condition.True>right</Condition.True><Condition.False>left</Condition.False></Condition> side. <Condition value={isIncorrectSideEquivalent}><Condition.True>You have not done what was required.</Condition.True><Condition.False>You took a wrong step somewhere.</Condition.False></Condition></Translation>
 }
 function sidesSwitched() {
-	return <Translation path={translationPath} entry="equation.fullFeedback.sidesSwitched">Oops ... you have switched the left and the right side of the equation. Try switching them back!</Translation>
+	return <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="fullFeedback.sidesSwitched">Oops ... you have switched the left and the right side of the equation. Try switching them back!</Translation>
 }
 function oneSideSwitched(correctRightIsLeft) {
-	return <Translation path={translationPath} entry="equation.fullFeedback.oneSideSwitched">The <Check value={correctRightIsLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of your equation is correct, but it should be on the <Check value={correctRightIsLeft}><Check.True>right</Check.True><Check.False>left</Check.False></Check>. The <Check value={correctRightIsLeft}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side of your equation still has some errors you might want to look at.</Translation>
+	return <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="fullFeedback.oneSideSwitched">The <Condition value={correctRightIsLeft}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> side of your equation is correct, but it should be on the <Condition value={correctRightIsLeft}><Condition.True>right</Condition.True><Condition.False>left</Condition.False></Condition>. The <Condition value={correctRightIsLeft}><Condition.True>right</Condition.True><Condition.False>left</Condition.False></Condition> side of your equation still has some errors you might want to look at.</Translation>
 }
 
 /*
  * Basic checks for extra feedback options.
  */
 
-export const originalEquation = (input, correct, { equation }) => equationComparisons.areEqualExceptOrder(input, equation) && <Translation path={translationPath} entry="equation.original">This is the original equation. You have not rewritten it yet.</Translation>
+export const originalEquation = (input, correct, { equation }) => equationComparisons.areEqualExceptOrder(input, equation) && <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="original">This is the original equation. You have not rewritten it yet.</Translation>
 
-export const incorrectEquation = (input, correct, solution, isCorrect) => !isCorrect && !equationComparisons.areEquivalent(input, correct) && <Translation path={translationPath} entry="equation.incorrect">This equation is not equal to what has been given. In rewriting it you took a wrong step somewhere.</Translation>
+export const incorrectEquation = (input, correct, solution, isCorrect) => !isCorrect && !equationComparisons.areEquivalent(input, correct) && <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="incorrect">This equation is not equal to what has been given. In rewriting it you took a wrong step somewhere.</Translation>
 
-export const hasIncorrectLeftSide = (input, correct, solution, isCorrect) => !isCorrect && !expressionComparisons.areEquivalent(input.left, correct.left) && !expressionComparisons.areEquivalent(input.left, correct.right) && <Translation path={translationPath} entry="equation.incorrectLeftSide">The left side of the equation is not what was expected.</Translation>
-export const hasIncorrectRightSide = (input, correct, solution, isCorrect) => !isCorrect && !expressionComparisons.areEquivalent(input.right, correct.right) && !expressionComparisons.areEquivalent(input.right, correct.left) && <Translation path={translationPath} entry="equation.incorrectRightSide">The right side of the equation is not what was expected.</Translation>
+export const hasIncorrectLeftSide = (input, correct, solution, isCorrect) => !isCorrect && !expressionComparisons.areEquivalent(input.left, correct.left) && !expressionComparisons.areEquivalent(input.left, correct.right) && <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="incorrectLeftSide">The left side of the equation is not what was expected.</Translation>
+export const hasIncorrectRightSide = (input, correct, solution, isCorrect) => !isCorrect && !expressionComparisons.areEquivalent(input.right, correct.right) && !expressionComparisons.areEquivalent(input.right, correct.left) && <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="incorrectRightSide">The right side of the equation is not what was expected.</Translation>
 export const hasIncorrectSide = (...args) => hasIncorrectLeftSide(...args) || hasIncorrectRightSide(...args)
 
 export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equationComparisons.areEquivalent(input, correct) && resolveFunctionValuesDeep(message, input, correct, solution, isCorrect, exerciseData))
 
-export const correctEquation = correctEquationWithMessage(<Translation path={translationPath} entry="equation.correct">The equation is correct, but you have not done what was required.</Translation>)
+export const correctEquation = correctEquationWithMessage(<Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="correct">The equation is correct, but you have not done what was required.</Translation>)
 
 /*
  * Sum and terms checks.
@@ -101,9 +100,9 @@ export const noSum = (input, correct, solution, isCorrect) => {
 
 		// If the correct answer has a sum ...
 		if (correctSide.isSum() && !inputSide.isSum())
-			return <Translation path={translationPath} entry="equation.noSum">You have only written a single term on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side. A sum was expected here: an addition/subtraction of terms.</Translation>
+			return <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="noSum">You have only written a single term on the <Condition value={atLeft}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> side. A sum was expected here: an addition/subtraction of terms.</Translation>
 		if (!correctSide.isSum() && inputSide.isSum())
-			return <Translation path={translationPath} entry="equation.hasSum">You have written a sum on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side: an addition/subtraction of terms. Only a single term was expected here.</Translation>
+			return <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="hasSum">You have written a sum on the <Condition value={atLeft}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> side: an addition/subtraction of terms. Only a single term was expected here.</Translation>
 	}
 
 	// Check sides for any problem and return the first problem we find.
@@ -130,16 +129,16 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 		if (correctSide.isSum()) {
 			// Check that it has the right number of terms.
 			if (correctSide.terms.length !== inputSide.terms.length)
-				return <Translation path={translationPath} entry="equation.wrongNumberOfSumTerms">The sum on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of the equals sign has <CountingWord>{inputSide.terms.length}</CountingWord> terms. There were <CountingWord>{correctSide.terms.length}</CountingWord> terms expected.</Translation>
+				return <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="wrongNumberOfSumTerms">The sum on the <Condition value={atLeft}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> side of the equals sign has <CountingWord>{inputSide.terms.length}</CountingWord> terms. There were <CountingWord>{correctSide.terms.length}</CountingWord> terms expected.</Translation>
 
 			// Find an input term that is not in the solution.
 			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.areEquivalent(inputTerm, correctTerm)))
 			if (index !== -1)
-				return <Translation path={translationPath} entry="equation.errorInSumTerm">There seems to be an error in the <CountingWord ordinal={true}>{index + 1}</CountingWord> term on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side.</Translation>
+				return <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="errorInSumTerm">There seems to be an error in the <CountingWord ordinal={true}>{index + 1}</CountingWord> term on the <Condition value={atLeft}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> side.</Translation>
 		} else {
 			// Check that the given terms are the same.
 			if (!expressionComparisons.areEquivalent(inputSide, correctSide))
-				return <Translation path={translationPath} entry="equation.errorInSide">There seems to be an error in the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of the equation.</Translation>
+				return <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="errorInSide">There seems to be an error in the <Condition value={atLeft}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> side of the equation.</Translation>
 		}
 	}
 
@@ -168,11 +167,11 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 			// Find an input term that is not in the solution when checking only for order changes.
 			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.areEqualExceptOrder(inputTerm, correctTerm)))
 			if (index !== -1)
-				return <Translation path={translationPath} entry="equation.unsimplifiedSumTerm">You can still simplify the <CountingWord ordinal={true}>{index + 1}</CountingWord> term on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side.</Translation>
+				return <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="unsimplifiedSumTerm">You can still simplify the <CountingWord ordinal={true}>{index + 1}</CountingWord> term on the <Condition value={atLeft}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> side.</Translation>
 		} else {
 			// Check that the given terms are the same.
 			if (!expressionComparisons.areEqualExceptOrder(inputSide, correctSide))
-				return <Translation path={translationPath} entry="equation.unsimplifiedSide">You can still simplify the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side.</Translation>
+				return <Translation folder={['eduTools']} catalog="feedback" group={['equation']} id="unsimplifiedSide">You can still simplify the <Condition value={atLeft}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> side.</Translation>
 		}
 	}
 

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<unit id="example">
+			<segment>
+				<source>Example exercise</source>
+			</segment>
+		</unit>
+		<unit id="exercise">
+			<segment>
+				<source>Practice exercise</source>
+			</segment>
+		</unit>
+		<unit id="solution">
+			<segment>
+				<source>Solution</source>
+			</segment>
+		</unit>
+		<unit id="step">
+			<segment>
+				<source>Step <ph id="x1" type="ui" subType="xlf:var" swi18n:name="step"/></source>
+			</segment>
+		</unit>
+		<group id="loadingNotes">
+			<unit id="missingExerciseName">
+				<segment>
+					<source>The URL has no exercise name in it.</source>
+				</segment>
+			</unit>
+			<unit id="loadingError">
+				<segment>
+					<source>The exercise failed to load. Please check if the exercise ID is correct.</source>
+				</segment>
+			</unit>
+			<unit id="loadingExercise">
+				<segment>
+					<source>Loading the exercise...</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="stepsModal">
+			<unit id="title">
+				<segment>
+					<source>Are you sure?</source>
+				</segment>
+			</unit>
+			<unit id="message">
+				<segment>
+					<source>The goal of Step-Wise is that you can eventually solve exercises without using steps. If you give up without trying, then this counts as an incorrect submission. Your skill rating will decrease.</source>
+				</segment>
+			</unit>
+			<group id="buttons">
+				<unit id="no">
+					<segment>
+						<source>Not yet ...</source>
+					</segment>
+				</unit>
+				<unit id="yes">
+					<segment>
+						<source>Show me the steps</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="buttons">
+			<unit id="giveUp">
+				<segment>
+					<source>I give up</source>
+				</segment>
+			</unit>
+			<unit id="check">
+				<segment>
+					<source>Submit and check</source>
+				</segment>
+			</unit>
+			<unit id="solveStepWise">
+				<segment>
+					<source>Solve this Step-Wise</source>
+				</segment>
+			</unit>
+			<unit id="giveUpStep">
+				<segment>
+					<source>I give up this step</source>
+				</segment>
+			</unit>
+			<unit id="nextExercise">
+				<segment>
+					<source>Next exercise</source>
+				</segment>
+			</unit>
+			<unit id="solve">
+				<segment>
+					<source>Insert solution</source>
+				</segment>
+			</unit>
+			<group id="stepSelect">
+				<unit id="tryMain">
+					<segment>
+						<source>Try the main exercise</source>
+					</segment>
+				</unit>
+				<unit id="tryStep">
+					<segment>
+						<source>Try out step <ph id="x1" type="ui" subType="xlf:var" swi18n:name="step"/></source>
+					</segment>
+				</unit>
+			</group>
+			<unit id="showSteps">
+				<segment>
+					<source>Show steps</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="groupExercise">
+			<group id="status">
+				<unit id="submitted">
+					<segment>
+						<source>Submitted:</source>
+					</segment>
+				</unit>
+				<unit id="missingSubmissions">
+					<segment>
+						<source>Missing:</source>
+					</segment>
+				</unit>
+				<unit id="givenUp">
+					<segment>
+						<source>Given up:</source>
+					</segment>
+				</unit>
+				<unit id="solveStepWise">
+					<segment>
+						<source>Solve Step-Wise:</source>
+					</segment>
+				</unit>
+				<unit id="submissionsReceived">
+					<segment>
+						<source>All submissions have been received.</source>
+					</segment>
+				</unit>
+				<unit id="allGaveUp">
+					<segment>
+						<source>Everyone gave up.</source>
+					</segment>
+				</unit>
+				<unit id="allStepWise">
+					<segment>
+						<source>Everyone votes for solving this Step-Wise.</source>
+					</segment>
+				</unit>
+				<unit id="newGroupExercise">
+					<segment>
+						<source>Another group member has started a newer exercise.</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="buttons">
+				<unit id="sendSubmission">
+					<segment>
+						<source>Send submission</source>
+					</segment>
+				</unit>
+				<unit id="cancelSubmission">
+					<segment>
+						<source>Cancel submission</source>
+					</segment>
+				</unit>
+				<unit id="cancelGivingUp">
+					<segment>
+						<source>Cancel giving up</source>
+					</segment>
+				</unit>
+				<unit id="cancelSolveStepWise">
+					<segment>
+						<source>Cancel solving Step-Wise</source>
+					</segment>
+				</unit>
+				<unit id="viewSubmission">
+					<segment>
+						<source>View submission</source>
+					</segment>
+				</unit>
+				<unit id="submitTheSame">
+					<segment>
+						<source>Submit the same</source>
+					</segment>
+				</unit>
+				<unit id="checkSubmissions">
+					<segment>
+						<source>Check submissions</source>
+					</segment>
+				</unit>
+				<unit id="confirmGivingUp">
+					<segment>
+						<source>Confirm giving up</source>
+					</segment>
+				</unit>
+				<unit id="newGroupExercise">
+					<segment>
+						<source>Open latest exercise</source>
+					</segment>
+				</unit>
+				<unit id="confirmSolvingStepWise">
+					<segment>
+						<source>Confirm solving Step-Wise</source>
+					</segment>
+				</unit>
+			</group>
+			<unit id="unequalSolutionWarning">
+				<segment>
+					<source>The above input is not equal to your submitted solution.</source>
+				</segment>
+			</unit>
+			<unit id="notEnoughSubmissions">
+				<segment>
+					<source>When practicing together, at least two submissions are needed to complete an exercise. Invite a fellow student.</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

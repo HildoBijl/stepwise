@@ -2,17 +2,15 @@ import React, { useRef } from 'react'
 import { Box } from '@mui/material'
 import { ArrowForward } from '@mui/icons-material'
 
-import { useTranslator } from 'i18n'
+import { Translation } from '@step-wise/i18n'
+
 import { Button } from 'ui/components'
 import { useFieldRegistration } from 'ui/form'
 import { useTestContext } from 'ui/admin'
 
 import { useExerciseData } from '../containers'
 
-const translationPath = 'eduTools/exercises'
-
 export function ContinuationButtons() {
-	const translate = useTranslator(translationPath)
 	const { state, inspection, startNewExercise } = useExerciseData()
 	const inTestContext = useTestContext()
 
@@ -36,7 +34,7 @@ export function ContinuationButtons() {
 				width: '100%',
 			},
 		})}>
-			{translate('Next exercise', 'buttons.nextExercise')}
+			<Translation folder={['eduTools']} catalog="exercises" group={['buttons']} id="nextExercise">Next exercise</Translation>
 		</Button>
 	</Box>
 }

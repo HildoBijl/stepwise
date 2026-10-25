@@ -3,10 +3,9 @@ import { Alert } from '@mui/material'
 
 import { hasExercises } from '@step-wise/exercises'
 import { useSessionStorageState } from '@step-wise/react-utils'
-import { useTranslation } from '@step-wise/i18n'
+import { Translation, useTranslation } from '@step-wise/i18n'
 
 import { useActiveGroup, useGroupExercise, useLatestGroupExercise, useStartGroupExercise, useSubmitGroupAction, useCancelGroupAction, useResolveGroupEvent } from 'api'
-import { useTranslator } from 'i18n'
 import { Button, ErrorNote, LoadingNote } from 'ui/components'
 
 import { ExerciseContainer } from '../containers'
@@ -15,7 +14,6 @@ export function ExercisePageForGroup({ skillId }) {
 	const noExercises = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExercises', children: 'Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
 	const loadingExerciseData = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingExerciseData', children: 'Loading exercise data...' })
 	const generatingNewExercise = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', children: 'Generating new exercise...' })
-	const translate = useTranslator('eduTools/exercises')
 
 	// Load the latest exercise and remember which exercise this browser tab is displaying.
 	const group = useActiveGroup()
@@ -83,11 +81,11 @@ export function ExercisePageForGroup({ skillId }) {
 		{newerExerciseAvailable && <Alert
 			severity={'warning'}
 			action={<Button color={'inherit'} size={'small'} onClick={() => setDisplayedExerciseId(latestExercise.id)}>
-				{translate('Open latest exercise', 'groupExercise.buttons.newGroupExercise')}
+				<Translation folder={['eduTools']} catalog="exercises" group={['groupExercise', 'buttons']} id="newGroupExercise">Open latest exercise</Translation>
 			</Button>}
 			sx={{ marginBottom: 2 }}
 		>
-			{translate('Another group member has started a newer exercise.', 'groupExercise.status.newGroupExercise')}
+			<Translation folder={['eduTools']} catalog="exercises" group={['groupExercise', 'status']} id="newGroupExercise">Another group member has started a newer exercise.</Translation>
 		</Alert>}
 		<ExerciseContainer key={displayedExercise.startedAt} skillId={skillId} exercise={displayedExercise} groupExercise={true} submitting={resolveLoading} submitAction={submitAction} cancelAction={cancelCurrentAction} resolveEvent={resolveCurrentEvent} startNewExercise={startNewExercise} />
 	</>

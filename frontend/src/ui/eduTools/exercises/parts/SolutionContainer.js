@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { Translation } from 'i18n'
+import { Translation } from '@step-wise/i18n'
+
 import { Arrow } from 'ui/components'
 
 import { useExerciseScrolling } from '../wrappers/ExerciseWrapper'
@@ -27,5 +28,5 @@ export function SolutionContainer({ onClick, onExpand, problemStep, scrollTarget
 		onClick={handleClick}
 		onExpand={handleExpand}
 		solutionStep={problemStep}
-		text={<Translation entry="solution" path="eduTools/exercises">Solution</Translation>} />
+		text={<Translation folder={['eduTools']} catalog="exercises" group={[]} id="solution">Solution</Translation>} />
 }

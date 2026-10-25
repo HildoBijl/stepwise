@@ -5,10 +5,10 @@ import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 import { last, fromKeys, isPlainObject, repeat } from '@step-wise/js-utils'
 import { getLastAction } from '@step-wise/exercise-definition'
 import { getAccumulatedRawInput, getAccumulatedReport, getCurrentStep } from '@step-wise/input-exercises'
+import { Translation } from '@step-wise/i18n'
 import { useLatestRef, useReferencePreservingValue } from '@step-wise/react-utils'
 
 import { useUserId, useIsAdmin, useActiveGroup, useSortedGroupMembers } from 'api'
-import { Translation, useTranslator, useGetTranslation } from 'i18n'
 import { getIcon } from 'ui/theme'
 import { Button, useModal, PictureConfirmation, QuickPractice, MemberList } from 'ui/components'
 import { useFormData, useFieldRegistration, useFeedbackContext } from 'ui/form'
@@ -20,7 +20,15 @@ import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, use
 import { useExerciseData } from '../containers'
 import { useSolution } from '../wrappers'
 
-const translationPath = 'eduTools/exercises'
+function translateExercise(children, path) {
+	const pathParts = path.split('.')
+	const id = pathParts.pop()
+	return <Translation folder={['eduTools']} catalog="exercises" group={pathParts} id={id}>{children}</Translation>
+}
+
+function translateGroupExercise(children, path) {
+	return translateExercise(children, `groupExercise.${path}`)
+}
 
 export function ExerciseButtons(props) {
 	const { groupExercise } = useExerciseData()
@@ -30,7 +38,6 @@ export function ExerciseButtons(props) {
 }
 
 function SingleUserExerciseButtons({ stepwise = false }) {
-	const translate = useTranslator(translationPath)
 	const { isAllInputEqual, getAllInputSI, getPartInputSI, setAllInputSI, getFieldIds, getFieldIdsForPart } = useFormData()
 	const { instance, state, history, submitting, example, inspection, valueOperations } = useExerciseData()
 	const solution = useSolution(false)
@@ -57,11 +64,11 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 
 	// Set up a warning Modal for when the user gives up a step exercise without even trying.
 	const [, setModalOpen] = useModal(<PictureConfirmation
-		title={<Box component="span" sx={theme => ({ color: theme.palette.warning.main })}>{translate('Are you sure?', 'stepsModal.title')}</Box>}
+		title={<Box component="span" sx={theme => ({ color: theme.palette.warning.main })}>{translateExercise('Are you sure?', 'stepsModal.title')}</Box>}
 		picture={<Warning sx={theme => ({ color: theme.palette.warning.main, height: '8rem', width: '8rem' })} />}
-		message={translate('The goal of Step-Wise is that you can eventually solve exercises without using steps. If you give up without trying, then this counts as an incorrect submission. Your skill rating will decrease.', 'stepsModal.message')}
-		rejectText={translate('Not yet ...', 'stepsModal.buttons.no')}
-		confirmText={translate('Show me the steps', 'stepsModal.buttons.yes')}
+		message={translateExercise('The goal of Step-Wise is that you can eventually solve exercises without using steps. If you give up without trying, then this counts as an incorrect submission. Your skill rating will decrease.', 'stepsModal.message')}
+		rejectText={translateExercise('Not yet ...', 'stepsModal.buttons.no')}
+		confirmText={translateExercise('Show me the steps', 'stepsModal.buttons.yes')}
 		onConfirm={giveUp}
 	/>)
 
@@ -78,12 +85,12 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	const inputIsEqualToLastInput = lastAction && lastAction.type === 'input' && isAllInputEqual(lastAction.input, currentInput)
 
 	// If the exercise is not done, we need the submit and give-up buttons. First set up the text.
-	let giveUpText = translate('I give up', 'buttons.giveUp')
+	let giveUpText = translateExercise('I give up', 'buttons.giveUp')
 	if (stepwise) {
 		if (example)
-			giveUpText = translate('Show steps', 'buttons.showSteps')
+			giveUpText = translateExercise('Show steps', 'buttons.showSteps')
 		else
-			giveUpText = step ? translate('I give up this step', 'buttons.giveUpStep') : translate('Solve this Step-Wise', 'buttons.solveStepWise')
+			giveUpText = step ? translateExercise('I give up this step', 'buttons.giveUpStep') : translateExercise('Solve this Step-Wise', 'buttons.solveStepWise')
 	}
 
 	// On giving up, check if a warning needs to be shown.
@@ -128,8 +135,8 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 			},
 		}
 	})}>
-		{isTeacher && solution ? <Button variant="contained" startIcon={<QuickPractice />} onClick={insertSolution} disabled={submitting} color="info" ref={insertSolutionButtonRef}>{translate('Insert solution', 'buttons.solve')}</Button> : null}
-		<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>{translate('Submit and check', 'buttons.check')}</Button>
+		{isTeacher && solution ? <Button variant="contained" startIcon={<QuickPractice />} onClick={insertSolution} disabled={submitting} color="info" ref={insertSolutionButtonRef}>{translateExercise('Insert solution', 'buttons.solve')}</Button> : null}
+		<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>{translateExercise('Submit and check', 'buttons.check')}</Button>
 		{example ? null : <Button variant="contained" startIcon={<Clear />} onClick={checkGiveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>}
 		{example && stepwise ? <StepSelect /> : null}
 	</Box>
@@ -171,8 +178,8 @@ function StepSelect() {
 			},
 			'& fieldset': { border: 0 },
 		})}>
-			<MenuItem value={0} key={0}><Translation path={translationPath} entry="buttons.stepSelect.tryMain">Try the main exercise</Translation></MenuItem>
-			{repeat(numSteps, index => <MenuItem value={index + 1} key={index + 1}><Translation path={translationPath} entry="buttons.stepSelect.tryStep">Try out step {{ step: index + 1 }}</Translation></MenuItem>)}
+			<MenuItem value={0} key={0}>{translateExercise('Try the main exercise', 'buttons.stepSelect.tryMain')}</MenuItem>
+			{repeat(numSteps, index => <MenuItem value={index + 1} key={index + 1}>{translateExercise(<>Try out step {{ step: index + 1 }}</>, 'buttons.stepSelect.tryStep')}</MenuItem>)}
 		</Select>
 	</FormControl>
 }
@@ -242,8 +249,6 @@ function GroupExerciseButtons({ stepwise = false }) {
 }
 
 function GiveUpAndSubmitButtons({ stepwise, part, currentAction }) {
-	const getTranslation = useGetTranslation(translationPath)
-	const translate = useTranslator(translationPath, 'groupExercise')
 	const { instance, submitting } = useExerciseData()
 	const userId = useUserId()
 	const { isAllInputEqual, getAllInputSI, getPartInputSI } = useFormData()
@@ -268,16 +273,16 @@ function GiveUpAndSubmitButtons({ stepwise, part, currentAction }) {
 	const isAllInputEqualToCurrentAction = currentAction && currentAction.type === 'input' && currentAction.adoptUserHistory === adoptUserHistory && isAllInputEqual(currentAction.input, currentInput)
 
 	// Determine the give-up button text.
-	let giveUpText = getTranslation('buttons.giveUp')
+	let giveUpText = translateExercise('I give up', 'buttons.giveUp')
 	if (stepwise)
-		giveUpText = part ? getTranslation('buttons.giveUpStep') : getTranslation('buttons.solveStepWise')
+		giveUpText = part ? translateExercise('I give up this step', 'buttons.giveUpStep') : translateExercise('Solve this Step-Wise', 'buttons.solveStepWise')
 
 	// Render the buttons.
 	const WarningIcon = getIcon('warning')
 	return <>
-		{currentAction && currentAction.type === 'input' && !isAllInputEqualToCurrentAction ? <div className="description2 warning"><WarningIcon />{translate('The above input is not equal to your submitted solution.', 'unequalSolutionWarning')}</div> : null}
+		{currentAction && currentAction.type === 'input' && !isAllInputEqualToCurrentAction ? <div className="description2 warning"><WarningIcon />{translateGroupExercise('The above input is not equal to your submitted solution.', 'unequalSolutionWarning')}</div> : null}
 		{hasGivenUp ? null : <Button className="button1" variant="contained" startIcon={<Clear />} onClick={giveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}><span className="buttonText">{giveUpText}</span></Button>}
-		<Button className="button2" variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || isAllInputEqualToLastInput || isAllInputEqualToCurrentAction} color="primary" ref={submitButtonRef}><span className="buttonText">{translate('Send submission', 'buttons.sendSubmission')}</span></Button>
+		<Button className="button2" variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || isAllInputEqualToLastInput || isAllInputEqualToCurrentAction} color="primary" ref={submitButtonRef}><span className="buttonText">{translateGroupExercise('Send submission', 'buttons.sendSubmission')}</span></Button>
 	</>
 }
 
@@ -287,7 +292,6 @@ function CurrentActions(derivedProperties) {
 }
 
 function CurrentActionRow({ actionList, submitting, index, part }) {
-	const translate = useTranslator(translationPath, 'groupExercise')
 	const exerciseData = useExerciseData()
 	const { history, submitAction } = exerciseData
 	const userId = useUserId()
@@ -341,18 +345,17 @@ function CurrentActionRow({ actionList, submitting, index, part }) {
 	const isEqual = adoptUserHistory === selectedAdoption && isAllInputEqual(actionInput, currentInput)
 	return <>
 		<div className="inBetween" />
-		<div className="description1">{translate('Submitted:', 'status.submitted')}</div>
+		<div className="description1">{translateGroupExercise('Submitted:', 'status.submitted')}</div>
 		<div className="memberList"><MemberList members={membersSorted} /></div>
-		<Button className="button1" variant="contained" startIcon={<Search />} disabled={isEqual} onClick={setFormInput} color="info" ref={viewButtonRef}><span className="buttonText">{translate('View submission', 'buttons.viewSubmission')}</span></Button>
+		<Button className="button1" variant="contained" startIcon={<Search />} disabled={isEqual} onClick={setFormInput} color="info" ref={viewButtonRef}><span className="buttonText">{translateGroupExercise('View submission', 'buttons.viewSubmission')}</span></Button>
 		{isSelfPresent ?
-			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={copyCancelButtonRef}><span className="buttonText">{translate('Cancel submission', 'buttons.cancelSubmission')}</span></Button> :
-			<Button className="button2" variant="contained" endIcon={<Send />} onClick={setAndSubmitFormInput} disabled={submitting} color="primary" ref={copyCancelButtonRef}><span className="buttonText">{translate('Submit the same', 'buttons.submitTheSame')}</span></Button>
+			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={copyCancelButtonRef}><span className="buttonText">{translateGroupExercise('Cancel submission', 'buttons.cancelSubmission')}</span></Button> :
+			<Button className="button2" variant="contained" endIcon={<Send />} onClick={setAndSubmitFormInput} disabled={submitting} color="primary" ref={copyCancelButtonRef}><span className="buttonText">{translateGroupExercise('Submit the same', 'buttons.submitTheSame')}</span></Button>
 		}
 	</>
 }
 
 function GivenUpNote({ stepwise, gaveUp, submitting, groupedActions }) {
-	const translate = useTranslator(translationPath, 'groupExercise')
 	const { state } = useExerciseData()
 	const activeGroup = useActiveGroup()
 
@@ -372,14 +375,13 @@ function GivenUpNote({ stepwise, gaveUp, submitting, groupedActions }) {
 	// Show the people that gave up.
 	return <>
 		<div className="inBetween" />
-		<div className="description1">{!stepwise || state.step ? translate('Given up:', 'status.givenUp') : translate('Solve Step-Wise:', 'status.solveStepWise')}</div>
+		<div className="description1">{!stepwise || state.step ? translateGroupExercise('Given up:', 'status.givenUp') : translateGroupExercise('Solve Step-Wise:', 'status.solveStepWise')}</div>
 		<div className="memberList"><MemberList members={membersSorted} /></div>
-		{gaveUp ? <Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}><span className="buttonText">{!stepwise || state.step ? translate('Cancel giving up', 'buttons.cancelGivingUp') : translate('Cancel solving Step-Wise', 'buttons.cancelSolveStepWise')}</span></Button> : null}
+		{gaveUp ? <Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}><span className="buttonText">{!stepwise || state.step ? translateGroupExercise('Cancel giving up', 'buttons.cancelGivingUp') : translateGroupExercise('Cancel solving Step-Wise', 'buttons.cancelSolveStepWise')}</span></Button> : null}
 	</>
 }
 
 function ResolveNote({ stepwise, hasUserAction, canResolve, allGaveUp, submitting, membersWithoutActions }) {
-	const translate = useTranslator(translationPath, 'groupExercise')
 	const { state } = useExerciseData()
 
 	// Set up a resolve button ref and register it to tab control.
@@ -396,8 +398,8 @@ function ResolveNote({ stepwise, hasUserAction, canResolve, allGaveUp, submittin
 	if (allGaveUp) {
 		return <>
 			<div className="inBetween" />
-			<div className="description3 info"><InfoIcon />{!stepwise || state.step ? translate('Everyone gave up.', 'status.allGaveUp') : translate('Everyone votes for solving this Step-Wise.', 'status.allStepWise')}</div>
-			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">{!stepwise || state.step ? translate('Confirm giving up', 'buttons.confirmGivingUp') : translate('Confirm solving Step-Wise', 'buttons.comfirmSolvingStepWise')}</span></Button>
+			<div className="description3 info"><InfoIcon />{!stepwise || state.step ? translateGroupExercise('Everyone gave up.', 'status.allGaveUp') : translateGroupExercise('Everyone votes for solving this Step-Wise.', 'status.allStepWise')}</div>
+			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">{!stepwise || state.step ? translateGroupExercise('Confirm giving up', 'buttons.confirmGivingUp') : translateGroupExercise('Confirm solving Step-Wise', 'buttons.confirmSolvingStepWise')}</span></Button>
 		</>
 	}
 
@@ -405,8 +407,8 @@ function ResolveNote({ stepwise, hasUserAction, canResolve, allGaveUp, submittin
 	if (canResolve) {
 		return <>
 			<div className="inBetween" />
-			<div className="description3 info"><InfoIcon />{translate('All submissions have been received.', 'status.submissionsReceived')}</div>
-			<Button className="button2" variant="contained" startIcon={<Check />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">{translate('Check submissions', 'buttons.checkSubmissions')}</span></Button>
+			<div className="description3 info"><InfoIcon />{translateGroupExercise('All submissions have been received.', 'status.submissionsReceived')}</div>
+			<Button className="button2" variant="contained" startIcon={<Check />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">{translateGroupExercise('Check submissions', 'buttons.checkSubmissions')}</span></Button>
 		</>
 	}
 
@@ -414,7 +416,7 @@ function ResolveNote({ stepwise, hasUserAction, canResolve, allGaveUp, submittin
 	if (membersWithoutActions.length > 0) {
 		return <>
 			<div className="inBetween" />
-			<div className="description1">{translate('Missing:', 'status.missingSubmissions')}</div>
+			<div className="description1">{translateGroupExercise('Missing:', 'status.missingSubmissions')}</div>
 			<div className="memberList"><MemberList members={membersWithoutActions} /></div>
 		</>
 	}
@@ -422,7 +424,7 @@ function ResolveNote({ stepwise, hasUserAction, canResolve, allGaveUp, submittin
 	// There must simply be too few active members. Note this.
 	const WarningIcon = getIcon('warning')
 	return <>
-		<div className="description4 warning"><WarningIcon />{translate('When practicing together, at least two submissions are needed to complete an exercise. Invite a fellow student.', 'notEnoughSubmissions')}</div>
+		<div className="description4 warning"><WarningIcon />{translateGroupExercise('When practicing together, at least two submissions are needed to complete an exercise. Invite a fellow student.', 'notEnoughSubmissions')}</div>
 	</>
 }
 

@@ -6,9 +6,9 @@ import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArro
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
 import { moduleTree } from '@step-wise/module-tree'
 import { usePrevious } from '@step-wise/react-utils'
-import { Translation, withTranslation } from '@step-wise/i18n'
+import { Translation, TranslationCatalog, withTranslation } from '@step-wise/i18n'
 
-import { TranslationFile, useTranslator } from 'i18n'
+import { useTextTranslator } from 'i18n'
 import { linkStyle } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
 import { NotificationBar, useModalContext } from 'ui/components'
@@ -23,14 +23,14 @@ const TranslationLink = withTranslation(Link, { tag: 'link' })
 
 export function SkillAdvice() {
 	useSkillModal()
-	return <TranslationFile path="eduTools/pages/skillPage">
+	return <TranslationCatalog folder={['eduTools', 'pages']} name="skillPage">
 		<SkillNotification />
-	</TranslationFile>
+	</TranslationCatalog>
 }
 
 // SkillNotification shows the notification bar at the top of the screen recommending users to go to a different skill within the course.
 function SkillNotification() {
-	const translate = useTranslator()
+	const translate = useTextTranslator()
 	const skillAdvice = useSkillAdvice()
 	const paths = usePaths()
 	const { course } = useCourseData()
@@ -111,7 +111,7 @@ const buttonsStyle = {
 
 // useSkillModal shows a pop-up modal whenever the skill advice changes. So when the user mastered the skill he's practicing ("mastery") or when he sinks a prerequisite too low ("repeat").
 function useSkillModal() {
-	const translate = useTranslator()
+	const translate = useTextTranslator()
 	const paths = usePaths()
 	const navigate = useNavigate()
 	const { course, skillLevelsLoaded } = useCourseData()
@@ -161,7 +161,7 @@ function useSkillModal() {
 			)
 		}
 	}
-	const [, setShowModal] = useModal(<TranslationFile path="eduTools/pages/skillPage">{contents}</TranslationFile>)
+	const [, setShowModal] = useModal(<TranslationCatalog folder={['eduTools', 'pages']} name="skillPage">{contents}</TranslationCatalog>)
 
 	// Use an effect to show a modal when the advice changes. But only do this when we previously already had good data and suddenly the advice type changes while staying at the same skill.
 	const previousAdviceType = usePrevious(adviceType)

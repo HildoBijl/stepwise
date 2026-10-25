@@ -1,4 +1,4 @@
-import { type ReactElement, type ReactNode, cloneElement } from 'react'
+import { type ReactElement, type ReactNode, isValidElement, cloneElement } from 'react'
 
 import { type ComponentNode, type ConditionNode, type Message, type MessageNode, type PluralNode, type SelectNode, assertCompatibleMessage, assertValidMessage } from '../../message/index.ts'
 
@@ -30,7 +30,7 @@ function renderMessage(message: Message, context: RenderingContext, path: string
 function renderNode(node: MessageNode, context: RenderingContext, path: string): ReactNode {
 	switch (node.type) {
 		case 'text': return node.value
-		case 'variable': return getVariable(node.name, context) as ReactNode
+		case 'variable': return renderVariable(node.name, context, path)
 		case 'component': return renderComponent(node, context, path)
 		case 'plural': return renderPlural(node, context, path)
 		case 'select': return renderSelect(node, context, path)
@@ -41,6 +41,12 @@ function renderNode(node: MessageNode, context: RenderingContext, path: string):
 /*
  * Type-specific message-to-react conversion.
  */
+
+// Apply a translation to a variable, which may also be a ReactNode. Assign ReactNodes a stable key to prevent React warnings.
+function renderVariable(name: string, context: RenderingContext, path: string): ReactNode {
+	const value = getVariable(name, context) as ReactNode
+	return isValidElement(value) && value.key === null ? cloneElement(value, { key: path }) : value
+}
 
 // Apply a translation to a Component node.
 function renderComponent(node: ComponentNode, context: RenderingContext, path: string): ReactElement {

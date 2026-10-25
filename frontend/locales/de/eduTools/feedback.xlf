@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="correct">
+			<unit id="0">
+				<segment>
+					<source>That is correct!</source>
+					<target swi18n:sourceContentFingerprint="0a3744fe44be2c24" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Das ist gut!</target>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>Nicely done.</source>
+					<target swi18n:sourceContentFingerprint="0b153ceacebeaff4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Beeindruckend gemacht.</target>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>Amazing, you did it!</source>
+					<target swi18n:sourceContentFingerprint="5d43508ed2c8cc09" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Toll, du hast es geschafft!</target>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>That is the correct solution.</source>
+					<target swi18n:sourceContentFingerprint="b5fe9ebf5b793e9b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Das ist die richtige Lösung.</target>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>All in order.</source>
+					<target swi18n:sourceContentFingerprint="1b318b0ec0b3efb4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Das stimmt.</target>
+				</segment>
+			</unit>
+			<unit id="5">
+				<segment>
+					<source>Wonderful! Keep it up.</source>
+					<target swi18n:sourceContentFingerprint="cedd67b027eba0d6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Wunderbar! Mach weiter so.</target>
+				</segment>
+			</unit>
+			<unit id="6">
+				<segment>
+					<source>Well on your way.</source>
+					<target swi18n:sourceContentFingerprint="e76595b82b98c62d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es geht zügig voran.</target>
+				</segment>
+			</unit>
+			<unit id="7">
+				<segment>
+					<source>Correct! Very well done.</source>
+					<target swi18n:sourceContentFingerprint="bd954c371c49a191" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Richtig! Gut gemacht.</target>
+				</segment>
+			</unit>
+			<unit id="8">
+				<segment>
+					<source>You solved it!</source>
+					<target swi18n:sourceContentFingerprint="a9c2edb8f96f3308" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du hast es gelöst!</target>
+				</segment>
+			</unit>
+			<unit id="9">
+				<segment>
+					<source>Splendid!</source>
+					<target swi18n:sourceContentFingerprint="30c440e654e711c6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Schön gemacht!</target>
+				</segment>
+			</unit>
+			<unit id="10">
+				<segment>
+					<source>All perfect.</source>
+					<target swi18n:sourceContentFingerprint="da02d548a3804110" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Völlig perfekt.</target>
+				</segment>
+			</unit>
+			<unit id="11">
+				<segment>
+					<source>Looking good.</source>
+					<target swi18n:sourceContentFingerprint="93cc6701c00408dc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Sieht gut aus.</target>
+				</segment>
+			</unit>
+			<unit id="12">
+				<segment>
+					<source>Awesome! All correct.</source>
+					<target swi18n:sourceContentFingerprint="49f362b0d0c65d81" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Großartig! Das ist richtig.</target>
+				</segment>
+			</unit>
+			<unit id="13">
+				<segment>
+					<source>Yes, that's it.</source>
+					<target swi18n:sourceContentFingerprint="f481b549706e8c7b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ja, das ist die Lösung.</target>
+				</segment>
+			</unit>
+			<unit id="14">
+				<segment>
+					<source>That is the right answer.</source>
+					<target swi18n:sourceContentFingerprint="a17f09e6df4ece5a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Das ist die richtige Antwort.</target>
+				</segment>
+			</unit>
+			<unit id="15">
+				<segment>
+					<source>That is completely correct.</source>
+					<target swi18n:sourceContentFingerprint="634a9feaf615ec6d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Das ist ganz richtig.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="incorrect">
+			<unit id="0">
+				<segment>
+					<source>That is not the right solution.</source>
+					<target swi18n:sourceContentFingerprint="f8771fcc0abbc128" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Das ist nicht die richtige Lösung.</target>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>Sadly, that doesn't add up.</source>
+					<target swi18n:sourceContentFingerprint="41f19575e522860a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Leider stimmt das nicht.</target>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>That is not correct.</source>
+					<target swi18n:sourceContentFingerprint="da5922091b6eb53a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Das ist nicht richtig.</target>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>Try again?</source>
+					<target swi18n:sourceContentFingerprint="347339acdd0d153e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nochmals versuchen?</target>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>This one's off.</source>
+					<target swi18n:sourceContentFingerprint="3a97ee2511cbabf9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Das ist falsch.</target>
+				</segment>
+			</unit>
+			<unit id="5">
+				<segment>
+					<source>Unfortunately it's wrong.</source>
+					<target swi18n:sourceContentFingerprint="a785db397f0ae1ec" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du irrst dich leider.</target>
+				</segment>
+			</unit>
+			<unit id="6">
+				<segment>
+					<source>No, not the right solution.</source>
+					<target swi18n:sourceContentFingerprint="e941a0101e3e2716" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nein, das ist nicht die richtige Antwort.</target>
+				</segment>
+			</unit>
+			<unit id="7">
+				<segment>
+					<source>Well ... not exactly.</source>
+					<target swi18n:sourceContentFingerprint="85f169febb0347f9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nun ... einfach nicht.</target>
+				</segment>
+			</unit>
+			<unit id="8">
+				<segment>
+					<source>Sorry, that's wrong.</source>
+					<target swi18n:sourceContentFingerprint="134945c83b975331" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Tut mir leid, das ist falsch.</target>
+				</segment>
+			</unit>
+			<unit id="9">
+				<segment>
+					<source>No, that's not it.</source>
+					<target swi18n:sourceContentFingerprint="9766b377c8b71368" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nein, das ist nicht die Lösung.</target>
+				</segment>
+			</unit>
+			<unit id="10">
+				<segment>
+					<source>Oops, that's a wrong answer.</source>
+					<target swi18n:sourceContentFingerprint="56f358e2fedba17e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ups, das ist die falsche Antwort.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="empty">
+			<unit id="0">
+				<segment>
+					<source>You did not enter anything.</source>
+					<target swi18n:sourceContentFingerprint="e8c0b309bf892287" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du hast noch nichts ausgefüllt.</target>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>This field is still empty.</source>
+					<target swi18n:sourceContentFingerprint="1a7eb891e35967c1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dieses Feld ist noch leer.</target>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>You forgot to write something here.</source>
+					<target swi18n:sourceContentFingerprint="c76e267c282c7c08" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du hast vergessen, hier etwas auszufüllen.</target>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>You have to enter something here.</source>
+					<target swi18n:sourceContentFingerprint="8ae912cf0f38df42" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du musst hier etwas eingeben.</target>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>There's something missing here.</source>
+					<target swi18n:sourceContentFingerprint="0415d165f8558e9c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Hier fehlt noch etwas.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="missingNumber">
+			<unit id="0">
+				<segment>
+					<source>You didn't fill in a number.</source>
+					<target swi18n:sourceContentFingerprint="2b8e75bc0522065b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du hast keine Nummer eingegeben.</target>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>There should be a number here.</source>
+					<target swi18n:sourceContentFingerprint="ebc84ed4b41fe8a2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Die Zahl fehlt.</target>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>Don't forget to enter a number!</source>
+					<target swi18n:sourceContentFingerprint="d5bbbc6d19e86943" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vergiss nicht, eine Nummer einzugeben!</target>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>Where is the number?</source>
+					<target swi18n:sourceContentFingerprint="88cbc093e1fa4d6c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Wo ist die Nummer?</target>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>Oops, there's a number missing here.</source>
+					<target swi18n:sourceContentFingerprint="2f66b7143698ecf9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ups, hier fehlt eine Zahl.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="missingUnit">
+			<unit id="0">
+				<segment>
+					<source>You didn't fill in a unit.</source>
+					<target swi18n:sourceContentFingerprint="aa8fe354f9ed42f0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du hast keine Einheit eingegeben.</target>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>There should be a unit here.</source>
+					<target swi18n:sourceContentFingerprint="fae930392e45fd6f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es fehlt die Einheit.</target>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>Don't forget to enter a unit.</source>
+					<target swi18n:sourceContentFingerprint="63410fe05cc0d187" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vergiss nicht, eine Einheit einzugeben!</target>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>Where is the unit?</source>
+					<target swi18n:sourceContentFingerprint="f90f0f70ebdf60ab" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Wo ist die Einheit?</target>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>Oops, there's a unit missing here.</source>
+					<target swi18n:sourceContentFingerprint="f7f18ae649520ae8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ups, hier fehlt eine Einheit.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="invalidUnit">
+			<unit id="0">
+				<segment>
+					<source>This is not a valid unit.</source>
+					<target swi18n:sourceContentFingerprint="d2dbfb92d7b882b4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dies ist keine gültige Einheit.</target>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>Check the unit here.</source>
+					<target swi18n:sourceContentFingerprint="006cb72ffa5d2a8d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Überprüfe deine Einheit noch einmal.</target>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>This unit does not look correct.</source>
+					<target swi18n:sourceContentFingerprint="88b88d41c4ce7c9d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dieses Einheit sieht nicht korrekt aus.</target>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>There's something wrong with your unit.</source>
+					<target swi18n:sourceContentFingerprint="5b0fcded90f28bb6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Mit deiner Einheit ist etwas nicht in Ordnung.</target>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>There are faulty parts in your unit.</source>
+					<target swi18n:sourceContentFingerprint="8a6cb14ff2e3141d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">In deiner Einheit befinden sich falsche Teile.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="incorrectUnit">
+			<unit id="0">
+				<segment>
+					<source>Your unit isn't correct. Have a look at that first.</source>
+					<target swi18n:sourceContentFingerprint="51a1ca17c34ac0dc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Einheit ist nicht korrekt. Sieh dir das zuerst an.</target>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>There's an error in your unit. Fix that first.</source>
+					<target swi18n:sourceContentFingerprint="d05cc1194664ed89" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es gibt einen Fehler in deiner Einheit. Korrigiere ihn zuerst.</target>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>Wrong unit. What unit should the answer have?</source>
+					<target swi18n:sourceContentFingerprint="eb3ef67e5dc8dee4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Falsche Einheit. Welche Einheit sollte deine Antwort haben?</target>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>It goes awry at the unit. What should it be?</source>
+					<target swi18n:sourceContentFingerprint="a80dd07bda772648" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es geht schief mit der Einheit. Was sollte das sein?</target>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>Oops, your unit is off. Check that one out.</source>
+					<target swi18n:sourceContentFingerprint="e7b2b2694d5faeca" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ups, deine Einheit ist falsch. Überprüfe das.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="negative">
+			<unit id="0">
+				<segment>
+					<source>This is a negative number.</source>
+					<target swi18n:sourceContentFingerprint="a8dcf915a5ce07d1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dies ist eine negative Zahl.</target>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>This number isn't positive.</source>
+					<target swi18n:sourceContentFingerprint="28ce9f61d74524ed" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Diese Zahl ist nicht positiv.</target>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>The minus sign shouldn't be there.</source>
+					<target swi18n:sourceContentFingerprint="e12f37b37d6a1cfd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Das Minuszeichen gehört da nicht hin.</target>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>This number is supposed to be positive.</source>
+					<target swi18n:sourceContentFingerprint="0b6999a0a76259c5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Diese Zahl sollte positiv sein.</target>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>What's that minus sign doing there?</source>
+					<target swi18n:sourceContentFingerprint="97e206a5254df2c4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Was hat das Minuszeichen da zu suchen?</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="duplicate">
+			<unit id="0">
+				<segment>
+					<source>This value is equal to an earlier solution.</source>
+					<target swi18n:sourceContentFingerprint="24b3d11623fc7088" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dieser Wert ist bereits gleich einer vorher gegebenen Lösung.</target>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>No, you already gave this solution.</source>
+					<target swi18n:sourceContentFingerprint="0bb556f0fccb6b42" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nein, diese Lösung hast du bereits gegeben.</target>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>You already entered this solution above.</source>
+					<target swi18n:sourceContentFingerprint="db4c3cc5c773b294" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du hast diese Lösung bereits oben eingegeben.</target>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>This is not a unique solution.</source>
+					<target swi18n:sourceContentFingerprint="50008bb592346312" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dies ist keine einzigartige Lösung.</target>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>Oops, you already filled this one in.</source>
+					<target swi18n:sourceContentFingerprint="f34b5512db81b5f3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ups, das hast du schon ausgefüllt.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="nonNumeric">
+			<unit id="0">
+				<segment>
+					<source>This value is not a number.</source>
+					<target swi18n:sourceContentFingerprint="1a6ad4e13db81668" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dieser Wert ist keine Zahl.</target>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>There's still a variable in there.</source>
+					<target swi18n:sourceContentFingerprint="4fead8e1638cb54a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort enthält eine Variable.</target>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>You entered something that is not a number.</source>
+					<target swi18n:sourceContentFingerprint="f57011b2b65be3c0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du hast etwas eingegeben, das keine Zahl ist.</target>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>This isn't something that can be turned into a number.</source>
+					<target swi18n:sourceContentFingerprint="9c624d40511078e9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Das ist nichts, was zu einer Zahl werden kann.</target>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>Oops, I can't turn this into a number.</source>
+					<target swi18n:sourceContentFingerprint="29b435f8bcf85756" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ups, ich kann daraus keine Zahl ableiten.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="numeric">
+			<unit id="withinMargin">
+				<segment>
+					<source>You're still within the margin, but this could be more accurate.</source>
+					<target swi18n:sourceContentFingerprint="074b66f68c293695" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort liegt noch innerhalb des Bereichs, könnte aber genauer sein.</target>
+				</segment>
+			</unit>
+			<unit id="wrongSign">
+				<segment>
+					<source>You haven't used the right sign. Check your pluses and minuses.</source>
+					<target swi18n:sourceContentFingerprint="573d28dbc22ad85b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort hat nicht das richtige Vorzeichen. Prüfe Plus- und Minuszeichen.</target>
+				</segment>
+			</unit>
+			<unit id="nearby">
+				<segment>
+					<source>You're very close! Check for accuracy and rounding errors.</source>
+					<target swi18n:sourceContentFingerprint="caa68c2d6854ca2a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du bist sehr nah dran! Mach deine Antwort ein bisschen genauer.</target>
+				</segment>
+			</unit>
+			<unit id="notZeroPositive">
+				<segment>
+					<source>Zero is sadly wrong. We do expect a number here.</source>
+					<target swi18n:sourceContentFingerprint="f6534fe81aa812b8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Null ist leider nicht richtig. Wir erwarten hier eine Zahl.</target>
+				</segment>
+			</unit>
+			<unit id="notZeroNegative">
+				<segment>
+					<source>Zero is sadly wrong. We do expect a (possibly negative) number here.</source>
+					<target swi18n:sourceContentFingerprint="4eeeb62c92a034f1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Null ist leider nicht richtig. Wir erwarten hier eine (möglicherweise negative) Zahl.</target>
+				</segment>
+			</unit>
+			<unit id="negativeTooLarge">
+				<segment>
+					<source>Your answer is (magnitude-based) too small. We expected something even more negative.</source>
+					<target swi18n:sourceContentFingerprint="f6602905108bbd3b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort (den absoluten Wert) ist zu gering. Wir erwarten etwas, das noch negativer ist.</target>
+				</segment>
+			</unit>
+			<unit id="negativeTooSmall">
+				<segment>
+					<source>Your answer is (magnitude-based) too large. We expected something closer to zero.</source>
+					<target swi18n:sourceContentFingerprint="d0d740a2ab6de808" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort (den absoluten Wert) ist zu groß. Wir erwarten etwas, das näher bei Null liegt.</target>
+				</segment>
+			</unit>
+			<unit id="positiveTooLarge">
+				<segment>
+					<source>Your answer is too large.</source>
+					<target swi18n:sourceContentFingerprint="a56a6253573f944e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort ist zu groß.</target>
+				</segment>
+			</unit>
+			<unit id="positiveTooSmall">
+				<segment>
+					<source>Your answer is too small.</source>
+					<target swi18n:sourceContentFingerprint="904af50dc79a7c06" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort ist zu klein.</target>
+				</segment>
+			</unit>
+			<unit id="tooManySignificantDigits">
+				<segment>
+					<source>You used too many significant digits.</source>
+					<target swi18n:sourceContentFingerprint="891b51f0587120ca" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du hast zu viele signifikante Zahlen.</target>
+				</segment>
+			</unit>
+			<unit id="tooFewSignificantDigits">
+				<segment>
+					<source>You used too few significant digits.</source>
+					<target swi18n:sourceContentFingerprint="3cb88f89da2b7979" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du hast zu wenig signifikante Zahlen.</target>
+				</segment>
+			</unit>
+			<unit id="tooLargePower">
+				<segment>
+					<source>The exponent you used is too large.</source>
+					<target swi18n:sourceContentFingerprint="5e409d949ba6b4e9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Die verwendete Zehnerpotenz ist zu groß.</target>
+				</segment>
+			</unit>
+			<unit id="tooSmallPower">
+				<segment>
+					<source>The exponent you used is too small.</source>
+					<target swi18n:sourceContentFingerprint="9ea8b2c5eaeafab1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Die verwendete Zehnerpotenz ist zu klein.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="expression">
+			<unit id="original">
+				<segment>
+					<source>This is the original expression. You have not rewritten it yet.</source>
+					<target swi18n:sourceContentFingerprint="947697ca0b7750a1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dies ist der ursprüngliche Ausdruck. Du hast noch nichts damit gemacht.</target>
+				</segment>
+			</unit>
+			<unit id="incorrect">
+				<segment>
+					<source>This expression is not equal to what has been given. In rewriting it you took a wrong step somewhere.</source>
+					<target swi18n:sourceContentFingerprint="0fa1963a74a2aa53" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dieser Ausdruck ist nicht gleich dem, was gegeben ist. Du hast beim Umschreiben etwas getan, was nicht erlaubt ist.</target>
+				</segment>
+			</unit>
+			<unit id="nonEquivalentSolution">
+				<segment>
+					<source>This is not the right solution, nor is it equivalent to it. Check your steps leading up to this.</source>
+					<target swi18n:sourceContentFingerprint="e86c5af7b65648cd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dies ist weder die richtige Lösung, noch deren Äquivalent. Überprüfe die Schritte, mit denen du dies gefunden hast.</target>
+				</segment>
+			</unit>
+			<unit id="correct">
+				<segment>
+					<source>The expression is correct, but you have not done what was required.</source>
+					<target swi18n:sourceContentFingerprint="2cbe35a43067dd7a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Der Ausdruck ist korrekt, aber du hast nicht getan, was verlangt wurde.</target>
+				</segment>
+			</unit>
+			<unit id="noSum">
+				<segment>
+					<source>You have to write your solution as an addition/subtraction of terms. Your solution sadly is not an addition/subtraction.</source>
+					<target swi18n:sourceContentFingerprint="25931ce39d7ddef1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du solltest deine Antwort als eine Addition/Subtraktion von Termen schreiben. Die von dir gegebene Antwort ist keine Addition/Subtraktion.</target>
+				</segment>
+			</unit>
+			<unit id="wrongNumberOfSumTerms">
+				<segment>
+					<source>There was supposed to be an addition/subtraction with <ph id="x1" type="ui" subType="xlf:var" swi18n:name="expectedNumTerms"/> terms, each with a plus or minus sign in-between. Your response has <ph id="x2" type="ui" subType="xlf:var" swi18n:name="inputNumTerms"/> terms.</source>
+					<target swi18n:sourceContentFingerprint="49732b0e1c5888b6" swi18n:sourceStructureFingerprint="7365c6c2e18c0b48">Was hier erwartet wird, ist eine Addition mit <ph id="x1" type="ui" subType="xlf:var" swi18n:name="expectedNumTerms"/> Termen, mit einem Plus- oder Minuszeichen dazwischen. Deine Eingabe hat <ph id="x2" type="ui" subType="xlf:var" swi18n:name="inputNumTerms"/> Terme.</target>
+				</segment>
+			</unit>
+			<unit id="errorInSumTerm">
+				<segment>
+					<source>There seems to be an error in the <ph id="c1" type="ui" subType="swi18n:counting-word"/> term of your solution.</source>
+					<target swi18n:sourceContentFingerprint="18dbfb692e1336e3" swi18n:sourceStructureFingerprint="786e5572dffc7a30">Mit dem <ph id="c1" type="ui" subType="swi18n:counting-word"/>n Term deiner Antwort scheint etwas nicht zu stimmen.</target>
+				</segment>
+			</unit>
+			<unit id="unsimplifiedSumTerm">
+				<segment>
+					<source>You can still further simplify the <ph id="c1" type="ui" subType="swi18n:counting-word"/> term of your solution.</source>
+					<target swi18n:sourceContentFingerprint="3d84796a14793aa4" swi18n:sourceStructureFingerprint="786e5572dffc7a30">Du kannst den <ph id="c1" type="ui" subType="swi18n:counting-word"/>n Term deiner Antwort noch weiter vereinfachen.</target>
+				</segment>
+			</unit>
+			<unit id="noProduct">
+				<segment>
+					<source>You have to write your solution as a multiplication of factors. Your solution sadly is not a product.</source>
+					<target swi18n:sourceContentFingerprint="48a1373c41799c05" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du solltest deine Antwort als Multiplikation von Faktoren schreiben. Deine Antwort ist kein Produkt.</target>
+				</segment>
+			</unit>
+			<unit id="wrongNumberOfProductFactors">
+				<segment>
+					<source>There was supposed to be a product with <ph id="x1" type="ui" subType="xlf:var" swi18n:name="expectedNumTerms"/> factors. Your response has <ph id="x2" type="ui" subType="xlf:var" swi18n:name="inputNumTerms"/> factors.</source>
+					<target swi18n:sourceContentFingerprint="22df05a6da7b16aa" swi18n:sourceStructureFingerprint="7365c6c2e18c0b48">Was hier erwartet wird, ist ein Produkt mit <ph id="x1" type="ui" subType="xlf:var" swi18n:name="expectedNumTerms"/> Faktoren. Deine Eingabe hat <ph id="x2" type="ui" subType="xlf:var" swi18n:name="inputNumTerms"/> Faktoren.</target>
+				</segment>
+			</unit>
+			<unit id="errorInProductFactors">
+				<segment>
+					<source>There seems to be an error in the <ph id="c1" type="ui" subType="swi18n:counting-word"/> factor of your solution.</source>
+					<target swi18n:sourceContentFingerprint="b17290baea810ffc" swi18n:sourceStructureFingerprint="786e5572dffc7a30">Mit dem <ph id="c1" type="ui" subType="swi18n:counting-word"/>n Faktor deiner Antwort scheint etwas nicht zu stimmen.</target>
+				</segment>
+			</unit>
+			<unit id="hasX">
+				<segment>
+					<source>Your solution still contains <ph id="c1" type="ui" subType="swi18n:inline-math"/>. It's not supposed to be there anymore.</source>
+					<target swi18n:sourceContentFingerprint="c3202282c4087fef" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Deine Antwort enthält immer noch ein <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Das war nicht die Absicht!</target>
+				</segment>
+			</unit>
+			<unit id="hasNumberSimplifications">
+				<segment>
+					<source>You can still simplify the numbers in your solution.</source>
+					<target swi18n:sourceContentFingerprint="cda10982a9d57e2e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du kannst die Zahlen in deiner Lösung noch weiter vereinfachen.</target>
+				</segment>
+			</unit>
+			<unit id="hasSumWithinProduct">
+				<segment>
+					<source>Your solution has unexpanded brackets.</source>
+					<target swi18n:sourceContentFingerprint="30c41f683006eab7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort enthält noch nicht aufgelöste Klammern.</target>
+				</segment>
+			</unit>
+			<unit id="hasProductWithinPowerBase">
+				<segment>
+					<source>Your solution has unexpanded brackets at a power.</source>
+					<target swi18n:sourceContentFingerprint="85faced56b6c7c2a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Lösung enthält noch nicht aufgelöste Klammern bei einer Potenz.</target>
+				</segment>
+			</unit>
+			<unit id="hasNegativeExponent">
+				<segment>
+					<source>The power <ph id="c1" type="ui" subType="swi18n:inline-math"/> in your input has a negative exponent.</source>
+					<target swi18n:sourceContentFingerprint="5f7108b30e5ca431" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Die Potenz <ph id="c1" type="ui" subType="swi18n:inline-math"/> in deiner Eingabe hat einen negativen Exponenten.</target>
+				</segment>
+			</unit>
+			<unit id="hasSumWithinFraction">
+				<segment>
+					<source>Your solution has an unseparated fraction.</source>
+					<target swi18n:sourceContentFingerprint="c07370cee7c06015" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort hat immer noch nicht getrennte Brüche.</target>
+				</segment>
+			</unit>
+			<unit id="hasSimilarTerms">
+				<segment>
+					<source>This can be simplified further: there is a sum with similar terms that can be merged together.</source>
+					<target swi18n:sourceContentFingerprint="b2bd22eb34f586b5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dies kann noch weiter vereinfacht werden: Es gibt eine Summe mit ähnlichen Termen, die kombiniert werden können.</target>
+				</segment>
+			</unit>
+			<unit id="hasFraction">
+				<segment>
+					<source>Your solution still has a fraction. The idea was to remove all fractions.</source>
+					<target swi18n:sourceContentFingerprint="40d4bea1eea7229b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort hat immer noch Brüche. Die Idee war, alle Brüche zu entfernen.</target>
+				</segment>
+			</unit>
+			<unit id="noFraction">
+				<segment>
+					<source>Your solution is not a fraction. A single fraction was expected as answer.</source>
+					<target swi18n:sourceContentFingerprint="86024d1b8dfa9a48" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort ist kein Bruch. Es wird ein einziger Bruch als Antwort erwartet.</target>
+				</segment>
+			</unit>
+			<unit id="hasFractionWithinFraction">
+				<segment>
+					<source>Your solution may not contain fractions within fractions. You can still simplify this further.</source>
+					<target swi18n:sourceContentFingerprint="9fc954a3fa1c6a75" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort sollte keine weiteren Brüche innerhalb eines Bruchs enthalten. Du kannst sie weiter vereinfachen.</target>
+				</segment>
+			</unit>
+			<unit id="hasXInDenominator">
+				<segment>
+					<source>You cannot have <ph id="c1" type="ui" subType="swi18n:inline-math"/> appear in any denominator anymore.</source>
+					<target swi18n:sourceContentFingerprint="d10e73c103cef059" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Du kannst nicht mehr <ph id="c1" type="ui" subType="swi18n:inline-math"/> im Nenner eines Bruchs haben.</target>
+				</segment>
+			</unit>
+			<unit id="unsimplifiedFractionNumbers">
+				<segment>
+					<source>The fraction can still be simplified further. Try dividing the numerator and the denominator by the right number.</source>
+					<target swi18n:sourceContentFingerprint="c147a5e5def1602a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Der Bruch kann noch weiter vereinfacht werden. Versuche, den Zähler und den Nenner durch die richtige Zahl zu dividieren.</target>
+				</segment>
+			</unit>
+			<unit id="unsimplifiedFractionFactors">
+				<segment>
+					<source>There are still factors that can be canceled in the numerator and the denominator.</source>
+					<target swi18n:sourceContentFingerprint="4fafd49c8126be94" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es gibt noch Faktoren im Zähler und Nenner, die gestrichen werden können.</target>
+				</segment>
+			</unit>
+			<unit id="fractionNumeratorHasSumWithinProduct">
+				<segment>
+					<source>There are still unexpanded brackets in the numerator.</source>
+					<target swi18n:sourceContentFingerprint="5f9bd7f7f05d1852" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Im Zähler sind noch nicht aufgelöste Klammern vorhanden.</target>
+				</segment>
+			</unit>
+			<unit id="wrongSign">
+				<segment>
+					<source>You haven't used the right sign. Check your pluses and minuses.</source>
+					<target swi18n:sourceContentFingerprint="573d28dbc22ad85b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort hat nicht das richtige Vorzeichen. Prüfe Plus- und Minuszeichen.</target>
+				</segment>
+			</unit>
+			<group id="incorrectFraction">
+				<unit id="noFraction">
+					<segment>
+						<source>Hmm ... a fraction was expected as a solution here.</source>
+						<target swi18n:sourceContentFingerprint="e227e0469791b774" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Hmm ... eigentlich wurde ein Bruch als Antwort erwartet.</target>
+					</segment>
+				</unit>
+				<unit id="inverted">
+					<segment>
+						<source>You entered your fraction the wrong way around. Check carefuly through what factor you're dividing!</source>
+						<target swi18n:sourceContentFingerprint="1f4df574bdce0546" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du hast deinen Bruch falsch herum eingegeben. Achte genau darauf, was durch was geteilt werden muss!</target>
+					</segment>
+				</unit>
+				<unit id="incorrectNumerator">
+					<segment>
+						<source>The numerator of your fraction (above) is not what was expected. Did you apply all the rules correctly?</source>
+						<target swi18n:sourceContentFingerprint="9269f00a12dda9d7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Der Zähler deines Bruches (oben) entspricht nicht dem, was erwartet wurde. Hast du alle Regeln richtig angewandt?</target>
+					</segment>
+				</unit>
+				<unit id="incorrectDenominator">
+					<segment>
+						<source>The denominator of your fraction (below) is not what was expected. Did you apply all the rules correctly?</source>
+						<target swi18n:sourceContentFingerprint="f29c534282314fde" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Der Nenner deines Bruchs (unten) entspricht nicht dem, was erwartet wurde. Hast du alle Regeln richtig angewandt?</target>
+					</segment>
+				</unit>
+				<unit id="constantMultiple">
+					<segment>
+						<source>You seem to be off by a constant multiple.</source>
+						<target swi18n:sourceContentFingerprint="1f142ccde03d668c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du scheinst dich um eine konstante Multiplikation zu irren.</target>
+					</segment>
+				</unit>
+			</group>
+			<unit id="hasPower">
+				<segment>
+					<source>Your solution still has an exponent. You can simplify this further.</source>
+					<target swi18n:sourceContentFingerprint="f73fb8e5cbe69464" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Deine Antwort hat eine weitere Potenz. Du kannst es einfacher schreiben.</target>
+				</segment>
+			</unit>
+			<unit id="unsimplifiedPowerMerging">
+				<segment>
+					<source>There are still factors in a product that can be pulled together into a power.</source>
+					<target swi18n:sourceContentFingerprint="6880c6adf78c7e55" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es gibt immer noch Faktoren in einem Produkt, die als Potenz kombiniert werden können.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="equation">
+			<unit id="original">
+				<segment>
+					<source>This is the original equation. You have not rewritten it yet.</source>
+					<target swi18n:sourceContentFingerprint="e257effb85c1c7d9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dies ist die ursprüngliche Gleichung. Du hast noch nichts damit gemacht.</target>
+				</segment>
+			</unit>
+			<unit id="incorrect">
+				<segment>
+					<source>This equation is not equal to what has been given. In rewriting it you took a wrong step somewhere.</source>
+					<target swi18n:sourceContentFingerprint="6b06b0b816e934bf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Diese Gleichung ist nicht gleich dem, was gegeben ist. Du hast beim Umschreiben etwas getan, was nicht erlaubt ist.</target>
+				</segment>
+			</unit>
+			<unit id="incorrectLeftSide">
+				<segment>
+					<source>The left side of the equation is not what was expected.</source>
+					<target swi18n:sourceContentFingerprint="0cc888402d1db13f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Die linke Seite der Gleichung ist nicht das, was erwartet wurde.</target>
+				</segment>
+			</unit>
+			<unit id="incorrectRightSide">
+				<segment>
+					<source>The right side of the equation is not what was expected.</source>
+					<target swi18n:sourceContentFingerprint="dd4f5750e9720252" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Die rechte Seite der Gleichung ist nicht das, was erwartet wurde.</target>
+				</segment>
+			</unit>
+			<unit id="correct">
+				<segment>
+					<source>The equation is correct, but you have not done what was required.</source>
+					<target swi18n:sourceContentFingerprint="af64af7ac37236fa" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Die Gleichung ist korrekt, aber du hast nicht getan, was verlangt wurde.</target>
+				</segment>
+			</unit>
+			<group id="fullFeedback">
+				<unit id="oneSideCorrect">
+					<segment>
+						<source>The <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side of the equation is correct, but something's wrong on the <pc id="x4" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x5" type="other" subType="swi18n:condition-true">right</pc><pc id="x6" type="other" subType="swi18n:condition-false">left</pc></pc> side. <pc id="x7" type="other" subType="swi18n:condition" swi18n:variable="$condition3"><pc id="x8" type="other" subType="swi18n:condition-true">You have not done what was required.</pc><pc id="x9" type="other" subType="swi18n:condition-false">You took a wrong step somewhere.</pc></pc></source>
+						<target swi18n:sourceContentFingerprint="1037606e88307022" swi18n:sourceStructureFingerprint="50af15e2b19c00a8">Die <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linke</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechte</pc></pc> Seite der Gleichung ist richtig, aber auf der <pc id="x4" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x5" type="other" subType="swi18n:condition-true">rechten</pc><pc id="x6" type="other" subType="swi18n:condition-false">linken</pc></pc> Seite läuft etwas schief. <pc id="x7" type="other" subType="swi18n:condition" swi18n:variable="$condition3"><pc id="x8" type="other" subType="swi18n:condition-true">Du hast nicht getan, was verlangt wurde.</pc><pc id="x9" type="other" subType="swi18n:condition-false">Du hast irgendwo einen Fehler gemacht.</pc></pc></target>
+					</segment>
+				</unit>
+				<unit id="sidesSwitched">
+					<segment>
+						<source>Oops ... you have switched the left and the right side of the equation. Try switching them back!</source>
+						<target swi18n:sourceContentFingerprint="0353376869b33e55" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ups ... Du hast die linke und rechte Seite der Gleichung vertauscht. Versuche, sie wieder umzudrehen!</target>
+					</segment>
+				</unit>
+				<unit id="oneSideSwitched">
+					<segment>
+						<source>The <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side of your equation is correct, but it should be on the <pc id="x4" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x5" type="other" subType="swi18n:condition-true">right</pc><pc id="x6" type="other" subType="swi18n:condition-false">left</pc></pc>. The <pc id="x7" type="other" subType="swi18n:condition" swi18n:variable="$condition3"><pc id="x8" type="other" subType="swi18n:condition-true">right</pc><pc id="x9" type="other" subType="swi18n:condition-false">left</pc></pc> side of your equation still has some errors you might want to look at.</source>
+						<target swi18n:sourceContentFingerprint="be10b87dee7b85b6" swi18n:sourceStructureFingerprint="8d9982d25e8411cf">Die <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linke</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechte</pc></pc> Seite deiner Gleichung ist korrect, aber sie sollte auf der <pc id="x4" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x5" type="other" subType="swi18n:condition-true">rechten</pc><pc id="x6" type="other" subType="swi18n:condition-false">linken</pc></pc> Seite stehen. Darüber hinaus hat die <pc id="x7" type="other" subType="swi18n:condition" swi18n:variable="$condition3"><pc id="x8" type="other" subType="swi18n:condition-true">rechte</pc><pc id="x9" type="other" subType="swi18n:condition-false">linke</pc></pc> Seite deiner Gleichung einige Fehler, die dur dir ansehen solltest.</target>
+					</segment>
+				</unit>
+			</group>
+			<unit id="noSum">
+				<segment>
+					<source>You have only written a single term on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side. A sum was expected here: an addition/subtraction of terms.</source>
+					<target swi18n:sourceContentFingerprint="60ef087143c851fc" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Du hast nur einen einzigen Term auf der <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linken</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechten</pc></pc> Seite angegeben. Hier wurde eine Summe erwartet: eine Addition/Subtraktion von Termen.</target>
+				</segment>
+			</unit>
+			<unit id="hasSum">
+				<segment>
+					<source>You have written a sum on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side: an addition/subtraction of terms. Only a single term was expected here.</source>
+					<target swi18n:sourceContentFingerprint="db57be0cd4707618" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Du hast eine Summe auf der <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linken</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechten</pc></pc> Seite angegeben: eine Addition/Subtraktion von Termen. Hier wurde nur ein Term erwartet.</target>
+				</segment>
+			</unit>
+			<unit id="wrongNumberOfSumTerms">
+				<segment>
+					<source>The sum on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side of the equals sign has <ph id="c1" type="ui" subType="swi18n:counting-word"/> terms. There were <ph id="c2" type="ui" subType="swi18n:counting-word"/> terms expected.</source>
+					<target swi18n:sourceContentFingerprint="f0bd0be40a2b3119" swi18n:sourceStructureFingerprint="879fb1ade0fdf91a">Die Addition <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">links</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechts</pc></pc> vom Gleichheitszeichen hat <ph id="c1" type="ui" subType="swi18n:counting-word"/> Terme. Erwartet wurden <ph id="c2" type="ui" subType="swi18n:counting-word"/>.</target>
+				</segment>
+			</unit>
+			<unit id="errorInSumTerm">
+				<segment>
+					<source>There seems to be an error in the <ph id="c1" type="ui" subType="swi18n:counting-word"/> term on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side.</source>
+					<target swi18n:sourceContentFingerprint="72ef897f78470a40" swi18n:sourceStructureFingerprint="28e7fef7d5425eaa">Mit dem <ph id="c1" type="ui" subType="swi18n:counting-word"/>n Term auf der <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linken</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechten</pc></pc> Seite scheint etwas nicht zu stimmen.</target>
+				</segment>
+			</unit>
+			<unit id="errorInSide">
+				<segment>
+					<source>There seems to be an error in the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side of the equation.</source>
+					<target swi18n:sourceContentFingerprint="4f0c90b951f303e0" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Mit der <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linken</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechten</pc></pc> Seite der Gleichung scheint etwas nicht zu stimmen.</target>
+				</segment>
+			</unit>
+			<unit id="unsimplifiedSumTerm">
+				<segment>
+					<source>You can still simplify the <ph id="c1" type="ui" subType="swi18n:counting-word"/> term on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side.</source>
+					<target swi18n:sourceContentFingerprint="abad87a4c881c3e7" swi18n:sourceStructureFingerprint="28e7fef7d5425eaa">Du kannst den <ph id="c1" type="ui" subType="swi18n:counting-word"/>n Term auf der <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linken</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechten</pc></pc> Seite noch weiter vereinfachen.</target>
+				</segment>
+			</unit>
+			<unit id="unsimplifiedSide">
+				<segment>
+					<source>You can still simplify the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side.</source>
+					<target swi18n:sourceContentFingerprint="9403a3d5526c8fff" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Du kannst die <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linke</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechte</pc></pc> Seite noch weiter vereinfachen.</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

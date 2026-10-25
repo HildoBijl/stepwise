@@ -7,19 +7,20 @@ import { v4 as uuidv4 } from 'uuid'
 import { noop } from '@step-wise/js-utils'
 import { ensureSkillId, getSkill } from '@step-wise/module-tree'
 import { getExercise } from '@step-wise/exercises'
+import { useTranslation } from '@step-wise/i18n'
 
-import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
+import { TranslationFile, TranslationSection } from 'i18n'
 import { LoadingNote, ErrorNote } from 'ui/components/flow'
 import { TitleItem } from 'ui/routingTools'
 
 import { ExerciseContainer } from './ExerciseContainer'
 
 export function BlankExercise() {
-	const translate = useTranslator()
+	const missingExerciseName = useTranslation({ folder: ['eduTools'], catalog: 'exercises', group: ['loadingNotes'], id: 'missingExerciseName', children: 'The URL has no exercise name in it.' })
 	const { skillId: skillIdFromUrl, exerciseName } = useParams()
 	const skillId = skillIdFromUrl && ensureSkillId(skillIdFromUrl, { allowCaseInsensitiveMatch: true })
 	if (!exerciseName)
-		return <ErrorNote text={translate('The URL has no exercise name in it.', 'loadingNotes.missingExerciseName', 'eduTools/exercises')} />
+		return <ErrorNote text={missingExerciseName} />
 	const skill = getSkill(skillId)
 	return <TranslationFile path={`eduContent/${skill.groupPath.join('/')}/${skill.id}`}>
 		<TranslationSection entry="practice">
@@ -29,7 +30,8 @@ export function BlankExercise() {
 }
 
 function BlankExerciseInner({ skillId, exerciseId }) {
-	const translate = useTranslator()
+	const loadingError = useTranslation({ folder: ['eduTools'], catalog: 'exercises', group: ['loadingNotes'], id: 'loadingError', children: 'The exercise failed to load. Please check if the exercise ID is correct.' })
+	const loadingExercise = useTranslation({ folder: ['eduTools'], catalog: 'exercises', group: ['loadingNotes'], id: 'loadingExercise', children: 'Loading the exercise...' })
 	const exerciseDefinition = useMemo(() => getExercise(skillId, exerciseId), [skillId, exerciseId])
 
 	// Make sure there is exercise data, such as parameters and state.
@@ -66,9 +68,9 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 
 	// Show error/loading notes when appropriate.
 	if (!exerciseDefinition)
-		return <ErrorNote text={translate('The exercise failed to load. Please check if the exercise ID is correct.', 'loadingNotes.loadingError', 'eduTools/exercises')} />
+		return <ErrorNote text={loadingError} />
 	if (!exercise)
-		return <LoadingNote text={translate('Loading the exercise...', 'loadingNotes.loadingExercise', 'eduTools/exercises')} />
+		return <LoadingNote text={loadingExercise} />
 
 	// No loading/error notes: show the exercise! Use a key to force a rerender on a new exercise.
 	return <ExerciseContainer key={exercise.startedAt} skillId={skillId} exercise={exercise} submitting={false} submitAction={submitAction} processActionsLocally={true} startNewExercise={startNewExercise} />

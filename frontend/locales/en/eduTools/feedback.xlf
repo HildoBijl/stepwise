@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="correct">
+			<unit id="0">
+				<segment>
+					<source>That is correct!</source>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>Nicely done.</source>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>Amazing, you did it!</source>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>That is the correct solution.</source>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>All in order.</source>
+				</segment>
+			</unit>
+			<unit id="5">
+				<segment>
+					<source>Wonderful! Keep it up.</source>
+				</segment>
+			</unit>
+			<unit id="6">
+				<segment>
+					<source>Well on your way.</source>
+				</segment>
+			</unit>
+			<unit id="7">
+				<segment>
+					<source>Correct! Very well done.</source>
+				</segment>
+			</unit>
+			<unit id="8">
+				<segment>
+					<source>You solved it!</source>
+				</segment>
+			</unit>
+			<unit id="9">
+				<segment>
+					<source>Splendid!</source>
+				</segment>
+			</unit>
+			<unit id="10">
+				<segment>
+					<source>All perfect.</source>
+				</segment>
+			</unit>
+			<unit id="11">
+				<segment>
+					<source>Looking good.</source>
+				</segment>
+			</unit>
+			<unit id="12">
+				<segment>
+					<source>Awesome! All correct.</source>
+				</segment>
+			</unit>
+			<unit id="13">
+				<segment>
+					<source>Yes, that's it.</source>
+				</segment>
+			</unit>
+			<unit id="14">
+				<segment>
+					<source>That is the right answer.</source>
+				</segment>
+			</unit>
+			<unit id="15">
+				<segment>
+					<source>That is completely correct.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="incorrect">
+			<unit id="0">
+				<segment>
+					<source>That is not the right solution.</source>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>Sadly, that doesn't add up.</source>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>That is not correct.</source>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>Try again?</source>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>This one's off.</source>
+				</segment>
+			</unit>
+			<unit id="5">
+				<segment>
+					<source>Unfortunately it's wrong.</source>
+				</segment>
+			</unit>
+			<unit id="6">
+				<segment>
+					<source>No, not the right solution.</source>
+				</segment>
+			</unit>
+			<unit id="7">
+				<segment>
+					<source>Well ... not exactly.</source>
+				</segment>
+			</unit>
+			<unit id="8">
+				<segment>
+					<source>Sorry, that's wrong.</source>
+				</segment>
+			</unit>
+			<unit id="9">
+				<segment>
+					<source>No, that's not it.</source>
+				</segment>
+			</unit>
+			<unit id="10">
+				<segment>
+					<source>Oops, that's a wrong answer.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="empty">
+			<unit id="0">
+				<segment>
+					<source>You did not enter anything.</source>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>This field is still empty.</source>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>You forgot to write something here.</source>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>You have to enter something here.</source>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>There's something missing here.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="missingNumber">
+			<unit id="0">
+				<segment>
+					<source>You didn't fill in a number.</source>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>There should be a number here.</source>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>Don't forget to enter a number!</source>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>Where is the number?</source>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>Oops, there's a number missing here.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="missingUnit">
+			<unit id="0">
+				<segment>
+					<source>You didn't fill in a unit.</source>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>There should be a unit here.</source>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>Don't forget to enter a unit.</source>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>Where is the unit?</source>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>Oops, there's a unit missing here.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="invalidUnit">
+			<unit id="0">
+				<segment>
+					<source>This is not a valid unit.</source>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>Check the unit here.</source>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>This unit does not look correct.</source>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>There's something wrong with your unit.</source>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>There are faulty parts in your unit.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="incorrectUnit">
+			<unit id="0">
+				<segment>
+					<source>Your unit isn't correct. Have a look at that first.</source>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>There's an error in your unit. Fix that first.</source>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>Wrong unit. What unit should the answer have?</source>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>It goes awry at the unit. What should it be?</source>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>Oops, your unit is off. Check that one out.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="negative">
+			<unit id="0">
+				<segment>
+					<source>This is a negative number.</source>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>This number isn't positive.</source>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>The minus sign shouldn't be there.</source>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>This number is supposed to be positive.</source>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>What's that minus sign doing there?</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="duplicate">
+			<unit id="0">
+				<segment>
+					<source>This value is equal to an earlier solution.</source>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>No, you already gave this solution.</source>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>You already entered this solution above.</source>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>This is not a unique solution.</source>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>Oops, you already filled this one in.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="nonNumeric">
+			<unit id="0">
+				<segment>
+					<source>This value is not a number.</source>
+				</segment>
+			</unit>
+			<unit id="1">
+				<segment>
+					<source>There's still a variable in there.</source>
+				</segment>
+			</unit>
+			<unit id="2">
+				<segment>
+					<source>You entered something that is not a number.</source>
+				</segment>
+			</unit>
+			<unit id="3">
+				<segment>
+					<source>This isn't something that can be turned into a number.</source>
+				</segment>
+			</unit>
+			<unit id="4">
+				<segment>
+					<source>Oops, I can't turn this into a number.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="numeric">
+			<unit id="withinMargin">
+				<segment>
+					<source>You're still within the margin, but this could be more accurate.</source>
+				</segment>
+			</unit>
+			<unit id="wrongSign">
+				<segment>
+					<source>You haven't used the right sign. Check your pluses and minuses.</source>
+				</segment>
+			</unit>
+			<unit id="nearby">
+				<segment>
+					<source>You're very close! Check for accuracy and rounding errors.</source>
+				</segment>
+			</unit>
+			<unit id="notZeroPositive">
+				<segment>
+					<source>Zero is sadly wrong. We do expect a number here.</source>
+				</segment>
+			</unit>
+			<unit id="notZeroNegative">
+				<segment>
+					<source>Zero is sadly wrong. We do expect a (possibly negative) number here.</source>
+				</segment>
+			</unit>
+			<unit id="negativeTooLarge">
+				<segment>
+					<source>Your answer is (magnitude-based) too small. We expected something even more negative.</source>
+				</segment>
+			</unit>
+			<unit id="negativeTooSmall">
+				<segment>
+					<source>Your answer is (magnitude-based) too large. We expected something closer to zero.</source>
+				</segment>
+			</unit>
+			<unit id="positiveTooLarge">
+				<segment>
+					<source>Your answer is too large.</source>
+				</segment>
+			</unit>
+			<unit id="positiveTooSmall">
+				<segment>
+					<source>Your answer is too small.</source>
+				</segment>
+			</unit>
+			<unit id="tooManySignificantDigits">
+				<segment>
+					<source>You used too many significant digits.</source>
+				</segment>
+			</unit>
+			<unit id="tooFewSignificantDigits">
+				<segment>
+					<source>You used too few significant digits.</source>
+				</segment>
+			</unit>
+			<unit id="tooLargePower">
+				<segment>
+					<source>The exponent you used is too large.</source>
+				</segment>
+			</unit>
+			<unit id="tooSmallPower">
+				<segment>
+					<source>The exponent you used is too small.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="expression">
+			<unit id="original">
+				<segment>
+					<source>This is the original expression. You have not rewritten it yet.</source>
+				</segment>
+			</unit>
+			<unit id="incorrect">
+				<segment>
+					<source>This expression is not equal to what has been given. In rewriting it you took a wrong step somewhere.</source>
+				</segment>
+			</unit>
+			<unit id="nonEquivalentSolution">
+				<segment>
+					<source>This is not the right solution, nor is it equivalent to it. Check your steps leading up to this.</source>
+				</segment>
+			</unit>
+			<unit id="correct">
+				<segment>
+					<source>The expression is correct, but you have not done what was required.</source>
+				</segment>
+			</unit>
+			<unit id="noSum">
+				<segment>
+					<source>You have to write your solution as an addition/subtraction of terms. Your solution sadly is not an addition/subtraction.</source>
+				</segment>
+			</unit>
+			<unit id="wrongNumberOfSumTerms">
+				<segment>
+					<source>There was supposed to be an addition/subtraction with <ph id="x1" type="ui" subType="xlf:var" swi18n:name="expectedNumTerms"/> terms, each with a plus or minus sign in-between. Your response has <ph id="x2" type="ui" subType="xlf:var" swi18n:name="inputNumTerms"/> terms.</source>
+				</segment>
+			</unit>
+			<unit id="errorInSumTerm">
+				<segment>
+					<source>There seems to be an error in the <ph id="c1" type="ui" subType="swi18n:counting-word"/> term of your solution.</source>
+				</segment>
+			</unit>
+			<unit id="unsimplifiedSumTerm">
+				<segment>
+					<source>You can still further simplify the <ph id="c1" type="ui" subType="swi18n:counting-word"/> term of your solution.</source>
+				</segment>
+			</unit>
+			<unit id="noProduct">
+				<segment>
+					<source>You have to write your solution as a multiplication of factors. Your solution sadly is not a product.</source>
+				</segment>
+			</unit>
+			<unit id="wrongNumberOfProductFactors">
+				<segment>
+					<source>There was supposed to be a product with <ph id="x1" type="ui" subType="xlf:var" swi18n:name="expectedNumTerms"/> factors. Your response has <ph id="x2" type="ui" subType="xlf:var" swi18n:name="inputNumTerms"/> factors.</source>
+				</segment>
+			</unit>
+			<unit id="errorInProductFactors">
+				<segment>
+					<source>There seems to be an error in the <ph id="c1" type="ui" subType="swi18n:counting-word"/> factor of your solution.</source>
+				</segment>
+			</unit>
+			<unit id="hasX">
+				<segment>
+					<source>Your solution still contains <ph id="c1" type="ui" subType="swi18n:inline-math"/>. It's not supposed to be there anymore.</source>
+				</segment>
+			</unit>
+			<unit id="hasNumberSimplifications">
+				<segment>
+					<source>You can still simplify the numbers in your solution.</source>
+				</segment>
+			</unit>
+			<unit id="hasSumWithinProduct">
+				<segment>
+					<source>Your solution has unexpanded brackets.</source>
+				</segment>
+			</unit>
+			<unit id="hasProductWithinPowerBase">
+				<segment>
+					<source>Your solution has unexpanded brackets at a power.</source>
+				</segment>
+			</unit>
+			<unit id="hasNegativeExponent">
+				<segment>
+					<source>The power <ph id="c1" type="ui" subType="swi18n:inline-math"/> in your input has a negative exponent.</source>
+				</segment>
+			</unit>
+			<unit id="hasSumWithinFraction">
+				<segment>
+					<source>Your solution has an unseparated fraction.</source>
+				</segment>
+			</unit>
+			<unit id="hasSimilarTerms">
+				<segment>
+					<source>This can be simplified further: there is a sum with similar terms that can be merged together.</source>
+				</segment>
+			</unit>
+			<unit id="hasFraction">
+				<segment>
+					<source>Your solution still has a fraction. The idea was to remove all fractions.</source>
+				</segment>
+			</unit>
+			<unit id="noFraction">
+				<segment>
+					<source>Your solution is not a fraction. A single fraction was expected as answer.</source>
+				</segment>
+			</unit>
+			<unit id="hasFractionWithinFraction">
+				<segment>
+					<source>Your solution may not contain fractions within fractions. You can still simplify this further.</source>
+				</segment>
+			</unit>
+			<unit id="hasXInDenominator">
+				<segment>
+					<source>You cannot have <ph id="c1" type="ui" subType="swi18n:inline-math"/> appear in any denominator anymore.</source>
+				</segment>
+			</unit>
+			<unit id="unsimplifiedFractionNumbers">
+				<segment>
+					<source>The fraction can still be simplified further. Try dividing the numerator and the denominator by the right number.</source>
+				</segment>
+			</unit>
+			<unit id="unsimplifiedFractionFactors">
+				<segment>
+					<source>There are still factors that can be canceled in the numerator and the denominator.</source>
+				</segment>
+			</unit>
+			<unit id="fractionNumeratorHasSumWithinProduct">
+				<segment>
+					<source>There are still unexpanded brackets in the numerator.</source>
+				</segment>
+			</unit>
+			<unit id="wrongSign">
+				<segment>
+					<source>You haven't used the right sign. Check your pluses and minuses.</source>
+				</segment>
+			</unit>
+			<group id="incorrectFraction">
+				<unit id="noFraction">
+					<segment>
+						<source>Hmm ... a fraction was expected as a solution here.</source>
+					</segment>
+				</unit>
+				<unit id="inverted">
+					<segment>
+						<source>You entered your fraction the wrong way around. Check carefuly through what factor you're dividing!</source>
+					</segment>
+				</unit>
+				<unit id="incorrectNumerator">
+					<segment>
+						<source>The numerator of your fraction (above) is not what was expected. Did you apply all the rules correctly?</source>
+					</segment>
+				</unit>
+				<unit id="incorrectDenominator">
+					<segment>
+						<source>The denominator of your fraction (below) is not what was expected. Did you apply all the rules correctly?</source>
+					</segment>
+				</unit>
+				<unit id="constantMultiple">
+					<segment>
+						<source>You seem to be off by a constant multiple.</source>
+					</segment>
+				</unit>
+			</group>
+			<unit id="hasPower">
+				<segment>
+					<source>Your solution still has an exponent. You can simplify this further.</source>
+				</segment>
+			</unit>
+			<unit id="unsimplifiedPowerMerging">
+				<segment>
+					<source>There are still factors in a product that can be pulled together into a power.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="equation">
+			<unit id="original">
+				<segment>
+					<source>This is the original equation. You have not rewritten it yet.</source>
+				</segment>
+			</unit>
+			<unit id="incorrect">
+				<segment>
+					<source>This equation is not equal to what has been given. In rewriting it you took a wrong step somewhere.</source>
+				</segment>
+			</unit>
+			<unit id="incorrectLeftSide">
+				<segment>
+					<source>The left side of the equation is not what was expected.</source>
+				</segment>
+			</unit>
+			<unit id="incorrectRightSide">
+				<segment>
+					<source>The right side of the equation is not what was expected.</source>
+				</segment>
+			</unit>
+			<unit id="correct">
+				<segment>
+					<source>The equation is correct, but you have not done what was required.</source>
+				</segment>
+			</unit>
+			<group id="fullFeedback">
+				<unit id="oneSideCorrect">
+					<segment>
+						<source>The <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side of the equation is correct, but something's wrong on the <pc id="x4" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x5" type="other" subType="swi18n:condition-true">right</pc><pc id="x6" type="other" subType="swi18n:condition-false">left</pc></pc> side. <pc id="x7" type="other" subType="swi18n:condition" swi18n:variable="$condition3"><pc id="x8" type="other" subType="swi18n:condition-true">You have not done what was required.</pc><pc id="x9" type="other" subType="swi18n:condition-false">You took a wrong step somewhere.</pc></pc></source>
+					</segment>
+				</unit>
+				<unit id="sidesSwitched">
+					<segment>
+						<source>Oops ... you have switched the left and the right side of the equation. Try switching them back!</source>
+					</segment>
+				</unit>
+				<unit id="oneSideSwitched">
+					<segment>
+						<source>The <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side of your equation is correct, but it should be on the <pc id="x4" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x5" type="other" subType="swi18n:condition-true">right</pc><pc id="x6" type="other" subType="swi18n:condition-false">left</pc></pc>. The <pc id="x7" type="other" subType="swi18n:condition" swi18n:variable="$condition3"><pc id="x8" type="other" subType="swi18n:condition-true">right</pc><pc id="x9" type="other" subType="swi18n:condition-false">left</pc></pc> side of your equation still has some errors you might want to look at.</source>
+					</segment>
+				</unit>
+			</group>
+			<unit id="noSum">
+				<segment>
+					<source>You have only written a single term on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side. A sum was expected here: an addition/subtraction of terms.</source>
+				</segment>
+			</unit>
+			<unit id="hasSum">
+				<segment>
+					<source>You have written a sum on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side: an addition/subtraction of terms. Only a single term was expected here.</source>
+				</segment>
+			</unit>
+			<unit id="wrongNumberOfSumTerms">
+				<segment>
+					<source>The sum on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side of the equals sign has <ph id="c1" type="ui" subType="swi18n:counting-word"/> terms. There were <ph id="c2" type="ui" subType="swi18n:counting-word"/> terms expected.</source>
+				</segment>
+			</unit>
+			<unit id="errorInSumTerm">
+				<segment>
+					<source>There seems to be an error in the <ph id="c1" type="ui" subType="swi18n:counting-word"/> term on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side.</source>
+				</segment>
+			</unit>
+			<unit id="errorInSide">
+				<segment>
+					<source>There seems to be an error in the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side of the equation.</source>
+				</segment>
+			</unit>
+			<unit id="unsimplifiedSumTerm">
+				<segment>
+					<source>You can still simplify the <ph id="c1" type="ui" subType="swi18n:counting-word"/> term on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side.</source>
+				</segment>
+			</unit>
+			<unit id="unsimplifiedSide">
+				<segment>
+					<source>You can still simplify the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side.</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>
