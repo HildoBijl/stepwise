@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify a fraction of fraction sums with variables</pc>. Think of starting with <ph id="c3" type="ui" subType="swi18n:inline-math"/> and eventually reducing it to <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes adding the various fractions (above and below) together into a single fraction, and then simplifying the resulting fraction of fractions. The skill does not require the cancellation of potential polynomial fractions afterwards.</pc></source>
+					<target swi18n:sourceContentFingerprint="8f9a40c3b2218fa0" swi18n:sourceStructureFingerprint="91bc01122207a0f1"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, wie du eine <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Bruch mit Bruchsummen mit Variablen vereinfachen</pc> kannst. Starte beispielsweise mit <ph id="c3" type="ui" subType="swi18n:inline-math"/> und reduziere sie schließlich auf <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Dazu gehört das Zusammenfügen von Brüchen (oben und unten) zu einem einzigen Bruch und das anschließende Vereinfachen des resultierenden Bruches von Brüchen. Bei dieser Kompetenz geht es nicht darum, anschließend mögliche Polynomfaktoren zu entfernen.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

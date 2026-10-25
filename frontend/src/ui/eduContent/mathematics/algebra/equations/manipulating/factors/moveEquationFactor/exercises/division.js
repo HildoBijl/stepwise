@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par, Emp } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'
@@ -47,7 +47,7 @@ const steps = [
 		Problem: () => {
 			const { switchSides, equation } = useSolution()
 			return <>
-				<Par><Translation>Simplify the fraction on the <Check value={switchSides}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side by canceling fraction factors where possible.</Translation></Par>
+				<Par><Translation>Simplify the fraction on the <Condition value={switchSides}><Condition.True>right</Condition.True><Condition.False>left</Condition.False></Condition> side by canceling fraction factors where possible.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="fractionFactorsCanceled" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.collectVariables())} />
@@ -63,7 +63,7 @@ const steps = [
 		Problem: () => {
 			const { switchSides, equation } = useSolution()
 			return <>
-				<Par><Translation>Also simplify the fraction on the <Check value={switchSides}><Check.True>left</Check.True><Check.False>right</Check.False></Check> (if not already done) to ensure that there is no fraction of fractions in the final result.</Translation></Par>
+				<Par><Translation>Also simplify the fraction on the <Condition value={switchSides}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> (if not already done) to ensure that there is no fraction of fractions in the final result.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.collectVariables())} />
@@ -72,7 +72,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ ans, ansCleaned, isFurtherSimplificationPossible }) => {
-			return <Par><Translation>Dividing a fraction by a factor will add that factor to the denominator. This gives the result <BM>{ans}.</BM><Check value={isFurtherSimplificationPossible}><Check.True>Optionally, this can still be simplified to <BM>{ansCleaned}.</BM></Check.True><Check.False>This cannot be simplified further.</Check.False></Check></Translation></Par>
+			return <Par><Translation>Dividing a fraction by a factor will add that factor to the denominator. This gives the result <BM>{ans}.</BM><Condition value={isFurtherSimplificationPossible}><Condition.True>Optionally, this can still be simplified to <BM>{ansCleaned}.</BM></Condition.True><Condition.False>This cannot be simplified further.</Condition.False></Condition></Translation></Par>
 		},
 	},
 ]

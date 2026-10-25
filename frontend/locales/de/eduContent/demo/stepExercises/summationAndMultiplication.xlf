@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The goal of this skill is to show how different skills are combined into a <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">composite skill</pc>. In this skill, students calculate an expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, where they first have to <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply</pc> numbers and then <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add</pc> them.</pc></source>
+					<target swi18n:sourceContentFingerprint="62bfc126c348489d" swi18n:sourceStructureFingerprint="c22b0589d18e643f"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Diese Kompetenz soll zeigen, wie verschiedene Kompetenzen zu einer <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">zusammengesetzten Kompetenz</pc> kombiniert werden. In dieser Kompetenz berechnen die Studierenden einen Ausdruck wie <ph id="c3" type="ui" subType="swi18n:inline-math"/>, bei dem sie zuerst Zahlen <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplizieren</pc> und dann <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">addieren</pc> müssen.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">After having learned how to <pc id="c2" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply numbers</pc> and how to <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add numbers</pc>, we now combine these skills. Our goal is to calculate <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">composite expressions</pc>, like for instance <ph id="c5" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					<target swi18n:sourceContentFingerprint="55d355c36dcd93e8" swi18n:sourceStructureFingerprint="c2eac1b930cd194f"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Nachdem wir <pc id="c2" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Zahlen multiplizieren</pc> und <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Zahlen addieren</pc> gelernt haben, werden wir nun diese Kompetenzen kombinieren. Unser Ziel ist es, <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">zusammengesetzte Ausdrücke</pc> zu berechnen, wie z.B. <ph id="c5" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+				</segment>
+			</unit>
+			<unit id="calculationSteps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To calculate an expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, you take the following <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">steps</pc>.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Determine the <pc id="c8" type="ui" subType="swi18n:term" swi18n:slot="children">order</pc> in which operations should be applied. Multiplications is always done before summation, so <ph id="c9" type="ui" subType="swi18n:inline-math"/> should be calculated before anything is added up.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Calculate the <pc id="c12" type="ui" subType="swi18n:term" swi18n:slot="children">multiplication(s)</pc>. We turn <ph id="c13" type="ui" subType="swi18n:inline-math"/> into <ph id="c14" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c15" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:c" swi18n:slot="children">Calculate the <pc id="c17" type="ui" subType="swi18n:term" swi18n:slot="children">addition</pc>. This then turns <ph id="c18" type="ui" subType="swi18n:inline-math"/> into <ph id="c19" type="ui" subType="swi18n:inline-math"/> which is the final result.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="bbce116d4c35c548" swi18n:sourceStructureFingerprint="09116111c8f4b41c"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Schritte</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Um einen Ausdruck wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> zu berechnen, führt man die folgenden <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">Schritte</pc> aus.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Bestimme die <pc id="c8" type="ui" subType="swi18n:term" swi18n:slot="children">Reihenfolge</pc>, in der die Operationen durchgeführt werden sollen. Die Multiplikation kommt immer vor der Addition, also muss <ph id="c9" type="ui" subType="swi18n:inline-math"/> berechnet werden, bevor etwas addiert wird.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Berechne die <pc id="c12" type="ui" subType="swi18n:term" swi18n:slot="children">Multiplikation(en)</pc>. Wir wandeln <ph id="c13" type="ui" subType="swi18n:inline-math"/> in <ph id="c14" type="ui" subType="swi18n:inline-math"/> um.</pc></pc><pc id="c15" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:c" swi18n:slot="children">Berechne die <pc id="c17" type="ui" subType="swi18n:term" swi18n:slot="children">Addition</pc>. Dies wandelt dann <ph id="c18" type="ui" subType="swi18n:inline-math"/> in <ph id="c19" type="ui" subType="swi18n:inline-math"/> um, was die endgültige Antwort ist.</pc></pc></pc></target>
+				</segment>
+			</unit>
+			<unit id="stepWiseExercises">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Step-Wise exercises</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">In Step-Wise, when practicing composite skills, it is always possible to <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">split exercises into steps</pc>. These steps are then connected to earlier skills, which you have shown mastery of before. This always allows you to complete the more complicated exercises too: they're just combinations of things you already know!</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Behind the scenes, our skill tracking algorithm will <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">take every action into account</pc>. If you fail at a specific step (for instance at addition) then your rating for that step will decrease. If it drops too much, you will be suggested to practice this skill separately a bit more. In this way the Step-Wise app coaches you to always practice the skill most relevant to you.</pc></source>
+					<target swi18n:sourceContentFingerprint="1dc9bce3d7512633" swi18n:sourceStructureFingerprint="7198fce47e3bfc8a"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Schritt-für-Schritt Übungen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">In Step-Wise kannst du beim Üben einer zusammengesetzten Kompetenz immer <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">eine Übung in Schritte unterteilen</pc>. Diese Schritte sind dann mit früheren Kompetenzen verknüpft, die du bereits bewiesen hast, dass du sie kannst. Auf diese Weise kannst du auch komplexere Übungen bewältigen: Sie sind einfach Kombinationen von Dingen, die du bereits kennst!</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Hinter den Kulissen zählt unser Algorithmus zur Verfolgung der Kompetenzen <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">jeden Schritt</pc>. Wenn du bei einem bestimmten Schritt versagst (z. B. beim Addieren), verringert sich deine Bewertung für diesen Schritt. Wenn die Bewertung zu stark sinkt, wird dir geraten, diese Kompetenz noch einmal separat zu üben. Auf diese Weise leitet die Step-Wise App dich beim Üben der für dich am besten geeigneten Kompetenz an.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="summationAndMultiplication1">
+				<unit id="mainProblem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Answer</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+						<target swi18n:sourceContentFingerprint="e376cb43455645d3" swi18n:sourceStructureFingerprint="100dfd15ac8e4a97"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Berechne <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Antwort</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Determine which operation must be applied first.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:multiple-choice" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Addition comes first, before multiplication.</pc></pc><pc id="c6" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:b" swi18n:slot="children">Multiplication comes first, before addition.</pc></pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="75ef691b5cf1af9f" swi18n:sourceStructureFingerprint="838350d284adc657"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Entscheide, welcher der Operationen zuerst ausgeführt werden soll.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:multiple-choice" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Zuerst kommt die Addition, dann die Multiplikation.</pc></pc><pc id="c6" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:b" swi18n:slot="children">Zuerst kommt die Multiplikation, dann die Addition.</pc></pc></pc></pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Multiplication always comes before addition.</pc></source>
+							<target swi18n:sourceContentFingerprint="f699165e60947722" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Die Multiplikation kommt immer vor der Addition.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the multiplication.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:label" swi18n:slot="children">Step answer</pc><pc id="c6" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="adc6cac173469070" swi18n:sourceStructureFingerprint="d696cfe51a53e0b5"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Berechne die Multiplikation.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:label" swi18n:slot="children">Schrittantwort</pc><pc id="c6" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The result of the multiplication is <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="84c25b34563a4d53" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Das Ergebnis der Multiplikation ist <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the addition.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:label" swi18n:slot="children">Final answer</pc><pc id="c6" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="cdead9882c652af0" swi18n:sourceStructureFingerprint="d696cfe51a53e0b5"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Berechne die Addition.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:label" swi18n:slot="children">Endgültige Antwort</pc><pc id="c6" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">After the multiplication we add everything together. This gets us the final result <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="0e63558bb68195ad" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Dann addieren wir alles zusammen. Auf diese Weise erhalten wir die endgültige Antwort <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="feedback">
+					<group id="order">
+						<unit id="incorrect">
+							<segment>
+								<source>That's not correct. Addition always comes last. (Unless it's prioritized by brackets, which is not the case here.)</source>
+								<target swi18n:sourceContentFingerprint="3303722b14b2658e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Das ist nicht richtig. Die Addition kommt immer zuletzt. (Es sei denn, sie wird durch Klammern hervorgehoben, aber das ist hier nicht der Fall.)</target>
+							</segment>
+						</unit>
+						<unit id="correct">
+							<segment>
+								<source>Yes! Multiplication indeed comes first.</source>
+								<target swi18n:sourceContentFingerprint="5cab3513e325a444" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Genau! Die Multiplikation hat tatsächlich Vorrang.</target>
+							</segment>
+						</unit>
+					</group>
+				</group>
+			</group>
+			<group id="summationAndMultiplication2">
+				<unit id="mainProblem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Answer</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+						<target swi18n:sourceContentFingerprint="e376cb43455645d3" swi18n:sourceStructureFingerprint="100dfd15ac8e4a97"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Berechne <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Antwort</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Determine which operation must be applied first.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:multiple-choice" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Addition comes first, before multiplication.</pc></pc><pc id="c6" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:b" swi18n:slot="children">Multiplication comes first, before addition.</pc></pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="75ef691b5cf1af9f" swi18n:sourceStructureFingerprint="838350d284adc657"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Entscheide, welcher der Operationen zuerst ausgeführt werden soll.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:multiple-choice" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Zuerst kommt die Addition, dann die Multiplikation.</pc></pc><pc id="c6" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:b" swi18n:slot="children">Zuerst kommt die Multiplikation, dann die Addition.</pc></pc></pc></pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Multiplication always comes before addition.</pc></source>
+							<target swi18n:sourceContentFingerprint="f699165e60947722" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Die Multiplikation kommt immer vor der Addition.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the multiplications.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:substep" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Step answer</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc><pc id="c9" type="ui" subType="swi18n:substep" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:label" swi18n:slot="children">Step answer</pc><pc id="c12" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c13" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="dd85e211b671ba97" swi18n:sourceStructureFingerprint="7d5f8e4285e791eb"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Berechne die Multiplikationen.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:substep" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Schrittantwort</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc><pc id="c9" type="ui" subType="swi18n:substep" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:label" swi18n:slot="children">Schrittantwort</pc><pc id="c12" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c13" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The results of the multiplications are <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="8136320804a4e776" swi18n:sourceStructureFingerprint="2519d6521c612811"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Die Ergebnisse der Multiplikationen sind <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the addition.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:label" swi18n:slot="children">Final answer</pc><pc id="c6" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="cdead9882c652af0" swi18n:sourceStructureFingerprint="d696cfe51a53e0b5"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Berechne die Addition.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:label" swi18n:slot="children">Endgültige Antwort</pc><pc id="c6" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In the end we add everything together. This get us the final result <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="34782260a0770088" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Schließlich addieren wir alles zusammen. Auf diese Weise erhalten wir die endgültige Antwort <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="feedback">
+					<group id="order">
+						<unit id="incorrect">
+							<segment>
+								<source>That's not correct. Addition always comes last. (Unless it's prioritized by brackets, which is not the case here.)</source>
+								<target swi18n:sourceContentFingerprint="3303722b14b2658e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Das ist nicht richtig. Die Addition kommt immer zuletzt. (Es sei denn, sie wird durch Klammern hervorgehoben, aber das ist hier nicht der Fall.)</target>
+							</segment>
+						</unit>
+						<unit id="correct">
+							<segment>
+								<source>Yes! Multiplication indeed comes first.</source>
+								<target swi18n:sourceContentFingerprint="5cab3513e325a444" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Genau! Die Multiplikation hat tatsächlich Vorrang.</target>
+							</segment>
+						</unit>
+					</group>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

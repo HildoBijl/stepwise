@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">add/subtract fractions with variables</pc>, like turning <ph id="c3" type="ui" subType="swi18n:inline-math"/> into <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes multiplying both sides of a fraction by a factor to get an equal denominator, expanding (often double) brackets, and subsequently adding together the two like fractions. The skill does not require the cancellation of potential polynomial fractions afterwards.</pc></source>
+					<target swi18n:sourceContentFingerprint="6a83890bf7f7e414" swi18n:sourceStructureFingerprint="91bc01122207a0f1"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je om <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">breuken met variabelen op te tellen/af te trekken</pc>, zoals het herschrijven van <ph id="c3" type="ui" subType="swi18n:inline-math"/> in <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Dit omvat het vermenigvuldigen van beide kanten van een breuk met een factor om dezelfde noemer te krijgen, het uitwerken van (vaak dubbele) haakjes, en het vervolgens optellen van de twee gelijknamige breuken. Deze vaardigheid gaat niet over het achteraf nog wegstrepen van potentiële polynome factoren.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">If we add two number fractions with unequal denominator, such as <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we know how to do so: ensure the denominators are equal by rewriting the fractions (giving <ph id="c3" type="ui" subType="swi18n:inline-math"/>) and then adding up the fractions to get <ph id="c4" type="ui" subType="swi18n:inline-math"/>. But how does this work when variables are involved, like when rewriting <ph id="c5" type="ui" subType="swi18n:inline-math"/>? The answer is: exactly the same. But there are a few things to pay attention to.</pc></source>
+					<target swi18n:sourceContentFingerprint="356fd7612c5bcef8" swi18n:sourceStructureFingerprint="56786bffe3c0e99d"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Als we twee getalbreuken met ongelijke noemer optellen, zoals <ph id="c2" type="ui" subType="swi18n:inline-math"/>, dan weten we hoe dit werkt: we maken de noemers gelijk door de breuken anders op te schrijven (zoals <ph id="c3" type="ui" subType="swi18n:inline-math"/>) en tellen dan de breuken op om <ph id="c4" type="ui" subType="swi18n:inline-math"/> te krijgen. Maar hoe werkt dit als er variabelen bij zijn, zoals bij het herschrijven van <ph id="c5" type="ui" subType="swi18n:inline-math"/>? Het antwoord is: precies net zo. Maar er zijn een paar dingen om in gedachten te houden.</pc></target>
+				</segment>
+			</unit>
+			<unit id="equalDenominator">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Ensuring an equal denominator</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We want to add/subtract two <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">unlike fractions</pc> (fractions with unequal denominator), such as <ph id="c4" type="ui" subType="swi18n:block-math"/> We know how to <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add two like fractions</pc> (with equal denominators), but this time our fractions do not have equal denominators. To still be able to add these two fractions, we first must force them to have the same denominator.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">To do so, we take the left fraction and multiply both the numerator and the denominator by <ph id="c7" type="ui" subType="swi18n:inline-math"/> (that is, the denominator of the other fraction). This turns <ph id="c8" type="ui" subType="swi18n:inline-math"/> into <ph id="c9" type="ui" subType="swi18n:inline-math"/>. Note that this is the same: we could even <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">cancel the factor</pc> again to get back to where we started. Identically, we also take the right fraction, and multiply its numerator and denominator by <ph id="c11" type="ui" subType="swi18n:inline-math"/> (the denominator of the first fraction). This turns <ph id="c12" type="ui" subType="swi18n:inline-math"/> into <ph id="c13" type="ui" subType="swi18n:inline-math"/>. Altogether, we may hence write <ph id="c14" type="ui" subType="swi18n:block-math"/> And now we have two fractions with equal denominator!</pc></source>
+					<target swi18n:sourceContentFingerprint="e0a8db46a7759554" swi18n:sourceStructureFingerprint="b9f3b1446751f08e"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Dezelfde noemer krijgen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We willen twee <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">niet-gelijknamige breuken</pc> (breuken met ongelijke noemer) optellen/aftrekken, zoals <ph id="c4" type="ui" subType="swi18n:block-math"/> We weten hoe we twee <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">gelijknamige breuken optellen</pc> (met gelijke noemer), maar deze keer hebben onze breuken niet dezelfde noemer. Om deze breuken nog steeds op te kunnen tellen, moeten we er eerst voor zorgen dat ze wel dezelfde noemer hebben.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">Om dit voor elkaar te krijgen, nemen we de linker breuk en vermenigvuldigen we deze boven en onder met <ph id="c7" type="ui" subType="swi18n:inline-math"/> (oftewel, de noemer van de andere breuk). Dit zet <ph id="c8" type="ui" subType="swi18n:inline-math"/> om in <ph id="c9" type="ui" subType="swi18n:inline-math"/>. Merk op dat dit hetzelfde is: we kunnen zelfs de <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">breukfactor wegstrepen</pc> om weer uit te komen op waar we mee begonnen waren. Op identieke wijze nemen we de rechter breuk en vermenigvuldigen deze boven en onder met <ph id="c11" type="ui" subType="swi18n:inline-math"/> (the noemer van de eerste breuk). Dit zet <ph id="c12" type="ui" subType="swi18n:inline-math"/> om in <ph id="c13" type="ui" subType="swi18n:inline-math"/>. Alles bij elkaar mogen we dus schrijven dat <ph id="c14" type="ui" subType="swi18n:block-math"/> En nu hebben we twee breuken met gelijke noemer!</pc></target>
+				</segment>
+			</unit>
+			<unit id="addingFractions">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Adding the two fractions</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We now have two fractions with equal denominator. Before we add these up, it is wise to first <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand all brackets</pc> inside the numerators. That makes the next step a bit easier. Doing so gives <ph id="c4" type="ui" subType="swi18n:block-math"/> Note that we leave the denominator unchanged: expanding brackets there is of course allowed, but generally does not make things easier.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Now that we have two relatively easy fractions with equal denominator, we can <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add them up</pc> in the usual way, by pulling the numerators together. We first get <ph id="c7" type="ui" subType="swi18n:block-math"/> which can then immediately be simplified by <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging similar terms</pc> into <ph id="c9" type="ui" subType="swi18n:block-math"/> The final result is <ph id="c10" type="ui" subType="swi18n:block-math"/></pc></source>
+					<target swi18n:sourceContentFingerprint="28ea1313a3803e1d" swi18n:sourceStructureFingerprint="99a7c6d7e7760005"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De twee breuken optellen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We hebben nu twee breuken met gelijke noemer. Voordat we deze optellen, is het handig om eerst in de noemers alle <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">haakjes uit te werken</pc>. Dat maakt de volgende stap iets makkelijker. Bij ons voorbeeld geeft dit <ph id="c4" type="ui" subType="swi18n:block-math"/> Merk op dat we de noemer onveranderd laten: haakjes daar uitwerken is natuurlijk toegestaan, maar maakt het over het algemeen niet makkelijker.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Nu we twee relatief makkelijk geschreven breuken met gelijke noemer hebben, kunnen we ze op de gebruikelijke wijze <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">optellen</pc> door de tellers samen te trekken. Eerst krijgen we <ph id="c7" type="ui" subType="swi18n:block-math"/> wat we via het <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">samenvoegen van soortgelijke termen</pc> dan gelijk kunnen vereenvoudigen tot <ph id="c9" type="ui" subType="swi18n:block-math"/> Het eindresultaat is <ph id="c10" type="ui" subType="swi18n:block-math"/></pc></target>
+				</segment>
+			</unit>
+			<unit id="rule">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The rule</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The above idea can also be captured into a rule. If we have two general fractions <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> that we add up, then we can write <ph id="c5" type="ui" subType="swi18n:block-math"/> Or similarly for subtracting we have <ph id="c6" type="ui" subType="swi18n:block-math"/></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Using this rule, we can immediately solve the example through <ph id="c8" type="ui" subType="swi18n:block-math"/> If you have practiced enough to see this short-cut, it can save some time.</pc></source>
+					<target swi18n:sourceContentFingerprint="a81a454f6870322a" swi18n:sourceStructureFingerprint="2cd5e0e0310dda51"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De regel</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Het bovenstaande idee kan ook in een regel samengevat worden. Als we twee algemene breuken <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> op willen tellen, dan kunnen we schrijven dat <ph id="c5" type="ui" subType="swi18n:block-math"/> Of soortgelijk geldt voor het aftrekken van breuken dat <ph id="c6" type="ui" subType="swi18n:block-math"/></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Met behulp van deze regel kunnen we het voorbeeld direct oplossen via <ph id="c8" type="ui" subType="swi18n:block-math"/> Als je genoeg geoefend hebt om deze short-cut te zien, dan kan je dit wat tijd besparen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To add/subtract two fractions with variables, like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Rewrite the fractions so they all have the same denominator. For this, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply both sides</pc> of the left fraction by the denominator of the right fraction, and similarly <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply both sides</pc> of the right fraction by the denominator of the left fraction. For the example this gives <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Expand all (often double) brackets</pc> in the numerators. For the example we get <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Add the like fractions</pc> and simplify the result as much as possible. For the example the final result is <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="0618579a22683a28" swi18n:sourceStructureFingerprint="7bc14129da0a7e3c"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De stappen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om twee breuken met variabelen op te tellen/af te trekken, zoals <ph id="c3" type="ui" subType="swi18n:inline-math"/>, neem je de volgende stappen.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Herschrijf de breuken zo dat ze allen dezelfde noemer hebben. Om dit te doen <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vermenigvuldig je beide kanten</pc> van de linker breuk met de noemer van de rechter breuk, en soortgelijk <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vermenigvuldig je beide kanten</pc> van de rechter breuk met de noemer van de linker breuk. Bij het voorbeeld geeft dit <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Werk alle (vaak dubbele) haakjes uit</pc> in de tellers. Bij het voorbeeld krijgen we <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Tel de gelijknamige breuken op</pc> en vereenvoudig het resultaat zo veel mogelijk. Bij het voorbeeld is het eindresultaat <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="twoFractions">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Write this as a single fraction and simplify the numerator as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="41beb9b8fbbb09a0" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de uitdrukking <ph id="c1" type="ui" subType="swi18n:block-math"/> Schrijf dit als een enkele breuk en vereenvoudig de teller zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite both fractions to ensure that they have the same denominator.</source>
+							<target swi18n:sourceContentFingerprint="23d4b4b94da62a67" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Herschrijf beide breuken zodat ze dezelfde noemer hebben.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The first fraction is multiplied above and below by the denominator of the second fraction, being <ph id="c1" type="ui" subType="swi18n:inline-math"/>. The second fraction is multiplied above and below by the denominator of the first fraction, being <ph id="c2" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="94fbf051c70ba8e0" swi18n:sourceStructureFingerprint="48a11a365f442e35">De eerste breuk wordt boven en onder met de noemer van de tweede breuk vermenigvuldigd, oftewel met <ph id="c1" type="ui" subType="swi18n:inline-math"/>. De tweede breuk wordt boven en onder vermenigvuldigd met de noemer van de eerste breuk, oftewel met <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Dit resulteert in <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify all numerators as much as possible, including expanding brackets.</source>
+							<target swi18n:sourceContentFingerprint="4440fc2301090704" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig alle tellers zo veel mogelijk, inclusief het uitwerken van haakjes.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Using the default rules of expanding brackets, we wind up with <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="527803ff1377beed" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Via de standaard regels van het uitwerken van haakjes komen we uit op <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Add up the two like fractions and simplify the numerator as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="815396aa480c5f85" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voeg de twee gelijknamige breuken samen en vereenvoudig de teller zo veel als mogelijk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Adding up the two fractions using the default rule, and merging similar terms, gives <ph id="c1" type="ui" subType="swi18n:block-math"/> The numerator here is as simplified as possible. Altogether, the final result is <ph id="c2" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, this can still be simplified further, written as <ph id="c3" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false"></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="b21b5d5b0c69eedb" swi18n:sourceStructureFingerprint="332ca0a1fbabb5c4">Het samenvoegen van de twee breuken via de standaard regel, en het samenvoegen van soortgelijke termen, geeft <ph id="c1" type="ui" subType="swi18n:block-math"/> De teller hier is zo eenvoudig geschreven als mogelijk. Alles bij elkaar is het eindresultaat <ph id="c2" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Eventueel kan dit nog simpeler geschreven worden, als <ph id="c3" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false"></pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="unequalDenominators">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The two fractions do not have the same denominator.</pc></source>
+						<target swi18n:sourceContentFingerprint="f43a5d9e9f59e6a4" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">De twee breuken hebben niet dezelfde noemer.</pc></target>
+					</segment>
+				</unit>
+				<unit id="notTwoFractions">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">We are expecting a sum of two fractions. Only rewrite the fractions and don't merge them together yet.</pc></source>
+						<target swi18n:sourceContentFingerprint="22a80bf46f85da2f" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">We verwachten een som met twee breuken. Herschrijf alleen de breuken en voeg ze nog niet samen.</pc></target>
+					</segment>
+				</unit>
+				<unit id="unsimplifiedNumerator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You can still further simplify the numerators.</pc></source>
+						<target swi18n:sourceContentFingerprint="cfbace6ab10c4ce0" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Je kunt de tellers nog verder vereenvoudigen.</pc></target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">bring an equation to the standard form</pc> <ph id="c3" type="ui" subType="swi18n:inline-math"/>. If you have an equation like <ph id="c4" type="ui" subType="swi18n:inline-math"/> then you will be able to get <ph id="c5" type="ui" subType="swi18n:inline-math"/> <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">out of the denominator</pc>, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand all brackets</pc>, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">move all terms</pc> to the left and <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">normalize</pc> the result to get <ph id="c10" type="ui" subType="swi18n:inline-math"/>. The skill only deals with rational equations and not with equations with roots or other types of functions.</pc></source>
+					<target swi18n:sourceContentFingerprint="84986ef349868482" swi18n:sourceStructureFingerprint="c7494eedd72e8885"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, eine <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Gleichung in die Standardform</pc> <ph id="c3" type="ui" subType="swi18n:inline-math"/> zu bringen. Wenn du eine Gleichung wie <ph id="c4" type="ui" subType="swi18n:inline-math"/> hast, dann kannst du <ph id="c5" type="ui" subType="swi18n:inline-math"/> überall <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">aus dem Nenner</pc> nehmen, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">alle Klammern auflösen</pc>, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">alle Terme nach links verschieben</pc> und das Ergebnis <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">normalisieren</pc>, um auf <ph id="c10" type="ui" subType="swi18n:inline-math"/> zu kommen. Die Kompetenz bezieht sich nur auf rationale Gleichungen und nicht auf Gleichungen mit Wurzeln oder anderen Arten von Funktionen.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Solving an equation is often done in two steps: first you clean up the equation, and then you solve this cleaned-up equation according to a fixed plan. The "cleaning up" part is what we practice in this skill. To be precise, our goal is to reduce every equation (where possible) to a certain <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">standard form</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="359ee2c658679e5a" swi18n:sourceStructureFingerprint="f7f184827b959a05"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Das Lösen einer Gleichung umfasst oft zwei Schritte: Zunächst muss die Gleichung aufgeräumt werden, und dann wird diese aufgeräumte Gleichung nach einem bestimmten Plan gelöst. Dieses Aufräumen der Gleichung ist das, was wir in dieser Kompetenz üben. Wir wollen insbesondere in der Lage sein, jede Gleichung (wenn möglich) auf eine <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Standardform</pc> zu reduzieren.</pc></target>
+				</segment>
+			</unit>
+			<unit id="standardForm">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The standard form: a polynomial</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Consider an equation like <ph id="c3" type="ui" subType="swi18n:block-math"/> This is a so-called <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">rational equation</pc>: it only has numbers, fractions and powers of <ph id="c5" type="ui" subType="swi18n:inline-math"/>. There are no roots or other types of functions. Such an equation can always be rewritten into a <pc id="c6" type="ui" subType="swi18n:term" swi18n:slot="children">standard form</pc>. For the above equation (as we will see in a bit) this would be <ph id="c7" type="ui" subType="swi18n:block-math"/> Note that the right-hand side of the equation is zero, and the left-hand side is a so-called <pc id="c8" type="ui" subType="swi18n:term" swi18n:slot="children">polynomial</pc>. Here "polynomial" means: there are no fractions with <ph id="c9" type="ui" subType="swi18n:inline-math"/>, and there are no unexpanded brackets. There are only powers of <ph id="c10" type="ui" subType="swi18n:inline-math"/> with numbers in front of them. On top of that, the powers of <ph id="c11" type="ui" subType="swi18n:inline-math"/> are sorted, with the highest power at the start. When this is the case for our equation - the right-hand side is zero and the left-hand side is a polynomial - then the equation is in a standard form.</pc></source>
+					<target swi18n:sourceContentFingerprint="34e8072717c89ec3" swi18n:sourceStructureFingerprint="be3e712a6d48f5f6"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Standardform: ein Polynom</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Stell dir eine Gleichung vor als <ph id="c3" type="ui" subType="swi18n:block-math"/> Dies ist eine sogenannte <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">rationale Gleichung</pc>: Sie enthält nur Zahlen, Brüche und Potenzen von <ph id="c5" type="ui" subType="swi18n:inline-math"/>. Es gibt keine Wurzeln oder andere Arten von Funktionen. Eine solche Gleichung kann immer in eine <pc id="c6" type="ui" subType="swi18n:term" swi18n:slot="children">Standardform</pc> umgeschrieben werden. Für die obige Gleichung (wie wir gleich sehen werden) ist dies <ph id="c7" type="ui" subType="swi18n:block-math"/> Beachte, dass die rechte Seite der Gleichung Null ist, und die linke Seite ein sogenanntes <pc id="c8" type="ui" subType="swi18n:term" swi18n:slot="children">Polynom</pc> ist. Polynom bedeutet hier: es gibt keine Brüche mit <ph id="c9" type="ui" subType="swi18n:inline-math"/> darin, und es gibt keine Klammern mehr aufzulösen. Es gibt nur Potenzen von <ph id="c10" type="ui" subType="swi18n:inline-math"/> mit vorangestellten Zahlen. Darüber hinaus sind die Potenzen von <ph id="c11" type="ui" subType="swi18n:inline-math"/> sortiert, wobei die höchste Potenz vorne steht. Wenn dies bei unserer Gleichung der Fall ist - die rechte Seite ist Null und die linke Seite ist ein Polynom - dann ist die Gleichung in Standardform.</pc></target>
+				</segment>
+			</unit>
+			<unit id="bringingToStandardForm">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Bring an equation into standard form</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">So how do we get a complicated equation like the example above into such a standard form? First we want to get <ph id="c3" type="ui" subType="swi18n:inline-math"/> out of any fraction denominator. So we <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply all terms</pc> by both <ph id="c5" type="ui" subType="swi18n:inline-math"/> and by <ph id="c6" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c7" type="ui" subType="swi18n:block-math"/> Next, we also want to get rid of the brackets. <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Expanding all brackets</pc> turns this into <ph id="c9" type="ui" subType="swi18n:block-math"/> <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Merging similar terms</pc> subsequently results in <ph id="c11" type="ui" subType="swi18n:block-math"/> <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Bringing all terms to the left</pc> turns this into the final result <ph id="c13" type="ui" subType="swi18n:block-math"/> We have brought the equation into its standard form.</pc></source>
+					<target swi18n:sourceContentFingerprint="4b2fd13e78cc9b2c" swi18n:sourceStructureFingerprint="6c064d76774e5e90"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Eine Gleichung in Standardform bringen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Wie bringen wir also eine komplizierte Gleichung wie das Beispiel in die Standardform? Zunächst wollen wir <ph id="c3" type="ui" subType="swi18n:inline-math"/> aus allen Bruchnennern entfernen. Also <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplizieren wir alle Terme</pc> sowohl mit <ph id="c5" type="ui" subType="swi18n:inline-math"/> als auch mit <ph id="c6" type="ui" subType="swi18n:inline-math"/>. Das Ergebnis ist <ph id="c7" type="ui" subType="swi18n:block-math"/> Als nächstes wollen wir alle Klammern entfernen. Der <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Klammern auflösen</pc> wandelt dies um in <ph id="c9" type="ui" subType="swi18n:block-math"/> Die <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Zusammenfügung gleichartiger Terme</pc> ergibt dann <ph id="c11" type="ui" subType="swi18n:block-math"/> Schließlich, wenn wir <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">alle Terme nach links verschieben</pc>, erhalten wir das Endergebnis <ph id="c13" type="ui" subType="swi18n:block-math"/> Wir haben die Gleichung in Standardform gebracht.</pc></target>
+				</segment>
+			</unit>
+			<unit id="normalization">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">To normalize or not to normalize</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Note that our equation satisfies the conditions we set. However, we can still divide it by <ph id="c3" type="ui" subType="swi18n:inline-math"/> to get <ph id="c4" type="ui" subType="swi18n:block-math"/> That is, we ensure that the highest power of <ph id="c5" type="ui" subType="swi18n:inline-math"/> has no number (well, technically the number <ph id="c6" type="ui" subType="swi18n:inline-math"/>) in front of it. When we do this, we <pc id="c7" type="ui" subType="swi18n:term" swi18n:slot="children">normalize</pc> the equation.</pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">But which form is cleaner? Mathematicians have different opinions here. Some argue that the first form is cleaner, since it has no fraction at all, even for the numbers. Others argue that the second normalized version is cleaner. After all, there are infinitely many versions of the equation that meet our requirements (we can multiply it by any number) but there is only one version where the highest power of <ph id="c9" type="ui" subType="swi18n:inline-math"/> has no number in front of it. It is unique!</pc><pc id="c10" type="ui" subType="swi18n:par" swi18n:slot="children">In practice, it really depends on the situation what is more convenient. Sometimes you want to normalize the equation, and sometimes it is easier to get rid of any potential fractions. So at exercises, we will clearly indicate what needs to be done.</pc></source>
+					<target swi18n:sourceContentFingerprint="16c5c0dd7c3b2e15" swi18n:sourceStructureFingerprint="01d2e3878a42cf72"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Normalisieren oder nicht normalisieren</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Unsere Gleichung erfüllt die Anforderungen, die wir gestellt haben. Wir können die Gleichung aber immer noch durch <ph id="c3" type="ui" subType="swi18n:inline-math"/> dividieren, und erhalten so <ph id="c4" type="ui" subType="swi18n:block-math"/> Mit anderen Worten, wir stellen sicher, dass die höchste Potenz von <ph id="c5" type="ui" subType="swi18n:inline-math"/> keine Zahl (nun, technisch gesehen die Zahl <ph id="c6" type="ui" subType="swi18n:inline-math"/>) vor sich hat. Wenn wir das tun, dann <pc id="c7" type="ui" subType="swi18n:term" swi18n:slot="children">normalisieren</pc> wir die Gleichung.</pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">Doch welche Form ist die schönere? Darüber sind sich die Mathematiker nicht einig. Einige meinen, die erste Form sei übersichtlicher, da sie überhaupt keine Brüche enthält, nicht einmal unter den Zahlen. Andere halten die zweite, normalisierte Form für übersichtlicher. Schließlich gibt es unendlich viele Möglichkeiten, die Gleichung entsprechend unseren Anforderungen aufzuschreiben (wir können sie mit jeder beliebigen Zahl multiplizieren), aber es gibt nur eine Variante, bei der der höchsten Potenz von <ph id="c9" type="ui" subType="swi18n:inline-math"/> keine Zahl vorangestellt ist. Diese Form ist einzigartig!</pc><pc id="c10" type="ui" subType="swi18n:par" swi18n:slot="children">In Wirklichkeit hängt es von der jeweiligen Situation ab, welche Form besser geeignet ist. Manchmal will man die Gleichung normalisieren, und manchmal ist es bequemer, alle Brüche loszuwerden. In den Aufgaben geben wir also klar an, was erwartet wird.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To bring a rational equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> into standard form, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">If <ph id="c7" type="ui" subType="swi18n:inline-math"/> is in some fraction denominator, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply all equation terms</pc> by this denominator to get it out. For our example we do this twice to get <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Expand all brackets</pc> in the equation. This turns our example into <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Move all terms to the left</pc> and <pc id="c17" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merge similar terms</pc>, sorting them by the power of <ph id="c18" type="ui" subType="swi18n:inline-math"/>, with the highest power first. For our example we end up with <ph id="c19" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c20" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c21" type="ui" subType="swi18n:d" swi18n:slot="children">Depending on the exact requirements, you may need to normalize the equation or get rid of potential number fractions. <pc id="c22" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Multiply/divide</pc> by the right number to make this happen. For our example, if we need to normalize the equation, we divide by <ph id="c23" type="ui" subType="swi18n:inline-math"/> to get <ph id="c24" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="2773de88988dd251" swi18n:sourceStructureFingerprint="721f785bae54d010"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Schritte</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Um eine rationale Gleichung wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> in die Standardform zu bringen, ist wie folgt vorzugehen.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Wenn <ph id="c7" type="ui" subType="swi18n:inline-math"/> im Nenner eines Bruchs steht, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multipliziere alle Terme der Gleichung</pc> mit diesem Nenner, um ihn herauszuholen. In unserem Beispiel machen wir das zweimal und erhalten <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Löse alle Klammern</pc> in der Gleichung auf. Dies wandelt unser Beispiel in <ph id="c13" type="ui" subType="swi18n:inline-math"/> um.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Bringe alle Terme nach links</pc> und <pc id="c17" type="ui" subType="swi18n:skill-link" swi18n:slot="children">füge gleichartige Terme zusammen</pc>, wobei du die Terme nach der Potenz von <ph id="c18" type="ui" subType="swi18n:inline-math"/> sortierst, mit der höchsten Potenz zuerst. Für unser Beispiel erhalten wir <ph id="c19" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c20" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c21" type="ui" subType="swi18n:d" swi18n:slot="children">Je nach den genauen Anforderungen solltest du die Gleichung noch normalisieren oder alle Zahlenbrüche beseitigen. <pc id="c22" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Multipliziere mit/diviere durch</pc> die entsprechende Zahl, um dies zu erreichen. Für unser Beispiel, wenn wir die Gleichung normalisieren wollen, dividieren wir durch <ph id="c23" type="ui" subType="swi18n:inline-math"/> und erhalten <ph id="c24" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="quadraticTwoFractions">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Bring this equation to the standard form and <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">normalize the result</pc><pc id="x3" type="other" subType="swi18n:condition-false">ensure that the coefficients are all integers that are as small as possible</pc></pc>.</source>
+						<target swi18n:sourceContentFingerprint="9fd51e2f80ae4ec6" swi18n:sourceStructureFingerprint="544b47555f93ed66">Betrachte die Gleichung <ph id="c1" type="ui" subType="swi18n:block-math"/> Bringe diese Gleichung in die Standardform und <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">normiere das Ergebnis</pc><pc id="x3" type="other" subType="swi18n:condition-false">stelle sicher, dass die Koeffizienten alle ganzzahlig und so klein wie möglich sind</pc></pc>.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Make sure that <ph id="c1" type="ui" subType="swi18n:inline-math"/> does not appear in any denominator anymore.</source>
+							<target swi18n:sourceContentFingerprint="3dec069cee4f86b9" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Stell sicher, dass <ph id="c1" type="ui" subType="swi18n:inline-math"/> in keinem Nenner mehr vorkommt.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>There are two fractions that have <ph id="c1" type="ui" subType="swi18n:inline-math"/> in the denominator. To fix this, we multiply all terms by these denominators. This gives us <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="4bbc934d38e0d71a" swi18n:sourceStructureFingerprint="fd2fba868566671b">Es gibt zwei Brüche mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> im Nenner. Um diese loszuwerden, multiplizieren wir alle Terme mit diesen Nennern. So erhalten wir <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all brackets.</source>
+							<target swi18n:sourceContentFingerprint="702830173e5df082" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Löse alle Klammern auf.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Expanding all brackets turns the equation into <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="42611ebc35adf826" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Durch das auflösen aller Klammern wird die Gleichung umgewandelt in <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms to the left and merge similar terms together, minimizing the number of terms in the equation.</source>
+							<target swi18n:sourceContentFingerprint="375b9fce8cd80c90" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Verschiebe alle Terme nach links und füge gleichartige Terme zusammen, um die Anzahl der Terme in der Gleichung zu minimieren.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>It is slightly easier to first merge similar terms on both sides of the equation. This gives us <ph id="c1" type="ui" subType="swi18n:block-math"/> By subsequently moving all terms to the left and once more merging similar terms, we end up with <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="cd916c4ff8c9ed7e" swi18n:sourceStructureFingerprint="b44bdd9ade835acd">Es ist etwas einfacher, zunächst gleichartige Terme auf beiden Seiten der Gleichung zusammenzufügen. Dies ergibt <ph id="c1" type="ui" subType="swi18n:block-math"/> Durch Verschieben aller Terme nach links und anschließendes Zusammenfügen gleichartiger Terme erhalten wir <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Make sure that the terms are sorted by decreasing power of <ph id="c1" type="ui" subType="swi18n:inline-math"/>. On top of this, <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">normalize the equation</pc><pc id="x3" type="other" subType="swi18n:condition-false">ensure that the coefficients are all integers that are as small as possible</pc></pc>.</source>
+							<target swi18n:sourceContentFingerprint="081212cad7a94883" swi18n:sourceStructureFingerprint="f788f28fbe6384c4">Stelle sicher, dass die Terme nach absteigender Potenz von <ph id="c1" type="ui" subType="swi18n:inline-math"/> sortiert sind. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Normalisiere außerdem die Gleichung</pc><pc id="x3" type="other" subType="swi18n:condition-false">Sorge außerdem dafür, dass die Koeffizienten alle ganzzahlig und so klein wie möglich sind</pc></pc>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Note that in the previous step we already sorted the terms. The only thing that is left to do is clean up the coefficients. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">To normalize the equation, we divide by the factor before the highest power of <ph id="c1" type="ui" subType="swi18n:inline-math"/>. That is, we divide all terms by <ph id="c2" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/> This is the normalized version of the equation.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <ph id="c4" type="ui" subType="swi18n:inline-math"/> without obtaining any fractions. Doing so will result in <ph id="c5" type="ui" subType="swi18n:block-math"/> This equation is as simplified as it can be.</pc></pc></source>
+							<target swi18n:sourceContentFingerprint="481f187f4da70711" swi18n:sourceStructureFingerprint="e63f917dc95f6137">Beachte, dass wir im obigen Schritt die Terme bereits sortiert haben. Das Einzige, was noch zu tun ist, ist die Bereinigung der Koeffizienten. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Um die Gleichung zu normalisieren, dividieren wir durch den Faktor für die höchste Potenz von <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Mit anderen Worten: Wir teilen alle Terme durch <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Daraus ergibt sich <ph id="c3" type="ui" subType="swi18n:block-math"/> Dies ist die normalisierte Version der Gleichung.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Beachte, dass alle Koeffizienten der Gleichung einen gemeinsamen Faktor haben. Um genau zu sein, können wir sie alle durch <ph id="c4" type="ui" subType="swi18n:inline-math"/> dividieren, ohne einen Bruch zu erhalten. Wenn wir dies tun, erhalten wir <ph id="c5" type="ui" subType="swi18n:block-math"/> Diese Gleichung ist so vereinfacht wie möglich geschrieben.</pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="cubicOneFraction">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Bring this equation to the standard form and <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">normalize the result</pc><pc id="x3" type="other" subType="swi18n:condition-false">ensure that the coefficients are all integers that are as small as possible</pc></pc>.</source>
+						<target swi18n:sourceContentFingerprint="9fd51e2f80ae4ec6" swi18n:sourceStructureFingerprint="544b47555f93ed66">Betrachte die Gleichung <ph id="c1" type="ui" subType="swi18n:block-math"/> Bringe diese Gleichung in die Standardform und <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">normiere das Ergebnis</pc><pc id="x3" type="other" subType="swi18n:condition-false">stelle sicher, dass die Koeffizienten alle ganze Zahlen sind, die so klein wie möglich sind</pc></pc>.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Make sure that <ph id="c1" type="ui" subType="swi18n:inline-math"/> does not appear in any denominator anymore.</source>
+							<target swi18n:sourceContentFingerprint="3dec069cee4f86b9" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Stell sicher, dass <ph id="c1" type="ui" subType="swi18n:inline-math"/> in keinem Nenner mehr vorkommt.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>There is only one fraction with <ph id="c1" type="ui" subType="swi18n:inline-math"/> in the denominator. So we multiply both sides of the equation by this denominator. This gives us <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="4ac188410922b359" swi18n:sourceStructureFingerprint="fd2fba868566671b">Es gibt nur einen Bruch mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> im Nenner. Wir können also beide Seiten der Gleichung mit diesem Nenner multiplizieren. Wir erhalten also <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all brackets.</source>
+							<target swi18n:sourceContentFingerprint="702830173e5df082" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Löse alle Klammern auf.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Expanding all brackets turns the equation into <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="42611ebc35adf826" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Durch das auflösen aller Klammern wird die Gleichung umgewandelt in <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms to the left and merge similar terms together, minimizing the number of terms in the equation.</source>
+							<target swi18n:sourceContentFingerprint="375b9fce8cd80c90" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Verschiebe alle Terme nach links und füge gleichartige Terme zusammen, um die Anzahl der Terme in der Gleichung zu minimieren.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By moving all terms to the left and by merging similar terms, we can find that <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="36a155c9d3869056" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Durch das Verschieben aller Terme nach links und das Zusammenfügen gleichartiger Terme ergibt sich, dass <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Make sure that the terms are sorted by decreasing power of <ph id="c1" type="ui" subType="swi18n:inline-math"/>. On top of this, <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">normalize the equation</pc><pc id="x3" type="other" subType="swi18n:condition-false">ensure that the coefficients are all integers that are as small as possible</pc></pc>.</source>
+							<target swi18n:sourceContentFingerprint="081212cad7a94883" swi18n:sourceStructureFingerprint="f788f28fbe6384c4">Stelle sicher, dass die Terme nach absteigender Potenz von <ph id="c1" type="ui" subType="swi18n:inline-math"/> sortiert sind. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Normalisiere außerdem die Gleichung</pc><pc id="x3" type="other" subType="swi18n:condition-false">Sorge außerdem dafür, dass die Koeffizienten alle ganzzahlig und so klein wie möglich sind</pc></pc>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Note that in the previous step we already sorted the terms. The only thing that is left to do is clean up the coefficients. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">To normalize the equation, we divide by the factor before the highest power of <ph id="c1" type="ui" subType="swi18n:inline-math"/>. That is, we divide all terms by <ph id="c2" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/> This is the normalized version of the equation.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <ph id="c4" type="ui" subType="swi18n:inline-math"/> without obtaining any fractions. Doing so will result in <ph id="c5" type="ui" subType="swi18n:block-math"/> This equation is as simplified as it can be.</pc></pc></source>
+							<target swi18n:sourceContentFingerprint="481f187f4da70711" swi18n:sourceStructureFingerprint="e63f917dc95f6137">Beachte, dass wir im obigen Schritt die Terme bereits sortiert haben. Das Einzige, was noch zu tun ist, ist die Bereinigung der Koeffizienten. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Um die Gleichung zu normalisieren, dividieren wir durch den Faktor für die höchste Potenz von <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Mit anderen Worten: Wir teilen alle Terme durch <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Daraus ergibt sich <ph id="c3" type="ui" subType="swi18n:block-math"/> Dies ist die normalisierte Version der Gleichung.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Beachte, dass alle Koeffizienten der Gleichung einen gemeinsamen Faktor haben. Um genau zu sein, können wir sie alle durch <ph id="c4" type="ui" subType="swi18n:inline-math"/> dividieren, ohne einen Bruch zu erhalten. Wenn wir dies tun, erhalten wir <ph id="c5" type="ui" subType="swi18n:block-math"/> Diese Gleichung ist so vereinfacht wie möglich geschrieben.</pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

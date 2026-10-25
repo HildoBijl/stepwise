@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="practice">
+			<group id="calculateBasicSupportReactionsDiagonalBeam">
+				<unit id="mainProblem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A beam is connected through a hinge on the left and a hinging slider on the right. It is subjected to a moment <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><ph id="c3" type="ui" subType="swi18n:diagram"/><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc><pc id="c5" type="ui" subType="swi18n:input-space" swi18n:slot="children"><ph id="c6" type="ui" subType="swi18n:diagram"/></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the unknown support reactions.</pc></source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A hinge (left) prevents horizontal and vertical motion, but does allow rotation. This means that there is a horizontal and vertical reaction force, but not a reaction torque. Similarly a hinging slider (right) only prevents motion perpendicular to the surface. This results in a vertical reaction force. This gives us the following diagram.</pc><ph id="c2" type="ui" subType="swi18n:diagram"/><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</pc><pc id="x3" type="other" subType="swi18n:condition-false">The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</pc></pc></pc></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the horizontal reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we look at the sum of the forces in the horizontal direction. In this case <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>This directly tells us that <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the vertical reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we look at the sum of the moments around point <ph id="c3" type="ui" subType="swi18n:inline-math"/>. In this case <ph id="c4" type="ui" subType="swi18n:inline-math"/> and <ph id="c5" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c6" type="ui" subType="swi18n:block-math"/>The solution follows as<ph id="c7" type="ui" subType="swi18n:block-math"/></pc></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the vertical reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the forces in the vertical direction. (It's also possible through moments around point <ph id="c3" type="ui" subType="swi18n:inline-math"/> or a point vertically below <ph id="c4" type="ui" subType="swi18n:inline-math"/>, but this is a bit more work.) This gives the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>Solving this for <ph id="c6" type="ui" subType="swi18n:inline-math"/> gives<ph id="c7" type="ui" subType="swi18n:block-math"/>And with this all support reactions have been determined.</pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="calculateBasicSupportReactionsDiagonalSupport">
+				<unit id="mainProblem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A beam is connected through a hinge on the left and a hinging slider on the right. It is subjected to a load of <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><ph id="c3" type="ui" subType="swi18n:diagram"/><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc><pc id="c5" type="ui" subType="swi18n:input-space" swi18n:slot="children"><ph id="c6" type="ui" subType="swi18n:diagram"/></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the unknown support reactions.</pc></source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A hinge (left) prevents horizontal and vertical motion, but does allow rotation. This means that there is a horizontal and vertical reaction force, but not a reaction torque. Similarly a hinging slider (right) only prevents motion perpendicular to the surface. This results, due to the slanted surface, in a rotated reaction force. This gives us the following diagram.</pc><ph id="c2" type="ui" subType="swi18n:diagram"/><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</pc><pc id="x3" type="other" subType="swi18n:condition-false">The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</pc></pc></pc></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the diagonal reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the moments around point <ph id="c3" type="ui" subType="swi18n:inline-math"/>. In this case <ph id="c4" type="ui" subType="swi18n:inline-math"/> and <ph id="c5" type="ui" subType="swi18n:inline-math"/> have no effect. If we decompose <ph id="c6" type="ui" subType="swi18n:inline-math"/> into components <ph id="c7" type="ui" subType="swi18n:inline-math"/> and <ph id="c8" type="ui" subType="swi18n:inline-math"/> too, then this gives the equilibrium equation<ph id="c9" type="ui" subType="swi18n:block-math"/>The solution for <ph id="c10" type="ui" subType="swi18n:inline-math"/> follows as<ph id="c11" type="ui" subType="swi18n:block-math"/>Through decomposing forces <ph id="c12" type="ui" subType="swi18n:inline-math"/> follows as<ph id="c13" type="ui" subType="swi18n:block-math"/></pc></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the vertical reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we look at the sum of the forces in the vertical direction. (This can also be done by examining moments around point <ph id="c3" type="ui" subType="swi18n:inline-math"/>, but this is a bit more work.) This gives the equilibrium equation<ph id="c4" type="ui" subType="swi18n:block-math"/>Solving this for <ph id="c5" type="ui" subType="swi18n:inline-math"/> gives<ph id="c6" type="ui" subType="swi18n:block-math"/></pc></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the horizontal reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we look at the sum of the forces in the horizontal direction. In this case <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>By decomposing forces we can find that<ph id="c6" type="ui" subType="swi18n:block-math"/>Solving the equilibrium equation for <ph id="c7" type="ui" subType="swi18n:inline-math"/> then gives<ph id="c8" type="ui" subType="swi18n:block-math"/>And with this all support reactions have been determined.</pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="calculateBasicSupportReactionsFixedWithDiagonalLoad">
+				<unit id="mainProblem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A beam is clamped to a wall and subjected to a load of <ph id="c2" type="ui" subType="swi18n:inline-math"/>. The load is at an angle of <ph id="c3" type="ui" subType="swi18n:inline-math"/> with respect to the horizontal.</pc><ph id="c4" type="ui" subType="swi18n:diagram"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc><pc id="c6" type="ui" subType="swi18n:input-space" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:diagram"/></pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the unknown support reactions.</pc></source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A clamp prevents all motion, and hence allows for a horizontal reaction force, a vertical reaction force and a reaction torque. Together with the external load, this gives us the following diagram.</pc><ph id="c2" type="ui" subType="swi18n:diagram"/><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</pc><pc id="x3" type="other" subType="swi18n:condition-false">The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</pc></pc></pc></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the horizontal reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the forces in the horizontal direction. In this case <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>The horizontal component <ph id="c6" type="ui" subType="swi18n:inline-math"/> here equals<ph id="c7" type="ui" subType="swi18n:block-math"/>If we solve the equilibrium equation for <ph id="c8" type="ui" subType="swi18n:inline-math"/>, then we get<ph id="c9" type="ui" subType="swi18n:block-math"/></pc></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the vertical reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the forces in the vertical direction. In this case <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>The vertical component <ph id="c6" type="ui" subType="swi18n:inline-math"/> here equals<ph id="c7" type="ui" subType="swi18n:block-math"/>If we solve the equilibrium equation for <ph id="c8" type="ui" subType="swi18n:inline-math"/>, then we get<ph id="c9" type="ui" subType="swi18n:block-math"/></pc></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the reaction torque <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the moments around point <ph id="c3" type="ui" subType="swi18n:inline-math"/>. In this case <ph id="c4" type="ui" subType="swi18n:inline-math"/> and <ph id="c5" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c6" type="ui" subType="swi18n:block-math"/>The solution follows as<ph id="c7" type="ui" subType="swi18n:block-math"/>And with this all support reactions have been determined.</pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="calculateBasicSupportReactionsFixedWithElevatedLoad">
+				<unit id="mainProblem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A beam is clamped to a wall and subjected to a load of <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><ph id="c3" type="ui" subType="swi18n:diagram"/><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc><pc id="c5" type="ui" subType="swi18n:input-space" swi18n:slot="children"><ph id="c6" type="ui" subType="swi18n:diagram"/></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the unknown support reactions.</pc></source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A clamp prevents all motion, and hence allows for a horizontal reaction force, a vertical reaction force and a reaction torque. Together with the external load, this gives us the following diagram.</pc><ph id="c2" type="ui" subType="swi18n:diagram"/><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</pc><pc id="x3" type="other" subType="swi18n:condition-false">The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</pc></pc></pc></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the horizontal reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the forces in the horizontal direction. In this case <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>The solution follows as<ph id="c6" type="ui" subType="swi18n:block-math"/></pc></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the vertical reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the forces in the vertical direction. In this case <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>This directly tells us that <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the reaction torque <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the moments around point <ph id="c3" type="ui" subType="swi18n:inline-math"/>. In this case <ph id="c4" type="ui" subType="swi18n:inline-math"/> and <ph id="c5" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c6" type="ui" subType="swi18n:block-math"/>The solution follows as<ph id="c7" type="ui" subType="swi18n:block-math"/>And with this all support reactions have been determined.</pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">add/subtract like fractions with variables</pc>, like turning <ph id="c3" type="ui" subType="swi18n:inline-math"/> into <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes merging two fractions with equal denominator into one fraction, expanding any potential brackets in the numerator, and subsequently simplifying the numerator by merging similar terms. The skill does not include canceling fraction factors or merging fractions with different denominators.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">If we add two number fractions with equal denominator, such as <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we know how to do so: add up the numerators to get <ph id="c3" type="ui" subType="swi18n:inline-math"/>. But how does this work when variables are involved, like when calculating <ph id="c4" type="ui" subType="swi18n:inline-math"/>? The answer is: exactly the same. But there are a few things to pay attention to.</pc></source>
+				</segment>
+			</unit>
+			<unit id="rule">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Applying the rule</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We want to add/subtract two fractions with variables, like <ph id="c3" type="ui" subType="swi18n:block-math"/> Note that these two fractions have an equal denominator. As a result, they're called <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">like fractions</pc>. (When the two fractions are not like fractions, they are harder to add up. This will be discussed in a <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">follow-up skill</pc>. This current skill only deals with like fractions.)</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">To add/subtract two like fractions, the rule says to directly add/subtract the numerators, while keeping the denominator as it is. In general, it says that <ph id="c7" type="ui" subType="swi18n:block-math"/> When applying this rule, and especially when subtracting, brackets are crucial. After all, the two fractions from the example can also be written as <ph id="c8" type="ui" subType="swi18n:block-math"/> If we subsequently subtract the numerators, while keeping the same denominator, we get <ph id="c9" type="ui" subType="swi18n:block-math"/> According to the rule, this is what the two subtracted fractions are equal to. Note: the left set of brackets is not needed, but the brackets on the right are crucial. Without them the outcome would be something different.</pc></source>
+				</segment>
+			</unit>
+			<unit id="simplifying">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Simplifying the outcome</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The above result is still unnecessarily long and can be simplified. The first step is to <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand all brackets</pc> in the numerator. For the example, this results in <ph id="c4" type="ui" subType="swi18n:block-math"/> Note that minus times minus becomes plus.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Subsequently, it is often possible to <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merge similar terms</pc> together. Note that <ph id="c7" type="ui" subType="swi18n:inline-math"/> can be turned into <ph id="c8" type="ui" subType="swi18n:inline-math"/> and similarly <ph id="c9" type="ui" subType="swi18n:inline-math"/> can be turned into <ph id="c10" type="ui" subType="swi18n:inline-math"/>. So we can write <ph id="c11" type="ui" subType="swi18n:block-math"/> This cannot be simplified further, so we are done. Altogether, the final result can be written as <ph id="c12" type="ui" subType="swi18n:block-math"/> In some cases there are further simplifications that can be done, like <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">canceling fraction factors</pc>. For instance, if we for example would have gotten something like <ph id="c14" type="ui" subType="swi18n:inline-math"/> in the end, then a factor <ph id="c15" type="ui" subType="swi18n:inline-math"/> could have been canceled as well. However, for this skill these further simplifications are not required.</pc></source>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To add/subtract two like fractions with variables, like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Directly add/subtract the numerators, keeping the denominator as it is. Use brackets where necessary. For the example this gives <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Expand all brackets</pc> in the numerator. For the example we get <ph id="c11" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c13" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Merge similar terms</pc> in the numerator together to simplify it as much as possible. This reduces the example result to <ph id="c15" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="basicForm">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Write this as a single fraction and simplify the numerator as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Apply the rule for adding/subtracting fractions to write the expression as a single fraction. Use brackets where needed.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The two fractions have equal denominators. This means that, to add/subtract these fractions, we may directly add/substract the numerators, leaving the denominator as is. This results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all brackets in the numerator.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Using the default rules of expanding brackets, we wind up with <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the numerator as much as possible by merging similar terms together.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Merging all numbers together, and merging all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> together, we find <ph id="c2" type="ui" subType="swi18n:block-math"/> The numerator here is as simplified as possible. Altogether, the final result is <ph id="c3" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, this can still be simplified further, written as <ph id="c4" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">This cannot be simplified further.</pc></pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="squaresInNumerator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Write this as a single fraction and simplify the numerator as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Apply the rule for adding/subtracting fractions to write the expression as a single fraction. Use brackets where needed.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The two fractions have equal denominators. This means that, to add/subtract these fractions, we may directly add/substract the numerators, leaving the denominator as is. This results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all brackets in the numerator.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Using the default rules of expanding brackets, we wind up with <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the numerator as much as possible by merging similar terms together.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Merging all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> together, as well as all terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/>, we find <ph id="c3" type="ui" subType="swi18n:block-math"/> The numerator here is as simplified as possible. Altogether, the final result is <ph id="c4" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, this can still be simplified further, written as <ph id="c5" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">This cannot be simplified further.</pc></pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

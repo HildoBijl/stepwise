@@ -3,9 +3,10 @@
 import React, { useEffect, useRef } from 'react'
 
 import { hasPreviousInput } from '@step-wise/input-exercises'
+import { TranslationArea } from '@step-wise/i18n'
 
 import { useUserId } from 'api'
-import { TranslationSection, useTranslator, addSection } from 'i18n'
+import { useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
@@ -51,18 +52,18 @@ function MonoExerciseInner({ Problem, Solution }) {
 		<ProblemContainer activeProblem={true} problemStep={0} example={example} refresh={example && startNewExercise}>
 			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!state.done}>
 				<VerticalAdjuster>
-					<TranslationSection entry="problem">
+					<TranslationArea name="problem">
 						<Problem {...parameters} translate={addSection(translate, 'problem')} />
-					</TranslationSection>
+					</TranslationArea>
 				</VerticalAdjuster>
 			</FormPart>
 			<MainFeedback display={showMainFeedback} />
 			<ExerciseButtons />
 		</ProblemContainer>
 		<SolutionContainer problemStep={0} display={!!showSolution} initialExpand={initialExpandSolution}>
-			<TranslationSection entry="solution">
+			<TranslationArea name="solution">
 				<Solution {...parameters} {...solution} translate={addSection(translate, 'solution')} />
-			</TranslationSection>
+			</TranslationArea>
 		</SolutionContainer>
 		<ContinuationButtons />
 	</>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">cancel sum terms</pc>. For instance when seeing <ph id="c3" type="ui" subType="swi18n:inline-math"/> you should immediately realize that adding <ph id="c4" type="ui" subType="swi18n:inline-math"/> and later on subtracting <ph id="c5" type="ui" subType="swi18n:inline-math"/> has no effect. Both terms can therefore be removed from the summation, leaving <ph id="c6" type="ui" subType="swi18n:inline-math"/>. This skill only deals with canceling identical terms, and not with <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging similar terms</pc> like <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

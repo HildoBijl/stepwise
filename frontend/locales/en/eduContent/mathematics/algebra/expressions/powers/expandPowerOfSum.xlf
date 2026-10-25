@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">expand brackets for a power of a sum</pc>. If you see an expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/> you can turn this into <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes setting up the right format, taking <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">powers of each of the terms</pc>, looking up the right multiplication coefficients, and eventually <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying all individual terms</pc>. This skill only considers sums with two terms, not dealing with expansions like <ph id="c7" type="ui" subType="swi18n:inline-math"/> or similar. It also does not consider <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">negative powers</pc>.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Suppose that we encounter an expression like <ph id="c2" type="ui" subType="swi18n:inline-math"/>. We could once more <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">expand the brackets</pc> for this. Let's take a look at how it works.</pc></source>
+				</segment>
+			</unit>
+			<unit id="idea">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The round-about method</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">First we will examine the long method of expanding the brackets. We usually would not use this method in practice because we'll get very big expressions. We will still do so here anyway, just to show you what it entails. So bear with us. We will make it easier later.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">In this long method, we write the power out fully as<ph id="c4" type="ui" subType="swi18n:block-math"/>Next, we can start expanding brackets. First we expand the brackets on the left. This results in<ph id="c5" type="ui" subType="swi18n:block-math"/>We then expand the second set of brackets for each term. This results in<ph id="c6" type="ui" subType="swi18n:block-math"/>If we then also expand the last brackets everywhere, we get<ph id="c7" type="ui" subType="swi18n:block-math"/>Note that every possible combination of the factors <ph id="c8" type="ui" subType="swi18n:inline-math"/> and <ph id="c9" type="ui" subType="swi18n:inline-math"/> is in there. This means that the resulting expression is huge. Luckily, we can simplify it a lot.</pc><pc id="c10" type="ui" subType="swi18n:par" swi18n:slot="children">First we can simplify all individual terms to get<ph id="c11" type="ui" subType="swi18n:block-math"/>Now we see that some terms appear multiple times. Specifically, we have three times the term <ph id="c12" type="ui" subType="swi18n:inline-math"/> and three times the term <ph id="c13" type="ui" subType="swi18n:inline-math"/>. We can simplify this as well! This gives us the final result<ph id="c14" type="ui" subType="swi18n:block-math"/>It was a lot of work, but we got to the final result.</pc></source>
+				</segment>
+			</unit>
+			<unit id="visualization">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Making sense of the outcome</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The outcome may seem confusing and overly large. However, there is a reason why it is set up the way it is. To grasp this, it helps to visualize it. In geometry, a square or second power like <ph id="c3" type="ui" subType="swi18n:inline-math"/> calculates an area.</pc><ph id="c4" type="ui" subType="swi18n:square-visualization"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">The square <ph id="c6" type="ui" subType="swi18n:inline-math"/> represents the entire area, but we can also split it up into smaller areas. If we expand brackets, then we get the expression <ph id="c7" type="ui" subType="swi18n:inline-math"/>. Here every term represents a smaller area.</pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">We can do the same for a cube/third power like <ph id="c9" type="ui" subType="swi18n:inline-math"/> which represents a volume.</pc><ph id="c10" type="ui" subType="swi18n:cube-visualization"/><pc id="c11" type="ui" subType="swi18n:par" swi18n:slot="children">Here <ph id="c12" type="ui" subType="swi18n:inline-math"/> represents the full volume of the cube, but we can also split it up into smaller blocks. These blocks represent the individual terms in <ph id="c13" type="ui" subType="swi18n:inline-math"/>. Specifically, we have one large cube for <ph id="c14" type="ui" subType="swi18n:inline-math"/>, three square-like blocks for <ph id="c15" type="ui" subType="swi18n:inline-math"/>, three rectangular blocks for <ph id="c16" type="ui" subType="swi18n:inline-math"/>, and one small cube for <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+				</segment>
+			</unit>
+			<unit id="shortcut">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The short-cut</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The above method is a lot of work, and even more so when the exponent becomes bigger. So let's study a short-cut.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">First we want to find the terms that will appear in the final expansion. Effectively, these are the blocks from the above cube. These are<ph id="c4" type="ui" subType="swi18n:math-list"/>Note that we take a power of the first term <ph id="c5" type="ui" subType="swi18n:inline-math"/> and a power of the second term <ph id="c6" type="ui" subType="swi18n:inline-math"/>, making sure that both exponents add up to <ph id="c7" type="ui" subType="swi18n:inline-math"/> (the exponent we originally started off with), and subsequently multiply these two powers.</pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">Next, we want to determine how often each of these terms will appear in the final expansion. So effectively how often each block appears in the cube. For our example, the terms appeared respectively, one, three, three and one time(s). These numbers may seem familiar if you're familiar with Pascal's triangle. <pc id="c9" type="ui" subType="swi18n:term" swi18n:slot="children">Pascal's triangle</pc> is a triangle of numbers where every number is the sum of the two numbers diagonally above it.</pc><ph id="c10" type="ui" subType="swi18n:pascals-triangle"/><pc id="c11" type="ui" subType="swi18n:par" swi18n:slot="children">Note row number three. It is exactly the number of times that each of our terms appeared in the final result! So if we want to know how many times a certain term appears in the final result, we look up the row corresponding to the original exponent (for us <ph id="c12" type="ui" subType="swi18n:inline-math"/>) from Pascal's triangle.</pc><pc id="c13" type="ui" subType="swi18n:par" swi18n:slot="children">We use the numbers from Pascal's triangle as multiplication factors for each of our terms. If we do so for our example, we get the terms<ph id="c14" type="ui" subType="swi18n:math-list"/>Finally we add up all the resulting terms. This gives us the final result<ph id="c15" type="ui" subType="swi18n:block-math"/>So the key is to first calculate the terms that will appear in the final expansion, find out how often they occur using Pascal's triangle, and then assemble the final result accordingly. Especially when the power gets big, this method will save you a lot of work compared to the alternative of expanding every individual set of brackets.</pc></source>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To expand brackets for a power of a sum, like for instance with <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Find all terms that will appear in the final expansion by taking the two original terms, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">calculating their various powers</pc>, and multiplying the outcomes in the right way. That is, the two exponents of the two terms should always add up to the original exponent. For the example, we write down <ph id="c8" type="ui" subType="swi18n:inline-math"/>, <ph id="c9" type="ui" subType="swi18n:inline-math"/>, <ph id="c10" type="ui" subType="swi18n:inline-math"/> and <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Note that the exponents always add up to <ph id="c12" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c13" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:b" swi18n:slot="children">Look up the coefficients in Pascal's triangle, in the row whose number equals the original exponent. For the example, we look up row three to find the coefficients <ph id="c15" type="ui" subType="swi18n:inline-math"/>, <ph id="c16" type="ui" subType="swi18n:inline-math"/>, <ph id="c17" type="ui" subType="swi18n:inline-math"/> and <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c19" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c20" type="ui" subType="swi18n:c" swi18n:slot="children">Multiply each term by its respective coefficient and <pc id="c21" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify the results</pc>. In the example we get <ph id="c22" type="ui" subType="swi18n:inline-math"/>, <ph id="c23" type="ui" subType="swi18n:inline-math"/>, <ph id="c24" type="ui" subType="swi18n:inline-math"/> and <ph id="c25" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c26" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c27" type="ui" subType="swi18n:d" swi18n:slot="children">Add up all the terms to get the final result. So we get <ph id="c28" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+				</segment>
+			</unit>
+			<unit id="PascalsTriangleRow">
+				<segment>
+					<source>Row</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="basicForm">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Set up the terms that will appear in the final expansion. For this, take the two terms <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> from the original set of brackets, raise them to the right power, and multiply the outcomes with each other. Do this for all possible combinations of positive exponents that add up to <ph id="c3" type="ui" subType="swi18n:inline-math"/> (the original exponent).</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We set up all the terms and simplify them as much as possible. This gives <ph id="c1" type="ui" subType="swi18n:math-list"/> These are the terms that will appear in our final expansion.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Use Pascal's triangle to look up the multiplication coefficients for each of the terms.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By looking up row <ph id="c1" type="ui" subType="swi18n:inline-math"/> in Pascal's triangle, we can find the coefficients <ph id="c2" type="ui" subType="swi18n:word-list"/>, respectively.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Multiply each term with its respective coefficient, add everything up and simplify the outcome.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We take each of the terms, multiply them by their coefficient and add up all the results to obtain <ph id="c1" type="ui" subType="swi18n:block-math"/> Simplifying the number products at every term gives the final result, <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

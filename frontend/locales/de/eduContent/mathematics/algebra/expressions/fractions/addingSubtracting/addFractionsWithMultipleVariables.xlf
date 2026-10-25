@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">add/subtract fractions with multiple variables</pc>, like turning <ph id="c3" type="ui" subType="swi18n:inline-math"/> into <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplying both sides of a fraction by a factor</pc> to get an equal denominator and subsequently <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">adding together the two like fractions</pc>. You also learn the opposite: splitting the fraction again, like turning <ph id="c7" type="ui" subType="swi18n:inline-math"/> into <ph id="c8" type="ui" subType="swi18n:inline-math"/>. This includes <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">splitting into like fractions</pc> and subsequently <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying the resulting fractions</pc>. The skill does not include <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding brackets</pc> or dealing with <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">fractions inside of fractions</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="9840172b7135509b" swi18n:sourceStructureFingerprint="0255828eed691581"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Brüche mit mehreren Variablen zu addieren/subtrahieren</pc>, wie das Zusammenfügen von <ph id="c3" type="ui" subType="swi18n:inline-math"/> zu <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Dazu gehört das <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Multiplizieren beider Seiten eines Bruches mit einem Faktor</pc>, um einen gleichen Nenner zu erhalten, und die anschließende <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Addition der beiden gleichnamigen Brüche</pc>. Du lernst auch den umgekehrten Weg: den Bruch wieder aufzuteilen, also die Umwandlung von <ph id="c7" type="ui" subType="swi18n:inline-math"/> in <ph id="c8" type="ui" subType="swi18n:inline-math"/>. Dazu gehört das <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Zerlegen in gleichnamige Brüche</pc> und dann das <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Vereinfachen der entsprechenden Brüche</pc>. Die Kompetenz erfordert nicht das <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Auflösen von Klammern</pc> oder den Umgang mit <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Brüchen in Brüchen</pc>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">If we add two number fractions with unequal denominator, such as <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we know how to do so: ensure the denominators are equal by rewriting the fractions (giving <ph id="c3" type="ui" subType="swi18n:inline-math"/>) and then adding up the fractions to get <ph id="c4" type="ui" subType="swi18n:inline-math"/>. But how does this work when multiple variables are involved, like when rewriting <ph id="c5" type="ui" subType="swi18n:inline-math"/>? The answer is: exactly the same. But there are a few things to pay attention to.</pc></source>
+					<target swi18n:sourceContentFingerprint="18b71a9bd108b0b8" swi18n:sourceStructureFingerprint="56786bffe3c0e99d"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Wenn wir zwei Zahlenbrüche mit ungleichen Nennern addieren, wie <ph id="c2" type="ui" subType="swi18n:inline-math"/>, wissen wir, wie das geht: Wir machen die Nenner gleich, indem wir die Brüche anders schreiben (wie <ph id="c3" type="ui" subType="swi18n:inline-math"/>) und dann die Brüche addieren, um <ph id="c4" type="ui" subType="swi18n:inline-math"/> zu erhalten. Aber wie funktioniert das, wenn Variablen im Spiel sind, wie beim Umschreiben von <ph id="c5" type="ui" subType="swi18n:inline-math"/>? Die Antwort lautet: genau so. Aber es gibt ein paar Dinge zu beachten.</pc></target>
+				</segment>
+			</unit>
+			<unit id="adding">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Adding two fractions</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We want to add/subtract two <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">unlike fractions</pc> (fractions with unequal denominator), such as <ph id="c4" type="ui" subType="swi18n:block-math"/> We know how to <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add two like fractions</pc> (with equal denominators), but this time our fractions do not have equal denominators. To still be able to add these two fractions, we must force them to have the same denominator.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">The first step is to find the <pc id="c7" type="ui" subType="swi18n:term" swi18n:slot="children">least common multiple</pc> of the two denominators. Note that one denominator equals <ph id="c8" type="ui" subType="swi18n:inline-math"/> while the other denominator equals <ph id="c9" type="ui" subType="swi18n:inline-math"/>. Every factor that appears in one or both of these denominators also appears in the least common multiple, which then becomes <ph id="c10" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c11" type="ui" subType="swi18n:par" swi18n:slot="children">The second step is to adjust both fractions such that they have <ph id="c12" type="ui" subType="swi18n:inline-math"/> as denominator. This gives <ph id="c13" type="ui" subType="swi18n:block-math"/> Note that equality holds: we could even <pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">cancel factors</pc> again to get back to where we started.</pc><pc id="c15" type="ui" subType="swi18n:par" swi18n:slot="children">Now that we have two fractions with equal denominator, we can <pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add them up</pc> in the usual way. We merge the numerators together to get <ph id="c17" type="ui" subType="swi18n:block-math"/> We have written the two fractions as a single fraction.</pc></source>
+					<target swi18n:sourceContentFingerprint="3b91d1876817cff6" swi18n:sourceStructureFingerprint="23625ca24894f620"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Zwei Brüche addieren</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Wir wollen zwei <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">nicht ähnliche Brüche</pc> (Brüche mit ungleichem Nenner) addieren/subtrahieren, wie <ph id="c4" type="ui" subType="swi18n:block-math"/> Wir wissen, wie man zwei <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">ähnliche Brüche</pc> (mit gleichem Nenner) addiert, aber dieses Mal haben unsere Brüche nicht den gleichen Nenner. Um diese Brüche trotzdem addieren zu können, müssen wir zunächst sicherstellen, dass sie den gleichen Nenner haben.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">Der erste Schritt besteht darin, das <pc id="c7" type="ui" subType="swi18n:term" swi18n:slot="children">kleinste gemeinsame Vielfache</pc> der beiden Nenner zu finden. Beachte, dass der eine Nenner gleich <ph id="c8" type="ui" subType="swi18n:inline-math"/> ist, während der andere Nenner <ph id="c9" type="ui" subType="swi18n:inline-math"/> ist. Jeder Faktor, der in einem oder beiden Nennern vorkommt, ist auch im kleinsten gemeinsamen Vielfachen enthalten, das somit gleich <ph id="c10" type="ui" subType="swi18n:inline-math"/> ist.</pc><pc id="c11" type="ui" subType="swi18n:par" swi18n:slot="children">Der zweite Schritt besteht darin, beide Brüche so umzuschreiben, dass sie <ph id="c12" type="ui" subType="swi18n:inline-math"/> im Nenner haben. Das ergibt <ph id="c13" type="ui" subType="swi18n:block-math"/> Beachte, dass hier Gleichheit gilt: Wir können sogar <pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Faktoren wieder entfernen</pc>, um zum Ausgangspunkt zurückzukehren.</pc><pc id="c15" type="ui" subType="swi18n:par" swi18n:slot="children">Nun, da wir zwei Brüche mit gleichen Nennern haben, können wir sie auf die übliche Weise <pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">addieren</pc>. Wir addieren die Zähler zusammen und erhalten <ph id="c17" type="ui" subType="swi18n:block-math"/>Wir haben die beiden Brüche als einen einzigen Bruch geschrieben.</pc></target>
+				</segment>
+			</unit>
+			<unit id="splitting">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Splitting fractions</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We could also do the exact opposite of the above. Suppose that we have a fraction like <ph id="c3" type="ui" subType="swi18n:inline-math"/> with multiple terms in the numerator. How can we split it up into separate fractions?</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">The first step is to literally split them up, doing the exact opposite of <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">adding like fractions</pc>: each term from the numerator gets its own fraction, all having the same denominator. This gives <ph id="c6" type="ui" subType="swi18n:block-math"/> Next, we <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify the fractions</pc>, canceling factors as much as possible. This results in <ph id="c8" type="ui" subType="swi18n:block-math"/> This is what we originally started off with, showing that we have indeed done the exact opposite of merging the fractions together.</pc></source>
+					<target swi18n:sourceContentFingerprint="3e8cc40754fda98c" swi18n:sourceStructureFingerprint="a24542c5bcc9c800"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Brüche trennen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Wir können auch den umgekehrten Weg gehen. Nehmen wir an, wir haben einen Bruch wie <ph id="c3" type="ui" subType="swi18n:inline-math"/>, mit mehreren Termen im Zähler. Wie können wir ihn dann in einzelne Brüche zerlegen?</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Der erste Schritt besteht darin, ihn buchstäblich zu zerlegen, indem wir genau umgekehrt vorgehen, als wenn wir <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">gleichnamige Brüche addieren</pc>: Jeder Term des Zählers erhält also seinen eigenen Bruch, jeder mit demselben Nenner. Das ergibt <ph id="c6" type="ui" subType="swi18n:block-math"/> Als Nächstes <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereinfachen wir die Brüche</pc>, indem wir so viele Bruchfaktoren wie möglich eliminieren. So erhalten wir <ph id="c8" type="ui" subType="swi18n:block-math"/> Das ist das, womit wir ursprünglich begonnen haben, und zeigt, dass wir genau das Gegenteil getan haben, als Brüche zusammenzufügen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To add/subtract two fractions with multiple variables, like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Find the least common multiple of the two fraction denominators. For the example, this is <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children">Rewrite both fractions, <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">adding factors</pc>, to give both fractions this denominator. This turns the example into <ph id="c11" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c13" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Add the like fractions</pc> together in the usual way. For the example we get the final result <ph id="c15" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c16" type="ui" subType="swi18n:par" swi18n:slot="children">For the opposite, when splitting up a fraction like <ph id="c17" type="ui" subType="swi18n:inline-math"/>, the steps are similar.</pc><pc id="c18" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c19" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c20" type="ui" subType="swi18n:d" swi18n:slot="children"><pc id="c21" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Split the fraction into like fractions</pc>. This turns the example into <ph id="c22" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c23" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c24" type="ui" subType="swi18n:e" swi18n:slot="children"><pc id="c25" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Simplify the fractions</pc> as much as possible. For the example, the final result becomes <ph id="c26" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="fa9d45a44fb5d00a" swi18n:sourceStructureFingerprint="b796613428b32cb2"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Schritte</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Um zwei Brüche mit mehreren Variablen zu addieren/subtrahieren, wie <ph id="c3" type="ui" subType="swi18n:inline-math"/>, ist wie folgt vorzugehen.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Finde das kleinste gemeinsame Vielfache der Nenner der beiden Brüche. Im Beispiel ist dies <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children">Schreibe beide Brüche über <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Faktoren hinzufügen</pc> so um, dass sie beide diesen Nenner erhalten. Dies wandelt das Beispiel in <ph id="c11" type="ui" subType="swi18n:inline-math"/> um.</pc></pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c13" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Addiere die gleichnamigen Brüche</pc> auf die übliche Weise. Für das Beispiel erhalten wir so das Endergebnis <ph id="c15" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c16" type="ui" subType="swi18n:par" swi18n:slot="children">Für den umgekehrten Fall, dass ein Bruch als <ph id="c17" type="ui" subType="swi18n:inline-math"/> zerlegt wird, sind die Schritte ähnlich.</pc><pc id="c18" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c19" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c20" type="ui" subType="swi18n:d" swi18n:slot="children"><pc id="c21" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Zerlege den Bruch in gleichnamige Brüche</pc>. Dies wandelt das Beispiel in <ph id="c22" type="ui" subType="swi18n:inline-math"/> um.</pc></pc><pc id="c23" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c24" type="ui" subType="swi18n:e" swi18n:slot="children"><pc id="c25" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Vereinfache die Brüche</pc> so weit wie möglich. Im Beispiel wird das Endergebnis <ph id="c26" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="mergeFractionsNumberInDenominator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Write this as a single fraction and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="866ef7e9143963e0" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Ausdruck <ph id="c1" type="ui" subType="swi18n:block-math"/> Schreibe ihn als einzelnen Bruch und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Find the least common multiple of the two denominators <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="76b65d11aa835848" swi18n:sourceStructureFingerprint="98f3255e641e5524">Finde das kleinste gemeinsame Vielfache der beiden Nenner <ph id="c1" type="ui" subType="swi18n:inline-math"/> und <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Because of <ph id="c1" type="ui" subType="swi18n:inline-math"/> we need a factor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, and due to <ph id="c3" type="ui" subType="swi18n:inline-math"/> we need a factor <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Next to this, we also require a factor <ph id="c5" type="ui" subType="swi18n:inline-math"/>. After all, this is the least common multiple of <ph id="c6" type="ui" subType="swi18n:inline-math"/> and <ph id="c7" type="ui" subType="swi18n:inline-math"/>. In this way we find <ph id="c8" type="ui" subType="swi18n:block-math"/> This is the least common multiple of both <ph id="c9" type="ui" subType="swi18n:inline-math"/> and <ph id="c10" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="c1b24b7390a35610" swi18n:sourceStructureFingerprint="28a8de2fbed2a766">Wegen <ph id="c1" type="ui" subType="swi18n:inline-math"/> brauchen wir einen Faktor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, und wegen <ph id="c3" type="ui" subType="swi18n:inline-math"/> brauchen wir einen Faktor <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Außerdem benötigen wir noch einen Faktor <ph id="c5" type="ui" subType="swi18n:inline-math"/>. Dieser ist nämlich das kleinste gemeinsame Vielfache von <ph id="c6" type="ui" subType="swi18n:inline-math"/> und <ph id="c7" type="ui" subType="swi18n:inline-math"/>. Auf diese Weise finden wir <ph id="c8" type="ui" subType="swi18n:block-math"/> Dies ist das kleinste gemeinsame Vielfache von <ph id="c9" type="ui" subType="swi18n:inline-math"/> und <ph id="c10" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite both fractions so that they have <ph id="c1" type="ui" subType="swi18n:inline-math"/> as denominator.</source>
+							<target swi18n:sourceContentFingerprint="d144cf469c7b7d11" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Schreibe beide Brüche so um, dass sie <ph id="c1" type="ui" subType="swi18n:inline-math"/> als Nenner haben.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply the first fraction above and below by <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This gives <ph id="c2" type="ui" subType="swi18n:block-math"/> The second fraction is multiplied above and below by <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c4" type="ui" subType="swi18n:block-math"/> Both fractions now have <ph id="c5" type="ui" subType="swi18n:inline-math"/> as denominator.</source>
+							<target swi18n:sourceContentFingerprint="933d0fe8c97dc2f0" swi18n:sourceStructureFingerprint="cfb7a53230625a56">Wir multiplizieren den ersten Bruch oben und unten mit <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Das ergibt <ph id="c2" type="ui" subType="swi18n:block-math"/> Der zweite Bruch wird oben und unten mit <ph id="c3" type="ui" subType="swi18n:inline-math"/> multipliziert. Das Resultat ist <ph id="c4" type="ui" subType="swi18n:block-math"/> Beide Brüche haben nun <ph id="c5" type="ui" subType="swi18n:inline-math"/> im Nenner.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge the two rewritten fractions into a single fraction.</source>
+							<target swi18n:sourceContentFingerprint="99899c97084b968f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Füge die beiden umgeschriebenen Brüche zu einem einzigen Bruch zusammen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we put it all together, we find <ph id="c1" type="ui" subType="swi18n:block-math"/> This has merged the two fractions into a single fraction. Because we used the least common multiple in the denominator, no further simplifications are possible.</source>
+							<target swi18n:sourceContentFingerprint="b7669f76f40b24c2" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Wenn wir alles zusammenfügen, finden wir <ph id="c1" type="ui" subType="swi18n:block-math"/> Dies fasst die beiden Brüche zu einem einzigen Bruch zusammen. Da wir das kleinste gemeinsame Vielfache als Nenner verwendet haben, sind keine weiteren Vereinfachungen möglich.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="mergeFractionsSquareAppearing">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Write this as a single fraction and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="866ef7e9143963e0" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Ausdruck <ph id="c1" type="ui" subType="swi18n:block-math"/> Schreibe ihn als einzelnen Bruch und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Find the least common multiple of the two denominators <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="76b65d11aa835848" swi18n:sourceStructureFingerprint="98f3255e641e5524">Finde das kleinste gemeinsame Vielfache der beiden Nenner <ph id="c1" type="ui" subType="swi18n:inline-math"/> und <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The denominators <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> do not have any common factors. We can hence multiply them to get their (smallest possible) common multiple. This gives <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="c169cfaf324ddbf9" swi18n:sourceStructureFingerprint="48a11a365f442e35">Die Nenner <ph id="c1" type="ui" subType="swi18n:inline-math"/> und <ph id="c2" type="ui" subType="swi18n:inline-math"/> haben keine gemeinsamen Faktoren. Wir können sie also miteinander multiplizieren, um ihr (kleinstmögliches) gemeinsames Vielfaches zu finden. Das ergibt <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite both fractions so that they have <ph id="c1" type="ui" subType="swi18n:inline-math"/> as denominator.</source>
+							<target swi18n:sourceContentFingerprint="d144cf469c7b7d11" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Schreibe beide Brüche so um, dass sie <ph id="c1" type="ui" subType="swi18n:inline-math"/> als Nenner haben.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply the first fraction above and below by <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This gives <ph id="c2" type="ui" subType="swi18n:block-math"/> The second fraction is multiplied above and below by <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c4" type="ui" subType="swi18n:block-math"/> Both fractions now have <ph id="c5" type="ui" subType="swi18n:inline-math"/> as denominator.</source>
+							<target swi18n:sourceContentFingerprint="933d0fe8c97dc2f0" swi18n:sourceStructureFingerprint="cfb7a53230625a56">Wir multiplizieren den ersten Bruch oben und unten mit <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Das ergibt <ph id="c2" type="ui" subType="swi18n:block-math"/> Der zweite Bruch wird oben und unten mit <ph id="c3" type="ui" subType="swi18n:inline-math"/> multipliziert. Das Resultat ist <ph id="c4" type="ui" subType="swi18n:block-math"/> Beide Brüche haben nun <ph id="c5" type="ui" subType="swi18n:inline-math"/> im Nenner.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge the two rewritten fractions into a single fraction.</source>
+							<target swi18n:sourceContentFingerprint="99899c97084b968f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Füge die beiden umgeschriebenen Brüche zu einem einzigen Bruch zusammen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we put it all together, we find <ph id="c1" type="ui" subType="swi18n:block-math"/> This has merged the two fractions into a single fraction. Because we used the least common multiple in the denominator, no further simplifications are possible.</source>
+							<target swi18n:sourceContentFingerprint="b7669f76f40b24c2" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Wenn wir alles zusammenfügen, finden wir <ph id="c1" type="ui" subType="swi18n:block-math"/> Dies fasst die beiden Brüche zu einem einzigen Bruch zusammen. Da wir das kleinste gemeinsame Vielfache als Nenner verwendet haben, sind keine weiteren Vereinfachungen möglich.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="mergeFractionsVariableDenominator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Write this as a single fraction and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="866ef7e9143963e0" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Ausdruck <ph id="c1" type="ui" subType="swi18n:block-math"/> Schreibe ihn als einzelnen Bruch und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Find the least common multiple of the two denominators <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="76b65d11aa835848" swi18n:sourceStructureFingerprint="98f3255e641e5524">Finde das kleinste gemeinsame Vielfache der beiden Nenner <ph id="c1" type="ui" subType="swi18n:inline-math"/> und <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Because of <ph id="c1" type="ui" subType="swi18n:inline-math"/> we need the factors <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Due to <ph id="c4" type="ui" subType="swi18n:inline-math"/> we also require the factors <ph id="c5" type="ui" subType="swi18n:inline-math"/> and <ph id="c6" type="ui" subType="swi18n:inline-math"/>. All together, we hence need the factors <ph id="c7" type="ui" subType="swi18n:inline-math"/>, <ph id="c8" type="ui" subType="swi18n:inline-math"/> and <ph id="c9" type="ui" subType="swi18n:inline-math"/>. This gives the multiple <ph id="c10" type="ui" subType="swi18n:block-math"/>. This is the least common multiple of both <ph id="c11" type="ui" subType="swi18n:inline-math"/> and <ph id="c12" type="ui" subType="swi18n:inline-math"/>. The factor <ph id="c13" type="ui" subType="swi18n:inline-math"/> should <pc id="c14" type="ui" subType="swi18n:strong" swi18n:slot="children">not</pc> be present twice.</source>
+							<target swi18n:sourceContentFingerprint="59ec51cd87f6dde0" swi18n:sourceStructureFingerprint="1d5e6f14849e6435">Wegen <ph id="c1" type="ui" subType="swi18n:inline-math"/> brauchen wir die Faktoren <ph id="c2" type="ui" subType="swi18n:inline-math"/> und <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Und wegen <ph id="c4" type="ui" subType="swi18n:inline-math"/> brauchen wir auch die Faktoren <ph id="c5" type="ui" subType="swi18n:inline-math"/> und <ph id="c6" type="ui" subType="swi18n:inline-math"/>. Insgesamt brauchen wir also die Faktoren <ph id="c7" type="ui" subType="swi18n:inline-math"/>, <ph id="c8" type="ui" subType="swi18n:inline-math"/> und <ph id="c9" type="ui" subType="swi18n:inline-math"/>. Das ergibt das Vielfache <ph id="c10" type="ui" subType="swi18n:block-math"/> Dies ist das kleinste gemeinsame Vielfache von sowohl <ph id="c11" type="ui" subType="swi18n:inline-math"/> als auch <ph id="c12" type="ui" subType="swi18n:inline-math"/>. Hier sollte der Faktor <ph id="c13" type="ui" subType="swi18n:inline-math"/> <pc id="c14" type="ui" subType="swi18n:strong" swi18n:slot="children">nicht</pc> doppelt vorhanden sein.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite both fractions so that they have <ph id="c1" type="ui" subType="swi18n:inline-math"/> as denominator.</source>
+							<target swi18n:sourceContentFingerprint="d144cf469c7b7d11" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Schreibe beide Brüche so um, dass sie <ph id="c1" type="ui" subType="swi18n:inline-math"/> als Nenner haben.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply the first fraction above and below by <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This gives <ph id="c2" type="ui" subType="swi18n:block-math"/> The second fraction is multiplied above and below by <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c4" type="ui" subType="swi18n:block-math"/> Both fractions now have <ph id="c5" type="ui" subType="swi18n:inline-math"/> as denominator.</source>
+							<target swi18n:sourceContentFingerprint="933d0fe8c97dc2f0" swi18n:sourceStructureFingerprint="cfb7a53230625a56">Wir multiplizieren den ersten Bruch oben und unten mit <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Das ergibt <ph id="c2" type="ui" subType="swi18n:block-math"/> Der zweite Bruch wird oben und unten mit <ph id="c3" type="ui" subType="swi18n:inline-math"/> multipliziert. Das Resultat ist <ph id="c4" type="ui" subType="swi18n:block-math"/> Beide Brüche haben nun <ph id="c5" type="ui" subType="swi18n:inline-math"/> im Nenner.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge the two rewritten fractions into a single fraction.</source>
+							<target swi18n:sourceContentFingerprint="99899c97084b968f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Füge die beiden umgeschriebenen Brüche zu einem einzigen Bruch zusammen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we put it all together, we find <ph id="c1" type="ui" subType="swi18n:block-math"/> This has merged the two fractions into a single fraction. Because we used the least common multiple in the denominator, no further simplifications are possible.</source>
+							<target swi18n:sourceContentFingerprint="b7669f76f40b24c2" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Wenn wir alles zusammenfügen, finden wir <ph id="c1" type="ui" subType="swi18n:block-math"/> Dies fasst die beiden Brüche zu einem einzigen Bruch zusammen. Da wir das kleinste gemeinsame Vielfache als Nenner verwendet haben, sind keine weiteren Vereinfachungen möglich.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="splitFractionsNumberInDenominator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Split this fraction into separate fractions, each without any addition/subtraction inside of them. Simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="73ff95ae8eb146a8" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Ausdruck <ph id="c1" type="ui" subType="swi18n:block-math"/> Zerlege diesen Bruch in zwei separate Brüche, die jeweils keine Addition/Subtraktion enthalten. Vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Split the fraction up into two fractions with a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> sign in-between. (Don't apply any further simplifications.)</source>
+							<target swi18n:sourceContentFingerprint="44f272398795042e" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Zerlege den Bruch in zwei separate Brüche mit einem <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">Minus</pc></pc>zeichen. (Wende noch keine weiteren Vereinfachungen an.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When splitting up a fraction, the denominator (below) remains the same for both fractions. Only the numerator (above) will be split. This idea gives us <ph id="c1" type="ui" subType="swi18n:block-math"/> This has split up the fraction into two fractions that can still be simplified further.</source>
+							<target swi18n:sourceContentFingerprint="ab6c2767713f9703" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Wenn wir einen Bruch zerlegen, bleibt der Nenner (der untere Teil) bei beiden Brüchen derselbe. Nur der Zähler (der obere Teil) wird getrennt. So finden wir <ph id="c1" type="ui" subType="swi18n:block-math"/> Dies teilt den Bruch in zwei Brüche, die wir noch weiter vereinfachen können.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify both fractions as much as possible. Cancel out any factors appearing in both the numerator and the denominator.</source>
+							<target swi18n:sourceContentFingerprint="a445c5ac1946bc0c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereinfache beide Brüche so weit wie möglich. Entferne dazu die Faktoren, die sowohl im Zähler als auch im Nenner vorkommen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>At the first fraction we can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c2" type="ui" subType="swi18n:block-math"/> For the second fraction we cancel out <ph id="c3" type="ui" subType="swi18n:inline-math"/> to find <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="f73cffce45855e00" swi18n:sourceStructureFingerprint="c57c59fd097cdcbd">Für den ersten Bruch können wir <ph id="c1" type="ui" subType="swi18n:inline-math"/> wegdividieren. So finden wir <ph id="c2" type="ui" subType="swi18n:block-math"/> Für den zweiten Bruch teilen wir <ph id="c3" type="ui" subType="swi18n:inline-math"/> weg, um zu erhalten dass <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Write the two simplified fractions together in one expression, with once more a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> sign in-between.</source>
+							<target swi18n:sourceContentFingerprint="af1951e065debefc" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Schreibe die beiden vereinfachten Brüche zusammen in einen Ausdruck, wiederum mit einem <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">Minus</pc></pc>zeichen dazwischen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The final result of the two fractions is <ph id="c1" type="ui" subType="swi18n:block-math"/> These fractions are as simplified as we can possibly write them.</source>
+							<target swi18n:sourceContentFingerprint="c47e35505e7b50c5" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Das Endergebnis der beiden Brüche zusammen ist <ph id="c1" type="ui" subType="swi18n:block-math"/> Diese Brüche sind so vereinfacht, wie wir diese Brüche schreiben können.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="splitFractionsSquareAppearing">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Split this fraction into separate fractions, each without any addition/subtraction inside of them. Simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="73ff95ae8eb146a8" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Ausdruck <ph id="c1" type="ui" subType="swi18n:block-math"/> Zerlege diesen Bruch in zwei separate Brüche, die jeweils keine Addition/Subtraktion enthalten. Vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Split the fraction up into two fractions with a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> sign in-between. (Don't apply any further simplifications.)</source>
+							<target swi18n:sourceContentFingerprint="44f272398795042e" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Zerlege den Bruch in zwei separate Brüche mit einem <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">Minus</pc></pc>zeichen. (Wende noch keine weiteren Vereinfachungen an.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When splitting up a fraction, the denominator (below) remains the same for both fractions. Only the numerator (above) will be split. This idea gives us <ph id="c1" type="ui" subType="swi18n:block-math"/> This has split up the fraction into two fractions that can still be simplified further.</source>
+							<target swi18n:sourceContentFingerprint="ab6c2767713f9703" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Wenn wir einen Bruch zerlegen, bleibt der Nenner (der untere Teil) bei beiden Brüchen derselbe. Nur der Zähler (der obere Teil) wird getrennt. So finden wir <ph id="c1" type="ui" subType="swi18n:block-math"/> Dies teilt den Bruch in zwei Brüche, die wir noch weiter vereinfachen können.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify both fractions as much as possible. Cancel out any factors appearing in both the numerator and the denominator.</source>
+							<target swi18n:sourceContentFingerprint="a445c5ac1946bc0c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereinfache beide Brüche so weit wie möglich. Entferne dazu die Faktoren, die sowohl im Zähler als auch im Nenner vorkommen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>At the first fraction we can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c2" type="ui" subType="swi18n:block-math"/> For the second fraction we cancel out <ph id="c3" type="ui" subType="swi18n:inline-math"/> to find <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="f73cffce45855e00" swi18n:sourceStructureFingerprint="c57c59fd097cdcbd">Für den ersten Bruch können wir <ph id="c1" type="ui" subType="swi18n:inline-math"/> wegdividieren. So finden wir <ph id="c2" type="ui" subType="swi18n:block-math"/> Für den zweiten Bruch teilen wir <ph id="c3" type="ui" subType="swi18n:inline-math"/> weg, um zu erhalten dass <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Write the two simplified fractions together in one expression, with once more a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> sign in-between.</source>
+							<target swi18n:sourceContentFingerprint="af1951e065debefc" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Schreibe die beiden vereinfachten Brüche zusammen in einen Ausdruck, wiederum mit einem <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">Minus</pc></pc>zeichen dazwischen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The final result of the two fractions is <ph id="c1" type="ui" subType="swi18n:block-math"/> These fractions are as simplified as we can possibly write them.</source>
+							<target swi18n:sourceContentFingerprint="c47e35505e7b50c5" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Das Endergebnis der beiden Brüche zusammen ist <ph id="c1" type="ui" subType="swi18n:block-math"/> Diese Brüche sind so vereinfacht, wie wir diese Brüche schreiben können.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="splitFractionsVariableDenominator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Split this fraction into separate fractions, each without any addition/subtraction inside of them. Simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="73ff95ae8eb146a8" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Ausdruck <ph id="c1" type="ui" subType="swi18n:block-math"/> Zerlege diesen Bruch in zwei separate Brüche, die jeweils keine Addition/Subtraktion enthalten. Vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Split the fraction up into two fractions with a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> sign in-between. (Don't apply any further simplifications.)</source>
+							<target swi18n:sourceContentFingerprint="44f272398795042e" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Zerlege den Bruch in zwei separate Brüche mit einem <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">Minus</pc></pc>zeichen. (Wende noch keine weiteren Vereinfachungen an.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When splitting up a fraction, the denominator (below) remains the same for both fractions. Only the numerator (above) will be split. This idea gives us <ph id="c1" type="ui" subType="swi18n:block-math"/> This has split up the fraction into two fractions that can still be simplified further.</source>
+							<target swi18n:sourceContentFingerprint="ab6c2767713f9703" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Wenn wir einen Bruch zerlegen, bleibt der Nenner (der untere Teil) bei beiden Brüchen derselbe. Nur der Zähler (der obere Teil) wird getrennt. So finden wir <ph id="c1" type="ui" subType="swi18n:block-math"/> Dies teilt den Bruch in zwei Brüche, die wir noch weiter vereinfachen können.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify both fractions as much as possible. Cancel out any factors appearing in both the numerator and the denominator.</source>
+							<target swi18n:sourceContentFingerprint="a445c5ac1946bc0c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereinfache beide Brüche so weit wie möglich. Entferne dazu die Faktoren, die sowohl im Zähler als auch im Nenner vorkommen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>At the first fraction we can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c2" type="ui" subType="swi18n:block-math"/> For the second fraction we cancel out <ph id="c3" type="ui" subType="swi18n:inline-math"/> to find <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="f73cffce45855e00" swi18n:sourceStructureFingerprint="c57c59fd097cdcbd">Für den ersten Bruch können wir <ph id="c1" type="ui" subType="swi18n:inline-math"/> wegdividieren. So finden wir <ph id="c2" type="ui" subType="swi18n:block-math"/> Für den zweiten Bruch teilen wir <ph id="c3" type="ui" subType="swi18n:inline-math"/> weg, um zu erhalten dass <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Write the two simplified fractions together in one expression, with once more a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> sign in-between.</source>
+							<target swi18n:sourceContentFingerprint="af1951e065debefc" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Schreibe die beiden vereinfachten Brüche zusammen in einen Ausdruck, wiederum mit einem <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">Minus</pc></pc>zeichen dazwischen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The final result of the two fractions is <ph id="c1" type="ui" subType="swi18n:block-math"/> These fractions are as simplified as we can possibly write them.</source>
+							<target swi18n:sourceContentFingerprint="c47e35505e7b50c5" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Das Endergebnis der beiden Brüche zusammen ist <ph id="c1" type="ui" subType="swi18n:block-math"/> Diese Brüche sind so vereinfacht, wie wir diese Brüche schreiben können.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="leastCommonMultiple">
+					<segment>
+						<source>Least common multiple</source>
+						<target swi18n:sourceContentFingerprint="cf3c4ad19234d7f6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kleinste gemeinsame Vielfache</target>
+					</segment>
+				</unit>
+				<unit id="denominatorEquivalent">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Technically correct, but you can still simplify this.</pc></source>
+						<target swi18n:sourceContentFingerprint="616b0ebfbc7c2d6c" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Technisch korrekt, aber du kannst es noch einfacher schreiben.</pc></target>
+					</segment>
+				</unit>
+				<unit id="denominatorNotSmallestMultiple">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">This is indeed a multiple of both denominators, but it is not the <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">smallest</pc> common multiple.</pc></source>
+						<target swi18n:sourceContentFingerprint="e305a0c390e43dc5" swi18n:sourceStructureFingerprint="01706d2c9df487ac"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Dies ist zwar ein Vielfaches der beiden Nenner, aber nicht das <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">kleinste</pc> gemeinsame Vielfache.</pc></target>
+					</segment>
+				</unit>
+				<unit id="denominatorWrongFactor">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You've got the variables correct, but something is wrong with the number that you entered.</pc></source>
+						<target swi18n:sourceContentFingerprint="8e48281117817e1d" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Die Variablen sind korrekt, aber mit der eingegebenen Zahl stimmt etwas nicht.</pc></target>
+					</segment>
+				</unit>
+				<unit id="denominatorMissingDependency">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">I can't find any <ph id="c2" type="ui" subType="swi18n:inline-math"/> in your answer. This variable was expected somewhere.</pc></source>
+						<target swi18n:sourceContentFingerprint="5d763f763a87e0f8" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Deine Antwort enthält überhaupt kein <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Diese Variable wurde aber irgendwo erwartet.</pc></target>
+					</segment>
+				</unit>
+				<unit id="wrongDenominator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your fraction doesn't have the desired denominator <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						<target swi18n:sourceContentFingerprint="f57e17dac71d6c6d" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Dein Bruch hat nicht den vorgesehenen Nenner <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+					</segment>
+				</unit>
+				<unit id="wrongNumerator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The denominator is correct, but something is off in the numerator of your fraction.</pc></source>
+						<target swi18n:sourceContentFingerprint="eebd5f348d48f23f" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Der Nenner ist richtig, aber im Zähler deines Bruchs stimmt etwas nicht.</pc></target>
+					</segment>
+				</unit>
+				<unit id="nonSimplifiedNumerator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You can still simplify the numerator of your fraction.</pc></source>
+						<target swi18n:sourceContentFingerprint="b92d013e1cfa10ad" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Du kannst den Zähler deines Bruchs noch einfacher schreiben.</pc></target>
+					</segment>
+				</unit>
+				<unit id="correctFraction">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The fraction is correct, but you can still simplify it further.</pc></source>
+						<target swi18n:sourceContentFingerprint="45b55a1647687fc8" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Der Bruch ist richtig, aber man kann ihn noch einfacher schreiben.</pc></target>
+					</segment>
+				</unit>
+				<unit id="ansEquivalent">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">This is correct, but it can be written simpler.</pc></source>
+						<target swi18n:sourceContentFingerprint="9c26373f8be01bf9" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Das ist richtig, aber man kann es noch einfacher schreiben.</pc></target>
+					</segment>
+				</unit>
+				<unit id="denominatorCorrect">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The denominator is correct, but something is off in the numerator of your fraction.</pc></source>
+						<target swi18n:sourceContentFingerprint="eebd5f348d48f23f" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Der Nenner ist richtig, aber im Zähler deines Bruchs stimmt etwas nicht.</pc></target>
+					</segment>
+				</unit>
+				<unit id="nonSimplifiedFirstTerm">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The first term of your answer can be simplified further.</pc></source>
+						<target swi18n:sourceContentFingerprint="9b522a3ce1578ae1" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Der erste Term deiner Antwort kann weiter vereinfacht werden.</pc></target>
+					</segment>
+				</unit>
+				<unit id="nonSimplifiedSecondTerm">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The second term of your answer can be simplified further.</pc></source>
+						<target swi18n:sourceContentFingerprint="3a70523a15f6d5fb" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Der zweite Term deiner Antwort kann weiter vereinfacht werden.</pc></target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

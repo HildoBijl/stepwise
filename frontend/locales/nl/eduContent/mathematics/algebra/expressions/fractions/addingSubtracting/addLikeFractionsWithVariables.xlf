@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">add/subtract like fractions with variables</pc>, like turning <ph id="c3" type="ui" subType="swi18n:inline-math"/> into <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes merging two fractions with equal denominator into one fraction, expanding any potential brackets in the numerator, and subsequently simplifying the numerator by merging similar terms. The skill does not include canceling fraction factors or merging fractions with different denominators.</pc></source>
+					<target swi18n:sourceContentFingerprint="3bd748a134f5addc" swi18n:sourceStructureFingerprint="91bc01122207a0f1"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">gelijknamige breuken met variabelen op te tellen/af te trekken</pc>, zoals het omzetten van <ph id="c3" type="ui" subType="swi18n:inline-math"/> in <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Dit omvat het samenvoegen van twee breuken met gelijke noemer tot een enkele breuk, het uitwerken van eventuele haakjes in de teller, en het hieropvolgend vereenvoudigen van deze teller door soortgelijke termen samen te voegen. Deze vaardigheid gaat niet over het wegstrepen van breukfactoren of het samenvoegen van breuken met verschillende noemers.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">If we add two number fractions with equal denominator, such as <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we know how to do so: add up the numerators to get <ph id="c3" type="ui" subType="swi18n:inline-math"/>. But how does this work when variables are involved, like when calculating <ph id="c4" type="ui" subType="swi18n:inline-math"/>? The answer is: exactly the same. But there are a few things to pay attention to.</pc></source>
+					<target swi18n:sourceContentFingerprint="23499dba3985de43" swi18n:sourceStructureFingerprint="26a55d7c8ddf1857"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Als we twee getalbreuken met gelijke noemer optellen, zoals <ph id="c2" type="ui" subType="swi18n:inline-math"/>, dan weten we hoe dit moet: we tellen de tellers op en krijgen zo <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Maar hoe werkt dit als er variabelen bij komen kijken, zoals bij <ph id="c4" type="ui" subType="swi18n:inline-math"/>? Het antwoord is: precies hetzelfde. Maar er zijn een paar dingen om rekening mee te houden.</pc></target>
+				</segment>
+			</unit>
+			<unit id="rule">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Applying the rule</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We want to add/subtract two fractions with variables, like <ph id="c3" type="ui" subType="swi18n:block-math"/> Note that these two fractions have an equal denominator. As a result, they're called <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">like fractions</pc>. (When the two fractions are not like fractions, they are harder to add up. This will be discussed in a <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">follow-up skill</pc>. This current skill only deals with like fractions.)</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">To add/subtract two like fractions, the rule says to directly add/subtract the numerators, while keeping the denominator as it is. In general, it says that <ph id="c7" type="ui" subType="swi18n:block-math"/> When applying this rule, and especially when subtracting, brackets are crucial. After all, the two fractions from the example can also be written as <ph id="c8" type="ui" subType="swi18n:block-math"/> If we subsequently subtract the numerators, while keeping the same denominator, we get <ph id="c9" type="ui" subType="swi18n:block-math"/> According to the rule, this is what the two subtracted fractions are equal to. Note: the left set of brackets is not needed, but the brackets on the right are crucial. Without them the outcome would be something different.</pc></source>
+					<target swi18n:sourceContentFingerprint="2adc3b909855af3b" swi18n:sourceStructureFingerprint="feaae242e32afe08"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De regel toepassen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We willen twee breuken met variabelen optellen/aftrekken, zoals <ph id="c3" type="ui" subType="swi18n:block-math"/> Merk op dat deze twee breuken een gelijke noemer hebben. We noemen ze hierdoor <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">gelijknamige breuken</pc>. (Als de twee breuken niet gelijknamig zijn, dan zijn ze ingewikkelder om op te tellen. Dit wordt besproken in een <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vervolgvaardigheid</pc>. Deze huidige vaardigheid gaat alleen over gelijknamige breuken.)</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">Om twee gelijknamige breuken op te tellen/af te trekken, zegt de regel dat je diret de twee tellers op moet tellen/af moet trekken, waarbij je de noemer houdt zoals hij is. In het algemeen zegt de regel dat <ph id="c7" type="ui" subType="swi18n:block-math"/> Bij het toepassen van deze regel, en vooral bij het aftrekken, zijn haakjes cruciaal. Immers geldt dat de twee breuken uit het voorbeeld ook geschreven kunnen worden als <ph id="c8" type="ui" subType="swi18n:block-math"/> Als we vervolgens de tellers aftrekken, waarbij we de gelijke noemer houden, dan krijgen we <ph id="c9" type="ui" subType="swi18n:block-math"/> Volgens de regel is dat wat de twee afgetrokken breuken samen gelijk aan zijn. Merk op: de linker set haakjes is niet nodig, maar de haakjes rechts zijn cruciaal. Zonder deze haakjes zou de uitkomst iets heel anders zijn.</pc></target>
+				</segment>
+			</unit>
+			<unit id="simplifying">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Simplifying the outcome</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The above result is still unnecessarily long and can be simplified. The first step is to <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand all brackets</pc> in the numerator. For the example, this results in <ph id="c4" type="ui" subType="swi18n:block-math"/> Note that minus times minus becomes plus.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Subsequently, it is often possible to <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merge similar terms</pc> together. Note that <ph id="c7" type="ui" subType="swi18n:inline-math"/> can be turned into <ph id="c8" type="ui" subType="swi18n:inline-math"/> and similarly <ph id="c9" type="ui" subType="swi18n:inline-math"/> can be turned into <ph id="c10" type="ui" subType="swi18n:inline-math"/>. So we can write <ph id="c11" type="ui" subType="swi18n:block-math"/> This cannot be simplified further, so we are done. Altogether, the final result can be written as <ph id="c12" type="ui" subType="swi18n:block-math"/> In some cases there are further simplifications that can be done, like <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">canceling fraction factors</pc>. For instance, if we for example would have gotten something like <ph id="c14" type="ui" subType="swi18n:inline-math"/> in the end, then a factor <ph id="c15" type="ui" subType="swi18n:inline-math"/> could have been canceled as well. However, for this skill these further simplifications are not required.</pc></source>
+					<target swi18n:sourceContentFingerprint="5d68dc087642e785" swi18n:sourceStructureFingerprint="ff98a63ecb06f12c"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De uitkomst vereenvoudigen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">De bovenstaande uitkomst is nog onnodig lang en kan vereenvoudigd worden. De eerste stap is het <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">uitwerken van alle haakjes</pc> in de teller. Bij het voorbeeld komt dit uit op <ph id="c4" type="ui" subType="swi18n:block-math"/> Merk op dat min keer min een plus wordt.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Hierna is het vaak mogelijk om <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">soortgelijke termen samen te voegen</pc>. Merk op dat <ph id="c7" type="ui" subType="swi18n:inline-math"/> in <ph id="c8" type="ui" subType="swi18n:inline-math"/> omgezet kan worden, en soortgelijk kan <ph id="c9" type="ui" subType="swi18n:inline-math"/> vereenvoudigd worden tot <ph id="c10" type="ui" subType="swi18n:inline-math"/>. Dus kunnen we schrijven dat <ph id="c11" type="ui" subType="swi18n:block-math"/> Dit kan niet verder vereenvoudigd worden, en dus zijn we klaar. Alles bij elkaar kan het eindresultaat geschreven worden als <ph id="c12" type="ui" subType="swi18n:block-math"/> In sommige gevallen zijn er nog verdere vereenvoudigingen die gedaan kunnen worden, zoals het <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">wegstrepen van breukfactoren</pc>. Als we bijvoorbeeld op het einde als uitkomst iets als <ph id="c14" type="ui" subType="swi18n:inline-math"/> gehad zouden hebben, dan had ook nog een factor <ph id="c15" type="ui" subType="swi18n:inline-math"/> weggedeeld kunnen worden. Voor deze vaardigheid is dit laatste echter niet vereist.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To add/subtract two like fractions with variables, like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Directly add/subtract the numerators, keeping the denominator as it is. Use brackets where necessary. For the example this gives <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Expand all brackets</pc> in the numerator. For the example we get <ph id="c11" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c13" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Merge similar terms</pc> in the numerator together to simplify it as much as possible. This reduces the example result to <ph id="c15" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="73f8bc18c421e872" swi18n:sourceStructureFingerprint="cb866342e2e126c8"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De stappen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om twee gelijknamige breuken zoals <ph id="c3" type="ui" subType="swi18n:inline-math"/> op te tellen/af te trekken, neem je de volgende stappen.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Tel direct de tellers op/trek ze van elkaar af, waarbij je de noemer laat staan zoals hij is. Gebruik haakjes waar nodig. Bij het voorbeeld geeft dit <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Werk alle haakjes uit</pc> in de teller. Bij het voorbeeld krijgen we <ph id="c11" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c13" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Voeg soortgelijke termen samen</pc> in de teller en vereenvoudig het zo veel als mogelijk. Dit brengt het resultaat van het voorbeeld terug tot <ph id="c15" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="basicForm">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Write this as a single fraction and simplify the numerator as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="41beb9b8fbbb09a0" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de uitdrukking <ph id="c1" type="ui" subType="swi18n:block-math"/> Schrijf dit als een enkele breuk en vereenvoudig de teller zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Apply the rule for adding/subtracting fractions to write the expression as a single fraction. Use brackets where needed.</source>
+							<target swi18n:sourceContentFingerprint="0153721613baf297" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Pas de regel voor het optellen/aftrekken van breuken toe om de uitdrukking als enkele breuk te schrijven. Gebruik haakjes waar nodig.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The two fractions have equal denominators. This means that, to add/subtract these fractions, we may directly add/substract the numerators, leaving the denominator as is. This results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="ec722a34c8e6ba9d" swi18n:sourceStructureFingerprint="ff571f3f8743b299">De twee breuken hebben gelijke noemers. Dit betekent dat, om deze breuken op te tellen/af te trekken, we direct de tellers kunnen optellen/aftrekken, en de noemer kunnen laten staan. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all brackets in the numerator.</source>
+							<target swi18n:sourceContentFingerprint="d7350a922243146d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Werk alle haakjes in de teller uit.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Using the default rules of expanding brackets, we wind up with <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="527803ff1377beed" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Via de standaard regels van het uitwerken van haakjes komen we uit op <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the numerator as much as possible by merging similar terms together.</source>
+							<target swi18n:sourceContentFingerprint="6c3005dd2c15d4a1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig de teller zo veel als mogelijk door soortgelijke termen samen te voegen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Merging all numbers together, and merging all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> together, we find <ph id="c2" type="ui" subType="swi18n:block-math"/> The numerator here is as simplified as possible. Altogether, the final result is <ph id="c3" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, this can still be simplified further, written as <ph id="c4" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">This cannot be simplified further.</pc></pc></source>
+							<target swi18n:sourceContentFingerprint="4eaa72db0ad27d71" swi18n:sourceStructureFingerprint="225869072747519b">Door alle getallen samen te voegen, en ook alle termen met <ph id="c1" type="ui" subType="swi18n:inline-math"/>, vinden we <ph id="c2" type="ui" subType="swi18n:block-math"/> De teller hier is zo vereenvoudigd als mogelijk. Alles bij elkaar is het eindresultaat <ph id="c3" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Eventueel kan dit nog simpeler geschreven worden, als <ph id="c4" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">Dit kan niet verder vereenvoudigd worden.</pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="squaresInNumerator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Write this as a single fraction and simplify the numerator as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="41beb9b8fbbb09a0" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de uitdrukking <ph id="c1" type="ui" subType="swi18n:block-math"/> Schrijf dit als een enkele breuk en vereenvoudig de teller zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Apply the rule for adding/subtracting fractions to write the expression as a single fraction. Use brackets where needed.</source>
+							<target swi18n:sourceContentFingerprint="0153721613baf297" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Pas de regel voor het optellen/aftrekken van breuken toe om de uitdrukking als enkele breuk te schrijven. Gebruik haakjes waar nodig.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The two fractions have equal denominators. This means that, to add/subtract these fractions, we may directly add/substract the numerators, leaving the denominator as is. This results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="ec722a34c8e6ba9d" swi18n:sourceStructureFingerprint="ff571f3f8743b299">De twee breuken hebben gelijke noemers. Dit betekent dat, om deze breuken op te tellen/af te trekken, we direct de tellers kunnen optellen/aftrekken, en de noemer kunnen laten staan. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all brackets in the numerator.</source>
+							<target swi18n:sourceContentFingerprint="d7350a922243146d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Werk alle haakjes in de teller uit.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Using the default rules of expanding brackets, we wind up with <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="527803ff1377beed" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Via de standaard regels van het uitwerken van haakjes komen we uit op <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the numerator as much as possible by merging similar terms together.</source>
+							<target swi18n:sourceContentFingerprint="6c3005dd2c15d4a1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig de teller zo veel als mogelijk door soortgelijke termen samen te voegen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Merging all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> together, as well as all terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/>, we find <ph id="c3" type="ui" subType="swi18n:block-math"/> The numerator here is as simplified as possible. Altogether, the final result is <ph id="c4" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, this can still be simplified further, written as <ph id="c5" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">This cannot be simplified further.</pc></pc></source>
+							<target swi18n:sourceContentFingerprint="4cb584410d8bfa68" swi18n:sourceStructureFingerprint="b1ed06f374b806d1">Door alle termen met <ph id="c1" type="ui" subType="swi18n:inline-math"/> samen te voegen, en ook alle termen met <ph id="c2" type="ui" subType="swi18n:inline-math"/>, vinden we <ph id="c3" type="ui" subType="swi18n:block-math"/> De teller hier is zo vereenvoudigd als mogelijk. Alles bij elkaar is het eindresultaat <ph id="c4" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Eventueel kan dit nog simpeler geschreven worden, als <ph id="c5" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">Dit kan niet verder vereenvoudigd worden.</pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

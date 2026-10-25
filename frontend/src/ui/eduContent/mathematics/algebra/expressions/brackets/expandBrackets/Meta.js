@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { M } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Par, Term } from 'ui/components'
 
 export function Meta() {
-	return <Translation entry="learningGoals">
+	return <Translation id="learningGoals">
 		<Par>In this skill you learn to <Term>expand brackets</Term>. If you see an expression like <M>-4x\left(2-x\right)</M> you can turn this into <M>-8x+4x^2</M>. This includes simplifying the number multiplications (so <M>-4 \cdot 2</M> becomes <M>-8</M>) and turning multiplications of identical factors into powers (so <M>x \cdot x</M> becomes <M>x^2</M>).</Par>
 	</Translation>
 }

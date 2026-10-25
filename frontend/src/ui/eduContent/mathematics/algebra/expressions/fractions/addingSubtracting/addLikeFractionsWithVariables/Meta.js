@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { M } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Par, Term } from 'ui/components'
 
 export function Meta() {
-	return <Translation entry="learningGoals">
+	return <Translation id="learningGoals">
 		<Par>In this skill you learn to <Term>add/subtract like fractions with variables</Term>, like turning <M>\frac(4x+3)(5x) - \frac(x-2)(5x)</M> into <M>\frac(3x+5)(5x)</M>. This includes merging two fractions with equal denominator into one fraction, expanding any potential brackets in the numerator, and subsequently simplifying the numerator by merging similar terms. The skill does not include canceling fraction factors or merging fractions with different denominators.</Par>
 	</Translation>
 }

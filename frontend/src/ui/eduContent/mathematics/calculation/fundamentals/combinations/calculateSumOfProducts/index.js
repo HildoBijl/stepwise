@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { M } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Par, Term } from 'ui/components'
 
 export function Meta() {
-	return <Translation entry="learningGoals">
+	return <Translation id="learningGoals">
 		<Par>In this skill you learn to <Term>calculate a sum of products</Term>. You will for instance be asked to calculate <M>2 + 3 \cdot \left(7 - 5\right)</M> as the number <M>8</M>. Important here is to determine the order of operations, and then execute the operations in this specific order. Operations include addition, subtraction and multiplication. This skill does not involve fractions, powers and functions.</Par>
 	</Translation>
 }

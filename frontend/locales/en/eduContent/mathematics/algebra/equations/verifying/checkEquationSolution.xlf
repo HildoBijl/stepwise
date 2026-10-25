@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">check an equation solution</pc>. Given an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> and a potential solution like <ph id="c4" type="ui" subType="swi18n:inline-math"/> or <ph id="c5" type="ui" subType="swi18n:inline-math"/> you will be able to determine whether or not the number balances the equation. This includes applying number substitution to the expression on each side of the equation, as well as calculating the resulting sum/product, turning it into a single number. Knowledge of fractions, powers, etcetera is not required.</pc></source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

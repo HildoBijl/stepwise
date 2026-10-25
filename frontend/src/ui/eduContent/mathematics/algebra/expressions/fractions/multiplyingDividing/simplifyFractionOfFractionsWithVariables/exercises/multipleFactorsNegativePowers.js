@@ -2,8 +2,8 @@ import React from 'react'
 
 import { gcd } from '@step-wise/math-tools'
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
@@ -60,10 +60,10 @@ const steps = [
 			const numerator = flip ? part2WithoutNegativeExponents : part1WithoutNegativeExponents
 			const denominator = flip ? part1WithoutNegativeExponents : part2WithoutNegativeExponents
 			const flippedMultiplication = numerator.multiply(denominator.invert())
-			return <Par><Translation><Check value={denominator.isFraction()}>
-				<Check.True>When dividing by a fraction, we can also multiply by the inverse. This results in <BM>{withoutNegativeExponents} = {flippedMultiplication}.</BM> <Check value={numerator.isFraction()}><Check.True>These two fractions can subsequently be merged together, multiplying the numerator by the numerator and the denominator by the denominator.</Check.True><Check.False>We can merge this together, by pulling the multiplication on the left into the numerator.</Check.False></Check> This gives <BM>{flippedMultiplication} = {singleFraction}.</BM></Check.True>
-				<Check.False>When dividing by a multiplication, this whole multiplication may also be put into the denominator. Doing so results in <BM>{withoutNegativeExponents} = {singleFraction}.</BM></Check.False>
-			</Check></Translation></Par>
+			return <Par><Translation><Condition value={denominator.isFraction()}>
+				<Condition.True>When dividing by a fraction, we can also multiply by the inverse. This results in <BM>{withoutNegativeExponents} = {flippedMultiplication}.</BM> <Condition value={numerator.isFraction()}><Condition.True>These two fractions can subsequently be merged together, multiplying the numerator by the numerator and the denominator by the denominator.</Condition.True><Condition.False>We can merge this together, by pulling the multiplication on the left into the numerator.</Condition.False></Condition> This gives <BM>{flippedMultiplication} = {singleFraction}.</BM></Condition.True>
+				<Condition.False>When dividing by a multiplication, this whole multiplication may also be put into the denominator. Doing so results in <BM>{withoutNegativeExponents} = {singleFraction}.</BM></Condition.False>
+			</Condition></Translation></Par>
 		},
 	},
 	{
@@ -80,7 +80,7 @@ const steps = [
 		},
 		Solution: ({ a, b, c, d, variables, expression, singleFraction, inBetween, ans }) => {
 			const gcdValue = gcd(a, b)
-			return <Par><Translation><Check value={gcdValue > 1}><Check.True>We can first divide the numerator and the denominator by <M>{gcdValue}</M>. This gives us <BM>{singleFraction} = {inBetween}.</BM></Check.True><Check.False>First we can see that there is no simplification possible for the number values.</Check.False></Check> Continuing with the variables, we can sort out the factors <M>{variables.x.add(c).removeTrivial()}</M> and <M>{variables.x.add(d).removeTrivial()}</M> to get <BM>{inBetween} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
+			return <Par><Translation><Condition value={gcdValue > 1}><Condition.True>We can first divide the numerator and the denominator by <M>{gcdValue}</M>. This gives us <BM>{singleFraction} = {inBetween}.</BM></Condition.True><Condition.False>First we can see that there is no simplification possible for the number values.</Condition.False></Condition> Continuing with the variables, we can sort out the factors <M>{variables.x.add(c).removeTrivial()}</M> and <M>{variables.x.add(d).removeTrivial()}</M> to get <BM>{inBetween} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]

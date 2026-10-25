@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
@@ -74,7 +74,7 @@ const steps = [
 		},
 		Solution: ({ variables, termMoved, cleaned, factor, solution, canCleanSolution, ans, equationInserted, sideValue }) => {
 			return <Translation>
-				<Par>We follow the default approach. Moving everything with <M>{variables.x}</M> to the left and everything without <M>{variables.x}</M> to the right gives <BM>{termMoved}.</BM> Merging terms to clean up the equation reduces it to <BM>{cleaned}.</BM><Check value={factor.number !== 1}><Check.True>Dividing by <M>{factor}</M> gives us the solution <BM>{variables.x} = {solution}.</BM><Check value={canCleanSolution}><Check.True>This can still be simplified into <BM>{variables.x} = {ans}.</BM></Check.True><Check.False>This cannot be simplified further.</Check.False></Check></Check.True><Check.False>Coincidentally the factor before the <M>{variables.x}</M> has already dropped out, so we have already found the solution, <BM>{variables.x} = {ans}.</BM></Check.False></Check></Par>
+				<Par>We follow the default approach. Moving everything with <M>{variables.x}</M> to the left and everything without <M>{variables.x}</M> to the right gives <BM>{termMoved}.</BM> Merging terms to clean up the equation reduces it to <BM>{cleaned}.</BM><Condition value={factor.number !== 1}><Condition.True>Dividing by <M>{factor}</M> gives us the solution <BM>{variables.x} = {solution}.</BM><Condition value={canCleanSolution}><Condition.True>This can still be simplified into <BM>{variables.x} = {ans}.</BM></Condition.True><Condition.False>This cannot be simplified further.</Condition.False></Condition></Condition.True><Condition.False>Coincidentally the factor before the <M>{variables.x}</M> has already dropped out, so we have already found the solution, <BM>{variables.x} = {ans}.</BM></Condition.False></Condition></Par>
 				<Par>The last thing to do is to check the solution. Inserting it into the original equation gives <BM>{equationInserted}.</BM> Both sides reduce to <M>{sideValue}</M> which shows that the solution is correct.</Par>
 			</Translation>
 		},

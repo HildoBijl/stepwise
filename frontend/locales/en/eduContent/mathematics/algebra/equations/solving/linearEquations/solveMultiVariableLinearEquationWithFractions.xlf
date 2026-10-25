@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">solve a linear equation with multiple variables and with fractions</pc>. If you have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to determine the solution for <ph id="c4" type="ui" subType="swi18n:inline-math"/> as <ph id="c5" type="ui" subType="swi18n:inline-math"/>. This includes <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying the fraction with a fraction sum into a single fraction</pc>, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplying equation terms by denominators</pc> and eventually <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solving the resulting linear equation</pc>.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Consider an equation like <ph id="c2" type="ui" subType="swi18n:inline-math"/> where the target variable <ph id="c3" type="ui" subType="swi18n:inline-math"/> is in the denominator of some fraction. Sometimes such an equation is a <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">linear equation in disguise</pc>. Here we learn how to check that, and how to subsequently solve such equations.</pc></source>
+				</segment>
+			</unit>
+			<unit id="cleaning">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Cleaning up the equation</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The first thing that we always do is clean up the equation. If there are any fractions inside of fractions, we first want to solve that, <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">reducing it to a single fraction</pc>. For the example, we can multiply the numerator and denominator of the fraction on the left by <ph id="c4" type="ui" subType="swi18n:inline-math"/> to get <ph id="c5" type="ui" subType="swi18n:block-math"/> After this, we note that the target variable <ph id="c6" type="ui" subType="swi18n:inline-math"/> is still in the denominator. We can solve this by <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplying all terms</pc> by <ph id="c8" type="ui" subType="swi18n:inline-math"/>. Optionally, we can also multiply all terms by <ph id="c9" type="ui" subType="swi18n:inline-math"/> to get rid of the fraction on the right. This results in <ph id="c10" type="ui" subType="swi18n:block-math"/> We have ensured that there are no fractions anymore with <ph id="c11" type="ui" subType="swi18n:inline-math"/> in the denominator, so we have sufficiently cleaned up the equation. Now we see that the equation is in fact linear in <ph id="c12" type="ui" subType="swi18n:inline-math"/>. That is, there are no powers of <ph id="c13" type="ui" subType="swi18n:inline-math"/> or similar. Only multiplications by constants and non-target variables (which can also be seen as constants).</pc></source>
+				</segment>
+			</unit>
+			<unit id="solving">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Solving the linear equation</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We can now <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solve the linear equation</pc> in the standard way. Expanding brackets gives <ph id="c4" type="ui" subType="swi18n:block-math"/> Bringing all terms with <ph id="c5" type="ui" subType="swi18n:inline-math"/> to the left and all other terms to the right, we wind up with <ph id="c6" type="ui" subType="swi18n:block-math"/> Pulling <ph id="c7" type="ui" subType="swi18n:inline-math"/> out of brackets then reduces this to <ph id="c8" type="ui" subType="swi18n:block-math"/> The final solution follows by dividing by the term between brackets, giving <ph id="c9" type="ui" subType="swi18n:block-math"/> This is the solution of the equation.</pc></source>
+				</segment>
+			</unit>
+			<unit id="checking">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Checking the solution</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">It is still wise to check the solution. To do so, we insert the solution into the original equation. Doing so gets us <ph id="c3" type="ui" subType="swi18n:block-math"/> Simplifying the innermost fraction turns this into <ph id="c4" type="ui" subType="swi18n:block-math"/> Multiplying both sides of the outer fraction by <ph id="c5" type="ui" subType="swi18n:inline-math"/> further reduces this to <ph id="c6" type="ui" subType="swi18n:block-math"/> Finally getting rid of the brackets, canceling the <ph id="c7" type="ui" subType="swi18n:inline-math"/> term and subsequently canceling the factor <ph id="c8" type="ui" subType="swi18n:inline-math"/> in the fraction will reduce this to <ph id="c9" type="ui" subType="swi18n:block-math"/> This equation obviously holds, which means that the solution we found is correct.</pc></source>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To solve a linear equation in disguise, like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, for a target variable <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">If there are any fractions within fractions, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">reduce these to single fractions</pc>. This turns the example into <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">If the target variable is in any denominator, <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply all terms by this denominator</pc> to fix this. Optionally, you can get rid of all fractions; also those without the target variable in the denominator. For the example, we rewrite the equation to <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children">If the equation indeed is linear, then <pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solve the linear equation</pc> in the standard way. In the example, if we expand brackets, move terms around, pull <ph id="c17" type="ui" subType="swi18n:inline-math"/> out of brackets and divide by this factor, we end up with <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="multipleBasicFractions">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Simplify your result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite the equation such that it does not have any fractions anymore.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply all terms with both <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>. For the first term, <ph id="c3" type="ui" subType="swi18n:inline-math"/> disappears from the denominator, and the remaining factor is multiplied by <ph id="c4" type="ui" subType="swi18n:inline-math"/>. For the other two terms, it is <ph id="c5" type="ui" subType="swi18n:inline-math"/> that disappears from the denominator, and the remaining factors are multiplied by <ph id="c6" type="ui" subType="swi18n:inline-math"/>. The result is <ph id="c7" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Solve the resulting simplified equation for <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Simplify your result as much as possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The equation is linear, so we take the default plan of approach. First we expand all brackets to get <ph id="c1" type="ui" subType="swi18n:block-math"/> We then move all terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/> to one side and all terms without <ph id="c3" type="ui" subType="swi18n:inline-math"/> to the other side. That is, <ph id="c4" type="ui" subType="swi18n:inline-math"/> moves to the left and <ph id="c5" type="ui" subType="swi18n:inline-math"/> goes to the right. This gives <ph id="c6" type="ui" subType="swi18n:block-math"/> Next, we pull <ph id="c7" type="ui" subType="swi18n:inline-math"/> out of brackets. This turns the above into <ph id="c8" type="ui" subType="swi18n:block-math"/> Finally we divide both sides of the equation by <ph id="c9" type="ui" subType="swi18n:inline-math"/> to solve for <ph id="c10" type="ui" subType="swi18n:inline-math"/>. The result is <ph id="c11" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="extraFractionInNumerator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Simplify your result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Reduce the fraction of fractions into a single fraction. (Leave the rest of the equation unchanged.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The short-cut towards simplifying the fraction of fractions is multiplying the numerator and the denominator by <ph id="c1" type="ui" subType="swi18n:inline-math"/> and subsequently dividing them by <ph id="c2" type="ui" subType="swi18n:inline-math"/>. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Through this,</pc><pc id="x3" type="other" subType="swi18n:condition-false">Through this, and through the cancellation of minus signs,</pc></pc> the fraction reduces to <ph id="c3" type="ui" subType="swi18n:block-math"/> By inserting this into the equation, we can write it as <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite the equation such that it does not have any fractions anymore.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply both sides of the equation by <ph id="c1" type="ui" subType="swi18n:inline-math"/> After canceling out factors, we remain with <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Solve the resulting simplified equation for <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Simplify your result as much as possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The equation is linear, so we take the default plan of approach. We move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side. In this case it's easier to bring <ph id="c3" type="ui" subType="swi18n:inline-math"/> to the right, such that <ph id="c4" type="ui" subType="swi18n:block-math"/> Next, we pull <ph id="c5" type="ui" subType="swi18n:inline-math"/> out of brackets. This turns the above into <ph id="c6" type="ui" subType="swi18n:block-math"/> Finally we divide both sides of the equation by <ph id="c7" type="ui" subType="swi18n:inline-math"/> to solve for <ph id="c8" type="ui" subType="swi18n:inline-math"/>. The result is <ph id="c9" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="extraFractionInDenominator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Simplify your result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Reduce the fraction of fractions into a single fraction. (Leave the rest of the equation unchanged.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The short-cut towards simplifying the fraction of fractions is multiplying the numerator and the denominator by both <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>. This turns the fraction into <ph id="c3" type="ui" subType="swi18n:block-math"/> By inserting this into the equation, we can write it as <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite the equation such that it does not have any fractions anymore.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply both sides of the equation by both <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>. After canceling out factors, we remain with <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Solve the resulting simplified equation for <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Simplify your result as much as possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The equation is linear, so we take the default plan of approach. First we expand all brackets to get <ph id="c1" type="ui" subType="swi18n:block-math"/> We then move all terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/> to one side and all terms without <ph id="c3" type="ui" subType="swi18n:inline-math"/> to the other side. That is, <ph id="c4" type="ui" subType="swi18n:inline-math"/> moves to the left, such that <ph id="c5" type="ui" subType="swi18n:block-math"/> Next, we pull <ph id="c6" type="ui" subType="swi18n:inline-math"/> out of brackets. This turns the above into <ph id="c7" type="ui" subType="swi18n:block-math"/> Finally we divide both sides of the equation by <ph id="c8" type="ui" subType="swi18n:inline-math"/> to solve for <ph id="c9" type="ui" subType="swi18n:inline-math"/>. The result is <ph id="c10" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="rightSideChanged">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Leave the right side of the equation unchanged!</pc></source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

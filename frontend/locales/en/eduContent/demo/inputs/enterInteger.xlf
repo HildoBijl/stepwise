@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Meta-Info page</pc> contains background information about the skill, like the exact <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">learning goal</pc>. This is generally not so useful to students, but more so for teachers. It helps to properly assemble a course.</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">This current skill has as learning goal that students can <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">enter integer numbers</pc> into an integer input field. Numbers can be positive or negative and have multiple digits.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">Below you also find information about <pc id="c7" type="ui" subType="swi18n:term" swi18n:slot="children">links to other skills</pc>. What comes before (prerequisites)? What can come after (follow-ups)? And which skills are related to it, for instance by being similar or by being in the same category/grouping?</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Welcome to the Step-Wise tutorial! Here you can learn how the web-app is set up and freely play around with the main functionalities.</pc><pc id="c2" type="ui" subType="swi18n:warning" swi18n:slot="children">Honestly, don't do this tutorial. This is the 21st century. Apps should be intuitive enough to not need a manual or tutorial, and Step-Wise certainly meets those requirements. Or if you really want to do the tutorial, just play around with the exercises and only check the theory in the unlikely case that you get stuck. Learn by doing.</pc></source>
+				</segment>
+			</unit>
+			<unit id="skills">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Skills</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Step-Wise is structured around the concept of <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">skills</pc>. Every skill is something that you can actually do. For instance (like for this skill) simply entering a number into a field.</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">For every skill we estimate the <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">likelihood</pc> that you will do it correctly. We developed our own probability theory script for this, which takes into account lots of different factors. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">For you it's simple: you can always see the success chance through the skill orb in the top right corner. Feel free to hover over it for more information.</pc><pc id="x3" type="other" subType="swi18n:condition-false">If you were signed in, you could also see that success chance in the top right corner of the screen.</pc></pc></pc></source>
+				</segment>
+			</unit>
+			<unit id="exercises">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Exercises</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To get better with a skill, you can practice with a variety of randomly generated <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">exercises</pc>. There are two types.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">The <pc id="c7" type="ui" subType="swi18n:term" swi18n:slot="children">example exercises</pc> are basic exercises for free experimentation. You can view the solution in advance if you so desire. Playing around with them doesn't affect your ratings in any way.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children">The <pc id="c10" type="ui" subType="swi18n:term" swi18n:slot="children">practice exercises</pc> are slightly more involved exercises to practice on. Every action you make there does effect your estimated success chance.</pc></pc></pc><pc id="c11" type="ui" subType="swi18n:par" swi18n:slot="children">Go ahead and try it out! The Step-Wise input system is <pc id="c12" type="ui" subType="swi18n:term" swi18n:slot="children">smartphone-compatible</pc> with our own internally designed keyboards. It's all easy to use. You'll figure it out.</pc><pc id="c13" type="ui" subType="swi18n:par" swi18n:slot="children">Once you've reached the goal set for the skill level, you'll get a notification that you can continue to the next skill. Keep on practicing until you've got it!</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="enterInteger">
+				<group id="problem">
+					<unit id="text">
+						<segment>
+							<source>Enter the number <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="label">
+						<segment>
+							<source>Enter <ph id="c1" type="ui" subType="swi18n:inline-math"/> here</source>
+						</segment>
+					</unit>
+					<unit id="noMinusSign">
+						<segment>
+							<source>You forgot the minus sign.</source>
+						</segment>
+					</unit>
+				</group>
+				<unit id="solution">
+					<segment>
+						<source>You can click on the input field and type in the number <ph id="c1" type="ui" subType="swi18n:inline-math"/>.<pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true"> A potential minus sign can also be added after typing in the number. The input field is smart enough to know that the minus sign must be at the front.</pc><pc id="x3" type="other" subType="swi18n:condition-false"></pc></pc></source>
+					</segment>
+				</unit>
+				<group id="feedback">
+					<unit id="noMinusSign">
+						<segment>
+							<source>You forgot the minus sign.</source>
+						</segment>
+					</unit>
+					<unit id="unnecessaryMinusSign">
+						<segment>
+							<source>Try removing the minus sign.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

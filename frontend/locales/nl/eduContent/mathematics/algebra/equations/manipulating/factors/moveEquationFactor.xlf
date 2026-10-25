@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">move a factor to the other side of an equation</pc>. If you have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> you will be able to bring <ph id="c4" type="ui" subType="swi18n:inline-math"/> to the other side to get <ph id="c5" type="ui" subType="swi18n:inline-math"/>, or to then bring <ph id="c6" type="ui" subType="swi18n:inline-math"/> to the other side to get <ph id="c7" type="ui" subType="swi18n:inline-math"/>. This includes understanding the idea behind this: <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplying both sides of an equation by a factor</pc> and subsequently <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">canceling fraction factors</pc>. The skill does not include dealing with <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">equations with multiple terms</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="70e1c381ebfbb3ab" swi18n:sourceStructureFingerprint="38621bd3bed3e625"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">factor naar de andere kant van de vergelijking te brengen</pc>. Bij een vergelijking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> zul je <ph id="c4" type="ui" subType="swi18n:inline-math"/> naar de andere kant kunnen brengen om <ph id="c5" type="ui" subType="swi18n:inline-math"/> te krijgen, of je kunt dan <ph id="c6" type="ui" subType="swi18n:inline-math"/> naar de andere kant brengen om op <ph id="c7" type="ui" subType="swi18n:inline-math"/> uit te komen. Dit omvat het begrijpen van het idee hierachter: het <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vermenigvuldigen van beide kanten met een factor</pc> en het hieropvolgende <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">wegstrepen van breukfactoren</pc>. Deze vaardigheid betreft niet het omgaan met <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vergelijkingen met meerdere termen</pc>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">product equation</pc> is an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> where both sides of the equation only have multiplications and divisions; no additions or subtractions. When we have such an equation, it is helpful to be able to <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">move factors</pc> around in the equation. That's what this skill is about. We look at how we do this, and what short-cuts we can take.</pc></source>
+					<target swi18n:sourceContentFingerprint="626b265f2ec20590" swi18n:sourceStructureFingerprint="2524b02ab2807a4f"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">productvergelijking</pc> is een vergelijking zoals <ph id="c3" type="ui" subType="swi18n:inline-math"/> waar beide kanten van de vergelijking alleen vermenigvuldigingen/delingen hebben; geen optellingen of aftrekkingen. Bij zo'n vergelijking is het handig om <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">factoren te kunnen verplaatsen</pc> tussen de twee kanten van de vergelijking. Dat is waar deze vaardigheid over gaat. We kijken hoe dit werkt, en welke short-cuts we mogelijk nemen kunnen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="removingMultiplications">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Getting rid of a multiplication</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">One thing that we can do with the equation <ph id="c3" type="ui" subType="swi18n:inline-math"/> is to get rid of the <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">multiplication factor</pc> <ph id="c5" type="ui" subType="swi18n:inline-math"/> on the left. To do so, we can first <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">divide both sides of the equation</pc> by <ph id="c7" type="ui" subType="swi18n:inline-math"/>. This gives <ph id="c8" type="ui" subType="swi18n:block-math"/> Both sides of the equation can be simplified. On the left we can <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">cancel fraction factors</pc> to get rid of the <ph id="c10" type="ui" subType="swi18n:inline-math"/> on both sides of the fraction, leaving us with just <ph id="c11" type="ui" subType="swi18n:inline-math"/>. We see that the <ph id="c12" type="ui" subType="swi18n:inline-math"/> indeed disappears from the left side of the equation, as was our goal. On the right, we can <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify the fraction division</pc> to get <ph id="c14" type="ui" subType="swi18n:inline-math"/> (or alternatively <ph id="c15" type="ui" subType="swi18n:inline-math"/>). The final result is <ph id="c16" type="ui" subType="swi18n:block-math"/> Note that we have moved the multiplication factor <ph id="c17" type="ui" subType="swi18n:inline-math"/> from the left to the right, and when we did, it turned into a division factor.</pc></source>
+					<target swi18n:sourceContentFingerprint="2704b5719c64c7e7" swi18n:sourceStructureFingerprint="f11618dace0b2a02"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Een vermenigvuldiging wegwerken</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Het eerste wat we kunnen doen met de vergelijking <ph id="c3" type="ui" subType="swi18n:inline-math"/> is het wegwerken van de <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">vermenigvuldigingsfactor</pc> <ph id="c5" type="ui" subType="swi18n:inline-math"/> aan de linker kant. Om dit te doen kunnen we eerst <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">beide kanten van de vergelijking delen</pc> door <ph id="c7" type="ui" subType="swi18n:inline-math"/>. Dit geeft <ph id="c8" type="ui" subType="swi18n:block-math"/> Beide kanten van de vergelijking kunnen nog vereenvoudigd worden. Links kunnen we <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">breukfactoren wegstrepen</pc> om de <ph id="c10" type="ui" subType="swi18n:inline-math"/> aan beide kanten van de breuk weg te krijgen, waarmee we overblijven met <ph id="c11" type="ui" subType="swi18n:inline-math"/>. We zien dat de <ph id="c12" type="ui" subType="swi18n:inline-math"/> inderdaad van de linker kant van de vergelijking verdwijnt, wat ons doel was. Rechts kunnen we de <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">breukdeling vereenvoudigen</pc> om uit te komen op <ph id="c14" type="ui" subType="swi18n:inline-math"/> (of eventueel <ph id="c15" type="ui" subType="swi18n:inline-math"/>). Het eindresultaat is <ph id="c16" type="ui" subType="swi18n:block-math"/> Merk op dat we de vermenigvuldigingsfactor <ph id="c17" type="ui" subType="swi18n:inline-math"/> van links naar rechts verplaatst hebben, en hierbij is hij veranderd in een delingsfactor.</pc></target>
+				</segment>
+			</unit>
+			<unit id="removingDivisions">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Getting rid of a division</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We could've also done something different with the equation <ph id="c3" type="ui" subType="swi18n:inline-math"/>, which is to get rid of the <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">division factor</pc> <ph id="c5" type="ui" subType="swi18n:inline-math"/> on the right. To do so, we can <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply both sides of the equation</pc> by <ph id="c7" type="ui" subType="swi18n:inline-math"/>. This turns it into <ph id="c8" type="ui" subType="swi18n:block-math"/> On the right, the division by <ph id="c9" type="ui" subType="swi18n:inline-math"/> and the multiplication by <ph id="c10" type="ui" subType="swi18n:inline-math"/> <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">cancel out</pc>, so this side reduces to just <ph id="c12" type="ui" subType="swi18n:inline-math"/>. The result can be rewritten as <ph id="c13" type="ui" subType="swi18n:block-math"/> Note that we have moved the division factor <ph id="c14" type="ui" subType="swi18n:inline-math"/> from the right to the left, where it turned into a multiplication factor.</pc></source>
+					<target swi18n:sourceContentFingerprint="56987b194757d677" swi18n:sourceStructureFingerprint="b58b245287cab754"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Een deling wegwerken</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We hadden ook iets anders met de vergelijking <ph id="c3" type="ui" subType="swi18n:inline-math"/> kunnen doen, en wel de <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">delingsfactor</pc> <ph id="c5" type="ui" subType="swi18n:inline-math"/> aan de rechter kant wegwerken. Om dit voor elkaar te krijgen kunnen we <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">beide kanten van de vergelijking vermenigvuldigen</pc> met <ph id="c7" type="ui" subType="swi18n:inline-math"/>. Dit ze het om naar <ph id="c8" type="ui" subType="swi18n:block-math"/> Rechts zullen de deling door <ph id="c9" type="ui" subType="swi18n:inline-math"/> en de vermenigvuldiging met <ph id="c10" type="ui" subType="swi18n:inline-math"/> elkaar <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">wegstrepen</pc>, waardoor deze kant vereenvoudigt tot slechts <ph id="c12" type="ui" subType="swi18n:inline-math"/>. Het resultaat kan geschreven worden als <ph id="c13" type="ui" subType="swi18n:block-math"/> Merk op dat we de delingsfactor <ph id="c14" type="ui" subType="swi18n:inline-math"/> van rechts naar links gehaald hebben, waar hij veranderd is in een vermenigvuldigingsfactor.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To move a factor from one side of a product equation to the other, like when moving the factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> in the equation <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">If the factor is in a multiplication, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">divide both sides of the equation</pc> by the factor. Or alternatively, if the factor is being divided by, <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply both sides of the equation</pc> by the factor. For the example, we divide by <ph id="c10" type="ui" subType="swi18n:inline-math"/> to get <ph id="c11" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c13" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Cancel fraction factors</pc> to get rid of the factor that has to be moved. For the example, we turn <ph id="c15" type="ui" subType="swi18n:inline-math"/> into <ph id="c16" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c17" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c18" type="ui" subType="swi18n:c" swi18n:slot="children">Depending on the situation, it may also be needed to <pc id="c19" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify a fraction inside a fraction</pc> into a single fraction. For the example, we turn <ph id="c20" type="ui" subType="swi18n:inline-math"/> into <ph id="c21" type="ui" subType="swi18n:inline-math"/>, which optionally can still be written as <ph id="c22" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="b1c36a10e4ff5c57" swi18n:sourceStructureFingerprint="9025cd61feda4819"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De stappen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om een factor van de ene kant van een productvergelijking naar de andere te krijgen, zoals bij het verplaatsen van de factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> in de vergelijking <ph id="c4" type="ui" subType="swi18n:inline-math"/>, neem je de volgende stappen.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Als de factor in een vermenigvuldiging staat, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">deel beide kanten van de vergelijking</pc> door deze factor. Of soortgelijk, als door de factor gedeeld wordt, <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vermenigvuldig beide kanten van de vergelijking</pc> met de factor. Bij het voorbeeld delen we door <ph id="c10" type="ui" subType="swi18n:inline-math"/> om <ph id="c11" type="ui" subType="swi18n:inline-math"/> te krijgen.</pc></pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c13" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Streep breukfactoren weg</pc> om de factor die verplaatst moet worden weg te krijgen. Bij het voorbeeld zetten we <ph id="c15" type="ui" subType="swi18n:inline-math"/> om in <ph id="c16" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c17" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c18" type="ui" subType="swi18n:c" swi18n:slot="children">Afhankelijk van de situatie kan het nodig zijn om een <pc id="c19" type="ui" subType="swi18n:skill-link" swi18n:slot="children">breuk in een breuk te vereenvoudigen</pc> tot een enkele breuk. Bij het voorbeeld herschrijven we <ph id="c20" type="ui" subType="swi18n:inline-math"/> tot <ph id="c21" type="ui" subType="swi18n:inline-math"/>, wat eventueel ook nog als <ph id="c22" type="ui" subType="swi18n:inline-math"/> geschreven kan worden.</pc></pc></pc></target>
+				</segment>
+			</unit>
+			<unit id="shortCut">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The short-cut</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We can summarize the above ideas into a useful short-cut. If we move a factor (multiplication or division) from one side of a product equation to the other, we should do the following.</pc><pc id="c3" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">If the factor is a multiplication factor (it's in the numerator of a fraction, or just in a multiplication) then on the other side it will appear as a division factor (in the denominator of a fraction). So <ph id="c6" type="ui" subType="swi18n:inline-math"/> turns into <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children">If the factor is a division factor (in the denominator of a fraction) then on the other side it will appear as a multiplication factor (in the numerator of a fraction, or just in a multiplication). So <ph id="c10" type="ui" subType="swi18n:inline-math"/> turns into <ph id="c11" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c12" type="ui" subType="swi18n:par" swi18n:slot="children">Using this idea, we can also directly move factors around, without applying the in-between steps.</pc></source>
+					<target swi18n:sourceContentFingerprint="dc06b44db0a5b9b2" swi18n:sourceStructureFingerprint="f094f0c6c6f21e5d"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De short-cut</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We kunnen de bovenstaande ideeën samenvatten in een handige short-cut. Als we een factor (vermenigvuldiging of deling) van de ene kant van een productvergelijking naar de andere halen, dan moeten we het volgende uitvoeren.</pc><pc id="c3" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Als de factor een vermenigvuldigingsfactor is (hij staat in de teller van een breuk, of simpelweg in een vermenigvuldiging) dan komt hij aan de andere kant als delingsfactor te staan (in de noemer van een breuk). Dus <ph id="c6" type="ui" subType="swi18n:inline-math"/> verandert in <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children">Als de factor een delingsfactor is (hij staat in de noemer van een breuk) dan komt hij aan de andere kant als vermenigvuldigingsfactor te staan (in de teller van een breuk, of simpelweg in een vermenigvuldiging). Dus <ph id="c10" type="ui" subType="swi18n:inline-math"/> wordt omgezet in <ph id="c11" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c12" type="ui" subType="swi18n:par" swi18n:slot="children">Met dit idee kunnen we factoren ook direct rondschuiven, zonder de tussenliggende stappen uit te voeren.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="basicDivision">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Move the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)</source>
+						<target swi18n:sourceContentFingerprint="1bc0309b1f72cee5" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Breng de factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> naar de andere kant. (Zorg er ook voor dat er geen breuken van breuken in het eindresultaat zitten.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Divide</pc> both sides of the equation by <ph id="c2" type="ui" subType="swi18n:inline-math"/>. (After all, the factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> is inside a <pc id="c4" type="ui" subType="swi18n:emp" swi18n:slot="children">multiplication</pc>.)</source>
+							<target swi18n:sourceContentFingerprint="cca9c7aa3b1037ab" swi18n:sourceStructureFingerprint="ad5b34256c84b761"><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Deel</pc> beide kanten van de vergelijking door <ph id="c2" type="ui" subType="swi18n:inline-math"/>. (De factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> zit immers in een <pc id="c4" type="ui" subType="swi18n:emp" swi18n:slot="children">vermenigvuldiging</pc>.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we divide both sides of the equation <ph id="c1" type="ui" subType="swi18n:inline-math"/> by the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we directly wind up with <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="cc948f559ed2e5db" swi18n:sourceStructureFingerprint="48a11a365f442e35">Als we beide kanten van de vergelijking <ph id="c1" type="ui" subType="swi18n:inline-math"/> delen door de factor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, dan komen we direct uit op <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the fraction on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">right</pc><pc id="x3" type="other" subType="swi18n:condition-false">left</pc></pc> side by canceling fraction factors where possible.</source>
+							<target swi18n:sourceContentFingerprint="7905fb02115ae04b" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Vereenvoudig de breuk aan de <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">rechter</pc><pc id="x3" type="other" subType="swi18n:condition-false">linker</pc></pc> kant door waar mogelijk breukfactoren weg te strepen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> on both sides of the fraction. This gives the result <ph id="c2" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, this can still be simplified to <ph id="c3" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">This cannot be simplified further.</pc></pc></source>
+							<target swi18n:sourceContentFingerprint="c29386ec9b8207b8" swi18n:sourceStructureFingerprint="b469300aa413d593">We kunnen aan beide kanten van de breuk de factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> wegstrepen. Dit geeft het resultaat <ph id="c2" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Eventueel kan dit nog verder vereenvoudigd worden tot <ph id="c3" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">Dit kan niet verder vereenvoudigd worden.</pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="basicMultiplication">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Move the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)</source>
+						<target swi18n:sourceContentFingerprint="1bc0309b1f72cee5" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Breng de factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> naar de andere kant. (Zorg er ook voor dat er geen breuken van breuken in het eindresultaat zitten.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Multiply</pc> both sides of the equation by <ph id="c2" type="ui" subType="swi18n:inline-math"/>. (After all, the factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> is currently being <pc id="c4" type="ui" subType="swi18n:emp" swi18n:slot="children">divided by</pc>.)</source>
+							<target swi18n:sourceContentFingerprint="47f8174b33fc8574" swi18n:sourceStructureFingerprint="ad5b34256c84b761"><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Vermenigvuldig</pc> beide kanten van de vergelijking met <ph id="c2" type="ui" subType="swi18n:inline-math"/>. (De factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> wordt immers <pc id="c4" type="ui" subType="swi18n:emp" swi18n:slot="children">door gedeeld</pc>.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we multiply both sides of the equation <ph id="c1" type="ui" subType="swi18n:inline-math"/> by the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we directly wind up with <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="8e97430b7b345e02" swi18n:sourceStructureFingerprint="48a11a365f442e35">Als we beide kanten van de vergelijking <ph id="c1" type="ui" subType="swi18n:inline-math"/> met de factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> vermenigvuldigen, dan komen we direct uit op <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the fraction on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side by canceling fraction factors where possible.</source>
+							<target swi18n:sourceContentFingerprint="f1167cbd14c14b8f" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Vereenvoudig de breuk aan de <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linker</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechter</pc></pc> kant door waar mogelijk breukfactoren weg te strepen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> on both sides of the fraction. This gives the result <ph id="c2" type="ui" subType="swi18n:block-math"/>This is the final result, with <ph id="c3" type="ui" subType="swi18n:inline-math"/> now on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">right</pc><pc id="x3" type="other" subType="swi18n:condition-false">left</pc></pc> side.</source>
+							<target swi18n:sourceContentFingerprint="126c243be94b660c" swi18n:sourceStructureFingerprint="dd30377dbb47fe56">We kunnen aan beide kanten van de breuk de factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> wegstrepen. Dit geeft het resultaat <ph id="c2" type="ui" subType="swi18n:block-math"/>Dit is het eindresultaat, met <ph id="c3" type="ui" subType="swi18n:inline-math"/> nu aan de <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">rechter</pc><pc id="x3" type="other" subType="swi18n:condition-false">linker</pc></pc> kant.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="division">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Move the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)</source>
+						<target swi18n:sourceContentFingerprint="1bc0309b1f72cee5" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Breng de factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> naar de andere kant. (Zorg er ook voor dat er geen breuken van breuken in het eindresultaat zitten.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Divide</pc> both sides of the equation by <ph id="c2" type="ui" subType="swi18n:inline-math"/>. (After all, the factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> is inside a <pc id="c4" type="ui" subType="swi18n:emp" swi18n:slot="children">multiplication</pc>.)</source>
+							<target swi18n:sourceContentFingerprint="cca9c7aa3b1037ab" swi18n:sourceStructureFingerprint="ad5b34256c84b761"><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Deel</pc> beide kanten van de vergelijking door <ph id="c2" type="ui" subType="swi18n:inline-math"/>. (De factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> zit immers in een <pc id="c4" type="ui" subType="swi18n:emp" swi18n:slot="children">vermenigvuldiging</pc>.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we divide both sides of the equation <ph id="c1" type="ui" subType="swi18n:inline-math"/> by the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we directly wind up with <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="cc948f559ed2e5db" swi18n:sourceStructureFingerprint="48a11a365f442e35">Als we beide kanten van de vergelijking <ph id="c1" type="ui" subType="swi18n:inline-math"/> delen door de factor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, dan komen we direct uit op <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the fraction on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">right</pc><pc id="x3" type="other" subType="swi18n:condition-false">left</pc></pc> side by canceling fraction factors where possible.</source>
+							<target swi18n:sourceContentFingerprint="7905fb02115ae04b" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Vereenvoudig de breuk aan de <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">rechter</pc><pc id="x3" type="other" subType="swi18n:condition-false">linker</pc></pc> kant door waar mogelijk breukfactoren weg te strepen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> on both sides of the fraction. This gives the result <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="88d5dd2ca89380a5" swi18n:sourceStructureFingerprint="fd2fba868566671b">We kunnen aan beide kanten van de breuk de factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> wegstrepen. Dit geeft het resultaat <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Also simplify the fraction on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> (if not already done) to ensure that there is no fraction of fractions in the final result.</source>
+							<target swi18n:sourceContentFingerprint="8fa3f532620448e1" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Vereenvoudig ook de breuk aan de <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linker</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechter</pc></pc> kant (als je dit niet al gedaan hebt) om zeker te stellen dat er geen breuk van breuken in het eindresultaat zit.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Dividing a fraction by a factor will add that factor to the denominator. This gives the result <ph id="c1" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, this can still be simplified to <ph id="c2" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">This cannot be simplified further.</pc></pc></source>
+							<target swi18n:sourceContentFingerprint="4adcdb10221b73e9" swi18n:sourceStructureFingerprint="29b0a8cd00c46ac9">Een breuk door een factor delen voegt die factor toe aan de noemer. Dit geeft het resultaat <ph id="c1" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Eventueel kan dit nog verder vereenvoudigd worden tot <ph id="c2" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">Dit kan niet verder vereenvoudigd worden.</pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="multiplication">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Move the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)</source>
+						<target swi18n:sourceContentFingerprint="1bc0309b1f72cee5" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Breng de factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> naar de andere kant. (Zorg er ook voor dat er geen breuken van breuken in het eindresultaat zitten.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Multiply</pc> both sides of the equation by <ph id="c2" type="ui" subType="swi18n:inline-math"/>. (After all, the factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> is currently being <pc id="c4" type="ui" subType="swi18n:emp" swi18n:slot="children">divided by</pc>.)</source>
+							<target swi18n:sourceContentFingerprint="47f8174b33fc8574" swi18n:sourceStructureFingerprint="ad5b34256c84b761"><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Vermenigvuldig</pc> beide kanten van de vergelijking met <ph id="c2" type="ui" subType="swi18n:inline-math"/>. (De factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> wordt immers <pc id="c4" type="ui" subType="swi18n:emp" swi18n:slot="children">door gedeeld</pc>.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we multiply both sides of the equation <ph id="c1" type="ui" subType="swi18n:inline-math"/> by the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we directly wind up with <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="8e97430b7b345e02" swi18n:sourceStructureFingerprint="48a11a365f442e35">Als we beide kanten van de vergelijking <ph id="c1" type="ui" subType="swi18n:inline-math"/> met de factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> vermenigvuldigen, dan komen we direct uit op <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the fraction on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side by canceling fraction factors where possible.</source>
+							<target swi18n:sourceContentFingerprint="f1167cbd14c14b8f" swi18n:sourceStructureFingerprint="0daa4730e2b78cda">Vereenvoudig de breuk aan de <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linker</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechter</pc></pc> kant door waar mogelijk breukfactoren weg te strepen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> on both sides of the fraction. This gives the result <ph id="c2" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, this can still be simplified to <ph id="c3" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">This cannot be simplified further.</pc></pc></source>
+							<target swi18n:sourceContentFingerprint="c29386ec9b8207b8" swi18n:sourceStructureFingerprint="b469300aa413d593">We kunnen aan beide kanten van de breuk de factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> wegstrepen. Dit geeft het resultaat <ph id="c2" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Eventueel kan dit nog verder vereenvoudigd worden tot <ph id="c3" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">Dit kan niet verder vereenvoudigd worden.</pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

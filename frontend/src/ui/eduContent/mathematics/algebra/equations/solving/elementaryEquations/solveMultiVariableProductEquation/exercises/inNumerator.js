@@ -2,8 +2,8 @@ import React from 'react'
 
 import { expressionComparisons } from '@step-wise/cas'
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
@@ -58,7 +58,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ canSimplifyFraction, x, ans }) => {
-			return <Par><Translation>Merging repeated multiplications into squares<Check value={canSimplifyFraction}><Check.True>, as well as simplifying all the numbers,</Check.True><Check.False></Check.False></Check> turns the solution into <BM>{x} = {ans}.</BM> It is not possible to simplify this any further.</Translation></Par>
+			return <Par><Translation>Merging repeated multiplications into squares<Condition value={canSimplifyFraction}><Condition.True>, as well as simplifying all the numbers,</Condition.True><Condition.False></Condition.False></Condition> turns the solution into <BM>{x} = {ans}.</BM> It is not possible to simplify this any further.</Translation></Par>
 		},
 	},
 	{

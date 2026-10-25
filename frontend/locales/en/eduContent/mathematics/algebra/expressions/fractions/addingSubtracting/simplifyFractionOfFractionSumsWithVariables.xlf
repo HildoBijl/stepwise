@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify a fraction of fraction sums with variables</pc>. Think of starting with <ph id="c3" type="ui" subType="swi18n:inline-math"/> and eventually reducing it to <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes adding the various fractions (above and below) together into a single fraction, and then simplifying the resulting fraction of fractions. The skill does not require the cancellation of potential polynomial fractions afterwards.</pc></source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

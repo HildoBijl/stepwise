@@ -4,19 +4,19 @@ import { alpha } from '@mui/material'
 import { repeatMultidimensional } from '@step-wise/js-utils'
 import { M, BM } from '@step-wise/math-display'
 
-import { Translation } from 'i18n'
 import { usePrimaryColor } from 'ui/theme'
 import { Head, Par, List, Term } from 'ui/components'
 import { Drawing, Rectangle, HtmlElement } from '@step-wise/drawing'
+import { Translation } from '@step-wise/i18n'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
 	return <>
-		<Translation entry="intro">
+		<Translation id="intro">
 			<Par>We know how to <SkillLink skillId="expandBrackets">expand brackets</SkillLink> like <M>3\left(4x+5\right)</M>. But what do we do if we have a multiplication of brackets with brackets? Like <M>\left(2x+3\right)\left(4x+5\right)</M>? The answer is: we <Term>expand brackets twice</Term>. First we expand one, and then we expand the other.</Par>
 		</Translation>
 
-		<Translation entry="rule">
+		<Translation id="rule">
 			<Head>The rule</Head>
 			<Par>If we have a number multiplication, like for instance <M>\left(2+3\right) \left(4 + 5\right)</M>, then we can visualize this multiplication using blocks.</Par>
 			<BlockDrawing useLetters={false} />
@@ -26,7 +26,7 @@ export function Theory() {
 			<Par>From this visualization, we see that we may rewrite <M>\left(a + b\right)\left(c + d\right)</M> to <M>ac + ad + bc + bd</M>. We call this <Term>expanding double brackets</Term>. The accompanying rule is <BM>\left(a + b\right)\left(c + d\right) = ac + ad + bc + bd.</BM> You generally don't need to remember this rule. What you should remember is that you multiply each of the terms from the left brackets (here <M>a</M> and <M>b</M>) with each of the terms from the right brackets (here <M>c</M> and <M>d</M>). If you do this for all combinations of terms, you get the right result.</Par>
 		</Translation>
 
-		<Translation entry="steps">
+		<Translation id="steps">
 			<Head>The steps</Head>
 			<Par>To expand double brackets, like for instance with <M>\left(2x + 3\right) \left(4x + 5\right)</M>, take the following steps.</Par>
 			<List>

@@ -4,19 +4,19 @@ import { alpha } from '@mui/material'
 import { repeatMultidimensional } from '@step-wise/js-utils'
 import { M, BM } from '@step-wise/math-display'
 
-import { Translation } from 'i18n'
 import { usePrimaryColor } from 'ui/theme'
 import { Head, Par, List, Term } from 'ui/components'
 import { Drawing, Rectangle, HtmlElement } from '@step-wise/drawing'
+import { Translation } from '@step-wise/i18n'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
 	return <>
-		<Translation entry="intro">
+		<Translation id="intro">
 			<Par>We know how to calculate a multiplication like <M>4 \cdot \left(2+3\right)</M>. But what do we do with something like <M>4x\left(2x+3\right)</M>? The answer is: we can rewrite this by <Term>expanding brackets</Term>.</Par>
 		</Translation>
 
-		<Translation entry="rule">
+		<Translation id="rule">
 			<Head>The rule</Head>
 			<Par>If we have a number multiplication, like for instance <M>4 \cdot \left(2 + 3\right)</M>, then we can visualize this multiplication using blocks.</Par>
 			<BlockDrawing useLetters={false} />
@@ -26,7 +26,7 @@ export function Theory() {
 			<Par>From this visualization, we see that we may rewrite <M>a\left(b + c\right)</M> to <M>ab + ac</M>. We call this <Term>expanding the brackets</Term>. The accompanying rule is <BM>a\left(b + c\right) = ab + ac.</BM> Note that we multiply the factor outside of the brackets (here <M>a</M>) separately with each of the terms inside the brackets (here <M>b</M> and <M>c</M>).</Par>
 		</Translation>
 
-		<Translation entry="steps">
+		<Translation id="steps">
 			<Head>The steps</Head>
 			<Par>To expand brackets, like for instance with <M>4x \left(2x + 3\right)</M>, take the following steps.</Par>
 			<List>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify products with powers in them</pc>. This could be the product of two powers, turning <ph id="c3" type="ui" subType="swi18n:inline-math"/> into <ph id="c4" type="ui" subType="swi18n:inline-math"/>, it could be the power of a product, turning <ph id="c5" type="ui" subType="swi18n:inline-math"/> into <ph id="c6" type="ui" subType="swi18n:inline-math"/>, or it could be the power of a power, turning <ph id="c7" type="ui" subType="swi18n:inline-math"/> into <ph id="c8" type="ui" subType="swi18n:inline-math"/>. It basically includes any rewriting where you have to keep in mind that a power is nothing more than a <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">repeated multiplication</pc>. This skill also includes the potential <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplification of number products</pc>. It does not include <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">negative powers</pc> like <ph id="c12" type="ui" subType="swi18n:inline-math"/>, <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">fractions</pc> like <ph id="c14" type="ui" subType="swi18n:inline-math"/> or expanding <pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">powers of sums</pc> like <ph id="c16" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					<target swi18n:sourceContentFingerprint="b9763c78b70e74b4" swi18n:sourceStructureFingerprint="adc7e8c6de62af01"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">product met machten erin te vereenvoudigen</pc>. Dit kan het product van twee machten zijn, waarbij je <ph id="c3" type="ui" subType="swi18n:inline-math"/> omzet in <ph id="c4" type="ui" subType="swi18n:inline-math"/>, of het kan de macht van een product zijn, waar <ph id="c5" type="ui" subType="swi18n:inline-math"/> vereenvoudigt tot <ph id="c6" type="ui" subType="swi18n:inline-math"/>, of het kan een macht van een macht zijn, wat <ph id="c7" type="ui" subType="swi18n:inline-math"/> omvormt tot <ph id="c8" type="ui" subType="swi18n:inline-math"/>. Het bevat kortgezegd elke vorm van omschrijven waarbij het een rol speelt dat een macht niets meer is dan een <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">herhaalde vermenigvuldiging</pc>. De vaardigheid omvat ook het eventuele <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereenvoudigen van getalproducten</pc>. Het omvat geen <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">negatieve machten</pc> als <ph id="c12" type="ui" subType="swi18n:inline-math"/>, <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">breuken</pc> als <ph id="c14" type="ui" subType="swi18n:inline-math"/> of het uitwerken van <pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">machten van sommen</pc> als <ph id="c16" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In practice we often encounter multiplications (products) of powers. These could simply be products of powers like <ph id="c2" type="ui" subType="swi18n:inline-math"/>, these could be powers of products like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, or these could even be powers of powers, like <ph id="c4" type="ui" subType="swi18n:inline-math"/>. How can we simplify such expressions?</pc></source>
+					<target swi18n:sourceContentFingerprint="2a2a23c60b9e4d53" swi18n:sourceStructureFingerprint="26a55d7c8ddf1857"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We komen in de praktijk vaak vermenigvuldigingen (producten) van machten tegen. Deze kunnen simpelweg producten van machten zijn zoals <ph id="c2" type="ui" subType="swi18n:inline-math"/>, ze kunnen machten van producten zijn zoals <ph id="c3" type="ui" subType="swi18n:inline-math"/>, of ze kunnen zelfs machten van machten zijn zoals <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Hoe kunnen we deze uitdrukkingen eenvoudiger schrijven?</pc></target>
+				</segment>
+			</unit>
+			<unit id="productOfPowers">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Product of powers</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Consider a <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">product of powers</pc> like <ph id="c4" type="ui" subType="swi18n:inline-math"/>. To simplify this, the key is to realize that a power is just a <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">repeated multiplication</pc>. So <ph id="c6" type="ui" subType="swi18n:inline-math"/> and <ph id="c7" type="ui" subType="swi18n:inline-math"/>. As a result, we have <ph id="c8" type="ui" subType="swi18n:block-math"/> Once we see that a power is just a repeated multiplication, such an expression can be simplified right away.</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">We can turn the above idea into a general rule. Note that the exponent in the outcome (the <ph id="c10" type="ui" subType="swi18n:inline-math"/>) is the sum of the two original exponents (the <ph id="c11" type="ui" subType="swi18n:inline-math"/> and the <ph id="c12" type="ui" subType="swi18n:inline-math"/>). More generally, we may write that, for any <ph id="c13" type="ui" subType="swi18n:inline-math"/>, <ph id="c14" type="ui" subType="swi18n:inline-math"/> and <ph id="c15" type="ui" subType="swi18n:inline-math"/>, we have <ph id="c16" type="ui" subType="swi18n:block-math"/> So as long as the two powers have the same base, we may merge them together by adding up their exponents.</pc></source>
+					<target swi18n:sourceContentFingerprint="5b67576fb95124e3" swi18n:sourceStructureFingerprint="0d12f47486333bf2"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Product van machten</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Bekijk een <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">product van machten</pc> zoals <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Om dit te vereenvoudigen, is het cruciaal om in gedachten te houden dat een macht niets meer is dan een <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">herhaalde vermenigvuldiging</pc>. Dus <ph id="c6" type="ui" subType="swi18n:inline-math"/> en <ph id="c7" type="ui" subType="swi18n:inline-math"/>. Als gevolg hiervan geldt <ph id="c8" type="ui" subType="swi18n:block-math"/> Zodra we zien dat een macht een herhaalde vermenigvuldiging is, kan zo'n uitdrukking direct eenvoudiger geschreven worden.</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">We kunnen het bovenstaande idee ook in een algemene regel samenvatten. Merk op dat de exponent van het resultaat (de <ph id="c10" type="ui" subType="swi18n:inline-math"/>) gelijk is aan de som van de twee oorspronkelijke exponenten (de <ph id="c11" type="ui" subType="swi18n:inline-math"/> en de <ph id="c12" type="ui" subType="swi18n:inline-math"/>). Meer algemeen geldt, voor elke <ph id="c13" type="ui" subType="swi18n:inline-math"/>, <ph id="c14" type="ui" subType="swi18n:inline-math"/> en <ph id="c15" type="ui" subType="swi18n:inline-math"/>, dat <ph id="c16" type="ui" subType="swi18n:block-math"/> Dus zolang de twee machten hetzelfde grondgetal hebben, mogen we ze samenvoegen door hun exponenten bij elkaar op te tellen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="powersOfProducts">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Powers of products</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Consider a <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">power of a product</pc> like <ph id="c4" type="ui" subType="swi18n:inline-math"/>. To simplify this, we can again use the idea that a power is a repeated multiplication. So we may write <ph id="c5" type="ui" subType="swi18n:block-math"/> Note that on the right-hand side the brackets are not needed. After all, when multiplying numbers, the order of multiplication doesn't matter. So we have <ph id="c6" type="ui" subType="swi18n:block-math"/> Next, we can <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify the numbers</pc> by pulling these together, turning <ph id="c8" type="ui" subType="swi18n:inline-math"/> into <ph id="c9" type="ui" subType="swi18n:inline-math"/> which also equals <ph id="c10" type="ui" subType="swi18n:inline-math"/>. Similarly we can pull <ph id="c11" type="ui" subType="swi18n:inline-math"/> together into <ph id="c12" type="ui" subType="swi18n:inline-math"/>. The outcome then becomes <ph id="c13" type="ui" subType="swi18n:block-math"/></pc><pc id="c14" type="ui" subType="swi18n:par" swi18n:slot="children">Once more, we can turn the above idea into a general rule. Note that we have effectively rewritten <ph id="c15" type="ui" subType="swi18n:inline-math"/> into <ph id="c16" type="ui" subType="swi18n:inline-math"/>. More generally, we can say that, for any <ph id="c17" type="ui" subType="swi18n:inline-math"/>, <ph id="c18" type="ui" subType="swi18n:inline-math"/> and <ph id="c19" type="ui" subType="swi18n:inline-math"/>, we have <ph id="c20" type="ui" subType="swi18n:block-math"/> So if we have a power of a product, we may pull the power inside of the brackets by applying it to <pc id="c21" type="ui" subType="swi18n:emp" swi18n:slot="children">every</pc> factor.</pc></source>
+					<target swi18n:sourceContentFingerprint="9dce28bf5f38e143" swi18n:sourceStructureFingerprint="731126a50ec2dc6d"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Machten van producten</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Bekijk een <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">macht van een product</pc> zoals <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Om dit eenvoudiger te schrijven, kunnen we wederom het idee gebruiken dat een macht een herhaalde vermenigvuldiging is. Dus we kunnen schrijven dat <ph id="c5" type="ui" subType="swi18n:block-math"/> Merk op dat aan de rechterkant de haakjes niet nodig zijn. Bij het vermenigvuldigen van getallen doet de volgorde van vermenigvuldiging er immers niet toe. Dus geldt <ph id="c6" type="ui" subType="swi18n:block-math"/> Vervolgens kunnen we de <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">getallen samenvoegen</pc>, waarbij <ph id="c8" type="ui" subType="swi18n:inline-math"/> omgezet wordt naar <ph id="c9" type="ui" subType="swi18n:inline-math"/>, wat ook <ph id="c10" type="ui" subType="swi18n:inline-math"/> is. Net zo kunnen we <ph id="c11" type="ui" subType="swi18n:inline-math"/> samenvoegen tot <ph id="c12" type="ui" subType="swi18n:inline-math"/>. Het resultaat wordt dan <ph id="c13" type="ui" subType="swi18n:block-math"/></pc><pc id="c14" type="ui" subType="swi18n:par" swi18n:slot="children">Net als hiervoor kunnen we het bovenstaande idee in een algemene regel samenvatten. Merk op dat we eigenlijk <ph id="c15" type="ui" subType="swi18n:inline-math"/> in <ph id="c16" type="ui" subType="swi18n:inline-math"/> omgeschreven hebben. Algemener kunnen we ook zeggen, voor elke <ph id="c17" type="ui" subType="swi18n:inline-math"/>, <ph id="c18" type="ui" subType="swi18n:inline-math"/> en <ph id="c19" type="ui" subType="swi18n:inline-math"/>, dat <ph id="c20" type="ui" subType="swi18n:block-math"/> Dus als we een macht van een product hebben, mogen we de macht binnen de haakjes trekken door hem op <pc id="c21" type="ui" subType="swi18n:emp" swi18n:slot="children">elke</pc> factor toe te passen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="powersOfPowers">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Powers of powers</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Consider a <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">power of a power</pc> like <ph id="c4" type="ui" subType="swi18n:inline-math"/>. To simplify this, we can once more expand the power as <ph id="c5" type="ui" subType="swi18n:block-math"/> Using the first rule from before (simplifying products of powers) we can write this as <ph id="c6" type="ui" subType="swi18n:block-math"/> This is as simple as it can get.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">The general rule here says that, for any <ph id="c8" type="ui" subType="swi18n:inline-math"/>, <ph id="c9" type="ui" subType="swi18n:inline-math"/> and <ph id="c10" type="ui" subType="swi18n:inline-math"/>, we have <ph id="c11" type="ui" subType="swi18n:block-math"/> So a power outside of brackets may be pulled inside the brackets, where it becomes a multiplication of the exponent.</pc><pc id="c12" type="ui" subType="swi18n:warning" swi18n:slot="children">Note that the brackets in the above rule are very important. After all, <ph id="c13" type="ui" subType="swi18n:inline-math"/> is very different from <ph id="c14" type="ui" subType="swi18n:inline-math"/>. (The latter is often written without brackets as simply <ph id="c15" type="ui" subType="swi18n:inline-math"/>, which per definition equals <ph id="c16" type="ui" subType="swi18n:inline-math"/>.) To see why, compare for instance <ph id="c17" type="ui" subType="swi18n:inline-math"/> with <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					<target swi18n:sourceContentFingerprint="cde52d6d30ba3752" swi18n:sourceStructureFingerprint="6720e484c7cf2e63"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Machten van machten</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Bekijk een <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">macht van een macht</pc> zoals <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Om dit te vereenvoudigen, kunnen we wederom de macht uitschrijven als <ph id="c5" type="ui" subType="swi18n:block-math"/> Via de eerste regel hierboven (vereenvoudigen van producten van machten) kunnen we dit schrijven als <ph id="c6" type="ui" subType="swi18n:block-math"/> Dit is zo eenvoudig als het maar kan.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">De algemene regel hier zegt, voor elke <ph id="c8" type="ui" subType="swi18n:inline-math"/>, <ph id="c9" type="ui" subType="swi18n:inline-math"/> en <ph id="c10" type="ui" subType="swi18n:inline-math"/>, dat <ph id="c11" type="ui" subType="swi18n:block-math"/> Dus een macht buiten de haakjes kan binnen de haakjes getrokken worden, waar het een vermenigvuldiging van de exponent wordt.</pc><pc id="c12" type="ui" subType="swi18n:warning" swi18n:slot="children">Merk op dat de haakjes in de bovenstaande regel cruciaal zijn. Immers is <ph id="c13" type="ui" subType="swi18n:inline-math"/> iets heel anders dan <ph id="c14" type="ui" subType="swi18n:inline-math"/>. (Het laatste wordt vaak zonder haakjes geschreven als <ph id="c15" type="ui" subType="swi18n:inline-math"/>, wat per definitie dus <ph id="c16" type="ui" subType="swi18n:inline-math"/> is.) Om in te zien waarom, kun je bijvoorbeeld <ph id="c17" type="ui" subType="swi18n:inline-math"/> vergelijken me <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+				</segment>
+			</unit>
+			<unit id="inPractice">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Applying the rules in practice</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">In practice, you generally don't write out powers fully, but will directly apply the respective rule. Sometimes combinations of these rules are necessary. When this is the case, keep in mind that powers are calculated before products, so always start simplifying any potential powers.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">For instance, consider <ph id="c4" type="ui" subType="swi18n:inline-math"/>. There are products and powers. We start by simplifying the power turning <ph id="c5" type="ui" subType="swi18n:inline-math"/> into <ph id="c6" type="ui" subType="swi18n:inline-math"/>. So we have <ph id="c7" type="ui" subType="swi18n:block-math"/> Merging number factors together simplifies this to <ph id="c8" type="ui" subType="swi18n:block-math"/> Finally the two powers can be merged together into <ph id="c9" type="ui" subType="swi18n:block-math"/> Work step by step, write down intermediate results, and always keep it clear for yourself which exact rule you're applying.</pc></source>
+					<target swi18n:sourceContentFingerprint="695775f5efab8f14" swi18n:sourceStructureFingerprint="aa3d8cf687298388"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De regels in de praktijk toepassen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">In de praktijk schrijf je de machten niet vol uit, maar pas je direct de betreffende regel toe. Soms zijn combinaties van regels nodig. Houdt in dit geval in gedachten dat machten voorrang hebben op vermenigvuldigingen, dus begin altijd met het vereenvoudigen van eventuele machten.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Bekijk bijvoorbeeld <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Er zijn zowel producten als machten. We beginnen met het vereenvoudigen van de macht, wat <ph id="c5" type="ui" subType="swi18n:inline-math"/> omzet naar <ph id="c6" type="ui" subType="swi18n:inline-math"/>. Zo vinden we <ph id="c7" type="ui" subType="swi18n:block-math"/> Het samenvoegen van getalfactoren vereenvoudigt dit tot <ph id="c8" type="ui" subType="swi18n:block-math"/> Uiteindelijk kunnen de twee machten samengevoegd worden tot <ph id="c9" type="ui" subType="swi18n:block-math"/> Werk stap voor step, schrijf je tussenresultaten op, en houdt het altijd duidelijk voor jezelf welke regel je precies toepast.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To simplify a combination of products of powers, like for instance <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Apply any of the rules to simplify a part of your expression. Rules involving powers (rules 2 and 3) usually go before rules using products (rule 1). In the example, we apply the second rule to get <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Simplify any number products</pc>. In the example, we can reduce <ph id="c11" type="ui" subType="swi18n:inline-math"/> to <ph id="c12" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c13" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:c" swi18n:slot="children">If necessary, apply more rules to simplify things further. In the example, we rewrite the product of powers (rule 1) to get <ph id="c15" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c16" type="ui" subType="swi18n:par" swi18n:slot="children">If you cannot remember the exact rules, keep in mind that a power is just a <pc id="c17" type="ui" subType="swi18n:skill-link" swi18n:slot="children">repeated multiplication</pc> and things will sort itself out.</pc></source>
+					<target swi18n:sourceContentFingerprint="8f37b8f06cb6fed1" swi18n:sourceStructureFingerprint="208cd58ee6be5425"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De stappen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om een combinatie van producten en machten te vereenvoudigen, zoals bijvoorbeeld <ph id="c3" type="ui" subType="swi18n:inline-math"/>, neem je de volgende stappen.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Pas elke mogelijke regel toe om een deel van de uitdrukking te vereenvoudigen. Regels met machten (regel 2 and 3) gebruik je vaak voor regels met producten (regel 1). In het voorbeeld passen we de tweede regel toe om het terug te brengen tot <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Vereenvoudig getalproducten</pc>. In het voorbeeld brengen we <ph id="c11" type="ui" subType="swi18n:inline-math"/> terug tot <ph id="c12" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c13" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:c" swi18n:slot="children">Pas indien nodig meer regels toe om alles verder te vereenvoudigen. In het voorbeeld voegen we het product van machten samen (regel 1) om uit te komen <ph id="c15" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c16" type="ui" subType="swi18n:par" swi18n:slot="children">Als je de exacte regel niet meer weet, houdt dan in gedachten dat een macht niets meer is dan een <pc id="c17" type="ui" subType="swi18n:skill-link" swi18n:slot="children">herhaalde vermenigvuldiging</pc>, en de rest volgt dan vanzelf.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="powerOfProductOfPower">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand brackets and merge powers to simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="557c94358a7f93b8" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de uitdrukking <ph id="c1" type="ui" subType="swi18n:block-math"/> Werk de haakjes uit, voeg machten samen en vereenvoudig het resultaat zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Expand the outer brackets by pulling the power into the brackets. Use new brackets where needed.</source>
+							<target swi18n:sourceContentFingerprint="28b20ac47293db8b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Werk de buitenste haakjes uit door de macht binnen de haakjes te trekken. Gebruik waar nodig nieuwe haakjes.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When we pull the exponent into the brackets (rule 2) we must apply them to every factor separately. This results in <ph id="c1" type="ui" subType="swi18n:block-math"/> Note that the new brackets here are very much needed.</source>
+							<target swi18n:sourceContentFingerprint="e5464265b9122bc0" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Als we de exponent binnen de haakjes trekken (regel 2) dan moeten we hem op elke factor afzonderlijk toepassen. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/> Merk op dat de nieuwe haakjes hier zeker wel nodig zijn.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify all products and powers of numbers.</source>
+							<target swi18n:sourceContentFingerprint="4e9d837365dbfc12" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig alle producten en machten van getallen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By reducing <ph id="c1" type="ui" subType="swi18n:inline-math"/> to <ph id="c2" type="ui" subType="swi18n:inline-math"/> we can write <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="a1ae7b525780ffc1" swi18n:sourceStructureFingerprint="48a11a365f442e35">Door <ph id="c1" type="ui" subType="swi18n:inline-math"/> terug te brengen tot <ph id="c2" type="ui" subType="swi18n:inline-math"/> geldt <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Turn the power of a power into a single power and simplify the resulting exponent.</source>
+							<target swi18n:sourceContentFingerprint="c2e882e9001cf2b3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Zet de macht van een macht om in een enkele macht en vereenvoudig de hieruitvolgende exponent.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can pull the outer power in <ph id="c1" type="ui" subType="swi18n:inline-math"/> into the exponent, where it becomes a multiplication <ph id="c2" type="ui" subType="swi18n:inline-math"/> (rule 3), which in turn becomes <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This leads us to the final result, <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="31078e9cfb4cbcc4" swi18n:sourceStructureFingerprint="c349a010fef3c387">We kunnen de buitenste macht bij <ph id="c1" type="ui" subType="swi18n:inline-math"/> de exponent intrekken, waar het dan een vermenigvuldiging <ph id="c2" type="ui" subType="swi18n:inline-math"/> wordt (regel 3). Dit is dan ook gelijk aan <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Dit geeft ons het eindresultaat, <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="productOfPowerOfPower">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand brackets and merge powers to simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="557c94358a7f93b8" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de uitdrukking <ph id="c1" type="ui" subType="swi18n:block-math"/> Werk de haakjes uit, voeg machten samen en vereenvoudig het resultaat zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Turn the power of a power into a single power.</source>
+							<target swi18n:sourceContentFingerprint="e60b92af617fed9c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Zet de macht van een macht om in een enkele macht.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can pull the outer power in <ph id="c1" type="ui" subType="swi18n:inline-math"/> into the exponent, where it becomes a multiplication <ph id="c2" type="ui" subType="swi18n:inline-math"/> (rule 3), which in turn becomes <ph id="c3" type="ui" subType="swi18n:inline-math"/>. So we may write <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="596e284e8ab138b0" swi18n:sourceStructureFingerprint="c349a010fef3c387">We kunnen de buitenste macht bij <ph id="c1" type="ui" subType="swi18n:inline-math"/> de exponent intrekken, waar het dan een vermenigvuldiging <ph id="c2" type="ui" subType="swi18n:inline-math"/> wordt (regel 3). Dit is dan ook gelijk aan <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Dus mogen we schrijven dat <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Merge the product of the powers into a single power and simplify the resulting exponent.</source>
+							<target swi18n:sourceContentFingerprint="dc20dff1597cd307" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voeg het product van de machten samen tot een enkele macht en vereenvoudig de hieruitvolgende exponent.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The two powers have the same base, so we may merge them together. When we do, we have to add up the exponents (rule 1). This turns the expression into <ph id="c1" type="ui" subType="swi18n:inline-math"/>, which can be simplified further to the final result, <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="542501e8ea90693a" swi18n:sourceStructureFingerprint="fd2fba868566671b">De twee machten hebben hetzelfde grondgetal, en dus mogen we ze samenvoegen. Als we dit doen, dan moeten we de exponenten bij elkaar optellen (regel 1). Dit zet de uitdrukking om in <ph id="c1" type="ui" subType="swi18n:inline-math"/>, wat verder vereenvoudigd kan worden tot het eindresultaat, <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="productOfPowerOfProduct">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand brackets and merge powers to simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="557c94358a7f93b8" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de uitdrukking <ph id="c1" type="ui" subType="swi18n:block-math"/> Werk de haakjes uit, voeg machten samen en vereenvoudig het resultaat zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Expand the outer brackets by pulling the power into the brackets. Use new brackets where needed.</source>
+							<target swi18n:sourceContentFingerprint="28b20ac47293db8b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Werk de buitenste haakjes uit door de macht binnen de haakjes te trekken. Gebruik waar nodig nieuwe haakjes.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When we pull the exponent into the brackets (rule 2) we must apply them to every factor separately. This results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="ac6f446c25b7b1f0" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Als we de exponent binnen de haakjes trekken (regel 2) dan moeten we hem op elke factor afzonderlijk toepassen. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify all products and powers of numbers.</source>
+							<target swi18n:sourceContentFingerprint="4e9d837365dbfc12" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig alle producten en machten van getallen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The numbers in the expression are <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Their product equals <ph id="c3" type="ui" subType="swi18n:inline-math"/> which turns the expression into <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="43b90be79b6aae1b" swi18n:sourceStructureFingerprint="c349a010fef3c387">De getallen in de uitdrukking zijn <ph id="c1" type="ui" subType="swi18n:inline-math"/> en <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Het product hiervan is <ph id="c3" type="ui" subType="swi18n:inline-math"/> wat de uitdrukking omzet naar <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge the product of the powers into a single power and simplify the resulting exponent.</source>
+							<target swi18n:sourceContentFingerprint="dc20dff1597cd307" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voeg het product van de machten samen tot een enkele macht en vereenvoudig de hieruitvolgende exponent.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The two powers have the same base, so we may merge them together. When we do, we have to add up the exponents (rule 1). This turns the expression into <ph id="c1" type="ui" subType="swi18n:inline-math"/>, which can be simplified further to the final result, <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="542501e8ea90693a" swi18n:sourceStructureFingerprint="fd2fba868566671b">De twee machten hebben hetzelfde grondgetal, en dus mogen we ze samenvoegen. Als we dit doen, dan moeten we de exponenten bij elkaar optellen (regel 1). Dit zet de uitdrukking om in <ph id="c1" type="ui" subType="swi18n:inline-math"/>, wat verder vereenvoudigd kan worden tot het eindresultaat, <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

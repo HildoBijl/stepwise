@@ -2,7 +2,8 @@ import React from 'react'
 
 import { expressionComparisons } from '@step-wise/cas'
 import { M, BM } from '@step-wise/math-display'
-import { Translation } from 'i18n'
+import { Translation } from '@step-wise/i18n'
+
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'

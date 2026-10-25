@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { M } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { IntegerInput } from 'ui/inputs'
@@ -14,15 +14,15 @@ export default function Exercise() {
 
 function Problem({ x }) {
 	return <>
-		<Par><Translation entry="text">Enter the number <M>{x}</M>.</Translation></Par>
+		<Par><Translation id="text">Enter the number <M>{x}</M>.</Translation></Par>
 		<InputSpace>
-			<Par><IntegerInput id="ans" prelabel={<M>{x}=</M>} label={<Translation entry="label">Enter <M>{x}</M> here</Translation>} size='s' /></Par>
+			<Par><IntegerInput id="ans" prelabel={<M>{x}=</M>} label={<Translation id="label">Enter <M>{x}</M> here</Translation>} size='s' /></Par>
 		</InputSpace>
 	</>
 }
 
 function Solution({ x }) {
-	return <Par><Translation>You can click on the input field and type in the number <M>{x}</M>.<Check value={x < 0}><Check.True> A potential minus sign can also be added after typing in the number. The input field is smart enough to know that the minus sign must be at the front.</Check.True></Check></Translation></Par>
+	return <Par><Translation>You can click on the input field and type in the number <M>{x}</M>.<Condition value={x < 0}><Condition.True> A potential minus sign can also be added after typing in the number. The input field is smart enough to know that the minus sign must be at the front.</Condition.True></Condition></Translation></Par>
 }
 
 function getFeedback(exerciseData) {

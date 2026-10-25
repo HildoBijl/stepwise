@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
@@ -41,7 +41,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, switchSides, termMoved }) => {
-			return <Par><Translation>By bringing the <M>{variables.c.stripSigns()}</M> to the <Check value={switchSides}><Check.True>left</Check.True><Check.False>right</Check.False></Check> and <Check value={variables.c.number > 0}><Check.True>subtracting it from</Check.True><Check.False>adding it to</Check.False></Check> the <M>{variables.d}</M>, we get <BM>{termMoved}.</BM></Translation></Par>
+			return <Par><Translation>By bringing the <M>{variables.c.stripSigns()}</M> to the <Condition value={switchSides}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> and <Condition value={variables.c.number > 0}><Condition.True>subtracting it from</Condition.True><Condition.False>adding it to</Condition.False></Condition> the <M>{variables.d}</M>, we get <BM>{termMoved}.</BM></Translation></Par>
 		},
 	},
 	{
@@ -57,7 +57,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ termMoved, switchSides, factorMoved }) => {
-			return <Par><Translation>The factor <M>{termMoved[switchSides ? 'right' : 'left'].denominator}</M> appears on the <Check value={switchSides}><Check.True>left</Check.True><Check.False>right</Check.False></Check> as a multiplication. This turns the equation into <BM>{factorMoved}.</BM></Translation></Par>
+			return <Par><Translation>The factor <M>{termMoved[switchSides ? 'right' : 'left'].denominator}</M> appears on the <Condition value={switchSides}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> as a multiplication. This turns the equation into <BM>{factorMoved}.</BM></Translation></Par>
 		},
 	},
 	{
@@ -74,7 +74,7 @@ const steps = [
 		},
 		Solution: ({ variables, switchSides, expanded, cleaned, factor, solution, canCleanSolution, ans, equationInserted, sideValue }) => {
 			return <Translation>
-				<Par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <BM>{expanded}.</BM> The only term with <M>{variables.x}</M> is already on the <Check value={switchSides}><Check.True>left</Check.True><Check.False>right</Check.False></Check> so we can keep it there. Moving all numbers to the <Check value={switchSides}><Check.True>right</Check.True><Check.False>left</Check.False></Check> and pulling them together results in <BM>{cleaned}.</BM><Check value={factor.number !== 1}><Check.True>Dividing by <M>{factor}</M> gives us the solution <BM>{variables.x} = {solution}.</BM><Check value={canCleanSolution}><Check.True>This can still be simplified into <BM>{variables.x} = {ans}.</BM></Check.True><Check.False>This cannot be simplified further.</Check.False></Check></Check.True><Check.False>Coincidentally the factor before the <M>{variables.x}</M> has already dropped out, so we have already found the solution, <BM>{variables.x} = {ans}.</BM></Check.False></Check></Par>
+				<Par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <BM>{expanded}.</BM> The only term with <M>{variables.x}</M> is already on the <Condition value={switchSides}><Condition.True>left</Condition.True><Condition.False>right</Condition.False></Condition> so we can keep it there. Moving all numbers to the <Condition value={switchSides}><Condition.True>right</Condition.True><Condition.False>left</Condition.False></Condition> and pulling them together results in <BM>{cleaned}.</BM><Condition value={factor.number !== 1}><Condition.True>Dividing by <M>{factor}</M> gives us the solution <BM>{variables.x} = {solution}.</BM><Condition value={canCleanSolution}><Condition.True>This can still be simplified into <BM>{variables.x} = {ans}.</BM></Condition.True><Condition.False>This cannot be simplified further.</Condition.False></Condition></Condition.True><Condition.False>Coincidentally the factor before the <M>{variables.x}</M> has already dropped out, so we have already found the solution, <BM>{variables.x} = {ans}.</BM></Condition.False></Condition></Par>
 				<Par>The last thing to do is to check the solution. Inserting it into the original equation gives <BM>{equationInserted}.</BM> Both sides reduce to <M>{sideValue}</M> which shows that the solution is correct.</Par>
 			</Translation>
 		},

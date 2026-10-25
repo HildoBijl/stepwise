@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="practice">
+			<group id="applyPythagoreanTheoremGeneral">
+				<unit id="mainProblem">
+					<segment>
+						<source>Given the triangle below, determine the unknown side <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Through the Pythagorean therom, set up an equation linking the three sides of the triangle. Use the values <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We have the two legs <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> and the hypothenuse <ph id="c3" type="ui" subType="swi18n:inline-math"/>. The Pythagorean theorem now directly states that <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Solve these equation first for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can directly find that <ph id="c1" type="ui" subType="swi18n:block-math"/> This can then still be simplified to <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Determine based on <ph id="c1" type="ui" subType="swi18n:inline-math"/> the value of <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We take the square root of both sides of the equation. This gives us <ph id="c1" type="ui" subType="swi18n:block-math"/> Note that, since we know that the requested distance is positive, we do not need to add a <ph id="c2" type="ui" subType="swi18n:inline-math"/> here. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, the above result can still be simplified to <ph id="c3" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">The above result cannot be simplified further.</pc></pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

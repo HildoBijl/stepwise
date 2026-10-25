@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { M } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { PrecisionNumberInput } from 'ui/inputs'
@@ -14,9 +14,9 @@ export default function Exercise() {
 
 function Problem({ x }) {
 	return <>
-		<Par><Translation entry="text">Enter the number <M>{x}</M>.</Translation></Par>
+		<Par><Translation id="text">Enter the number <M>{x}</M>.</Translation></Par>
 		<InputSpace>
-			<Par><PrecisionNumberInput id="ans" prelabel={<M>{x}=</M>} label={<Translation entry="label">Enter <M>{x}</M> here</Translation>} size='s' /></Par>
+			<Par><PrecisionNumberInput id="ans" prelabel={<M>{x}=</M>} label={<Translation id="label">Enter <M>{x}</M> here</Translation>} size='s' /></Par>
 		</InputSpace>
 	</>
 }

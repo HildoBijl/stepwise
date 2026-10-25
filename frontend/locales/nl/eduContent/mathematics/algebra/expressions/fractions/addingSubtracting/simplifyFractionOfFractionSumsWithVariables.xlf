@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify a fraction of fraction sums with variables</pc>. Think of starting with <ph id="c3" type="ui" subType="swi18n:inline-math"/> and eventually reducing it to <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes adding the various fractions (above and below) together into a single fraction, and then simplifying the resulting fraction of fractions. The skill does not require the cancellation of potential polynomial fractions afterwards.</pc></source>
+					<target swi18n:sourceContentFingerprint="8f9a40c3b2218fa0" swi18n:sourceStructureFingerprint="91bc01122207a0f1"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je om een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">breuk met breuksommen met variabelen te vereenvoudigen</pc>. Denk aan het beginnen met <ph id="c3" type="ui" subType="swi18n:inline-math"/> om dit uiteindelijk terug te brengen tot <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Dit omvat het samenvoegen van breuken (boven en onder) tot een enkele breuk, en het vervolgens vereenvoudigen van de resulterende breuk van breuken. Deze vaardigheid gaat niet over het achteraf nog wegstrepen van potentiële polynome factoren.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

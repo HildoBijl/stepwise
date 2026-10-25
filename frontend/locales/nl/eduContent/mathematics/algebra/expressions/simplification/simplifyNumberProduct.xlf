@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify a multiplication of numbers</pc> inside an expression. For instance when seeing <ph id="c3" type="ui" subType="swi18n:inline-math"/> you should immediately realize, "Oh, that's just <ph id="c4" type="ui" subType="swi18n:inline-math"/>." This also includes dealing with negative numbers: <ph id="c5" type="ui" subType="swi18n:inline-math"/> should be adequately turned into <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					<target swi18n:sourceContentFingerprint="8f984e568f582dd0" swi18n:sourceStructureFingerprint="e14b76ae2bc35c7d"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">vermenigvuldiging van getallen</pc> binnen een uitdrukking te vereenvoudigen. Als je bijvoorbeeld <ph id="c3" type="ui" subType="swi18n:inline-math"/> ziet moet je gelijk beseffen, "Oh, dat is simpelweg <ph id="c4" type="ui" subType="swi18n:inline-math"/>." Dit omvat ook het omgaan met negatieve getallen: <ph id="c5" type="ui" subType="swi18n:inline-math"/> moet op adequate wijze omgezet worden in <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify a fraction containing further fractions with variables</pc>. Think of turning <ph id="c3" type="ui" subType="swi18n:inline-math"/> into <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes turning any potentially <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">negative powers</pc> like <ph id="c6" type="ui" subType="swi18n:inline-math"/> into a fraction, turning any <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">fraction of fractions into a single fraction</pc>, and subsequently <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying the resulting fraction</pc>. The skill does not include the <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">addition/subtraction of fractions</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="d7330e2914a23bdd" swi18n:sourceStructureFingerprint="e0c436931c048bff"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">breuken met daarin verdere breuken met variabelen te vereenvoudigen</pc>. Denk aan het omzetten van <ph id="c3" type="ui" subType="swi18n:inline-math"/> in <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Dit omvat het omzetten van eventuele <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">negatieve machten</pc> zoals <ph id="c6" type="ui" subType="swi18n:inline-math"/> naar breuken, het <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">terugbrengen van een breuk van breuken tot een enkele breuk</pc>, en hieropvolgend het <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereenvoudigen van de betreffende breuk</pc>. Deze vaardigheid omvat niet het <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">optellen/aftrekken van breuken</pc>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We sometimes may find expressions where there are fractions inside of fractions. For instance we could encounter <ph id="c2" type="ui" subType="swi18n:inline-math"/>. How can we simplify something like this?</pc></source>
+					<target swi18n:sourceContentFingerprint="a7a1f2d6f9eef419" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Soms komen we uitdrukkingen tegen waar er breuken in breuken staan. We kunnen bijvoorbeeld <ph id="c2" type="ui" subType="swi18n:inline-math"/> hebben. Hoe kunnen we iets als dit eenvoudiger schrijven?</pc></target>
+				</segment>
+			</unit>
+			<unit id="singleFraction">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Turn the fraction of fractions into a single fraction</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The hard part of our current situation is that we have a <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">fraction inside of a fraction</pc>. We know how to <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply and divide fractions with numbers</pc>, and how the factors are reordered to end up with a single fraction. When using variables, it works the same way! After all, <ph id="c5" type="ui" subType="swi18n:inline-math"/> is just as much a number as (for instance) the number <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Using the default rules of rewriting fractions, we may adjust our example expression to <ph id="c8" type="ui" subType="swi18n:block-math"/> Note that the denominator of the denominator (here <ph id="c9" type="ui" subType="swi18n:inline-math"/>) has found its way into the numerator.</pc></source>
+					<target swi18n:sourceContentFingerprint="7a1f0803465f31b8" swi18n:sourceStructureFingerprint="3713405aad322232"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De breuk van breuken in een enkele breuk omzetten</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Het lastige deel van ons probleem is dat er er een <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">breuk in een breuk</pc> staat. We weten hoe we <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">breuken met getallen kunnen vermenigvuldigen en delen</pc>, en hoe de factoren hierbij herschikt worden om op een enkele breuk uit te komen. Als er variabelen bij zijn, werkt dit op exact dezelfde manier! Immers is <ph id="c5" type="ui" subType="swi18n:inline-math"/> net zo zeer een getal als (bijvoorbeeld) het getal <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Aan de hand van de standaard regels van het herschrijven van breuken, kunnen we onze voorbeelduitdrukking omvormen tot <ph id="c8" type="ui" subType="swi18n:block-math"/> Merk op dat de noemer van de noemer (hier <ph id="c9" type="ui" subType="swi18n:inline-math"/>) in de teller beland is.</pc></target>
+				</segment>
+			</unit>
+			<unit id="simplifying">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Simplify the fraction</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Once we have done the above, we are left with a <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">single fraction</pc>. We are already familiar with <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying a fraction</pc> like this. We cross out factors, both for the numbers (a factor <ph id="c5" type="ui" subType="swi18n:inline-math"/>) and for the variables (two factors <ph id="c6" type="ui" subType="swi18n:inline-math"/>) to wind up with <ph id="c7" type="ui" subType="swi18n:block-math"/> This is as simple as it can possibly be written.</pc></source>
+					<target swi18n:sourceContentFingerprint="bfdde1aa1fcf9d06" swi18n:sourceStructureFingerprint="996a24bcdc3b2510"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De breuk vereenvoudigen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Zodra we het bovenstaande gedaan hebben, hebben we een <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">enkele breuk</pc> over. We zijn al bekend met het <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereenvoudigen van een breuk</pc> als deze. We strepen factoren weg, zowel bij de getallen (een factor <ph id="c5" type="ui" subType="swi18n:inline-math"/>) als bij de variabelen (twee factoren <ph id="c6" type="ui" subType="swi18n:inline-math"/>), om uit te komen op <ph id="c7" type="ui" subType="swi18n:block-math"/> Dit is zo eenvoudig als we het maar schrijven kunnen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="negativePowers">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Deal with negative powers</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">It may happen that we encounter negative powers like <ph id="c3" type="ui" subType="swi18n:inline-math"/> in our original fraction. For instance we may start with <ph id="c4" type="ui" subType="swi18n:inline-math"/>. The key to dealing with that is to, before doing anything else, write any negative powers as a fraction. Afterwards everything happens in exactly the same way. So in this case we would have <ph id="c5" type="ui" subType="swi18n:block-math"/></pc></source>
+					<target swi18n:sourceContentFingerprint="ee28571a534136fe" swi18n:sourceStructureFingerprint="89cc65f97ae1624f"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Negatieve machten afhandelen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Het kan voorkomen dat we een negatieve macht als <ph id="c3" type="ui" subType="swi18n:inline-math"/> in de oorspronkelijke breuk vinden. We kunnen bijvoorbeeld beginnen met <ph id="c4" type="ui" subType="swi18n:inline-math"/>. De manier om dit af te handelen is om, voordat we ook maar iets anders doen, elke negatieve macht als breuk om te schrijven. Vervolgens gaat alles op exact dezelfde wijze verder. Dus in dit geval krijgen we <ph id="c5" type="ui" subType="swi18n:block-math"/></pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To simplify a fraction where the numerator and/or the denominator contain fractions and/or negative powers, like for instance with <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Rewrite any negative powers as fractions</pc>. This turns the example into <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:b" swi18n:slot="children">Use the default rules of <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplying and dividing fractions</pc> to turn everything into a single fraction. For the example we move the denominator of the denominator (here <ph id="c12" type="ui" subType="swi18n:inline-math"/>) into the numerator to get <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Simplify the resulting fraction</pc>, canceling as many factors as possible, both numeric and with variables. For the example, we end up with <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="8511f57257875deb" swi18n:sourceStructureFingerprint="c582fbc95bafd9e0"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De stappen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om een breuk te vereenvoudigen waarvan de teller en/of de noemer breuken en/of negatieve machten bevatten, zoals bijvoorbeeld <ph id="c3" type="ui" subType="swi18n:inline-math"/>, neem je de volgende stappen.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Herschrijf elke negatieve macht als een breuk</pc>. Dit zet het voorbeeld om naar <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:b" swi18n:slot="children">Gebruik de standaard regels van het <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vermenigvuldigen en delen van breuken</pc> om alles als een enkele breuk te schrijven. Bij het voorbeeld brengen we de noemer van de noemer (hier <ph id="c12" type="ui" subType="swi18n:inline-math"/>) over naar de tellen en krijgen zo <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Vereenvoudig de betreffende breuk</pc>, waarbij je zo veel mogelijk factoren wegstreept, zowel bij de getallen als bij de variabelen. Bij het voorbeeld komen we zo uit op <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="basicForm">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the fraction <ph id="c1" type="ui" subType="swi18n:block-math"/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)</source>
+						<target swi18n:sourceContentFingerprint="14a5de2520951112" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de breuk <ph id="c1" type="ui" subType="swi18n:block-math"/> Vereenvoudig deze breuk zo veel als mogelijk. (Haakjes hoeven niet uitgewerkt te worden.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Write the fraction of fractions as a single fraction.</source>
+							<target swi18n:sourceContentFingerprint="73611f17be1fd90b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Schrijf de breuk van breuken als een enkele breuk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">When dividing a fraction by a factor, it's also allowed to add that factor to the denominator.</pc><pc id="x3" type="other" subType="swi18n:condition-false">When dividing by a fraction, we can also multiply by the inverse. The outside factor (the original numerator) can subsequently be pulled into the numerator.</pc></pc> This gives <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="019904ca0250fbf1" swi18n:sourceStructureFingerprint="e51d69d0614f1ffc"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Bij het delen van een breuk door een factor is het ook toegestaan om die factor aan de noemer toe te voegen.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Bij het delen door een breuk mogen we ook vermenigvuldigen met het omgekeerde. De factor erbuiten (de oorspronkelijke teller) kan dan ook bij de noemer gevoegd worden.</pc></pc> Zo krijgen we <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the resulting fraction as much as possible, canceling both numeric and variable factors.</source>
+							<target swi18n:sourceContentFingerprint="9c532d2d51983908" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig de resulterende breuk zo veel mogelijk, waarbij je zowel factoren met getallen als met variabelen wegstreept.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can divide the numerator and the denominator by <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Next to that, we can cancel <ph id="c2" type="ui" subType="swi18n:counting-word"/> factors of <ph id="c3" type="ui" subType="swi18n:inline-math"/> from both sides. This results in <ph id="c4" type="ui" subType="swi18n:block-math"/> This is as simplified as possible. Altogether, the final result is <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="1ee19df0aa87cc05" swi18n:sourceStructureFingerprint="7230ce2d2c4a5569">We kunnen de teller en de noemer door <ph id="c1" type="ui" subType="swi18n:inline-math"/> delen. Hiernaast kunnen we ook <ph id="c2" type="ui" subType="swi18n:counting-word"/> factoren <ph id="c3" type="ui" subType="swi18n:inline-math"/> van beide kanten wegstrepen. Dit geeft <ph id="c4" type="ui" subType="swi18n:block-math"/> Dit is zo eenvoudig als maar kan. Alles bij elkaar is het eindresultaat <ph id="c5" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="higherPowers">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the fraction <ph id="c1" type="ui" subType="swi18n:block-math"/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)</source>
+						<target swi18n:sourceContentFingerprint="14a5de2520951112" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de breuk <ph id="c1" type="ui" subType="swi18n:block-math"/> Vereenvoudig deze breuk zo veel als mogelijk. (Haakjes hoeven niet uitgewerkt te worden.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Write the fraction of fractions as a single fraction.</source>
+							<target swi18n:sourceContentFingerprint="73611f17be1fd90b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Schrijf de breuk van breuken als een enkele breuk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When dividing by a fraction, we can also multiply by the inverse. This gives <ph id="c1" type="ui" subType="swi18n:block-math"/> These two fractions can subsequently be merged together, multiplying the numerator by the numerator and the denominator by the denominator. This results in <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="55de5d0df9c13c8d" swi18n:sourceStructureFingerprint="b44bdd9ade835acd">Bij het delen door een breuk kunnen we ook vermenigvuldigen met het omgekeerde. Zo krijgen we <ph id="c1" type="ui" subType="swi18n:block-math"/> Deze twee breuken kunnen vervolgens samengevoegd worden, door de teller met de teller en de noemer met de noemer te vermenigvuldigen. Dit komt uit op <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the resulting fraction as much as possible, canceling both numeric and variable factors.</source>
+							<target swi18n:sourceContentFingerprint="9c532d2d51983908" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig de resulterende breuk zo veel mogelijk, waarbij je zowel factoren met getallen als met variabelen wegstreept.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can merge number products<pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true"> and subsequently divide the numerator and the denominator by <ph id="c1" type="ui" subType="swi18n:inline-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false"></pc></pc>. This gives us <ph id="c2" type="ui" subType="swi18n:block-math"/> Next to that, we can cancel <ph id="c3" type="ui" subType="swi18n:counting-word"/> factors of <ph id="c4" type="ui" subType="swi18n:inline-math"/> and <ph id="c5" type="ui" subType="swi18n:counting-word"/> factors of <ph id="c6" type="ui" subType="swi18n:inline-math"/> from both sides. This results in <ph id="c7" type="ui" subType="swi18n:block-math"/> This is as simplified as possible. Altogether, the final result is <ph id="c8" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="d1ae699c3a4756af" swi18n:sourceStructureFingerprint="01bf964d6aec6e5f">We kunnen getalproducten samenvoegen<pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true"> en vervolgens de teller en de noemer door <ph id="c1" type="ui" subType="swi18n:inline-math"/> delen</pc><pc id="x3" type="other" subType="swi18n:condition-false"></pc></pc>. Dit komt uit op <ph id="c2" type="ui" subType="swi18n:block-math"/> Hiernaast kunnen we ook <ph id="c3" type="ui" subType="swi18n:counting-word"/> factoren <ph id="c4" type="ui" subType="swi18n:inline-math"/> en <ph id="c5" type="ui" subType="swi18n:counting-word"/> factoren <ph id="c6" type="ui" subType="swi18n:inline-math"/> van beide kanten wegstrepen. Dit geeft <ph id="c7" type="ui" subType="swi18n:block-math"/> Dit is zo eenvoudig als maar kan. Alles bij elkaar is het eindresultaat <ph id="c8" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="multipleFactors">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the fraction <ph id="c1" type="ui" subType="swi18n:block-math"/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)</source>
+						<target swi18n:sourceContentFingerprint="14a5de2520951112" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de breuk <ph id="c1" type="ui" subType="swi18n:block-math"/> Vereenvoudig deze breuk zo veel als mogelijk. (Haakjes hoeven niet uitgewerkt te worden.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Write the fraction of fractions as a single fraction.</source>
+							<target swi18n:sourceContentFingerprint="73611f17be1fd90b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Schrijf de breuk van breuken als een enkele breuk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When dividing by a fraction, we can also multiply by the inverse. This results in <ph id="c1" type="ui" subType="swi18n:block-math"/> These two fractions can subsequently be merged together, multiplying the numerator by the numerator and the denominator by the denominator. This gives <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="2fea0e064d031c31" swi18n:sourceStructureFingerprint="b44bdd9ade835acd">Bij het delen door een breuk kunnen we ook vermenigvuldigen met het omgekeerde. Zo krijgen we <ph id="c1" type="ui" subType="swi18n:block-math"/> Deze twee breuken kunnen vervolgens samengevoegd worden, door de teller met de teller en de noemer met de noemer te vermenigvuldigen. Dit komt uit op <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the resulting fraction as much as possible, canceling both numeric and variable factors.</source>
+							<target swi18n:sourceContentFingerprint="9c532d2d51983908" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig de resulterende breuk zo veel mogelijk, waarbij je zowel factoren met getallen als met variabelen wegstreept.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can merge number products<pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true"> and subsequently divide the numerator and the denominator by <ph id="c1" type="ui" subType="swi18n:inline-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false"></pc></pc>. This gives us <ph id="c2" type="ui" subType="swi18n:block-math"/> Next to that, we can cancel the factors <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> from both sides, as well as merge repeated multiplications into squares. This results in <ph id="c5" type="ui" subType="swi18n:block-math"/> This is as simplified as possible. Altogether, the final result is <ph id="c6" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="151bfda240540651" swi18n:sourceStructureFingerprint="472c33164474aa4f">We kunnen getalproducten samenvoegen<pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true"> en vervolgens de teller en de noemer door <ph id="c1" type="ui" subType="swi18n:inline-math"/> delen</pc><pc id="x3" type="other" subType="swi18n:condition-false"></pc></pc>. Dit komt uit op <ph id="c2" type="ui" subType="swi18n:block-math"/> Hiernaast kunnen we ook de factoren <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> van beide kanten wegstrepen, en herhaalde vermenigvuldigingen tot kwadraten samenvoegen. Dit geeft <ph id="c5" type="ui" subType="swi18n:block-math"/> Dit is zo eenvoudig als maar kan. Alles bij elkaar is het eindresultaat <ph id="c6" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="multipleFactorsNegativePowers">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the fraction <ph id="c1" type="ui" subType="swi18n:block-math"/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)</source>
+						<target swi18n:sourceContentFingerprint="14a5de2520951112" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de breuk <ph id="c1" type="ui" subType="swi18n:block-math"/> Vereenvoudig deze breuk zo veel als mogelijk. (Haakjes hoeven niet uitgewerkt te worden.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Write the expression without any negative exponents.</source>
+							<target swi18n:sourceContentFingerprint="d0eb2f0bd32ca765" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Schrijf de uitdrukking zonder negatieve exponenten.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Whenever we find a negative power like <ph id="c1" type="ui" subType="swi18n:inline-math"/> we replace it by the corresponding fraction <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Doing so results in <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="627958ac46540e44" swi18n:sourceStructureFingerprint="48a11a365f442e35">Als we een negatieve macht als <ph id="c1" type="ui" subType="swi18n:inline-math"/> vinden, dan vervangen we hem met de bijbehorende breuk <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Zo vinden we <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Write the fraction of fractions as a single fraction.</source>
+							<target swi18n:sourceContentFingerprint="73611f17be1fd90b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Schrijf de breuk van breuken als een enkele breuk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x2" type="other" subType="swi18n:condition-true">When dividing by a fraction, we can also multiply by the inverse. This results in <ph id="c1" type="ui" subType="swi18n:block-math"/> <pc id="x3" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x4" type="other" subType="swi18n:condition-true">These two fractions can subsequently be merged together, multiplying the numerator by the numerator and the denominator by the denominator.</pc><pc id="x5" type="other" subType="swi18n:condition-false">We can merge this together, by pulling the multiplication on the left into the numerator.</pc></pc> This gives <ph id="c2" type="ui" subType="swi18n:block-math"/></pc><pc id="x6" type="other" subType="swi18n:condition-false">When dividing by a multiplication, this whole multiplication may also be put into the denominator. Doing so results in <ph id="c3" type="ui" subType="swi18n:block-math"/></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="ff6ac3f484fc31f5" swi18n:sourceStructureFingerprint="8b5584c762dfee59"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x2" type="other" subType="swi18n:condition-true">Als we delen door een breuk, dan kunnen we ook vermenigvuldigen met het omgekeerde. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/> <pc id="x3" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x4" type="other" subType="swi18n:condition-true">Deze breuken kunnen vervolgens samengetrokken worden, waarbij de teller met de teller en de noemer met de noemer vermenigvuldigd wordt.</pc><pc id="x5" type="other" subType="swi18n:condition-false">We kunnen dit samenvoegen, door de vermenigvuldiging links binnen de teller te trekken.</pc></pc> Zo krijgen we <ph id="c2" type="ui" subType="swi18n:block-math"/></pc><pc id="x6" type="other" subType="swi18n:condition-false">Als we delen door een vermenigvuldiging, dan mag deze gehele vermenigvuldiging er ook in de noemer bijkomen. Zo krijgen we <ph id="c3" type="ui" subType="swi18n:block-math"/></pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the resulting fraction as much as possible, canceling both numeric and variable factors.</source>
+							<target swi18n:sourceContentFingerprint="9c532d2d51983908" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig de resulterende breuk zo veel mogelijk, waarbij je zowel factoren met getallen als met variabelen wegstreept.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">We can first divide the numerator and the denominator by <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This gives us <ph id="c2" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">First we can see that there is no simplification possible for the number values.</pc></pc> Continuing with the variables, we can sort out the factors <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> to get <ph id="c5" type="ui" subType="swi18n:block-math"/> This is as simplified as possible. Altogether, the final result is <ph id="c6" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="255bd6c15ce09e68" swi18n:sourceStructureFingerprint="427d5d041e758f6f"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">We kunnen eerst de teller en de noemer door <ph id="c1" type="ui" subType="swi18n:inline-math"/> delen. Dit geeft <ph id="c2" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">Eerst kunnen we zien dat er geen vereenvoudigingen mogelijk zijn bij de getallen.</pc></pc> Als we vervolgens naar de variabelen kijken, zien we dat we de factoren <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> op kunnen ruimen tot <ph id="c5" type="ui" subType="swi18n:block-math"/> Dit is zo eenvoudig als maar kan. Alles bij elkaar is het eindresultaat <ph id="c6" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

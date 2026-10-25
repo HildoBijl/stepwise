@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">This skill focuses on <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">multiplying two numbers</pc>. It builds up to to a combined skill where we both <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add and multiply numbers</pc>. The numbers that are used are both small: at most <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The whole idea of Step-Wise is to solve complicated problems <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Step-Wise</pc>: break them down into smaller pieces which are a lot simpler to tackle. To show you how that works, we first tackle two simpler tasks: multiplying numbers and adding them. Afterwards we merge these two skills into a more involved skill.</pc></source>
+				</segment>
+			</unit>
+			<unit id="multiplyNumbers">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Multiplying numbers</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you have to <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">multiply two numbers</pc>. When multiplying small numbers, people usually do so from <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">memory</pc>. As a child you learned what <ph id="c5" type="ui" subType="swi18n:inline-math"/> is. You don't recalculate it every time. You simply know it's <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">If you really can't remember what the result of a certain multiplication is, then feel free to use a calculator. This is a tutorial after all! But do remember the result, for if it ever comes up again later!</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="multiplication1">
+				<unit id="problem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the multiplication <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Answer</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+					</segment>
+				</unit>
+				<unit id="solution">
+					<segment>
+						<source>The solution is <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

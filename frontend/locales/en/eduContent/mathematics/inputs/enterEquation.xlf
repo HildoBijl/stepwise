@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<unit id="meta">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">This skill is about entering <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">mathematical equations</pc>: two expressions with an equals-sign "=" in-between. It also demonstrates the ways in which the Step-Wise Computer Algebra System can <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">evaluate</pc> these equations.</pc></source>
+			</segment>
+		</unit>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A large part of mathematics resolves around manipulating and subsequently solving <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">equations</pc>. Think of <ph id="c3" type="ui" subType="swi18n:inline-math"/>. It consists of two expressions with an equals-sign in-between. So how does Step-Wise deal with these?</pc></source>
+				</segment>
+			</unit>
+			<unit id="entering">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Entering equations</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Entering equations into Step-Wise isn't hard. Just type what you want to get. You'll always see on the screen exactly what you have at any point in time.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Obviously equations have various <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">constraints</pc>. There may not be multiple equals-signs in there - just one - and the equals sign should also not be in the middle of a fraction or function or so. If whatever you enter does not meet these criteria, it's considered an invalid submission. You will get a friendly warning and your submission will not be sent. Only valid submissions are eventually checked for correctness.</pc></source>
+				</segment>
+			</unit>
+			<unit id="evaluating">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Evaluating equations</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Step-Wise makes use of an self-designed <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">Computer Algebra System</pc> (CAS). This CAS checks exercises for correctness. It does this in an intelligent way. Some exercises want you to write a certain exact equation, but in other exercises it could be "anything <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">equivalent</pc> to some model solution". The Step-Wise CAS then checks your answer for equivalency. Obviously it cannot figure out all possible ways of rewriting equations, but most ways in which equations can be equivalent are detected.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="enterEquation">
+				<unit id="problem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Consider the equation <ph id="c2" type="ui" subType="swi18n:block-math"/> Make some basic modification to it, so that it's different yet still mathematically equivalent.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:equation-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Enter the equation here</pc></pc></pc></pc></source>
+					</segment>
+				</unit>
+				<unit id="solution">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">There are many ways in which the equation <ph id="c2" type="ui" subType="swi18n:inline-math"/> can be adjusted. For instance, we can switch the left and the right side, resulting in <ph id="c3" type="ui" subType="swi18n:block-math"/> Of course there are infinitely many other valid solutions too.</pc></source>
+					</segment>
+				</unit>
+				<group id="feedback">
+					<unit id="exactlyEqual">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You have entered the equation without making any modifications. You must rewrite the equation to something different.</pc></source>
+						</segment>
+					</unit>
+					<unit id="notEquivalent">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">This is not equivalent to the original equation. You have done something to it that's mathematically not allowed, or that's too different for us to detect.</pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

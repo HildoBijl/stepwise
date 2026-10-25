@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">substitute</pc> a variable in an expression by another expression. For instance, given the expression <ph id="c3" type="ui" subType="swi18n:inline-math"/> you can insert <ph id="c4" type="ui" subType="swi18n:inline-math"/> to wind up with the expression <ph id="c5" type="ui" subType="swi18n:inline-math"/>. No further simplifications are required yet. Since this skill only concerns the substitution, no skills related to fractions, powers, etcetera are required.</pc></source>
+					<target swi18n:sourceContentFingerprint="c6c99be384f673ff" swi18n:sourceStructureFingerprint="41356c57b7faf237"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, wie du einen Ausdruck anstelle einer Variablen <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">einsetzen</pc> kannst. Zum Beispiel im Ausdruck <ph id="c3" type="ui" subType="swi18n:inline-math"/> kannst du <ph id="c4" type="ui" subType="swi18n:inline-math"/> eingeben, um <ph id="c5" type="ui" subType="swi18n:inline-math"/> zu erhalten. Es sind keine weiteren Vereinfachungen erforderlich. Da es bei dieser Kompetenz nur um Substitution geht, sind keine Kenntnisse über Brüche, Potenzen und so weiter erforderlich.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

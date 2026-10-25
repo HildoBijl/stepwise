@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">multiply or divide all terms of an equation</pc> by a factor. If you have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to instantly multiply all terms by <ph id="c4" type="ui" subType="swi18n:inline-math"/> to end up at <ph id="c5" type="ui" subType="swi18n:inline-math"/>, or do the reverse. This includes understanding the idea behind this: <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplying both sides of an equation by a factor</pc> and subsequently <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding brackets</pc> and <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying any resulting fractions</pc>. The skill does not deal with which factor might be wise to multiply/divide by.</pc></source>
+					<target swi18n:sourceContentFingerprint="18c07b885c095417" swi18n:sourceStructureFingerprint="87fd95a7ee10f871"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je om <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">alle termen van een vergelijking te vermenigvuldigen of te delen</pc> met een factor. Bij een vergelijking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> zul je in staat zijn om gelijk alle termen met <ph id="c4" type="ui" subType="swi18n:inline-math"/> te vermenigvuldigen om uit te komen op <ph id="c5" type="ui" subType="swi18n:inline-math"/>, of om het omgekeerde uit te voeren. Dit omvat het begrijpen van het idee erachter: het <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vermenigvuldigen van beide kanten met een factor</pc> en het hieropvolgende <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">uitwerken van de haakjes</pc> en <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereenvoudigen van breuken</pc>. De vaardigheid gaat niet in op welke factor mogelijk handig is om mee te vermenigvuldigen/delen.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">An equation often consists of multiple terms. The equation <ph id="c2" type="ui" subType="swi18n:inline-math"/> for instance has two terms on the left and one term on the right. When rewriting such an equation, a common thing to do is <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">multiply all terms</pc> by a factor, or alternatively <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">divide all terms</pc> by a factor. We take a look at how and why this works, as well as what short-cuts we can take while doing so.</pc></source>
+					<target swi18n:sourceContentFingerprint="d47d02ada4eafc9d" swi18n:sourceStructureFingerprint="1869c50915e2ae7b"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Een vergelijking bestaat vaak uit meerdere termen. De vergelijking <ph id="c2" type="ui" subType="swi18n:inline-math"/> heeft bijvoorbeeld twee termen links en één term rechts. Bij het herschrijven van zo'n vergelijking is het heel gewoonlijk om <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">alle termen te vermenigvuldigen</pc> met een factor, of andersom <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">alle termen te delen</pc> door een factor. We kijken naar hoe en waarom dit werkt, en welke short-cuts we hierbij nemen kunnen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="multiplying">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Multiply all terms</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">When we have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, one thing we are allowed to do is <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply both sides of the equation</pc> by a factor. If we multiply by <ph id="c5" type="ui" subType="swi18n:inline-math"/>, then we get <ph id="c6" type="ui" subType="swi18n:block-math"/> Note that, when multiplying an entire side of the equation, we need to use brackets. Generally we don't want to have those brackets, and we can get rid of them by <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding them</pc>. This turns the equation into <ph id="c8" type="ui" subType="swi18n:block-math"/> Finally we can simplify each individual term. On the left, we can <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify the fraction</pc>, while on the right the multiplication can be written more succinctly using a <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">square</pc>. We end up with <ph id="c11" type="ui" subType="swi18n:block-math"/> Look at how this resulted from the original equation <ph id="c12" type="ui" subType="swi18n:inline-math"/>. Effectively, we have multiplied each term individually by <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					<target swi18n:sourceContentFingerprint="497e984aba9dbc71" swi18n:sourceStructureFingerprint="0fb25c3151fc7c92"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Alle termen vermenigvuldigen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Als we een vergelijking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> hebben, dan mogen we <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">beide kanten van de vergelijking vermenigvuldigen</pc> met een factor. Als we vermenigvuldigen met <ph id="c5" type="ui" subType="swi18n:inline-math"/>, dan krijgen we <ph id="c6" type="ui" subType="swi18n:block-math"/> Merk op dat, als we een hele kant van een vergelijking vermenigvuldigen, dat we haakjes moeten gebruiken. Meestal willen we die haakjes niet, en dus werken we ze weg via het <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">uitwerken van haakjes</pc>. Dit zet de vergelijking om in <ph id="c8" type="ui" subType="swi18n:block-math"/> Uiteindelijk kunnen we elke term los vereenvoudigen. Links kunnen we de <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">breuk vereenvoudigen</pc>, terwijl we rechts de vermenigvuldigen korter als <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">kwadraat</pc> schrijven kunnen. Zo komen we uit op <ph id="c11" type="ui" subType="swi18n:block-math"/> Kijk goed hoe dit voort kwam uit de oorsronkelijke vergelijking <ph id="c12" type="ui" subType="swi18n:inline-math"/>. Eigenlijk hebben we elke term los vermenigvuldigd met <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+				</segment>
+			</unit>
+			<unit id="dividing">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Divide all terms</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We can do the same in reverse. After all, if we have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, we are also allowed to <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">divide both sides of the equation</pc> by a factor. Dividing by <ph id="c5" type="ui" subType="swi18n:inline-math"/> gives <ph id="c6" type="ui" subType="swi18n:block-math"/> The fraction on the left can subsequently be <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">split up into separate fractions</pc> through <ph id="c8" type="ui" subType="swi18n:block-math"/> Finally we can <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify fractions</pc> to get back to <ph id="c10" type="ui" subType="swi18n:block-math"/> Again look at how this follows from the starting point <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Effectively we have divided each term by <ph id="c12" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					<target swi18n:sourceContentFingerprint="e24adccbc280d1e1" swi18n:sourceStructureFingerprint="b9a83bf62f0891f0"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Alle termen delen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We kunnen ook het omgekeerde uitvoeren. Bij een vergelijking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> kunnen we immers ook <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">beide kanten van de vergelijking delen</pc> door een factor. Delen door <ph id="c5" type="ui" subType="swi18n:inline-math"/> geeft <ph id="c6" type="ui" subType="swi18n:block-math"/> De breuk links kan vervolgens <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">in losse breuken opgesplitst</pc> worden wat leidt tot <ph id="c8" type="ui" subType="swi18n:block-math"/> Ten slotte kunnen we <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">breuken vereenvoudigen</pc> om weer terug te komen bij <ph id="c10" type="ui" subType="swi18n:block-math"/> Kijk wederom hoe dit volgt vanuit het beginpunt <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Eigenlijk hebben we elke term gedeeld door <ph id="c12" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To multiply or divide all terms in an equation by a factor, like when multiplying <ph id="c3" type="ui" subType="swi18n:inline-math"/> by <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children"><pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Apply the multiplication/division</pc> to the full equation. This turns the example into <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">On a multiplication <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand the brackets</pc>, or on a division <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">split up the fraction</pc>. For the example, we get <ph id="c14" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c15" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:c" swi18n:slot="children">Simplify the resulting outcome, which usually comes down to <pc id="c17" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying various fractions</pc>, canceling terms where needed. This reduces the example to <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="ae2288ba0a7f132e" swi18n:sourceStructureFingerprint="5c531c2e0c328f7d"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De stappen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om alle termen in een vergelijking met een factor te vermenigvuldigen of delen, zoals bij het vermenigvuldigen van <ph id="c3" type="ui" subType="swi18n:inline-math"/> met <ph id="c4" type="ui" subType="swi18n:inline-math"/>, voer je de volgende stappen uit.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children"><pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Voer de vermenigvuldiging/deling uit</pc> op de gehele vergelijking. Dit zet het voorbeeld om in <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Bij een vermenigvuldiging <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">werk je de haakjes uit</pc>, of bij een deling <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">splits je de breuk op</pc>. Bij het voorbeeld krijgen we zo <ph id="c14" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c15" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:c" swi18n:slot="children">Vereenvoudig de hieruitvolgende vergelijking, wat meestal neerkomt op het <pc id="c17" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereenvoudigen van verschillende breuken</pc>, waarbij je waar nodig factoren wegstreept. Dit brengt het voorbeeld terug tot <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></target>
+				</segment>
+			</unit>
+			<unit id="shortCut">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The short-cut</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We can summarize the above ideas into a useful short-cut. If we want to multiply or divide an entire equation by a factor, we can directly apply that multiplication/division to each individual term, simplifying these terms as we go. So if we multiply the equation <ph id="c3" type="ui" subType="swi18n:inline-math"/> by the factor <ph id="c4" type="ui" subType="swi18n:inline-math"/>, we can immediately see that this turns into <ph id="c5" type="ui" subType="swi18n:inline-math"/>. And if we then divide this by <ph id="c6" type="ui" subType="swi18n:inline-math"/> again, we right away get back to <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					<target swi18n:sourceContentFingerprint="ee0703e14d8f9673" swi18n:sourceStructureFingerprint="3d16f7bf90f2593c"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De short-cut</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We kunnen de bovenstaande ideeën samenvatten in een handige short-cut. Als we een gehele vergelijking met een factor willen vermenigvuldigen of delen, kunnen we die vermenigvuldiging/deling ook direct toepassen op elke losse term, waarbij we die termen dan ook gelijk vereenvoudigen. Dus als we de vergelijking <ph id="c3" type="ui" subType="swi18n:inline-math"/> vermenigvuldigen met de factor <ph id="c4" type="ui" subType="swi18n:inline-math"/>, kunnen we ook gelijk inzien dat dit uitkomt op <ph id="c5" type="ui" subType="swi18n:inline-math"/>. En als we dit dan weer delen door <ph id="c6" type="ui" subType="swi18n:inline-math"/>, komen we gelijk terug bij <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="divideTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Divide all terms by <ph id="c2" type="ui" subType="swi18n:inline-math"/> and simplify each resulting term as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="86fa2722f5077fd2" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Deel alle termen door <ph id="c2" type="ui" subType="swi18n:inline-math"/> en vereenvoudig elke hieruit volgende term zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Divide both sides of the equation by <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="cc7fbe52d9cfc671" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Deel beide kanten van de vergelijking door <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When we divide a side of an equation by <ph id="c1" type="ui" subType="swi18n:inline-math"/> it is important to put the entire original expression in the numerator (above). Doing so results in <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="ff72007288485bd4" swi18n:sourceStructureFingerprint="fd2fba868566671b">Als we een kant van een vergelijking door <ph id="c1" type="ui" subType="swi18n:inline-math"/> delen, is het belangrijk om de gehele oorspronkelijke uitdrukking in de teller (bovenin) te zetten. Dit geeft dan <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Split up all fractions into separate fractions, so that there is no sum in any numerator anymore.</source>
+							<target swi18n:sourceContentFingerprint="46a1efb20bfb52d1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Splits alle breuken in losse breuken op, zodat er geen som meer in enige teller staat.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When splitting up a fraction, we divide every term in the numerator (above) separately by the entire denominator (below). This turns the equation into <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6e9c5aac74688884" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Bij het opsplitsen van een breuk delen we elke term in de teller (boven) los door de gehele noemer (onder). Dit zet de vergelijking om in <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify each of the resulting terms as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="cb209876f6c501ce" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig elk van de termen zo veel als mogelijk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>First we can cancel out any shared numerical factors. This gets us <ph id="c1" type="ui" subType="swi18n:block-math"/> If we then also cross out factors of <ph id="c2" type="ui" subType="swi18n:inline-math"/>, we end up with <ph id="c3" type="ui" subType="swi18n:block-math"/> Note that every term has been divided individually by the factor <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="d85d8a199e7d552c" swi18n:sourceStructureFingerprint="a87543b40953b2d0">Eerst kunnen we gedeelde getalfactoren wegstrepen. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/> Als we dan ook nog factoren <ph id="c2" type="ui" subType="swi18n:inline-math"/> wegstrepen, dan komen we uit op <ph id="c3" type="ui" subType="swi18n:block-math"/> Merk op dat elke term los door de factor <ph id="c4" type="ui" subType="swi18n:inline-math"/> gedeeld is.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="multiplyTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Multiply all terms by <ph id="c2" type="ui" subType="swi18n:inline-math"/> and simplify each resulting term as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="d6e85b30771a0ce7" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Vermenigvuldig alle termen met <ph id="c2" type="ui" subType="swi18n:inline-math"/> en vereenvoudig elke hieruit volgende term zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Multiply both sides of the equation by <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="2458fa2baf1121d8" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Vermenigvuldig beide kanten van de vergelijking met <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When we multiply a side of an equation by <ph id="c1" type="ui" subType="swi18n:inline-math"/> it is important to use brackets. Doing so results in <ph id="c2" type="ui" subType="swi18n:block-math"/> Note that it does not matter if we put the multiplication on the left or on the right: this comes down to the same.</source>
+							<target swi18n:sourceContentFingerprint="5e9cfaade15bcfc8" swi18n:sourceStructureFingerprint="8c535a518616de3e">Als we een kant van een vergelijking met <ph id="c1" type="ui" subType="swi18n:inline-math"/> vermenigvuldigen, dan is het belangrijk om haakjes te gebruiken. Dit toepassen geeft <ph id="c2" type="ui" subType="swi18n:block-math"/> Merk op dat het niet uitmaakt of de vermenigvuldiging aan de linker of de rechterkant zetten: dit komt op hetzelfde neer.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all the brackets that are present.</source>
+							<target swi18n:sourceContentFingerprint="61aaaa561ffe7e35" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Werk alle aanwezige haakjes uit.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To expand the brackets, we multiply each of the terms within brackets separately by the factor outside of the brackets. This gives <ph id="c1" type="ui" subType="swi18n:block-math"/> It is wise to already simplify the products a bit further, giving us <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="fcf15ef8c8701787" swi18n:sourceStructureFingerprint="b44bdd9ade835acd">Om de haakjes uit te werken, vermenigvuldigen we los elke term binnen de haakjes met de factor buiten de haakjes. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/> Het is handig om de producten al een beetje verder te vereenvoudigen, waarmee we uitkomen op <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify each of the resulting terms as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="cb209876f6c501ce" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig elk van de termen zo veel als mogelijk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The only thing left to do is simplifying the fractions by crossing out factors of <ph id="c1" type="ui" subType="swi18n:inline-math"/>. We end up with <ph id="c2" type="ui" subType="swi18n:block-math"/> Note that every term has been multiplied individually by the factor <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="dafefd9b3deeea95" swi18n:sourceStructureFingerprint="09f7971cdb0d6bac">Het enige dat nog gedaan moet worden is de breuken vereenvoudigen door factoren van <ph id="c1" type="ui" subType="swi18n:inline-math"/> weg te strepen. Zo komen we uit op <ph id="c2" type="ui" subType="swi18n:block-math"/> Merk op dat elke term los met de factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> vermenigvuldigd is.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="incorrectForm">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Both sides should be of the form <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Your <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side is not set up this way.</pc></source>
+						<target swi18n:sourceContentFingerprint="aedcfdc1e014a118" swi18n:sourceStructureFingerprint="7639c0897d55ebf3"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Beide kanten moeten van de vorm <ph id="c2" type="ui" subType="swi18n:inline-math"/> zijn. Je <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linker</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechter</pc></pc>kant is niet op deze manier opgezet.</pc></target>
+					</segment>
+				</unit>
+				<unit id="incorrectCopy">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">It looks like you didn't copy the original equation properly on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side.</pc></source>
+						<target swi18n:sourceContentFingerprint="34506ebd9a8ed5da" swi18n:sourceStructureFingerprint="98d6f0606d32c709"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Het lijkt erop dat je de oorspronkelijke vergelijking aan de <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">linker</pc><pc id="x3" type="other" subType="swi18n:condition-false">rechter</pc></pc>kant niet correct overgenomen hebt.</pc></target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

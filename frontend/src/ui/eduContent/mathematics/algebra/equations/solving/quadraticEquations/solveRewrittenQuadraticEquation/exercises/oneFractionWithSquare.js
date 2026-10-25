@@ -3,8 +3,8 @@ import React from 'react'
 import { integerRange } from '@step-wise/js-utils'
 import { expressionComparisons } from '@step-wise/cas'
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition, Plural } from '@step-wise/i18n'
 
-import { Translation, Check, Plurals } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace, useInput, selectRandomIncorrect } from 'ui/form'
 import { ExpressionInput, EquationInput, MultipleChoice } from 'ui/inputs'
@@ -46,7 +46,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, multiplied, expanded, merged, moved, divisor, standardForm }) => {
-			return <Par><Translation>First we want to get <M>{variables.x}</M> out of any denominator. To do so, we multiply both sides of the equation by the denominator of the fraction. This gives us <BM>{multiplied}.</BM> Expanding all brackets turns this into <BM>{expanded}.</BM> Merging terms reduces this to <BM>{merged}.</BM> If we then move everything to the left, we find <BM>{moved}.</BM> <Check value={divisor === 1}><Check.True>This equation is already in its simplest form.</Check.True><Check.False>This equation can still be written simpler (optional) if we divide all terms by <M>{divisor}</M>. This results in <BM>{standardForm}.</BM></Check.False></Check></Translation></Par>
+			return <Par><Translation>First we want to get <M>{variables.x}</M> out of any denominator. To do so, we multiply both sides of the equation by the denominator of the fraction. This gives us <BM>{multiplied}.</BM> Expanding all brackets turns this into <BM>{expanded}.</BM> Merging terms reduces this to <BM>{merged}.</BM> If we then move everything to the left, we find <BM>{moved}.</BM> <Condition value={divisor === 1}><Condition.True>This equation is already in its simplest form.</Condition.True><Condition.False>This equation can still be written simpler (optional) if we divide all terms by <M>{divisor}</M>. This results in <BM>{standardForm}.</BM></Condition.False></Condition></Translation></Par>
 		},
 	},
 	{
@@ -67,17 +67,17 @@ const steps = [
 		Solution: ({ x, p, q, r, solutionFull, D, numSolutions, solutionHalfSimplified, solution, solutionsSplit, solutions, equationsSubstituted }) => {
 			return <Translation>
 				<Par>The plan is to apply the quadratic formula. By comparing our simplified equation with the default quadratic equation <M>ax^2 + bx + c = 0</M>, we can see that <M>a = {p}</M>, <M>b = {q}</M> and <M>c = {r}</M>. Substituting this into the quadratic formula gives us <BM>{solutionFull}.</BM> The discriminant here (the value within the square root) is equal to <M>{D}</M>.
-					<Plurals value={numSolutions}>
-						<Plurals.Zero> Since this is a negative number, it means that there are no possible solutions to the equation. No further work is required.</Plurals.Zero>
-						<Plurals.One> Because the discriminant is zero, the square root vanishes and there is only one possible solution. This solution is equal to {areEqualExceptOrder(solutionHalfSimplified, solution) ? <BM>{x} = {solutionHalfSimplified}.</BM> : <BM>{x} = {solutionHalfSimplified} = {solution}.</BM>}</Plurals.One>
-						<Plurals.Two> Since this is a positive number, it means that there are two solutions to the equation. These solutions can be simplified into {areEqualExceptOrder(solutionHalfSimplified, solution) ? <BM>{x} = {solutionHalfSimplified}.</BM> : <BM>{x} = {solutionHalfSimplified} = {solution}.</BM>} Entering a plus or a minus results in the two actual solutions {areEqualExceptOrder(solutionsSplit[0], solutions[0]) ? <BM>{x}_1 = {solutionsSplit[0]},</BM> : <BM>{x}_1 = {solutionsSplit[0]} = {solutions[0]},</BM>} {areEqualExceptOrder(solutionsSplit[1], solutions[1]) ? <BM>{x}_2 = {solutionsSplit[1]}.</BM> : <BM>{x}_2 = {solutionsSplit[1]} = {solutions[1]}.</BM>}</Plurals.Two>
-					</Plurals>
+					<Plural value={numSolutions}>
+						<Plural.Exact value={0}> Since this is a negative number, it means that there are no possible solutions to the equation. No further work is required.</Plural.Exact>
+						<Plural.Exact value={1}> Because the discriminant is zero, the square root vanishes and there is only one possible solution. This solution is equal to {areEqualExceptOrder(solutionHalfSimplified, solution) ? <BM>{x} = {solutionHalfSimplified}.</BM> : <BM>{x} = {solutionHalfSimplified} = {solution}.</BM>}</Plural.Exact>
+						<Plural.Exact value={2}> Since this is a positive number, it means that there are two solutions to the equation. These solutions can be simplified into {areEqualExceptOrder(solutionHalfSimplified, solution) ? <BM>{x} = {solutionHalfSimplified}.</BM> : <BM>{x} = {solutionHalfSimplified} = {solution}.</BM>} Entering a plus or a minus results in the two actual solutions {areEqualExceptOrder(solutionsSplit[0], solutions[0]) ? <BM>{x}_1 = {solutionsSplit[0]},</BM> : <BM>{x}_1 = {solutionsSplit[0]} = {solutions[0]},</BM>} {areEqualExceptOrder(solutionsSplit[1], solutions[1]) ? <BM>{x}_2 = {solutionsSplit[1]}.</BM> : <BM>{x}_2 = {solutionsSplit[1]} = {solutions[1]}.</BM>}</Plural.Exact>
+					</Plural>
 				</Par>
 				<Par>
-					<Plurals value={numSolutions}>
-						<Plurals.One>As final check, we insert the solution <M>{x}</M> into the original equation. This results in <BM>{equationsSubstituted[0]}.</BM> Simplifying all fractions shows that this equation holds, which means that the solution we found is correct.</Plurals.One>
-						<Plurals.Two>As final check, we insert the two solutions <M>{x}_1</M> and <M>{x}_2</M> into the original equation. This results in <BM>{equationsSubstituted[0]},</BM><BM>{equationsSubstituted[1]}.</BM> With quite some work (or through the use of a calculator) we can verify that both of these equations hold, so the solutions we found are correct.</Plurals.Two>
-					</Plurals>
+					<Plural value={numSolutions}>
+						<Plural.Exact value={1}>As final check, we insert the solution <M>{x}</M> into the original equation. This results in <BM>{equationsSubstituted[0]}.</BM> Simplifying all fractions shows that this equation holds, which means that the solution we found is correct.</Plural.Exact>
+						<Plural.Exact value={2}>As final check, we insert the two solutions <M>{x}_1</M> and <M>{x}_2</M> into the original equation. This results in <BM>{equationsSubstituted[0]},</BM><BM>{equationsSubstituted[1]}.</BM> With quite some work (or through the use of a calculator) we can verify that both of these equations hold, so the solutions we found are correct.</Plural.Exact>
+					</Plural>
 				</Par>
 			</Translation>
 		},

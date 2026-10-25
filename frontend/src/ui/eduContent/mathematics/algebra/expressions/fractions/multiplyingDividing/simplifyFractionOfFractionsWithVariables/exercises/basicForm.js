@@ -2,8 +2,8 @@ import React from 'react'
 
 import { gcd } from '@step-wise/math-tools'
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { CountingWord } from 'i18nNext'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -42,7 +42,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ flip, expression, singleFraction }) => {
-			return <Par><Translation><Check value={flip}><Check.True>When dividing a fraction by a factor, it's also allowed to add that factor to the denominator.</Check.True><Check.False>When dividing by a fraction, we can also multiply by the inverse. The outside factor (the original numerator) can subsequently be pulled into the numerator.</Check.False></Check> This gives <BM>{expression} = {singleFraction}.</BM></Translation></Par>
+			return <Par><Translation><Condition value={flip}><Condition.True>When dividing a fraction by a factor, it's also allowed to add that factor to the denominator.</Condition.True><Condition.False>When dividing by a fraction, we can also multiply by the inverse. The outside factor (the original numerator) can subsequently be pulled into the numerator.</Condition.False></Condition> This gives <BM>{expression} = {singleFraction}.</BM></Translation></Par>
 		},
 	},
 	{

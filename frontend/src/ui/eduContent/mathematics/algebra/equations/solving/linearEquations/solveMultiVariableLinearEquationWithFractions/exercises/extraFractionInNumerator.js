@@ -2,8 +2,8 @@ import React from 'react'
 
 import { expressionOperations } from '@step-wise/cas'
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
@@ -47,7 +47,7 @@ const steps = [
 		Solution: (parameters) => {
 			const { b } = parameters
 			const { variables, equation, simplified } = useSolution()
-			return <Par><Translation>The short-cut towards simplifying the fraction of fractions is multiplying the numerator and the denominator by <M>{variables.y}</M> and subsequently dividing them by <M>{variables.x}</M>. <Check value={b > 0}><Check.True>Through this,</Check.True><Check.False>Through this, and through the cancellation of minus signs,</Check.False></Check> the fraction reduces to <BM>{equation.left} = {multiplyNumeratorAndDenominator(equation.left, variables.y.divide(variables.x))} = {simplified.left}.</BM> By inserting this into the equation, we can write it as <BM>{simplified}.</BM></Translation></Par>
+			return <Par><Translation>The short-cut towards simplifying the fraction of fractions is multiplying the numerator and the denominator by <M>{variables.y}</M> and subsequently dividing them by <M>{variables.x}</M>. <Condition value={b > 0}><Condition.True>Through this,</Condition.True><Condition.False>Through this, and through the cancellation of minus signs,</Condition.False></Condition> the fraction reduces to <BM>{equation.left} = {multiplyNumeratorAndDenominator(equation.left, variables.y.divide(variables.x))} = {simplified.left}.</BM> By inserting this into the equation, we can write it as <BM>{simplified}.</BM></Translation></Par>
 		},
 	},
 	{

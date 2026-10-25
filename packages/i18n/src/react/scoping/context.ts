@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-import { type TranslationScope } from './types.ts'
+import { type TranslationScope, type TranslationAreaScope } from './types.ts'
 
 export const rootTranslationScope: TranslationScope = {
 	folder: [],
@@ -8,3 +8,5 @@ export const rootTranslationScope: TranslationScope = {
 }
 
 export const TranslationScopeContext = createContext<TranslationScope>(rootTranslationScope)
+
+export const TranslationAreaContext = createContext<TranslationAreaScope | undefined>(undefined)

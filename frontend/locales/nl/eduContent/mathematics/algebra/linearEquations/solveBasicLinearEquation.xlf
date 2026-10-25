@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="practice">
+			<group id="solveBasicLinearEquation1">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						<target swi18n:sourceContentFingerprint="cafac74cfb4d9241" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side of the equation, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</source>
+							<target swi18n:sourceContentFingerprint="927e705dcad9ce79" swi18n:sourceStructureFingerprint="98f3255e641e5524">Move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side of the equation, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We move <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right. This gives us <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6a8fcd41c1c823ca" swi18n:sourceStructureFingerprint="48a11a365f442e35">We move <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right. This gives us <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets. Leave the rest of the equation unchanged.</source>
+							<target swi18n:sourceContentFingerprint="a2fab988264c6c03" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets. Leave the rest of the equation unchanged.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets, we must write <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This tells us that there should be <ph id="c4" type="ui" subType="swi18n:inline-math"/> between the brackets. In this way we can rewrite the equation as <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6dc9beb42b98d564" swi18n:sourceStructureFingerprint="f7b1303b1aaff771">To pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets, we must write <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This tells us that there should be <ph id="c4" type="ui" subType="swi18n:inline-math"/> between the brackets. In this way we can rewrite the equation as <ph id="c5" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Divide both sides of the equation by the term between brackets, to solve for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="39208ada3e6e55c4" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Divide both sides of the equation by the term between brackets, to solve for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we divide both sides by <ph id="c1" type="ui" subType="swi18n:inline-math"/>, then on the left the term between brackets disappears. We only remain with <ph id="c2" type="ui" subType="swi18n:inline-math"/>, meaning that we have indeed solved the equation for <ph id="c3" type="ui" subType="swi18n:inline-math"/>! The final result is <ph id="c4" type="ui" subType="swi18n:block-math"/> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</source>
+							<target swi18n:sourceContentFingerprint="acd638d7b8db1409" swi18n:sourceStructureFingerprint="d6fb5d388c0efd7a">If we divide both sides by <ph id="c1" type="ui" subType="swi18n:inline-math"/>, then on the left the term between brackets disappears. We only remain with <ph id="c2" type="ui" subType="swi18n:inline-math"/>, meaning that we have indeed solved the equation for <ph id="c3" type="ui" subType="swi18n:inline-math"/>! The final result is <ph id="c4" type="ui" subType="swi18n:block-math"/> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="feedback">
+					<unit id="variableOnBothSides">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Both sides of the equation still contain <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Pull all terms with <ph id="c3" type="ui" subType="swi18n:inline-math"/> to the <pc id="c4" type="ui" subType="swi18n:em" swi18n:slot="children">same</pc> side.</pc></source>
+							<target swi18n:sourceContentFingerprint="2cecbd394cb75fd2" swi18n:sourceStructureFingerprint="1ef2829971c2d5c5"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Both sides of the equation still contain <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Pull all terms with <ph id="c3" type="ui" subType="swi18n:inline-math"/> to the <pc id="c4" type="ui" subType="swi18n:em" swi18n:slot="children">same</pc> side.</pc></target>
+						</segment>
+					</unit>
+					<unit id="missingVariable">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your solution does not contain <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Where did it go?</pc></source>
+							<target swi18n:sourceContentFingerprint="8ee645affaea321d" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your solution does not contain <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Where did it go?</pc></target>
+						</segment>
+					</unit>
+					<unit id="oneVariable">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">There were multiple terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/>, but you only wrote down one.</pc></source>
+							<target swi18n:sourceContentFingerprint="8cb5c943bdb31fb8" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">There were multiple terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/>, but you only wrote down one.</pc></target>
+						</segment>
+					</unit>
+					<unit id="termWithoutVariable">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You did bring all terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/> to one side, but there's also a term <ph id="c3" type="ui" subType="swi18n:inline-math"/> that does not contain <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="dbda0a075f0159cb" swi18n:sourceStructureFingerprint="553d0cff4c8b717b"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You did bring all terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/> to one side, but there's also a term <ph id="c3" type="ui" subType="swi18n:inline-math"/> that does not contain <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="noSideWithoutVariable">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You put the variable <ph id="c2" type="ui" subType="swi18n:inline-math"/> on both sides of the equation again. That was not supposed to happen.</pc></source>
+							<target swi18n:sourceContentFingerprint="646c76be1be9b243" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You put the variable <ph id="c2" type="ui" subType="swi18n:inline-math"/> on both sides of the equation again. That was not supposed to happen.</pc></target>
+						</segment>
+					</unit>
+					<unit id="unequalSideWithoutVariable">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The side without <ph id="c2" type="ui" subType="swi18n:inline-math"/> should remain the same!</pc></source>
+							<target swi18n:sourceContentFingerprint="b53e4d86ba220f46" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The side without <ph id="c2" type="ui" subType="swi18n:inline-math"/> should remain the same!</pc></target>
+						</segment>
+					</unit>
+					<unit id="disappearedVariable">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You somehow let <ph id="c2" type="ui" subType="swi18n:inline-math"/> disappear entirely. That was not supposed to happen.</pc></source>
+							<target swi18n:sourceContentFingerprint="6e4f0306f67bb349" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You somehow let <ph id="c2" type="ui" subType="swi18n:inline-math"/> disappear entirely. That was not supposed to happen.</pc></target>
+						</segment>
+					</unit>
+					<unit id="unequalSide">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The side with <ph id="c2" type="ui" subType="swi18n:inline-math"/> is not equal to what it was before. Something went wrong during the rewriting.</pc></source>
+							<target swi18n:sourceContentFingerprint="2b7d8598a736c052" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The side with <ph id="c2" type="ui" subType="swi18n:inline-math"/> is not equal to what it was before. Something went wrong during the rewriting.</pc></target>
+						</segment>
+					</unit>
+					<unit id="notOutsideOfBrackets">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You did not pull <ph id="c2" type="ui" subType="swi18n:inline-math"/> outside of brackets. You should write the side containing <ph id="c3" type="ui" subType="swi18n:inline-math"/> as <ph id="c4" type="ui" subType="swi18n:inline-math"/>, with on the dots an expression that's as simple as possible.</pc></source>
+							<target swi18n:sourceContentFingerprint="545a62b79e4adaae" swi18n:sourceStructureFingerprint="553d0cff4c8b717b"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You did not pull <ph id="c2" type="ui" subType="swi18n:inline-math"/> outside of brackets. You should write the side containing <ph id="c3" type="ui" subType="swi18n:inline-math"/> as <ph id="c4" type="ui" subType="swi18n:inline-math"/>, with on the dots an expression that's as simple as possible.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="solveBasicLinearEquation2">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						<target swi18n:sourceContentFingerprint="cafac74cfb4d9241" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side of the equation, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</source>
+							<target swi18n:sourceContentFingerprint="927e705dcad9ce79" swi18n:sourceStructureFingerprint="98f3255e641e5524">Move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side of the equation, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We move <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right. This gives us <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6a8fcd41c1c823ca" swi18n:sourceStructureFingerprint="48a11a365f442e35">We move <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right. This gives us <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets. Leave the rest of the equation unchanged.</source>
+							<target swi18n:sourceContentFingerprint="a2fab988264c6c03" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets. Leave the rest of the equation unchanged.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets, we must write <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This tells us that there should be <ph id="c4" type="ui" subType="swi18n:inline-math"/> between the brackets. In this way we can rewrite the equation as <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6dc9beb42b98d564" swi18n:sourceStructureFingerprint="f7b1303b1aaff771">To pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets, we must write <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This tells us that there should be <ph id="c4" type="ui" subType="swi18n:inline-math"/> between the brackets. In this way we can rewrite the equation as <ph id="c5" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Divide both sides of the equation by the term between brackets, to solve for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="39208ada3e6e55c4" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Divide both sides of the equation by the term between brackets, to solve for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we divide both sides by <ph id="c1" type="ui" subType="swi18n:inline-math"/>, then on the left the term between brackets disappears. We only remain with <ph id="c2" type="ui" subType="swi18n:inline-math"/>, meaning that we have indeed solved the equation for <ph id="c3" type="ui" subType="swi18n:inline-math"/>! The final result is <ph id="c4" type="ui" subType="swi18n:block-math"/> Optionally this can still be simplified to <ph id="c5" type="ui" subType="swi18n:block-math"/> but that is not necessarily required here.</source>
+							<target swi18n:sourceContentFingerprint="36e4165f3c8444ce" swi18n:sourceStructureFingerprint="8f9ef9447149ed6a">If we divide both sides by <ph id="c1" type="ui" subType="swi18n:inline-math"/>, then on the left the term between brackets disappears. We only remain with <ph id="c2" type="ui" subType="swi18n:inline-math"/>, meaning that we have indeed solved the equation for <ph id="c3" type="ui" subType="swi18n:inline-math"/>! The final result is <ph id="c4" type="ui" subType="swi18n:block-math"/> Optionally this can still be simplified to <ph id="c5" type="ui" subType="swi18n:block-math"/> but that is not necessarily required here.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="solveBasicLinearEquation3">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						<target swi18n:sourceContentFingerprint="cafac74cfb4d9241" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>First expand the brackets in the equation. (Leave the rest unchanged.)</source>
+							<target swi18n:sourceContentFingerprint="45b8750a29755318" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">First expand the brackets in the equation. (Leave the rest unchanged.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To expand the brackets, we multiply <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> separately by <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This turns the equation into <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6bbe2971d66de097" swi18n:sourceStructureFingerprint="c349a010fef3c387">To expand the brackets, we multiply <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> separately by <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This turns the equation into <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side of the equation, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</source>
+							<target swi18n:sourceContentFingerprint="927e705dcad9ce79" swi18n:sourceStructureFingerprint="98f3255e641e5524">Move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side of the equation, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We move <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right. This gives us <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6a8fcd41c1c823ca" swi18n:sourceStructureFingerprint="48a11a365f442e35">We move <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right. This gives us <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets. Leave the rest of the equation unchanged.</source>
+							<target swi18n:sourceContentFingerprint="a2fab988264c6c03" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets. Leave the rest of the equation unchanged.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets, we must write <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This tells us that there should be <ph id="c4" type="ui" subType="swi18n:inline-math"/> between the brackets. In this way we can rewrite the equation as <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6dc9beb42b98d564" swi18n:sourceStructureFingerprint="f7b1303b1aaff771">To pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets, we must write <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This tells us that there should be <ph id="c4" type="ui" subType="swi18n:inline-math"/> between the brackets. In this way we can rewrite the equation as <ph id="c5" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Divide both sides of the equation by the term between brackets, to solve for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="39208ada3e6e55c4" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Divide both sides of the equation by the term between brackets, to solve for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we divide both sides by <ph id="c1" type="ui" subType="swi18n:inline-math"/>, then on the left the term between brackets disappears. We only remain with <ph id="c2" type="ui" subType="swi18n:inline-math"/>, meaning that we have indeed solved the equation for <ph id="c3" type="ui" subType="swi18n:inline-math"/>! The final result is <ph id="c4" type="ui" subType="swi18n:block-math"/> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</source>
+							<target swi18n:sourceContentFingerprint="acd638d7b8db1409" swi18n:sourceStructureFingerprint="d6fb5d388c0efd7a">If we divide both sides by <ph id="c1" type="ui" subType="swi18n:inline-math"/>, then on the left the term between brackets disappears. We only remain with <ph id="c2" type="ui" subType="swi18n:inline-math"/>, meaning that we have indeed solved the equation for <ph id="c3" type="ui" subType="swi18n:inline-math"/>! The final result is <ph id="c4" type="ui" subType="swi18n:block-math"/> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

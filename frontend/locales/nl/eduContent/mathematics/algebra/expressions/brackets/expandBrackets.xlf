@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">expand brackets</pc>. If you see an expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/> you can turn this into <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes simplifying the number multiplications (so <ph id="c5" type="ui" subType="swi18n:inline-math"/> becomes <ph id="c6" type="ui" subType="swi18n:inline-math"/>) and turning multiplications of identical factors into powers (so <ph id="c7" type="ui" subType="swi18n:inline-math"/> becomes <ph id="c8" type="ui" subType="swi18n:inline-math"/>).</pc></source>
+					<target swi18n:sourceContentFingerprint="2c3dc377f9cdd819" swi18n:sourceStructureFingerprint="abfe73a63c6d3949"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">haakjes uit te werken</pc>. Als je een uitdrukking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> ziet, dan kun je dit in <ph id="c4" type="ui" subType="swi18n:inline-math"/> omschrijven. Hierbij hoort het samenvoegen van getallenvermenigvuldigingen (dus <ph id="c5" type="ui" subType="swi18n:inline-math"/> wordt <ph id="c6" type="ui" subType="swi18n:inline-math"/>) en het omzetten van vermenigvuldigingen van gelijke factoren in machten (dus <ph id="c7" type="ui" subType="swi18n:inline-math"/> wordt <ph id="c8" type="ui" subType="swi18n:inline-math"/>).</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We know how to calculate a multiplication like <ph id="c2" type="ui" subType="swi18n:inline-math"/>. But what do we do with something like <ph id="c3" type="ui" subType="swi18n:inline-math"/>? The answer is: we can rewrite this by <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">expanding brackets</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="c47b7cf8a13819fd" swi18n:sourceStructureFingerprint="835ab694df5c05a9"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We weten hoe we een vermenigvuldiging als <ph id="c2" type="ui" subType="swi18n:inline-math"/> uitrekenen kunnen. Maar wat doen we met zoiets als <ph id="c3" type="ui" subType="swi18n:inline-math"/>? Het antwoord is: we kunnen dit herschrijven door de <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">haakjes uit te werken</pc>.</pc></target>
+				</segment>
+			</unit>
+			<unit id="rule">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The rule</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">If we have a number multiplication, like for instance <ph id="c3" type="ui" subType="swi18n:inline-math"/>, then we can visualize this multiplication using blocks.</pc><ph id="c4" type="ui" subType="swi18n:block-drawing"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">From this, we see that <ph id="c6" type="ui" subType="swi18n:inline-math"/> can be rewritten to <ph id="c7" type="ui" subType="swi18n:inline-math"/>. Check for yourself: both result into <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">This works exactly the same if we have an expression like <ph id="c10" type="ui" subType="swi18n:inline-math"/>. Here, <ph id="c11" type="ui" subType="swi18n:inline-math"/>, <ph id="c12" type="ui" subType="swi18n:inline-math"/> and <ph id="c13" type="ui" subType="swi18n:inline-math"/> can be any type of expression, like <ph id="c14" type="ui" subType="swi18n:inline-math"/> or anything similar. We can again visualize this.</pc><ph id="c15" type="ui" subType="swi18n:block-drawing"/><pc id="c16" type="ui" subType="swi18n:par" swi18n:slot="children">From this visualization, we see that we may rewrite <ph id="c17" type="ui" subType="swi18n:inline-math"/> to <ph id="c18" type="ui" subType="swi18n:inline-math"/>. We call this <pc id="c19" type="ui" subType="swi18n:term" swi18n:slot="children">expanding the brackets</pc>. The accompanying rule is <ph id="c20" type="ui" subType="swi18n:block-math"/> Note that we multiply the factor outside of the brackets (here <ph id="c21" type="ui" subType="swi18n:inline-math"/>) separately with each of the terms inside the brackets (here <ph id="c22" type="ui" subType="swi18n:inline-math"/> and <ph id="c23" type="ui" subType="swi18n:inline-math"/>).</pc></source>
+					<target swi18n:sourceContentFingerprint="688182dfafad5f88" swi18n:sourceStructureFingerprint="d1b7334d11d2f098"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De regel</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Als we getallen vermenigvuldigen, zoals bijvoorbeeld <ph id="c3" type="ui" subType="swi18n:inline-math"/>, dan kunnen we dit visualiseren met behulp van blokken.</pc><ph id="c4" type="ui" subType="swi18n:block-drawing"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Hieruit zien we dat <ph id="c6" type="ui" subType="swi18n:inline-math"/> herschreven kan worden tot <ph id="c7" type="ui" subType="swi18n:inline-math"/>. Controleer voor jezelf: beiden komen uit op <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">Dit werkt op precies dezelfde manier bij een uitdrukking als <ph id="c10" type="ui" subType="swi18n:inline-math"/>. Hier kunnen <ph id="c11" type="ui" subType="swi18n:inline-math"/>, <ph id="c12" type="ui" subType="swi18n:inline-math"/> en <ph id="c13" type="ui" subType="swi18n:inline-math"/> elke soort uitdrukking zijn, zoals <ph id="c14" type="ui" subType="swi18n:inline-math"/> of iets soortgelijks. We kunnen dit weer visualiseren.</pc><ph id="c15" type="ui" subType="swi18n:block-drawing"/><pc id="c16" type="ui" subType="swi18n:par" swi18n:slot="children">Uit deze afbeelding zien we dat we <ph id="c17" type="ui" subType="swi18n:inline-math"/> kunnen herschrijven naar <ph id="c18" type="ui" subType="swi18n:inline-math"/>. We noemen dit het <pc id="c19" type="ui" subType="swi18n:term" swi18n:slot="children">uitwerken van de haakjes</pc>. De betreffende regel is <ph id="c20" type="ui" subType="swi18n:block-math"/> Merk op dat we de factor buiten de haakjes (hier <ph id="c21" type="ui" subType="swi18n:inline-math"/>) los vermenigvuldigen met elk van de termen binnen de haakjes (hier <ph id="c22" type="ui" subType="swi18n:inline-math"/> en <ph id="c23" type="ui" subType="swi18n:inline-math"/>).</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To expand brackets, like for instance with <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Multiply the factor outside of the brackets separately with each term inside the brackets. So <ph id="c7" type="ui" subType="swi18n:inline-math"/> becomes <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:b" swi18n:slot="children">For each of the resulting terms, <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify any potential number multiplications</pc>. So <ph id="c12" type="ui" subType="swi18n:inline-math"/> becomes <ph id="c13" type="ui" subType="swi18n:inline-math"/> and <ph id="c14" type="ui" subType="swi18n:inline-math"/> becomes <ph id="c15" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c16" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c17" type="ui" subType="swi18n:c" swi18n:slot="children">Also <pc id="c18" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merge any multiplications of equal factors into powers</pc>. So <ph id="c19" type="ui" subType="swi18n:inline-math"/> becomes <ph id="c20" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c21" type="ui" subType="swi18n:par" swi18n:slot="children">The final result <ph id="c22" type="ui" subType="swi18n:inline-math"/> is as easy as you can possibly write it.</pc></source>
+					<target swi18n:sourceContentFingerprint="3878293cd77b3c35" swi18n:sourceStructureFingerprint="412afb0bc22ba068"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De stappen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om haakjes uit te werken, zoals bijvoorbeeld bij <ph id="c3" type="ui" subType="swi18n:inline-math"/>, neem je de volgende stappen.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Vermenigvuldig de factor buiten de haakjes los met elke term binnen de haakjes. Dus <ph id="c7" type="ui" subType="swi18n:inline-math"/> wordt <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:b" swi18n:slot="children">Voor elk van de resulterende termen, voeg vermenigvuldigingen van getallen <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">samen tot een enkele factor</pc>. Dus <ph id="c12" type="ui" subType="swi18n:inline-math"/> wordt <ph id="c13" type="ui" subType="swi18n:inline-math"/> en <ph id="c14" type="ui" subType="swi18n:inline-math"/> wordt <ph id="c15" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c16" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c17" type="ui" subType="swi18n:c" swi18n:slot="children">Voeg ook vermenigvuldigingen van gelijke factoren <pc id="c18" type="ui" subType="swi18n:skill-link" swi18n:slot="children">samen in een macht</pc>. Dus <ph id="c19" type="ui" subType="swi18n:inline-math"/> wordt <ph id="c20" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c21" type="ui" subType="swi18n:par" swi18n:slot="children">Het eindresultaat <ph id="c22" type="ui" subType="swi18n:inline-math"/> is zo eenvoudig als je het maar schrijven kan.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="basicForm">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="b0aa50a7221b8512" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de uitdrukking <ph id="c1" type="ui" subType="swi18n:block-math"/> Werk de haakjes uit en vereenvoudig het resultaat zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Take the factor outside of the bracket (here <ph id="c1" type="ui" subType="swi18n:inline-math"/>) and multiply it separately with each of the terms within the brackets (<ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>).</source>
+							<target swi18n:sourceContentFingerprint="60f6e4b32ed55b72" swi18n:sourceStructureFingerprint="29f4bdc3e3cb616a">Neem de factor buiten de haakjes (hier <ph id="c1" type="ui" subType="swi18n:inline-math"/>) en vermenigvuldig deze los met elk van de termen binnen de haakjes (<ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/>).</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we set up the two multiplications, keeping a plus in-between, we wind up with <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="b59445ea907951a6" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Als we de twee vermenigvuldigingen los opschrijven, waar we het plusteken ertussen houden, komen we uit op <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Where possible, inside each term, merge products of numbers together into a single factor.</source>
+							<target swi18n:sourceContentFingerprint="8c04802ffe06c248" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voeg binnen elke term, waar mogelijk, vermenigvuldigingen van getallen samen tot een enkele factor.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="857ea9f0d2f75782" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Beide termen hebben een vermenigvuldiging van twee getallen. We kunnen dus beiden samenvoegen. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Where possible, inside each term, merge products of equal factors into a power.</source>
+							<target swi18n:sourceContentFingerprint="0194bae9fab29a3a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voeg binnen elke term, waar mogelijk, producten van gelijke factoren samen tot een macht.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can turn the multiplication of <ph id="c1" type="ui" subType="swi18n:inline-math"/> with itself into <ph id="c2" type="ui" subType="swi18n:inline-math"/>. This turns the full expression into <ph id="c3" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="e6cac13efba4623f" swi18n:sourceStructureFingerprint="39bf226c637a45de">We kunnen de vermenigvuldiging van <ph id="c1" type="ui" subType="swi18n:inline-math"/> met zichzelf in <ph id="c2" type="ui" subType="swi18n:inline-math"/> omzetten. De volledige uitdrukking wordt hiermee <ph id="c3" type="ui" subType="swi18n:block-math"/> Dit is ons eindantwoord. Kort geschreven geldt <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="negativeFactor">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="b0aa50a7221b8512" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de uitdrukking <ph id="c1" type="ui" subType="swi18n:block-math"/> Werk de haakjes uit en vereenvoudig het resultaat zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Take the factor outside of the bracket (here <ph id="c1" type="ui" subType="swi18n:inline-math"/>) and multiply it separately with each of the terms within the brackets (<ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>).</source>
+							<target swi18n:sourceContentFingerprint="60f6e4b32ed55b72" swi18n:sourceStructureFingerprint="29f4bdc3e3cb616a">Neem de factor buiten de haakjes (hier <ph id="c1" type="ui" subType="swi18n:inline-math"/>) en vermenigvuldig deze los met elk van de termen binnen de haakjes (<ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/>).</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we set up the two multiplications, keeping the minus in-between, we wind up with <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="e9b2a24dfb4a560e" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Als we de twee vermenigvuldigingen los opschrijven, waar we het minteken ertussen houden, komen we uit op <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Where possible, inside each term, merge products of numbers together into a single factor.</source>
+							<target swi18n:sourceContentFingerprint="8c04802ffe06c248" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voeg binnen elke term, waar mogelijk, vermenigvuldigingen van getallen samen tot een enkele factor.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Both terms have a multiplication of two numbers. We can simplify both of them. Note that a multiplication of two negative numbers results in a positive number. This gives us <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="ce44cfe934a44270" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Beide termen hebben een vermenigvuldiging van twee getallen. We kunnen dus beiden samenvoegen. Merk op dat een vermenigvuldiging van twee negatieve getallen een positief getal oplevert. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Where possible, inside each term, merge products of equal factors into a power.</source>
+							<target swi18n:sourceContentFingerprint="0194bae9fab29a3a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voeg binnen elke term, waar mogelijk, producten van gelijke factoren samen tot een macht.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can turn the multiplication of <ph id="c1" type="ui" subType="swi18n:inline-math"/> with <ph id="c2" type="ui" subType="swi18n:inline-math"/> into <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This turns the full expression into <ph id="c4" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c5" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="3d41e59e259450ca" swi18n:sourceStructureFingerprint="692c14ee78c1ab08">We kunnen de vermenigvuldiging van <ph id="c1" type="ui" subType="swi18n:inline-math"/> met <ph id="c2" type="ui" subType="swi18n:inline-math"/> omzetten in <ph id="c3" type="ui" subType="swi18n:inline-math"/>. De volledige uitdrukking wordt hiermee <ph id="c4" type="ui" subType="swi18n:block-math"/> Dit is ons eindantwoord. Kort geschreven geldt <ph id="c5" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="multipleTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="b0aa50a7221b8512" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de uitdrukking <ph id="c1" type="ui" subType="swi18n:block-math"/> Werk de haakjes uit en vereenvoudig het resultaat zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Take the factor outside of the bracket (here <ph id="c1" type="ui" subType="swi18n:inline-math"/>) and multiply it separately with each of the terms within the brackets (<ph id="c2" type="ui" subType="swi18n:inline-math"/>, <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/>).</source>
+							<target swi18n:sourceContentFingerprint="093cc95c746db2d0" swi18n:sourceStructureFingerprint="ac42ce3328a6b8f8">Neem de factor buiten de haakjes (hier <ph id="c1" type="ui" subType="swi18n:inline-math"/>) en vermenigvuldig deze los met elk van de termen binnen de haakjes (<ph id="c2" type="ui" subType="swi18n:inline-math"/>, <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/>).</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we set up the two multiplications, keeping any pluses/minuses in-between, we wind up with <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="51d3a37304df6012" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Als we de vermenigvuldigingen los opschrijven, waar we mogelijke plussen/minnen ertussen houden, komen we uit op <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Where possible, inside each term, merge products of numbers together into a single factor.</source>
+							<target swi18n:sourceContentFingerprint="8c04802ffe06c248" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voeg binnen elke term, waar mogelijk, vermenigvuldigingen van getallen samen tot een enkele factor.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>All three terms have a multiplication of two numbers. We can simplify all of them. This gives us <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="4253da3217e8e624" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Alle drie de termen hebben een vermenigvuldiging van twee getallen. We kunnen dit dus bij alle termen samenvoegen. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Where possible, inside each term, merge products of equal factors into a power.</source>
+							<target swi18n:sourceContentFingerprint="0194bae9fab29a3a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voeg binnen elke term, waar mogelijk, producten van gelijke factoren samen tot een macht.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can turn the multiplication of <ph id="c1" type="ui" subType="swi18n:inline-math"/> with itself into <ph id="c2" type="ui" subType="swi18n:inline-math"/>, and the multiplication of <ph id="c3" type="ui" subType="swi18n:inline-math"/> with <ph id="c4" type="ui" subType="swi18n:inline-math"/> becomes <ph id="c5" type="ui" subType="swi18n:inline-math"/>. This turns the full expression into <ph id="c6" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="f09fb4007b19d2a4" swi18n:sourceStructureFingerprint="d056c69109e0b1d4">We kunnen de vermenigvuldiging van <ph id="c1" type="ui" subType="swi18n:inline-math"/> met zichzelf in <ph id="c2" type="ui" subType="swi18n:inline-math"/> omzetten, en de vermenigvuldiging van <ph id="c3" type="ui" subType="swi18n:inline-math"/> met <ph id="c4" type="ui" subType="swi18n:inline-math"/> in <ph id="c5" type="ui" subType="swi18n:inline-math"/>. De volledige uitdrukking wordt hiermee <ph id="c6" type="ui" subType="swi18n:block-math"/> Dit is ons eindantwoord. Kort geschreven geldt <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="factorBehind">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="b0aa50a7221b8512" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Bekijk de uitdrukking <ph id="c1" type="ui" subType="swi18n:block-math"/> Werk de haakjes uit en vereenvoudig het resultaat zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Take the factor outside of the bracket (here <ph id="c1" type="ui" subType="swi18n:inline-math"/>) and multiply it separately with each of the terms within the brackets (<ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>).</source>
+							<target swi18n:sourceContentFingerprint="60f6e4b32ed55b72" swi18n:sourceStructureFingerprint="29f4bdc3e3cb616a">Neem de factor buiten de haakjes (hier <ph id="c1" type="ui" subType="swi18n:inline-math"/>) en vermenigvuldig deze los met elk van de termen binnen de haakjes (<ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/>).</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we set up the two multiplications, keeping the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> in-between, we wind up with <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="09e3b5e99c3b3c68" swi18n:sourceStructureFingerprint="656a148c64e326d7">Als we de twee vermenigvuldigingen los opschrijven, waar we het <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">min</pc></pc>teken ertussen houden, komen we uit op <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Where possible, inside each term, merge products of numbers together into a single factor.</source>
+							<target swi18n:sourceContentFingerprint="8c04802ffe06c248" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voeg binnen elke term, waar mogelijk, vermenigvuldigingen van getallen samen tot een enkele factor.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="857ea9f0d2f75782" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Beide termen hebben een vermenigvuldiging van twee getallen. We kunnen dus beiden samenvoegen. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Where possible, inside each term, merge products of equal factors into a power.</source>
+							<target swi18n:sourceContentFingerprint="0194bae9fab29a3a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voeg binnen elke term, waar mogelijk, producten van gelijke factoren samen tot een macht.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can turn the multiplication of <ph id="c1" type="ui" subType="swi18n:inline-math"/> with <ph id="c2" type="ui" subType="swi18n:inline-math"/> into <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This turns the full expression into <ph id="c4" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c5" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="3d41e59e259450ca" swi18n:sourceStructureFingerprint="692c14ee78c1ab08">We kunnen de vermenigvuldiging van <ph id="c1" type="ui" subType="swi18n:inline-math"/> met <ph id="c2" type="ui" subType="swi18n:inline-math"/> omzetten in <ph id="c3" type="ui" subType="swi18n:inline-math"/>. De volledige uitdrukking wordt hiermee <ph id="c4" type="ui" subType="swi18n:block-math"/> Dit is ons eindantwoord. Kort geschreven geldt <ph id="c5" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

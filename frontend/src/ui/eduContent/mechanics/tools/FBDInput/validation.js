@@ -1,9 +1,9 @@
 import { loadsEqual, isLoadAtPoint } from '@step-wise/engineering-mechanics'
+import { Translation, Plural } from '@step-wise/i18n'
 
-import { Translation, Plurals } from 'i18n'
 import { selectRandomEmpty } from 'ui/inputs'
 
-export const translationPath = 'eduContent/mechanics/tools/FBDInput'
+export const translationAddress = { folder: ['eduContent', 'mechanics', 'tools'], catalog: 'FBDInput', group: ['feedback'] }
 
 // nonEmpty requires at least one load.
 export function nonEmpty(data) {
@@ -24,7 +24,7 @@ export function nonEmptyNoDoubles(data) {
 	if (doubleLoadIndex !== -1) {
 		const otherIndex = getEqualLoadIndex(doubleLoadIndex)
 		return {
-			text: <Translation path={translationPath} entry="feedback.doubleArrows">Some arrows have been drawn multiple times. Make sure that all arrows are unique.</Translation>,
+			text: <Translation {...translationAddress} id="doubleArrows">Some arrows have been drawn multiple times. Make sure that all arrows are unique.</Translation>,
 			affectedLoads: [data[doubleLoadIndex], data[otherIndex]],
 		}
 	}
@@ -42,7 +42,7 @@ export function allConnectedToPoints(points) {
 		const unconnectedLoads = data.filter(load => !Object.values(points).some(point => isLoadAtPoint(load, point)))
 		if (unconnectedLoads.length > 0) {
 			return {
-				text: <Translation path={translationPath} entry="feedback.unconnectedLoads"><Plurals value={unconnectedLoads.length}><Plurals.One>There is an arrow that is</Plurals.One><Plurals.NotOne>There are arrows that are</Plurals.NotOne></Plurals> not connected to any known point, so this can never be a correct solution.</Translation>,
+				text: <Translation {...translationAddress} id="unconnectedLoads"><Plural value={unconnectedLoads.length}><Plural.Exact value={1}>There is an arrow that is</Plural.Exact><Plural.Other>There are arrows that are</Plural.Other></Plural> not connected to any known point, so this can never be a correct solution.</Translation>,
 				affectedLoads: unconnectedLoads,
 			}
 		}

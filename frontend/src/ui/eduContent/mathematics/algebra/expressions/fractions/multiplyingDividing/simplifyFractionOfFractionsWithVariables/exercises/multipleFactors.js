@@ -2,8 +2,8 @@ import React from 'react'
 
 import { gcd } from '@step-wise/math-tools'
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
@@ -59,7 +59,7 @@ const steps = [
 		},
 		Solution: ({ a, b, c, d, p, q, variables, expression, singleFraction, inBetween, ans }) => {
 			const gcdValue = gcd(a * d, b * c)
-			return <Par><Translation>We can merge number products<Check value={gcdValue > 1}><Check.True> and subsequently divide the numerator and the denominator by <M>{gcdValue}</M></Check.True></Check>. This gives us <BM>{singleFraction} = {inBetween}.</BM> Next to that, we can cancel the factors <M>\left({variables.x.add(p).removeTrivial()}\right)</M> and <M>\left({variables.x.add(q).removeTrivial()}\right)</M> from both sides, as well as merge repeated multiplications into squares. This results in <BM>{inBetween} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
+			return <Par><Translation>We can merge number products<Condition value={gcdValue > 1}><Condition.True> and subsequently divide the numerator and the denominator by <M>{gcdValue}</M></Condition.True></Condition>. This gives us <BM>{singleFraction} = {inBetween}.</BM> Next to that, we can cancel the factors <M>\left({variables.x.add(p).removeTrivial()}\right)</M> and <M>\left({variables.x.add(q).removeTrivial()}\right)</M> from both sides, as well as merge repeated multiplications into squares. This results in <BM>{inBetween} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]

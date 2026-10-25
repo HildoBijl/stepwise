@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">solve a quadratic equation</pc> when it is in its standard form <ph id="c3" type="ui" subType="swi18n:inline-math"/>. For instance, with <ph id="c4" type="ui" subType="swi18n:inline-math"/> you can determine there is one solution <ph id="c5" type="ui" subType="swi18n:inline-math"/>, with <ph id="c6" type="ui" subType="swi18n:inline-math"/> you can find the two solutions <ph id="c7" type="ui" subType="swi18n:inline-math"/> and reduce this to <ph id="c8" type="ui" subType="swi18n:inline-math"/> and <ph id="c9" type="ui" subType="swi18n:inline-math"/>, and with <ph id="c10" type="ui" subType="swi18n:inline-math"/> you can end up at <ph id="c11" type="ui" subType="swi18n:inline-math"/>. This includes determining the number of solutions, <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying the square root</pc> (pulling out factors) and <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying the resulting fraction</pc>. This skill does not include <pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">rewritten quadratic equations</pc> which still have to be <pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">brought to standard form</pc> first.</pc></source>
+					<target swi18n:sourceContentFingerprint="f65488281e45c29b" swi18n:sourceStructureFingerprint="1c6ed23cfa087903"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">kwadratische vergelijking op te lossen</pc> als hij in de standaarvorm <ph id="c3" type="ui" subType="swi18n:inline-math"/> staat. Je kunt bij <ph id="c4" type="ui" subType="swi18n:inline-math"/> bijvoorbeeld bepalen dat er één oplossing <ph id="c5" type="ui" subType="swi18n:inline-math"/> is, bij <ph id="c6" type="ui" subType="swi18n:inline-math"/> kun je de twee oplossingen <ph id="c7" type="ui" subType="swi18n:inline-math"/> vinden en dit terugbrengen tot <ph id="c8" type="ui" subType="swi18n:inline-math"/> en <ph id="c9" type="ui" subType="swi18n:inline-math"/>, en bij <ph id="c10" type="ui" subType="swi18n:inline-math"/> kun je uitkomen op <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Dit omvat het bepalen van het aantal oplossingen, het <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereenvoudigen van de wortel</pc> (uittrekken van factoren) en het <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereenvoudigen van de hieruitkomende breuk</pc>. Deze vaardigheid omvat geen <pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">anders geschreven kwadratische vergelijkingen</pc> die dan eerst nog in <pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">standaardvorm gebracht</pc> moeten worden.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">quadratic equation</pc> is an equation of the form <ph id="c3" type="ui" subType="swi18n:inline-math"/>: it is a summation of a term with <ph id="c4" type="ui" subType="swi18n:inline-math"/>, a term with <ph id="c5" type="ui" subType="swi18n:inline-math"/> and a constant, without the presence of any higher powers of <ph id="c6" type="ui" subType="swi18n:inline-math"/> or any roots or similar. This type of equation can be solved by following a few fixed steps. Even if you don't understand why these steps work, following the procedure will get you to the right solutions.</pc></source>
+					<target swi18n:sourceContentFingerprint="1b5bde3ef21bd286" swi18n:sourceStructureFingerprint="e14b76ae2bc35c7d"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">kwadratische vergelijking</pc> is een vergelijking van de vorm <ph id="c3" type="ui" subType="swi18n:inline-math"/>: het is een optelling van een term met <ph id="c4" type="ui" subType="swi18n:inline-math"/>, een term met <ph id="c5" type="ui" subType="swi18n:inline-math"/> en een constante, zonder enige hogere machten van <ph id="c6" type="ui" subType="swi18n:inline-math"/> of enige wortels of soortgelijk. Dit soort vergelijkingen kan via een aantal vaste stappen opgelost worden. Zelfs als je niet begrijpt waarom deze stappen werken, zal het volgen van deze procedure je bij de juiste oplossingen krijgen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="theTwoSolutions">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The two solutions</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To make the quadratic equation more intuitive, it helps to draw a graph of the expression on the left-hand side of the equation. If we for instance plot <ph id="c3" type="ui" subType="swi18n:inline-math"/> we get the following graph.</pc><ph id="c4" type="ui" subType="swi18n:quadratic-plot"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">To solve the equation <ph id="c6" type="ui" subType="swi18n:inline-math"/> we need to find the values of <ph id="c7" type="ui" subType="swi18n:inline-math"/> where the plotted line has height <ph id="c8" type="ui" subType="swi18n:inline-math"/> and hence crosses the horizontal axis. We see that this occurs at <ph id="c9" type="ui" subType="swi18n:inline-math"/> but also at <ph id="c10" type="ui" subType="swi18n:inline-math"/>. In other words, there are two values of <ph id="c11" type="ui" subType="swi18n:inline-math"/> that satisfy the equation. The equation has two solutions!</pc></source>
+					<target swi18n:sourceContentFingerprint="a765ab5f60845330" swi18n:sourceStructureFingerprint="b7ea3f6958fb1251"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De twee oplossingen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om de kwadratische vergelijking wat intuïtiever te maken, helpt het om een grafiek te maken van de uitdrukking links in de vergelijking. Als we bijvoorbeeld <ph id="c3" type="ui" subType="swi18n:inline-math"/> plotten, dan krijgen we de volgende grafiek.</pc><ph id="c4" type="ui" subType="swi18n:quadratic-plot"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Om de vergelijking <ph id="c6" type="ui" subType="swi18n:inline-math"/> op te lossen, moeten we de waarden van <ph id="c7" type="ui" subType="swi18n:inline-math"/> vinden waarbij de geplotte lijn hoogte <ph id="c8" type="ui" subType="swi18n:inline-math"/> heeft, en hij de horizontale as dus snijdt. We zien dat dit bij <ph id="c9" type="ui" subType="swi18n:inline-math"/> plaatsvindt, maar ook bij <ph id="c10" type="ui" subType="swi18n:inline-math"/>. Met andere woorden, er zijn twee waarden van <ph id="c11" type="ui" subType="swi18n:inline-math"/> die aan de vergelijking voldoen. De vergelijking heeft twee oplossingen!</pc></target>
+				</segment>
+			</unit>
+			<unit id="findingTheTwoSolutions">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Finding the two solutions</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Finding solutions with a graph is easy, but usually we don't take the effort to make a graph. To still find the right values, we use the general solution of the quadratic equation.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Before we can use this solution, we write the equation as<ph id="c4" type="ui" subType="swi18n:block-math"/>That is, <ph id="c5" type="ui" subType="swi18n:inline-math"/> is the number before <ph id="c6" type="ui" subType="swi18n:inline-math"/>, <ph id="c7" type="ui" subType="swi18n:inline-math"/> is the number before <ph id="c8" type="ui" subType="swi18n:inline-math"/> and <ph id="c9" type="ui" subType="swi18n:inline-math"/> is the constant term in the sum. So for our example, we have <ph id="c10" type="ui" subType="swi18n:inline-math"/>, <ph id="c11" type="ui" subType="swi18n:inline-math"/> and <ph id="c12" type="ui" subType="swi18n:inline-math"/>. Note that, due to the minus sign, <ph id="c13" type="ui" subType="swi18n:inline-math"/> is negative!</pc><pc id="c14" type="ui" subType="swi18n:par" swi18n:slot="children">Once we have <ph id="c15" type="ui" subType="swi18n:inline-math"/>, <ph id="c16" type="ui" subType="swi18n:inline-math"/> and <ph id="c17" type="ui" subType="swi18n:inline-math"/>, we can insert them into the general solution for quadratic equations. This solution (an equation you should memorize since you'll use it so often) is<ph id="c18" type="ui" subType="swi18n:block-math"/>This important equation is known as the <pc id="c19" type="ui" subType="swi18n:term" swi18n:slot="children">quadratic formula</pc> or colloquially also as the <pc id="c20" type="ui" subType="swi18n:term" swi18n:slot="children">abc-formula</pc>. You don't need to understand why this is the solution, but you do need to be able to apply it. To use it, we insert the values of <ph id="c21" type="ui" subType="swi18n:inline-math"/>, <ph id="c22" type="ui" subType="swi18n:inline-math"/> and <ph id="c23" type="ui" subType="swi18n:inline-math"/> into this solution. For our example we get<ph id="c24" type="ui" subType="swi18n:block-math"/>This looks rather complicated, but we can simplify it. If we simplify the number multiplications, we reduce this to<ph id="c25" type="ui" subType="swi18n:block-math"/>The square root becomes <ph id="c26" type="ui" subType="swi18n:inline-math"/> which is <ph id="c27" type="ui" subType="swi18n:inline-math"/>, so the final result then becomes<ph id="c28" type="ui" subType="swi18n:block-math"/>Note that the solution has a plus/minus sign. We can insert either a plus or a minus in the place of this symbol, and each case gives us a different solution. With a minus sign we get <ph id="c29" type="ui" subType="swi18n:inline-math"/> while with a plus we get <ph id="c30" type="ui" subType="swi18n:inline-math"/>. So thanks to the plus/minus sign we have the two solutions we were looking for! The general solution works.</pc></source>
+					<target swi18n:sourceContentFingerprint="809d6e70a4f65fd5" swi18n:sourceStructureFingerprint="4938edfda489b7dc"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De twee oplossingen vinden</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Oplossingen vinden met behulp van een grafiek is makkelijk, maar meestal nemen we niet de moeite om zo'n grafiek te maken. Om toch de juiste waarden te vinden, gebruiken we de algemene oplossing van de kwadratische vergelijking.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Voordat we deze oplossing kunnen gebruiken, schrijven we de vergelijking als <ph id="c4" type="ui" subType="swi18n:block-math"/>Oftewel, <ph id="c5" type="ui" subType="swi18n:inline-math"/> is het getal voor <ph id="c6" type="ui" subType="swi18n:inline-math"/>, <ph id="c7" type="ui" subType="swi18n:inline-math"/> is het getal voor <ph id="c8" type="ui" subType="swi18n:inline-math"/> en <ph id="c9" type="ui" subType="swi18n:inline-math"/> is de constante term in de som. In ons voorbeeld hebben we dus <ph id="c10" type="ui" subType="swi18n:inline-math"/>, <ph id="c11" type="ui" subType="swi18n:inline-math"/> en <ph id="c12" type="ui" subType="swi18n:inline-math"/>. Merk op, omdat er een minteken staat, dat <ph id="c13" type="ui" subType="swi18n:inline-math"/> negatief is!</pc><pc id="c14" type="ui" subType="swi18n:par" swi18n:slot="children">Zodra we <ph id="c15" type="ui" subType="swi18n:inline-math"/>, <ph id="c16" type="ui" subType="swi18n:inline-math"/> en <ph id="c17" type="ui" subType="swi18n:inline-math"/> hebben, kunnen we ze in de algemene oplossing voor kwadratische vergelijkingen invullen. Deze oplossing (een vergelijking die je moet onthouden omdat je hem zo veel zal gaan gebruiken) is <ph id="c18" type="ui" subType="swi18n:block-math"/>Deze belangrijke vergelijking heet formeel de <pc id="c19" type="ui" subType="swi18n:term" swi18n:slot="children">kwadratische formule</pc> hoewel hij in de wandelgangen vaker de <pc id="c20" type="ui" subType="swi18n:term" swi18n:slot="children">abc-formule</pc> genoemd wordt. Je hoeft niet te begrijpen waarom dit de oplossing is, maar je moet hem wel kunnen gebruiken. Om hem toe te passen, vullen we de waarden van <ph id="c21" type="ui" subType="swi18n:inline-math"/>, <ph id="c22" type="ui" subType="swi18n:inline-math"/> en <ph id="c23" type="ui" subType="swi18n:inline-math"/> in deze oplossing in. Bij ons voorbeeld krijgen we <ph id="c24" type="ui" subType="swi18n:block-math"/>Dit ziet er redelijk ingewikkeld uit, maar we kunnen het vereenvoudigen. Als we de getalvermenigvuldigingen herschrijven, dan brengen we het terug tot <ph id="c25" type="ui" subType="swi18n:block-math"/>De wortel wordt dan <ph id="c26" type="ui" subType="swi18n:inline-math"/> wat gelijk is aan <ph id="c27" type="ui" subType="swi18n:inline-math"/>, waarmee het eindresultaat uitkomt op <ph id="c28" type="ui" subType="swi18n:block-math"/>Merk op dat de oplossing een plus/minus-teken heeft. We kunnen hier ofwel een plus ofwel een min voor invullen, en elke optie geeft ons een andere oplossing. Met een minteken krijgen we <ph id="c29" type="ui" subType="swi18n:inline-math"/> terwijl we met een plus <ph id="c30" type="ui" subType="swi18n:inline-math"/> vinden. Dankzij het plus/minus-teken hebben we dus de twee oplossingen waar we naar zochten! De algemene oplossing werkt.</pc></target>
+				</segment>
+			</unit>
+			<unit id="zeroSolutions">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Zero solutions</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">A quadratic equation doesn't always have two solutions though. Let's for instance study the equation <ph id="c3" type="ui" subType="swi18n:inline-math"/>. If we plot this, we get the following graph.</pc><ph id="c4" type="ui" subType="swi18n:quadratic-plot"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Note that this is the same parabola, except it's been shifted upwards by <ph id="c6" type="ui" subType="swi18n:inline-math"/>. Now it doesn't intersect with the <ph id="c7" type="ui" subType="swi18n:inline-math"/>-axis anymore! There are hence no solutions. There isn't a single number <ph id="c8" type="ui" subType="swi18n:inline-math"/> that exists for which <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c10" type="ui" subType="swi18n:par" swi18n:slot="children">We can see numerically why this is the case. Note that <ph id="c11" type="ui" subType="swi18n:inline-math"/> is always a positive number. After all, the square of a number is always positive. Similarly, <ph id="c12" type="ui" subType="swi18n:inline-math"/> is always positive. The only term in <ph id="c13" type="ui" subType="swi18n:inline-math"/> that may be negative is <ph id="c14" type="ui" subType="swi18n:inline-math"/>. However, this term will never match up to <ph id="c15" type="ui" subType="swi18n:inline-math"/>. As a result, the expression <ph id="c16" type="ui" subType="swi18n:inline-math"/> can never be zero.</pc><pc id="c17" type="ui" subType="swi18n:par" swi18n:slot="children">So what happens if we still try to apply our general solution? In this case we have <ph id="c18" type="ui" subType="swi18n:inline-math"/>, <ph id="c19" type="ui" subType="swi18n:inline-math"/> and <ph id="c20" type="ui" subType="swi18n:inline-math"/>. Inserting this gives<ph id="c21" type="ui" subType="swi18n:block-math"/>Simplifying this turns it into<ph id="c22" type="ui" subType="swi18n:block-math"/>Note that we now have a square root of a negative number. This is a mathematical impossibility: we cannot take square roots of negative numbers. Because our general solution gives a mathematical impossibility, there are no solutions possible to our equation.</pc><pc id="c23" type="ui" subType="swi18n:par" swi18n:slot="children">In short: if the square root within the solution contains a negative number (so <ph id="c24" type="ui" subType="swi18n:inline-math"/>) then the quadratic equation has no solutions. </pc></source>
+					<target swi18n:sourceContentFingerprint="ab26b8a1b046ae10" swi18n:sourceStructureFingerprint="6ba3756570fe9551"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Nul oplossingen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Een kwadratische vergelijking heeft echter niet altijd twee oplossingen. Laten we bijvoorbeeld de vergelijking <ph id="c3" type="ui" subType="swi18n:inline-math"/> bekijken. Als we deze plotten, dan krijgen we de volgende grafiek.</pc><ph id="c4" type="ui" subType="swi18n:quadratic-plot"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Merk op dat dit dezelfde parabool is, maar dan is hij <ph id="c6" type="ui" subType="swi18n:inline-math"/> omhoog geschoven. Nu snijdt hij niet meer met de <ph id="c7" type="ui" subType="swi18n:inline-math"/>-as! Er zijn daarom geen oplossingen. Er bestaat geen enkel getal <ph id="c8" type="ui" subType="swi18n:inline-math"/> dat voldoet aan <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c10" type="ui" subType="swi18n:par" swi18n:slot="children">We kunnen getalmatig zien waarom dit het geval is. Merk op dat <ph id="c11" type="ui" subType="swi18n:inline-math"/> altijd een positief getal is. Het kwadraat van een getal is immers altijd positief. Net zo is <ph id="c12" type="ui" subType="swi18n:inline-math"/> ook altijd positief. De enige term in <ph id="c13" type="ui" subType="swi18n:inline-math"/> die mogelijk negatief is, is <ph id="c14" type="ui" subType="swi18n:inline-math"/>. Deze term zal qua grootte echter nooit in de buurt komen van <ph id="c15" type="ui" subType="swi18n:inline-math"/>. Als gevolg hiervan kan de uitdrukking <ph id="c16" type="ui" subType="swi18n:inline-math"/> nooit nul zijn.</pc><pc id="c17" type="ui" subType="swi18n:par" swi18n:slot="children">Wat gebeurt er dan als we onze algemene oplossing proberen toe te passen? In dit geval hebben we <ph id="c18" type="ui" subType="swi18n:inline-math"/>, <ph id="c19" type="ui" subType="swi18n:inline-math"/> en <ph id="c20" type="ui" subType="swi18n:inline-math"/>. Dit invullen geeft <ph id="c21" type="ui" subType="swi18n:block-math"/>Als we dit vereenvoudigen wordt dit <ph id="c22" type="ui" subType="swi18n:block-math"/> Merk op dat we nu een wortel van een negatief getal hebben. Dit is wiskundig onmogelijk: we kunnen geen wortels van negatieve getallen nemen. Omdat onze algemene oplossing op een wiskundige onmogelijkheid uitkomt, zijn er geen mogelijke oplossingen voor onze vergelijking.</pc><pc id="c23" type="ui" subType="swi18n:par" swi18n:slot="children">Kort gezegd: als de wortel in de oplossing een negatief getal bevat (dus <ph id="c24" type="ui" subType="swi18n:inline-math"/>) dan heeft de kwadratische vergelijking geen oplossingen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="oneSolution">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">One solution</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">There is an edge case where the quadratic equation has one solution. Let's consider for instance the equation <ph id="c3" type="ui" subType="swi18n:inline-math"/>. The corresponding graph is as follows.</pc><ph id="c4" type="ui" subType="swi18n:quadratic-plot"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Note that the graph now exactly <pc id="c6" type="ui" subType="swi18n:emp" swi18n:slot="children">touches</pc> the <ph id="c7" type="ui" subType="swi18n:inline-math"/>-axis. When this is the case, the quadratic equation has one solution.</pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">This also follows from our general solution. This time we have <ph id="c9" type="ui" subType="swi18n:inline-math"/>, <ph id="c10" type="ui" subType="swi18n:inline-math"/> and <ph id="c11" type="ui" subType="swi18n:inline-math"/>. If we insert this into our general solution, we get<ph id="c12" type="ui" subType="swi18n:block-math"/>Simplifying this turns it into<ph id="c13" type="ui" subType="swi18n:block-math"/>Note that the square root reduces to zero, which turns this into <ph id="c14" type="ui" subType="swi18n:inline-math"/>. The latter part "<ph id="c15" type="ui" subType="swi18n:inline-math"/>" is pointless and can be removed, leaving us with only the single solution <ph id="c16" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c17" type="ui" subType="swi18n:par" swi18n:slot="children">In short: if the square root of the solution becomes zero (which is the case when <ph id="c18" type="ui" subType="swi18n:inline-math"/>) then the quadratic solution has exactly one solution.</pc></source>
+					<target swi18n:sourceContentFingerprint="d891113627253419" swi18n:sourceStructureFingerprint="5550b9a2f1343465"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Eén oplossing</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Er is een speciaal geval waarbij de kwadratische vergelijking één oplossing heeft. Bekijk bijvoorbeeld de vergelijking <ph id="c3" type="ui" subType="swi18n:inline-math"/>. De bijbehorende grafiek is als volgt.</pc><ph id="c4" type="ui" subType="swi18n:quadratic-plot"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Merk op dat de geplotte lijn nu <pc id="c6" type="ui" subType="swi18n:emp" swi18n:slot="children">raakt</pc> aan de <ph id="c7" type="ui" subType="swi18n:inline-math"/>-as. Als dit het geval is, dan heeft de kwadratische vergelijking exact één oplossing.</pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">Dit volgt ook uit de algemene oplossing. Deze keer hebben we <ph id="c9" type="ui" subType="swi18n:inline-math"/>, <ph id="c10" type="ui" subType="swi18n:inline-math"/> en <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Als we dit in onze algemene oplossing invullen, dan krijgen we <ph id="c12" type="ui" subType="swi18n:block-math"/>Dit vereenvoudigen zet het om in <ph id="c13" type="ui" subType="swi18n:block-math"/>Merk op dat de wortel uitkomt op nul, wat dit omzet tot <ph id="c14" type="ui" subType="swi18n:inline-math"/>. Het laatste deel "<ph id="c15" type="ui" subType="swi18n:inline-math"/>" is nutteloos en kan weggehaald worden, waarmee we op een enkele oplossing <ph id="c16" type="ui" subType="swi18n:inline-math"/> uitkomen.</pc><pc id="c17" type="ui" subType="swi18n:par" swi18n:slot="children">Kort gezegd: als de wortel binnen de oplossing op nul uitkomt (wat het geval is als <ph id="c18" type="ui" subType="swi18n:inline-math"/>) dan heeft de kwadratische vergelijking precies één oplossing.</pc></target>
+				</segment>
+			</unit>
+			<unit id="discriminant">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:info" swi18n:slot="children">You have seen that the number within the square root determines how many solutions the equation has. Because of this, this number <ph id="c2" type="ui" subType="swi18n:inline-math"/> is called the <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">discriminant</pc> of the equation.</pc></source>
+					<target swi18n:sourceContentFingerprint="33aa9e319f49cd4b" swi18n:sourceStructureFingerprint="322022888e0069c6"><pc id="c1" type="ui" subType="swi18n:info" swi18n:slot="children">Je hebt gezien dat het getal binnen de wortel bepaalt hoeveel oplossingen de vergelijking heeft. Dit getal <ph id="c2" type="ui" subType="swi18n:inline-math"/> wordt daarom de <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">discriminant</pc> van de vergelijking genoemd.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To solve a quadratic equation, like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Compare the equation to the standard form <ph id="c7" type="ui" subType="swi18n:inline-math"/> to determine <ph id="c8" type="ui" subType="swi18n:inline-math"/>, <ph id="c9" type="ui" subType="swi18n:inline-math"/> and <ph id="c10" type="ui" subType="swi18n:inline-math"/>. If there is a minus sign, the corresponding number should be negative. For our example we have <ph id="c11" type="ui" subType="swi18n:inline-math"/>, <ph id="c12" type="ui" subType="swi18n:inline-math"/> and <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Substitute</pc> <ph id="c17" type="ui" subType="swi18n:inline-math"/>, <ph id="c18" type="ui" subType="swi18n:inline-math"/> and <ph id="c19" type="ui" subType="swi18n:inline-math"/> into the general solution <ph id="c20" type="ui" subType="swi18n:inline-math"/>. For our example we get <ph id="c21" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c22" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c23" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c24" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Simplify the root</pc> and use the number within it (the discriminant) to determine the number of solutions.<pc id="c25" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c26" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c27" type="ui" subType="swi18n:d" swi18n:slot="children">If the discriminant is <pc id="c28" type="ui" subType="swi18n:emp" swi18n:slot="children">positive</pc> then there are <pc id="c29" type="ui" subType="swi18n:emp" swi18n:slot="children">two solutions</pc>.</pc></pc><pc id="c30" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c31" type="ui" subType="swi18n:e" swi18n:slot="children">If the discriminant is <pc id="c32" type="ui" subType="swi18n:emp" swi18n:slot="children">negative</pc> then there are <pc id="c33" type="ui" subType="swi18n:emp" swi18n:slot="children">no solutions</pc>.</pc></pc><pc id="c34" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c35" type="ui" subType="swi18n:f" swi18n:slot="children">If the discriminant is <pc id="c36" type="ui" subType="swi18n:emp" swi18n:slot="children">zero</pc> then there is exactly <pc id="c37" type="ui" subType="swi18n:emp" swi18n:slot="children">one solution</pc>.</pc></pc></pc>For our example we get <ph id="c38" type="ui" subType="swi18n:inline-math"/> so there are two solutions.</pc></pc><pc id="c39" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c40" type="ui" subType="swi18n:g" swi18n:slot="children"><pc id="c41" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Simplify the resulting fraction</pc>, canceling fraction factors where possible. For our example <ph id="c42" type="ui" subType="swi18n:inline-math"/> reduces to <ph id="c43" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c44" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c45" type="ui" subType="swi18n:h" swi18n:slot="children">Finally write the two solutions (if they exist) side by side. For our example we get <ph id="c46" type="ui" subType="swi18n:inline-math"/> and <ph id="c47" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="c36f75bd91a91f75" swi18n:sourceStructureFingerprint="7fe7b53e248c2c76"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De stappen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om een kwadratische vergelijking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> op te lossen neem je de volgende stappen.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Vergelijk de vergelijking met de standaardvorm <ph id="c7" type="ui" subType="swi18n:inline-math"/> om <ph id="c8" type="ui" subType="swi18n:inline-math"/>, <ph id="c9" type="ui" subType="swi18n:inline-math"/> en <ph id="c10" type="ui" subType="swi18n:inline-math"/> te bepalen. Bij een minteken moet het bijbehorende getal negatief zijn. Bij ons voorbeeld hebben we <ph id="c11" type="ui" subType="swi18n:inline-math"/>, <ph id="c12" type="ui" subType="swi18n:inline-math"/> en <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Vul hiermee</pc> <ph id="c17" type="ui" subType="swi18n:inline-math"/>, <ph id="c18" type="ui" subType="swi18n:inline-math"/> en <ph id="c19" type="ui" subType="swi18n:inline-math"/> in de algemene oplossing <ph id="c20" type="ui" subType="swi18n:inline-math"/> in. Bij ons voorbeeld krijgen we zo <ph id="c21" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c22" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c23" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c24" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Vereenvoudig de wortel</pc> en bepaal aan de hand van het getal erin (de discriminant) het aantal oplossingen.<pc id="c25" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c26" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c27" type="ui" subType="swi18n:d" swi18n:slot="children">Als de discriminant <pc id="c28" type="ui" subType="swi18n:emp" swi18n:slot="children">positief</pc> is dan zijn er <pc id="c29" type="ui" subType="swi18n:emp" swi18n:slot="children">twee oplossingen</pc>.</pc></pc><pc id="c30" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c31" type="ui" subType="swi18n:e" swi18n:slot="children">Als de discriminant <pc id="c32" type="ui" subType="swi18n:emp" swi18n:slot="children">negatief</pc> is dan zijn er <pc id="c33" type="ui" subType="swi18n:emp" swi18n:slot="children">geen oplossingen</pc>.</pc></pc><pc id="c34" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c35" type="ui" subType="swi18n:f" swi18n:slot="children">Als de discriminant gelijk is aan <pc id="c36" type="ui" subType="swi18n:emp" swi18n:slot="children">nul</pc> dan is er precies <pc id="c37" type="ui" subType="swi18n:emp" swi18n:slot="children">één oplossing</pc>.</pc></pc></pc>Bij ons voorbeeld komen we uit op <ph id="c38" type="ui" subType="swi18n:inline-math"/> en dus zijn er twee oplossingen.</pc></pc><pc id="c39" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c40" type="ui" subType="swi18n:g" swi18n:slot="children"><pc id="c41" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Vereenvoudig de resulterende breuk</pc>, waarbij je waar mogelijk breukfactoren wegstreept. Bij ons voorbeeld wordt <ph id="c42" type="ui" subType="swi18n:inline-math"/> teruggebracht tot <ph id="c43" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c44" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c45" type="ui" subType="swi18n:h" swi18n:slot="children">Schrijf uiteindelijk de oplossingen (als ze bestaan) los van elkaar op. Bij ons voorbeeld krijgen we <ph id="c46" type="ui" subType="swi18n:inline-math"/> en <ph id="c47" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></target>
+				</segment>
+			</unit>
+			<unit id="derivation">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Background: derivation of the quadratic formula</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Though not needed for this skill, we can look at where the quadratic equation comes from. To be precise, we can derive it ourselves! It's fun to see this derivation some time, if only so you know why it's set up the way it is.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Our starting point is the quadratic equation<ph id="c4" type="ui" subType="swi18n:block-math"/>For reasons which will become clear later, we multiple all terms in this equation by <ph id="c5" type="ui" subType="swi18n:inline-math"/> to get<ph id="c6" type="ui" subType="swi18n:block-math"/>We also add and subtract <ph id="c7" type="ui" subType="swi18n:inline-math"/> to the equation to find<ph id="c8" type="ui" subType="swi18n:block-math"/>The reason why we did this, is because now we can pull the first three terms into a big square, like<ph id="c9" type="ui" subType="swi18n:block-math"/>Note that, if you expand the brackets, we come back to what we started with, so the equation is still valid. The next step is to bring the other terms to the right-hand side,<ph id="c10" type="ui" subType="swi18n:block-math"/>Now we can cancel the square by taking the square root of both sides of the equation. When doing so, the rule says that we must also add a plus/minus symbol prior to the square root. So we get<ph id="c11" type="ui" subType="swi18n:block-math"/>Subtracting <ph id="c12" type="ui" subType="swi18n:inline-math"/> and subsequently dividing by <ph id="c13" type="ui" subType="swi18n:inline-math"/> turns this into<ph id="c14" type="ui" subType="swi18n:block-math"/>We have derived the quadratic formula, proving its correctness! Of course you could take the above steps every time you try to solve a quadratic equation, but simply inserting some numbers into the quadratic formula is a much easier way of solving quadratic equations.</pc></source>
+					<target swi18n:sourceContentFingerprint="e336c40c67a9ec5f" swi18n:sourceStructureFingerprint="8e823d8f8b4de9ce"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Achtergrond: afleiding van de kwadratische formule</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Hoewel het niet nodig is voor deze vaardigheid, kunnen we kijken naar waar de kwadratische formule vandaan komt. Om precies te zijn kunnen we hem zelf afleiden! Het is leuk om deze afleiding eens gezien te hebben, al was het maar zodat je weet waarom hij opgebouwd is zoals hij is.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Ons beginpunt is de kwadratische vergelijking <ph id="c4" type="ui" subType="swi18n:block-math"/>Om redenen die je zo zal zien, vermenigvuldigen we alle termen in deze vergelijking met <ph id="c5" type="ui" subType="swi18n:inline-math"/> om uit te komen op <ph id="c6" type="ui" subType="swi18n:block-math"/>We tellen ook <ph id="c7" type="ui" subType="swi18n:inline-math"/> erbij op en halen het er gelijk weer vanaf,<ph id="c8" type="ui" subType="swi18n:block-math"/>De reden dat we dit doen is omdat we nu de eerste drie termen in een groot kwadraat samen kunnen voegen, als <ph id="c9" type="ui" subType="swi18n:block-math"/>Merk op dat, als je de haakjes uitwerkt, dat we weer uitkomen op waar we mee begonnen waren, wat betekent dat de vergelijking nog steeds klopt. In de volgende stap brengen we de andere termen naar de rechterkant van de vergelijking, <ph id="c10" type="ui" subType="swi18n:block-math"/> We kunnen nu het kwadraat wegwerken door van beide kanten van de vergelijking de wortel te nemen. Als we dit doen, dan zegt de regel dat we voor de wortel ook een plus/minus-teken toe moeten voegen. Zo krijgen we <ph id="c11" type="ui" subType="swi18n:block-math"/> Het aftrekken van <ph id="c12" type="ui" subType="swi18n:inline-math"/> en het vervolgens delen door <ph id="c13" type="ui" subType="swi18n:inline-math"/> zet dit om in <ph id="c14" type="ui" subType="swi18n:block-math"/> We hebben de abc-formule afgeleid, waarmee we bewezen hebben dat hij klopt! Natuurlijk kun je, elke keer dat je een kwadratische vergelijking op wilt lossen, ook elke keer alle bovenstaande stappen volgen, maar het simpelweg invullen van een paar getallen in de abc-formule is een veel makkelijkere manier om kwadratische vergelijkingen op te lossen.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="noSolutions">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Find all possible solutions for <ph id="c2" type="ui" subType="swi18n:inline-math"/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)</source>
+						<target swi18n:sourceContentFingerprint="8771e1beff503bea" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Vind alle mogelijke oplossingen voor <ph id="c2" type="ui" subType="swi18n:inline-math"/> en vereenvoudig deze zo veel als mogelijk. (Dit omvat ook het trekken van factoren uit wortels en het wegstrepen van breukfactoren.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Find the values for <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/> so that the given equation matches the standard form for quadratic equations <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="71c3ea1b98ece080" swi18n:sourceStructureFingerprint="ac42ce3328a6b8f8">Bepaal de waarden van <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/> zodat de gegeven vergelijking overeenkomt met de standaardvorm voor kwadratische vergelijkingen <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By comparing the equations, we can see that <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="736a42a704a1ea6a" swi18n:sourceStructureFingerprint="29f4bdc3e3cb616a">Door de vergelijkingen naast elkaar te leggen, zien we in dat <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Substitute <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type "pm".)</source>
+							<target swi18n:sourceContentFingerprint="a275947521b640c7" swi18n:sourceStructureFingerprint="29f4bdc3e3cb616a">Vul <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/> in de kwadratische formule in. (Je kunt het plus/minus symbool van de app's interne toetsenbord gebruiken, of je typt "pm".)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The quadratic formula states that <ph id="c1" type="ui" subType="swi18n:block-math"/> Entering the values <ph id="c2" type="ui" subType="swi18n:inline-math"/>, <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> turns this into <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="214cc560fe1829c3" swi18n:sourceStructureFingerprint="b89b609c1c70bfab">De kwadratische formule luidt <ph id="c1" type="ui" subType="swi18n:block-math"/> Het invullen van de waarden <ph id="c2" type="ui" subType="swi18n:inline-math"/>, <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> zet dit om naar <ph id="c5" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Calculate the value of the discriminant (the number within the square root).</source>
+							<target swi18n:sourceContentFingerprint="b7d995560db4245b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bereken de waarde van de discriminant (het getal binnen de wortel).</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We can directly calculate that <ph id="c2" type="ui" subType="swi18n:inline-math"/> equals <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="128dc2d3baa3b92b" swi18n:sourceStructureFingerprint="2519d6521c612811"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We kunnen direct berekenen dat <ph id="c2" type="ui" subType="swi18n:inline-math"/> gelijk is aan <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Based on the value of the discriminant, determine how many solutions the given equation has.</source>
+							<target swi18n:sourceContentFingerprint="031716c411819897" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gebaseerd op de waarde van de discriminant, bepaal hoeveel oplossingen de gegeven vergelijking heeft.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Because the value within the square root (the discriminant) is negative, the square root is impossible to evaluate. There are hence no possible solutions to the quadratic equation.</pc></source>
+							<target swi18n:sourceContentFingerprint="c33dc46fe50a9fa4" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Omdat het getal binnen de wortel (de discriminant) negatief is, is het onmogelijk om de wortel te berekenen. Er zijn dus geen mogelijke oplossingen voor de kwadratische vergelijking.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="oneSolution">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Find all possible solutions for <ph id="c2" type="ui" subType="swi18n:inline-math"/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)</source>
+						<target swi18n:sourceContentFingerprint="8771e1beff503bea" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Vind alle mogelijke oplossingen voor <ph id="c2" type="ui" subType="swi18n:inline-math"/> en vereenvoudig deze zo veel als mogelijk. (Dit omvat ook het trekken van factoren uit wortels en het wegstrepen van breukfactoren.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Find the values for <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/> so that the given equation matches the standard form for quadratic equations <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="71c3ea1b98ece080" swi18n:sourceStructureFingerprint="ac42ce3328a6b8f8">Bepaal de waarden van <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/> zodat de gegeven vergelijking overeenkomt met de standaardvorm voor kwadratische vergelijkingen <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By comparing the equations, we can see that <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="736a42a704a1ea6a" swi18n:sourceStructureFingerprint="29f4bdc3e3cb616a">Door de vergelijkingen naast elkaar te leggen, zien we in dat <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Substitute <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type "pm".)</source>
+							<target swi18n:sourceContentFingerprint="a275947521b640c7" swi18n:sourceStructureFingerprint="29f4bdc3e3cb616a">Vul <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/> in de kwadratische formule in. (Je kunt het plus/minus symbool van de app's interne toetsenbord gebruiken, of je typt "pm".)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The quadratic formula states that <ph id="c1" type="ui" subType="swi18n:block-math"/> Entering the values <ph id="c2" type="ui" subType="swi18n:inline-math"/>, <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> turns this into <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="214cc560fe1829c3" swi18n:sourceStructureFingerprint="b89b609c1c70bfab">De kwadratische formule luidt <ph id="c1" type="ui" subType="swi18n:block-math"/> Het invullen van de waarden <ph id="c2" type="ui" subType="swi18n:inline-math"/>, <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> zet dit om naar <ph id="c5" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Calculate the value of the discriminant (the number within the square root).</source>
+							<target swi18n:sourceContentFingerprint="b7d995560db4245b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bereken de waarde van de discriminant (het getal binnen de wortel).</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We can directly calculate that <ph id="c2" type="ui" subType="swi18n:inline-math"/> equals <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="128dc2d3baa3b92b" swi18n:sourceStructureFingerprint="2519d6521c612811"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We kunnen direct berekenen dat <ph id="c2" type="ui" subType="swi18n:inline-math"/> gelijk is aan <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Based on the value of the discriminant, determine how many solutions the given equation has.</source>
+							<target swi18n:sourceContentFingerprint="031716c411819897" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gebaseerd op de waarde van de discriminant, bepaal hoeveel oplossingen de gegeven vergelijking heeft.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">When the square root reduces to zero, the plus/minus in the solution vanishes and the equation will have exactly one solution.</pc></source>
+							<target swi18n:sourceContentFingerprint="487380fd6b843894" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Als de wortel op nul uitkomt, dan verdwijnt de plus/minus in de oplossing en heeft de vergelijking precies één oplossing.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step5">
+					<unit id="problem">
+						<segment>
+							<source>Write down the final solution of the given equation, simplified as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="e9b6297908376638" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Schrijf de uiteindelijke oplossing van de vergelijking op, zo vereenvoudigd als mogelijk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">By calculating <ph id="c2" type="ui" subType="swi18n:inline-math"/> we can reduce it to a single number <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">As final check, we insert the solution <ph id="c5" type="ui" subType="swi18n:inline-math"/> into the original equation, <ph id="c6" type="ui" subType="swi18n:block-math"/> This indeed holds, so the solution we have found is correct.</pc></source>
+							<target swi18n:sourceContentFingerprint="608eca673f4b7c0d" swi18n:sourceStructureFingerprint="56d899daabb22cc1"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Door <ph id="c2" type="ui" subType="swi18n:inline-math"/> uit te rekenen, kunnen we het tot een enkel getal <ph id="c3" type="ui" subType="swi18n:inline-math"/> terugbrengen.</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Als laatste check vullen we de oplossing <ph id="c5" type="ui" subType="swi18n:inline-math"/> in de oorspronkelijke vergelijking in, <ph id="c6" type="ui" subType="swi18n:block-math"/> Dit klopt inderdaad, wat betekent dat de oplossing die we gevonden hebben correct is.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="twoIntegerSolutions">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Find all possible solutions for <ph id="c2" type="ui" subType="swi18n:inline-math"/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)</source>
+						<target swi18n:sourceContentFingerprint="8771e1beff503bea" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Vind alle mogelijke oplossingen voor <ph id="c2" type="ui" subType="swi18n:inline-math"/> en vereenvoudig deze zo veel als mogelijk. (Dit omvat ook het trekken van factoren uit wortels en het wegstrepen van breukfactoren.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Find the values for <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/> so that the given equation matches the standard form for quadratic equations <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="71c3ea1b98ece080" swi18n:sourceStructureFingerprint="ac42ce3328a6b8f8">Bepaal de waarden van <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/> zodat de gegeven vergelijking overeenkomt met de standaardvorm voor kwadratische vergelijkingen <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By comparing the equations, we can see that <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="736a42a704a1ea6a" swi18n:sourceStructureFingerprint="29f4bdc3e3cb616a">Door de vergelijkingen naast elkaar te leggen, zien we in dat <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Substitute <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type "pm".)</source>
+							<target swi18n:sourceContentFingerprint="a275947521b640c7" swi18n:sourceStructureFingerprint="29f4bdc3e3cb616a">Vul <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/> in de kwadratische formule in. (Je kunt het plus/minus symbool van de app's interne toetsenbord gebruiken, of je typt "pm".)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The quadratic formula states that <ph id="c1" type="ui" subType="swi18n:block-math"/> Entering the values <ph id="c2" type="ui" subType="swi18n:inline-math"/>, <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> turns this into <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="214cc560fe1829c3" swi18n:sourceStructureFingerprint="b89b609c1c70bfab">De kwadratische formule luidt <ph id="c1" type="ui" subType="swi18n:block-math"/> Het invullen van de waarden <ph id="c2" type="ui" subType="swi18n:inline-math"/>, <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> zet dit om naar <ph id="c5" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Calculate the value of the discriminant (the number within the square root).</source>
+							<target swi18n:sourceContentFingerprint="b7d995560db4245b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bereken de waarde van de discriminant (het getal binnen de wortel).</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We can directly calculate that <ph id="c2" type="ui" subType="swi18n:inline-math"/> equals <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="128dc2d3baa3b92b" swi18n:sourceStructureFingerprint="2519d6521c612811"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We kunnen direct berekenen dat <ph id="c2" type="ui" subType="swi18n:inline-math"/> gelijk is aan <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Based on the value of the discriminant, determine how many solutions the given equation has.</source>
+							<target swi18n:sourceContentFingerprint="031716c411819897" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gebaseerd op de waarde van de discriminant, bepaal hoeveel oplossingen de gegeven vergelijking heeft.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">When the discriminant is larger than zero, then the equation will have two valid solutions. After all, the plus/minus symbol will result in two different values.</pc></source>
+							<target swi18n:sourceContentFingerprint="43e08f1fe3cba4a3" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Als de discriminant groter dan nul is, dan heeft de vergelijking twee geldige oplossingen. Het plus/minus symbool zorgt dan immers voor twee mogelijke waarden.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step5">
+					<unit id="problem">
+						<segment>
+							<source>Find the solutions of the given equation and write them down separately from one another, simplified as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="e816f83b9c2c4e1c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bepaal de oplossingen van de gegeven vergelijking en schrijf ze los van elkaar op, zo vereenvoudigd als mogelijk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">It is wise to first simplify the expression with the plus/minus. This gets us <ph id="c2" type="ui" subType="swi18n:block-math"/> Once it's been simplified, we enter either a plus or a minus. This gives the two solutions <ph id="c3" type="ui" subType="swi18n:block-math"/><ph id="c4" type="ui" subType="swi18n:block-math"/></pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">As final check, we insert the two solutions <ph id="c6" type="ui" subType="swi18n:inline-math"/> and <ph id="c7" type="ui" subType="swi18n:inline-math"/> into the original equation. This results in <ph id="c8" type="ui" subType="swi18n:block-math"/><ph id="c9" type="ui" subType="swi18n:block-math"/> Both of these equations hold, so the solutions we found are correct.</pc></source>
+							<target swi18n:sourceContentFingerprint="7d9d3711b460c574" swi18n:sourceStructureFingerprint="86d1340eb1f3e65a"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Het is handig om eerst de uitdrukking met de plus/minus te vereenvoudigen. Dit brengt ons <ph id="c2" type="ui" subType="swi18n:block-math"/> Zodra dit vereenvoudigd is, vullen we ofwel een plus ofwel een min in. Dit geeft de twee oplossingen <ph id="c3" type="ui" subType="swi18n:block-math"/><ph id="c4" type="ui" subType="swi18n:block-math"/></pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Als laatste check vullen we de twee oplossingen <ph id="c6" type="ui" subType="swi18n:inline-math"/> en <ph id="c7" type="ui" subType="swi18n:inline-math"/> in de oorspronkelijke vergelijking in. Dit geeft <ph id="c8" type="ui" subType="swi18n:block-math"/><ph id="c9" type="ui" subType="swi18n:block-math"/> Beide bovenstaande vergelijkingen kloppen, wat betekent dat de gevonden oplossingen correct zijn.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="twoNonIntegerSolutions">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Find all possible solutions for <ph id="c2" type="ui" subType="swi18n:inline-math"/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)</source>
+						<target swi18n:sourceContentFingerprint="8771e1beff503bea" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Vind alle mogelijke oplossingen voor <ph id="c2" type="ui" subType="swi18n:inline-math"/> en vereenvoudig deze zo veel als mogelijk. (Dit omvat ook het trekken van factoren uit wortels en het wegstrepen van breukfactoren.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Find the values for <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/> so that the given equation matches the standard form for quadratic equations <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="71c3ea1b98ece080" swi18n:sourceStructureFingerprint="ac42ce3328a6b8f8">Bepaal de waarden van <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/> zodat de gegeven vergelijking overeenkomt met de standaardvorm voor kwadratische vergelijkingen <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By comparing the equations, we can see that <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="736a42a704a1ea6a" swi18n:sourceStructureFingerprint="29f4bdc3e3cb616a">Door de vergelijkingen naast elkaar te leggen, zien we in dat <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Substitute <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type "pm".)</source>
+							<target swi18n:sourceContentFingerprint="a275947521b640c7" swi18n:sourceStructureFingerprint="29f4bdc3e3cb616a">Vul <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> en <ph id="c3" type="ui" subType="swi18n:inline-math"/> in de kwadratische formule in. (Je kunt het plus/minus symbool van de app's interne toetsenbord gebruiken, of je typt "pm".)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The quadratic formula states that <ph id="c1" type="ui" subType="swi18n:block-math"/> Entering the values <ph id="c2" type="ui" subType="swi18n:inline-math"/>, <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> turns this into <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="214cc560fe1829c3" swi18n:sourceStructureFingerprint="b89b609c1c70bfab">De kwadratische formule luidt <ph id="c1" type="ui" subType="swi18n:block-math"/> Het invullen van de waarden <ph id="c2" type="ui" subType="swi18n:inline-math"/>, <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> zet dit om naar <ph id="c5" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Calculate the value of the discriminant (the number within the square root).</source>
+							<target swi18n:sourceContentFingerprint="b7d995560db4245b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bereken de waarde van de discriminant (het getal binnen de wortel).</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We can directly calculate that <ph id="c2" type="ui" subType="swi18n:inline-math"/> equals <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="128dc2d3baa3b92b" swi18n:sourceStructureFingerprint="2519d6521c612811"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We kunnen direct berekenen dat <ph id="c2" type="ui" subType="swi18n:inline-math"/> gelijk is aan <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Based on the value of the discriminant, determine how many solutions the given equation has.</source>
+							<target swi18n:sourceContentFingerprint="031716c411819897" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gebaseerd op de waarde van de discriminant, bepaal hoeveel oplossingen de gegeven vergelijking heeft.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">When the discriminant is larger than zero, then the equation will have two valid solutions. After all, the plus/minus symbol will result in two different values.</pc></source>
+							<target swi18n:sourceContentFingerprint="43e08f1fe3cba4a3" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Als de discriminant groter dan nul is, dan heeft de vergelijking twee geldige oplossingen. Het plus/minus symbool zorgt dan immers voor twee mogelijke waarden.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step5">
+					<unit id="problem">
+						<segment>
+							<source>Find the solutions of the given equation and write them down separately from one another, simplified as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="e816f83b9c2c4e1c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bepaal de oplossingen van de gegeven vergelijking en schrijf ze los van elkaar op, zo vereenvoudigd als mogelijk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">It is wise to first simplify the expression with the plus/minus. This gets us <ph id="c2" type="ui" subType="swi18n:block-math"/> Once it's been simplified, we enter either a plus or a minus. This gives the two solutions <ph id="c3" type="ui" subType="swi18n:block-math"/><ph id="c4" type="ui" subType="swi18n:block-math"/></pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">As final check, we insert the two solutions <ph id="c6" type="ui" subType="swi18n:inline-math"/> and <ph id="c7" type="ui" subType="swi18n:inline-math"/> into the original equation. This results in <ph id="c8" type="ui" subType="swi18n:block-math"/><ph id="c9" type="ui" subType="swi18n:block-math"/> With some work, we can verify that both of these equations hold, so the solutions we found are correct.</pc></source>
+							<target swi18n:sourceContentFingerprint="70926dfaafaa1abd" swi18n:sourceStructureFingerprint="86d1340eb1f3e65a"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Het is handig om eerst de uitdrukking met de plus/minus te vereenvoudigen. Dit brengt ons <ph id="c2" type="ui" subType="swi18n:block-math"/> Zodra dit vereenvoudigd is, vullen we ofwel een plus ofwel een min in. Dit geeft de twee oplossingen <ph id="c3" type="ui" subType="swi18n:block-math"/><ph id="c4" type="ui" subType="swi18n:block-math"/></pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Als laatste check vullen we de twee oplossingen <ph id="c6" type="ui" subType="swi18n:inline-math"/> en <ph id="c7" type="ui" subType="swi18n:inline-math"/> in de oorspronkelijke vergelijking in. Dit geeft <ph id="c8" type="ui" subType="swi18n:block-math"/><ph id="c9" type="ui" subType="swi18n:block-math"/> Met wat werk kunnen we nagaan dat beide van de bovenstaande vergelijkingen inderdaad kloppen, wat betekent dat de gevonden oplossingen correct zijn.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="numSolutionsInput">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:multiple-choice" swi18n:slot="children"><pc id="c2" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:a" swi18n:slot="children">There are no possible solutions for <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c5" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:b" swi18n:slot="children">There is <ph id="c7" type="ui" subType="swi18n:inline-math"/> solution for <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c9" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:c" swi18n:slot="children">There are <ph id="c11" type="ui" subType="swi18n:inline-math"/> solutions for <ph id="c12" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c13" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:d" swi18n:slot="children">There are <ph id="c15" type="ui" subType="swi18n:inline-math"/> solutions for <ph id="c16" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+						<target swi18n:sourceContentFingerprint="b5014b6fb3c48094" swi18n:sourceStructureFingerprint="27f890be22748723"><pc id="c1" type="ui" subType="swi18n:multiple-choice" swi18n:slot="children"><pc id="c2" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:a" swi18n:slot="children">Er zijn geen mogelijke oplossingen voor <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c5" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:b" swi18n:slot="children">Er is <ph id="c7" type="ui" subType="swi18n:inline-math"/> oplossing voor <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c9" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:c" swi18n:slot="children">Er zijn <ph id="c11" type="ui" subType="swi18n:inline-math"/> oplossingen voor <ph id="c12" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c13" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:d" swi18n:slot="children">Er zijn <ph id="c15" type="ui" subType="swi18n:inline-math"/> oplossingen voor <ph id="c16" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></target>
+					</segment>
+				</unit>
+				<unit id="0Correct">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Exactly. The discriminant <ph id="c2" type="ui" subType="swi18n:inline-math"/> is negative, so the square root has no valid outcomes.</pc></source>
+						<target swi18n:sourceContentFingerprint="62a831f1a88d9f98" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Juist. De discriminant <ph id="c2" type="ui" subType="swi18n:inline-math"/> is negatief, dus de wortel heeft geen mogelijke uitkomsten.</pc></target>
+					</segment>
+				</unit>
+				<unit id="0Incorrect">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">This is not correct. This would be the case when the discriminant <ph id="c2" type="ui" subType="swi18n:inline-math"/> is smaller than zero.</pc></source>
+						<target swi18n:sourceContentFingerprint="7e6b4e0e3cae3a14" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Dit is niet correct. Dit zou het geval zijn als de discriminant <ph id="c2" type="ui" subType="swi18n:inline-math"/> kleiner dan nul is.</pc></target>
+					</segment>
+				</unit>
+				<unit id="1Correct">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Spot on! The discriminant <ph id="c2" type="ui" subType="swi18n:inline-math"/> is equal to zero.</pc></source>
+						<target swi18n:sourceContentFingerprint="c77f012a1b94db54" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Precies! De discriminant <ph id="c2" type="ui" subType="swi18n:inline-math"/> is gelijk aan nul.</pc></target>
+					</segment>
+				</unit>
+				<unit id="1Incorrect">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">That can't be true. This is only the case when the discriminant <ph id="c2" type="ui" subType="swi18n:inline-math"/> is equal to zero.</pc></source>
+						<target swi18n:sourceContentFingerprint="85030c06801eec7c" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Dat kan het niet zijn. Dit is alleen het geval als de discriminant <ph id="c2" type="ui" subType="swi18n:inline-math"/> gelijk aan nul is.</pc></target>
+					</segment>
+				</unit>
+				<unit id="2Correct">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Exactly! After all, the discriminant <ph id="c2" type="ui" subType="swi18n:inline-math"/> is larger than zero.</pc></source>
+						<target swi18n:sourceContentFingerprint="eeb52de10e0b4553" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Precies! De discriminant <ph id="c2" type="ui" subType="swi18n:inline-math"/> is immers groter dan nul.</pc></target>
+					</segment>
+				</unit>
+				<unit id="2Incorrect">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">This doesn't add up. This would be the case when the discriminant <ph id="c2" type="ui" subType="swi18n:inline-math"/> is larger than zero.</pc></source>
+						<target swi18n:sourceContentFingerprint="fe67ce422712599c" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Dit klopt niet. Dit zou het geval zijn als de discriminant <ph id="c2" type="ui" subType="swi18n:inline-math"/> groter dan nul is.</pc></target>
+					</segment>
+				</unit>
+				<unit id="3Incorrect">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">No, this cannot be the case. A quadratic equation never has more than two solutions.</pc></source>
+						<target swi18n:sourceContentFingerprint="66331b5baeaa5772" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Nee, dit kan niet het geval zijn. Een kwadratische vergelijking heeft nooit meer dan twee oplossingen.</pc></target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

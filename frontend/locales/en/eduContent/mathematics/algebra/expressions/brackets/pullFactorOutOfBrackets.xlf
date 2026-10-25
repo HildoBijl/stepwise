@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">pull a factor out of brackets</pc>. If you see an expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/> you will be able to pull a factor <ph id="c4" type="ui" subType="swi18n:inline-math"/> and a factor <ph id="c5" type="ui" subType="swi18n:inline-math"/> out of brackets to wind up with <ph id="c6" type="ui" subType="swi18n:inline-math"/>. This includes understanding the reasoning behind why this works: writing the expression as a fraction and subsequently splitting the fraction and simplifying the result. The skill does not include recognizing which factor would be wise to pull out of the brackets.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We know how to expand brackets, rewriting <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. But can we also do the opposite? How do we <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">pull a factor out of brackets</pc>? There is a slightly long procedure that always works, but afterwards we also look at a short-cut you can often take.</pc></source>
+				</segment>
+			</unit>
+			<unit id="idea">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The idea</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Suppose that we have an expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/> and we want to pull a <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">factor</pc> <ph id="c5" type="ui" subType="swi18n:inline-math"/> out of the brackets. The first step is to write the expression as <ph id="c6" type="ui" subType="swi18n:block-math"/> For our example, this means that we initially write <ph id="c7" type="ui" subType="swi18n:block-math"/> Note that dividing the original expression by <ph id="c8" type="ui" subType="swi18n:inline-math"/> and subsequently multiplying by it leaves it unchanged, so both sides of the equation must be the same.</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">The fraction within the brackets can be simplified. First we can use the rules of <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging/splitting like fractions</pc> to split up the fraction, getting <ph id="c11" type="ui" subType="swi18n:block-math"/> Next, we can <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify each of the resulting fractions</pc> by canceling fraction factors, giving <ph id="c13" type="ui" subType="swi18n:block-math"/> All together, the final outcome is <ph id="c14" type="ui" subType="swi18n:block-math"/> At the end we can check if we have done everything correctly by <pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding the brackets</pc>. When we do, we should wind up with the original expression, which is indeed the case for our example. That means we did not make a mistake.</pc></source>
+				</segment>
+			</unit>
+			<unit id="shortCut">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The short-cut</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The above procedure with a fraction always works, but often it is a bit elaborate. In practice, it can be done faster. The idea is that we know we will wind up with an expression of the form <ph id="c3" type="ui" subType="swi18n:block-math"/> We only have to figure out what comes on the place of the dots. The first set of dots should be something that, when multiplied by <ph id="c4" type="ui" subType="swi18n:inline-math"/>, becomes <ph id="c5" type="ui" subType="swi18n:inline-math"/>. With some experience we directly see that this is <ph id="c6" type="ui" subType="swi18n:inline-math"/>. Similarly, the second set of dots should be something that, when multiplied by <ph id="c7" type="ui" subType="swi18n:inline-math"/>, becomes <ph id="c8" type="ui" subType="swi18n:inline-math"/>. We can once more realize that this is <ph id="c9" type="ui" subType="swi18n:inline-math"/>. In this way, we directly wind up with <ph id="c10" type="ui" subType="swi18n:block-math"/> If you have enough experience to apply this short-cut, you are of course welcome to do so.</pc></source>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To pull a factor out of brackets, like when pulling <ph id="c3" type="ui" subType="swi18n:inline-math"/> out of <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Start by writing down <ph id="c8" type="ui" subType="swi18n:inline-math"/>. For our example we hence write <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Split the fraction inside the brackets up into multiple fractions using the default rules for <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging/splitting fractions</pc>. For the example we hence get <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Simplify all fractions</pc> within the brackets, canceling factors where possible. This turns our example into <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c18" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c19" type="ui" subType="swi18n:d" swi18n:slot="children">Check your result by <pc id="c20" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding the brackets</pc> in your final result. You should wind up with exactly what you started with. And indeed, if we expand the brackets for <ph id="c21" type="ui" subType="swi18n:inline-math"/> then we get <ph id="c22" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c23" type="ui" subType="swi18n:par" swi18n:slot="children">Note that there are short-cuts that directly get you the required result, if you have the insights to use them properly.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="equationText">
+			<unit id="factor">
+				<segment>
+					<source>Factor</source>
+				</segment>
+			</unit>
+			<unit id="originalExpression">
+				<segment>
+					<source>Original expression</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="twoTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Pull a factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> out of brackets and simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Write the expression in the standard starting form <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we write the expression in the starting form for pulling a factor out brackets, we get <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Split the fraction up into separate fractions: one for each term. (Keep the multiplication around it as is.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To split up the fraction, we must divide each of the terms in the numerator separately by the denominator. This gives <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify each of the fractions within the brackets as much as possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By canceling factors within each fraction, we can turn all fractions into fractionless terms. The result is <ph id="c1" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Check your result by expanding the brackets and simplifying the result. Verify that this is indeed the expression we started with.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we expand the brackets in our final result, we get <ph id="c1" type="ui" subType="swi18n:block-math"/> This is indeed what we started with, so our solution is correct.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="threeTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Pull a factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> out of brackets and simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Write the expression in the standard starting form <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we write the expression in the starting form for pulling a factor out of backets, we get <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Split the fraction up into separate fractions: one for each term. (Keep the multiplication around it as is.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To split up the fraction, we must divide each of the terms in the numerator separately by the denominator. This gives <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify each of the fractions within the brackets as much as possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By canceling factors within each fraction, we can turn all fractions into fractionless terms. The result is <ph id="c1" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Check your result by expanding the brackets and simplifying the result. Verify that this is indeed the expression we started with.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we expand the brackets in our final result, we get <ph id="c1" type="ui" subType="swi18n:block-math"/> This is indeed what we started with, so our solution is correct.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="missingFactor">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your answer should be of the form <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					</segment>
+				</unit>
+				<unit id="incorrectFractionDenominator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your answer should be in the given starting form. Have you put the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the denominator of a fraction?</pc></source>
+					</segment>
+				</unit>
+				<unit id="incorrectFractionNumerator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your answer should be in the given starting form. Have you put the original expression <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the numerator of a fraction?</pc></source>
+					</segment>
+				</unit>
+				<unit id="hasFractionBeenSplit">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Have you split up the fraction into a summation?</pc></source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

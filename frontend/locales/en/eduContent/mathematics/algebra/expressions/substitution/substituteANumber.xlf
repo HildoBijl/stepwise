@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">substitute</pc> a variable in an expression by a number. For instance, given the expression <ph id="c3" type="ui" subType="swi18n:inline-math"/> you can insert <ph id="c4" type="ui" subType="swi18n:inline-math"/> to wind up with the number <ph id="c5" type="ui" subType="swi18n:inline-math"/>. Subsequently you can simplify this to a single number like <ph id="c6" type="ui" subType="swi18n:inline-math"/>. So this skill encompasses the simplification of the resulting expression as well, but only up to the point of using summations and multiplications. No skills related to fractions, powers, etcetera are required.</pc></source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

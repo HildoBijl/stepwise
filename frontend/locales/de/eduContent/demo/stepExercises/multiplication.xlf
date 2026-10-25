@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">This skill focuses on <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">multiplying two numbers</pc>. It builds up to to a combined skill where we both <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add and multiply numbers</pc>. The numbers that are used are both small: at most <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					<target swi18n:sourceContentFingerprint="ced192cb899e3e7e" swi18n:sourceStructureFingerprint="f42b63cd31580831"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Diese Kompetenz konzentriert sich auf <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Multiplizieren zweier Zahlen</pc>. Sie baut auf einer kombinierten Kompetenz auf, bei der wir <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Zahlen addieren und multiplizieren</pc>. Die Zahlen, die wir verwenden, sind klein: nicht größer als <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The whole idea of Step-Wise is to solve complicated problems <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Step-Wise</pc>: break them down into smaller pieces which are a lot simpler to tackle. To show you how that works, we first tackle two simpler tasks: multiplying numbers and adding them. Afterwards we merge these two skills into a more involved skill.</pc></source>
+					<target swi18n:sourceContentFingerprint="1ed184597d35cfa2" swi18n:sourceStructureFingerprint="f7f184827b959a05"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Die ganze Idee von Step-Wise ist es, komplexe Probleme <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Schritt für Schritt</pc> zu lösen: Sie werden in kleinere Schritte zerlegt, die viel einfacher zu lösen sind. Um dir zu zeigen, wie das funktioniert, fangen wir mit zwei einfacheren Aufgaben an: Zahlen multiplizieren und addieren. Dann verschmelzen wir diese beiden Kompetenzen zu einer komplizierteren.</pc></target>
+				</segment>
+			</unit>
+			<unit id="multiplyNumbers">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Multiplying numbers</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you have to <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">multiply two numbers</pc>. When multiplying small numbers, people usually do so from <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">memory</pc>. As a child you learned what <ph id="c5" type="ui" subType="swi18n:inline-math"/> is. You don't recalculate it every time. You simply know it's <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">If you really can't remember what the result of a certain multiplication is, then feel free to use a calculator. This is a tutorial after all! But do remember the result, for if it ever comes up again later!</pc></source>
+					<target swi18n:sourceContentFingerprint="6964c4e4b065b105" swi18n:sourceStructureFingerprint="1356379faa7aa976"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Zahlen multiplizieren</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Bei dieser Kompetenz geht es darum, <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">zwei Zahlen zu multiplizieren</pc>. Das Multiplizieren von zwei Zahlen wird normalerweise aus dem <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">Gedächtnis</pc> gemacht. Als Kind hast du gelernt, was <ph id="c5" type="ui" subType="swi18n:inline-math"/> ist. Du rechnest es nicht jedes Mal neu aus. Du weißt einfach, dass es <ph id="c6" type="ui" subType="swi18n:inline-math"/> ist.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Wenn du dich wirklich nicht an das Ergebnis einer bestimmten Multiplikation erinnern kannst, kannst du einen Taschenrechner benutzen. Schließlich ist dies ein Tutorium! Aber merke dir das Ergebnis, wenn du es später wieder brauchst!</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="multiplication1">
+				<unit id="problem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the multiplication <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Answer</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+						<target swi18n:sourceContentFingerprint="3501a83040b23390" swi18n:sourceStructureFingerprint="100dfd15ac8e4a97"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Berechne die Multiplikation <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Antwort</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></target>
+					</segment>
+				</unit>
+				<unit id="solution">
+					<segment>
+						<source>The solution is <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						<target swi18n:sourceContentFingerprint="8cb376d2c35d63de" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Die Lösung ist <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

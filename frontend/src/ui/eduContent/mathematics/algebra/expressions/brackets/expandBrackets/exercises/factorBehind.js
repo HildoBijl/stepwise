@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
@@ -40,7 +40,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ expression, expanded, c }) => {
-			return <Par><Translation>If we set up the two multiplications, keeping the <Check value={c > 0}><Check.True>plus</Check.True><Check.False>minus</Check.False></Check> in-between, we wind up with <BM>{expression} = {expanded}.</BM></Translation></Par>
+			return <Par><Translation>If we set up the two multiplications, keeping the <Condition value={c > 0}><Condition.True>plus</Condition.True><Condition.False>minus</Condition.False></Condition> in-between, we wind up with <BM>{expression} = {expanded}.</BM></Translation></Par>
 		},
 	},
 	{

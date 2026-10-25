@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="practice">
+			<group id="calculateBasicSupportReactionsDiagonalBeam">
+				<unit id="mainProblem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A beam is connected through a hinge on the left and a hinging slider on the right. It is subjected to a moment <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><ph id="c3" type="ui" subType="swi18n:diagram"/><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc><pc id="c5" type="ui" subType="swi18n:input-space" swi18n:slot="children"><ph id="c6" type="ui" subType="swi18n:diagram"/></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the unknown support reactions.</pc></source>
+						<target swi18n:sourceContentFingerprint="826183d752f47c54" swi18n:sourceStructureFingerprint="b2dc6020ce72d9b6"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Een balk is links met een scharnier en rechts met een scharnierende schuifverbinding bevestigd. Hij wordt belast met een moment van <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><ph id="c3" type="ui" subType="swi18n:diagram"/><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Teken het vrijlichaamsschema/schematisch diagram.</pc><pc id="c5" type="ui" subType="swi18n:input-space" swi18n:slot="children"><ph id="c6" type="ui" subType="swi18n:diagram"/></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken hierin de onbekende reactiekrachten/momenten.</pc></target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc></source>
+							<target swi18n:sourceContentFingerprint="94f041a847358999" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Teken het vrijlichaamsschema/schematisch diagram.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A hinge (left) prevents horizontal and vertical motion, but does allow rotation. This means that there is a horizontal and vertical reaction force, but not a reaction torque. Similarly a hinging slider (right) only prevents motion perpendicular to the surface. This results in a vertical reaction force. This gives us the following diagram.</pc><ph id="c2" type="ui" subType="swi18n:diagram"/><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</pc><pc id="x3" type="other" subType="swi18n:condition-false">The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="84cb5248dc327ef7" swi18n:sourceStructureFingerprint="799debff66936083"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Een scharnier (links) voorkomt horizontale en verticale beweging, maar laat wel draaiing toe. Er is dus een horizontale en een verticale reactiekracht, maar geen reactiemoment. Soortgelijk voorkomt een scharnierende schuifverbinding alleen beweging loodrecht op het contactoppervlak. Dat zorgt hier dus voor een verticale reactiekracht. Zo vinden we het onderstaande schema.</pc><ph id="c2" type="ui" subType="swi18n:diagram"/><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Merk op dat dit conform jouw getekende diagram is. De reactiekrachten/momenten mogen ook andersom, indien gewenst.</pc><pc id="x3" type="other" subType="swi18n:condition-false">De richtingen van de reactiekrachten/momenten zijn zo gekozen dat de waarden positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten/momenten negatief.</pc></pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the horizontal reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="908de5f366187e50" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de horizontale reactiekracht <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we look at the sum of the forces in the horizontal direction. In this case <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>This directly tells us that <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="c4dbe6461b623034" swi18n:sourceStructureFingerprint="42e5b03d155105f7"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c2" type="ui" subType="swi18n:inline-math"/> te vinden bekijken we de som van de krachten in de horizontale richting. In dit geval hebben <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> geen invloed. Dit geeft ons de evenwichtsvergelijking<ph id="c5" type="ui" subType="swi18n:block-math"/>Dit vertelt ons direct dat <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the vertical reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="e13084fcf66c9d76" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de verticale reactiekracht <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we look at the sum of the moments around point <ph id="c3" type="ui" subType="swi18n:inline-math"/>. In this case <ph id="c4" type="ui" subType="swi18n:inline-math"/> and <ph id="c5" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c6" type="ui" subType="swi18n:block-math"/>The solution follows as<ph id="c7" type="ui" subType="swi18n:block-math"/></pc></source>
+							<target swi18n:sourceContentFingerprint="37399e4d825ce36d" swi18n:sourceStructureFingerprint="b7a77526a552e0c6"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c2" type="ui" subType="swi18n:inline-math"/> te vinden bekijken we de som van de momenten om punt <ph id="c3" type="ui" subType="swi18n:inline-math"/>. In dit geval hebben <ph id="c4" type="ui" subType="swi18n:inline-math"/> en <ph id="c5" type="ui" subType="swi18n:inline-math"/> geen invloed. Dit geeft ons de evenwichtsvergelijking<ph id="c6" type="ui" subType="swi18n:block-math"/>De oplossing volgt als<ph id="c7" type="ui" subType="swi18n:block-math"/></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the vertical reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="e13084fcf66c9d76" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de verticale reactiekracht <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the forces in the vertical direction. (It's also possible through moments around point <ph id="c3" type="ui" subType="swi18n:inline-math"/> or a point vertically below <ph id="c4" type="ui" subType="swi18n:inline-math"/>, but this is a bit more work.) This gives the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>Solving this for <ph id="c6" type="ui" subType="swi18n:inline-math"/> gives<ph id="c7" type="ui" subType="swi18n:block-math"/>And with this all support reactions have been determined.</pc></source>
+							<target swi18n:sourceContentFingerprint="6d78c534c67c9929" swi18n:sourceStructureFingerprint="1be3ba63d44b8151"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c2" type="ui" subType="swi18n:inline-math"/> te vinden bekijken we de som van de krachten in de verticale richting. (Het kan eventueel ook via momenten om punt <ph id="c3" type="ui" subType="swi18n:inline-math"/> of om een punt verticaal onder <ph id="c4" type="ui" subType="swi18n:inline-math"/>, maar dit is iets meer werk.) De evenwichtsvergelijking wordt hiermee<ph id="c5" type="ui" subType="swi18n:block-math"/>Dit oplossen voor <ph id="c6" type="ui" subType="swi18n:inline-math"/> geeft<ph id="c7" type="ui" subType="swi18n:block-math"/>Hiermee zijn alle reactiekrachten bekend.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="calculateBasicSupportReactionsDiagonalSupport">
+				<unit id="mainProblem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A beam is connected through a hinge on the left and a hinging slider on the right. It is subjected to a load of <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><ph id="c3" type="ui" subType="swi18n:diagram"/><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc><pc id="c5" type="ui" subType="swi18n:input-space" swi18n:slot="children"><ph id="c6" type="ui" subType="swi18n:diagram"/></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the unknown support reactions.</pc></source>
+						<target swi18n:sourceContentFingerprint="4a266cc968f3bc4f" swi18n:sourceStructureFingerprint="b2dc6020ce72d9b6"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Een balk is links met een scharnier en rechts met een scharnierende schuifverbinding bevestigd. Hij wordt belast met een kracht van <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><ph id="c3" type="ui" subType="swi18n:diagram"/><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Teken het vrijlichaamsschema/schematisch diagram.</pc><pc id="c5" type="ui" subType="swi18n:input-space" swi18n:slot="children"><ph id="c6" type="ui" subType="swi18n:diagram"/></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken hierin de onbekende reactiekrachten/momenten.</pc></target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc></source>
+							<target swi18n:sourceContentFingerprint="94f041a847358999" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Teken het vrijlichaamsschema/schematisch diagram.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A hinge (left) prevents horizontal and vertical motion, but does allow rotation. This means that there is a horizontal and vertical reaction force, but not a reaction torque. Similarly a hinging slider (right) only prevents motion perpendicular to the surface. This results, due to the slanted surface, in a rotated reaction force. This gives us the following diagram.</pc><ph id="c2" type="ui" subType="swi18n:diagram"/><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</pc><pc id="x3" type="other" subType="swi18n:condition-false">The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="3a222ea690eab6f0" swi18n:sourceStructureFingerprint="799debff66936083"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Een scharnier (links) voorkomt horizontale en verticale beweging, maar laat wel draaiing toe. Er is dus een horizontale en een verticale reactiekracht, maar geen reactiemoment. Soortgelijk voorkomt een scharnierende schuifverbinding (rechts) alleen beweging loodrecht op het contactoppervlak. Dat zorgt hier, vanwege de schuine ondergrond, dus voor een iets gekantelde reactiekracht. Zo vinden we het onderstaande schema.</pc><ph id="c2" type="ui" subType="swi18n:diagram"/><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Merk op dat dit conform jouw getekende diagram is. De reactiekrachten/momenten mogen ook andersom, indien gewenst.</pc><pc id="x3" type="other" subType="swi18n:condition-false">De richtingen van de reactiekrachten/momenten zijn zo gekozen dat de waarden positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten/momenten negatief.</pc></pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the diagonal reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="0525af5d597f2045" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de schuine reactiekracht <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the moments around point <ph id="c3" type="ui" subType="swi18n:inline-math"/>. In this case <ph id="c4" type="ui" subType="swi18n:inline-math"/> and <ph id="c5" type="ui" subType="swi18n:inline-math"/> have no effect. If we decompose <ph id="c6" type="ui" subType="swi18n:inline-math"/> into components <ph id="c7" type="ui" subType="swi18n:inline-math"/> and <ph id="c8" type="ui" subType="swi18n:inline-math"/> too, then this gives the equilibrium equation<ph id="c9" type="ui" subType="swi18n:block-math"/>The solution for <ph id="c10" type="ui" subType="swi18n:inline-math"/> follows as<ph id="c11" type="ui" subType="swi18n:block-math"/>Through decomposing forces <ph id="c12" type="ui" subType="swi18n:inline-math"/> follows as<ph id="c13" type="ui" subType="swi18n:block-math"/></pc></source>
+							<target swi18n:sourceContentFingerprint="4ac6370fc398c4e4" swi18n:sourceStructureFingerprint="193f3a96b18de6b2"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c2" type="ui" subType="swi18n:inline-math"/> te vinden bekijken we de som van de momenten om punt <ph id="c3" type="ui" subType="swi18n:inline-math"/>. In dit geval hebben <ph id="c4" type="ui" subType="swi18n:inline-math"/> en <ph id="c5" type="ui" subType="swi18n:inline-math"/> geen invloed. Als we <ph id="c6" type="ui" subType="swi18n:inline-math"/> ook ontbinden in componenten <ph id="c7" type="ui" subType="swi18n:inline-math"/> en <ph id="c8" type="ui" subType="swi18n:inline-math"/> dan geeft dit de evenwichtsvergelijking<ph id="c9" type="ui" subType="swi18n:block-math"/>De oplossing voor <ph id="c10" type="ui" subType="swi18n:inline-math"/> volgt als<ph id="c11" type="ui" subType="swi18n:block-math"/>Via het ontbinden van krachten volgt <ph id="c12" type="ui" subType="swi18n:inline-math"/> als<ph id="c13" type="ui" subType="swi18n:block-math"/></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the vertical reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="e13084fcf66c9d76" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de verticale reactiekracht <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we look at the sum of the forces in the vertical direction. (This can also be done by examining moments around point <ph id="c3" type="ui" subType="swi18n:inline-math"/>, but this is a bit more work.) This gives the equilibrium equation<ph id="c4" type="ui" subType="swi18n:block-math"/>Solving this for <ph id="c5" type="ui" subType="swi18n:inline-math"/> gives<ph id="c6" type="ui" subType="swi18n:block-math"/></pc></source>
+							<target swi18n:sourceContentFingerprint="f0c851a72276c180" swi18n:sourceStructureFingerprint="10b25b1e55cb5bc4"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c2" type="ui" subType="swi18n:inline-math"/> te vinden bekijken we de som van de krachten in de verticale richting. (Het kan eventueel ook via momenten om punt <ph id="c3" type="ui" subType="swi18n:inline-math"/>, maar dit is iets meer werk.) De evenwichtsvergelijking wordt hiermee<ph id="c4" type="ui" subType="swi18n:block-math"/>Dit oplossen voor <ph id="c5" type="ui" subType="swi18n:inline-math"/> geeft<ph id="c6" type="ui" subType="swi18n:block-math"/></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the horizontal reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="908de5f366187e50" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de horizontale reactiekracht <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we look at the sum of the forces in the horizontal direction. In this case <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>By decomposing forces we can find that<ph id="c6" type="ui" subType="swi18n:block-math"/>Solving the equilibrium equation for <ph id="c7" type="ui" subType="swi18n:inline-math"/> then gives<ph id="c8" type="ui" subType="swi18n:block-math"/>And with this all support reactions have been determined.</pc></source>
+							<target swi18n:sourceContentFingerprint="6b3bc41d1403b02d" swi18n:sourceStructureFingerprint="83ee389d0aa33b1b"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c2" type="ui" subType="swi18n:inline-math"/> te vinden bekijken we de som van de krachten in de horizontale richting. In dit geval hebben <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> geen invloed. Dit geeft ons de evenwichtsvergelijking<ph id="c5" type="ui" subType="swi18n:block-math"/>Via het ontbinden van krachten kunnen we vinden dat<ph id="c6" type="ui" subType="swi18n:block-math"/>De evenwichtsvergelijking oplossen voor <ph id="c7" type="ui" subType="swi18n:inline-math"/> geeft vervolgens<ph id="c8" type="ui" subType="swi18n:block-math"/>Hiermee zijn alle reactiekrachten bekend.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="calculateBasicSupportReactionsFixedWithDiagonalLoad">
+				<unit id="mainProblem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A beam is clamped to a wall and subjected to a load of <ph id="c2" type="ui" subType="swi18n:inline-math"/>. The load is at an angle of <ph id="c3" type="ui" subType="swi18n:inline-math"/> with respect to the horizontal.</pc><ph id="c4" type="ui" subType="swi18n:diagram"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc><pc id="c6" type="ui" subType="swi18n:input-space" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:diagram"/></pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the unknown support reactions.</pc></source>
+						<target swi18n:sourceContentFingerprint="9b7fa967655e058e" swi18n:sourceStructureFingerprint="de0a7f7776cd5eec"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Een balk is aan een muur ingeklemd en belast met een kracht van <ph id="c2" type="ui" subType="swi18n:inline-math"/> De kracht heeft een hoek van <ph id="c3" type="ui" subType="swi18n:inline-math"/> ten opzichte van de horizontaal.</pc><ph id="c4" type="ui" subType="swi18n:diagram"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Teken het vrijlichaamsschema/schematisch diagram.</pc><pc id="c6" type="ui" subType="swi18n:input-space" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:diagram"/></pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken hierin de onbekende reactiekrachten/momenten.</pc></target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc></source>
+							<target swi18n:sourceContentFingerprint="94f041a847358999" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Teken het vrijlichaamsschema/schematisch diagram.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A clamp prevents all motion, and hence allows for a horizontal reaction force, a vertical reaction force and a reaction torque. Together with the external load, this gives us the following diagram.</pc><ph id="c2" type="ui" subType="swi18n:diagram"/><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</pc><pc id="x3" type="other" subType="swi18n:condition-false">The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="98a3cab3c769d9f4" swi18n:sourceStructureFingerprint="799debff66936083"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Een inklemming voorkomt alle beweging, en zorgt dus voor een horizontale reactiekracht, een verticale reactiekracht en een reactiemoment. Samen met de externe belasting geeft dit het volgende schema.</pc><ph id="c2" type="ui" subType="swi18n:diagram"/><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Merk op dat dit conform jouw getekende diagram is. De reactiekrachten/momenten mogen ook andersom, indien gewenst.</pc><pc id="x3" type="other" subType="swi18n:condition-false">De richtingen van de reactiekrachten/momenten zijn zo gekozen dat de waarden positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten/momenten negatief.</pc></pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the horizontal reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="908de5f366187e50" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de horizontale reactiekracht <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the forces in the horizontal direction. In this case <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>The horizontal component <ph id="c6" type="ui" subType="swi18n:inline-math"/> here equals<ph id="c7" type="ui" subType="swi18n:block-math"/>If we solve the equilibrium equation for <ph id="c8" type="ui" subType="swi18n:inline-math"/>, then we get<ph id="c9" type="ui" subType="swi18n:block-math"/></pc></source>
+							<target swi18n:sourceContentFingerprint="a9bfd146e597e56d" swi18n:sourceStructureFingerprint="5cf04691c19ea7da"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c2" type="ui" subType="swi18n:inline-math"/> te vinden bekijken we de som van de krachten in de horizontale richting. In dit geval hebben <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> geen invloed. Dit geeft ons de evenwichtsvergelijking<ph id="c5" type="ui" subType="swi18n:block-math"/>Hierbij is de horizontale component <ph id="c6" type="ui" subType="swi18n:inline-math"/> gelijk aan<ph id="c7" type="ui" subType="swi18n:block-math"/>Als we de evenwichtsvergelijking oplossen voor <ph id="c8" type="ui" subType="swi18n:inline-math"/> krijgen we<ph id="c9" type="ui" subType="swi18n:block-math"/></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the vertical reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="e13084fcf66c9d76" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de verticale reactiekracht <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the forces in the vertical direction. In this case <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>The vertical component <ph id="c6" type="ui" subType="swi18n:inline-math"/> here equals<ph id="c7" type="ui" subType="swi18n:block-math"/>If we solve the equilibrium equation for <ph id="c8" type="ui" subType="swi18n:inline-math"/>, then we get<ph id="c9" type="ui" subType="swi18n:block-math"/></pc></source>
+							<target swi18n:sourceContentFingerprint="27fd8254fc3933e9" swi18n:sourceStructureFingerprint="5cf04691c19ea7da"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c2" type="ui" subType="swi18n:inline-math"/> te vinden bekijken we de som van de krachten in de verticale richting. In dit geval hebben <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> geen invloed. Dit geeft ons de evenwichtsvergelijking<ph id="c5" type="ui" subType="swi18n:block-math"/>Hierbij is de verticale component <ph id="c6" type="ui" subType="swi18n:inline-math"/> gelijk aan<ph id="c7" type="ui" subType="swi18n:block-math"/>Als we de evenwichtsvergelijking oplossen voor <ph id="c8" type="ui" subType="swi18n:inline-math"/> krijgen we<ph id="c9" type="ui" subType="swi18n:block-math"/></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the reaction torque <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="951cbfe0968bd2b7" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken het reactiemoment <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the moments around point <ph id="c3" type="ui" subType="swi18n:inline-math"/>. In this case <ph id="c4" type="ui" subType="swi18n:inline-math"/> and <ph id="c5" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c6" type="ui" subType="swi18n:block-math"/>The solution follows as<ph id="c7" type="ui" subType="swi18n:block-math"/>And with this all support reactions have been determined.</pc></source>
+							<target swi18n:sourceContentFingerprint="f2c20aeb670000d5" swi18n:sourceStructureFingerprint="53a3da675fb22c7d"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c2" type="ui" subType="swi18n:inline-math"/> te vinden bekijken we de som van de momenten om punt <ph id="c3" type="ui" subType="swi18n:inline-math"/>. In dit geval hebben <ph id="c4" type="ui" subType="swi18n:inline-math"/> en <ph id="c5" type="ui" subType="swi18n:inline-math"/> geen invloed. Dit geeft ons de evenwichtsvergelijking<ph id="c6" type="ui" subType="swi18n:block-math"/>De oplossing volgt als<ph id="c7" type="ui" subType="swi18n:block-math"/>Hiermee zijn alle reactiekrachten/momenten bekend.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="calculateBasicSupportReactionsFixedWithElevatedLoad">
+				<unit id="mainProblem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A beam is clamped to a wall and subjected to a load of <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><ph id="c3" type="ui" subType="swi18n:diagram"/><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc><pc id="c5" type="ui" subType="swi18n:input-space" swi18n:slot="children"><ph id="c6" type="ui" subType="swi18n:diagram"/></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the unknown support reactions.</pc></source>
+						<target swi18n:sourceContentFingerprint="7a4311dba746d6c5" swi18n:sourceStructureFingerprint="b2dc6020ce72d9b6"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Een balk is aan een muur ingeklemd en belast met een kracht van <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><ph id="c3" type="ui" subType="swi18n:diagram"/><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Teken het vrijlichaamsschema/schematisch diagram.</pc><pc id="c5" type="ui" subType="swi18n:input-space" swi18n:slot="children"><ph id="c6" type="ui" subType="swi18n:diagram"/></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken hierin de onbekende reactiekrachten/momenten.</pc></target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Draw the free body diagram.</pc></source>
+							<target swi18n:sourceContentFingerprint="94f041a847358999" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Teken het vrijlichaamsschema/schematisch diagram.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A clamp prevents all motion, and hence allows for a horizontal reaction force, a vertical reaction force and a reaction torque. Together with the external load, this gives us the following diagram.</pc><ph id="c2" type="ui" subType="swi18n:diagram"/><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</pc><pc id="x3" type="other" subType="swi18n:condition-false">The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="98a3cab3c769d9f4" swi18n:sourceStructureFingerprint="799debff66936083"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Een inklemming voorkomt alle beweging, en zorgt dus voor een horizontale reactiekracht, een verticale reactiekracht en een reactiemoment. Samen met de externe belasting geeft dit het volgende schema.</pc><ph id="c2" type="ui" subType="swi18n:diagram"/><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Merk op dat dit conform jouw getekende diagram is. De reactiekrachten/momenten mogen ook andersom, indien gewenst.</pc><pc id="x3" type="other" subType="swi18n:condition-false">De richtingen van de reactiekrachten/momenten zijn zo gekozen dat de waarden positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten/momenten negatief.</pc></pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the horizontal reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="908de5f366187e50" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de horizontale reactiekracht <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the forces in the horizontal direction. In this case <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>The solution follows as<ph id="c6" type="ui" subType="swi18n:block-math"/></pc></source>
+							<target swi18n:sourceContentFingerprint="a48f4879954f793d" swi18n:sourceStructureFingerprint="efbbdbdd2d5095c0"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c2" type="ui" subType="swi18n:inline-math"/> te vinden bekijken we de som van de krachten in de horizontale richting. In dit geval hebben <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> geen invloed. Dit geeft ons de evenwichtsvergelijking<ph id="c5" type="ui" subType="swi18n:block-math"/>De oplossing volgt als<ph id="c6" type="ui" subType="swi18n:block-math"/></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the vertical reaction force <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="e13084fcf66c9d76" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de verticale reactiekracht <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the forces in the vertical direction. In this case <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c5" type="ui" subType="swi18n:block-math"/>This directly tells us that <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="6f9fe1fbefe2a3a5" swi18n:sourceStructureFingerprint="42e5b03d155105f7"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c2" type="ui" subType="swi18n:inline-math"/> te vinden bekijken we de som van de krachten in de verticale richting. In dit geval hebben <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/> geen invloed. Dit geeft ons de evenwichtsvergelijking<ph id="c5" type="ui" subType="swi18n:block-math"/>Dit vertelt ons direct dat <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the reaction torque <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="951cbfe0968bd2b7" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken het reactiemoment <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">To find <ph id="c2" type="ui" subType="swi18n:inline-math"/> we examine the sum of the moments around point <ph id="c3" type="ui" subType="swi18n:inline-math"/>. In this case <ph id="c4" type="ui" subType="swi18n:inline-math"/> and <ph id="c5" type="ui" subType="swi18n:inline-math"/> have no effect. This gives us the equilibrium equation<ph id="c6" type="ui" subType="swi18n:block-math"/>The solution follows as<ph id="c7" type="ui" subType="swi18n:block-math"/>And with this all support reactions have been determined.</pc></source>
+							<target swi18n:sourceContentFingerprint="f2c20aeb670000d5" swi18n:sourceStructureFingerprint="53a3da675fb22c7d"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c2" type="ui" subType="swi18n:inline-math"/> te vinden bekijken we de som van de momenten om punt <ph id="c3" type="ui" subType="swi18n:inline-math"/>. In dit geval hebben <ph id="c4" type="ui" subType="swi18n:inline-math"/> en <ph id="c5" type="ui" subType="swi18n:inline-math"/> geen invloed. Dit geeft ons de evenwichtsvergelijking<ph id="c6" type="ui" subType="swi18n:block-math"/>De oplossing volgt als<ph id="c7" type="ui" subType="swi18n:block-math"/>Hiermee zijn alle reactiekrachten/momenten bekend.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

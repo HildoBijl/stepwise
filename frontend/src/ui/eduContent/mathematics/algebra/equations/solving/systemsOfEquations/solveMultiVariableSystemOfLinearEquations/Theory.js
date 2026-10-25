@@ -1,23 +1,23 @@
 import React from 'react'
 
 import { M, BM, BMList, BMPart } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Head, Par, List, Emp } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
 	return <>
-		<Translation entry="intro">
+		<Translation id="intro">
 			<Par>Suppose that we have two equations, like <M>ax + 3y = b</M> and <M>cx - ay = 8</M>. We could define two target variables (like <M>x</M> and <M>y</M>) that we want to solve for, treating all other variables as constants. How would we find the solutions for <M>x</M> and <M>y</M>?</Par>
 		</Translation>
 
-		<Translation entry="solving">
+		<Translation id="solving">
 			<Head>Solving the system of equations</Head>
 			<Par>The procedure of solving a system of linear equations with multiple variables is actually identical to <SkillLink skillId="solveSystemOfLinearEquations">solving a system of linear equations</SkillLink> where there are only two variables. (So without any non-target variables.) First we pick one equation and <SkillLink skillId="solveMultiVariableLinearEquation">solve it</SkillLink> for one target variable. Solving the first equation for <M>x</M> would for instance give <BM>x = \frac(b - 3y)(a).</BM> This solution is then <SkillLink skillId="substituteAnExpression">inserted</SkillLink> into the <Emp>other</Emp> equation. This results in <BM>c\left(\frac(b - 3y)(a)\right) - ay = 8.</BM> This is a linear equation which can be <SkillLink skillId="solveMultiVariableLinearEquation">solved</SkillLink> for <M>y</M>. Multiplying all terms by <M>a</M> and expanding brackets gives us <BM>bc - 3cy - a^2y = 8a.</BM> The solution for <M>y</M> follows as <BM>y = \frac(bc - 8a)(a^2 + 3c).</BM> Now that <M>y</M> is solved, we can <SkillLink skillId="substituteAnExpression">insert</SkillLink> this into the solution we found earlier for <M>x</M>. This gives us <BM>x = \frac(b - 3\frac(bc - 8a)(a^2 + 3c))(a).</BM> This is a valid solution, but it contains a fraction within a fraction which is undesirable and should be <SkillLink skillId="simplifyFractionOfFractionSumsWithMultipleVariables">simplified</SkillLink>. Taking the respective steps, we end up with <BM>x = \frac(\frac(b\left(a^2 + 3c\right))(a^2 + 3c) - \frac(3\left(bc - 8a\right))(a^2 + 3c))(a) = \frac(\frac(a^2b + 3bc - 3bc + 24a)(a^2 + 3c))(a) = \frac(ab + 24)(a^2 + 3c).</BM> This is as simple as we can write the solution. Now that we have solutions for <M>x</M> and <M>y</M>, we have solved the system of equations.</Par>
 		</Translation>
 
-		<Translation entry="checking">
+		<Translation id="checking">
 			<Head>Checking the solution</Head>
 			<Par>After solving a system of equations, it's always worth while to check your solution, just to make sure you haven't made an error along the way. To do so, we <SkillLink skillId="substituteAnExpression">insert</SkillLink> both solutions into both equations. This gives us <BMList>
 				<BMPart>a\frac(ab + 24)(a^2 + 3c) + 3\frac(bc - 8a)(a^2 + 3c) = b,</BMPart>
@@ -35,7 +35,7 @@ export function Theory() {
 			<Par>You may note that checking the solution is just as much work, or possibly even more, than finding the solution. As a result, as you gain more experience with this skill and learn to work thoroughly, you don't always check your results anymore. But in case of doubt, it is still a useful trick to have.</Par>
 		</Translation>
 
-		<Translation entry="steps">
+		<Translation id="steps">
 			<Head>The steps</Head>
 			<Par>To solve a system of linear equation like <M>ax + 3y = b</M> and <M>cx - ay = 8</M> for target variables <M>x</M> and <M>y</M>, take the following steps.</Par>
 			<List>

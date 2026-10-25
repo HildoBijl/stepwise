@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">pull a factor out of brackets</pc>. If you see an expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/> you will be able to pull a factor <ph id="c4" type="ui" subType="swi18n:inline-math"/> and a factor <ph id="c5" type="ui" subType="swi18n:inline-math"/> out of brackets to wind up with <ph id="c6" type="ui" subType="swi18n:inline-math"/>. This includes understanding the reasoning behind why this works: writing the expression as a fraction and subsequently splitting the fraction and simplifying the result. The skill does not include recognizing which factor would be wise to pull out of the brackets.</pc></source>
+					<target swi18n:sourceContentFingerprint="6521ffe2c73e2896" swi18n:sourceStructureFingerprint="e14b76ae2bc35c7d"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, einen <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Faktor außerhalb von Klammern</pc> zu ziehen. Wenn du einen Ausdruck als <ph id="c3" type="ui" subType="swi18n:inline-math"/> siehst, wirst du in der Lage sein, einen Faktor <ph id="c4" type="ui" subType="swi18n:inline-math"/> und einen Faktor <ph id="c5" type="ui" subType="swi18n:inline-math"/> außerhalb von Klammern zu ziehen, um <ph id="c6" type="ui" subType="swi18n:inline-math"/> zu erhalten. Dazu gehört auch zu verstehen, warum das funktioniert: den Ausdruck als Bruch zu schreiben, diesen Bruch anschließend zu zerlegen und das Ergebnis zu vereinfachen. Die Kompetenz umfasst nicht das Erkennen, welcher Faktor sinnvollerweise aus der Klammer genommen werden sollte.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We know how to expand brackets, rewriting <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. But can we also do the opposite? How do we <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">pull a factor out of brackets</pc>? There is a slightly long procedure that always works, but afterwards we also look at a short-cut you can often take.</pc></source>
+					<target swi18n:sourceContentFingerprint="a2aab211c2fdd2a1" swi18n:sourceStructureFingerprint="835ab694df5c05a9"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Wir wissen, wie man Klammern auflöst, und können <ph id="c2" type="ui" subType="swi18n:inline-math"/> in <ph id="c3" type="ui" subType="swi18n:inline-math"/> umschreiben. Aber können wir auch den umgekehrten Weg gehen? Wie <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">ziehen wir einen Faktor aus Klammern heraus</pc>? Dafür gibt es eine etwas längere Prozedur, die immer funktioniert, aber danach werden wir uns auch eine Abkürzung ansehen, die man oft nehmen kann.</pc></target>
+				</segment>
+			</unit>
+			<unit id="idea">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The idea</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Suppose that we have an expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/> and we want to pull a <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">factor</pc> <ph id="c5" type="ui" subType="swi18n:inline-math"/> out of the brackets. The first step is to write the expression as <ph id="c6" type="ui" subType="swi18n:block-math"/> For our example, this means that we initially write <ph id="c7" type="ui" subType="swi18n:block-math"/> Note that dividing the original expression by <ph id="c8" type="ui" subType="swi18n:inline-math"/> and subsequently multiplying by it leaves it unchanged, so both sides of the equation must be the same.</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">The fraction within the brackets can be simplified. First we can use the rules of <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging/splitting like fractions</pc> to split up the fraction, getting <ph id="c11" type="ui" subType="swi18n:block-math"/> Next, we can <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify each of the resulting fractions</pc> by canceling fraction factors, giving <ph id="c13" type="ui" subType="swi18n:block-math"/> All together, the final outcome is <ph id="c14" type="ui" subType="swi18n:block-math"/> At the end we can check if we have done everything correctly by <pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding the brackets</pc>. When we do, we should wind up with the original expression, which is indeed the case for our example. That means we did not make a mistake.</pc></source>
+					<target swi18n:sourceContentFingerprint="0ebc3a72872a97ef" swi18n:sourceStructureFingerprint="6bad710a1c02907e"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Idee</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Nehmen wir an, wir haben einen Ausdruck wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> und wollen einen <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">Faktor</pc> <ph id="c5" type="ui" subType="swi18n:inline-math"/> aus den Klammern ziehen. Der erste Schritt besteht darin, den Ausdruck zu schreiben als <ph id="c6" type="ui" subType="swi18n:block-math"/> In unserem Beispiel bedeutet das, dass wir zu Beginn schreiben, dass <ph id="c7" type="ui" subType="swi18n:block-math"/> Beachte, dass, wenn wir den ursprünglichen Ausdruck durch <ph id="c8" type="ui" subType="swi18n:inline-math"/> dividieren und dann wieder damit multiplizieren, er unverändert bleibt. Also müssen beide Seiten der Gleichung gleich sein.</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">Der Bruch innerhalb der Klammern kann vereinfacht werden. Zuerst wenden wir die Regeln von <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Brüche zusammenfügen/zerlegen</pc> an, um den Bruch zu zerlegen, und erhalten <ph id="c11" type="ui" subType="swi18n:block-math"/> Als nächstes können wir jeden der <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Brüche vereinfachen</pc>, indem wir die Bruchfaktoren entfernen. Das ergibt <ph id="c13" type="ui" subType="swi18n:block-math"/> Das Endergebnis ist <ph id="c14" type="ui" subType="swi18n:block-math"/> Am Ende können wir noch überprüfen, ob wir alles richtig gemacht haben, indem wir die <pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Klammern noch einmal auflösen</pc>. Wenn wir das tun, sollten wir wieder auf den ursprünglichen Ausdruck kommen, was in unserem Beispiel auch der Fall ist. Das heißt, wir haben keinen Fehler gemacht.</pc></target>
+				</segment>
+			</unit>
+			<unit id="shortCut">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The short-cut</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The above procedure with a fraction always works, but often it is a bit elaborate. In practice, it can be done faster. The idea is that we know we will wind up with an expression of the form <ph id="c3" type="ui" subType="swi18n:block-math"/> We only have to figure out what comes on the place of the dots. The first set of dots should be something that, when multiplied by <ph id="c4" type="ui" subType="swi18n:inline-math"/>, becomes <ph id="c5" type="ui" subType="swi18n:inline-math"/>. With some experience we directly see that this is <ph id="c6" type="ui" subType="swi18n:inline-math"/>. Similarly, the second set of dots should be something that, when multiplied by <ph id="c7" type="ui" subType="swi18n:inline-math"/>, becomes <ph id="c8" type="ui" subType="swi18n:inline-math"/>. We can once more realize that this is <ph id="c9" type="ui" subType="swi18n:inline-math"/>. In this way, we directly wind up with <ph id="c10" type="ui" subType="swi18n:block-math"/> If you have enough experience to apply this short-cut, you are of course welcome to do so.</pc></source>
+					<target swi18n:sourceContentFingerprint="1af9934e556a04a5" swi18n:sourceStructureFingerprint="10727b674734e32a"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Abkürzung</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Der obige Plan mit einem Bruch funktioniert immer, ist aber oft etwas umständlich. In der Regel kann es schneller gemacht werden. Die Idee ist, dass wir bereits wissen, dass wir am Ende einen Ausdruck haben werden der Form <ph id="c3" type="ui" subType="swi18n:block-math"/> Wir müssen nur herausfinden, was an die Stelle der Punkte kommt. Der erste Satz von Punkten sollte etwas sein, das, wenn man es mit <ph id="c4" type="ui" subType="swi18n:inline-math"/> multipliziert, <ph id="c5" type="ui" subType="swi18n:inline-math"/> ergibt. Mit ein wenig Erfahrung können wir sofort erkennen, dass dies <ph id="c6" type="ui" subType="swi18n:inline-math"/> sein sollte. In ähnlicher Weise sollte die zweite Gruppe von Punkten etwas sein, das, wenn wir es mit <ph id="c7" type="ui" subType="swi18n:inline-math"/> multiplizieren, <ph id="c8" type="ui" subType="swi18n:inline-math"/> ergeben sollte. Auch hier können wir sehen, dass dies <ph id="c9" type="ui" subType="swi18n:inline-math"/> sein sollte. Auf diese Weise kommen wir direkt zu <ph id="c10" type="ui" subType="swi18n:block-math"/> Wenn du erfahren genug bist, um diese Abkürzung anzuwenden, kannst du sie gerne benutzen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To pull a factor out of brackets, like when pulling <ph id="c3" type="ui" subType="swi18n:inline-math"/> out of <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Start by writing down <ph id="c8" type="ui" subType="swi18n:inline-math"/>. For our example we hence write <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Split the fraction inside the brackets up into multiple fractions using the default rules for <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging/splitting fractions</pc>. For the example we hence get <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Simplify all fractions</pc> within the brackets, canceling factors where possible. This turns our example into <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c18" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c19" type="ui" subType="swi18n:d" swi18n:slot="children">Check your result by <pc id="c20" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding the brackets</pc> in your final result. You should wind up with exactly what you started with. And indeed, if we expand the brackets for <ph id="c21" type="ui" subType="swi18n:inline-math"/> then we get <ph id="c22" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c23" type="ui" subType="swi18n:par" swi18n:slot="children">Note that there are short-cuts that directly get you the required result, if you have the insights to use them properly.</pc></source>
+					<target swi18n:sourceContentFingerprint="401e4414b90a82ca" swi18n:sourceStructureFingerprint="ff351bbfeb46791d"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Schritte</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Um einen Faktor außerhalb von Klammern zu ziehen, wie zum Beispiel um <ph id="c3" type="ui" subType="swi18n:inline-math"/> aus <ph id="c4" type="ui" subType="swi18n:inline-math"/> zu ziehen, ist wie folgt vorzugehen.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Beginne damit, <ph id="c8" type="ui" subType="swi18n:inline-math"/> aufzuschreiben. Für unser Beispiel schreiben wir also <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Teile den Bruch innerhalb der Klammern in mehrere Brüche auf. Verwende die Standardregeln für das <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Zusammenfügen/Zerlegen von Brüchen</pc>. Für das Beispiel erhalten wir so <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Vereinfache alle Brüche</pc> innerhalb der Klammern, wobei du wo möglich Bruchfaktoren entfernst. Damit wird unser Beispiel in <ph id="c17" type="ui" subType="swi18n:inline-math"/> umgewandelt.</pc></pc><pc id="c18" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c19" type="ui" subType="swi18n:d" swi18n:slot="children">Prüfe deine Antwort, indem du in deinem Endergebnis die <pc id="c20" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Klammern auflöst</pc>. Du solltest wieder dort herauskommen, wo du angefangen hast. Und tatsächlich, wenn wir die Klammern bei <ph id="c21" type="ui" subType="swi18n:inline-math"/> ausmultiplizieren, erhalten wir <ph id="c22" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c23" type="ui" subType="swi18n:par" swi18n:slot="children">Es gibt auch Abkürzungen, die sofort das gewünschte Ergebnis bringen, vorausgesetzt, du hast den Durchblick, sie richtig anzuwenden.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="equationText">
+			<unit id="factor">
+				<segment>
+					<source>Factor</source>
+					<target swi18n:sourceContentFingerprint="5e1ab9e82b9a79dd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Faktor</target>
+				</segment>
+			</unit>
+			<unit id="originalExpression">
+				<segment>
+					<source>Original expression</source>
+					<target swi18n:sourceContentFingerprint="c7bd9c402da5342d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ursprünglicher Ausdruck</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="twoTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Pull a factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> out of brackets and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="60b89bdc0bd361d1" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Betrachte den Ausdruck <ph id="c1" type="ui" subType="swi18n:block-math"/> Ziehe einen Faktor <ph id="c2" type="ui" subType="swi18n:inline-math"/> außerhalb der Klammern ab und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Write the expression in the standard starting form <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="d0613bb545016bdd" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Schreibe den Ausdruck um in die Standardanfangsform <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we write the expression in the starting form for pulling a factor out brackets, we get <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="013cd8bcfedc6ec5" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Wenn wir den Ausdruck in der Anfangsform schreiben, um einen Faktor aus Klammern zu ziehen, erhalten wir <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Split the fraction up into separate fractions: one for each term. (Keep the multiplication around it as is.)</source>
+							<target swi18n:sourceContentFingerprint="6c931c3410cab367" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Teile den Bruch in einzelne Brüche auf: einen für jeden Term. (Lass die Multiplikation außen unverändert.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To split up the fraction, we must divide each of the terms in the numerator separately by the denominator. This gives <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="d9855979a2b82f05" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Um den Bruch zu teilen, müssen wir jeden der Terme des Zählers separat durch den Nenner dividieren. Das ergibt <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify each of the fractions within the brackets as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="b682254fe8d92cac" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereinfache jeden der Brüche in Klammern so weit wie möglich.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By canceling factors within each fraction, we can turn all fractions into fractionless terms. The result is <ph id="c1" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="0dfe3b996360c361" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Durch die Entfernung von Bruchfaktoren können wir alle Brüche in bruchlose Terme umwandeln. Das Ergebnis ist <ph id="c1" type="ui" subType="swi18n:block-math"/> Dies ist unser Endergebnis. Kurz gesagt, gilt <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Check your result by expanding the brackets and simplifying the result. Verify that this is indeed the expression we started with.</source>
+							<target swi18n:sourceContentFingerprint="5fbed29786eaf71a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Prüfe das Endergebnis, indem du die Klammern auflöst und das Ergebnis vereinfachst. Kontrolliere, ob dies tatsächlich der Ausdruck ist, mit dem wir begonnen haben.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we expand the brackets in our final result, we get <ph id="c1" type="ui" subType="swi18n:block-math"/> This is indeed what we started with, so our solution is correct.</source>
+							<target swi18n:sourceContentFingerprint="bd976473142edb4e" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Wenn wir die Klammern im Endergebnis ausmultiplizieren, erhalten wir <ph id="c1" type="ui" subType="swi18n:block-math"/> Das ist in der Tat das, womit wir angefangen haben, und daher ist unsere Lösung korrekt.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="threeTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Pull a factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> out of brackets and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="60b89bdc0bd361d1" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Betrachte den Ausdruck <ph id="c1" type="ui" subType="swi18n:block-math"/> Ziehe einen Faktor <ph id="c2" type="ui" subType="swi18n:inline-math"/> außerhalb der Klammern ab und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Write the expression in the standard starting form <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="d0613bb545016bdd" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Schreibe den Ausdruck um in die Standardanfangsform <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we write the expression in the starting form for pulling a factor out of backets, we get <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="e452ae196c0c5b62" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Wenn wir den Ausdruck in der Anfangsform schreiben, um einen Faktor aus Klammern zu ziehen, erhalten wir <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Split the fraction up into separate fractions: one for each term. (Keep the multiplication around it as is.)</source>
+							<target swi18n:sourceContentFingerprint="6c931c3410cab367" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Teile den Bruch in einzelne Brüche auf: einen für jeden Term. (Lass die Multiplikation außen unverändert.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To split up the fraction, we must divide each of the terms in the numerator separately by the denominator. This gives <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="d9855979a2b82f05" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Um den Bruch zu teilen, müssen wir jeden der Terme des Zählers separat durch den Nenner dividieren. Das ergibt <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify each of the fractions within the brackets as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="b682254fe8d92cac" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereinfache jeden der Brüche in Klammern so weit wie möglich.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By canceling factors within each fraction, we can turn all fractions into fractionless terms. The result is <ph id="c1" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="0dfe3b996360c361" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Durch die Entfernung von Bruchfaktoren können wir alle Brüche in bruchlose Terme umwandeln. Das Ergebnis ist <ph id="c1" type="ui" subType="swi18n:block-math"/> Dies ist unser Endergebnis. Kurz gesagt, gilt <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Check your result by expanding the brackets and simplifying the result. Verify that this is indeed the expression we started with.</source>
+							<target swi18n:sourceContentFingerprint="5fbed29786eaf71a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Prüfe das Endergebnis, indem du die Klammern auflöst und das Ergebnis vereinfachst. Kontrolliere, ob dies tatsächlich der Ausdruck ist, mit dem wir begonnen haben.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we expand the brackets in our final result, we get <ph id="c1" type="ui" subType="swi18n:block-math"/> This is indeed what we started with, so our solution is correct.</source>
+							<target swi18n:sourceContentFingerprint="bd976473142edb4e" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Wenn wir die Klammern im Endergebnis ausmultiplizieren, erhalten wir <ph id="c1" type="ui" subType="swi18n:block-math"/> Das ist in der Tat das, womit wir angefangen haben, und daher ist unsere Lösung korrekt.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="missingFactor">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your answer should be of the form <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						<target swi18n:sourceContentFingerprint="82b46c109ff0dc00" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Deine Antwort sollte in Form von <ph id="c2" type="ui" subType="swi18n:inline-math"/> sein.</pc></target>
+					</segment>
+				</unit>
+				<unit id="incorrectFractionDenominator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your answer should be in the given starting form. Have you put the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the denominator of a fraction?</pc></source>
+						<target swi18n:sourceContentFingerprint="61986bd74c152e92" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Deine Antwort sollte in der angegebenen Anfangsform sein. Hast du den Faktor <ph id="c2" type="ui" subType="swi18n:inline-math"/> in den Nenner eines Bruchs gesetzt?</pc></target>
+					</segment>
+				</unit>
+				<unit id="incorrectFractionNumerator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your answer should be in the given starting form. Have you put the original expression <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the numerator of a fraction?</pc></source>
+						<target swi18n:sourceContentFingerprint="8f4eb8f18e7ed0f1" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Deine Antwort sollte in der angegebenen Anfangsform sein. Hast du den Anfangsausdruck <ph id="c2" type="ui" subType="swi18n:inline-math"/> in den Zähler eines Bruchs gesetzt?</pc></target>
+					</segment>
+				</unit>
+				<unit id="hasFractionBeenSplit">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Have you split up the fraction into a summation?</pc></source>
+						<target swi18n:sourceContentFingerprint="471ab2e71d4a0b8d" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Hast du den Bruch in eine Addition umgewandelt?</pc></target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

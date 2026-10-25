@@ -3,10 +3,12 @@
 import { act, render } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
+import { Translation } from '../Translation.tsx'
 import { I18nProvider } from '../context/I18nProvider.tsx'
 
-import { useCatalogAddress, useScopedCatalog, useTranslationScope } from './hooks.ts'
+import { useCatalogAddress, useCatalogUnitAddress, useScopedCatalog, useTranslationScope } from './hooks.ts'
 import { resolveCatalogAddress, resolveCatalogUnitAddress } from './resolution.ts'
+import { TranslationArea } from './TranslationArea.tsx'
 import { TranslationCatalog } from './TranslationCatalog.tsx'
 import { TranslationFolder } from './TranslationFolder.tsx'
 import { TranslationGroup } from './TranslationGroup.tsx'
@@ -98,6 +100,53 @@ describe('translation scoping', () => {
 		expect(resolveCatalogUnitAddress(scope, { folder: ['common'], catalog: 'shared', group: ['buttons'], id: 'submit' })).toEqual({ folder: ['common'], catalog: 'shared', group: ['buttons'], id: 'submit' })
 	})
 
+	it('resolves anonymous and named units inside a translation area', () => {
+		const addresses: ReturnType<typeof useCatalogUnitAddress>[] = []
+
+		function AnonymousUnit() {
+			addresses.push(useCatalogUnitAddress({}))
+			return null
+		}
+		function NamedUnit() {
+			addresses.push(useCatalogUnitAddress({ id: 'label' }))
+			return null
+		}
+
+		render(<TranslationCatalog folder={['eduContent']} name="exercise">
+			<TranslationGroup path="practice">
+				<TranslationArea name="problem"><AnonymousUnit /></TranslationArea>
+				<TranslationArea name="solution"><NamedUnit /></TranslationArea>
+			</TranslationGroup>
+		</TranslationCatalog>)
+
+		expect(addresses).toEqual([
+			{ folder: ['eduContent'], catalog: 'exercise', group: ['practice'], id: 'problem' },
+			{ folder: ['eduContent'], catalog: 'exercise', group: ['practice', 'solution'], id: 'label' },
+		])
+	})
+
+	it('rejects mixed anonymous and named translations inside an area', () => {
+		expect(() => render(<I18nProvider locale="en" sourceLocale="en">
+			<TranslationCatalog folder={['eduContent']} name="exercise">
+				<TranslationArea name="problem">
+					<Translation>Whole problem</Translation>
+					<Translation id="label">Answer</Translation>
+				</TranslationArea>
+			</TranslationCatalog>
+		</I18nProvider>)).toThrow('cannot contain both an anonymous Translation and Translations with IDs')
+	})
+
+	it('rejects duplicate translations inside an area', () => {
+		expect(() => render(<I18nProvider locale="en" sourceLocale="en">
+			<TranslationCatalog folder={['eduContent']} name="exercise">
+				<TranslationArea name="problem">
+					<Translation>First problem</Translation>
+					<Translation>Second problem</Translation>
+				</TranslationArea>
+			</TranslationCatalog>
+		</I18nProvider>)).toThrow('cannot contain more than one anonymous Translation')
+	})
+
 	it('resolves scoped and explicit Catalog addresses', () => {
 		const scope = { folder: ['eduTools'], catalog: 'exerciseManager', group: ['controls'] }
 		expect(resolveCatalogAddress(scope)).toEqual({ folder: ['eduTools'], catalog: 'exerciseManager' })
@@ -148,5 +197,6 @@ describe('translation scoping', () => {
 	it('rejects invalid scope nesting', () => {
 		expect(() => render(<TranslationGroup path="orphan"><span /></TranslationGroup>)).toThrow('must be used inside a TranslationCatalog')
 		expect(() => render(<TranslationCatalog name="outer"><TranslationFolder path={['inner']}><span /></TranslationFolder></TranslationCatalog>)).toThrow('cannot be used inside a TranslationCatalog')
+		expect(() => render(<TranslationArea name="orphan"><span /></TranslationArea>)).toThrow('must be used inside a TranslationCatalog')
 	})
 })

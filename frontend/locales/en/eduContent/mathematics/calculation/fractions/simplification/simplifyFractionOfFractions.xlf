@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify a fraction of fractions</pc>. If you have a fraction of fractions like <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">turn this into a single fraction</pc> like <ph id="c5" type="ui" subType="swi18n:inline-math"/> and subsequently <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify this fraction</pc> into <ph id="c7" type="ui" subType="swi18n:inline-math"/>. The result is always a fraction that cannot be simplified further.</pc></source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

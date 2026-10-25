@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">solve a product equation with multiple variables</pc>. This is similar to <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solving a product equation with a single variable</pc>. Given an equation with only multiplications and divisions, like <ph id="c4" type="ui" subType="swi18n:inline-math"/> or <ph id="c5" type="ui" subType="swi18n:inline-math"/>, you will be able to find the solution, like <ph id="c6" type="ui" subType="swi18n:inline-math"/>. This includes <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">moving equation factors around in the equation</pc> until the unknown variable has been isolated, as well as <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying the result</pc> (often a fraction) as much as possible, and subsequently <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">checking it</pc>. The equations do not include summations, but may contain powers.</pc></source>
+					<target swi18n:sourceContentFingerprint="ed3446fa9b2daa3e" swi18n:sourceStructureFingerprint="7088a3b993d04607"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je om een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">productvergelijking met meerdere variabelen op te lossen</pc>. Dit is soortgelijk aan het <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">oplossen van een vergelijking met een enkele variabele</pc>. Bij een vergelijking met alleen vermenigvuldigingen of delingen, zoals <ph id="c4" type="ui" subType="swi18n:inline-math"/> of <ph id="c5" type="ui" subType="swi18n:inline-math"/>, kun je de oplossing vinden, zoals <ph id="c6" type="ui" subType="swi18n:inline-math"/>. Dit omvat het <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">rondschuiven van factoren binnen de vergelijking</pc> tot de onbekende variabele geïsoleerd is, en het zo veel mogelijk <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereenvoudigen van het resultaat</pc> (vaak een breuk), en het hieropvolgende <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">controleren ervan</pc>. De vergelijkingen bevatten geen optellingen, maar kunnen machten bevatten.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Let's consider a <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">product equation</pc> (an equation only having multiplications/divisions) with multiple variables, like <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Often the goal is to solve this equation for one of the variables, for instance <ph id="c4" type="ui" subType="swi18n:inline-math"/>. In this skill we look at how to do that.</pc></source>
+					<target swi18n:sourceContentFingerprint="072f279b965c17dd" swi18n:sourceStructureFingerprint="91bc01122207a0f1"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We bekijken een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">productvergelijking</pc> (een vergelijking met alleen vermenigvuldigingen/delingen) met meerdere variabelen, zoals <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Vaak is het doel om de vergelijking op te lossen voor één van de variabelen, bijvoorbeeld <ph id="c4" type="ui" subType="swi18n:inline-math"/>. In deze vaardigheid kijken we naar hoe we dat kunnen doen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="whatIsSolving">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Solving a multi-variable product equation</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The idea of a multi-variable equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> is that, even if we don't know the values of the variables <ph id="c4" type="ui" subType="swi18n:inline-math"/>, <ph id="c5" type="ui" subType="swi18n:inline-math"/> and <ph id="c6" type="ui" subType="swi18n:inline-math"/>, we know that the equality in the equation must hold. There is some restriction on the variables: not just every combination is possible.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">We can choose a variable in this equation, like <ph id="c8" type="ui" subType="swi18n:inline-math"/>, and solve the equation for this variable. We call this 'chosen variable' the <pc id="c9" type="ui" subType="swi18n:term" swi18n:slot="children">target variable</pc>. To solve for the target variable, we must rewrite the equation (obviously in ways that still keep it valid) until it has the form <ph id="c10" type="ui" subType="swi18n:inline-math"/>, where the dots do <pc id="c11" type="ui" subType="swi18n:emp" swi18n:slot="children">not</pc> contain the target variable <ph id="c12" type="ui" subType="swi18n:inline-math"/>. They may (and will) depend on the other variables.</pc></source>
+					<target swi18n:sourceContentFingerprint="dbc0f031792cb153" swi18n:sourceStructureFingerprint="dfecc63bcabbcada"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Een productvergelijking met meerdere variabelen oplossen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Het idee van een vergelijking met meerdere variabelen zoals <ph id="c3" type="ui" subType="swi18n:inline-math"/> is dat, zelfs als we niet weten wat de waarden van de variabelen <ph id="c4" type="ui" subType="swi18n:inline-math"/>, <ph id="c5" type="ui" subType="swi18n:inline-math"/> en <ph id="c6" type="ui" subType="swi18n:inline-math"/> zijn, we wel weten dat er gelijkheid in de vergelijking moet gelden. Er is een bepaalde restrictie op de variabelen: ze kunnen niet zomaar elke combinatie van waarden hebben.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">We kunnen in zo'n vergelijking een variabele kiezen, bijvoorbeeld <ph id="c8" type="ui" subType="swi18n:inline-math"/>, en de vergelijking voor deze variabele oplossen. We noemen deze 'gekozen variabele' de <pc id="c9" type="ui" subType="swi18n:term" swi18n:slot="children">doelvariabele</pc>. Om de vergelijking voor de doelvariabele op te lossen, moeten we de vergelijking herschrijven (uiteraard wel zo dat hij kloppend blijft) tot hij de vorm <ph id="c10" type="ui" subType="swi18n:inline-math"/> heeft, waar op de puntjes <pc id="c11" type="ui" subType="swi18n:emp" swi18n:slot="children">niet</pc> meer de doelvariabele <ph id="c12" type="ui" subType="swi18n:inline-math"/> voorkomt. Er kunnen (en zullen) wel nog andere variabelen staan.</pc></target>
+				</segment>
+			</unit>
+			<unit id="idea">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Isolating the target variable</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The procedure to isolate the target variable <ph id="c3" type="ui" subType="swi18n:inline-math"/> is exactly the same as when we have a <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">product equation with one variable</pc>. First we want to prevent <ph id="c5" type="ui" subType="swi18n:inline-math"/> from being in any denominator of a fraction. We can remove it by <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">moving <ph id="c7" type="ui" subType="swi18n:inline-math"/> to the other side</pc>. This gives us <ph id="c8" type="ui" subType="swi18n:block-math"/> Note that <ph id="c9" type="ui" subType="swi18n:inline-math"/> is not in any denominator anymore.</pc><pc id="c10" type="ui" subType="swi18n:par" swi18n:slot="children">To subsequently isolate <ph id="c11" type="ui" subType="swi18n:inline-math"/>, we move <pc id="c12" type="ui" subType="swi18n:emp" swi18n:slot="children">all</pc> factors except for <ph id="c13" type="ui" subType="swi18n:inline-math"/> to the other side. For the example, we move the <ph id="c14" type="ui" subType="swi18n:inline-math"/> to the right to get <ph id="c15" type="ui" subType="swi18n:block-math"/> We have isolated <ph id="c16" type="ui" subType="swi18n:inline-math"/>!</pc></source>
+					<target swi18n:sourceContentFingerprint="533debfc00693dcb" swi18n:sourceStructureFingerprint="97a876c3d442dfa4"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De doelvariabele isoleren</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">De procedure om de doelvariabele <ph id="c3" type="ui" subType="swi18n:inline-math"/> te isoleren is exact hetzelfde als bij een <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">productvergelijking met één variabele</pc>. Eerst willen we ervoor zorgen dat <ph id="c5" type="ui" subType="swi18n:inline-math"/> niet in de noemer van enige breuk staat. We kunnen dit voor elkaar krijgen door <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">de factor <ph id="c7" type="ui" subType="swi18n:inline-math"/> naar de andere kant te brengen</pc>. Dit geeft <ph id="c8" type="ui" subType="swi18n:block-math"/> Merk op dat <ph id="c9" type="ui" subType="swi18n:inline-math"/> niet meer in een noemer staat.</pc><pc id="c10" type="ui" subType="swi18n:par" swi18n:slot="children">Om <ph id="c11" type="ui" subType="swi18n:inline-math"/> vervolgens te isoleren, verplaatsen we <pc id="c12" type="ui" subType="swi18n:emp" swi18n:slot="children">alle</pc> factoren behalve <ph id="c13" type="ui" subType="swi18n:inline-math"/> naar de andere kant. Bij het voorbeeld brengen we <ph id="c14" type="ui" subType="swi18n:inline-math"/> naar rechts en krijgen zo <ph id="c15" type="ui" subType="swi18n:block-math"/> We hebben <ph id="c16" type="ui" subType="swi18n:inline-math"/> geïsoleerd!</pc></target>
+				</segment>
+			</unit>
+			<unit id="afterwards">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">After finding the solution</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">As usual, we do not just want any solution, but we want a solution that's written as simple as possible. <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Simplifying the fraction</pc> will result in <ph id="c4" type="ui" subType="swi18n:block-math"/> Note that first we have written the fraction of a fraction as one fraction, and subsequently we wrote the multiplication of <ph id="c5" type="ui" subType="swi18n:inline-math"/> with itself as <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Now that we have a relatively simple solution, we must <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">check this solution</pc>. To do so, we insert the solution <ph id="c9" type="ui" subType="swi18n:inline-math"/> into the <pc id="c10" type="ui" subType="swi18n:emp" swi18n:slot="children">original</pc> equation <ph id="c11" type="ui" subType="swi18n:inline-math"/>. This gives <ph id="c12" type="ui" subType="swi18n:block-math"/> If we write the fraction of fractions as one fraction, we simplify this equation to <ph id="c13" type="ui" subType="swi18n:block-math"/> By canceling out factors, the fraction on the right side reduces to <ph id="c14" type="ui" subType="swi18n:inline-math"/>. The full equation then becomes <ph id="c15" type="ui" subType="swi18n:block-math"/> This equation certainly holds for all possible values of <ph id="c16" type="ui" subType="swi18n:inline-math"/> and <ph id="c17" type="ui" subType="swi18n:inline-math"/>, which means that our solution for <ph id="c18" type="ui" subType="swi18n:inline-math"/> indeed solves the equation for all possible values of <ph id="c19" type="ui" subType="swi18n:inline-math"/> and <ph id="c20" type="ui" subType="swi18n:inline-math"/>. The solution is correct!</pc></source>
+					<target swi18n:sourceContentFingerprint="a85aa4261223fd3e" swi18n:sourceStructureFingerprint="a7423fb68b7a7480"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Na het oplossen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Zoals gewoonlijk willen we niet zomaar een oplossing, maar we willen een oplossing die zo simpel mogelijk opgeschreven is. Het <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereenvoudigen van de breuk</pc> geeft <ph id="c4" type="ui" subType="swi18n:block-math"/> Merk op dat we eerst de breuk van breuken als enkele breuk geschreven hebben, en vervolgens hebben we de vermenigvuldiging van <ph id="c5" type="ui" subType="swi18n:inline-math"/> met zichzelf als <ph id="c6" type="ui" subType="swi18n:inline-math"/> opgeschreven.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Nu we een zo vereenvoudigd mogelijke oplossing hebben, moeten we <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">deze oplossing controleren</pc>. Hiervoor vullen we de oplossing <ph id="c9" type="ui" subType="swi18n:inline-math"/> in de <pc id="c10" type="ui" subType="swi18n:emp" swi18n:slot="children">oorspronkelijke</pc> vergelijking <ph id="c11" type="ui" subType="swi18n:inline-math"/> in. Dit geeft <ph id="c12" type="ui" subType="swi18n:block-math"/> Als we de breuk van breuken als enkele breuk schrijven, wordt de vergelijking omgezet in <ph id="c13" type="ui" subType="swi18n:block-math"/> Via het wegstrepen van factoren wordt de breuk aan de rechterkant teruggebracht tot <ph id="c14" type="ui" subType="swi18n:inline-math"/>. De volledige vergelijking wordt dan <ph id="c15" type="ui" subType="swi18n:block-math"/> Deze vergelijking klopt zeker voor alle mogelijke waarden van <ph id="c16" type="ui" subType="swi18n:inline-math"/> en <ph id="c17" type="ui" subType="swi18n:inline-math"/>, wat betekent dat onze oplossing voor <ph id="c18" type="ui" subType="swi18n:inline-math"/> inderdaad de vergelijking oplost voor alle mogelijke waarden van <ph id="c19" type="ui" subType="swi18n:inline-math"/> en <ph id="c20" type="ui" subType="swi18n:inline-math"/>. De oplossing klopt!</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To solve a product equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> for a target variable like <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">If the target variable is in a denominator, get it out of there by <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">moving it to the other side of the equation</pc>. For the example, we get <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Move all factors</pc> that are on the same side as the target variable to the other side. This turns the example into <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Simplify</pc> the result as much as possible. Our example reduces to <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c18" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c19" type="ui" subType="swi18n:d" swi18n:slot="children"><pc id="c20" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Check your solution</pc> by inserting it into the original equation and verifying that both sides reduce to the same expression. For the example, inserting the solution reduces both sides to <ph id="c21" type="ui" subType="swi18n:inline-math"/>, which matches.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="78fb37f600345390" swi18n:sourceStructureFingerprint="691bcfe0d93f91c3"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De stappen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om een productvergelijking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> voor een doelvariabele als <ph id="c4" type="ui" subType="swi18n:inline-math"/> op te lossen, neem je de volgende stappen.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Als de doelvariabele in een noemer staat, haal hem daar dan weg door hem <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">naar de andere kant van de vergelijking te brengen</pc>. In het voorbeeld krijgen we zo <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Breng alle factoren</pc> die aan dezelfde kant als de doelvariabele staat naar de andere kant. Dit zet ons voorbeeld om in <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Vereenvoudig</pc> het resultaat zo veel mogelijk. Ons voorbeeld wordt zo teruggebracht tot <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c18" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c19" type="ui" subType="swi18n:d" swi18n:slot="children"><pc id="c20" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Controleer je oplossing</pc> door hem in de oorspronkelijke vergelijking in te vullen en na te gaan dat beide kanten tot dezelfde uitdrukking teruggebracht kunnen worden. Bij het voorbeeld zet het invullen van de oplossing beide kanten om in <ph id="c21" type="ui" subType="swi18n:inline-math"/>, wat dus overeenkomt.</pc></pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="inNumerator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve this equation for <ph id="c2" type="ui" subType="swi18n:inline-math"/> and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="3a9b038db181589e" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Los deze vergelijking op voor <ph id="c2" type="ui" subType="swi18n:inline-math"/> en vereenvoudig het resultaat zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Move all factors on the side of <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the other side, except <ph id="c2" type="ui" subType="swi18n:inline-math"/> itself.</source>
+							<target swi18n:sourceContentFingerprint="24c321980815e98b" swi18n:sourceStructureFingerprint="98f3255e641e5524">Breng alle factoren aan de kant van <ph id="c1" type="ui" subType="swi18n:inline-math"/> naar de andere kant, behalve <ph id="c2" type="ui" subType="swi18n:inline-math"/> zelf.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We move the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the other side, where it turns into a multiplication. Similarly, we move the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side, where it turns into a division. All together, we wind up with <ph id="c3" type="ui" subType="swi18n:block-math"/> Note that <ph id="c4" type="ui" subType="swi18n:inline-math"/> has been isolated.</source>
+							<target swi18n:sourceContentFingerprint="55e19b2eba2820b9" swi18n:sourceStructureFingerprint="39bf226c637a45de">We brengen de factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> naar de andere kant, waar het een vermenigvuldiging wordt. Net zo brengen we de factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> naar de andere kant, waar we erdoor delen. Alles bij elkaar komen we uit op <ph id="c3" type="ui" subType="swi18n:block-math"/> Merk op dat <ph id="c4" type="ui" subType="swi18n:inline-math"/> hiermee geïsoleerd is.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the result for <ph id="c1" type="ui" subType="swi18n:inline-math"/> as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="772608c8e22fa2f0" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Vereenvoudig het resultaat voor <ph id="c1" type="ui" subType="swi18n:inline-math"/> zo veel als mogelijk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Merging repeated multiplications into squares<pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">, as well as simplifying all the numbers,</pc><pc id="x3" type="other" subType="swi18n:condition-false"></pc></pc> turns the solution into <ph id="c1" type="ui" subType="swi18n:block-math"/> It is not possible to simplify this any further.</source>
+							<target swi18n:sourceContentFingerprint="d4edbb7dfe9230dd" swi18n:sourceStructureFingerprint="66309ec62e20e7bf">Als we de herhaalde vermenigvuldiging in een kwadraat omzetten<pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">, en ook de getallen vereenvoudigen,</pc><pc id="x3" type="other" subType="swi18n:condition-false"></pc></pc> dan wordt de oplossing omgezet in <ph id="c1" type="ui" subType="swi18n:block-math"/> Het is niet mogelijk om dit nog verder te vereenvoudigen.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Check the solution for <ph id="c1" type="ui" subType="swi18n:inline-math"/>: insert it into the original equation and simplify each side as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="2d82ea7ee18cd30f" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Controleer de oplossing voor <ph id="c1" type="ui" subType="swi18n:inline-math"/>: vul hem in de oorspronkelijke vergelijking in en vereenvoudig elke kant zo veel als mogelijk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We can directly insert <ph id="c2" type="ui" subType="swi18n:inline-math"/> into the equation. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/> Simplifying the fraction within the fraction, as well as canceling fraction factors, reduces this to <ph id="c4" type="ui" subType="swi18n:block-math"/> Since both sides of the equation reduce to the same outcome, the solution is correct.</pc></source>
+							<target swi18n:sourceContentFingerprint="807c7ec5cf9d08ff" swi18n:sourceStructureFingerprint="41b6be8daf79b58b"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We kunnen <ph id="c2" type="ui" subType="swi18n:inline-math"/> direct in de vergelijking invullen. Hiermee krijgen we <ph id="c3" type="ui" subType="swi18n:block-math"/> Als we de breuk in de breuk vereenvoudigen, en ook factoren binnen de breuk wegstrepen, reduceren we dit tot <ph id="c4" type="ui" subType="swi18n:block-math"/> Aangezien beide kanten van de vergelijking op hetzelfde uitkomen, is de oplossing correct.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="inDenominator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve this equation for <ph id="c2" type="ui" subType="swi18n:inline-math"/> and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="3a9b038db181589e" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Los deze vergelijking op voor <ph id="c2" type="ui" subType="swi18n:inline-math"/> en vereenvoudig het resultaat zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Move the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the other side of the equation.</source>
+							<target swi18n:sourceContentFingerprint="952cf22bbaeaa072" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Breng de factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> naar de andere kant van de vergelijking.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Because <ph id="c1" type="ui" subType="swi18n:inline-math"/> was divided by, on the other side it will be multiplied by. This gives <ph id="c2" type="ui" subType="swi18n:block-math"/> Note that <ph id="c3" type="ui" subType="swi18n:inline-math"/> is not in a denominator anymore.</source>
+							<target swi18n:sourceContentFingerprint="0164697a43d8c7b3" swi18n:sourceStructureFingerprint="09f7971cdb0d6bac">Omdat er eerst door <ph id="c1" type="ui" subType="swi18n:inline-math"/> gedeeld werd, wordt er aan de andere kant mee vermenigvuldigd. Dit geeft <ph id="c2" type="ui" subType="swi18n:block-math"/> Merk op dat <ph id="c3" type="ui" subType="swi18n:inline-math"/> niet meer ergens in een noemer staat.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Move all factors on the side of <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the other side, except <ph id="c2" type="ui" subType="swi18n:inline-math"/> itself.</source>
+							<target swi18n:sourceContentFingerprint="24c321980815e98b" swi18n:sourceStructureFingerprint="98f3255e641e5524">Breng alle factoren aan de kant van <ph id="c1" type="ui" subType="swi18n:inline-math"/> naar de andere kant, behalve <ph id="c2" type="ui" subType="swi18n:inline-math"/> zelf.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We move the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the other side, where it turns into a division. This results in <ph id="c2" type="ui" subType="swi18n:block-math"/> Note that <ph id="c3" type="ui" subType="swi18n:inline-math"/> has been isolated.</source>
+							<target swi18n:sourceContentFingerprint="205d22f679189a19" swi18n:sourceStructureFingerprint="09f7971cdb0d6bac">We brengen de factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> naar de andere kant, waar hij als deling terecht komt. Zo krijgen we <ph id="c2" type="ui" subType="swi18n:block-math"/> Merk op dat <ph id="c3" type="ui" subType="swi18n:inline-math"/> hiermee geïsoleerd is.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the result for <ph id="c1" type="ui" subType="swi18n:inline-math"/> as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="772608c8e22fa2f0" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Vereenvoudig het resultaat voor <ph id="c1" type="ui" subType="swi18n:inline-math"/> zo veel als mogelijk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">It is still possible to cancel some factors within the numbers of the fraction. Dividing both the numerator and the denominator by <ph id="c1" type="ui" subType="swi18n:inline-math"/> results in <ph id="c2" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">This time it is not possible to simplify the fraction any further. So we remain with the final result, <ph id="c3" type="ui" subType="swi18n:block-math"/></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="97e2d715913a63ed" swi18n:sourceStructureFingerprint="82a603a251eb66a6"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Het is nog mogelijk om enkele getalfactoren weg te strepen. Als we zowel de teller als de noemer door <ph id="c1" type="ui" subType="swi18n:inline-math"/> delen, dan krijgen we <ph id="c2" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">Deze keer is het niet mogelijk om de breuk nog verder te vereenvoudigen. Dus hebben we al ons eindresultaat, <ph id="c3" type="ui" subType="swi18n:block-math"/></pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Check the solution for <ph id="c1" type="ui" subType="swi18n:inline-math"/>: insert it into the original equation and simplify each side as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="2d82ea7ee18cd30f" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Controleer de oplossing voor <ph id="c1" type="ui" subType="swi18n:inline-math"/>: vul hem in de oorspronkelijke vergelijking in en vereenvoudig elke kant zo veel als mogelijk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We can directly insert <ph id="c2" type="ui" subType="swi18n:inline-math"/> into the equation. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/> Simplifying the fraction within the fraction, as well as canceling fraction factors, reduces this to <ph id="c4" type="ui" subType="swi18n:block-math"/> Since both sides of the equation reduce to the same outcome, the solution is correct.</pc></source>
+							<target swi18n:sourceContentFingerprint="807c7ec5cf9d08ff" swi18n:sourceStructureFingerprint="41b6be8daf79b58b"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We kunnen <ph id="c2" type="ui" subType="swi18n:inline-math"/> direct in de vergelijking invullen. Hiermee krijgen we <ph id="c3" type="ui" subType="swi18n:block-math"/> Als we de breuk in de breuk vereenvoudigen, en ook factoren binnen de breuk wegstrepen, reduceren we dit tot <ph id="c4" type="ui" subType="swi18n:block-math"/> Aangezien beide kanten van de vergelijking op hetzelfde uitkomen, is de oplossing correct.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="unbalancedEquation">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The two sides of the equation should in the end be the same. This value is not equal to the other one.</pc></source>
+						<target swi18n:sourceContentFingerprint="cf988947e92910ec" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">De twee kanten van de vergelijking moeten op het einde hetzelfde zijn. Deze waarde is niet gelijk aan de ander.</pc></target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

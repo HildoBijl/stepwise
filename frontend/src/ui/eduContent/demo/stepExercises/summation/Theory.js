@@ -1,17 +1,17 @@
 import React from 'react'
 
 import { M } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Head, Par, List, Term } from 'ui/components'
 
 export function Theory() {
 	return <>
-		<Translation entry="intro">
+		<Translation id="intro">
 			<Par>Yet another basic skill is the skill of adding numbers. This is our last step in preparing for combined skills.</Par>
 		</Translation>
 
-		<Translation entry="addNumbers">
+		<Translation id="addNumbers">
 			<Head>Adding numbers</Head>
 			<Par>In this skill you have to <Term>add two numbers</Term>. It's a tutorial - you're allowed to use your calculator - but see if you can do without.</Par>
 			<Par>When calculating a sum, for instance <M>19 + 26</M>, you can do the following steps.</Par>

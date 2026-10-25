@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">add/subtract fractions with variables</pc>, like turning <ph id="c3" type="ui" subType="swi18n:inline-math"/> into <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes multiplying both sides of a fraction by a factor to get an equal denominator, expanding (often double) brackets, and subsequently adding together the two like fractions. The skill does not require the cancellation of potential polynomial fractions afterwards.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">If we add two number fractions with unequal denominator, such as <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we know how to do so: ensure the denominators are equal by rewriting the fractions (giving <ph id="c3" type="ui" subType="swi18n:inline-math"/>) and then adding up the fractions to get <ph id="c4" type="ui" subType="swi18n:inline-math"/>. But how does this work when variables are involved, like when rewriting <ph id="c5" type="ui" subType="swi18n:inline-math"/>? The answer is: exactly the same. But there are a few things to pay attention to.</pc></source>
+				</segment>
+			</unit>
+			<unit id="equalDenominator">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Ensuring an equal denominator</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We want to add/subtract two <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">unlike fractions</pc> (fractions with unequal denominator), such as <ph id="c4" type="ui" subType="swi18n:block-math"/> We know how to <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add two like fractions</pc> (with equal denominators), but this time our fractions do not have equal denominators. To still be able to add these two fractions, we first must force them to have the same denominator.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">To do so, we take the left fraction and multiply both the numerator and the denominator by <ph id="c7" type="ui" subType="swi18n:inline-math"/> (that is, the denominator of the other fraction). This turns <ph id="c8" type="ui" subType="swi18n:inline-math"/> into <ph id="c9" type="ui" subType="swi18n:inline-math"/>. Note that this is the same: we could even <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">cancel the factor</pc> again to get back to where we started. Identically, we also take the right fraction, and multiply its numerator and denominator by <ph id="c11" type="ui" subType="swi18n:inline-math"/> (the denominator of the first fraction). This turns <ph id="c12" type="ui" subType="swi18n:inline-math"/> into <ph id="c13" type="ui" subType="swi18n:inline-math"/>. Altogether, we may hence write <ph id="c14" type="ui" subType="swi18n:block-math"/> And now we have two fractions with equal denominator!</pc></source>
+				</segment>
+			</unit>
+			<unit id="addingFractions">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Adding the two fractions</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We now have two fractions with equal denominator. Before we add these up, it is wise to first <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand all brackets</pc> inside the numerators. That makes the next step a bit easier. Doing so gives <ph id="c4" type="ui" subType="swi18n:block-math"/> Note that we leave the denominator unchanged: expanding brackets there is of course allowed, but generally does not make things easier.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Now that we have two relatively easy fractions with equal denominator, we can <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add them up</pc> in the usual way, by pulling the numerators together. We first get <ph id="c7" type="ui" subType="swi18n:block-math"/> which can then immediately be simplified by <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging similar terms</pc> into <ph id="c9" type="ui" subType="swi18n:block-math"/> The final result is <ph id="c10" type="ui" subType="swi18n:block-math"/></pc></source>
+				</segment>
+			</unit>
+			<unit id="rule">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The rule</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The above idea can also be captured into a rule. If we have two general fractions <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/> that we add up, then we can write <ph id="c5" type="ui" subType="swi18n:block-math"/> Or similarly for subtracting we have <ph id="c6" type="ui" subType="swi18n:block-math"/></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Using this rule, we can immediately solve the example through <ph id="c8" type="ui" subType="swi18n:block-math"/> If you have practiced enough to see this short-cut, it can save some time.</pc></source>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To add/subtract two fractions with variables, like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Rewrite the fractions so they all have the same denominator. For this, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply both sides</pc> of the left fraction by the denominator of the right fraction, and similarly <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply both sides</pc> of the right fraction by the denominator of the left fraction. For the example this gives <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Expand all (often double) brackets</pc> in the numerators. For the example we get <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Add the like fractions</pc> and simplify the result as much as possible. For the example the final result is <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="twoFractions">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Write this as a single fraction and simplify the numerator as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite both fractions to ensure that they have the same denominator.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The first fraction is multiplied above and below by the denominator of the second fraction, being <ph id="c1" type="ui" subType="swi18n:inline-math"/>. The second fraction is multiplied above and below by the denominator of the first fraction, being <ph id="c2" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify all numerators as much as possible, including expanding brackets.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Using the default rules of expanding brackets, we wind up with <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Add up the two like fractions and simplify the numerator as much as possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Adding up the two fractions using the default rule, and merging similar terms, gives <ph id="c1" type="ui" subType="swi18n:block-math"/> The numerator here is as simplified as possible. Altogether, the final result is <ph id="c2" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, this can still be simplified further, written as <ph id="c3" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false"></pc></pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="unequalDenominators">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The two fractions do not have the same denominator.</pc></source>
+					</segment>
+				</unit>
+				<unit id="notTwoFractions">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">We are expecting a sum of two fractions. Only rewrite the fractions and don't merge them together yet.</pc></source>
+					</segment>
+				</unit>
+				<unit id="unsimplifiedNumerator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You can still further simplify the numerators.</pc></source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

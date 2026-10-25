@@ -1,18 +1,18 @@
 import React from 'react'
 
 import { M } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Head, Par, List, Term } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
 	return <>
-		<Translation entry="intro">
+		<Translation id="intro">
 			<Par>After having learned how to <SkillLink skillId="multiplication">multiply numbers</SkillLink> and how to <SkillLink skillId="summation">add numbers</SkillLink>, we now combine these skills. Our goal is to calculate <Term>composite expressions</Term>, like for instance <M>16 + 3 \cdot 5</M>.</Par>
 		</Translation>
 
-		<Translation entry="calculationSteps">
+		<Translation id="calculationSteps">
 			<Head>The steps</Head>
 			<Par>To calculate an expression like <M>16 + 3 \cdot 5</M>, you take the following <Term>steps</Term>.</Par>
 			<List>
@@ -22,7 +22,7 @@ export function Theory() {
 			</List>
 		</Translation>
 
-		<Translation entry="stepWiseExercises">
+		<Translation id="stepWiseExercises">
 			<Head>Step-Wise exercises</Head>
 			<Par>In Step-Wise, when practicing composite skills, it is always possible to <Term>split exercises into steps</Term>. These steps are then connected to earlier skills, which you have shown mastery of before. This always allows you to complete the more complicated exercises too: they're just combinations of things you already know!</Par>
 			<Par>Behind the scenes, our skill tracking algorithm will <Term>take every action into account</Term>. If you fail at a specific step (for instance at addition) then your rating for that step will decrease. If it drops too much, you will be suggested to practice this skill separately a bit more. In this way the Step-Wise app coaches you to always practice the skill most relevant to you.</Par>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<unit id="meta">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">This skill is about entering <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">mathematical equations</pc>: two expressions with an equals-sign "=" in-between. It also demonstrates the ways in which the Step-Wise Computer Algebra System can <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">evaluate</pc> these equations.</pc></source>
+				<target swi18n:sourceContentFingerprint="f57406d333136bb7" swi18n:sourceStructureFingerprint="90be724b612edf65"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Diese Kompetenz beinhaltet die Eingabe von <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">mathematischen Gleichungen</pc>: zwei Ausdrücke mit einem Gleichheitszeichen "=" zwischen ihnen. Sie zeigt auch, wie das Step-Wise Computer Algebra System diese Gleichungen <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">prüft</pc>.</pc></target>
+			</segment>
+		</unit>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A large part of mathematics resolves around manipulating and subsequently solving <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">equations</pc>. Think of <ph id="c3" type="ui" subType="swi18n:inline-math"/>. It consists of two expressions with an equals-sign in-between. So how does Step-Wise deal with these?</pc></source>
+					<target swi18n:sourceContentFingerprint="66d141479035750c" swi18n:sourceStructureFingerprint="2000fcdbbec57e0b"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Ein großer Teil der Mathematik dreht sich um das Umschreiben und anschließende Lösen von <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Gleichungen</pc>. Nimm zum Beispiel <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Sie enthält zwei Ausdrücke mit einem Gleichheitszeichen zwischen ihnen. Wie geht Step-Wise damit um?</pc></target>
+				</segment>
+			</unit>
+			<unit id="entering">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Entering equations</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Entering equations into Step-Wise isn't hard. Just type what you want to get. You'll always see on the screen exactly what you have at any point in time.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Obviously equations have various <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">constraints</pc>. There may not be multiple equals-signs in there - just one - and the equals sign should also not be in the middle of a fraction or function or so. If whatever you enter does not meet these criteria, it's considered an invalid submission. You will get a friendly warning and your submission will not be sent. Only valid submissions are eventually checked for correctness.</pc></source>
+					<target swi18n:sourceContentFingerprint="3c94ffed449afcf6" swi18n:sourceStructureFingerprint="10bdb397a5c05c6e"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Gleichungen eingeben</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Die Eingabe von Gleichungen in Step-Wise ist nicht kompliziert. Gib einfach ein, was du willst. Du wirst auf dem Bildschirm immer genau sehen, was du hast.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Natürlich gibt es auch bei Gleichungen gewisse <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">Einschränkungen</pc>. Sie dürfen nicht mehrere Gleichheitszeichen enthalten, sondern nur eines, und das Gleichheitszeichen darf nicht in der Mitte eines Bruchs oder einer Funktion oder so stehen. Wenn die Eingabe diese Bedingungen nicht erfüllt, wird sie als ungültige Eingabe betrachtet. Du bekommst dann eine subtile Warnung und dein Eintrag wird nicht eingereicht. Nur gültige Einträge werden schließlich geprüft.</pc></target>
+				</segment>
+			</unit>
+			<unit id="evaluating">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Evaluating equations</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Step-Wise makes use of an self-designed <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">Computer Algebra System</pc> (CAS). This CAS checks exercises for correctness. It does this in an intelligent way. Some exercises want you to write a certain exact equation, but in other exercises it could be "anything <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">equivalent</pc> to some model solution". The Step-Wise CAS then checks your answer for equivalency. Obviously it cannot figure out all possible ways of rewriting equations, but most ways in which equations can be equivalent are detected.</pc></source>
+					<target swi18n:sourceContentFingerprint="262983e6f524fed6" swi18n:sourceStructureFingerprint="e153f48d85c2c6a6"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Gleichungen prüfen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Step-Wise verwendet ein selbst entwickeltes <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">Computer Algebra System</pc> (CAS). Dieses CAS prüft die eingereichten Antworten. Es tut dies auf intelligente Weise. Manche Aufgaben verlangen, dass man einen bestimmten Ausdruck genau aufschreibt, aber andere Aufgaben verlangen nur "etwas <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">Äquivalentes</pc> zur Standardlösung". Das Step-Wise CAS prüft dann deine Antwort auf Äquivalenz. Natürlich kann es nicht alle möglichen Arten des Umschreibens von Gleichungen nachbilden, aber die meisten Arten des Umschreibens von Gleichungen werden erkannt.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="enterEquation">
+				<unit id="problem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Consider the equation <ph id="c2" type="ui" subType="swi18n:block-math"/> Make some basic modification to it, so that it's different yet still mathematically equivalent.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:equation-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Enter the equation here</pc></pc></pc></pc></source>
+						<target swi18n:sourceContentFingerprint="e71cfa49f8c3d3c6" swi18n:sourceStructureFingerprint="b1e6344e99e9ab85"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Betrachte die Gleichung <ph id="c2" type="ui" subType="swi18n:block-math"/> Ändere sie auf einfache Weise so ab, dass sie anders geschrieben wird, aber immer noch mathematisch equivalent ist.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:equation-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Hier die Gleichung eingeben</pc></pc></pc></pc></target>
+					</segment>
+				</unit>
+				<unit id="solution">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">There are many ways in which the equation <ph id="c2" type="ui" subType="swi18n:inline-math"/> can be adjusted. For instance, we can switch the left and the right side, resulting in <ph id="c3" type="ui" subType="swi18n:block-math"/> Of course there are infinitely many other valid solutions too.</pc></source>
+						<target swi18n:sourceContentFingerprint="30fd67e2e0d751a3" swi18n:sourceStructureFingerprint="710be67885399a7d"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Es gibt viele Möglichkeiten, die Gleichung <ph id="c2" type="ui" subType="swi18n:inline-math"/> umzuschreiben. Zum Beispiel können wir die linke und die rechte Seite vertauschen, was führt zu <ph id="c3" type="ui" subType="swi18n:block-math"/> Natürlich gibt es eine unendliche Anzahl anderer möglicher Lösungen.</pc></target>
+					</segment>
+				</unit>
+				<group id="feedback">
+					<unit id="exactlyEqual">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You have entered the equation without making any modifications. You must rewrite the equation to something different.</pc></source>
+							<target swi18n:sourceContentFingerprint="5cf03c92ab1e7d4f" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Du hast die Gleichung ohne Anpassungen eingegeben. Du musst die Gleichung noch einmal umschreiben.</pc></target>
+						</segment>
+					</unit>
+					<unit id="notEquivalent">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">This is not equivalent to the original equation. You have done something to it that's mathematically not allowed, or that's too different for us to detect.</pc></source>
+							<target swi18n:sourceContentFingerprint="75692e63f1b86945" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Dies ist nicht äquivalent zur ursprünglichen Gleichung. Du hast etwas getan, was mathematisch nicht erlaubt ist, oder es ist zu tiefgründig, als dass wir es nachvollziehen könnten.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

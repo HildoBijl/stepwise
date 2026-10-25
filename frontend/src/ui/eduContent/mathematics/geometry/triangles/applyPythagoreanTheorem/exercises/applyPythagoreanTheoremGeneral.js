@@ -3,9 +3,10 @@ import React from 'react'
 import { Transformation, Vector } from '@step-wise/geometry'
 import { M, BM } from '@step-wise/math-display'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { Drawing, Polygon, RightAngle, LineLabel } from '@step-wise/drawing'
+import { Translation, Condition } from '@step-wise/i18n'
+
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback } from 'ui/eduTools'
@@ -71,7 +72,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ x, ansRaw, ans, ansCanBeSimplified }) => {
-			return <Par><Translation>We take the square root of both sides of the equation. This gives us <BM>{x} = {ansRaw}.</BM> Note that, since we know that the requested distance is positive, we do not need to add a <M>\pm</M> here. <Check value={ansCanBeSimplified}><Check.True>Optionally, the above result can still be simplified to <BM>{x} = {ans}.</BM></Check.True><Check.False>The above result cannot be simplified further.</Check.False></Check></Translation></Par>
+			return <Par><Translation>We take the square root of both sides of the equation. This gives us <BM>{x} = {ansRaw}.</BM> Note that, since we know that the requested distance is positive, we do not need to add a <M>\pm</M> here. <Condition value={ansCanBeSimplified}><Condition.True>Optionally, the above result can still be simplified to <BM>{x} = {ans}.</BM></Condition.True><Condition.False>The above result cannot be simplified further.</Condition.False></Condition></Translation></Par>
 		},
 	},
 ]

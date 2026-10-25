@@ -2,13 +2,13 @@ import { isValidElement } from 'react'
 
 import { isPlainObject, mapValues } from '@step-wise/js-utils'
 import { compareLoadLists, isLoadAtPoint } from '@step-wise/engineering-mechanics'
+import { Translation, Condition, Plural } from '@step-wise/i18n'
 
-import { Translation, Check, Plurals } from 'i18n'
 import { CountingWord } from 'i18nNext'
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
 import { getFeedbackCheckResult, processParameterOptions } from 'ui/eduTools'
 
-import { translationPath } from './validation'
+import { translationAddress } from './validation'
 
 // getFBDFeedbackFunction returns a feedback function to give feedback on Free Body Diagram inputs. It requires comparison options and a set of points to refer to when naming a point.
 export function getFBDFeedbackFunction(comparison, points = {}) {
@@ -69,7 +69,7 @@ export function getIndividualFBDFeedback(exerciseData, currParameter, currInput,
 	if (unmatchedInputLoads.length > 0) {
 		return {
 			correct: false,
-			text: <Translation path={translationPath} entry="feedback.incorrectInputLoads"><Plurals value={unmatchedInputLoads.length}><Plurals.One>An arrow has been drawn that shouldn't be present.</Plurals.One><Plurals.NotOne>There are <CountingWord>{unmatchedInputLoads.length}</CountingWord> arrows that should not be present.</Plurals.NotOne></Plurals> Have a look at that first.</Translation>,
+			text: <Translation {...translationAddress} id="incorrectInputLoads"><Plural value={unmatchedInputLoads.length}><Plural.Exact value={1}>An arrow has been drawn that shouldn't be present.</Plural.Exact><Plural.Other>There are <CountingWord>{unmatchedInputLoads.length}</CountingWord> arrows that should not be present.</Plural.Other></Plural> Have a look at that first.</Translation>,
 			affectedLoads: unmatchedInputLoads,
 		}
 	}
@@ -81,7 +81,7 @@ export function getIndividualFBDFeedback(exerciseData, currParameter, currInput,
 		const pointName = findRelatedPoint(missingLoads[0], points)
 		return {
 			correct: false,
-			text: <Translation path={translationPath} entry="feedback.missingLoads"><Plurals value={missingLoads.length}><Plurals.One>There is still a missing arrow.</Plurals.One><Plurals.NotOne>There are still missing arrows.</Plurals.NotOne></Plurals><Check value={!!pointName}><Check.True> Have another look at point {{ pointName }}.</Check.True></Check></Translation>
+			text: <Translation {...translationAddress} id="missingLoads"><Plural value={missingLoads.length}><Plural.Exact value={1}>There is still a missing arrow.</Plural.Exact><Plural.Other>There are still missing arrows.</Plural.Other></Plural><Condition value={!!pointName}><Condition.True> Have another look at point {{ pointName }}.</Condition.True></Condition></Translation>
 		}
 	}
 

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The goal of this skill is to show how different skills are combined into a <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">composite skill</pc>. In this skill, students calculate an expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, where they first have to <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply</pc> numbers and then <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add</pc> them.</pc></source>
+					<target swi18n:sourceContentFingerprint="62bfc126c348489d" swi18n:sourceStructureFingerprint="c22b0589d18e643f"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Het doel van deze vaardigheid is om te laten zien hoe verschillende vaardigheden gecombineerd worden tot een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">samengestelde vaardigheid</pc>. In deze vaardigheid rekenen studenten een uitdrukking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> uit, waar ze eerst getallen moeten <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vermenigvuldigen</pc> en daarna <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">optellen</pc>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">After having learned how to <pc id="c2" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply numbers</pc> and how to <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add numbers</pc>, we now combine these skills. Our goal is to calculate <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">composite expressions</pc>, like for instance <ph id="c5" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					<target swi18n:sourceContentFingerprint="55d355c36dcd93e8" swi18n:sourceStructureFingerprint="c2eac1b930cd194f"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Nadat we <pc id="c2" type="ui" subType="swi18n:skill-link" swi18n:slot="children">getallen vermenigvuldigen</pc> en <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">getallen optellen</pc> geleerd hebben, gaan we nu deze vaardigheden combineren. Ons doel is het om <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">samengestelde uitdrukkingen</pc>, zoals bijvoorbeeld <ph id="c5" type="ui" subType="swi18n:inline-math"/>, te berekenen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="calculationSteps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To calculate an expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, you take the following <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">steps</pc>.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Determine the <pc id="c8" type="ui" subType="swi18n:term" swi18n:slot="children">order</pc> in which operations should be applied. Multiplications is always done before summation, so <ph id="c9" type="ui" subType="swi18n:inline-math"/> should be calculated before anything is added up.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Calculate the <pc id="c12" type="ui" subType="swi18n:term" swi18n:slot="children">multiplication(s)</pc>. We turn <ph id="c13" type="ui" subType="swi18n:inline-math"/> into <ph id="c14" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c15" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:c" swi18n:slot="children">Calculate the <pc id="c17" type="ui" subType="swi18n:term" swi18n:slot="children">addition</pc>. This then turns <ph id="c18" type="ui" subType="swi18n:inline-math"/> into <ph id="c19" type="ui" subType="swi18n:inline-math"/> which is the final result.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="bbce116d4c35c548" swi18n:sourceStructureFingerprint="09116111c8f4b41c"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De stappen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om een uitdrukking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> uit te rekenen, voer je de volgende <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">stappen</pc> uit.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Bepaal de <pc id="c8" type="ui" subType="swi18n:term" swi18n:slot="children">volgorde</pc> waarin de operaties uitgevoerd moeten worden. Vermenigvuldigen gaat altijd voor optellen, dus <ph id="c9" type="ui" subType="swi18n:inline-math"/> moet uitgerekend worden voor er ook maar iets opgeteld wordt.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Bereken de <pc id="c12" type="ui" subType="swi18n:term" swi18n:slot="children">vermenigvuldiging(en)</pc>. We zetten <ph id="c13" type="ui" subType="swi18n:inline-math"/> om in <ph id="c14" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c15" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:c" swi18n:slot="children">Bereken de <pc id="c17" type="ui" subType="swi18n:term" swi18n:slot="children">optelling</pc>. Dit zet <ph id="c18" type="ui" subType="swi18n:inline-math"/> vervolgens om in <ph id="c19" type="ui" subType="swi18n:inline-math"/>, wat het eindantwoord is.</pc></pc></pc></target>
+				</segment>
+			</unit>
+			<unit id="stepWiseExercises">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Step-Wise exercises</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">In Step-Wise, when practicing composite skills, it is always possible to <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">split exercises into steps</pc>. These steps are then connected to earlier skills, which you have shown mastery of before. This always allows you to complete the more complicated exercises too: they're just combinations of things you already know!</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Behind the scenes, our skill tracking algorithm will <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">take every action into account</pc>. If you fail at a specific step (for instance at addition) then your rating for that step will decrease. If it drops too much, you will be suggested to practice this skill separately a bit more. In this way the Step-Wise app coaches you to always practice the skill most relevant to you.</pc></source>
+					<target swi18n:sourceContentFingerprint="1dc9bce3d7512633" swi18n:sourceStructureFingerprint="7198fce47e3bfc8a"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Stapsgewijze opgaven</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">In Step-Wise kun je, bij het oefenen van een samengestelde vaardigheid, een opgave altijd <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">opsplitsen in stappen</pc>. Deze stappen zijn dan verbonden met eerdere vaardigheden, waarvan je al hebt aangetoond dat je ze kan. Dit stelt je altijd in staat om ook de meer complexe opgaven af te ronden: ze zijn simpelweg combinaties van dingen die je al kent!</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Achter de schermen wordt door ons vaardigheidstracking algoritme <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">elke stap meegerekend</pc>. Als je bij een bepaalde stap (bijvoorbeeld optellen) de mist in gaat, dan neemt je score voor die stap af. Als hij te veel omlaag valt, dan word je aangeraden om deze vaardigheid los nog wat extra te oefenen. Op deze manier begeleidt de Step-Wise app je bij het oefenen van de voor jou meest gepaste vaardigheid.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="summationAndMultiplication1">
+				<unit id="mainProblem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Answer</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+						<target swi18n:sourceContentFingerprint="e376cb43455645d3" swi18n:sourceStructureFingerprint="100dfd15ac8e4a97"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Antwoord</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Determine which operation must be applied first.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:multiple-choice" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Addition comes first, before multiplication.</pc></pc><pc id="c6" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:b" swi18n:slot="children">Multiplication comes first, before addition.</pc></pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="75ef691b5cf1af9f" swi18n:sourceStructureFingerprint="838350d284adc657"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bepaal welke operatie eerst uitgevoerd moet worden.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:multiple-choice" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Optellen komt eerst, voor vermenigvuldigen.</pc></pc><pc id="c6" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:b" swi18n:slot="children">Vermenigvuldigen komt eerst, voor optellen.</pc></pc></pc></pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Multiplication always comes before addition.</pc></source>
+							<target swi18n:sourceContentFingerprint="f699165e60947722" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Vermenigvuldigen gaat altijd voor optellen.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the multiplication.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:label" swi18n:slot="children">Step answer</pc><pc id="c6" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="adc6cac173469070" swi18n:sourceStructureFingerprint="d696cfe51a53e0b5"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de vermenigvuldiging.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:label" swi18n:slot="children">Stapantwoord</pc><pc id="c6" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The result of the multiplication is <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="84c25b34563a4d53" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Het resultaat van de vermenigvuldiging is <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the addition.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:label" swi18n:slot="children">Final answer</pc><pc id="c6" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="cdead9882c652af0" swi18n:sourceStructureFingerprint="d696cfe51a53e0b5"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de optelling.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:label" swi18n:slot="children">Eindantwoord</pc><pc id="c6" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">After the multiplication we add everything together. This gets us the final result <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="0e63558bb68195ad" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Na de vermenigvuldiging tellen we alles bij elkaar op. Hiermee vinden we het eindantwoord <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="feedback">
+					<group id="order">
+						<unit id="incorrect">
+							<segment>
+								<source>That's not correct. Addition always comes last. (Unless it's prioritized by brackets, which is not the case here.)</source>
+								<target swi18n:sourceContentFingerprint="3303722b14b2658e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dat klopt niet. Optellen komt altijd als laatste. (Tenzij het geprioriteerd wordt door haakjes, maar dat is hier niet het geval.)</target>
+							</segment>
+						</unit>
+						<unit id="correct">
+							<segment>
+								<source>Yes! Multiplication indeed comes first.</source>
+								<target swi18n:sourceContentFingerprint="5cab3513e325a444" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ja! Vermenigvuldiging gaat inderdaad voor.</target>
+							</segment>
+						</unit>
+					</group>
+				</group>
+			</group>
+			<group id="summationAndMultiplication2">
+				<unit id="mainProblem">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Answer</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+						<target swi18n:sourceContentFingerprint="e376cb43455645d3" swi18n:sourceStructureFingerprint="100dfd15ac8e4a97"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Antwoord</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Determine which operation must be applied first.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:multiple-choice" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Addition comes first, before multiplication.</pc></pc><pc id="c6" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:b" swi18n:slot="children">Multiplication comes first, before addition.</pc></pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="75ef691b5cf1af9f" swi18n:sourceStructureFingerprint="838350d284adc657"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bepaal welke operatie eerst uitgevoerd moet worden.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:multiple-choice" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Optellen komt eerst, voor vermenigvuldigen.</pc></pc><pc id="c6" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:b" swi18n:slot="children">Vermenigvuldigen komt eerst, voor optellen.</pc></pc></pc></pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Multiplication always comes before addition.</pc></source>
+							<target swi18n:sourceContentFingerprint="f699165e60947722" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Vermenigvuldigen gaat altijd voor optellen.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the multiplications.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:substep" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Step answer</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc><pc id="c9" type="ui" subType="swi18n:substep" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:label" swi18n:slot="children">Step answer</pc><pc id="c12" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c13" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="dd85e211b671ba97" swi18n:sourceStructureFingerprint="7d5f8e4285e791eb"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de vermenigvuldigingen.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:substep" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Stapantwoord</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc><pc id="c9" type="ui" subType="swi18n:substep" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:label" swi18n:slot="children">Stapantwoord</pc><pc id="c12" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c13" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The results of the multiplications are <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="8136320804a4e776" swi18n:sourceStructureFingerprint="2519d6521c612811"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">De resultaten van de vermenigvuldigingen zijn <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the addition.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:label" swi18n:slot="children">Final answer</pc><pc id="c6" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="cdead9882c652af0" swi18n:sourceStructureFingerprint="d696cfe51a53e0b5"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bereken de optelling.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:label" swi18n:slot="children">Eindantwoord</pc><pc id="c6" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c7" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In the end we add everything together. This get us the final result <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+							<target swi18n:sourceContentFingerprint="34782260a0770088" swi18n:sourceStructureFingerprint="b25dc440c6e288ab"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Ten slotte tellen we alles bij elkaar op. Hiermee vinden we het eindantwoord <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="feedback">
+					<group id="order">
+						<unit id="incorrect">
+							<segment>
+								<source>That's not correct. Addition always comes last. (Unless it's prioritized by brackets, which is not the case here.)</source>
+								<target swi18n:sourceContentFingerprint="3303722b14b2658e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dat klopt niet. Optellen komt altijd als laatste. (Tenzij het geprioriteerd wordt door haakjes, maar dat is hier niet het geval.)</target>
+							</segment>
+						</unit>
+						<unit id="correct">
+							<segment>
+								<source>Yes! Multiplication indeed comes first.</source>
+								<target swi18n:sourceContentFingerprint="5cab3513e325a444" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ja! Vermenigvuldiging gaat inderdaad voor.</target>
+							</segment>
+						</unit>
+					</group>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

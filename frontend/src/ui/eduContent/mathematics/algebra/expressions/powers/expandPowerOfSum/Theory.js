@@ -6,19 +6,20 @@ import { binomialCoefficient } from '@step-wise/math-tools'
 import { Vector } from '@step-wise/geometry'
 import { M, BM, BMList, BMPart } from '@step-wise/math-display'
 
-import { Translation, useTextTranslation } from 'i18n'
+import { useTextTranslation } from 'i18n'
 import { usePrimaryColor } from 'ui/theme'
 import { Head, Par, List, Term } from 'ui/components'
 import { Drawing, Circle, Rectangle, Polygon, HtmlElement } from '@step-wise/drawing'
+import { Translation } from '@step-wise/i18n'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
 	return <>
-		<Translation entry="intro">
+		<Translation id="intro">
 			<Par>Suppose that we encounter an expression like <M>\left(2x + 3\right)^3</M>. We could once more <Term>expand the brackets</Term> for this. Let's take a look at how it works.</Par>
 		</Translation>
 
-		<Translation entry="idea">
+		<Translation id="idea">
 			<Head>The round-about method</Head>
 			<Par>First we will examine the long method of expanding the brackets. We usually would not use this method in practice because we'll get very big expressions. We will still do so here anyway, just to show you what it entails. So bear with us. We will make it easier later.</Par>
 			<Par>In this long method, we write the power out fully as
@@ -38,7 +39,7 @@ export function Theory() {
 			</Par>
 		</Translation>
 
-		<Translation entry="visualization">
+		<Translation id="visualization">
 			<Head>Making sense of the outcome</Head>
 			<Par>The outcome may seem confusing and overly large. However, there is a reason why it is set up the way it is. To grasp this, it helps to visualize it. In geometry, a square or second power like <M>\left(2x+3\right)^2</M> calculates an area.</Par>
 			<SquareVisualization />
@@ -48,7 +49,7 @@ export function Theory() {
 			<Par>Here <M>\left(2x + 3\right)^3</M> represents the full volume of the cube, but we can also split it up into smaller blocks. These blocks represent the individual terms in <M>8x^3 + 3 \cdot 12x^2 + 3 \cdot 18x + 27</M>. Specifically, we have one large cube for <M>\left(2x\right)^3</M>, three square-like blocks for <M>\left(2x\right)^2 \cdot 3</M>, three rectangular blocks for <M>\left(2x\right) \cdot 3^2</M>, and one small cube for <M>3^3</M>.</Par>
 		</Translation>
 
-		<Translation entry="shortcut">
+		<Translation id="shortcut">
 			<Head>The short-cut</Head>
 			<Par>The above method is a lot of work, and even more so when the exponent becomes bigger. So let's study a short-cut.</Par>
 			<Par>First we want to find the terms that will appear in the final expansion. Effectively, these are the blocks from the above cube. These are
@@ -75,7 +76,7 @@ export function Theory() {
 			</Par>
 		</Translation>
 
-		<Translation entry="steps">
+		<Translation id="steps">
 			<Head>The steps</Head>
 			<Par>To expand brackets for a power of a sum, like for instance with <M>\left(2x + 3\right)^3</M>, take the following steps.</Par>
 			<List>

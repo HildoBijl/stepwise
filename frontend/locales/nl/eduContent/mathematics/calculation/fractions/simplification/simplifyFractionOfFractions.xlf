@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify a fraction of fractions</pc>. If you have a fraction of fractions like <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">turn this into a single fraction</pc> like <ph id="c5" type="ui" subType="swi18n:inline-math"/> and subsequently <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify this fraction</pc> into <ph id="c7" type="ui" subType="swi18n:inline-math"/>. The result is always a fraction that cannot be simplified further.</pc></source>
+					<target swi18n:sourceContentFingerprint="32faaf259e6f1c11" swi18n:sourceStructureFingerprint="9e74bec0e11f294b"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je om een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">breuk van breuken te vereenvoudigen</pc>. Bij een breuk van breuken, zoals <ph id="c3" type="ui" subType="swi18n:inline-math"/>, zul je dit <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">in een enkele breuk</pc> als <ph id="c5" type="ui" subType="swi18n:inline-math"/> om kunnen zetten, en deze breuk vervolgens <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereenvoudigen</pc> tot <ph id="c7" type="ui" subType="swi18n:inline-math"/>. Het resultaat is altijd een breuk die niet verder vereenvoudigd worden kan.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

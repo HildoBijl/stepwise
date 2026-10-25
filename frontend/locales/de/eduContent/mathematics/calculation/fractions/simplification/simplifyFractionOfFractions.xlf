@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify a fraction of fractions</pc>. If you have a fraction of fractions like <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">turn this into a single fraction</pc> like <ph id="c5" type="ui" subType="swi18n:inline-math"/> and subsequently <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify this fraction</pc> into <ph id="c7" type="ui" subType="swi18n:inline-math"/>. The result is always a fraction that cannot be simplified further.</pc></source>
+					<target swi18n:sourceContentFingerprint="32faaf259e6f1c11" swi18n:sourceStructureFingerprint="9e74bec0e11f294b"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, einen <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Bruch mit Brüchen</pc> zu vereinfachen. Für einen Bruch mit Brüchen, wie <ph id="c3" type="ui" subType="swi18n:inline-math"/>, kannst du diesen <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">in einen einzigen Bruch</pc> wie <ph id="c5" type="ui" subType="swi18n:inline-math"/> umwandeln, und anschließend <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children"> diesen Bruch vereinfachen</pc> zu <ph id="c7" type="ui" subType="swi18n:inline-math"/>. Das Ergebnis ist immer ein Bruch, der nicht weiter vereinfacht werden kann.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

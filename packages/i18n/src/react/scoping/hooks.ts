@@ -1,10 +1,10 @@
-import { useContext, useMemo } from 'react'
+import { useContext, useEffect, useMemo, useRef } from 'react'
 
 import { type CatalogAddress, type CatalogUnitAddress } from '../../catalog/index.ts'
 
 import { type UseCatalogResult, useCatalog } from '../context/hooks.ts'
 
-import { TranslationScopeContext } from './context.ts'
+import { TranslationAreaContext, TranslationScopeContext } from './context.ts'
 import { resolveCatalogAddress, resolveCatalogUnitAddress } from './resolution.ts'
 import { type CatalogAddressInput, type CatalogUnitAddressInput } from './types.ts'
 
@@ -16,6 +16,10 @@ export function useTranslationScope() {
 	return useContext(TranslationScopeContext)
 }
 
+export function useTranslationArea() {
+	return useContext(TranslationAreaContext)
+}
+
 export function useCatalogAddress(input: CatalogAddressInput = {}): CatalogAddress {
 	const scope = useTranslationScope()
 	const { folder, catalog } = input
@@ -24,8 +28,18 @@ export function useCatalogAddress(input: CatalogAddressInput = {}): CatalogAddre
 
 export function useCatalogUnitAddress(input: CatalogUnitAddressInput): CatalogUnitAddress {
 	const scope = useTranslationScope()
+	const area = useTranslationArea()
 	const { folder, catalog, group, id } = input
-	return useMemo(() => resolveCatalogUnitAddress(scope, input), [scope, folder, catalog, group, id])
+	return useMemo(() => resolveCatalogUnitAddress(scope, input, area), [scope, area, folder, catalog, group, id])
+}
+
+// Register useTranslation hooks that use a TranslationArea: they're in such an area and don't overwrite the catalog.
+export function useTranslationAreaRegistration(input: CatalogUnitAddressInput): void {
+	const area = useTranslationArea()
+	const token = useRef(Symbol('translation-area-unit'))
+	const { catalog, group, id } = input
+	const usesArea = area !== undefined && catalog === undefined && group === undefined
+	useEffect(() => usesArea ? area.register(token.current, id) : undefined, [area, id, usesArea])
 }
 
 export function useScopedCatalog(input: CatalogAddressInput = {}): UseScopedCatalogResult {

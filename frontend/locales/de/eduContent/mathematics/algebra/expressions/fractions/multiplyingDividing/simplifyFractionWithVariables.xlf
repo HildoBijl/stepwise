@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify fractions containing variables</pc>, like turning <ph id="c3" type="ui" subType="swi18n:inline-math"/> into <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes simplifying number fractions, rewriting powers and canceling fraction factors. Effectively, it's an application of the rule <ph id="c5" type="ui" subType="swi18n:inline-math"/>. The skill does not include the addition/subtraction of fractions.</pc></source>
+					<target swi18n:sourceContentFingerprint="828358f308552326" swi18n:sourceStructureFingerprint="41356c57b7faf237"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Brüche mit Variablen zu vereinfachen</pc>, wie zum Beispiel <ph id="c3" type="ui" subType="swi18n:inline-math"/> in <ph id="c4" type="ui" subType="swi18n:inline-math"/> umzuwandeln. Dazu gehört das Vereinfachen von Zahlenbrüchen, das Umschreiben von Potenzen und das Entfernen von Bruchfaktoren. Im Grunde handelt es sich um eine Anwendung der Regel <ph id="c5" type="ui" subType="swi18n:inline-math"/>. Die Kompetenz beinhaltet nicht das Addieren/Subtrahieren von Brüchen.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We know how to cancel factors in a fraction like <ph id="c2" type="ui" subType="swi18n:inline-math"/>. We just cross out the <ph id="c3" type="ui" subType="swi18n:inline-math"/> on both sides. But how can we simplify a fraction if we have powers in there, like in <ph id="c4" type="ui" subType="swi18n:inline-math"/>? And what if there are also numbers and other factors involved, like in <ph id="c5" type="ui" subType="swi18n:inline-math"/>? The key is to still cancel factors, but do so for numbers and variable factors separately.</pc></source>
+					<target swi18n:sourceContentFingerprint="b99a26303ab63046" swi18n:sourceStructureFingerprint="56786bffe3c0e99d"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Wir wissen, wie man Faktoren in einem Bruch wie <ph id="c2" type="ui" subType="swi18n:inline-math"/> entfernt. Wir entfernen einfach das <ph id="c3" type="ui" subType="swi18n:inline-math"/> auf beiden Seiten. Aber wie können wir einen Bruch vereinfachen, wenn er Potenzen enthält, wie in <ph id="c4" type="ui" subType="swi18n:inline-math"/>? Und was ist, wenn er auch Zahlen und andere Faktoren enthält, wie in <ph id="c5" type="ui" subType="swi18n:inline-math"/>? Die Lösung ist immer noch, die Faktoren zu entfernen, aber getrennt für Zahlen und variable Faktoren.</pc></target>
+				</segment>
+			</unit>
+			<unit id="idea">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The idea</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">First let's consider a fraction with powers, like <ph id="c3" type="ui" subType="swi18n:inline-math"/>. To simplify this, the key is to see that a power <ph id="c4" type="ui" subType="swi18n:inline-math"/> can be <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">rewritten as a multiplication</pc> <ph id="c6" type="ui" subType="swi18n:inline-math"/> and similarly for <ph id="c7" type="ui" subType="swi18n:inline-math"/>. This turns the whole fraction into <ph id="c8" type="ui" subType="swi18n:block-math"/> Once we have written it like this, we can <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">cancel fraction factors</pc>. We can remove three <ph id="c10" type="ui" subType="swi18n:inline-math"/>'es both above, in the numerator, and below, in the denominator. Above we are left with <ph id="c11" type="ui" subType="swi18n:inline-math"/>, while below we remain with no factors of <ph id="c12" type="ui" subType="swi18n:inline-math"/>, which comes down to <ph id="c13" type="ui" subType="swi18n:inline-math"/>. So we have <ph id="c14" type="ui" subType="swi18n:block-math"/> Note that at the end we have merged multiplications of repeated factors back into powers, turning <ph id="c15" type="ui" subType="swi18n:inline-math"/> into <ph id="c16" type="ui" subType="swi18n:inline-math"/>. This is as simple as we can write it.</pc></source>
+					<target swi18n:sourceContentFingerprint="5d1e934d11c054bc" swi18n:sourceStructureFingerprint="03a1eca0939ca18a"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Idee</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Wir betrachten zunächst einen Bruch mit Potenzen, wie <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Um dies zu vereinfachen, ist es wichtig zu erkennen, dass eine Potenz wie <ph id="c4" type="ui" subType="swi18n:inline-math"/> als <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Multiplikation</pc> <ph id="c6" type="ui" subType="swi18n:inline-math"/> umgeschrieben werden kann, und ähnlich mit <ph id="c7" type="ui" subType="swi18n:inline-math"/>. Dadurch wird der gesamte Bruch zu <ph id="c8" type="ui" subType="swi18n:block-math"/> Sobald wir ihn so geschrieben haben, können wir <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Bruchfaktoren entfernen</pc>. Wir entfernen drei <ph id="c10" type="ui" subType="swi18n:inline-math"/>'s sowohl oben, im Zähler, als auch unten, im Nenner. Oben bleibt <ph id="c11" type="ui" subType="swi18n:inline-math"/> übrig, während unten keine Faktoren <ph id="c12" type="ui" subType="swi18n:inline-math"/> übrig bleiben, was auf <ph id="c13" type="ui" subType="swi18n:inline-math"/> hinausläuft. So erhalten wir <ph id="c14" type="ui" subType="swi18n:block-math"/> Man beachte, dass wir am Ende wiederholte Multiplikationen gleicher Faktoren in Potenzen zurückverwandelt haben, so dass wir <ph id="c15" type="ui" subType="swi18n:inline-math"/> als <ph id="c16" type="ui" subType="swi18n:inline-math"/> schreiben. Einfacher können wir es nicht machen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="rule">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The rule</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The whole process above can be done more quickly if we turn it into a rule. Effectively, we are canceling factors in the numerator and the denominator, reducing their exponents, until one of them disappears. From this idea, we can find the <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">general rule</pc> <ph id="c4" type="ui" subType="swi18n:block-math"/> Here <ph id="c5" type="ui" subType="swi18n:inline-math"/> and <ph id="c6" type="ui" subType="swi18n:inline-math"/> can be any numbers. The first outcome (middle) is used if <ph id="c7" type="ui" subType="swi18n:inline-math"/>, while the second (right) is useful if <ph id="c8" type="ui" subType="swi18n:inline-math"/>. (Of course, if <ph id="c9" type="ui" subType="swi18n:inline-math"/> and we have a fraction like <ph id="c10" type="ui" subType="swi18n:inline-math"/>, then this directly reduces to <ph id="c11" type="ui" subType="swi18n:inline-math"/>.)</pc></source>
+					<target swi18n:sourceContentFingerprint="657c9dfb6b20c384" swi18n:sourceStructureFingerprint="7d4ce14ce03dea24"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Regel</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Der gesamte oben beschriebene Prozess kann schneller durchgeführt werden, wenn wir ihn in eine Regel umwandeln. Im Grunde genommen ziehen wir die Faktoren im Zähler und im Nenner ab, wobei der Exponent abnimmt, bis einer von ihnen ganz verschwindet. Aus dieser Idee ergibt sich die <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">allgemeine Regel</pc> <ph id="c4" type="ui" subType="swi18n:block-math"/> Hier können <ph id="c5" type="ui" subType="swi18n:inline-math"/> und <ph id="c6" type="ui" subType="swi18n:inline-math"/> eine beliebige Zahl sein. Das erste Ergebnis (Mitte) wird bei <ph id="c7" type="ui" subType="swi18n:inline-math"/> verwendet, während das zweite Ergebnis (rechts) bei <ph id="c8" type="ui" subType="swi18n:inline-math"/> nützlich ist. (Bei <ph id="c9" type="ui" subType="swi18n:inline-math"/> und einem Bruch als <ph id="c10" type="ui" subType="swi18n:inline-math"/> kann man diesen Bruch natürlich direkt auf <ph id="c11" type="ui" subType="swi18n:inline-math"/> reduzieren.)</pc></target>
+				</segment>
+			</unit>
+			<unit id="twoParts">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Two parts</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Now consider a more complex fraction like <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This time there are also numbers and other factors. The first thing we can do is focus on all the <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">numeric factors</pc>. Since the order of multiplication does not matter, we can pull these factors to the front and write it as <ph id="c5" type="ui" subType="swi18n:block-math"/> We can then <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify this numeric fraction</pc> to <ph id="c7" type="ui" subType="swi18n:inline-math"/>. This turns the full fraction into <ph id="c8" type="ui" subType="swi18n:block-math"/> The numeric parts cannot be simplified further.</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">The second part is to focus on the <pc id="c10" type="ui" subType="swi18n:term" swi18n:slot="children">variable factors</pc>. There are powers of <ph id="c11" type="ui" subType="swi18n:inline-math"/> in both the numerator and the denominator. We could take the long way of <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">rewriting powers</pc> and <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">canceling fraction factors</pc> to write <ph id="c14" type="ui" subType="swi18n:block-math"/> Or alternatively we can use our newfound rule and directly remove three factors of <ph id="c15" type="ui" subType="swi18n:inline-math"/> from the numerator and the denominator. (The factor <ph id="c16" type="ui" subType="swi18n:inline-math"/> simply stays as it is.) This immediately results in <ph id="c17" type="ui" subType="swi18n:block-math"/> Having reduced the variable factors too, this is as simple as it can be written.</pc></source>
+					<target swi18n:sourceContentFingerprint="0a59f5943c5eca81" swi18n:sourceStructureFingerprint="f7967e600c207d12"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Zwei Teile</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Wir sehen uns nun einen komplexeren Bruch als <ph id="c3" type="ui" subType="swi18n:inline-math"/> an. Diesmal enthält er Zahlen und andere Faktoren. Das erste, worauf wir uns richten können, sind alle <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">Zahlenfaktoren</pc>. Da die Reihenfolge der Multiplikation keine Rolle spielt, können wir diese Faktoren nach vorne nehmen und sie als <ph id="c5" type="ui" subType="swi18n:block-math"/> schreiben. Wir können dann diesen <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">numerischen Bruch vereinfachen</pc> zu <ph id="c7" type="ui" subType="swi18n:inline-math"/>, was den gesamten Bruch umwandelt in <ph id="c8" type="ui" subType="swi18n:block-math"/> Der numerische Teil kann nicht weiter vereinfacht werden.</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">Im zweiten Teil betrachten wir die <pc id="c10" type="ui" subType="swi18n:term" swi18n:slot="children">variablen Faktoren</pc>. Sowohl im Zähler als auch im Nenner gibt es Potenzen von <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Wir können die Umwege über <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Potenzen umschreiben</pc> und <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Faktoren entfernen</pc> nehmen, um den Bruch zu schreiben als <ph id="c14" type="ui" subType="swi18n:block-math"/> Oder wir können stattdessen unsere neue Regel anwenden und direkt drei Faktoren <ph id="c15" type="ui" subType="swi18n:inline-math"/> aus Zähler und Nenner entfernen. (Der Faktor <ph id="c16" type="ui" subType="swi18n:inline-math"/> bleibt einfach unverändert.) Das ist am Ende gleich <ph id="c17" type="ui" subType="swi18n:block-math"/> Da wir nun auch die variablen Faktoren vereinfacht haben, ist es so einfach wie möglich geschrieben.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To simplify a fraction with various multiplications and powers, like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Pull all numeric factors to the front and <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify the numeric fraction</pc>. For the example we turn <ph id="c8" type="ui" subType="swi18n:inline-math"/> into <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Find equal factors in the numerator and the denominator, and use the rule <ph id="c12" type="ui" subType="swi18n:inline-math"/> to remove as many as possible. So in <ph id="c13" type="ui" subType="swi18n:inline-math"/> both the numerator and the denominator have three factors of <ph id="c14" type="ui" subType="swi18n:inline-math"/> which can be removed, leaving us with <ph id="c15" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="6bff3384ad599a4a" swi18n:sourceStructureFingerprint="7b6101f8ba5f3865"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Schritte</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Um einen Bruch wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> mit verschiedenen Multiplikationen und Potenzen zu vereinfachen, ist wie folgt vorzugehen.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Ziehe alle Zahlenfaktoren vor und <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereinfache den Zahlenbruch</pc>. Für das Beispiel wandeln wir <ph id="c8" type="ui" subType="swi18n:inline-math"/> in <ph id="c9" type="ui" subType="swi18n:inline-math"/> um.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Finde gleiche Faktoren im Zähler und im Nenner und benutze die Formel <ph id="c12" type="ui" subType="swi18n:inline-math"/>, um so viele Faktoren wie möglich zu entfernen. Bei <ph id="c13" type="ui" subType="swi18n:inline-math"/> haben also sowohl der Zähler als auch der Nenner drei Faktoren <ph id="c14" type="ui" subType="swi18n:inline-math"/>, die wegfallen können, woraufhin <ph id="c15" type="ui" subType="swi18n:inline-math"/> übrig bleibt.</pc></pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="basicForm">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the fraction <ph id="c1" type="ui" subType="swi18n:block-math"/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)</source>
+						<target swi18n:sourceContentFingerprint="14a5de2520951112" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Bruch <ph id="c1" type="ui" subType="swi18n:block-math"/> Vereinfache diesen Bruch so weit wie möglich. (Es ist nicht nötig, die Klammern auszumultiplizieren.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Focus on the numeric factors first. Simplify these as much as possible, leaving the rest as is.</source>
+							<target swi18n:sourceContentFingerprint="00acc0338e944192" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Fange zuerst mit den Zahlenfaktoren an. Vereinfache diese so weit wie möglich und lass den Rest unverändert.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The numbers inside the fraction equal <ph id="c1" type="ui" subType="swi18n:inline-math"/>. We can divide both the numerator and the denominator by <ph id="c2" type="ui" subType="swi18n:inline-math"/>, which leaves us with <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Writing this together with the (unchanged) variable factors, we get <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="e44da9beb1605a6c" swi18n:sourceStructureFingerprint="c349a010fef3c387">Die Zahlen im Bruch sind <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Wir können sowohl den Zähler als auch den Nenner durch <ph id="c2" type="ui" subType="swi18n:inline-math"/> dividieren, wonach wir <ph id="c3" type="ui" subType="swi18n:inline-math"/> erhalten. Wenn wir dies zusammen mit den (unveränderten) Variablenfaktoren aufschreiben, erhalten wir <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Cancel all possible variable factors, to further simplify the fraction.</source>
+							<target swi18n:sourceContentFingerprint="f7181a2c3c3517cf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Entferne alle möglichen variablen Faktoren, um den Bruch weiter zu vereinfachen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can cancel <ph id="c1" type="ui" subType="swi18n:counting-word"/> factors of <ph id="c2" type="ui" subType="swi18n:inline-math"/> from both the numerator and the denominator, resulting in <ph id="c3" type="ui" subType="swi18n:block-math"/> This is as simplified as possible. Altogether, the final result is <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="dab67b8e08186e05" swi18n:sourceStructureFingerprint="dc16eb7bd8d03533">Wir können <ph id="c1" type="ui" subType="swi18n:counting-word"/> Faktoren <ph id="c2" type="ui" subType="swi18n:inline-math"/> sowohl vom Zähler als auch vom Nenner entfernen und kommen so zu <ph id="c3" type="ui" subType="swi18n:block-math"/> Einfacher geht es nicht. Alles in allem ist das Endergebnis <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="multipleFactors">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the fraction <ph id="c1" type="ui" subType="swi18n:block-math"/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)</source>
+						<target swi18n:sourceContentFingerprint="14a5de2520951112" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Bruch <ph id="c1" type="ui" subType="swi18n:block-math"/> Vereinfache diesen Bruch so weit wie möglich. (Es ist nicht nötig, die Klammern auszumultiplizieren.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Focus on the numeric factors first. Simplify these as much as possible, leaving the rest as is.</source>
+							<target swi18n:sourceContentFingerprint="00acc0338e944192" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Fange zuerst mit den Zahlenfaktoren an. Vereinfache diese so weit wie möglich und lass den Rest unverändert.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The numbers inside the fraction equal <ph id="c1" type="ui" subType="swi18n:inline-math"/>. We can divide both the numerator and the denominator by <ph id="c2" type="ui" subType="swi18n:inline-math"/>, which leaves us with <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Writing this together with the (unchanged) variable factors, we get <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="e44da9beb1605a6c" swi18n:sourceStructureFingerprint="c349a010fef3c387">Die Zahlen im Bruch sind <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Wir können sowohl den Zähler als auch den Nenner durch <ph id="c2" type="ui" subType="swi18n:inline-math"/> dividieren, wonach wir <ph id="c3" type="ui" subType="swi18n:inline-math"/> erhalten. Wenn wir dies zusammen mit den (unveränderten) Variablenfaktoren aufschreiben, erhalten wir <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Cancel all possible variable factors, to further simplify the fraction.</source>
+							<target swi18n:sourceContentFingerprint="f7181a2c3c3517cf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Entferne alle möglichen variablen Faktoren, um den Bruch weiter zu vereinfachen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can cancel a factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> and a factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> from both the numerator and the denominator, resulting in <ph id="c3" type="ui" subType="swi18n:block-math"/> This is as simplified as possible. Altogether, the final result is <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="53a6dd6b17600bbd" swi18n:sourceStructureFingerprint="91dc07c7ad2f3041">Wir können einen Faktor <ph id="c1" type="ui" subType="swi18n:inline-math"/> und einen Faktor <ph id="c2" type="ui" subType="swi18n:inline-math"/> sowohl vom Zähler als auch vom Nenner entfernen und kommen so zu <ph id="c3" type="ui" subType="swi18n:block-math"/> Einfacher geht es nicht. Alles in allem ist das Endergebnis <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="higherPowers">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the fraction <ph id="c1" type="ui" subType="swi18n:block-math"/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)</source>
+						<target swi18n:sourceContentFingerprint="14a5de2520951112" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Bruch <ph id="c1" type="ui" subType="swi18n:block-math"/> Vereinfache diesen Bruch so weit wie möglich. (Es ist nicht nötig, die Klammern auszumultiplizieren.)</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Focus on the numeric factors first. Simplify these as much as possible, leaving the rest as is.</source>
+							<target swi18n:sourceContentFingerprint="00acc0338e944192" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Fange zuerst mit den Zahlenfaktoren an. Vereinfache diese so weit wie möglich und lass den Rest unverändert.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The numbers inside the fraction equal <ph id="c1" type="ui" subType="swi18n:inline-math"/>. We can divide both the numerator and the denominator by <ph id="c2" type="ui" subType="swi18n:inline-math"/>, which leaves us with <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Writing this together with the (unchanged) variable factors, we get <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="e44da9beb1605a6c" swi18n:sourceStructureFingerprint="c349a010fef3c387">Die Zahlen im Bruch sind <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Wir können sowohl den Zähler als auch den Nenner durch <ph id="c2" type="ui" subType="swi18n:inline-math"/> dividieren, wonach wir <ph id="c3" type="ui" subType="swi18n:inline-math"/> erhalten. Wenn wir dies zusammen mit den (unveränderten) Variablenfaktoren aufschreiben, erhalten wir <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Cancel all possible variable factors, to further simplify the fraction.</source>
+							<target swi18n:sourceContentFingerprint="f7181a2c3c3517cf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Entferne alle möglichen variablen Faktoren, um den Bruch weiter zu vereinfachen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can cancel <ph id="c1" type="ui" subType="swi18n:counting-word"/> factors <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:counting-word"/> factors <ph id="c4" type="ui" subType="swi18n:inline-math"/> from both the numerator and the denominator, resulting in <ph id="c5" type="ui" subType="swi18n:block-math"/> This is as simplified as possible. Altogether, the final result is <ph id="c6" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="c0bdf3097f86b163" swi18n:sourceStructureFingerprint="f325795a564669f9">Wir können <ph id="c1" type="ui" subType="swi18n:counting-word"/> Faktoren <ph id="c2" type="ui" subType="swi18n:inline-math"/> und <ph id="c3" type="ui" subType="swi18n:counting-word"/> Faktoren <ph id="c4" type="ui" subType="swi18n:inline-math"/> sowohl vom Zähler als auch vom Nenner entfernen und kommen so zu <ph id="c5" type="ui" subType="swi18n:block-math"/> Einfacher geht es nicht. Alles in allem ist das Endergebnis <ph id="c6" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

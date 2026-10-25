@@ -2,8 +2,8 @@ import React from 'react'
 
 import { PrecisionNumber } from '@step-wise/physics-core'
 import { M } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Head, Par, List, Term } from 'ui/components'
 
 const num1 = new PrecisionNumber('2.3')
@@ -11,11 +11,11 @@ const num2 = new PrecisionNumber('2.3*10^4')
 
 export function Theory() {
 	return <>
-		<Translation entry="intro">
+		<Translation id="intro">
 			<Par>In the field of physics, people work a lot with <Term>decimal numbers</Term> like <M>{num1}</M>. When these numbers get larger or smaller, we use <Term>decimal exponents</Term> to keep the notation manageable. This gives numbers like <M>{num2}</M>. How can you enter these numbers into Step-Wise?</Par>
 		</Translation>
 
-		<Translation entry="inputFields">
+		<Translation id="inputFields">
 			<Head>Custom input fields</Head>
 			<Par>Step-Wise has specific input fields for decimal numbers. On the left side is the <Term>number</Term>. This part properly deals with:</Par>
 			<List>

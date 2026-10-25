@@ -2,8 +2,8 @@ import React from 'react'
 
 import { expressionComparisons } from '@step-wise/cas'
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
@@ -58,7 +58,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, isolated }) => {
-			return <Par><Translation>We move the factor <M>{variables.a}</M> to the other side, where it turns into a division.<Check value={variables.b.equalStructure(1)}><Check.False> We also move the factor <M>{variables.b}</M> to the other side, where it becomes a multiplication.</Check.False></Check> All together, we wind up with <BM>{isolated}.</BM> Note that <M>{variables.x}</M> has been isolated.</Translation></Par>
+			return <Par><Translation>We move the factor <M>{variables.a}</M> to the other side, where it turns into a division.<Condition value={variables.b.equalStructure(1)}><Condition.False> We also move the factor <M>{variables.b}</M> to the other side, where it becomes a multiplication.</Condition.False></Condition> All together, we wind up with <BM>{isolated}.</BM> Note that <M>{variables.x}</M> has been isolated.</Translation></Par>
 		},
 	},
 	{
@@ -74,7 +74,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, isolatedSolutionSimplified, fractionGcd, canSimplifyFraction, ans }) => {
-			return <Par><Translation>First we write the fraction as a division between numbers, which is <BM>{variables.x} = {canSimplifyFraction ? isolatedSolutionSimplified : ans}.</BM> <Check value={canSimplifyFraction}><Check.True>We then simplify this fraction by canceling a factor <M>{fractionGcd}</M> in both the numerator and the denominator. This results in the final solution, <BM>{variables.x} = {ans}.</BM> It is not possible to simplify this any further.</Check.True><Check.False>No further factors can be canceled from this fraction: it is already as simplified as possible.</Check.False></Check></Translation></Par>
+			return <Par><Translation>First we write the fraction as a division between numbers, which is <BM>{variables.x} = {canSimplifyFraction ? isolatedSolutionSimplified : ans}.</BM> <Condition value={canSimplifyFraction}><Condition.True>We then simplify this fraction by canceling a factor <M>{fractionGcd}</M> in both the numerator and the denominator. This results in the final solution, <BM>{variables.x} = {ans}.</BM> It is not possible to simplify this any further.</Condition.True><Condition.False>No further factors can be canceled from this fraction: it is already as simplified as possible.</Condition.False></Condition></Translation></Par>
 		},
 	},
 	{
@@ -92,8 +92,8 @@ const steps = [
 		},
 		Solution: ({ switchSides, variables, equation, ans, equationWithSolution, checkLeft, checkRight, canNumberSideBeSimplified }) => {
 			return <Translation>
-				<Par><Check value={!switchSides}><Check.True>The left side of the original equation is already a number without <M>{variables.x}</M>, so no substitution is necessary. <Check value={canNumberSideBeSimplified}><Check.True>It can still be simplified into <BM>{equation.left} = {checkLeft}.</BM></Check.True><Check.False>It also cannot be simplified, so it remains as is, being <M>{checkLeft}</M>.</Check.False></Check></Check.True><Check.False>Substituting <M>{variables.x} = {ans}</M> into the left side of the original equation gives us <BM>{equation.left} = {equationWithSolution.left}.</BM> Simplifying the resulting fraction turns it into <BM>{equationWithSolution.left} = {checkLeft}.</BM></Check.False></Check></Par>
-				<Par><Check value={switchSides}><Check.True>The right side of the original equation is already a number without <M>{variables.x}</M>, so no substitution is necessary. <Check value={canNumberSideBeSimplified}><Check.True>It can still be simplified into <BM>{equation.right} = {checkRight}.</BM></Check.True><Check.False>It also cannot be simplified, so it remains as is, being <M>{checkRight}</M>.</Check.False></Check></Check.True><Check.False>Substituting <M>{variables.x} = {ans}</M> into the right side of the original equation gives us <BM>{equation.right} = {equationWithSolution.right}.</BM> Simplifying the resulting fraction turns it into <BM>{equationWithSolution.right} = {checkRight}.</BM></Check.False></Check></Par>
+				<Par><Condition value={!switchSides}><Condition.True>The left side of the original equation is already a number without <M>{variables.x}</M>, so no substitution is necessary. <Condition value={canNumberSideBeSimplified}><Condition.True>It can still be simplified into <BM>{equation.left} = {checkLeft}.</BM></Condition.True><Condition.False>It also cannot be simplified, so it remains as is, being <M>{checkLeft}</M>.</Condition.False></Condition></Condition.True><Condition.False>Substituting <M>{variables.x} = {ans}</M> into the left side of the original equation gives us <BM>{equation.left} = {equationWithSolution.left}.</BM> Simplifying the resulting fraction turns it into <BM>{equationWithSolution.left} = {checkLeft}.</BM></Condition.False></Condition></Par>
+				<Par><Condition value={switchSides}><Condition.True>The right side of the original equation is already a number without <M>{variables.x}</M>, so no substitution is necessary. <Condition value={canNumberSideBeSimplified}><Condition.True>It can still be simplified into <BM>{equation.right} = {checkRight}.</BM></Condition.True><Condition.False>It also cannot be simplified, so it remains as is, being <M>{checkRight}</M>.</Condition.False></Condition></Condition.True><Condition.False>Substituting <M>{variables.x} = {ans}</M> into the right side of the original equation gives us <BM>{equation.right} = {equationWithSolution.right}.</BM> Simplifying the resulting fraction turns it into <BM>{equationWithSolution.right} = {checkRight}.</BM></Condition.False></Condition></Par>
 				<Par>Both sides of the equation reduce to the same number, which means that the solution is correct.</Par>
 			</Translation>
 		},

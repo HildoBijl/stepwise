@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">check the solution of an equation with multiple variables</pc>. Given an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> and a potential solution like <ph id="c4" type="ui" subType="swi18n:inline-math"/> you will be able to determine whether or not the expression balances the equation. This includes substituting the solution (the full expression) into the equation, simplifying both sides and seeing if they reduce to the same. Simplifications may include <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding brackets</pc> and <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging terms</pc>. The exercises will not require <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">double brackets</pc> or <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">fractions with variables</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="fad8257719ac40c8" swi18n:sourceStructureFingerprint="f5620e0ff837fcc9"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je om een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">oplossing van een vergelijking met meerdere variabelen te controleren</pc>. Bij een vergelijking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> en een mogelijke oplossing als <ph id="c4" type="ui" subType="swi18n:inline-math"/> leer je om te bepalen of de uitdrukking de vergelijking wel of niet in evenwicht brengt. Dit omvat het substituëren van de oplossing (de gehele uitdrukking) in de vergelijking, het vereenvoudigen van beide kanten, en het controleren of ze tot hetzelfde teruggebracht kunnen worden. Vereenvoudigingen omvatten mogelijk het <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">uitwerken van haakjes</pc>, en het <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">samenvoegen van termen</pc>. Er komen geen <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">dubbele haakjes</pc> of <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">breuken met variabelen</pc> in de opgaven voor.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

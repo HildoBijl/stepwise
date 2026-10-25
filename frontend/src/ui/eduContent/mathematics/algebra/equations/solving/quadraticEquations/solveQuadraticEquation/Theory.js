@@ -3,25 +3,25 @@ import React from 'react'
 import { Axes, Curve, Grid, Plot } from '@step-wise/drawing'
 import { subdivideRange } from '@step-wise/js-utils'
 import { M, BM } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Head, Par, List, Term, Emp, Info } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
 	return <>
-		<Translation entry="intro">
+		<Translation id="intro">
 			<Par>A <Term>quadratic equation</Term> is an equation of the form <M>2x^2 - 8x + 6 = 0</M>: it is a summation of a term with <M>x^2</M>, a term with <M>x</M> and a constant, without the presence of any higher powers of <M>x</M> or any roots or similar. This type of equation can be solved by following a few fixed steps. Even if you don't understand why these steps work, following the procedure will get you to the right solutions.</Par>
 		</Translation>
 
-		<Translation entry="theTwoSolutions">
+		<Translation id="theTwoSolutions">
 			<Head>The two solutions</Head>
 			<Par>To make the quadratic equation more intuitive, it helps to draw a graph of the expression on the left-hand side of the equation. If we for instance plot <M>2x^2 - 8x + 6</M> we get the following graph.</Par>
 			<QuadraticPlot a={2} b={-8} c={6} minX={-1} maxX={5} minY={-2} maxY={10} />
 			<Par>To solve the equation <M>2x^2 - 8x + 6 = 0</M> we need to find the values of <M>x</M> where the plotted line has height <M>0</M> and hence crosses the horizontal axis. We see that this occurs at <M>x = 1</M> but also at <M>x = 3</M>. In other words, there are two values of <M>x</M> that satisfy the equation. The equation has two solutions!</Par>
 		</Translation>
 
-		<Translation entry="findingTheTwoSolutions">
+		<Translation id="findingTheTwoSolutions">
 			<Head>Finding the two solutions</Head>
 			<Par>Finding solutions with a graph is easy, but usually we don't take the effort to make a graph. To still find the right values, we use the general solution of the quadratic equation.</Par>
 			<Par>Before we can use this solution, we write the equation as
@@ -39,7 +39,7 @@ export function Theory() {
 			</Par>
 		</Translation>
 
-		<Translation entry="zeroSolutions">
+		<Translation id="zeroSolutions">
 			<Head>Zero solutions</Head>
 			<Par>A quadratic equation doesn't always have two solutions though. Let's for instance study the equation <M>2x^2 - 8x + 10 = 0</M>. If we plot this, we get the following graph.</Par>
 			<QuadraticPlot a={2} b={-8} c={10} minX={-1} maxX={5} minY={0} maxY={14} />
@@ -54,7 +54,7 @@ export function Theory() {
 			<Par>In short: if the square root within the solution contains a negative number (so <M>b^2 - 4ac &lt; 0</M>) then the quadratic equation has no solutions. </Par>
 		</Translation>
 
-		<Translation entry="oneSolution">
+		<Translation id="oneSolution">
 			<Head>One solution</Head>
 			<Par>There is an edge case where the quadratic equation has one solution. Let's consider for instance the equation <M>2x^2 - 8x + 8 = 0</M>. The corresponding graph is as follows.</Par>
 			<QuadraticPlot a={2} b={-8} c={8} minX={-1} maxX={5} minY={0} maxY={12} />
@@ -68,11 +68,11 @@ export function Theory() {
 			<Par>In short: if the square root of the solution becomes zero (which is the case when <M>b^2 - 4ac = 0</M>) then the quadratic solution has exactly one solution.</Par>
 		</Translation>
 
-		<Translation entry="discriminant">
+		<Translation id="discriminant">
 			<Info>You have seen that the number within the square root determines how many solutions the equation has. Because of this, this number <M>D = b^2 - 4ac</M> is called the <Term>discriminant</Term> of the equation.</Info>
 		</Translation>
 
-		<Translation entry="steps">
+		<Translation id="steps">
 			<Head>The steps</Head>
 			<Par>To solve a quadratic equation, like <M>2x^2 - 8x + 6 = 0</M>, take the following steps.</Par>
 			<List>
@@ -92,7 +92,7 @@ export function Theory() {
 			</List>
 		</Translation>
 
-		<Translation entry="derivation">
+		<Translation id="derivation">
 			<Head>Background: derivation of the quadratic formula</Head>
 			<Par>Though not needed for this skill, we can look at where the quadratic equation comes from. To be precise, we can derive it ourselves! It's fun to see this derivation some time, if only so you know why it's set up the way it is.</Par>
 			<Par>Our starting point is the quadratic equation

@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { M } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation, useGetTranslation } from 'i18n'
+import { useGetTranslation } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { QuantityInput } from 'ui/inputs'
@@ -17,9 +18,9 @@ export default function Exercise() {
 function Problem({ constant }) {
 	const getTranslation = useGetTranslation()
 	return <>
-		<Par><Translation entry="text">Look up {{ constantDescription: getTranslation(`references.constants.${constant}`, undefined, false) }} <M>{tableValues[constant].symbol}</M>.</Translation></Par>
+		<Par><Translation id="text">Look up {{ constantDescription: getTranslation(`references.constants.${constant}`, undefined, false) }} <M>{tableValues[constant].symbol}</M>.</Translation></Par>
 		<InputSpace>
-			<Par><QuantityInput id="ans" prelabel={<M>{constant} =</M>} label={<Translation entry="label">Enter the constant here</Translation>} size="s" /></Par>
+			<Par><QuantityInput id="ans" prelabel={<M>{constant} =</M>} label={<Translation id="label">Enter the constant here</Translation>} size="s" /></Par>
 		</InputSpace>
 	</>
 }

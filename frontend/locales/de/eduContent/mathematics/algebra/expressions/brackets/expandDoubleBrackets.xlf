@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">expand double brackets</pc>. If we multiply a sum within brackets by another sum within brackets, like in <ph id="c3" type="ui" subType="swi18n:inline-math"/>, you should be able to write this without brackets. In this example this results in <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This skill also includes somewhat more complicated terms in the sums inside said brackets and/or larger sums with more terms.</pc></source>
+					<target swi18n:sourceContentFingerprint="245a27eea14707c3" swi18n:sourceStructureFingerprint="91bc01122207a0f1"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">doppelten Klammern auszumultiplizieren</pc>. Wenn wir eine Summe in Klammern mit einer anderen Summe in Klammern multiplizieren, wie in <ph id="c3" type="ui" subType="swi18n:inline-math"/>, solltest du das ohne Klammern schreiben können. In diesem Beispiel erhältst du dann <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Diese Kompetenz umfasst auch komplexere Terme in den Additionssummen innerhalb von Klammern und/oder größere Summen mit mehr Termen.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We know how to <pc id="c2" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand brackets</pc> like <ph id="c3" type="ui" subType="swi18n:inline-math"/>. But what do we do if we have a multiplication of brackets with brackets? Like <ph id="c4" type="ui" subType="swi18n:inline-math"/>? The answer is: we <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">expand brackets twice</pc>. First we expand one, and then we expand the other.</pc></source>
+					<target swi18n:sourceContentFingerprint="99c328a3383593e3" swi18n:sourceStructureFingerprint="bb344adceaf1a173"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Wir wissen, wie man <pc id="c2" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Klammern auflöst</pc> wie in <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Aber was machen wir, wenn wir Klammern mit Klammern multiplizieren? Wie <ph id="c4" type="ui" subType="swi18n:inline-math"/>? Die Antwort ist: Wir <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">lösen die Klammern zweimal auf</pc>. Erst multiplizieren wir die eine aus, dann die andere.</pc></target>
+				</segment>
+			</unit>
+			<unit id="rule">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The rule</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">If we have a number multiplication, like for instance <ph id="c3" type="ui" subType="swi18n:inline-math"/>, then we can visualize this multiplication using blocks.</pc><ph id="c4" type="ui" subType="swi18n:block-drawing"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">From this, we see that <ph id="c6" type="ui" subType="swi18n:inline-math"/> can first be rewritten to <ph id="c7" type="ui" subType="swi18n:inline-math"/> and then to <ph id="c8" type="ui" subType="swi18n:inline-math"/>. Check for yourself: they all result into <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c10" type="ui" subType="swi18n:par" swi18n:slot="children">This works exactly the same if we have an expression like <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Here, <ph id="c12" type="ui" subType="swi18n:inline-math"/>, <ph id="c13" type="ui" subType="swi18n:inline-math"/>, <ph id="c14" type="ui" subType="swi18n:inline-math"/> and <ph id="c15" type="ui" subType="swi18n:inline-math"/> can be any type of expression, like <ph id="c16" type="ui" subType="swi18n:inline-math"/> or anything similar. We can again visualize this.</pc><ph id="c17" type="ui" subType="swi18n:block-drawing"/><pc id="c18" type="ui" subType="swi18n:par" swi18n:slot="children">From this visualization, we see that we may rewrite <ph id="c19" type="ui" subType="swi18n:inline-math"/> to <ph id="c20" type="ui" subType="swi18n:inline-math"/>. We call this <pc id="c21" type="ui" subType="swi18n:term" swi18n:slot="children">expanding double brackets</pc>. The accompanying rule is <ph id="c22" type="ui" subType="swi18n:block-math"/> You generally don't need to remember this rule. What you should remember is that you multiply each of the terms from the left brackets (here <ph id="c23" type="ui" subType="swi18n:inline-math"/> and <ph id="c24" type="ui" subType="swi18n:inline-math"/>) with each of the terms from the right brackets (here <ph id="c25" type="ui" subType="swi18n:inline-math"/> and <ph id="c26" type="ui" subType="swi18n:inline-math"/>). If you do this for all combinations of terms, you get the right result.</pc></source>
+					<target swi18n:sourceContentFingerprint="658b2ca7de7d2c93" swi18n:sourceStructureFingerprint="3d6e073ec3185df2"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Regel</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Wenn wir Zahlen multiplizieren, wie z. B. <ph id="c3" type="ui" subType="swi18n:inline-math"/>, können wir dies mit Hilfe von Blöcken veranschaulichen.</pc><ph id="c4" type="ui" subType="swi18n:block-drawing"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Daraus ersehen wir, dass <ph id="c6" type="ui" subType="swi18n:inline-math"/> in <ph id="c7" type="ui" subType="swi18n:inline-math"/> und dann in <ph id="c8" type="ui" subType="swi18n:inline-math"/> umgeschrieben werden kann. Überprüfe es selbst: Es kommt alles auf <ph id="c9" type="ui" subType="swi18n:inline-math"/> hinaus.</pc><pc id="c10" type="ui" subType="swi18n:par" swi18n:slot="children">Dies funktioniert genau so für einen Ausdruck wie <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Hier können <ph id="c12" type="ui" subType="swi18n:inline-math"/>, <ph id="c13" type="ui" subType="swi18n:inline-math"/>, <ph id="c14" type="ui" subType="swi18n:inline-math"/> und <ph id="c15" type="ui" subType="swi18n:inline-math"/> jede Art von Ausdruck sein, wie <ph id="c16" type="ui" subType="swi18n:inline-math"/> oder etwas Ähnliches. Wir können dies wieder visualisieren.</pc><ph id="c17" type="ui" subType="swi18n:block-drawing"/><pc id="c18" type="ui" subType="swi18n:par" swi18n:slot="children">Anhand dieses Bildes sehen wir, dass wir <ph id="c19" type="ui" subType="swi18n:inline-math"/> zu <ph id="c20" type="ui" subType="swi18n:inline-math"/> umschreiben können. Wir nennen dies das <pc id="c21" type="ui" subType="swi18n:term" swi18n:slot="children">ausmultiplizieren (auflösen) von doppelten Klammern</pc>. Die entsprechende Regel lautet <ph id="c22" type="ui" subType="swi18n:block-math"/> Du brauchst dir diese Regel jedoch nicht zu merken. Was du dir merken musst, ist, dass du jeden Term aus der linken Klammer (hier <ph id="c23" type="ui" subType="swi18n:inline-math"/> und <ph id="c24" type="ui" subType="swi18n:inline-math"/>) separat mit jedem Term aus der rechten Klammer (hier <ph id="c25" type="ui" subType="swi18n:inline-math"/> und <ph id="c26" type="ui" subType="swi18n:inline-math"/>) multiplizierst. Wenn du dies für alle Kombinationen von Termen tust, erhältst du das richtige Ergebnis.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To expand double brackets, like for instance with <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Expand the left brackets</pc>. (Or identically, you may start with the right set too.) Keep the other brackets as they are, treating them as a single number. For the example, this gives <ph id="c8" type="ui" subType="swi18n:block-math"/></pc></pc><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:b" swi18n:slot="children">Continue by <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding the remaining brackets</pc>. For our example, this then gives<ph id="c12" type="ui" subType="swi18n:block-math"/>Note that we can also use a short-cut by directly multiplying each of the terms of the left brackets with each of the terms of the right brackets.</pc></pc><pc id="c13" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Merge similar terms</pc> - terms that are identical, apart from their number factor - into a single term. In the example, we merge <ph id="c16" type="ui" subType="swi18n:inline-math"/> and <ph id="c17" type="ui" subType="swi18n:inline-math"/> together into <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c19" type="ui" subType="swi18n:par" swi18n:slot="children">The final result <ph id="c20" type="ui" subType="swi18n:inline-math"/> is as easy as you can possibly write it.</pc></source>
+					<target swi18n:sourceContentFingerprint="368acd03c8b6aff4" swi18n:sourceStructureFingerprint="79f8dcabba82c335"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Schritte</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Um doppelte Klammern, wie zum Beispiel in <ph id="c3" type="ui" subType="swi18n:inline-math"/>, aufzulösen, ist wie folgt vorzugehen.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Multipliziere das linke Klammerpaar aus</pc>. (Man kann auch identisch mit dem rechten Klammerpaar beginnen.) Die anderen Klammern lässt du so, wie sie sind und behandelst sie als eine einzige Zahl. Für das Beispiel ergibt dies <ph id="c8" type="ui" subType="swi18n:block-math"/></pc></pc><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Löse alle verbleibenden Klammern auf</pc>. Für unser Beispiel ergibt das <ph id="c12" type="ui" subType="swi18n:block-math"/>Anmerkung: Wir können auch eine Abkürzung anwenden, indem wir jeden der Terme aus der linken Klammer direkt mit jedem der Terme aus der rechten Klammer multiplizieren.</pc></pc><pc id="c13" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Füge gleichartige Terme zusammen</pc> - Terme die abgesehen von ihrem Zahlenfaktor identisch sind - zu einem einzigen Term. Im Beispiel verschmelzen wir <ph id="c16" type="ui" subType="swi18n:inline-math"/> und <ph id="c17" type="ui" subType="swi18n:inline-math"/> zu <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c19" type="ui" subType="swi18n:par" swi18n:slot="children">Das Endergebnis <ph id="c20" type="ui" subType="swi18n:inline-math"/> ist so einfach, wie man es schreiben kann.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="basicForm">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="b0aa50a7221b8512" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Ausdruck <ph id="c1" type="ui" subType="swi18n:block-math"/> Löse die Klammern auf und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Expand the left set of brackets (here <ph id="c1" type="ui" subType="swi18n:inline-math"/>) while keeping the right set of brackets (here <ph id="c2" type="ui" subType="swi18n:inline-math"/>) intact. Treat the right set of brackets as a single number, which technically it is.</source>
+							<target swi18n:sourceContentFingerprint="fdc8710de65f8451" swi18n:sourceStructureFingerprint="98f3255e641e5524">Multipliziere das linke Klammerpaar aus (hier <ph id="c1" type="ui" subType="swi18n:inline-math"/>), während die rechte Klammer (hier <ph id="c2" type="ui" subType="swi18n:inline-math"/>) erhalten bleibt. Behandle die rechte Klammer als eine einzige Zahl, was immer sie technisch gesehen ist.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply each of the terms <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the left set of brackets by the full right brackets. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="360fea5e5b86cb54" swi18n:sourceStructureFingerprint="48a11a365f442e35">Wir multiplizieren jeden der Terme <ph id="c1" type="ui" subType="swi18n:inline-math"/> und <ph id="c2" type="ui" subType="swi18n:inline-math"/> aus der linken Klammer mit der vollen rechten Klammer. Dies ergibt <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all remaining brackets.</source>
+							<target swi18n:sourceContentFingerprint="f15d3f81b7193b66" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Löse alle verbleibenden Klammern auf.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Expanding the remaining brackets in the usual way results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="cfcc48321ada1cd3" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Wenn wir die restlichen Klammern auf die übliche Weise auflösen, erhalten wir <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge similar terms (with equal power of <ph id="c1" type="ui" subType="swi18n:inline-math"/>) together to simplify the result as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="14a7e9dd03f127f3" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Füge gleichartige Terme (mit gleicher Potenz von <ph id="c1" type="ui" subType="swi18n:inline-math"/>) zusammen, um das Ergebnis so weit wie möglich zu vereinfachen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>There are two terms that have <ph id="c1" type="ui" subType="swi18n:inline-math"/> as a factor, being <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Together these can be written as <ph id="c4" type="ui" subType="swi18n:inline-math"/>. The resulting expression then becomes <ph id="c5" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="fc1ad6aa802dcd79" swi18n:sourceStructureFingerprint="1642900d11770b2a">Es gibt zwei Terme mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> als Faktor, nämlich <ph id="c2" type="ui" subType="swi18n:inline-math"/> und <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Zusammen können sie als <ph id="c4" type="ui" subType="swi18n:inline-math"/> geschrieben werden. Der endgültige Ausdruck ist dann <ph id="c5" type="ui" subType="swi18n:block-math"/> Dies ist unsere endgültige Antwort. Kurz gesagt, <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="higherPowers">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="b0aa50a7221b8512" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Ausdruck <ph id="c1" type="ui" subType="swi18n:block-math"/> Löse die Klammern auf und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Expand the left set of brackets (here <ph id="c1" type="ui" subType="swi18n:inline-math"/>) while keeping the right set of brackets (here <ph id="c2" type="ui" subType="swi18n:inline-math"/>) intact. Treat the right set of brackets as a single number, which technically it is.</source>
+							<target swi18n:sourceContentFingerprint="fdc8710de65f8451" swi18n:sourceStructureFingerprint="98f3255e641e5524">Multipliziere das linke Klammerpaar aus (hier <ph id="c1" type="ui" subType="swi18n:inline-math"/>), während die rechte Klammer (hier <ph id="c2" type="ui" subType="swi18n:inline-math"/>) erhalten bleibt. Behandle die rechte Klammer als eine einzige Zahl, was immer sie technisch gesehen ist.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply each of the terms <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the left set of brackets by the full right brackets. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="360fea5e5b86cb54" swi18n:sourceStructureFingerprint="48a11a365f442e35">Wir multiplizieren jeden der Terme <ph id="c1" type="ui" subType="swi18n:inline-math"/> und <ph id="c2" type="ui" subType="swi18n:inline-math"/> aus der linken Klammer mit der vollen rechten Klammer. Dies ergibt <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all remaining brackets.</source>
+							<target swi18n:sourceContentFingerprint="f15d3f81b7193b66" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Löse alle verbleibenden Klammern auf.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Expanding the remaining brackets in the usual way results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="cfcc48321ada1cd3" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Wenn wir die restlichen Klammern auf die übliche Weise auflösen, erhalten wir <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge similar terms (with equal power of <ph id="c1" type="ui" subType="swi18n:inline-math"/>) together to simplify the result as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="14a7e9dd03f127f3" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Füge gleichartige Terme (mit gleicher Potenz von <ph id="c1" type="ui" subType="swi18n:inline-math"/>) zusammen, um das Ergebnis so weit wie möglich zu vereinfachen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>There are two terms that have <ph id="c1" type="ui" subType="swi18n:inline-math"/> as a factor, being <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Together these can be written as <ph id="c4" type="ui" subType="swi18n:inline-math"/>. The resulting expression then becomes <ph id="c5" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="fc1ad6aa802dcd79" swi18n:sourceStructureFingerprint="1642900d11770b2a">Es gibt zwei Terme mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> als Faktor, nämlich <ph id="c2" type="ui" subType="swi18n:inline-math"/> und <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Diese können zusammen als <ph id="c4" type="ui" subType="swi18n:inline-math"/> geschrieben werden. Der endgültige Ausdruck ist dann <ph id="c5" type="ui" subType="swi18n:block-math"/> Dies ist unsere endgültige Antwort. Kurz gesagt, <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="multipleTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="b0aa50a7221b8512" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Ausdruck <ph id="c1" type="ui" subType="swi18n:block-math"/> Löse die Klammern auf und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Expand the left set of brackets (here <ph id="c1" type="ui" subType="swi18n:inline-math"/>) while keeping the right set of brackets (here <ph id="c2" type="ui" subType="swi18n:inline-math"/>) intact. Treat the right set of brackets as a single number, which technically it is.</source>
+							<target swi18n:sourceContentFingerprint="fdc8710de65f8451" swi18n:sourceStructureFingerprint="98f3255e641e5524">Multipliziere das linke Klammerpaar aus (hier <ph id="c1" type="ui" subType="swi18n:inline-math"/>), während die rechte Klammer (hier <ph id="c2" type="ui" subType="swi18n:inline-math"/>) erhalten bleibt. Behandle die rechte Klammer als eine einzige Zahl, was immer sie technisch gesehen ist.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply each of the terms <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the left set of brackets by the full right brackets. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="360fea5e5b86cb54" swi18n:sourceStructureFingerprint="48a11a365f442e35">Wir multiplizieren jeden der Terme <ph id="c1" type="ui" subType="swi18n:inline-math"/> und <ph id="c2" type="ui" subType="swi18n:inline-math"/> aus der linken Klammer mit der vollen rechten Klammer. Dies ergibt <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all remaining brackets.</source>
+							<target swi18n:sourceContentFingerprint="f15d3f81b7193b66" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Löse alle verbleibenden Klammern auf.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Expanding the remaining brackets in the usual way results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="cfcc48321ada1cd3" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Wenn wir die restlichen Klammern auf die übliche Weise auflösen, erhalten wir <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge similar terms (with equal power of <ph id="c1" type="ui" subType="swi18n:inline-math"/>) together to simplify the result as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="14a7e9dd03f127f3" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Füge gleichartige Terme (mit gleicher Potenz von <ph id="c1" type="ui" subType="swi18n:inline-math"/>) zusammen, um das Ergebnis so weit wie möglich zu vereinfachen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>There are two terms that have <ph id="c1" type="ui" subType="swi18n:inline-math"/> as a factor, being <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Together these can be written as <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Identically, <ph id="c5" type="ui" subType="swi18n:inline-math"/> and <ph id="c6" type="ui" subType="swi18n:inline-math"/> can be merged into <ph id="c7" type="ui" subType="swi18n:inline-math"/>. The resulting expression then becomes <ph id="c8" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="82d5c39f401d256d" swi18n:sourceStructureFingerprint="d8d0ffe97ece09d0">Es gibt zwei Terme mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> als Faktor, nämlich <ph id="c2" type="ui" subType="swi18n:inline-math"/> und <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Diese können zusammen als <ph id="c4" type="ui" subType="swi18n:inline-math"/> geschrieben werden. In gleicher Weise können <ph id="c5" type="ui" subType="swi18n:inline-math"/> und <ph id="c6" type="ui" subType="swi18n:inline-math"/> zu <ph id="c7" type="ui" subType="swi18n:inline-math"/> zusammengefügt werden. Der endgültige Ausdruck ist dann <ph id="c8" type="ui" subType="swi18n:block-math"/> Dies ist unsere endgültige Antwort. Kurz gesagt, <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="squared">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="b0aa50a7221b8512" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Betrachte den Ausdruck <ph id="c1" type="ui" subType="swi18n:block-math"/> Löse die Klammern auf und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Use the definition of the square to rewrite <ph id="c1" type="ui" subType="swi18n:inline-math"/> as a multiplication <ph id="c2" type="ui" subType="swi18n:inline-math"/> without any square outside the brackets.</source>
+							<target swi18n:sourceContentFingerprint="7c1a9bb4f320bc52" swi18n:sourceStructureFingerprint="98f3255e641e5524">Gebruik de definitie van het kwadraat om <ph id="c1" type="ui" subType="swi18n:inline-math"/> te schrijven als een vermenigvuldiging <ph id="c2" type="ui" subType="swi18n:inline-math"/> zonder enig kwadraat buiten de haakjes.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>A square simply means an expression multiplied by itself. So we can write <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="a2b1ee37660f4592" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Een kwadraat is simpelweg een uitdrukking vermenigvuldigd met zichzelf. We kunnen het dus schrijven als <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand the left set of brackets, while keeping the right set of brackets intact. Treat the right set of brackets as a single number, which technically it is.</source>
+							<target swi18n:sourceContentFingerprint="6fd2e26f1099ac95" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Multipliziere das linke Klammerpaar aus, während die rechte Klammer erhalten bleibt. Behandle die rechte Klammer als eine einzige Zahl, was immer sie technisch gesehen ist.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply each of the terms <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the left set of brackets by the full right brackets. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="360fea5e5b86cb54" swi18n:sourceStructureFingerprint="48a11a365f442e35">Wir multiplizieren jeden der Terme <ph id="c1" type="ui" subType="swi18n:inline-math"/> und <ph id="c2" type="ui" subType="swi18n:inline-math"/> aus der linken Klammer mit der vollen rechten Klammer. Dies ergibt <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Expand all remaining brackets.</source>
+							<target swi18n:sourceContentFingerprint="f15d3f81b7193b66" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Löse alle verbleibenden Klammern auf.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Expanding the remaining brackets in the usual way results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="cfcc48321ada1cd3" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Wenn wir die restlichen Klammern auf die übliche Weise auflösen, erhalten wir <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Merge similar terms (with equal power of <ph id="c1" type="ui" subType="swi18n:inline-math"/>) together to simplify the result as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="14a7e9dd03f127f3" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Füge gleichartige Terme (mit gleicher Potenz von <ph id="c1" type="ui" subType="swi18n:inline-math"/>) zusammen, um das Ergebnis so weit wie möglich zu vereinfachen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">There are two terms that have <ph id="c2" type="ui" subType="swi18n:inline-math"/> as a factor, being <ph id="c3" type="ui" subType="swi18n:inline-math"/> and again <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Together these can be written as <ph id="c5" type="ui" subType="swi18n:inline-math"/>. The resulting expression then becomes <ph id="c6" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c8" type="ui" subType="swi18n:sub-head" swi18n:slot="children">Short-cut</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">There is a possible short-cut for this question. A square of a sum, like <ph id="c10" type="ui" subType="swi18n:inline-math"/>, always comes out as <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Using this knowledge, we could have also directly seen that <ph id="c12" type="ui" subType="swi18n:block-math"/></pc></source>
+							<target swi18n:sourceContentFingerprint="fe2808c1ffb69594" swi18n:sourceStructureFingerprint="7095c233d3d9d7bc"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Es gibt zwei Terme mit <ph id="c2" type="ui" subType="swi18n:inline-math"/> als Faktor, nämlich <ph id="c3" type="ui" subType="swi18n:inline-math"/> und einen weiteren <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Diese können zusammen als <ph id="c5" type="ui" subType="swi18n:inline-math"/> geschrieben werden. Der endgültige Ausdruck ist dann <ph id="c6" type="ui" subType="swi18n:block-math"/> Dies ist unsere endgültige Antwort. Kurz gesagt, <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c8" type="ui" subType="swi18n:sub-head" swi18n:slot="children">Abkürzung</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">Für diese Übung gibt es eine mögliche Abkürzung. Ein Quadrat einer Summe, wie <ph id="c10" type="ui" subType="swi18n:inline-math"/>, ergibt immer <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Wenn wir das wissen, können wir auch gleich sehen, dass <ph id="c12" type="ui" subType="swi18n:block-math"/></pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="wrongBracketsExpanded">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Make sure to expand all brackets, except for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						<target swi18n:sourceContentFingerprint="544d977439eb22b3" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Achte darauf, dass du alle Klammern außer <ph id="c2" type="ui" subType="swi18n:inline-math"/> auflöst.</pc></target>
+					</segment>
+				</unit>
+				<unit id="stillHasPower">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">There are still brackets with an exponent above it.</pc></source>
+						<target swi18n:sourceContentFingerprint="04bebc8df33cee78" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Es gibt noch Klammern mit einer Potenz darüber.</pc></target>
+					</segment>
+				</unit>
+				<unit id="bracketProductRemains">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Make sure to expand one set of brackets: you cannot have brackets multiplied by brackets anymore.</pc></source>
+						<target swi18n:sourceContentFingerprint="654e748b010e4704" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Achte darauf, dass du nur einen Satz Klammern auflöst: Du darfst nicht mehr Klammern mit Klammern multipliziert haben.</pc></target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

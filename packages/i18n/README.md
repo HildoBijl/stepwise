@@ -45,6 +45,19 @@ The runtime caches catalogs by locale and path, deduplicates concurrent loads, a
 
 Folders and groups extend their parent scope by default and accept `extend={false}` to start from their respective root. Their `path` accepts either one segment as a string or multiple segments as an array; strings are never split on punctuation. A catalog can provide an absolute `folder` directly and always resets the group scope. Nested catalogs replace the active catalog for their subtree and restore the outer scope afterward. Catalogs are loaded on demand through `useCatalog`. `Translation` resolves its scoped Catalog unit, renders a current target for the active locale, and falls back to its authored source while loading or when no usable target exists.
 
+`TranslationArea` reserves a semantic address while allowing its contents to choose between one anonymous unit and multiple named units. An anonymous `Translation` uses the area's name as its unit ID. Named translations use the area as a group. Mixing these forms, using multiple anonymous translations, or repeating a named ID is invalid.
+
+```tsx
+<TranslationArea name="problem">
+	<Translation>Translate the complete problem as one unit.</Translation>
+</TranslationArea>
+
+<TranslationArea name="problem">
+	<Translation id="instruction">Calculate the result.</Translation>
+	<Translation id="label">Your answer</Translation>
+</TranslationArea>
+```
+
 Every rendered `Translation` also supplies its authored source to the optional `registerSource` callback, regardless of the currently displayed locale. Applications can use this hook in development to persist encountered sources. Filesystem access and bundler integration remain application-owned; production applications should omit the callback.
 
 The application decides how paths resolve to catalog modules. Bundler-specific discovery such as Vite's `import.meta.glob` therefore remains outside this package.

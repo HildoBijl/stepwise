@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">add/subtract a term to/from both sides of an equation</pc>. If you start with an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to add any term, like for instance <ph id="c4" type="ui" subType="swi18n:inline-math"/>, to both sides of this equation, resulting in <ph id="c5" type="ui" subType="swi18n:inline-math"/>. This also includes subtracting terms. This skill does not include the subsequent simplification of the resulting outcome.</pc></source>
+					<target swi18n:sourceContentFingerprint="3c70f3f9401b5bb2" swi18n:sourceStructureFingerprint="41356c57b7faf237"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je om <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">een term bij beide kanten van een vergelijking op te tellen/af te trekken</pc>. Als je een vergelijking hebt als <ph id="c3" type="ui" subType="swi18n:inline-math"/>, dan zul je in staat zijn om elk soort term, zoals bijvoorbeeld <ph id="c4" type="ui" subType="swi18n:inline-math"/>, aan beide kanten van de vergelijking op te tellen, zodat je uitkomt op <ph id="c5" type="ui" subType="swi18n:inline-math"/>. Dit omvat ook het aftrekken van termen. Deze vaardigheid betreft niet het hieropvolgende vereenvoudigen van de betreffende uitkomst.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

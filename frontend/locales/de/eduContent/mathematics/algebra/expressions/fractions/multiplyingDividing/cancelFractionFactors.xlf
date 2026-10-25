@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">cancel fraction factors</pc> for fractions containing variables. For instance, if you have a fraction <ph id="c3" type="ui" subType="swi18n:inline-math"/> you should see that multiplying by a number <ph id="c4" type="ui" subType="swi18n:inline-math"/> and then dividing by that same number has no effect, so we might as well write <ph id="c5" type="ui" subType="swi18n:inline-math"/>. This also includes more complex factors, like turning <ph id="c6" type="ui" subType="swi18n:inline-math"/> into <ph id="c7" type="ui" subType="swi18n:inline-math"/> and similar.</pc></source>
+					<target swi18n:sourceContentFingerprint="1f25dd874b7a67fa" swi18n:sourceStructureFingerprint="32a2d2c9ff6fd443"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Bruchfaktoren zu entfernen</pc> für Brüche mit Variablen darin. Wenn du zum Beispiel einen Bruch <ph id="c3" type="ui" subType="swi18n:inline-math"/> hast, solltest du sehen, dass die Multiplikation mit einer Zahl <ph id="c4" type="ui" subType="swi18n:inline-math"/> und die anschließende Division durch dieselbe Zahl keine Wirkung hat, so dass wir genauso gut <ph id="c5" type="ui" subType="swi18n:inline-math"/> schreiben können. Dies gilt auch für komplexere Faktoren, wie die Umwandlung von <ph id="c6" type="ui" subType="swi18n:inline-math"/> in <ph id="c7" type="ui" subType="swi18n:inline-math"/> und ähnliches.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

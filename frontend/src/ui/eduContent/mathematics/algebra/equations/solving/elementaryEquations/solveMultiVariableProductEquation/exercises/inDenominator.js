@@ -2,8 +2,8 @@ import React from 'react'
 
 import { expressionComparisons } from '@step-wise/cas'
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
@@ -74,7 +74,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ x, fractionGcd, canSimplifyFraction, ans }) => {
-			return <Par><Translation><Check value={canSimplifyFraction}><Check.True>It is still possible to cancel some factors within the numbers of the fraction. Dividing both the numerator and the denominator by <M>{fractionGcd}</M> results in <BM>{x} = {ans}.</BM></Check.True><Check.False>This time it is not possible to simplify the fraction any further. So we remain with the final result, <BM>{x} = {ans}.</BM></Check.False></Check></Translation></Par>
+			return <Par><Translation><Condition value={canSimplifyFraction}><Condition.True>It is still possible to cancel some factors within the numbers of the fraction. Dividing both the numerator and the denominator by <M>{fractionGcd}</M> results in <BM>{x} = {ans}.</BM></Condition.True><Condition.False>This time it is not possible to simplify the fraction any further. So we remain with the final result, <BM>{x} = {ans}.</BM></Condition.False></Condition></Translation></Par>
 		},
 	},
 	{

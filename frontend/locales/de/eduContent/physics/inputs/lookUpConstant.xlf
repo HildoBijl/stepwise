@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The goal of this skill is to get familiar with <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">entering physical quantities</pc> that have both a number and a unit. On top of this, it introduces the attachments where students can look up relevant data.</pc></source>
+					<target swi18n:sourceContentFingerprint="e390711432ebc0e6" swi18n:sourceStructureFingerprint="f7f184827b959a05"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Ziel dieser Kompetenz ist es, sich mit der <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Eingabe von physikalischen Werten</pc> mit sowohl einer Zahl als auch einer Einheit vertraut zu machen. Dazu gehört auch die Verwendung von Anhängen, in denen die Studierenden nach relevanten Daten suchen können.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Often when making exercises you have to look something up. For instance a physical constant like the speed of light, but it can be pretty much anything. Here we practice looking things up as well as entering these numbers.</pc></source>
+					<target swi18n:sourceContentFingerprint="18ed8551a3affe92" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bei Übungsaufgaben muss man oft etwas nachschlagen. Zum Beispiel eine physikalische Konstante, wie die Lichtgeschwindigkeit, oder etwas ganz anderes. Hier üben wir das Nachschlagen von Zahlen einschließlich ihrer Eingabe.</pc></target>
+				</segment>
+			</unit>
+			<unit id="attachments">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Attachments</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">When looking up physical quantities, the default source is the entire internet. However, it may be a bit hard to find the right data, or maybe you encounter websites with deviating or outright incorrect values.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">To save you from this frustration, Step-Wise has internal attachments to look up data. Whenever an exercise requires you to look something up, there is always an "Attachments" tab with said data. Browse it to get what you need, and then return to the exercise to use your newfound discovery.</pc></source>
+					<target swi18n:sourceContentFingerprint="74853310be7e9015" swi18n:sourceStructureFingerprint="74333117307dd69a"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Anhänge</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Wenn man physikalische Größen nachschlägt, ist die Standardquelle das Internet. Manchmal kann es jedoch schwierig sein, die richtigen Daten zu finden, oder man landet auf Websites mit anderen oder sogar falschen Werten.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Um diesen Frust zu vermeiden, verfügt Step-Wise über interne Anhänge zum Nachschlagen von Werten. Wenn eine Aufgabe erfordert, dass du etwas nachschlägst, gibt es immer eine Registerkarte "Anhänge" mit den relevanten Daten. Überspringe sie, um zu finden, was du brauchst, und kehre dann zur Aufgabe zurück, um deine neuen Erkenntnisse anzuwenden.</pc></target>
+				</segment>
+			</unit>
+			<unit id="quantityInputs">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Input fields for decimal numbers with units</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Physical quantities always have a number and a unit. For instance, a distance might be <ph id="c3" type="ui" subType="swi18n:inline-math"/> or a temperature may be <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Without the unit, the number is meaningless.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Entering physical quantities in Step-Wise is easy: we once more have a custom input field. This field has two parts.</pc><pc id="c6" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c8" type="ui" subType="swi18n:a" swi18n:slot="children">A <pc id="c9" type="ui" subType="swi18n:term" swi18n:slot="children">number part</pc>: this is where you enter the number, which may also include a ten-power.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">A <pc id="c12" type="ui" subType="swi18n:term" swi18n:slot="children">unit part</pc>: this is where you enter the unit, as you are used to.</pc></pc></pc><pc id="c13" type="ui" subType="swi18n:par" swi18n:slot="children">Each of these two parts has its own internal keyboards, which adjusts automatically as you move from one part to the other. This allows you to easily enter any physical quantity that might come out of your calculations.</pc></source>
+					<target swi18n:sourceContentFingerprint="9a4ab0fa0e4c11ef" swi18n:sourceStructureFingerprint="ba9fc813cbf5c745"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Eingabefelder für Kommazahlen mit Einheit</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Physikalische Größen haben immer eine Zahl und eine Einheit. Zum Beispiel kann eine Entfernung <ph id="c3" type="ui" subType="swi18n:inline-math"/> sein, oder eine Temperatur <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Ohne die Einheit ist die Zahl bedeutungslos.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Die Eingabe von physikalischen Werten in Step-Wise ist einfach: Auch dafür gibt es ein spezielles Eingabefeld. Dieses Feld hat zwei Teile.</pc><pc id="c6" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c8" type="ui" subType="swi18n:a" swi18n:slot="children">Ein <pc id="c9" type="ui" subType="swi18n:term" swi18n:slot="children">Zahlenteil</pc>: Hier wird die Zahl, einschließlich der Zehnerpotenzen, eingegeben.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Ein <pc id="c12" type="ui" subType="swi18n:term" swi18n:slot="children">Einheitenteil</pc>: Hier schreibst die Einheit, genau wie du es gewohnt bist.</pc></pc></pc><pc id="c13" type="ui" subType="swi18n:par" swi18n:slot="children">Jeder dieser beiden Teile hat seine eigene interne Tastatur, die sich automatisch anpasst, wenn du von einem Teil zum anderen wechselst. So kannst du problemlos jeden physikalischen Wert eingeben, der sich aus deinen Berechnungen ergibt.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="lookUpConstant">
+				<group id="problem">
+					<unit id="text">
+						<segment>
+							<source>Look up <ph id="x1" type="ui" subType="xlf:var" swi18n:name="constantDescription"/> <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="399eff6a67c1fe97" swi18n:sourceStructureFingerprint="d8b618576485d9a5">Finde <ph id="x1" type="ui" subType="xlf:var" swi18n:name="constantDescription"/> <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="label">
+						<segment>
+							<source>Enter the constant here</source>
+							<target swi18n:sourceContentFingerprint="8ea02237d5ae2ef5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Hier die Konstante eingeben</target>
+						</segment>
+					</unit>
+				</group>
+				<unit id="solution">
+					<segment>
+						<source>As can be looked up in the attachment, the value of <ph id="c1" type="ui" subType="swi18n:inline-math"/> is <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						<target swi18n:sourceContentFingerprint="fcd45379ba790bc0" swi18n:sourceStructureFingerprint="98f3255e641e5524">Wie man im Anhang nachlesen kann, ist der Wert von <ph id="c1" type="ui" subType="swi18n:inline-math"/> gleich <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="references">
+			<unit id="intro">
+				<segment>
+					<source>A few examples of common physical constants are shown in the table below.</source>
+					<target swi18n:sourceContentFingerprint="a126122000dab7e8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Einige Beispiele für häufig verwendete physikalische Konstanten findet man in der nachstehenden Tabelle.</target>
+				</segment>
+			</unit>
+			<group id="header">
+				<unit id="description">
+					<segment>
+						<source>Description</source>
+						<target swi18n:sourceContentFingerprint="338c15de38b9720e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Beschreibung</target>
+					</segment>
+				</unit>
+				<unit id="symbol">
+					<segment>
+						<source>Symbol</source>
+						<target swi18n:sourceContentFingerprint="12006433e1d20fa8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Symbol</target>
+					</segment>
+				</unit>
+				<unit id="value">
+					<segment>
+						<source>Value</source>
+						<target swi18n:sourceContentFingerprint="a6d5cc081de1556b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Wert</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="constants">
+				<unit id="c">
+					<segment>
+						<source>the speed of light</source>
+						<target swi18n:sourceContentFingerprint="92acf9937d2091d3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">die Lichtgeschwindigkeit</target>
+					</segment>
+				</unit>
+				<unit id="g">
+					<segment>
+						<source>the gravitational acceleration on Earth</source>
+						<target swi18n:sourceContentFingerprint="f4f0c6f53a2952f9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">die Fallbeschleunigung auf der Erde</target>
+					</segment>
+				</unit>
+				<unit id="R">
+					<segment>
+						<source>the universal gas constant</source>
+						<target swi18n:sourceContentFingerprint="629c078d4b5b91c3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">die universelle Gaskonstante</target>
+					</segment>
+				</unit>
+				<unit id="e">
+					<segment>
+						<source>the (elementary) charge of an electron</source>
+						<target swi18n:sourceContentFingerprint="2e9450c117172b6e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">die (elementare) Ladung eines Elektrons</target>
+					</segment>
+				</unit>
+				<unit id="k">
+					<segment>
+						<source>the Boltzmann constant</source>
+						<target swi18n:sourceContentFingerprint="e9fb3a6b922fa19e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">die Boltzmann-Konstante</target>
+					</segment>
+				</unit>
+				<unit id="G">
+					<segment>
+						<source>the universal gravitational constant</source>
+						<target swi18n:sourceContentFingerprint="b8874940a7628627" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">die universelle Gravitationskonstante</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

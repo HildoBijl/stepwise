@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn what a <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">negative power</pc> means and how to rewrite it to a form without a negative power. It should become intuitive to rewrite <ph id="c3" type="ui" subType="swi18n:inline-math"/> as <ph id="c4" type="ui" subType="swi18n:inline-math"/> and vice versa.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We know that a power is a repeated multiplication: <ph id="c2" type="ui" subType="swi18n:inline-math"/> can also <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">be written</pc> as <ph id="c4" type="ui" subType="swi18n:inline-math"/>. But what could <ph id="c5" type="ui" subType="swi18n:inline-math"/> be?</pc></source>
+				</segment>
+			</unit>
+			<unit id="idea">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The meaning of a negative exponent</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Let's do a thought experiment. Let's say we start with the number <ph id="c3" type="ui" subType="swi18n:inline-math"/>, which we can write as <ph id="c4" type="ui" subType="swi18n:inline-math"/>. If we multiply this by <ph id="c5" type="ui" subType="swi18n:inline-math"/>, we get <ph id="c6" type="ui" subType="swi18n:inline-math"/> which is <ph id="c7" type="ui" subType="swi18n:inline-math"/>. And if we do so again, we get <ph id="c8" type="ui" subType="swi18n:inline-math"/> which is <ph id="c9" type="ui" subType="swi18n:inline-math"/>. Every time we multiply our number by the base <ph id="c10" type="ui" subType="swi18n:inline-math"/>, the exponent increases by one!</pc><pc id="c11" type="ui" subType="swi18n:par" swi18n:slot="children">Next, let's reverse this. We start with <ph id="c12" type="ui" subType="swi18n:inline-math"/> and divide by <ph id="c13" type="ui" subType="swi18n:inline-math"/>. When we do, a factor <ph id="c14" type="ui" subType="swi18n:inline-math"/> cancels out and we are left with <ph id="c15" type="ui" subType="swi18n:inline-math"/>. If we do this again, we get <ph id="c16" type="ui" subType="swi18n:inline-math"/>. Once more gives <ph id="c17" type="ui" subType="swi18n:inline-math"/>. Note that a number to the power of one is simply itself. And if we divide by two again, we get <ph id="c18" type="ui" subType="swi18n:inline-math"/>. A number to the power of zero always equals one.</pc><pc id="c19" type="ui" subType="swi18n:par" swi18n:slot="children">What if we continue this pattern? If we divide by two again, the exponent reduces further, and we have <ph id="c20" type="ui" subType="swi18n:inline-math"/>. Dividing by two again turns this into <ph id="c21" type="ui" subType="swi18n:inline-math"/>. Note that we have <pc id="c22" type="ui" subType="swi18n:skill-link" swi18n:slot="children">rewritten the fraction of fractions</pc>. Dividing by two again gives <ph id="c23" type="ui" subType="swi18n:inline-math"/>. Based on this, we see a pattern on what a negative exponent actually means.</pc></source>
+				</segment>
+			</unit>
+			<unit id="rule">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The rule</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We see that a negative power like <ph id="c3" type="ui" subType="swi18n:inline-math"/> is exactly the same as a fraction <ph id="c4" type="ui" subType="swi18n:inline-math"/>. More generally, for any numbers <ph id="c5" type="ui" subType="swi18n:inline-math"/> and <ph id="c6" type="ui" subType="swi18n:inline-math"/> we have <ph id="c7" type="ui" subType="swi18n:block-math"/> Since fractions are usually easier to work with than negative exponents, it is usually wise, when you encounter a negative exponent, to directly rewrite is as a fraction. However, there are cases where the opposite is beneficial too.</pc><pc id="c8" type="ui" subType="swi18n:warning" swi18n:slot="children">The terminology here is sometimes a bit confusing. In the number <ph id="c9" type="ui" subType="swi18n:inline-math"/> it is the <pc id="c10" type="ui" subType="swi18n:term" swi18n:slot="children">exponent</pc> that is negative. However, in basic speech people sometimes also call this a negative <pc id="c11" type="ui" subType="swi18n:term" swi18n:slot="children">power</pc>. This is due to the ambiguous use of the word "power" which sometimes refers to the exponent and sometimes to the whole thing. So when we say a negative power, we usually don't mean a power that's negative like <ph id="c12" type="ui" subType="swi18n:inline-math"/>, but we mean a power with a negative exponent like <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="negativeExponentToFraction">
+				<unit id="problem">
+					<segment>
+						<source>Rewrite the number <ph id="c1" type="ui" subType="swi18n:inline-math"/> to a form without a negative exponent.</source>
+					</segment>
+				</unit>
+				<unit id="solution">
+					<segment>
+						<source>According to the rule <ph id="c1" type="ui" subType="swi18n:inline-math"/> we may directly rewrite the number to <ph id="c2" type="ui" subType="swi18n:block-math"/> Optionally, we may simplify this further to <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="fractionToNegativeExponent">
+				<unit id="problem">
+					<segment>
+						<source>Rewrite the number <ph id="c1" type="ui" subType="swi18n:inline-math"/> to a form without a fraction.</source>
+					</segment>
+				</unit>
+				<unit id="solution">
+					<segment>
+						<source>According to the rule <ph id="c1" type="ui" subType="swi18n:inline-math"/> we may directly rewrite the fraction as a negative power through <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

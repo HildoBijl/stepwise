@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">check an equation solution</pc>. Given an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> and a potential solution like <ph id="c4" type="ui" subType="swi18n:inline-math"/> or <ph id="c5" type="ui" subType="swi18n:inline-math"/> you will be able to determine whether or not the number balances the equation. This includes applying number substitution to the expression on each side of the equation, as well as calculating the resulting sum/product, turning it into a single number. Knowledge of fractions, powers, etcetera is not required.</pc></source>
+					<target swi18n:sourceContentFingerprint="3e6384155cbf8c8b" swi18n:sourceStructureFingerprint="41356c57b7faf237"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je om een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">oplossing van een vergelijking te controleren</pc>. Bij een vergelijking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> en een mogelijke oplossing als <ph id="c4" type="ui" subType="swi18n:inline-math"/> of <ph id="c5" type="ui" subType="swi18n:inline-math"/> leer je om te bepalen of het getal de vergelijking wel of niet in evenwicht brengt. Dit omvat het uitvoeren van een getalsubstitutie op de uitdrukkingen links en rechts, en het uitrekenen van de hieruitvolgende sommen/producten. Kennis van breuken, machten, enzovoort is niet vereist.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

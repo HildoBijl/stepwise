@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { M } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Par, List, Term } from 'ui/components'
 
 export function Meta() {
-	return <Translation entry="learningGoals">
+	return <Translation id="learningGoals">
 		<Par>This skill is about understanding how to <Term>multiply and divide fractions</Term>. This includes various situations.
 			<List>
 				<List.Item><>Multiplying a number by a fraction: <M>2 \cdot \frac(3)(5) = \frac(2 \cdot 3)(5)</M>.</></List.Item>

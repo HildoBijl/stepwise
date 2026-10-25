@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">solve a linear equation</pc>. If you have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to determine the solution for <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding any potential brackets</pc>, <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">moving terms around</pc>, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging similar terms</pc> together and eventually <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solving the resulting product equation</pc>. The latter also includes simplifying the result as well as checking it. This skill does not deal with <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">equations with fractions containing <ph id="c10" type="ui" subType="swi18n:inline-math"/> in the denominator</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="6c7ef99dffc92be0" swi18n:sourceStructureFingerprint="8e8a2dd7e14caead"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, eine <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">lineare Gleichung zu lösen</pc>. Für eine Gleichung wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> kannst du die Lösung für <ph id="c4" type="ui" subType="swi18n:inline-math"/> bestimmen. Dazu gehört <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Klammern auflösen</pc>, <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Terme rundschieben</pc>, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">gleichartige Terme zusammenfügen</pc> und schließlich die resultierende <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Produktgleichung lösen</pc>. Letzteres beinhaltet die Vereinfachung des Ergebnisses und dessen Überprüfung. Dieser Kompetenz deckt keine <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Gleichungen mit Brüchen mit <ph id="c10" type="ui" subType="swi18n:inline-math"/> im Nenner</pc> ab.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">linear equation</pc> is an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, containing only terms with a number or a number times <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Sometimes there are also numbers multiplied by brackets, like in <ph id="c5" type="ui" subType="swi18n:inline-math"/>, but there are no squares <ph id="c6" type="ui" subType="swi18n:inline-math"/> or more complicated terms. This skill is about solving such an equation to find which value of <ph id="c7" type="ui" subType="swi18n:inline-math"/> satisfies it.</pc></source>
+					<target swi18n:sourceContentFingerprint="acc93888164debb4" swi18n:sourceStructureFingerprint="32a2d2c9ff6fd443"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Eine <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">lineare Gleichung</pc> ist eine Gleichung wie <ph id="c3" type="ui" subType="swi18n:inline-math"/>, mit nur Termen aus Zahlen oder einer Zahl mal <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Manchmal gibt es auch Zahlen, die mit Klammern multipliziert werden, wie in <ph id="c5" type="ui" subType="swi18n:inline-math"/>, aber es gibt keine Quadrate <ph id="c6" type="ui" subType="swi18n:inline-math"/> oder kompliziertere Terme. In dieser Aufgabe geht es darum, eine solche Gleichung zu lösen und herauszufinden, welcher Wert von <ph id="c7" type="ui" subType="swi18n:inline-math"/> sie gültig macht.</pc></target>
+				</segment>
+			</unit>
+			<unit id="cleaning">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Cleaning up the equation</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The first thing we always do when solving an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> is clean it up. That starts with <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding brackets</pc>: if there are any containing <ph id="c5" type="ui" subType="swi18n:inline-math"/>, get rid of them. Doing so for the example gives <ph id="c6" type="ui" subType="swi18n:block-math"/> Next, we want to sort out the terms: we <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">move the terms</pc> with <ph id="c8" type="ui" subType="swi18n:inline-math"/> to one side (for instance the left) and the terms without <ph id="c9" type="ui" subType="swi18n:inline-math"/> to the other side (the right). For our example this turns it into <ph id="c10" type="ui" subType="swi18n:block-math"/> Finally we <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merge terms together</pc> on both sides. The example then reduces to <ph id="c12" type="ui" subType="swi18n:block-math"/> We have rewritten the equation to a form that is a lot simpler! In fact, you may recognize that it's now a <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">product equation</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="836ba9191d2888e0" swi18n:sourceStructureFingerprint="22c4ee8a9d5903ce"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Gleichung bereinigen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Das erste, was wir immer tun, wenn wir eine Gleichung wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> lösen, ist sie zu bereinigen. Das fängt damit an, dass wir <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Klammern auflösen</pc>: Wenn es Klammern mit <ph id="c5" type="ui" subType="swi18n:inline-math"/> darin gibt, lösen wir sie auf. Wenn wir dies auf das Beispiel anwendet, erhalten wir <ph id="c6" type="ui" subType="swi18n:block-math"/> Als Nächstes wollen wir die Terme aufräumen: Wir <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">verschieben die Terme</pc> mit <ph id="c8" type="ui" subType="swi18n:inline-math"/> auf eine Seite (zum Beispiel links) und die Terme ohne <ph id="c9" type="ui" subType="swi18n:inline-math"/> auf die andere Seite (rechts). Dadurch wird unser Beispiel umgewandelt in <ph id="c10" type="ui" subType="swi18n:block-math"/> Schließlich <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">fügen wir Terme zusammen</pc> auf beiden Seiten. Das Beispiel wird dann reduziert auf <ph id="c12" type="ui" subType="swi18n:block-math"/> Wir haben die Gleichung in eine viel einfachere Form umgeschrieben! Du erkennst vielleicht schon, dass es sich jetzt um eine <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Produktgleichung</pc> handelt.</pc></target>
+				</segment>
+			</unit>
+			<unit id="solving">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Solving the cleaned equation</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To solve the cleaned equation, we use the default approach for <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solving product equations</pc>. We <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">move the factor</pc> before the <ph id="c5" type="ui" subType="swi18n:inline-math"/> to the other side and <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify</pc> the result. This gives <ph id="c7" type="ui" subType="swi18n:block-math"/> Finally we insert this solution into the original equation to <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">check</pc> it. Doing so gives <ph id="c9" type="ui" subType="swi18n:block-math"/> Both sides reduce to <ph id="c10" type="ui" subType="swi18n:inline-math"/>, which is the same. The solution is correct!</pc></source>
+					<target swi18n:sourceContentFingerprint="ea2679b6585d32e5" swi18n:sourceStructureFingerprint="c6f1b43fa4fafda6"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die bereinigte Gleichung lösen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Wir können die aufgeräumte Gleichung mit dem Standardansatz zum <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Lösen von Produktgleichungen</pc> lösen. Wir <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">bringen den Faktor</pc> vor der <ph id="c5" type="ui" subType="swi18n:inline-math"/> auf die andere Seite und <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereinfachen</pc> das Ergebnis. Das ergibt <ph id="c7" type="ui" subType="swi18n:block-math"/> Schließlich setzen wir diese Lösung in die ursprüngliche Gleichung ein, um sie zu <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">überprüfen</pc>. Daraus wird dann <ph id="c9" type="ui" subType="swi18n:block-math"/> Beide Seiten ergeben <ph id="c10" type="ui" subType="swi18n:inline-math"/>, was das Gleiche ist. Die Lösung ist richtig!</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To solve a linear equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">If there are any brackets containing the unknown, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand them</pc>. This turns the example into <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Move all terms</pc> with the unknown to one side and all terms without the unknown to the other side. For the example, if we move everything with <ph id="c12" type="ui" subType="swi18n:inline-math"/> to the left and the rest to the right, we get <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Merge similar terms together</pc> on both sides. Doing so for the example reduces it to <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c18" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c19" type="ui" subType="swi18n:d" swi18n:slot="children"><pc id="c20" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Solve the resulting product equation</pc> in the usual way, including simplifying the outcome and checking it. For the example we end up with <ph id="c21" type="ui" subType="swi18n:inline-math"/> which indeed balances the original equation.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="d0ff791cc2de381e" swi18n:sourceStructureFingerprint="2410966727e90d0b"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Schritte</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Um eine lineare Gleichung wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> zu lösen, ist wie folgt vorzugehen.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Wenn es Klammern mit der Unbekannten darin gibt, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">löse sie auf</pc>. Dadurch wird das Beispiel in <ph id="c8" type="ui" subType="swi18n:inline-math"/> umgewandelt.</pc></pc><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Bringe alle Terme</pc> mit der Unbekannten auf die eine Seite und alle Terme ohne die Unbekannte auf die andere Seite. Wenn wir für das Beispiel alles mit <ph id="c12" type="ui" subType="swi18n:inline-math"/> auf die linke und den Rest auf die rechte Seite bringen, erhalten wir <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Füge gleichartige Terme zusammen</pc> auf beiden Seiten. Dies auf das Beispiel anwenden, reduziert es auf <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c18" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c19" type="ui" subType="swi18n:d" swi18n:slot="children"><pc id="c20" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Löse die erhaltene Produktgleichung</pc> nach der üblichen Methode, einschließlich der Vereinfachung des Ergebnisses und seiner Überprüfung. Für das Beispiel kommt <ph id="c21" type="ui" subType="swi18n:inline-math"/> heraus, was die ursprüngliche Gleichung tatsächlich ausgleicht.</pc></pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="withoutBrackets">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve this equation for <ph id="c2" type="ui" subType="swi18n:inline-math"/> and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="3a9b038db181589e" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Beachte die Gleichung <ph id="c1" type="ui" subType="swi18n:block-math"/> Löse diese Gleichung für <ph id="c2" type="ui" subType="swi18n:inline-math"/> und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms containing <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</source>
+							<target swi18n:sourceContentFingerprint="15397630fd0236c1" swi18n:sourceStructureFingerprint="98f3255e641e5524">Bringe alle Terme mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> auf die eine Seite, und alle Terme ohne <ph id="c2" type="ui" subType="swi18n:inline-math"/> auf die andere Seite.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right, then we get <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="a4b1b614d01262ac" swi18n:sourceStructureFingerprint="48a11a365f442e35">Wenn wir alle Terme mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> nach links und alle Terme ohne <ph id="c2" type="ui" subType="swi18n:inline-math"/> nach rechts bringen, erhalten wir <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Clean up both equation sides separately by merging terms together.</source>
+							<target swi18n:sourceContentFingerprint="e57c133ac2c293ce" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bereinige beide Seiten der Gleichung, indem du die Terme zusammenfügst.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>On the left we merge terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> together, and on the right we simply add together the numbers. This results in <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="2104c6df9850e39b" swi18n:sourceStructureFingerprint="fd2fba868566671b">Auf der linken Seite fügen wir die Terme mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> zusammen, und auf der rechten Seite addieren wir einfach die Zahlen. Das ergibt <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Solve the resulting equation for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="022d7ad822986aa8" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Löse die erhaltene Gleichung für <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x2" type="other" subType="swi18n:condition-true">As usual when solving a product equation, we move the factor in front of <ph id="c2" type="ui" subType="swi18n:inline-math"/> (here <ph id="c3" type="ui" subType="swi18n:inline-math"/>) to the other side, where it will be divided by. This gives the solution <ph id="c4" type="ui" subType="swi18n:block-math"/><pc id="x3" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x4" type="other" subType="swi18n:condition-true">This can still be simplified into <ph id="c5" type="ui" subType="swi18n:block-math"/></pc><pc id="x5" type="other" subType="swi18n:condition-false">This cannot be simplified further.</pc></pc></pc><pc id="x6" type="other" subType="swi18n:condition-false">Coincidentally the factor before the <ph id="c6" type="ui" subType="swi18n:inline-math"/> has already dropped out. As a result, we have already found the solution, <ph id="c7" type="ui" subType="swi18n:block-math"/></pc></pc></pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">The last thing to do is to check the solution. Inserting it into the original equation gives <ph id="c9" type="ui" subType="swi18n:block-math"/> Both sides reduce to <ph id="c10" type="ui" subType="swi18n:inline-math"/> which shows that the solution is correct.</pc></source>
+							<target swi18n:sourceContentFingerprint="875bce039f1e7be4" swi18n:sourceStructureFingerprint="4d787cfbaf7b48d0"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x2" type="other" subType="swi18n:condition-true">Wie beim Lösen einer Produktgleichung üblich, bringen wir den Faktor vor dem <ph id="c2" type="ui" subType="swi18n:inline-math"/> (hier <ph id="c3" type="ui" subType="swi18n:inline-math"/>) auf die andere Seite, wo er als Division endet. Dies ergibt die Lösung <ph id="c4" type="ui" subType="swi18n:block-math"/><pc id="x3" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x4" type="other" subType="swi18n:condition-true">Dies kann noch vereinfacht werden zu <ph id="c5" type="ui" subType="swi18n:block-math"/></pc><pc id="x5" type="other" subType="swi18n:condition-false">Dies kann nicht weiter vereinfacht werden.</pc></pc></pc><pc id="x6" type="other" subType="swi18n:condition-false">Zufälligerweise ist der Faktor vor dem <ph id="c6" type="ui" subType="swi18n:inline-math"/> bereits gestrichen worden. Daher haben wir bereits die Lösung gefunden, <ph id="c7" type="ui" subType="swi18n:block-math"/></pc></pc></pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">Als Letztes müssen wir noch die Lösung überprüfen. Das Einsetzen in die ursprüngliche Gleichung ergibt <ph id="c9" type="ui" subType="swi18n:block-math"/> Beide Seiten vereinfachen sich zu <ph id="c10" type="ui" subType="swi18n:inline-math"/>, was zeigt, dass die Lösung korrekt ist.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="withBrackets">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve this equation for <ph id="c2" type="ui" subType="swi18n:inline-math"/> and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="3a9b038db181589e" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Beachte die Gleichung <ph id="c1" type="ui" subType="swi18n:block-math"/> Löse diese Gleichung für <ph id="c2" type="ui" subType="swi18n:inline-math"/> und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Expand all brackets in the equation.</source>
+							<target swi18n:sourceContentFingerprint="1684ea5309a7def4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Löse die Klammern in der Gleichung auf.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By expanding the brackets, the equation turns into <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="4d13aade93f67127" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Durch das Ausmultiplizieren der Klammern wird die Gleichung umgewandelt in <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms containing <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</source>
+							<target swi18n:sourceContentFingerprint="15397630fd0236c1" swi18n:sourceStructureFingerprint="98f3255e641e5524">Bringe alle Terme mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> auf die eine Seite, und alle Terme ohne <ph id="c2" type="ui" subType="swi18n:inline-math"/> auf die andere Seite.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right, then we get <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="a4b1b614d01262ac" swi18n:sourceStructureFingerprint="48a11a365f442e35">Wenn wir alle Terme mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> nach links und alle Terme ohne <ph id="c2" type="ui" subType="swi18n:inline-math"/> nach rechts bringen, erhalten wir <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Clean up both equation sides separately by merging terms together.</source>
+							<target swi18n:sourceContentFingerprint="e57c133ac2c293ce" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bereinige beide Seiten der Gleichung, indem du die Terme zusammenfügst.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>On the left we merge terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> together, and on the right we simply add together the numbers. This results in <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="2104c6df9850e39b" swi18n:sourceStructureFingerprint="fd2fba868566671b">Auf der linken Seite fügen wir die Terme mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> zusammen, und auf der rechten Seite addieren wir einfach die Zahlen. Das ergibt <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Solve the resulting equation for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="022d7ad822986aa8" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Löse die erhaltene Gleichung für <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x2" type="other" subType="swi18n:condition-true">As usual when solving a product equation, we move the factor in front of <ph id="c2" type="ui" subType="swi18n:inline-math"/> (here <ph id="c3" type="ui" subType="swi18n:inline-math"/>) to the other side, where it will be divided by. This gives the solution <ph id="c4" type="ui" subType="swi18n:block-math"/><pc id="x3" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x4" type="other" subType="swi18n:condition-true">This can still be simplified into <ph id="c5" type="ui" subType="swi18n:block-math"/></pc><pc id="x5" type="other" subType="swi18n:condition-false">This cannot be simplified further.</pc></pc></pc><pc id="x6" type="other" subType="swi18n:condition-false">Coincidentally the factor before the <ph id="c6" type="ui" subType="swi18n:inline-math"/> has already dropped out. As a result, we have already found the solution, <ph id="c7" type="ui" subType="swi18n:block-math"/></pc></pc></pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">The last thing to do is to check the solution. Inserting it into the original equation gives <ph id="c9" type="ui" subType="swi18n:block-math"/> Both sides reduce to <ph id="c10" type="ui" subType="swi18n:inline-math"/> which shows that the solution is correct.</pc></source>
+							<target swi18n:sourceContentFingerprint="875bce039f1e7be4" swi18n:sourceStructureFingerprint="4d787cfbaf7b48d0"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x2" type="other" subType="swi18n:condition-true">Wie beim Lösen einer Produktgleichung üblich, bringen wir den Faktor vor dem <ph id="c2" type="ui" subType="swi18n:inline-math"/> (hier <ph id="c3" type="ui" subType="swi18n:inline-math"/>) auf die andere Seite, wo er als Division endet. Dies ergibt die Lösung <ph id="c4" type="ui" subType="swi18n:block-math"/><pc id="x3" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x4" type="other" subType="swi18n:condition-true">Dies kann noch vereinfacht werden zu <ph id="c5" type="ui" subType="swi18n:block-math"/></pc><pc id="x5" type="other" subType="swi18n:condition-false">Dies kann nicht weiter vereinfacht werden.</pc></pc></pc><pc id="x6" type="other" subType="swi18n:condition-false">Zufälligerweise ist der Faktor vor dem <ph id="c6" type="ui" subType="swi18n:inline-math"/> bereits gestrichen worden. Daher haben wir bereits die Lösung gefunden, <ph id="c7" type="ui" subType="swi18n:block-math"/></pc></pc></pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">Als Letztes müssen wir noch die Lösung überprüfen. Das Einsetzen in die ursprüngliche Gleichung ergibt <ph id="c9" type="ui" subType="swi18n:block-math"/> Beide Seiten vereinfachen sich zu <ph id="c10" type="ui" subType="swi18n:inline-math"/>, was zeigt, dass die Lösung korrekt ist.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

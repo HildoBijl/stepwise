@@ -2,8 +2,8 @@ import React from 'react'
 
 import { Unit } from '@step-wise/physics-core'
 import { M } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Head, Par, List, Term, Info } from 'ui/components'
 
 const mps = new Unit('m/s')
@@ -17,11 +17,11 @@ const Omega = new Unit('Ω')
 
 export function Theory() {
 	return <>
-		<Translation entry="intro">
+		<Translation id="intro">
 			<Par>When calculating things in physics, it's crucial to use the right <Term>units</Term>. There is a large difference between, for instance, <M>{mps}</M> and <M>{kmps}</M>. However, sometimes units get complicated, with powers, fractions, Greek letters, and even <M>{dC}</M>. How do you enter all that?</Par>
 		</Translation>
 
-		<Translation entry="basicFunctionalities">
+		<Translation id="basicFunctionalities">
 			<Head>Basic functionalities</Head>
 			<Par>To enter basic units, keep the following matters in mind.</Par>
 			<List>
@@ -33,7 +33,7 @@ export function Theory() {
 			<Info>Units are case-sensitive! If the input field doesn't understand a unit, it's colored red. In that case, you may want to check your capitalization.</Info>
 		</Translation>
 
-		<Translation entry="autoReplace">
+		<Translation id="autoReplace">
 			<Head>Auto-replace</Head>
 			<Par>Most units are basic letters, but there are exceptions. Think of <M>{mum}</M>, <M>{Omega}</M> or <M>{dC}</M>. To type these, you can use the <Term>auto-replace</Term> functionality.</Par>
 			<List>

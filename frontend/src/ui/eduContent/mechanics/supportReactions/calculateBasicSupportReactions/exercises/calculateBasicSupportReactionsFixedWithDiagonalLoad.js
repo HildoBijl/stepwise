@@ -5,9 +5,10 @@ import { loadNameToVariable } from '@step-wise/mechanics-exercises'
 import { freeBodyDiagramComparisonOptions, compareLoadLists, loadsEqual } from '@step-wise/engineering-mechanics'
 import { M, BM } from '@step-wise/math-display'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { Drawing } from '@step-wise/drawing'
+import { Translation, Condition } from '@step-wise/i18n'
+
 import { useInput, InputSpace } from 'ui/form'
 import { useCurrentBackgroundColor, QuantityInput } from 'ui/inputs'
 import { StepExercise, getCurrentStep, useSolution, getFieldInputFeedback } from 'ui/eduTools'
@@ -58,7 +59,7 @@ const steps = [
 			return <Translation>
 				<Par>A clamp prevents all motion, and hence allows for a horizontal reaction force, a vertical reaction force and a reaction torque. Together with the external load, this gives us the following diagram.</Par>
 				<Diagram showSolution={true} showSupports={false} />
-				<Par><Check value={hasAdjustedSolution}><Check.True>Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</Check.True><Check.False>The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</Check.False></Check></Par>
+				<Par><Condition value={hasAdjustedSolution}><Condition.True>Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</Condition.True><Condition.False>The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</Condition.False></Condition></Par>
 			</Translation>
 		},
 	},

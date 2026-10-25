@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { getCurrentStep } from '@step-wise/input-exercises'
+import { TranslationArea, TranslationGroup } from '@step-wise/i18n'
 
 import { useUserId } from 'api'
-import { TranslationSection, useTranslator, addSection } from 'i18n'
+import { useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart } from 'ui/form'
 
@@ -52,18 +53,22 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 		<ProblemContainer activeProblem={step === exerciseStep} problemStep={step} display={!!display} step={step}>
 			<FormPart part={step} readOnly={readOnly} showInputSpace={showInputSpace} showHints={!doneWithStep}>
 				<VerticalAdjuster>
-					<TranslationSection entry={`step${step}.problem`}>
-						<Problem {...parameters} translate={addSection(translate, `step${step}.problem`)} />
-					</TranslationSection>
+					<TranslationGroup path={`step${step}`}>
+						<TranslationArea name="problem">
+							<Problem {...parameters} translate={addSection(translate, `step${step}.problem`)} />
+						</TranslationArea>
+					</TranslationGroup>
 				</VerticalAdjuster>
 			</FormPart>
 			<MainFeedback display={showMainFeedback} step={step} />
 			{step === exerciseStep && (!stepState.done || example) ? <ExerciseButtons stepwise={true} /> : null}
 		</ProblemContainer>
 		<SolutionContainer problemStep={step} display={showSolution} initialExpand={initialSolutionExpand}>
-			<TranslationSection entry={`step${step}.solution`}>
-				<Solution {...parameters} {...solution} translate={addSection(translate, `step${step}.solution`)} />
-			</TranslationSection>
+			<TranslationGroup path={`step${step}`}>
+				<TranslationArea name="solution">
+					<Solution {...parameters} {...solution} translate={addSection(translate, `step${step}.solution`)} />
+				</TranslationArea>
+			</TranslationGroup>
 		</SolutionContainer>
 	</>
 }

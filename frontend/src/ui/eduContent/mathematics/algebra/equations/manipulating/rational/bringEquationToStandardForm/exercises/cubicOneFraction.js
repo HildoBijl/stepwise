@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'
@@ -17,7 +17,7 @@ export default function Exercise() {
 const Problem = () => {
 	const { equation, normalize, variables } = useSolution()
 	return <>
-		<Par><Translation>Consider the equation <BM>{equation}.</BM> Bring this equation to the standard form and <Check value={normalize}><Check.True>normalize the result</Check.True><Check.False>ensure that the coefficients are all integers that are as small as possible</Check.False></Check>.</Translation></Par>
+		<Par><Translation>Consider the equation <BM>{equation}.</BM> Bring this equation to the standard form and <Condition value={normalize}><Condition.True>normalize the result</Condition.True><Condition.False>ensure that the coefficients are all integers that are as small as possible</Condition.False></Condition>.</Translation></Par>
 		<InputSpace>
 			<Par>
 				<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
@@ -79,7 +79,7 @@ const steps = [
 		Problem: () => {
 			const { variables, normalize } = useSolution()
 			return <>
-				<Par><Translation>Make sure that the terms are sorted by decreasing power of <M>{variables.x}</M>. On top of this, <Check value={normalize}><Check.True>normalize the equation</Check.True><Check.False>ensure that the coefficients are all integers that are as small as possible</Check.False></Check>.</Translation></Par>
+				<Par><Translation>Make sure that the terms are sorted by decreasing power of <M>{variables.x}</M>. On top of this, <Condition value={normalize}><Condition.True>normalize the equation</Condition.True><Condition.False>ensure that the coefficients are all integers that are as small as possible</Condition.False></Condition>.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
@@ -88,7 +88,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, normalize, divisor, ans }) => {
-			return <Par><Translation>Note that in the previous step we already sorted the terms. The only thing that is left to do is clean up the coefficients. <Check value={normalize}><Check.True>To normalize the equation, we divide by the factor before the highest power of <M>{variables.x}</M>. That is, we divide all terms by <M>{divisor}</M>. This results in <BM>{ans}.</BM> This is the normalized version of the equation.</Check.True><Check.False>Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <M>{divisor}</M> without obtaining any fractions. Doing so will result in <BM>{ans}.</BM> This equation is as simplified as it can be.</Check.False></Check></Translation></Par>
+			return <Par><Translation>Note that in the previous step we already sorted the terms. The only thing that is left to do is clean up the coefficients. <Condition value={normalize}><Condition.True>To normalize the equation, we divide by the factor before the highest power of <M>{variables.x}</M>. That is, we divide all terms by <M>{divisor}</M>. This results in <BM>{ans}.</BM> This is the normalized version of the equation.</Condition.True><Condition.False>Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <M>{divisor}</M> without obtaining any fractions. Doing so will result in <BM>{ans}.</BM> This equation is as simplified as it can be.</Condition.False></Condition></Translation></Par>
 		},
 	},
 ]

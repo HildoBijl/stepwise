@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">move a factor to the other side of an equation</pc>. If you have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> you will be able to bring <ph id="c4" type="ui" subType="swi18n:inline-math"/> to the other side to get <ph id="c5" type="ui" subType="swi18n:inline-math"/>, or to then bring <ph id="c6" type="ui" subType="swi18n:inline-math"/> to the other side to get <ph id="c7" type="ui" subType="swi18n:inline-math"/>. This includes understanding the idea behind this: <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplying both sides of an equation by a factor</pc> and subsequently <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">canceling fraction factors</pc>. The skill does not include dealing with <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">equations with multiple terms</pc>.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">A <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">product equation</pc> is an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> where both sides of the equation only have multiplications and divisions; no additions or subtractions. When we have such an equation, it is helpful to be able to <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">move factors</pc> around in the equation. That's what this skill is about. We look at how we do this, and what short-cuts we can take.</pc></source>
+				</segment>
+			</unit>
+			<unit id="removingMultiplications">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Getting rid of a multiplication</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">One thing that we can do with the equation <ph id="c3" type="ui" subType="swi18n:inline-math"/> is to get rid of the <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">multiplication factor</pc> <ph id="c5" type="ui" subType="swi18n:inline-math"/> on the left. To do so, we can first <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">divide both sides of the equation</pc> by <ph id="c7" type="ui" subType="swi18n:inline-math"/>. This gives <ph id="c8" type="ui" subType="swi18n:block-math"/> Both sides of the equation can be simplified. On the left we can <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">cancel fraction factors</pc> to get rid of the <ph id="c10" type="ui" subType="swi18n:inline-math"/> on both sides of the fraction, leaving us with just <ph id="c11" type="ui" subType="swi18n:inline-math"/>. We see that the <ph id="c12" type="ui" subType="swi18n:inline-math"/> indeed disappears from the left side of the equation, as was our goal. On the right, we can <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify the fraction division</pc> to get <ph id="c14" type="ui" subType="swi18n:inline-math"/> (or alternatively <ph id="c15" type="ui" subType="swi18n:inline-math"/>). The final result is <ph id="c16" type="ui" subType="swi18n:block-math"/> Note that we have moved the multiplication factor <ph id="c17" type="ui" subType="swi18n:inline-math"/> from the left to the right, and when we did, it turned into a division factor.</pc></source>
+				</segment>
+			</unit>
+			<unit id="removingDivisions">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Getting rid of a division</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We could've also done something different with the equation <ph id="c3" type="ui" subType="swi18n:inline-math"/>, which is to get rid of the <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">division factor</pc> <ph id="c5" type="ui" subType="swi18n:inline-math"/> on the right. To do so, we can <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply both sides of the equation</pc> by <ph id="c7" type="ui" subType="swi18n:inline-math"/>. This turns it into <ph id="c8" type="ui" subType="swi18n:block-math"/> On the right, the division by <ph id="c9" type="ui" subType="swi18n:inline-math"/> and the multiplication by <ph id="c10" type="ui" subType="swi18n:inline-math"/> <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">cancel out</pc>, so this side reduces to just <ph id="c12" type="ui" subType="swi18n:inline-math"/>. The result can be rewritten as <ph id="c13" type="ui" subType="swi18n:block-math"/> Note that we have moved the division factor <ph id="c14" type="ui" subType="swi18n:inline-math"/> from the right to the left, where it turned into a multiplication factor.</pc></source>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To move a factor from one side of a product equation to the other, like when moving the factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> in the equation <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">If the factor is in a multiplication, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">divide both sides of the equation</pc> by the factor. Or alternatively, if the factor is being divided by, <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply both sides of the equation</pc> by the factor. For the example, we divide by <ph id="c10" type="ui" subType="swi18n:inline-math"/> to get <ph id="c11" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c13" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Cancel fraction factors</pc> to get rid of the factor that has to be moved. For the example, we turn <ph id="c15" type="ui" subType="swi18n:inline-math"/> into <ph id="c16" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c17" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c18" type="ui" subType="swi18n:c" swi18n:slot="children">Depending on the situation, it may also be needed to <pc id="c19" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify a fraction inside a fraction</pc> into a single fraction. For the example, we turn <ph id="c20" type="ui" subType="swi18n:inline-math"/> into <ph id="c21" type="ui" subType="swi18n:inline-math"/>, which optionally can still be written as <ph id="c22" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+				</segment>
+			</unit>
+			<unit id="shortCut">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The short-cut</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We can summarize the above ideas into a useful short-cut. If we move a factor (multiplication or division) from one side of a product equation to the other, we should do the following.</pc><pc id="c3" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">If the factor is a multiplication factor (it's in the numerator of a fraction, or just in a multiplication) then on the other side it will appear as a division factor (in the denominator of a fraction). So <ph id="c6" type="ui" subType="swi18n:inline-math"/> turns into <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children">If the factor is a division factor (in the denominator of a fraction) then on the other side it will appear as a multiplication factor (in the numerator of a fraction, or just in a multiplication). So <ph id="c10" type="ui" subType="swi18n:inline-math"/> turns into <ph id="c11" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c12" type="ui" subType="swi18n:par" swi18n:slot="children">Using this idea, we can also directly move factors around, without applying the in-between steps.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="basicDivision">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Move the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Divide</pc> both sides of the equation by <ph id="c2" type="ui" subType="swi18n:inline-math"/>. (After all, the factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> is inside a <pc id="c4" type="ui" subType="swi18n:emp" swi18n:slot="children">multiplication</pc>.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we divide both sides of the equation <ph id="c1" type="ui" subType="swi18n:inline-math"/> by the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we directly wind up with <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the fraction on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">right</pc><pc id="x3" type="other" subType="swi18n:condition-false">left</pc></pc> side by canceling fraction factors where possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> on both sides of the fraction. This gives the result <ph id="c2" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, this can still be simplified to <ph id="c3" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">This cannot be simplified further.</pc></pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="basicMultiplication">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Move the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Multiply</pc> both sides of the equation by <ph id="c2" type="ui" subType="swi18n:inline-math"/>. (After all, the factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> is currently being <pc id="c4" type="ui" subType="swi18n:emp" swi18n:slot="children">divided by</pc>.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we multiply both sides of the equation <ph id="c1" type="ui" subType="swi18n:inline-math"/> by the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we directly wind up with <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the fraction on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side by canceling fraction factors where possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> on both sides of the fraction. This gives the result <ph id="c2" type="ui" subType="swi18n:block-math"/>This is the final result, with <ph id="c3" type="ui" subType="swi18n:inline-math"/> now on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">right</pc><pc id="x3" type="other" subType="swi18n:condition-false">left</pc></pc> side.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="division">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Move the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Divide</pc> both sides of the equation by <ph id="c2" type="ui" subType="swi18n:inline-math"/>. (After all, the factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> is inside a <pc id="c4" type="ui" subType="swi18n:emp" swi18n:slot="children">multiplication</pc>.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we divide both sides of the equation <ph id="c1" type="ui" subType="swi18n:inline-math"/> by the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we directly wind up with <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the fraction on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">right</pc><pc id="x3" type="other" subType="swi18n:condition-false">left</pc></pc> side by canceling fraction factors where possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> on both sides of the fraction. This gives the result <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Also simplify the fraction on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> (if not already done) to ensure that there is no fraction of fractions in the final result.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Dividing a fraction by a factor will add that factor to the denominator. This gives the result <ph id="c1" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, this can still be simplified to <ph id="c2" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">This cannot be simplified further.</pc></pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="multiplication">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Move the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Multiply</pc> both sides of the equation by <ph id="c2" type="ui" subType="swi18n:inline-math"/>. (After all, the factor <ph id="c3" type="ui" subType="swi18n:inline-math"/> is currently being <pc id="c4" type="ui" subType="swi18n:emp" swi18n:slot="children">divided by</pc>.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we multiply both sides of the equation <ph id="c1" type="ui" subType="swi18n:inline-math"/> by the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we directly wind up with <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the fraction on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side by canceling fraction factors where possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/> on both sides of the fraction. This gives the result <ph id="c2" type="ui" subType="swi18n:block-math"/><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, this can still be simplified to <ph id="c3" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">This cannot be simplified further.</pc></pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

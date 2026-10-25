@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">expand double brackets</pc>. If we multiply a sum within brackets by another sum within brackets, like in <ph id="c3" type="ui" subType="swi18n:inline-math"/>, you should be able to write this without brackets. In this example this results in <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This skill also includes somewhat more complicated terms in the sums inside said brackets and/or larger sums with more terms.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We know how to <pc id="c2" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand brackets</pc> like <ph id="c3" type="ui" subType="swi18n:inline-math"/>. But what do we do if we have a multiplication of brackets with brackets? Like <ph id="c4" type="ui" subType="swi18n:inline-math"/>? The answer is: we <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">expand brackets twice</pc>. First we expand one, and then we expand the other.</pc></source>
+				</segment>
+			</unit>
+			<unit id="rule">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The rule</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">If we have a number multiplication, like for instance <ph id="c3" type="ui" subType="swi18n:inline-math"/>, then we can visualize this multiplication using blocks.</pc><ph id="c4" type="ui" subType="swi18n:block-drawing"/><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">From this, we see that <ph id="c6" type="ui" subType="swi18n:inline-math"/> can first be rewritten to <ph id="c7" type="ui" subType="swi18n:inline-math"/> and then to <ph id="c8" type="ui" subType="swi18n:inline-math"/>. Check for yourself: they all result into <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c10" type="ui" subType="swi18n:par" swi18n:slot="children">This works exactly the same if we have an expression like <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Here, <ph id="c12" type="ui" subType="swi18n:inline-math"/>, <ph id="c13" type="ui" subType="swi18n:inline-math"/>, <ph id="c14" type="ui" subType="swi18n:inline-math"/> and <ph id="c15" type="ui" subType="swi18n:inline-math"/> can be any type of expression, like <ph id="c16" type="ui" subType="swi18n:inline-math"/> or anything similar. We can again visualize this.</pc><ph id="c17" type="ui" subType="swi18n:block-drawing"/><pc id="c18" type="ui" subType="swi18n:par" swi18n:slot="children">From this visualization, we see that we may rewrite <ph id="c19" type="ui" subType="swi18n:inline-math"/> to <ph id="c20" type="ui" subType="swi18n:inline-math"/>. We call this <pc id="c21" type="ui" subType="swi18n:term" swi18n:slot="children">expanding double brackets</pc>. The accompanying rule is <ph id="c22" type="ui" subType="swi18n:block-math"/> You generally don't need to remember this rule. What you should remember is that you multiply each of the terms from the left brackets (here <ph id="c23" type="ui" subType="swi18n:inline-math"/> and <ph id="c24" type="ui" subType="swi18n:inline-math"/>) with each of the terms from the right brackets (here <ph id="c25" type="ui" subType="swi18n:inline-math"/> and <ph id="c26" type="ui" subType="swi18n:inline-math"/>). If you do this for all combinations of terms, you get the right result.</pc></source>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To expand double brackets, like for instance with <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Expand the left brackets</pc>. (Or identically, you may start with the right set too.) Keep the other brackets as they are, treating them as a single number. For the example, this gives <ph id="c8" type="ui" subType="swi18n:block-math"/></pc></pc><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:b" swi18n:slot="children">Continue by <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding the remaining brackets</pc>. For our example, this then gives<ph id="c12" type="ui" subType="swi18n:block-math"/>Note that we can also use a short-cut by directly multiplying each of the terms of the left brackets with each of the terms of the right brackets.</pc></pc><pc id="c13" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Merge similar terms</pc> - terms that are identical, apart from their number factor - into a single term. In the example, we merge <ph id="c16" type="ui" subType="swi18n:inline-math"/> and <ph id="c17" type="ui" subType="swi18n:inline-math"/> together into <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c19" type="ui" subType="swi18n:par" swi18n:slot="children">The final result <ph id="c20" type="ui" subType="swi18n:inline-math"/> is as easy as you can possibly write it.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="basicForm">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Expand the left set of brackets (here <ph id="c1" type="ui" subType="swi18n:inline-math"/>) while keeping the right set of brackets (here <ph id="c2" type="ui" subType="swi18n:inline-math"/>) intact. Treat the right set of brackets as a single number, which technically it is.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply each of the terms <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the left set of brackets by the full right brackets. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all remaining brackets.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Expanding the remaining brackets in the usual way results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge similar terms (with equal power of <ph id="c1" type="ui" subType="swi18n:inline-math"/>) together to simplify the result as much as possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>There are two terms that have <ph id="c1" type="ui" subType="swi18n:inline-math"/> as a factor, being <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Together these can be written as <ph id="c4" type="ui" subType="swi18n:inline-math"/>. The resulting expression then becomes <ph id="c5" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="higherPowers">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Expand the left set of brackets (here <ph id="c1" type="ui" subType="swi18n:inline-math"/>) while keeping the right set of brackets (here <ph id="c2" type="ui" subType="swi18n:inline-math"/>) intact. Treat the right set of brackets as a single number, which technically it is.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply each of the terms <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the left set of brackets by the full right brackets. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all remaining brackets.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Expanding the remaining brackets in the usual way results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge similar terms (with equal power of <ph id="c1" type="ui" subType="swi18n:inline-math"/>) together to simplify the result as much as possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>There are two terms that have <ph id="c1" type="ui" subType="swi18n:inline-math"/> as a factor, being <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Together these can be written as <ph id="c4" type="ui" subType="swi18n:inline-math"/>. The resulting expression then becomes <ph id="c5" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="multipleTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Expand the left set of brackets (here <ph id="c1" type="ui" subType="swi18n:inline-math"/>) while keeping the right set of brackets (here <ph id="c2" type="ui" subType="swi18n:inline-math"/>) intact. Treat the right set of brackets as a single number, which technically it is.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply each of the terms <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the left set of brackets by the full right brackets. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all remaining brackets.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Expanding the remaining brackets in the usual way results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge similar terms (with equal power of <ph id="c1" type="ui" subType="swi18n:inline-math"/>) together to simplify the result as much as possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>There are two terms that have <ph id="c1" type="ui" subType="swi18n:inline-math"/> as a factor, being <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Together these can be written as <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Identically, <ph id="c5" type="ui" subType="swi18n:inline-math"/> and <ph id="c6" type="ui" subType="swi18n:inline-math"/> can be merged into <ph id="c7" type="ui" subType="swi18n:inline-math"/>. The resulting expression then becomes <ph id="c8" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="squared">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand the brackets and simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Use the definition of the square to rewrite <ph id="c1" type="ui" subType="swi18n:inline-math"/> as a multiplication <ph id="c2" type="ui" subType="swi18n:inline-math"/> without any square outside the brackets.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>A square simply means an expression multiplied by itself. So we can write <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand the left set of brackets, while keeping the right set of brackets intact. Treat the right set of brackets as a single number, which technically it is.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply each of the terms <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the left set of brackets by the full right brackets. This results in <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Expand all remaining brackets.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Expanding the remaining brackets in the usual way results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Merge similar terms (with equal power of <ph id="c1" type="ui" subType="swi18n:inline-math"/>) together to simplify the result as much as possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">There are two terms that have <ph id="c2" type="ui" subType="swi18n:inline-math"/> as a factor, being <ph id="c3" type="ui" subType="swi18n:inline-math"/> and again <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Together these can be written as <ph id="c5" type="ui" subType="swi18n:inline-math"/>. The resulting expression then becomes <ph id="c6" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c8" type="ui" subType="swi18n:sub-head" swi18n:slot="children">Short-cut</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">There is a possible short-cut for this question. A square of a sum, like <ph id="c10" type="ui" subType="swi18n:inline-math"/>, always comes out as <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Using this knowledge, we could have also directly seen that <ph id="c12" type="ui" subType="swi18n:block-math"/></pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="wrongBracketsExpanded">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Make sure to expand all brackets, except for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					</segment>
+				</unit>
+				<unit id="stillHasPower">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">There are still brackets with an exponent above it.</pc></source>
+					</segment>
+				</unit>
+				<unit id="bracketProductRemains">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Make sure to expand one set of brackets: you cannot have brackets multiplied by brackets anymore.</pc></source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

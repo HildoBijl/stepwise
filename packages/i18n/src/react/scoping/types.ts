@@ -4,11 +4,18 @@ import { type CatalogFolderPath, type CatalogGroupPath } from '../../catalog/ind
 export type TranslationFolderPathInput = string | CatalogFolderPath
 export type TranslationGroupPathInput = string | CatalogGroupPath
 
-// Output of the scoping components.
+// Output of the scoping components: the context value.
 export type TranslationScope = {
 	folder: CatalogFolderPath
 	catalog?: string
 	group: CatalogGroupPath
+}
+
+// Output for the TranslationArea scope: the context value.
+export type TranslationAreaScope = {
+	group: CatalogGroupPath
+	name: string
+	register: (token: symbol, id?: string) => () => void
 }
 
 // Input for the resolution of a Catalog address.
@@ -25,7 +32,7 @@ export type CatalogUnitAddressInput = {
 	folder?: never
 	catalog?: never
 	group?: CatalogGroupPath
-	id: string
+	id?: string
 } | {
 	folder?: never
 	catalog: string

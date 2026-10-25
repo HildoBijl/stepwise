@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">solve a linear equation with multiple variables</pc>. If you have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to determine the solution for <ph id="c4" type="ui" subType="swi18n:inline-math"/> as <ph id="c5" type="ui" subType="swi18n:inline-math"/>. This includes <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding any potential brackets</pc>, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">moving terms around</pc>, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">pulling the unknown out of brackets</pc> and eventually <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solving the resulting product equation</pc>. The latter also includes simplifying the result as well as checking it. This skill does not deal with <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">equations with fractions containing <ph id="c11" type="ui" subType="swi18n:inline-math"/> in the denominator</pc>.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Consider an equation like <ph id="c2" type="ui" subType="swi18n:inline-math"/>. This equation is a <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">linear equation</pc> with respect to <ph id="c4" type="ui" subType="swi18n:inline-math"/>: if we consider all other variables (<ph id="c5" type="ui" subType="swi18n:inline-math"/> and <ph id="c6" type="ui" subType="swi18n:inline-math"/>) as numbers, then all terms are either a number or a number times <ph id="c7" type="ui" subType="swi18n:inline-math"/>. A linear equation may also contain numbers multiplied by brackets, like in <ph id="c8" type="ui" subType="swi18n:inline-math"/>, but there are no squares <ph id="c9" type="ui" subType="swi18n:inline-math"/> or more complicated terms. This skill is about solving such an equation to find which value of <ph id="c10" type="ui" subType="swi18n:inline-math"/> satisfies it. This is very similar to solving a <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solving a linear equation with one variable</pc>, but there are a few small differences.</pc></source>
+				</segment>
+			</unit>
+			<unit id="solving">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Solving the equation</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The first thing we always do when solving an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> is clean it up. That starts with <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding brackets</pc>: if there are any containing <ph id="c5" type="ui" subType="swi18n:inline-math"/>, get rid of them. Doing so for the example gives <ph id="c6" type="ui" subType="swi18n:block-math"/> Next, we want to sort out the terms: we <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">move the terms</pc> with <ph id="c8" type="ui" subType="swi18n:inline-math"/> to one side (for instance the left) and the terms without <ph id="c9" type="ui" subType="swi18n:inline-math"/> to the other side (the right). For our example this turns it into <ph id="c10" type="ui" subType="swi18n:block-math"/> Finally we <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">pull <ph id="c12" type="ui" subType="swi18n:inline-math"/> out of brackets</pc>. The example then reduces to <ph id="c13" type="ui" subType="swi18n:block-math"/> We have rewritten the equation to a form that is a lot simpler! In fact, you may recognize that it's now a <pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">product equation with multiple variables</pc>. After all, it has the form of "number times <ph id="c15" type="ui" subType="swi18n:inline-math"/> = other number". We can solve it in the default way: we <pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">move the factor</pc> before the <ph id="c17" type="ui" subType="swi18n:inline-math"/> to the other side. This gives <ph id="c18" type="ui" subType="swi18n:block-math"/> This is the solution to the equation.</pc></source>
+				</segment>
+			</unit>
+			<unit id="checking">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Checking the solution</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">As usual, we still want to insert this solution into the original equation to <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">check</pc> it. Doing so gives <ph id="c4" type="ui" subType="swi18n:block-math"/> We should now check if both sides reduce to the same expression. This is a bit more complicated, but the first step we can do is turn the constants <ph id="c5" type="ui" subType="swi18n:inline-math"/> and <ph id="c6" type="ui" subType="swi18n:inline-math"/> into a fraction that also have <ph id="c7" type="ui" subType="swi18n:inline-math"/> in the denominator. This gives <ph id="c8" type="ui" subType="swi18n:block-math"/> If we <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand brackets</pc> in the numerators, we get <ph id="c10" type="ui" subType="swi18n:block-math"/> <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Merging fractions together</pc> then turns this into <ph id="c12" type="ui" subType="swi18n:block-math"/> <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Expanding the brackets</pc> on the left side finally turns this into <ph id="c14" type="ui" subType="swi18n:block-math"/> Indeed, both sides reduce to the same, which shows that the solution we have found is correct.</pc><pc id="c15" type="ui" subType="swi18n:par" swi18n:slot="children">You may notice that checking the equation solution is in fact more work than solving the equation itself. As a result, you'll find that as you become more proficient with this skill, you don't always check your equation solution anymore. It is however recommended to still do so the first few times, to obtain this proficiency.</pc></source>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To solve a linear equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> for the target variable <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">If there are any brackets containing the target variable, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand them</pc>. This turns the example into <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Move all terms</pc> with the target variable to one side and all terms without the target variable to the other side. For the example, if we move everything with <ph id="c13" type="ui" subType="swi18n:inline-math"/> to the left and the rest to the right, we get <ph id="c14" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c15" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c17" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Pull the target variable out of the brackets</pc>. Pulling <ph id="c18" type="ui" subType="swi18n:inline-math"/> out will turn the example into <ph id="c19" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c20" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c21" type="ui" subType="swi18n:d" swi18n:slot="children"><pc id="c22" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Solve the resulting product equation</pc> by moving the factor between brackets to the other side. Also simplify the result where possible and check it. For the example we end up with <ph id="c23" type="ui" subType="swi18n:inline-math"/>, which can be shown to balance the equation.</pc></pc></pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="basic">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side of the equation, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We move <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right. This gives us <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets. Leave the rest of the equation unchanged.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets, we must write <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This tells us that there should be <ph id="c4" type="ui" subType="swi18n:inline-math"/> between the brackets. In this way we can rewrite the equation as <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Move the factor between brackets to the other side, to solve for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">If we divide both sides by <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then on the left the factor between brackets disappears. We only remain with <ph id="c3" type="ui" subType="swi18n:inline-math"/>, meaning that we have indeed solved the equation for <ph id="c4" type="ui" subType="swi18n:inline-math"/>! The final result is <ph id="c5" type="ui" subType="swi18n:block-math"/> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <ph id="c7" type="ui" subType="swi18n:block-math"/> We can write each side as one large fraction to get <ph id="c8" type="ui" subType="swi18n:block-math"/> Subsequently expanding brackets and canceling sum terms turns this into <ph id="c9" type="ui" subType="swi18n:block-math"/> Note that both sides have reduced to the same. This means that our solution is correct.</pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="withBrackets">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>First expand the brackets in the equation. (Leave the rest unchanged.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To expand the brackets, we multiply <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> separately by <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This turns the equation into <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side of the equation, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We move <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right. This gives us <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets. Leave the rest of the equation unchanged.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets, we must write <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This tells us that there should be <ph id="c4" type="ui" subType="swi18n:inline-math"/> between the brackets. In this way we can rewrite the equation as <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Move the factor between brackets to the other side, to solve for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">If we divide both sides by <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then on the left the factor between brackets disappears. We only remain with <ph id="c3" type="ui" subType="swi18n:inline-math"/>, meaning that we have indeed solved the equation for <ph id="c4" type="ui" subType="swi18n:inline-math"/>! The final result is <ph id="c5" type="ui" subType="swi18n:block-math"/> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <ph id="c7" type="ui" subType="swi18n:block-math"/> We can write each side as one large fraction to get <ph id="c8" type="ui" subType="swi18n:block-math"/> Subsequently expanding brackets and canceling sum terms turns this into <ph id="c9" type="ui" subType="swi18n:block-math"/> Note that both sides have reduced to the same. This means that our solution is correct.</pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="withFraction">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side of the equation, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We move <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right. This gives us <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets. Leave the rest of the equation unchanged.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets, we must write <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This tells us that there should be <ph id="c4" type="ui" subType="swi18n:inline-math"/> between the brackets. In this way we can rewrite the equation as <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Move the factor between brackets to the other side, to solve for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">If we divide both sides by <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then on the left the term between brackets disappears. We only remain with <ph id="c3" type="ui" subType="swi18n:inline-math"/>, meaning that we have indeed solved the equation for <ph id="c4" type="ui" subType="swi18n:inline-math"/>! The final result is <ph id="c5" type="ui" subType="swi18n:block-math"/> Optionally this can still be simplified to <ph id="c6" type="ui" subType="swi18n:block-math"/> but that is not necessarily required here.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <ph id="c8" type="ui" subType="swi18n:block-math"/> We can cross out <ph id="c9" type="ui" subType="swi18n:inline-math"/> on the left and write each side as one large fraction to get <ph id="c10" type="ui" subType="swi18n:block-math"/> Subsequently expanding brackets and canceling sum terms turns this into <ph id="c11" type="ui" subType="swi18n:block-math"/> Note that both sides have reduced to the same. This means that our solution is correct.</pc></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="variableOnBothSides">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Both sides of the equation still contain <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Pull all terms with <ph id="c3" type="ui" subType="swi18n:inline-math"/> to the <pc id="c4" type="ui" subType="swi18n:em" swi18n:slot="children">same</pc> side.</pc></source>
+					</segment>
+				</unit>
+				<unit id="missingVariable">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your solution does not contain <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Where did it go?</pc></source>
+					</segment>
+				</unit>
+				<unit id="oneVariable">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">There were multiple terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/>, but you only wrote down one.</pc></source>
+					</segment>
+				</unit>
+				<unit id="termWithoutVariable">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You did bring all terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/> to one side, but there's also a term <ph id="c3" type="ui" subType="swi18n:inline-math"/> that does not contain <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					</segment>
+				</unit>
+				<unit id="noSideWithoutVariable">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You put the variable <ph id="c2" type="ui" subType="swi18n:inline-math"/> on both sides of the equation again. That was not supposed to happen.</pc></source>
+					</segment>
+				</unit>
+				<unit id="unequalSideWithoutVariable">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The side without <ph id="c2" type="ui" subType="swi18n:inline-math"/> should remain the same!</pc></source>
+					</segment>
+				</unit>
+				<unit id="disappearedVariable">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You somehow let <ph id="c2" type="ui" subType="swi18n:inline-math"/> disappear entirely. That was not supposed to happen.</pc></source>
+					</segment>
+				</unit>
+				<unit id="unequalSide">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The side with <ph id="c2" type="ui" subType="swi18n:inline-math"/> is not equal to what it was before. Something went wrong during the rewriting.</pc></source>
+					</segment>
+				</unit>
+				<unit id="notOutsideOfBrackets">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You did not pull <ph id="c2" type="ui" subType="swi18n:inline-math"/> outside of brackets. You should write the side containing <ph id="c3" type="ui" subType="swi18n:inline-math"/> as <ph id="c4" type="ui" subType="swi18n:inline-math"/>, with on the dots an expression that's as simple as possible.</pc></source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

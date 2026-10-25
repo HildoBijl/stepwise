@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">cancel sum terms</pc>. For instance when seeing <ph id="c3" type="ui" subType="swi18n:inline-math"/> you should immediately realize that adding <ph id="c4" type="ui" subType="swi18n:inline-math"/> and later on subtracting <ph id="c5" type="ui" subType="swi18n:inline-math"/> has no effect. Both terms can therefore be removed from the summation, leaving <ph id="c6" type="ui" subType="swi18n:inline-math"/>. This skill only deals with canceling identical terms, and not with <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging similar terms</pc> like <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					<target swi18n:sourceContentFingerprint="cd50822f3f48f4f7" swi18n:sourceStructureFingerprint="6876df794c469419"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je om <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">somtermen weg te strepen</pc>. Als je bijvoorbeeld <ph id="c3" type="ui" subType="swi18n:inline-math"/> ziet, dan zou je gelijk in moeten zien dat het optellen van <ph id="c4" type="ui" subType="swi18n:inline-math"/> en het even later aftrekken van <ph id="c5" type="ui" subType="swi18n:inline-math"/> samen geen effect heeft. Beide termen van de uitdrukking kunnen dus weggestreept worden, waarna <ph id="c6" type="ui" subType="swi18n:inline-math"/> overblijft. Deze vaardigheid omvat alleen het wegstrepen van identieke termen, en niet het <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">samenvoegen van soortgelijke termen</pc> zoals bij <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

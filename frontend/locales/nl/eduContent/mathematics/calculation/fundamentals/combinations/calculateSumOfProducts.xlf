@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">calculate a sum of products</pc>. You will for instance be asked to calculate <ph id="c3" type="ui" subType="swi18n:inline-math"/> as the number <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Important here is to determine the order of operations, and then execute the operations in this specific order. Operations include addition, subtraction and multiplication. This skill does not involve fractions, powers and functions.</pc></source>
+					<target swi18n:sourceContentFingerprint="4a580156536b657a" swi18n:sourceStructureFingerprint="91bc01122207a0f1"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">som van producten</pc> uit te rekenen. Je wordt bijvoorbeeld gevraagd om <ph id="c3" type="ui" subType="swi18n:inline-math"/> uit te rekenen als <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Belangrijk hierbij is om de juiste volgorde van de operaties te bepalen, en deze vervolgens in deze volgorde uit te voeren. Operaties omvatten optellen, aftrekken en vermenigvuldigen. Deze vaardigheid bevat geen breuken, machten of functies.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

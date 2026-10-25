@@ -1,6 +1,6 @@
 import type { CatalogAddress, CatalogFolderPath, CatalogUnitAddress } from '../../catalog/index.ts'
 
-import type { CatalogAddressInput, CatalogUnitAddressInput, TranslationFolderPathInput, TranslationGroupPathInput, TranslationScope } from './types.ts'
+import type { CatalogAddressInput, CatalogUnitAddressInput, TranslationAreaScope, TranslationFolderPathInput, TranslationGroupPathInput, TranslationScope } from './types.ts'
 
 /*
  * Scope extensions.
@@ -43,11 +43,13 @@ export function resolveGroupScope(parent: TranslationScope, path: TranslationGro
 
 // Given an existing scope and potential explicit overrides, resolve the address of a Catalog.
 export function resolveCatalogAddress(scope: TranslationScope, input: CatalogAddressInput = {}): CatalogAddress {
+	// Check the provided input.
 	const { folder, catalog } = input
 	if (folder !== undefined && catalog === undefined) throw new Error('An explicit catalog folder must be accompanied by a catalog name.')
 	if (folder !== undefined) assertFolderPath(folder)
 	if (catalog !== undefined) assertPathSegment(catalog, 'catalog name')
 
+	// Extract the Catalog address from it.
 	const resolvedCatalog = catalog ?? scope.catalog
 	if (!resolvedCatalog) throw new Error('A catalog must be selected through a TranslationCatalog or an explicit catalog name.')
 	return {
@@ -57,18 +59,25 @@ export function resolveCatalogAddress(scope: TranslationScope, input: CatalogAdd
 }
 
 // Given an existing scope and potential explicit overrides, resolve the address of a Catalog unit.
-export function resolveCatalogUnitAddress(scope: TranslationScope, input: CatalogUnitAddressInput): CatalogUnitAddress {
-	// Check the input for validity.
+export function resolveCatalogUnitAddress(scope: TranslationScope, input: CatalogUnitAddressInput, area?: TranslationAreaScope): CatalogUnitAddress {
+	// Check the given input.
 	const { catalog, group, id } = input
-	assertPathSegment(id, 'catalog unit ID')
 	if (catalog !== undefined && group === undefined) throw new Error('A Catalog unit with an explicit catalog must also provide a group.')
 	group?.forEach(groupId => assertPathSegment(groupId, 'group ID'))
+	if (id !== undefined) assertPathSegment(id, 'catalog unit ID')
+	if (id === undefined && !area) throw new Error('A Translation without an ID must be used inside a TranslationArea.')
+
+	// Determine the group. If a TranslationArea applies, apply it. Otherwise grab the given or scoped group.
+	const resolvedGroup = area && catalog === undefined && group === undefined
+		? id === undefined ? area.group : [...area.group, area.name]
+		: group ?? scope.group
+	const resolvedId = id ?? area!.name
 
 	// Use the scoped catalog address to fill in the gaps for the input catalog address.
 	return {
 		...resolveCatalogAddress(scope, input),
-		group: group ?? scope.group,
-		id,
+		group: resolvedGroup,
+		id: resolvedId,
 	}
 }
 

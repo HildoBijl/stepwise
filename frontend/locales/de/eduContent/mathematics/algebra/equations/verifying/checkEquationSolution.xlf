@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">check an equation solution</pc>. Given an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> and a potential solution like <ph id="c4" type="ui" subType="swi18n:inline-math"/> or <ph id="c5" type="ui" subType="swi18n:inline-math"/> you will be able to determine whether or not the number balances the equation. This includes applying number substitution to the expression on each side of the equation, as well as calculating the resulting sum/product, turning it into a single number. Knowledge of fractions, powers, etcetera is not required.</pc></source>
+					<target swi18n:sourceContentFingerprint="3e6384155cbf8c8b" swi18n:sourceStructureFingerprint="41356c57b7faf237"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, eine <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Lösung einer Gleichung zu überprüfen</pc>. Für eine Gleichung wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> und eine mögliche Lösung wie <ph id="c4" type="ui" subType="swi18n:inline-math"/> oder <ph id="c5" type="ui" subType="swi18n:inline-math"/> lernst du zu bestimmen, ob die Zahl die Gleichung ausgleicht oder nicht. Dazu gehört, dass man eine Zahlensubstitution an den Ausdrücken links und rechts durchführt und die resultierenden Summen/Produkte berechnet. Kenntnisse über Brüche, Potenzen und dergleichen sind nicht erforderlich.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

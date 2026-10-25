@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">solve a linear equation with multiple variables</pc>. If you have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to determine the solution for <ph id="c4" type="ui" subType="swi18n:inline-math"/> as <ph id="c5" type="ui" subType="swi18n:inline-math"/>. This includes <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding any potential brackets</pc>, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">moving terms around</pc>, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">pulling the unknown out of brackets</pc> and eventually <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solving the resulting product equation</pc>. The latter also includes simplifying the result as well as checking it. This skill does not deal with <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">equations with fractions containing <ph id="c11" type="ui" subType="swi18n:inline-math"/> in the denominator</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="cf863e0a735e0716" swi18n:sourceStructureFingerprint="a637adecc877704b"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">lineaire vergelijking met meerdere variabelen op te lossen</pc>. Als je een vergelijking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> hebt, dan zul je de oplossing voor <ph id="c4" type="ui" subType="swi18n:inline-math"/> kunnen bepalen als <ph id="c5" type="ui" subType="swi18n:inline-math"/>. Dit omvat het <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">uitwerken van eventuele haakjes</pc>, het <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">verschuiven van termen</pc>, het <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">buiten haakjes halen van de onbekende</pc> en het uiteindelijke <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">oplossen van de betreffende productvergelijking</pc>. Dit laatste betreft ook het vereenvoudigen van het antwoord en het controleren ervan. Deze vaardigheid betreft geen <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vergelijkingen met breuken met <ph id="c11" type="ui" subType="swi18n:inline-math"/> in de noemer</pc>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Consider an equation like <ph id="c2" type="ui" subType="swi18n:inline-math"/>. This equation is a <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">linear equation</pc> with respect to <ph id="c4" type="ui" subType="swi18n:inline-math"/>: if we consider all other variables (<ph id="c5" type="ui" subType="swi18n:inline-math"/> and <ph id="c6" type="ui" subType="swi18n:inline-math"/>) as numbers, then all terms are either a number or a number times <ph id="c7" type="ui" subType="swi18n:inline-math"/>. A linear equation may also contain numbers multiplied by brackets, like in <ph id="c8" type="ui" subType="swi18n:inline-math"/>, but there are no squares <ph id="c9" type="ui" subType="swi18n:inline-math"/> or more complicated terms. This skill is about solving such an equation to find which value of <ph id="c10" type="ui" subType="swi18n:inline-math"/> satisfies it. This is very similar to solving a <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solving a linear equation with one variable</pc>, but there are a few small differences.</pc></source>
+					<target swi18n:sourceContentFingerprint="bd5bb88e5f229298" swi18n:sourceStructureFingerprint="ebc01b71eb0d1e77"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bekijk een vergelijking als <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Deze vergelijking is een <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">lineaire vergelijking</pc> ten opzichte van <ph id="c4" type="ui" subType="swi18n:inline-math"/>: als we alle andere variabelen (<ph id="c5" type="ui" subType="swi18n:inline-math"/> en <ph id="c6" type="ui" subType="swi18n:inline-math"/>) als getal beschouwen, dan zijn alle termen ofwel een getal ofwel een getal keer <ph id="c7" type="ui" subType="swi18n:inline-math"/>. Een lineaire vergelijking mag ook getallen vermenigvuldigd met haakjes hebben, zoals in <ph id="c8" type="ui" subType="swi18n:inline-math"/>, maar er zijn geen kwadraten <ph id="c9" type="ui" subType="swi18n:inline-math"/> of ingewikkeldere termen. Deze vaardigheid gaat over het oplossen van zo'n vergelijking om te vinden voor welke waarde van <ph id="c10" type="ui" subType="swi18n:inline-math"/> hij kloppend is. Dit is erg soortgelijk aan het <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">oplossen van een lineaire vergelijking met één variabele</pc>, maar er zijn een paar kleine verschillen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="solving">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Solving the equation</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The first thing we always do when solving an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> is clean it up. That starts with <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding brackets</pc>: if there are any containing <ph id="c5" type="ui" subType="swi18n:inline-math"/>, get rid of them. Doing so for the example gives <ph id="c6" type="ui" subType="swi18n:block-math"/> Next, we want to sort out the terms: we <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">move the terms</pc> with <ph id="c8" type="ui" subType="swi18n:inline-math"/> to one side (for instance the left) and the terms without <ph id="c9" type="ui" subType="swi18n:inline-math"/> to the other side (the right). For our example this turns it into <ph id="c10" type="ui" subType="swi18n:block-math"/> Finally we <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">pull <ph id="c12" type="ui" subType="swi18n:inline-math"/> out of brackets</pc>. The example then reduces to <ph id="c13" type="ui" subType="swi18n:block-math"/> We have rewritten the equation to a form that is a lot simpler! In fact, you may recognize that it's now a <pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">product equation with multiple variables</pc>. After all, it has the form of "number times <ph id="c15" type="ui" subType="swi18n:inline-math"/> = other number". We can solve it in the default way: we <pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">move the factor</pc> before the <ph id="c17" type="ui" subType="swi18n:inline-math"/> to the other side. This gives <ph id="c18" type="ui" subType="swi18n:block-math"/> This is the solution to the equation.</pc></source>
+					<target swi18n:sourceContentFingerprint="697d7cceeb85b552" swi18n:sourceStructureFingerprint="5a634ff9a6f0ca02"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De vergelijking oplossen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Het eerste dat we altijd doen bij het oplossen van een vergelijking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> is hem opruimen. Dat begint met het <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">uitwerken van haakjes</pc>: als er haakjes zijn met <ph id="c5" type="ui" subType="swi18n:inline-math"/> erin, dan moeten we daar vanaf komen. Bij het voorbeeld krijgen we zo <ph id="c6" type="ui" subType="swi18n:block-math"/> Vervolgens willen we de termen opschonen: we <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">brengen de termen</pc> met <ph id="c8" type="ui" subType="swi18n:inline-math"/> naar de ene kant (bijvoorbeeld links) en de termen zonder <ph id="c9" type="ui" subType="swi18n:inline-math"/> naar de andere kant (rechts). Dit zet ons voorbeeld om in <ph id="c10" type="ui" subType="swi18n:block-math"/> Uiteindelijk <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">halen we <ph id="c12" type="ui" subType="swi18n:inline-math"/> buiten haakjes</pc>. Dit brengt het voorbeeld terug tot <ph id="c13" type="ui" subType="swi18n:block-math"/> We hebben de vergelijking omgeschreven naar een vorm die veel eenvoudiger is! Je herkent mogelijk dat het nu een <pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">productvergelijking met meerdere variebelen</pc> is. Hij heeft immers de vorm "getal keer <ph id="c15" type="ui" subType="swi18n:inline-math"/> = ander getal". We kunnen hem op de standaardwijze oplossen: we <pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">brengen de factor</pc> voor de <ph id="c17" type="ui" subType="swi18n:inline-math"/> naar de andere kant. Dit geeft <ph id="c18" type="ui" subType="swi18n:block-math"/> Dit is de oplossing van de vergelijking.</pc></target>
+				</segment>
+			</unit>
+			<unit id="checking">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Checking the solution</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">As usual, we still want to insert this solution into the original equation to <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">check</pc> it. Doing so gives <ph id="c4" type="ui" subType="swi18n:block-math"/> We should now check if both sides reduce to the same expression. This is a bit more complicated, but the first step we can do is turn the constants <ph id="c5" type="ui" subType="swi18n:inline-math"/> and <ph id="c6" type="ui" subType="swi18n:inline-math"/> into a fraction that also have <ph id="c7" type="ui" subType="swi18n:inline-math"/> in the denominator. This gives <ph id="c8" type="ui" subType="swi18n:block-math"/> If we <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand brackets</pc> in the numerators, we get <ph id="c10" type="ui" subType="swi18n:block-math"/> <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Merging fractions together</pc> then turns this into <ph id="c12" type="ui" subType="swi18n:block-math"/> <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Expanding the brackets</pc> on the left side finally turns this into <ph id="c14" type="ui" subType="swi18n:block-math"/> Indeed, both sides reduce to the same, which shows that the solution we have found is correct.</pc><pc id="c15" type="ui" subType="swi18n:par" swi18n:slot="children">You may notice that checking the equation solution is in fact more work than solving the equation itself. As a result, you'll find that as you become more proficient with this skill, you don't always check your equation solution anymore. It is however recommended to still do so the first few times, to obtain this proficiency.</pc></source>
+					<target swi18n:sourceContentFingerprint="4a5900e11e5fb250" swi18n:sourceStructureFingerprint="1703bdcdb73ce188"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De oplossing controleren</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Zoals gewoonlijk willen we de oplossing nog in de oorspronkelijke vergelijking invullen om te <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">controleren of hij klopt</pc>. Zo krijgen we <ph id="c4" type="ui" subType="swi18n:block-math"/> We moeten nu kijken of beide kanten teruggebracht kunnen worden tot dezelfde uitdrukking. Dit is ietwat ingewikkeld, maar de eerste stap die we kunnen doen is de constanten <ph id="c5" type="ui" subType="swi18n:inline-math"/> en <ph id="c6" type="ui" subType="swi18n:inline-math"/> omzetten in een breuk met ook <ph id="c7" type="ui" subType="swi18n:inline-math"/> in de noemer. Dit geeft <ph id="c8" type="ui" subType="swi18n:block-math"/> Als we de <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">haakjes uitwerken</pc> in de tellers, dan krijgen we <ph id="c10" type="ui" subType="swi18n:block-math"/> Het <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">samenvoegen van breuken</pc> zet dit vervolgens om in <ph id="c12" type="ui" subType="swi18n:block-math"/> Het <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">uitwerken van de haakjes</pc> links geeft uiteindelijk <ph id="c14" type="ui" subType="swi18n:block-math"/> Beide kanten van de vergelijking worden inderdaad teruggebracht tot hetzelfde, wat betekent dat de oplossing die we gevonden hebben kloppend is.</pc><pc id="c15" type="ui" subType="swi18n:par" swi18n:slot="children">Je hebt mogelijk opgemerkt dat het controleren van de oplossing meer werk is dan het vinden van die oplossing. Hierdoor zul je merken dat, als je deze vaardigheid beter gaat beheersen, je niet altijd meer je oplossing controleert. Het is echter nog steeds aan te raden om het de eerste paar keer wel te doen, juist om deze vaardigheid goed te leren beheersen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To solve a linear equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> for the target variable <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">If there are any brackets containing the target variable, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand them</pc>. This turns the example into <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Move all terms</pc> with the target variable to one side and all terms without the target variable to the other side. For the example, if we move everything with <ph id="c13" type="ui" subType="swi18n:inline-math"/> to the left and the rest to the right, we get <ph id="c14" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c15" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c17" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Pull the target variable out of the brackets</pc>. Pulling <ph id="c18" type="ui" subType="swi18n:inline-math"/> out will turn the example into <ph id="c19" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c20" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c21" type="ui" subType="swi18n:d" swi18n:slot="children"><pc id="c22" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Solve the resulting product equation</pc> by moving the factor between brackets to the other side. Also simplify the result where possible and check it. For the example we end up with <ph id="c23" type="ui" subType="swi18n:inline-math"/>, which can be shown to balance the equation.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="3b169151af4957e2" swi18n:sourceStructureFingerprint="c3c18fcf24696757"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De stappen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om een lineaire vergelijking zoals <ph id="c3" type="ui" subType="swi18n:inline-math"/> voor de doelvariabele <ph id="c4" type="ui" subType="swi18n:inline-math"/> op te lossen, neem je de volgende stappen.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Als er ergens haakjes zijn met de doelvariabele erin, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">werk deze dan uit</pc>. Dit zet het voorbeeld om in <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Breng alle termen</pc> met de doelvariabele naar de ene kant van de vergelijking, en zonder de doelvariabele naar de andere kant. Bij het voorbeeld, als we alles met <ph id="c13" type="ui" subType="swi18n:inline-math"/> naar links halen en alls zonder naar rechts, dan krijgen we <ph id="c14" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c15" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c17" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Haal de doelvariabele buiten haakjes</pc>. Het buiten haakjes halen van <ph id="c18" type="ui" subType="swi18n:inline-math"/> zet het voorbeeld om in <ph id="c19" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c20" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c21" type="ui" subType="swi18n:d" swi18n:slot="children"><pc id="c22" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Los de betreffende productvergelijking op</pc> door de factor binnen haakjes naar de andere kant te brengen. Vereenvoudig ook waar mogelijk het resultaat en controleer deze. Bij het voorbeeld komen we uit op <ph id="c23" type="ui" subType="swi18n:inline-math"/>, wat inderdaad de vergelijking uitbalanceert.</pc></pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="basic">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						<target swi18n:sourceContentFingerprint="cafac74cfb4d9241" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Los deze vergelijking op voor <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side of the equation, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</source>
+							<target swi18n:sourceContentFingerprint="927e705dcad9ce79" swi18n:sourceStructureFingerprint="98f3255e641e5524">Breng alle termen met <ph id="c1" type="ui" subType="swi18n:inline-math"/> naar de ene kant van de vergelijking, en alle zonder <ph id="c2" type="ui" subType="swi18n:inline-math"/> naar de andere kant.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We move <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right. This gives us <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6a8fcd41c1c823ca" swi18n:sourceStructureFingerprint="48a11a365f442e35">We brengen <ph id="c1" type="ui" subType="swi18n:inline-math"/> naar links en <ph id="c2" type="ui" subType="swi18n:inline-math"/> naar rechts. Zo vinden we <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets. Leave the rest of the equation unchanged.</source>
+							<target swi18n:sourceContentFingerprint="a2fab988264c6c03" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Haal <ph id="c1" type="ui" subType="swi18n:inline-math"/> buiten haakjes. Laat de rest van de vergelijking onveranderd.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets, we must write <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This tells us that there should be <ph id="c4" type="ui" subType="swi18n:inline-math"/> between the brackets. In this way we can rewrite the equation as <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6dc9beb42b98d564" swi18n:sourceStructureFingerprint="f7b1303b1aaff771">Om <ph id="c1" type="ui" subType="swi18n:inline-math"/> buiten haakjes te halen, moeten we <ph id="c2" type="ui" subType="swi18n:inline-math"/> schrijven als <ph id="c3" type="ui" subType="swi18n:inline-math"/> We zien hiermee dat er tussen haakjes <ph id="c4" type="ui" subType="swi18n:inline-math"/> moet staan. Zo herschrijven we de vergelijking als <ph id="c5" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Move the factor between brackets to the other side, to solve for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="2aed854f6573461c" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Breng de factor tussen haakjes naar de andere kant, om zo <ph id="c1" type="ui" subType="swi18n:inline-math"/> op te lossen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">If we divide both sides by <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then on the left the factor between brackets disappears. We only remain with <ph id="c3" type="ui" subType="swi18n:inline-math"/>, meaning that we have indeed solved the equation for <ph id="c4" type="ui" subType="swi18n:inline-math"/>! The final result is <ph id="c5" type="ui" subType="swi18n:block-math"/> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <ph id="c7" type="ui" subType="swi18n:block-math"/> We can write each side as one large fraction to get <ph id="c8" type="ui" subType="swi18n:block-math"/> Subsequently expanding brackets and canceling sum terms turns this into <ph id="c9" type="ui" subType="swi18n:block-math"/> Note that both sides have reduced to the same. This means that our solution is correct.</pc></source>
+							<target swi18n:sourceContentFingerprint="69538d68746f0663" swi18n:sourceStructureFingerprint="7f5c3d7fccbbec07"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Als we beide kanten van de vergelijking delen door <ph id="c2" type="ui" subType="swi18n:inline-math"/>, dan valt links de term tussen haakjes weg. We houden alleen <ph id="c3" type="ui" subType="swi18n:inline-math"/> over, en hebben dus <ph id="c4" type="ui" subType="swi18n:inline-math"/> vrij gemaakt! Het eindresultaat is <ph id="c5" type="ui" subType="swi18n:block-math"/> Uiteraard kan dit antwoord ook anders geschreven worden, maar kleine variaties in schrijfwijze zijn hier niet belangrijk.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">Een laatste aanbevolen stap is om de oplossing te controleren. Als we letterlijk de oplossing in de oorspronkelijke vergelijking invullen, dan krijgen we <ph id="c7" type="ui" subType="swi18n:block-math"/> We kunnen elke kant als enkele grote breuk opschrijven via <ph id="c8" type="ui" subType="swi18n:block-math"/> Het uitwerken van haakjes en wegstrepen van somtermen zet dit vervolgens om in <ph id="c9" type="ui" subType="swi18n:block-math"/> Merk op dat beide kanten tot hetzelfde teruggebracht zijn. Dit betekent dat de oplossing klopt.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="withBrackets">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						<target swi18n:sourceContentFingerprint="cafac74cfb4d9241" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Los deze vergelijking op voor <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>First expand the brackets in the equation. (Leave the rest unchanged.)</source>
+							<target swi18n:sourceContentFingerprint="45b8750a29755318" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Werk eerst de haakjes in de vergelijking uit. (Laat de rest onveranderd staan.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To expand the brackets, we multiply <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> separately by <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This turns the equation into <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6bbe2971d66de097" swi18n:sourceStructureFingerprint="c349a010fef3c387">Als we de haakjes uitwerken, vermenigvuldigen we <ph id="c1" type="ui" subType="swi18n:inline-math"/> en <ph id="c2" type="ui" subType="swi18n:inline-math"/> los met <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Hiermee verandert de vergelijking in <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side of the equation, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</source>
+							<target swi18n:sourceContentFingerprint="927e705dcad9ce79" swi18n:sourceStructureFingerprint="98f3255e641e5524">Breng alle termen met <ph id="c1" type="ui" subType="swi18n:inline-math"/> naar de ene kant van de vergelijking, en alle zonder <ph id="c2" type="ui" subType="swi18n:inline-math"/> naar de andere kant.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We move <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right. This gives us <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6a8fcd41c1c823ca" swi18n:sourceStructureFingerprint="48a11a365f442e35">We brengen <ph id="c1" type="ui" subType="swi18n:inline-math"/> naar links en <ph id="c2" type="ui" subType="swi18n:inline-math"/> naar rechts. Zo vinden we <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets. Leave the rest of the equation unchanged.</source>
+							<target swi18n:sourceContentFingerprint="a2fab988264c6c03" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Haal <ph id="c1" type="ui" subType="swi18n:inline-math"/> buiten haakjes. Laat de rest van de vergelijking onveranderd.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets, we must write <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This tells us that there should be <ph id="c4" type="ui" subType="swi18n:inline-math"/> between the brackets. In this way we can rewrite the equation as <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6dc9beb42b98d564" swi18n:sourceStructureFingerprint="f7b1303b1aaff771">Om <ph id="c1" type="ui" subType="swi18n:inline-math"/> buiten haakjes te halen, moeten we <ph id="c2" type="ui" subType="swi18n:inline-math"/> schrijven als <ph id="c3" type="ui" subType="swi18n:inline-math"/> We zien hiermee dat er tussen haakjes <ph id="c4" type="ui" subType="swi18n:inline-math"/> moet staan. Zo herschrijven we de vergelijking als <ph id="c5" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Move the factor between brackets to the other side, to solve for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="2aed854f6573461c" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Breng de factor tussen haakjes naar de andere kant, om zo <ph id="c1" type="ui" subType="swi18n:inline-math"/> op te lossen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">If we divide both sides by <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then on the left the factor between brackets disappears. We only remain with <ph id="c3" type="ui" subType="swi18n:inline-math"/>, meaning that we have indeed solved the equation for <ph id="c4" type="ui" subType="swi18n:inline-math"/>! The final result is <ph id="c5" type="ui" subType="swi18n:block-math"/> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <ph id="c7" type="ui" subType="swi18n:block-math"/> We can write each side as one large fraction to get <ph id="c8" type="ui" subType="swi18n:block-math"/> Subsequently expanding brackets and canceling sum terms turns this into <ph id="c9" type="ui" subType="swi18n:block-math"/> Note that both sides have reduced to the same. This means that our solution is correct.</pc></source>
+							<target swi18n:sourceContentFingerprint="69538d68746f0663" swi18n:sourceStructureFingerprint="7f5c3d7fccbbec07"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Als we beide kanten van de vergelijking delen door <ph id="c2" type="ui" subType="swi18n:inline-math"/>, dan valt links de term tussen haakjes weg. We houden alleen <ph id="c3" type="ui" subType="swi18n:inline-math"/> over, en hebben dus <ph id="c4" type="ui" subType="swi18n:inline-math"/> vrij gemaakt! Het eindresultaat is <ph id="c5" type="ui" subType="swi18n:block-math"/> Uiteraard kan dit antwoord ook anders geschreven worden, maar kleine variaties in schrijfwijze zijn hier niet belangrijk.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">Een laatste aanbevolen stap is om de oplossing te controleren. Als we letterlijk de oplossing in de oorspronkelijke vergelijking invullen, dan krijgen we <ph id="c7" type="ui" subType="swi18n:block-math"/> We kunnen elke kant als enkele grote breuk opschrijven via <ph id="c8" type="ui" subType="swi18n:block-math"/> Het uitwerken van haakjes en wegstrepen van somtermen zet dit vervolgens om in <ph id="c9" type="ui" subType="swi18n:block-math"/> Merk op dat beide kanten tot hetzelfde teruggebracht zijn. Dit betekent dat de oplossing klopt.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="withFraction">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						<target swi18n:sourceContentFingerprint="cafac74cfb4d9241" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de vergelijking <ph id="c1" type="ui" subType="swi18n:block-math"/> Los deze vergelijking op voor <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side of the equation, and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side.</source>
+							<target swi18n:sourceContentFingerprint="927e705dcad9ce79" swi18n:sourceStructureFingerprint="98f3255e641e5524">Breng alle termen met <ph id="c1" type="ui" subType="swi18n:inline-math"/> naar de ene kant van de vergelijking, en alle zonder <ph id="c2" type="ui" subType="swi18n:inline-math"/> naar de andere kant.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We move <ph id="c1" type="ui" subType="swi18n:inline-math"/> to the left and <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the right. This gives us <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6a8fcd41c1c823ca" swi18n:sourceStructureFingerprint="48a11a365f442e35">We brengen <ph id="c1" type="ui" subType="swi18n:inline-math"/> naar links en <ph id="c2" type="ui" subType="swi18n:inline-math"/> naar rechts. Zo vinden we <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets. Leave the rest of the equation unchanged.</source>
+							<target swi18n:sourceContentFingerprint="a2fab988264c6c03" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Haal <ph id="c1" type="ui" subType="swi18n:inline-math"/> buiten haakjes. Laat de rest van de vergelijking onveranderd.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To pull <ph id="c1" type="ui" subType="swi18n:inline-math"/> outside of brackets, we must write <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This tells us that there should be <ph id="c4" type="ui" subType="swi18n:inline-math"/> between the brackets. In this way we can rewrite the equation as <ph id="c5" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6dc9beb42b98d564" swi18n:sourceStructureFingerprint="f7b1303b1aaff771">Om <ph id="c1" type="ui" subType="swi18n:inline-math"/> buiten haakjes te halen, moeten we <ph id="c2" type="ui" subType="swi18n:inline-math"/> schrijven als <ph id="c3" type="ui" subType="swi18n:inline-math"/> We zien hiermee dat er tussen haakjes <ph id="c4" type="ui" subType="swi18n:inline-math"/> moet staan. Zo herschrijven we de vergelijking als <ph id="c5" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Move the factor between brackets to the other side, to solve for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="2aed854f6573461c" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Breng de factor tussen haakjes naar de andere kant, om zo <ph id="c1" type="ui" subType="swi18n:inline-math"/> op te lossen.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">If we divide both sides by <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then on the left the term between brackets disappears. We only remain with <ph id="c3" type="ui" subType="swi18n:inline-math"/>, meaning that we have indeed solved the equation for <ph id="c4" type="ui" subType="swi18n:inline-math"/>! The final result is <ph id="c5" type="ui" subType="swi18n:block-math"/> Optionally this can still be simplified to <ph id="c6" type="ui" subType="swi18n:block-math"/> but that is not necessarily required here.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <ph id="c8" type="ui" subType="swi18n:block-math"/> We can cross out <ph id="c9" type="ui" subType="swi18n:inline-math"/> on the left and write each side as one large fraction to get <ph id="c10" type="ui" subType="swi18n:block-math"/> Subsequently expanding brackets and canceling sum terms turns this into <ph id="c11" type="ui" subType="swi18n:block-math"/> Note that both sides have reduced to the same. This means that our solution is correct.</pc></source>
+							<target swi18n:sourceContentFingerprint="4e2871a451952b3d" swi18n:sourceStructureFingerprint="10da556f552fec87"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Als we beide kanten van de vergelijking delen door <ph id="c2" type="ui" subType="swi18n:inline-math"/> dan valt links de term tussen haakjes weg. We houden alleen <ph id="c3" type="ui" subType="swi18n:inline-math"/> over, en hebben dus <ph id="c4" type="ui" subType="swi18n:inline-math"/> vrij gemaakt! Het eindresultaat is <ph id="c5" type="ui" subType="swi18n:block-math"/> Eventueel kan dit nog makkelijker geschreven worden als <ph id="c6" type="ui" subType="swi18n:block-math"/> maar dat is niet per se nodig hier.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Een laatste aanbevolen stap is om de oplossing te controleren. Als we letterlijk de oplossing in de oorspronkelijke vergelijking invullen, dan krijgen we <ph id="c8" type="ui" subType="swi18n:block-math"/> We kunnen links <ph id="c9" type="ui" subType="swi18n:inline-math"/> wegstrepen en elke kant als enkele grote breuk opschrijven via <ph id="c10" type="ui" subType="swi18n:block-math"/> Het uitwerken van haakjes en wegstrepen van somtermen zet dit vervolgens om in <ph id="c11" type="ui" subType="swi18n:block-math"/> Merk op dat beide kanten tot hetzelfde teruggebracht zijn. Dit betekent dat de oplossing klopt.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="variableOnBothSides">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Both sides of the equation still contain <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Pull all terms with <ph id="c3" type="ui" subType="swi18n:inline-math"/> to the <pc id="c4" type="ui" subType="swi18n:em" swi18n:slot="children">same</pc> side.</pc></source>
+						<target swi18n:sourceContentFingerprint="2cecbd394cb75fd2" swi18n:sourceStructureFingerprint="1ef2829971c2d5c5"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Beide kanten van de vergelijking bevatten nog een <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Haal alle termen met <ph id="c3" type="ui" subType="swi18n:inline-math"/> naar <pc id="c4" type="ui" subType="swi18n:em" swi18n:slot="children">dezelfde</pc> kant.</pc></target>
+					</segment>
+				</unit>
+				<unit id="missingVariable">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your solution does not contain <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Where did it go?</pc></source>
+						<target swi18n:sourceContentFingerprint="8ee645affaea321d" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Je antwoord bevat helemaal geen <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Waar is die heen?</pc></target>
+					</segment>
+				</unit>
+				<unit id="oneVariable">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">There were multiple terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/>, but you only wrote down one.</pc></source>
+						<target swi18n:sourceContentFingerprint="8cb5c943bdb31fb8" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Er waren meerdere termen met <ph id="c2" type="ui" subType="swi18n:inline-math"/>, maar je hebt er maar één opgeschreven.</pc></target>
+					</segment>
+				</unit>
+				<unit id="termWithoutVariable">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You did bring all terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/> to one side, but there's also a term <ph id="c3" type="ui" subType="swi18n:inline-math"/> that does not contain <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						<target swi18n:sourceContentFingerprint="dbda0a075f0159cb" swi18n:sourceStructureFingerprint="553d0cff4c8b717b"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Je hebt alle termen met <ph id="c2" type="ui" subType="swi18n:inline-math"/> wel naar de ene kant gehaald, maar hier staat ook nog een term <ph id="c3" type="ui" subType="swi18n:inline-math"/> bij waar geen <ph id="c4" type="ui" subType="swi18n:inline-math"/> in zit.</pc></target>
+					</segment>
+				</unit>
+				<unit id="noSideWithoutVariable">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You put the variable <ph id="c2" type="ui" subType="swi18n:inline-math"/> on both sides of the equation again. That was not supposed to happen.</pc></source>
+						<target swi18n:sourceContentFingerprint="646c76be1be9b243" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Je hebt weer een <ph id="c2" type="ui" subType="swi18n:inline-math"/> aan beide kanten van de vergelijking gestopt. Dat was niet de bedoeling.</pc></target>
+					</segment>
+				</unit>
+				<unit id="unequalSideWithoutVariable">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The side without <ph id="c2" type="ui" subType="swi18n:inline-math"/> should remain the same!</pc></source>
+						<target swi18n:sourceContentFingerprint="b53e4d86ba220f46" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">De kant zonder <ph id="c2" type="ui" subType="swi18n:inline-math"/> moet hetzelfde blijven!</pc></target>
+					</segment>
+				</unit>
+				<unit id="disappearedVariable">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You somehow let <ph id="c2" type="ui" subType="swi18n:inline-math"/> disappear entirely. That was not supposed to happen.</pc></source>
+						<target swi18n:sourceContentFingerprint="6e4f0306f67bb349" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Je hebt <ph id="c2" type="ui" subType="swi18n:inline-math"/> in z'n geheel laten verdwijnen. Dat was niet de bedoeling.</pc></target>
+					</segment>
+				</unit>
+				<unit id="unequalSide">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The side with <ph id="c2" type="ui" subType="swi18n:inline-math"/> is not equal to what it was before. Something went wrong during the rewriting.</pc></source>
+						<target swi18n:sourceContentFingerprint="2b7d8598a736c052" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">De kant met <ph id="c2" type="ui" subType="swi18n:inline-math"/> is niet meer gelijk aan wat het hiervoor was. Bij het omschrijven ervan is iets fout gegaan.</pc></target>
+					</segment>
+				</unit>
+				<unit id="notOutsideOfBrackets">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You did not pull <ph id="c2" type="ui" subType="swi18n:inline-math"/> outside of brackets. You should write the side containing <ph id="c3" type="ui" subType="swi18n:inline-math"/> as <ph id="c4" type="ui" subType="swi18n:inline-math"/>, with on the dots an expression that's as simple as possible.</pc></source>
+						<target swi18n:sourceContentFingerprint="545a62b79e4adaae" swi18n:sourceStructureFingerprint="553d0cff4c8b717b"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Je hebt <ph id="c2" type="ui" subType="swi18n:inline-math"/> niet buiten haakjes gehaald. Je moet de kant met <ph id="c3" type="ui" subType="swi18n:inline-math"/> schrijven als <ph id="c4" type="ui" subType="swi18n:inline-math"/>, met een zo simpel mogelijke uitdrukking op de puntjes.</pc></target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

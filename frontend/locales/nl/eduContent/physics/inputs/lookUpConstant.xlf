@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The goal of this skill is to get familiar with <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">entering physical quantities</pc> that have both a number and a unit. On top of this, it introduces the attachments where students can look up relevant data.</pc></source>
+					<target swi18n:sourceContentFingerprint="e390711432ebc0e6" swi18n:sourceStructureFingerprint="f7f184827b959a05"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Het doel van deze vaardigheid is om bekend te raken met het <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">invoeren van natuurkundige waarden</pc> met zowel een getal als een eenheid. Daarnaast wordt ook het gebruik van bijlagen waar studenten relevante data op kunnen zoeken.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Often when making exercises you have to look something up. For instance a physical constant like the speed of light, but it can be pretty much anything. Here we practice looking things up as well as entering these numbers.</pc></source>
+					<target swi18n:sourceContentFingerprint="18ed8551a3affe92" swi18n:sourceStructureFingerprint="94141ced550f4025"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Vaak moet je bij het maken van oefenopgaven iets opzoeken. Bijvoorbeeld een natuurkundige constante zoals de snelheid van het licht, of juist iets heel anders. Hier oefenen we het opzoeken van getallen inclusief het invoeren ervan.</pc></target>
+				</segment>
+			</unit>
+			<unit id="attachments">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Attachments</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">When looking up physical quantities, the default source is the entire internet. However, it may be a bit hard to find the right data, or maybe you encounter websites with deviating or outright incorrect values.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">To save you from this frustration, Step-Wise has internal attachments to look up data. Whenever an exercise requires you to look something up, there is always an "Attachments" tab with said data. Browse it to get what you need, and then return to the exercise to use your newfound discovery.</pc></source>
+					<target swi18n:sourceContentFingerprint="74853310be7e9015" swi18n:sourceStructureFingerprint="74333117307dd69a"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Bijlagen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Bij het opzoeken van natuurkundige hoeveelheden is de standaard bron het internet. Soms kan het echter lastig zijn om de juiste data te vinden, of misschien beland je websites met afwijkende of zelfs foutieve waarden.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Om je deze frustratie te besparen, heeft Step-Wise interne bijlagen om waarden op te zoeken. Als een opgave vereist dat je iets opzoekt, dan is er altijd een "Bijlagen" tab met de betreffende data. Sla hem na om te vinden wat je nodig hebt, en keer dan terug naar de opgave om je nieuwe ontdekking toe te passen.</pc></target>
+				</segment>
+			</unit>
+			<unit id="quantityInputs">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Input fields for decimal numbers with units</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Physical quantities always have a number and a unit. For instance, a distance might be <ph id="c3" type="ui" subType="swi18n:inline-math"/> or a temperature may be <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Without the unit, the number is meaningless.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Entering physical quantities in Step-Wise is easy: we once more have a custom input field. This field has two parts.</pc><pc id="c6" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c8" type="ui" subType="swi18n:a" swi18n:slot="children">A <pc id="c9" type="ui" subType="swi18n:term" swi18n:slot="children">number part</pc>: this is where you enter the number, which may also include a ten-power.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">A <pc id="c12" type="ui" subType="swi18n:term" swi18n:slot="children">unit part</pc>: this is where you enter the unit, as you are used to.</pc></pc></pc><pc id="c13" type="ui" subType="swi18n:par" swi18n:slot="children">Each of these two parts has its own internal keyboards, which adjusts automatically as you move from one part to the other. This allows you to easily enter any physical quantity that might come out of your calculations.</pc></source>
+					<target swi18n:sourceContentFingerprint="9a4ab0fa0e4c11ef" swi18n:sourceStructureFingerprint="ba9fc813cbf5c745"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Invoervelden voor kommagetallen met eenheid</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Natuurkundige hoeveelheden hebben altijd een getal en een eenheid. Een afstand kan bijvoorbeeld <ph id="c3" type="ui" subType="swi18n:inline-math"/> zijn, of een temperatuur <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Zonder de eenheid is het getal betekenisloos.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Natuurkundige waarden in Step-Wise invoeren is gemakkelijk: er is wederom een speciaal invoerveld voor. Dit veld heeft twee delen.</pc><pc id="c6" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c8" type="ui" subType="swi18n:a" swi18n:slot="children">Een <pc id="c9" type="ui" subType="swi18n:term" swi18n:slot="children">getaldeel</pc>: dit is waar je het getal invoert, inclusief eventuele tienmacht.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Een <pc id="c12" type="ui" subType="swi18n:term" swi18n:slot="children">eenhedendeel</pc>: dit is waar je de eenheid schrijft, precies zoals je gewend bent.</pc></pc></pc><pc id="c13" type="ui" subType="swi18n:par" swi18n:slot="children">Elk van deze twee delen heeft een eigen intern toetsenbord, die zich automatisch aanpast als je van het ene deel naar de ander overgaat. Zo kun je gemakkelijk elke natuurkundige waarde die uit je berekeningen komt invoeren.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="lookUpConstant">
+				<group id="problem">
+					<unit id="text">
+						<segment>
+							<source>Look up <ph id="x1" type="ui" subType="xlf:var" swi18n:name="constantDescription"/> <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="399eff6a67c1fe97" swi18n:sourceStructureFingerprint="d8b618576485d9a5">Zoek <ph id="x1" type="ui" subType="xlf:var" swi18n:name="constantDescription"/> <ph id="c1" type="ui" subType="swi18n:inline-math"/> op.</target>
+						</segment>
+					</unit>
+					<unit id="label">
+						<segment>
+							<source>Enter the constant here</source>
+							<target swi18n:sourceContentFingerprint="8ea02237d5ae2ef5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vul hier de constante in</target>
+						</segment>
+					</unit>
+				</group>
+				<unit id="solution">
+					<segment>
+						<source>As can be looked up in the attachment, the value of <ph id="c1" type="ui" subType="swi18n:inline-math"/> is <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						<target swi18n:sourceContentFingerprint="fcd45379ba790bc0" swi18n:sourceStructureFingerprint="98f3255e641e5524">Zoals men in de bijlage op kan zoeken, is de waarde van <ph id="c1" type="ui" subType="swi18n:inline-math"/> gelijk aan <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="references">
+			<unit id="intro">
+				<segment>
+					<source>A few examples of common physical constants are shown in the table below.</source>
+					<target swi18n:sourceContentFingerprint="a126122000dab7e8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Een paar voorbeelden van veelgebruikte natuurkundige constanten vind je in de tabel hieronder.</target>
+				</segment>
+			</unit>
+			<group id="header">
+				<unit id="description">
+					<segment>
+						<source>Description</source>
+						<target swi18n:sourceContentFingerprint="338c15de38b9720e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Beschrijving</target>
+					</segment>
+				</unit>
+				<unit id="symbol">
+					<segment>
+						<source>Symbol</source>
+						<target swi18n:sourceContentFingerprint="12006433e1d20fa8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Symbool</target>
+					</segment>
+				</unit>
+				<unit id="value">
+					<segment>
+						<source>Value</source>
+						<target swi18n:sourceContentFingerprint="a6d5cc081de1556b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Waarde</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="constants">
+				<unit id="c">
+					<segment>
+						<source>the speed of light</source>
+						<target swi18n:sourceContentFingerprint="92acf9937d2091d3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">de snelheid van het licht</target>
+					</segment>
+				</unit>
+				<unit id="g">
+					<segment>
+						<source>the gravitational acceleration on Earth</source>
+						<target swi18n:sourceContentFingerprint="f4f0c6f53a2952f9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">de valversnelling op Aarde</target>
+					</segment>
+				</unit>
+				<unit id="R">
+					<segment>
+						<source>the universal gas constant</source>
+						<target swi18n:sourceContentFingerprint="629c078d4b5b91c3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">de universele gasconstante</target>
+					</segment>
+				</unit>
+				<unit id="e">
+					<segment>
+						<source>the (elementary) charge of an electron</source>
+						<target swi18n:sourceContentFingerprint="2e9450c117172b6e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">de (elementaire) lading van een elektron</target>
+					</segment>
+				</unit>
+				<unit id="k">
+					<segment>
+						<source>the Boltzmann constant</source>
+						<target swi18n:sourceContentFingerprint="e9fb3a6b922fa19e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">de Boltzmann constante</target>
+					</segment>
+				</unit>
+				<unit id="G">
+					<segment>
+						<source>the universal gravitational constant</source>
+						<target swi18n:sourceContentFingerprint="b8874940a7628627" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">de universele gravitatieconstante</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

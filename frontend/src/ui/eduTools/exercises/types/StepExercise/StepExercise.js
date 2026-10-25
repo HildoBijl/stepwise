@@ -5,9 +5,10 @@ import React, { useState, useEffect } from 'react'
 import { last } from '@step-wise/js-utils'
 import { getPreviousState } from '@step-wise/exercise-definition'
 import { getCurrentStep, hasPreviousInputAtStep } from '@step-wise/input-exercises'
+import { TranslationArea } from '@step-wise/i18n'
 
 import { useUserId } from 'api'
-import { TranslationSection, useTranslator, addSection } from 'i18n'
+import { useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
@@ -53,9 +54,9 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 		<ProblemContainer activeProblem={!state.split} problemStep={0} example={example} refresh={example && startNewExercise}>
 			<FormPart part={0} readOnly={readOnly} showInputSpace={showInputSpace} showHints={!doneWithMainProblem}>
 				<VerticalAdjuster>
-					<TranslationSection entry="mainProblem">
+					<TranslationArea name="mainProblem">
 						<MainProblem {...parameters} translate={addSection(translate, 'mainProblem')} />
-					</TranslationSection>
+					</TranslationArea>
 				</VerticalAdjuster>
 			</FormPart>
 			<MainFeedback display={showMainFeedback} />

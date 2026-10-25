@@ -3,7 +3,7 @@
 import { render, waitFor } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
-import { I18nProvider, Translation } from '@step-wise/i18n'
+import { I18nProvider, Translation, TranslationArea } from '@step-wise/i18n'
 
 import { TranslationFile } from './TranslationFile'
 import { TranslationSection } from './TranslationSection'
@@ -64,6 +64,26 @@ describe('transitional translation scopes', () => {
 			catalog: 'navigation',
 			group: ['buttons'],
 			id: 'menu',
+		})))
+	})
+
+	it('lets an anonymous Translation use its area as a Catalog unit', async () => {
+		const registerSource = vi.fn()
+		render(<I18nProvider locale="en" sourceLocale="en" registerSource={registerSource}>
+			<TranslationFile path="eduContent/demo/summation">
+				<TranslationSection entry="practice.exercise">
+					<TranslationArea name="solution">
+						<Translation>The solution.</Translation>
+					</TranslationArea>
+				</TranslationSection>
+			</TranslationFile>
+		</I18nProvider>)
+
+		await waitFor(() => expect(registerSource).toHaveBeenCalledWith(expect.objectContaining({
+			folder: ['eduContent', 'demo'],
+			catalog: 'summation',
+			group: ['practice', 'exercise'],
+			id: 'solution',
 		})))
 	})
 })

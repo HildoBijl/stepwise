@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">check the solution of an equation with multiple variables</pc>. Given an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> and a potential solution like <ph id="c4" type="ui" subType="swi18n:inline-math"/> you will be able to determine whether or not the expression balances the equation. This includes substituting the solution (the full expression) into the equation, simplifying both sides and seeing if they reduce to the same. Simplifications may include <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding brackets</pc> and <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging terms</pc>. The exercises will not require <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">double brackets</pc> or <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">fractions with variables</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="fad8257719ac40c8" swi18n:sourceStructureFingerprint="f5620e0ff837fcc9"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, eine <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Lösung einer Gleichung mit mehreren Variablen zu überprüfen</pc>. Für eine Gleichung wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> und eine mögliche Lösung wie <ph id="c4" type="ui" subType="swi18n:inline-math"/> lernst du zu bestimmen, ob der Ausdruck die Gleichung ausgleicht oder nicht. Dazu gehört das Einsetzen der Lösung (der ganze Ausdruck) in die Gleichung, das Vereinfachen beider Seiten und das Prüfen, ob sie auf dasselbe reduziert werden können. Zu den möglichen Vereinfachungen gehören das <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Auflösen von Klammern</pc> und das <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Zusammenfügen von Termen</pc>. In den Aufgaben erscheinen keine <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">doppelte Klammern</pc> oder <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Brüche mit Variablen</pc>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

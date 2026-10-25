@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify products with powers in them</pc>. This could be the product of two powers, turning <ph id="c3" type="ui" subType="swi18n:inline-math"/> into <ph id="c4" type="ui" subType="swi18n:inline-math"/>, it could be the power of a product, turning <ph id="c5" type="ui" subType="swi18n:inline-math"/> into <ph id="c6" type="ui" subType="swi18n:inline-math"/>, or it could be the power of a power, turning <ph id="c7" type="ui" subType="swi18n:inline-math"/> into <ph id="c8" type="ui" subType="swi18n:inline-math"/>. It basically includes any rewriting where you have to keep in mind that a power is nothing more than a <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">repeated multiplication</pc>. This skill also includes the potential <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplification of number products</pc>. It does not include <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">negative powers</pc> like <ph id="c12" type="ui" subType="swi18n:inline-math"/>, <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">fractions</pc> like <ph id="c14" type="ui" subType="swi18n:inline-math"/> or expanding <pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">powers of sums</pc> like <ph id="c16" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In practice we often encounter multiplications (products) of powers. These could simply be products of powers like <ph id="c2" type="ui" subType="swi18n:inline-math"/>, these could be powers of products like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, or these could even be powers of powers, like <ph id="c4" type="ui" subType="swi18n:inline-math"/>. How can we simplify such expressions?</pc></source>
+				</segment>
+			</unit>
+			<unit id="productOfPowers">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Product of powers</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Consider a <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">product of powers</pc> like <ph id="c4" type="ui" subType="swi18n:inline-math"/>. To simplify this, the key is to realize that a power is just a <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">repeated multiplication</pc>. So <ph id="c6" type="ui" subType="swi18n:inline-math"/> and <ph id="c7" type="ui" subType="swi18n:inline-math"/>. As a result, we have <ph id="c8" type="ui" subType="swi18n:block-math"/> Once we see that a power is just a repeated multiplication, such an expression can be simplified right away.</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">We can turn the above idea into a general rule. Note that the exponent in the outcome (the <ph id="c10" type="ui" subType="swi18n:inline-math"/>) is the sum of the two original exponents (the <ph id="c11" type="ui" subType="swi18n:inline-math"/> and the <ph id="c12" type="ui" subType="swi18n:inline-math"/>). More generally, we may write that, for any <ph id="c13" type="ui" subType="swi18n:inline-math"/>, <ph id="c14" type="ui" subType="swi18n:inline-math"/> and <ph id="c15" type="ui" subType="swi18n:inline-math"/>, we have <ph id="c16" type="ui" subType="swi18n:block-math"/> So as long as the two powers have the same base, we may merge them together by adding up their exponents.</pc></source>
+				</segment>
+			</unit>
+			<unit id="powersOfProducts">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Powers of products</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Consider a <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">power of a product</pc> like <ph id="c4" type="ui" subType="swi18n:inline-math"/>. To simplify this, we can again use the idea that a power is a repeated multiplication. So we may write <ph id="c5" type="ui" subType="swi18n:block-math"/> Note that on the right-hand side the brackets are not needed. After all, when multiplying numbers, the order of multiplication doesn't matter. So we have <ph id="c6" type="ui" subType="swi18n:block-math"/> Next, we can <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify the numbers</pc> by pulling these together, turning <ph id="c8" type="ui" subType="swi18n:inline-math"/> into <ph id="c9" type="ui" subType="swi18n:inline-math"/> which also equals <ph id="c10" type="ui" subType="swi18n:inline-math"/>. Similarly we can pull <ph id="c11" type="ui" subType="swi18n:inline-math"/> together into <ph id="c12" type="ui" subType="swi18n:inline-math"/>. The outcome then becomes <ph id="c13" type="ui" subType="swi18n:block-math"/></pc><pc id="c14" type="ui" subType="swi18n:par" swi18n:slot="children">Once more, we can turn the above idea into a general rule. Note that we have effectively rewritten <ph id="c15" type="ui" subType="swi18n:inline-math"/> into <ph id="c16" type="ui" subType="swi18n:inline-math"/>. More generally, we can say that, for any <ph id="c17" type="ui" subType="swi18n:inline-math"/>, <ph id="c18" type="ui" subType="swi18n:inline-math"/> and <ph id="c19" type="ui" subType="swi18n:inline-math"/>, we have <ph id="c20" type="ui" subType="swi18n:block-math"/> So if we have a power of a product, we may pull the power inside of the brackets by applying it to <pc id="c21" type="ui" subType="swi18n:emp" swi18n:slot="children">every</pc> factor.</pc></source>
+				</segment>
+			</unit>
+			<unit id="powersOfPowers">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Powers of powers</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Consider a <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">power of a power</pc> like <ph id="c4" type="ui" subType="swi18n:inline-math"/>. To simplify this, we can once more expand the power as <ph id="c5" type="ui" subType="swi18n:block-math"/> Using the first rule from before (simplifying products of powers) we can write this as <ph id="c6" type="ui" subType="swi18n:block-math"/> This is as simple as it can get.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">The general rule here says that, for any <ph id="c8" type="ui" subType="swi18n:inline-math"/>, <ph id="c9" type="ui" subType="swi18n:inline-math"/> and <ph id="c10" type="ui" subType="swi18n:inline-math"/>, we have <ph id="c11" type="ui" subType="swi18n:block-math"/> So a power outside of brackets may be pulled inside the brackets, where it becomes a multiplication of the exponent.</pc><pc id="c12" type="ui" subType="swi18n:warning" swi18n:slot="children">Note that the brackets in the above rule are very important. After all, <ph id="c13" type="ui" subType="swi18n:inline-math"/> is very different from <ph id="c14" type="ui" subType="swi18n:inline-math"/>. (The latter is often written without brackets as simply <ph id="c15" type="ui" subType="swi18n:inline-math"/>, which per definition equals <ph id="c16" type="ui" subType="swi18n:inline-math"/>.) To see why, compare for instance <ph id="c17" type="ui" subType="swi18n:inline-math"/> with <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+				</segment>
+			</unit>
+			<unit id="inPractice">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Applying the rules in practice</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">In practice, you generally don't write out powers fully, but will directly apply the respective rule. Sometimes combinations of these rules are necessary. When this is the case, keep in mind that powers are calculated before products, so always start simplifying any potential powers.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">For instance, consider <ph id="c4" type="ui" subType="swi18n:inline-math"/>. There are products and powers. We start by simplifying the power turning <ph id="c5" type="ui" subType="swi18n:inline-math"/> into <ph id="c6" type="ui" subType="swi18n:inline-math"/>. So we have <ph id="c7" type="ui" subType="swi18n:block-math"/> Merging number factors together simplifies this to <ph id="c8" type="ui" subType="swi18n:block-math"/> Finally the two powers can be merged together into <ph id="c9" type="ui" subType="swi18n:block-math"/> Work step by step, write down intermediate results, and always keep it clear for yourself which exact rule you're applying.</pc></source>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To simplify a combination of products of powers, like for instance <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Apply any of the rules to simplify a part of your expression. Rules involving powers (rules 2 and 3) usually go before rules using products (rule 1). In the example, we apply the second rule to get <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Simplify any number products</pc>. In the example, we can reduce <ph id="c11" type="ui" subType="swi18n:inline-math"/> to <ph id="c12" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c13" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:c" swi18n:slot="children">If necessary, apply more rules to simplify things further. In the example, we rewrite the product of powers (rule 1) to get <ph id="c15" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c16" type="ui" subType="swi18n:par" swi18n:slot="children">If you cannot remember the exact rules, keep in mind that a power is just a <pc id="c17" type="ui" subType="swi18n:skill-link" swi18n:slot="children">repeated multiplication</pc> and things will sort itself out.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="powerOfProductOfPower">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand brackets and merge powers to simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Expand the outer brackets by pulling the power into the brackets. Use new brackets where needed.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When we pull the exponent into the brackets (rule 2) we must apply them to every factor separately. This results in <ph id="c1" type="ui" subType="swi18n:block-math"/> Note that the new brackets here are very much needed.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify all products and powers of numbers.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By reducing <ph id="c1" type="ui" subType="swi18n:inline-math"/> to <ph id="c2" type="ui" subType="swi18n:inline-math"/> we can write <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Turn the power of a power into a single power and simplify the resulting exponent.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can pull the outer power in <ph id="c1" type="ui" subType="swi18n:inline-math"/> into the exponent, where it becomes a multiplication <ph id="c2" type="ui" subType="swi18n:inline-math"/> (rule 3), which in turn becomes <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This leads us to the final result, <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="productOfPowerOfPower">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand brackets and merge powers to simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Turn the power of a power into a single power.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can pull the outer power in <ph id="c1" type="ui" subType="swi18n:inline-math"/> into the exponent, where it becomes a multiplication <ph id="c2" type="ui" subType="swi18n:inline-math"/> (rule 3), which in turn becomes <ph id="c3" type="ui" subType="swi18n:inline-math"/>. So we may write <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Merge the product of the powers into a single power and simplify the resulting exponent.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The two powers have the same base, so we may merge them together. When we do, we have to add up the exponents (rule 1). This turns the expression into <ph id="c1" type="ui" subType="swi18n:inline-math"/>, which can be simplified further to the final result, <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="productOfPowerOfProduct">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Expand brackets and merge powers to simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Expand the outer brackets by pulling the power into the brackets. Use new brackets where needed.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When we pull the exponent into the brackets (rule 2) we must apply them to every factor separately. This results in <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify all products and powers of numbers.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The numbers in the expression are <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Their product equals <ph id="c3" type="ui" subType="swi18n:inline-math"/> which turns the expression into <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge the product of the powers into a single power and simplify the resulting exponent.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The two powers have the same base, so we may merge them together. When we do, we have to add up the exponents (rule 1). This turns the expression into <ph id="c1" type="ui" subType="swi18n:inline-math"/>, which can be simplified further to the final result, <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

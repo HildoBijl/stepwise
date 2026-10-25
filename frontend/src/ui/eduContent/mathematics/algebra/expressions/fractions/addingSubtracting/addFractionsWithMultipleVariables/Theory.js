@@ -1,18 +1,18 @@
 import React from 'react'
 
 import { M, BM } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Head, Par, List, Term } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
 	return <>
-		<Translation entry="intro">
+		<Translation id="intro">
 			<Par>If we add two number fractions with unequal denominator, such as <M>\frac(1)(2) + \frac(1)(3)</M>, then we know how to do so: ensure the denominators are equal by rewriting the fractions (giving <M>\frac(3)(6) + \frac(2)(6)</M>) and then adding up the fractions to get <M>\frac(3+2)(6)</M>. But how does this work when multiple variables are involved, like when rewriting <M>\frac(1)(4a) + \frac(1)(6b)</M>? The answer is: exactly the same. But there are a few things to pay attention to.</Par>
 		</Translation>
 
-		<Translation entry="adding">
+		<Translation id="adding">
 			<Head>Adding two fractions</Head>
 			<Par>We want to add/subtract two <Term>unlike fractions</Term> (fractions with unequal denominator), such as <BM>\frac(1)(4a) + \frac(1)(6b).</BM> We know how to <SkillLink skillId="addLikeFractionsWithVariables">add two like fractions</SkillLink> (with equal denominators), but this time our fractions do not have equal denominators. To still be able to add these two fractions, we must force them to have the same denominator.</Par>
 			<Par>The first step is to find the <Term>least common multiple</Term> of the two denominators. Note that one denominator equals <M>2 \cdot 2 \cdot a</M> while the other denominator equals <M>2 \cdot 3 \cdot b</M>. Every factor that appears in one or both of these denominators also appears in the least common multiple, which then becomes <M>2 \cdot 2 \cdot 3 \cdot a \cdot b = 12ab</M>.</Par>
@@ -20,13 +20,13 @@ export function Theory() {
 			<Par>Now that we have two fractions with equal denominator, we can <SkillLink skillId="addLikeFractionsWithVariables">add them up</SkillLink> in the usual way. We merge the numerators together to get <BM>\frac(3b)(12ab) + \frac(2a)(12ab) = \frac(3b+2a)(12ab).</BM> We have written the two fractions as a single fraction.</Par>
 		</Translation>
 
-		<Translation entry="splitting">
+		<Translation id="splitting">
 			<Head>Splitting fractions</Head>
 			<Par>We could also do the exact opposite of the above. Suppose that we have a fraction like <M>\frac(3b+2a)(12ab)</M> with multiple terms in the numerator. How can we split it up into separate fractions?</Par>
 			<Par>The first step is to literally split them up, doing the exact opposite of <SkillLink skillId="addLikeFractionsWithVariables">adding like fractions</SkillLink>: each term from the numerator gets its own fraction, all having the same denominator. This gives <BM>\frac(3b+2a)(12ab) = \frac(3b)(12ab) + \frac(2a)(12ab).</BM> Next, we <SkillLink skillId="simplifyFractionWithVariables">simplify the fractions</SkillLink>, canceling factors as much as possible. This results in <BM>\frac(3b)(12ab) + \frac(2a)(12ab) = \frac(1)(4a) + \frac(1)(6b).</BM> This is what we originally started off with, showing that we have indeed done the exact opposite of merging the fractions together.</Par>
 		</Translation>
 
-		<Translation entry="steps">
+		<Translation id="steps">
 			<Head>The steps</Head>
 			<Par>To add/subtract two fractions with multiple variables, like <M>\frac(1)(4a) + \frac(1)(6b)</M>, take the following steps.</Par>
 			<List>

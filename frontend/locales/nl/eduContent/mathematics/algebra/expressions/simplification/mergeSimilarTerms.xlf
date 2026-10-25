@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">merge similar terms</pc> inside a summation. For instance when seeing <ph id="c3" type="ui" subType="swi18n:inline-math"/> you should immediately realize that <ph id="c4" type="ui" subType="swi18n:inline-math"/> and <ph id="c5" type="ui" subType="swi18n:inline-math"/> are identical, except for the constant factor in front. So these terms can be pulled together into <ph id="c6" type="ui" subType="swi18n:inline-math"/>, resulting in a full expression <ph id="c7" type="ui" subType="swi18n:inline-math"/>. This skill also includes dealing with negative factors like in <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					<target swi18n:sourceContentFingerprint="59a9e485db271d9c" swi18n:sourceStructureFingerprint="abfe73a63c6d3949"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">soortgelijke termen samen te voegen</pc> binnenin een optelsom. Als je bijvoorbeeld <ph id="c3" type="ui" subType="swi18n:inline-math"/> ziet moet je gelijk inzien dat <ph id="c4" type="ui" subType="swi18n:inline-math"/> en <ph id="c5" type="ui" subType="swi18n:inline-math"/> identiek zijn, afgezien van de constante factor voorin. Dus deze termen kunnen samengevoegd worden tot <ph id="c6" type="ui" subType="swi18n:inline-math"/>, wat de volledige uitdrukking omzet tot <ph id="c7" type="ui" subType="swi18n:inline-math"/>. Deze vaardigheid omvat ook het omgaan met negatieve factoren zoals in <ph id="c8" type="ui" subType="swi18n:inline-math"/>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

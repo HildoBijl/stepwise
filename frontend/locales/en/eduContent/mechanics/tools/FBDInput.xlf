@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="feedback">
+			<unit id="doubleArrows">
+				<segment>
+					<source>Some arrows have been drawn multiple times. Make sure that all arrows are unique.</source>
+				</segment>
+			</unit>
+			<unit id="unconnectedLoads">
+				<segment>
+					<source><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-other">There are arrows that are</pc><pc id="x3" type="other" subType="swi18n:plural-exact" swi18n:value="1">There is an arrow that is</pc></pc> not connected to any known point, so this can never be a correct solution.</source>
+				</segment>
+			</unit>
+			<unit id="missingLoads">
+				<segment>
+					<source><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-other">There are still missing arrows.</pc><pc id="x3" type="other" subType="swi18n:plural-exact" swi18n:value="1">There is still a missing arrow.</pc></pc><pc id="x4" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x5" type="other" subType="swi18n:condition-true"> Have another look at point <ph id="x6" type="ui" subType="xlf:var" swi18n:name="pointName"/>.</pc><pc id="x7" type="other" subType="swi18n:condition-false"></pc></pc></source>
+				</segment>
+			</unit>
+			<unit id="incorrectInputLoads">
+				<segment>
+					<source><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-other">There are <ph id="c1" type="ui" subType="swi18n:counting-word"/> arrows that should not be present.</pc><pc id="x3" type="other" subType="swi18n:plural-exact" swi18n:value="1">An arrow has been drawn that shouldn't be present.</pc></pc> Have a look at that first.</source>
+				</segment>
+			</unit>
+			<unit id="doubleInputLoads">
+				<segment>
+					<source><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-other">There are <ph id="c1" type="ui" subType="swi18n:counting-word"/> sets</pc><pc id="x3" type="other" subType="swi18n:plural-exact" swi18n:value="1">There is a set</pc></pc> Remove the superfluous ones.</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

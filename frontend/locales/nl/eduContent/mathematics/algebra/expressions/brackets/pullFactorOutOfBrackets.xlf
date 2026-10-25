@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">pull a factor out of brackets</pc>. If you see an expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/> you will be able to pull a factor <ph id="c4" type="ui" subType="swi18n:inline-math"/> and a factor <ph id="c5" type="ui" subType="swi18n:inline-math"/> out of brackets to wind up with <ph id="c6" type="ui" subType="swi18n:inline-math"/>. This includes understanding the reasoning behind why this works: writing the expression as a fraction and subsequently splitting the fraction and simplifying the result. The skill does not include recognizing which factor would be wise to pull out of the brackets.</pc></source>
+					<target swi18n:sourceContentFingerprint="6521ffe2c73e2896" swi18n:sourceStructureFingerprint="e14b76ae2bc35c7d"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">factor buiten haakjes te halen</pc>. Als je een uitdrukking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> ziet, zal je in staat zijn om een factor <ph id="c4" type="ui" subType="swi18n:inline-math"/> en een factor <ph id="c5" type="ui" subType="swi18n:inline-math"/> buiten haakjes te halen om uit te komen op <ph id="c6" type="ui" subType="swi18n:inline-math"/>. Dit betreft ook het begrijpen van waarom dit werkt: het schrijven van de uitdrukking als een breuk, het hieropvolgend opsplitsen van deze breuk en de uitkomst hiervan vereenvoudigen. De vaardigheid omvat niet het herkennen van welke factor handig kan zijn om buiten haakjes te halen.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We know how to expand brackets, rewriting <ph id="c2" type="ui" subType="swi18n:inline-math"/> as <ph id="c3" type="ui" subType="swi18n:inline-math"/>. But can we also do the opposite? How do we <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">pull a factor out of brackets</pc>? There is a slightly long procedure that always works, but afterwards we also look at a short-cut you can often take.</pc></source>
+					<target swi18n:sourceContentFingerprint="a2aab211c2fdd2a1" swi18n:sourceStructureFingerprint="835ab694df5c05a9"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">We weten hoe we haakjes uit kunnen werken, en kunnen zo <ph id="c2" type="ui" subType="swi18n:inline-math"/> herschrijven als <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Maar kunnen we het omgekeerde ook doen? Hoe <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">halen we een factor buiten haakjes</pc>? Er is een ietwat lange procedure hiervoor die altijd werkt, maar erna bekijken we ook een short-cut die je vaak nemen kan.</pc></target>
+				</segment>
+			</unit>
+			<unit id="idea">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The idea</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Suppose that we have an expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/> and we want to pull a <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">factor</pc> <ph id="c5" type="ui" subType="swi18n:inline-math"/> out of the brackets. The first step is to write the expression as <ph id="c6" type="ui" subType="swi18n:block-math"/> For our example, this means that we initially write <ph id="c7" type="ui" subType="swi18n:block-math"/> Note that dividing the original expression by <ph id="c8" type="ui" subType="swi18n:inline-math"/> and subsequently multiplying by it leaves it unchanged, so both sides of the equation must be the same.</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">The fraction within the brackets can be simplified. First we can use the rules of <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging/splitting like fractions</pc> to split up the fraction, getting <ph id="c11" type="ui" subType="swi18n:block-math"/> Next, we can <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify each of the resulting fractions</pc> by canceling fraction factors, giving <ph id="c13" type="ui" subType="swi18n:block-math"/> All together, the final outcome is <ph id="c14" type="ui" subType="swi18n:block-math"/> At the end we can check if we have done everything correctly by <pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding the brackets</pc>. When we do, we should wind up with the original expression, which is indeed the case for our example. That means we did not make a mistake.</pc></source>
+					<target swi18n:sourceContentFingerprint="0ebc3a72872a97ef" swi18n:sourceStructureFingerprint="6bad710a1c02907e"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Het idee</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Stel dat we een uitdrukking als <ph id="c3" type="ui" subType="swi18n:inline-math"/> hebben, en we willen een <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">factor</pc> <ph id="c5" type="ui" subType="swi18n:inline-math"/> buiten haakjes halen. De eerste stap is om de uitdrukking te schrijven als <ph id="c6" type="ui" subType="swi18n:block-math"/> Bij ons voorbeeld betekent dit dat we bij aanvang schrijven dat <ph id="c7" type="ui" subType="swi18n:block-math"/> Merk op dat, als we de oorspronkelijke uitdrukking delen door <ph id="c8" type="ui" subType="swi18n:inline-math"/>, en het vervolgens er weer mee vermenigvuldigen, dat het dan onveranderd is. Dus beide kanten van de vergelijking moeten wel hetzelfde zijn.</pc><pc id="c9" type="ui" subType="swi18n:par" swi18n:slot="children">De breuk binnen de haakjes kan vereenvoudigd worden. Eerst passen we de regels toe van het <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">samenvoegen/splitsen van breuken</pc> om de breuk op te splitsen, en krijgen zo <ph id="c11" type="ui" subType="swi18n:block-math"/> Vervolgens kunnen we elk van de <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">breuken vereenvoudigen</pc> door breukfactoren weg te strepen, wat uitkomt op <ph id="c13" type="ui" subType="swi18n:block-math"/> Alles bij elkaar is het eindresultaat <ph id="c14" type="ui" subType="swi18n:block-math"/> Aan het einde kunnen we nog controleren of we alles correct hebben uitgevoerd door de <pc id="c15" type="ui" subType="swi18n:skill-link" swi18n:slot="children">haakjes weer uit te werken</pc>. Als we dat doen zouden we weer op de oorspronkelijke uitdrukking uit moeten komen, wat bij ons voorbeeld inderdaad het geval is. Dat betekent dat we geen fout hebben gemaakt.</pc></target>
+				</segment>
+			</unit>
+			<unit id="shortCut">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The short-cut</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The above procedure with a fraction always works, but often it is a bit elaborate. In practice, it can be done faster. The idea is that we know we will wind up with an expression of the form <ph id="c3" type="ui" subType="swi18n:block-math"/> We only have to figure out what comes on the place of the dots. The first set of dots should be something that, when multiplied by <ph id="c4" type="ui" subType="swi18n:inline-math"/>, becomes <ph id="c5" type="ui" subType="swi18n:inline-math"/>. With some experience we directly see that this is <ph id="c6" type="ui" subType="swi18n:inline-math"/>. Similarly, the second set of dots should be something that, when multiplied by <ph id="c7" type="ui" subType="swi18n:inline-math"/>, becomes <ph id="c8" type="ui" subType="swi18n:inline-math"/>. We can once more realize that this is <ph id="c9" type="ui" subType="swi18n:inline-math"/>. In this way, we directly wind up with <ph id="c10" type="ui" subType="swi18n:block-math"/> If you have enough experience to apply this short-cut, you are of course welcome to do so.</pc></source>
+					<target swi18n:sourceContentFingerprint="1af9934e556a04a5" swi18n:sourceStructureFingerprint="10727b674734e32a"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De short-cut</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Het bovenstaande plan met een breuk werkt altijd, maar het is vaak wat omslachtig. Het kan meestal sneller. Het idee is dat we al weten dat we uit gaan komen op een uitdrukking van de vorm <ph id="c3" type="ui" subType="swi18n:block-math"/> We hoeven alleen uit te zoeken wat op de plek van de puntjes komt. De eerste set punten moet iets zijn dat, als we het vermenigvuldigen met <ph id="c4" type="ui" subType="swi18n:inline-math"/>, we uitkomen op <ph id="c5" type="ui" subType="swi18n:inline-math"/>. Met een beetje ervaring kunnen we direct inzien dat dit <ph id="c6" type="ui" subType="swi18n:inline-math"/> moet zijn. Op soortgelijke wijze moet de tweede set puntjes iets zijn dat, als we het vermenigvuldigen met <ph id="c7" type="ui" subType="swi18n:inline-math"/>, het uit moet komen op <ph id="c8" type="ui" subType="swi18n:inline-math"/>. We kunnen wederom inzien dat dit <ph id="c9" type="ui" subType="swi18n:inline-math"/> moet zijn. Op deze wijze komen we direct uit op <ph id="c10" type="ui" subType="swi18n:block-math"/> Als je genoeg ervaring hebt om deze short-cut toe te passen, staat het je vrij om hem te gebruiken.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To pull a factor out of brackets, like when pulling <ph id="c3" type="ui" subType="swi18n:inline-math"/> out of <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Start by writing down <ph id="c8" type="ui" subType="swi18n:inline-math"/>. For our example we hence write <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Split the fraction inside the brackets up into multiple fractions using the default rules for <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">merging/splitting fractions</pc>. For the example we hence get <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Simplify all fractions</pc> within the brackets, canceling factors where possible. This turns our example into <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c18" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c19" type="ui" subType="swi18n:d" swi18n:slot="children">Check your result by <pc id="c20" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding the brackets</pc> in your final result. You should wind up with exactly what you started with. And indeed, if we expand the brackets for <ph id="c21" type="ui" subType="swi18n:inline-math"/> then we get <ph id="c22" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c23" type="ui" subType="swi18n:par" swi18n:slot="children">Note that there are short-cuts that directly get you the required result, if you have the insights to use them properly.</pc></source>
+					<target swi18n:sourceContentFingerprint="401e4414b90a82ca" swi18n:sourceStructureFingerprint="ff351bbfeb46791d"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">De stappen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Om een factor buiten haakjes te halen, zoals als je <ph id="c3" type="ui" subType="swi18n:inline-math"/> uit <ph id="c4" type="ui" subType="swi18n:inline-math"/> wilt trekken, neem je de volgende stappen.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Begin met het opschrijven van <ph id="c8" type="ui" subType="swi18n:inline-math"/>. Voor ons voorbeeld schrijven we dus <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Splits de breuk binnen de haakjes op in meerdere breuken. Gebruik de standaard regels voor het <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">samenvoegen/splitsen van breuken</pc>. Voor het voorbeeld krijgen we zo <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Vereenvoudig alle breuken</pc> binnen de haakjes, waar je waar mogelijk breukfactoren wegstreept. Dit zet ons voorbeeld om in <ph id="c17" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c18" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c19" type="ui" subType="swi18n:d" swi18n:slot="children">Controleer je antwoord door in je eindresultaat de <pc id="c20" type="ui" subType="swi18n:skill-link" swi18n:slot="children">haakjes uit te werken</pc>. Je zou weer uit moeten komen op waar je mee begonnen bent. En inderdaad, als we de haakjes uitwerken bij <ph id="c21" type="ui" subType="swi18n:inline-math"/>, dan krijgen we <ph id="c22" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c23" type="ui" subType="swi18n:par" swi18n:slot="children">Merk op dat er short-cuts zijn die je direct het gewenste resultaat geven, mits je het inzicht hebt om ze correct toe te passen.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="equationText">
+			<unit id="factor">
+				<segment>
+					<source>Factor</source>
+					<target swi18n:sourceContentFingerprint="5e1ab9e82b9a79dd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Factor</target>
+				</segment>
+			</unit>
+			<unit id="originalExpression">
+				<segment>
+					<source>Original expression</source>
+					<target swi18n:sourceContentFingerprint="c7bd9c402da5342d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oorspronkelijke uitdrukking</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="twoTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Pull a factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> out of brackets and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="60b89bdc0bd361d1" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de uitdrukking <ph id="c1" type="ui" subType="swi18n:block-math"/> Trek een factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> buiten haakjes en vereenvoudig het resultaat zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Write the expression in the standard starting form <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="d0613bb545016bdd" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Herschrijf de uitdrukking in de standaard beginvorm <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we write the expression in the starting form for pulling a factor out brackets, we get <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="013cd8bcfedc6ec5" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Als we de uitdrukking in de beginvorm voor het buiten haakjes halen van een factor schrijven, dan krijgen we <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Split the fraction up into separate fractions: one for each term. (Keep the multiplication around it as is.)</source>
+							<target swi18n:sourceContentFingerprint="6c931c3410cab367" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Splits de breuk in losse breuken op: eentje voor elke term. (Laat de vermenigvuldiging erbuiten onveranderd staan.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To split up the fraction, we must divide each of the terms in the numerator separately by the denominator. This gives <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="d9855979a2b82f05" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Om de breuk op te splitsen moeten we elk van de termen van de teller los delen door de noemer. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify each of the fractions within the brackets as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="b682254fe8d92cac" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig elk van de breuken tussen haakjes zoveel als mogelijk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By canceling factors within each fraction, we can turn all fractions into fractionless terms. The result is <ph id="c1" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="0dfe3b996360c361" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Via het wegstrepen van breukfactoren kunnen we alle breuken omzetten in breukloze termen. Het resultaat is <ph id="c1" type="ui" subType="swi18n:block-math"/> Dit is ons eindresultaat. Kort geschreven geldt <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Check your result by expanding the brackets and simplifying the result. Verify that this is indeed the expression we started with.</source>
+							<target swi18n:sourceContentFingerprint="5fbed29786eaf71a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Controleer het eindresultaat door de haakjes uit te werken en de uitkomst te vereenvoudigen. Ga na dat dit inderdaad de uitdrukking is waarmee we begonnen zijn.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we expand the brackets in our final result, we get <ph id="c1" type="ui" subType="swi18n:block-math"/> This is indeed what we started with, so our solution is correct.</source>
+							<target swi18n:sourceContentFingerprint="bd976473142edb4e" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Als we de haakjes in het eindresultaat uitwerken, dan krijgen we <ph id="c1" type="ui" subType="swi18n:block-math"/> Dit is inderdaad waar we mee begonnen zijn, en dus klopt onze oplossing.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="threeTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Pull a factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> out of brackets and simplify the result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="60b89bdc0bd361d1" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Bekijk de uitdrukking <ph id="c1" type="ui" subType="swi18n:block-math"/> Trek een factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> buiten haakjes en vereenvoudig het resultaat zo veel als mogelijk.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Write the expression in the standard starting form <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="d0613bb545016bdd" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Herschrijf de uitdrukking in de standaard beginvorm <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we write the expression in the starting form for pulling a factor out of backets, we get <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="e452ae196c0c5b62" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Als we de uitdrukking in de beginvorm voor het buiten haakjes halen van een factor schrijven, dan krijgen we <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Split the fraction up into separate fractions: one for each term. (Keep the multiplication around it as is.)</source>
+							<target swi18n:sourceContentFingerprint="6c931c3410cab367" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Splits de breuk in losse breuken op: eentje voor elke term. (Laat de vermenigvuldiging erbuiten onveranderd staan.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To split up the fraction, we must divide each of the terms in the numerator separately by the denominator. This gives <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="d9855979a2b82f05" swi18n:sourceStructureFingerprint="ff571f3f8743b299">Om de breuk op te splitsen moeten we elk van de termen van de teller los delen door de noemer. Dit geeft <ph id="c1" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify each of the fractions within the brackets as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="b682254fe8d92cac" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vereenvoudig elk van de breuken tussen haakjes zoveel als mogelijk.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By canceling factors within each fraction, we can turn all fractions into fractionless terms. The result is <ph id="c1" type="ui" subType="swi18n:block-math"/> This is our final answer. In short, <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="0dfe3b996360c361" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Via het wegstrepen van breukfactoren kunnen we alle breuken omzetten in breukloze termen. Het resultaat is <ph id="c1" type="ui" subType="swi18n:block-math"/> Dit is ons eindresultaat. Kort geschreven geldt <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step4">
+					<unit id="problem">
+						<segment>
+							<source>Check your result by expanding the brackets and simplifying the result. Verify that this is indeed the expression we started with.</source>
+							<target swi18n:sourceContentFingerprint="5fbed29786eaf71a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Controleer het eindresultaat door de haakjes uit te werken en de uitkomst te vereenvoudigen. Ga na dat dit inderdaad de uitdrukking is waarmee we begonnen zijn.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we expand the brackets in our final result, we get <ph id="c1" type="ui" subType="swi18n:block-math"/> This is indeed what we started with, so our solution is correct.</source>
+							<target swi18n:sourceContentFingerprint="bd976473142edb4e" swi18n:sourceStructureFingerprint="918cf026eb35bd5c">Als we de haakjes in het eindresultaat uitwerken, dan krijgen we <ph id="c1" type="ui" subType="swi18n:block-math"/> Dit is inderdaad waar we mee begonnen zijn, en dus klopt onze oplossing.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="missingFactor">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your answer should be of the form <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+						<target swi18n:sourceContentFingerprint="82b46c109ff0dc00" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Je antwoord moet in de vorm van <ph id="c2" type="ui" subType="swi18n:inline-math"/> zijn.</pc></target>
+					</segment>
+				</unit>
+				<unit id="incorrectFractionDenominator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your answer should be in the given starting form. Have you put the factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the denominator of a fraction?</pc></source>
+						<target swi18n:sourceContentFingerprint="61986bd74c152e92" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Je antwoord moet in de gegeven beginvorm zijn. Heb je de factor <ph id="c2" type="ui" subType="swi18n:inline-math"/> wel in de noemer van een breuk gezet?</pc></target>
+					</segment>
+				</unit>
+				<unit id="incorrectFractionNumerator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your answer should be in the given starting form. Have you put the original expression <ph id="c2" type="ui" subType="swi18n:inline-math"/> in the numerator of a fraction?</pc></source>
+						<target swi18n:sourceContentFingerprint="8f4eb8f18e7ed0f1" swi18n:sourceStructureFingerprint="902ab596e11695cf"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Je antwoord moet in de gegeven beginvorm zijn. Heb je de oorspronkelijke uitdrukkking <ph id="c2" type="ui" subType="swi18n:inline-math"/> wel in de teller van een breuk gezet?</pc></target>
+					</segment>
+				</unit>
+				<unit id="hasFractionBeenSplit">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Have you split up the fraction into a summation?</pc></source>
+						<target swi18n:sourceContentFingerprint="471ab2e71d4a0b8d" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Heb je de breuk in een optelling omgezet?</pc></target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

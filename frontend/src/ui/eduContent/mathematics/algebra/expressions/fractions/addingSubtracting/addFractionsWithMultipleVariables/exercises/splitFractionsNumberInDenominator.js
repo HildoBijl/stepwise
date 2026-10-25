@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
@@ -33,7 +33,7 @@ const steps = [
 		Problem: () => {
 			const { plus, variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Split the fraction up into two fractions with a <Check value={plus}><Check.True>plus</Check.True><Check.False>minus</Check.False></Check> sign in-between. (Don't apply any further simplifications.)</Translation></Par>
+				<Par><Translation>Split the fraction up into two fractions with a <Condition value={plus}><Condition.True>plus</Condition.True><Condition.False>minus</Condition.False></Condition> sign in-between. (Don't apply any further simplifications.)</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="split" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
@@ -66,7 +66,7 @@ const steps = [
 		Problem: () => {
 			const { plus, variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Write the two simplified fractions together in one expression, with once more a <Check value={plus}><Check.True>plus</Check.True><Check.False>minus</Check.False></Check> sign in-between.</Translation></Par>
+				<Par><Translation>Write the two simplified fractions together in one expression, with once more a <Condition value={plus}><Condition.True>plus</Condition.True><Condition.False>minus</Condition.False></Condition> sign in-between.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />

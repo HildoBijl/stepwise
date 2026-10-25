@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="practice">
+			<group id="applyPythagoreanTheoremGeneral">
+				<unit id="mainProblem">
+					<segment>
+						<source>Given the triangle below, determine the unknown side <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						<target swi18n:sourceContentFingerprint="2519c97319e8cf18" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Gegeben ist das untenstehende Dreieck. Finde die unbekannte Seite <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Through the Pythagorean therom, set up an equation linking the three sides of the triangle. Use the values <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="7a18528a34620bf1" swi18n:sourceStructureFingerprint="29f4bdc3e3cb616a">Stelle mit Hilfe des Satzes von Pythagoras eine Gleichung für die Seiten des Dreiecks auf. Verwende die Werte <ph id="c1" type="ui" subType="swi18n:inline-math"/>, <ph id="c2" type="ui" subType="swi18n:inline-math"/> und <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We have the two legs <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> and the hypothenuse <ph id="c3" type="ui" subType="swi18n:inline-math"/>. The Pythagorean theorem now directly states that <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="fd8d4c783a32ef98" swi18n:sourceStructureFingerprint="c349a010fef3c387">Hier haben wir Katheten <ph id="c1" type="ui" subType="swi18n:inline-math"/> und <ph id="c2" type="ui" subType="swi18n:inline-math"/> und eine Hypotenuse <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Der Satz des Pythagoras besagt nun direkt, dass x.<ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Solve these equation first for <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="055852c1124cc78f" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Löse zunächst diese Gleichung für <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We can directly find that <ph id="c1" type="ui" subType="swi18n:block-math"/> This can then still be simplified to <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6982828469f8ecb2" swi18n:sourceStructureFingerprint="b44bdd9ade835acd">Wir können direkt feststellen, dass <ph id="c1" type="ui" subType="swi18n:block-math"/> Dies kann dann weiter vereinfacht werden zu <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Determine based on <ph id="c1" type="ui" subType="swi18n:inline-math"/> the value of <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="d84ca52930fd373c" swi18n:sourceStructureFingerprint="98f3255e641e5524">Bestimme aus <ph id="c1" type="ui" subType="swi18n:inline-math"/> den Wert von <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We take the square root of both sides of the equation. This gives us <ph id="c1" type="ui" subType="swi18n:block-math"/> Note that, since we know that the requested distance is positive, we do not need to add a <ph id="c2" type="ui" subType="swi18n:inline-math"/> here. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optionally, the above result can still be simplified to <ph id="c3" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">The above result cannot be simplified further.</pc></pc></source>
+							<target swi18n:sourceContentFingerprint="07fc5997554a060b" swi18n:sourceStructureFingerprint="3908a0a697b8d786">Wir ziehen die Wurzel aus beiden Seiten der Gleichung. Auf diese Weise finden wir <ph id="c1" type="ui" subType="swi18n:block-math"/> Beachte, dass wir, da wir wissen, dass der erforderliche Abstand positiv ist, kein <ph id="c2" type="ui" subType="swi18n:inline-math"/> dazu addieren brauchen. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Optional kann die obige Gleichung noch vereinfacht werden zu <ph id="c3" type="ui" subType="swi18n:block-math"/></pc><pc id="x3" type="other" subType="swi18n:condition-false">Die obige Gleichung kann nicht weiter vereinfacht werden.</pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">multiply/divide both sides of an equation by a factor</pc>. If you start with an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to multiply this by a number like <ph id="c4" type="ui" subType="swi18n:inline-math"/> to get <ph id="c5" type="ui" subType="swi18n:inline-math"/>. This also includes multiplying by a variable factor (like <ph id="c6" type="ui" subType="swi18n:inline-math"/>), or dividing by a number/factor to for instance get <ph id="c7" type="ui" subType="swi18n:inline-math"/>. This skill does not include simplifying the resulting outcome, like <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding brackets</pc> or <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">canceling fraction factors</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="912043fa8eb8617d" swi18n:sourceStructureFingerprint="122e2115b562d9b7"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">beide Seiten einer Gleichung mit einem Faktor zu multiplizieren</pc>. Wenn du mit einer Gleichung wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> beginnst, kannst du sie mit einer Zahl wie <ph id="c4" type="ui" subType="swi18n:inline-math"/> multiplizieren, um <ph id="c5" type="ui" subType="swi18n:inline-math"/> zu erhalten. Dazu gehört auch das Multiplizieren mit einem variablen Faktor (wie <ph id="c6" type="ui" subType="swi18n:inline-math"/>) oder das Dividieren durch eine Zahl/einen Faktor, um zum Beispiel zu <ph id="c7" type="ui" subType="swi18n:inline-math"/> zu gelangen. Diese Kompetenz beinhaltet nicht die Vereinfachung des Ergebnisses, wie <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Klammern auflösen</pc> oder <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Bruchfaktoren entfernen</pc>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

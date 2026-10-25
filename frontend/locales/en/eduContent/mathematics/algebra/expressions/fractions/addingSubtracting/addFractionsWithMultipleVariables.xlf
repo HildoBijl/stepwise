@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">add/subtract fractions with multiple variables</pc>, like turning <ph id="c3" type="ui" subType="swi18n:inline-math"/> into <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This includes <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplying both sides of a fraction by a factor</pc> to get an equal denominator and subsequently <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">adding together the two like fractions</pc>. You also learn the opposite: splitting the fraction again, like turning <ph id="c7" type="ui" subType="swi18n:inline-math"/> into <ph id="c8" type="ui" subType="swi18n:inline-math"/>. This includes <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">splitting into like fractions</pc> and subsequently <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying the resulting fractions</pc>. The skill does not include <pc id="c11" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding brackets</pc> or dealing with <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">fractions inside of fractions</pc>.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">If we add two number fractions with unequal denominator, such as <ph id="c2" type="ui" subType="swi18n:inline-math"/>, then we know how to do so: ensure the denominators are equal by rewriting the fractions (giving <ph id="c3" type="ui" subType="swi18n:inline-math"/>) and then adding up the fractions to get <ph id="c4" type="ui" subType="swi18n:inline-math"/>. But how does this work when multiple variables are involved, like when rewriting <ph id="c5" type="ui" subType="swi18n:inline-math"/>? The answer is: exactly the same. But there are a few things to pay attention to.</pc></source>
+				</segment>
+			</unit>
+			<unit id="adding">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Adding two fractions</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We want to add/subtract two <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">unlike fractions</pc> (fractions with unequal denominator), such as <ph id="c4" type="ui" subType="swi18n:block-math"/> We know how to <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add two like fractions</pc> (with equal denominators), but this time our fractions do not have equal denominators. To still be able to add these two fractions, we must force them to have the same denominator.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">The first step is to find the <pc id="c7" type="ui" subType="swi18n:term" swi18n:slot="children">least common multiple</pc> of the two denominators. Note that one denominator equals <ph id="c8" type="ui" subType="swi18n:inline-math"/> while the other denominator equals <ph id="c9" type="ui" subType="swi18n:inline-math"/>. Every factor that appears in one or both of these denominators also appears in the least common multiple, which then becomes <ph id="c10" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c11" type="ui" subType="swi18n:par" swi18n:slot="children">The second step is to adjust both fractions such that they have <ph id="c12" type="ui" subType="swi18n:inline-math"/> as denominator. This gives <ph id="c13" type="ui" subType="swi18n:block-math"/> Note that equality holds: we could even <pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">cancel factors</pc> again to get back to where we started.</pc><pc id="c15" type="ui" subType="swi18n:par" swi18n:slot="children">Now that we have two fractions with equal denominator, we can <pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add them up</pc> in the usual way. We merge the numerators together to get <ph id="c17" type="ui" subType="swi18n:block-math"/> We have written the two fractions as a single fraction.</pc></source>
+				</segment>
+			</unit>
+			<unit id="splitting">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Splitting fractions</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We could also do the exact opposite of the above. Suppose that we have a fraction like <ph id="c3" type="ui" subType="swi18n:inline-math"/> with multiple terms in the numerator. How can we split it up into separate fractions?</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">The first step is to literally split them up, doing the exact opposite of <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">adding like fractions</pc>: each term from the numerator gets its own fraction, all having the same denominator. This gives <ph id="c6" type="ui" subType="swi18n:block-math"/> Next, we <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify the fractions</pc>, canceling factors as much as possible. This results in <ph id="c8" type="ui" subType="swi18n:block-math"/> This is what we originally started off with, showing that we have indeed done the exact opposite of merging the fractions together.</pc></source>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To add/subtract two fractions with multiple variables, like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Find the least common multiple of the two fraction denominators. For the example, this is <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children">Rewrite both fractions, <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">adding factors</pc>, to give both fractions this denominator. This turns the example into <ph id="c11" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c13" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Add the like fractions</pc> together in the usual way. For the example we get the final result <ph id="c15" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc><pc id="c16" type="ui" subType="swi18n:par" swi18n:slot="children">For the opposite, when splitting up a fraction like <ph id="c17" type="ui" subType="swi18n:inline-math"/>, the steps are similar.</pc><pc id="c18" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c19" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c20" type="ui" subType="swi18n:d" swi18n:slot="children"><pc id="c21" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Split the fraction into like fractions</pc>. This turns the example into <ph id="c22" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c23" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c24" type="ui" subType="swi18n:e" swi18n:slot="children"><pc id="c25" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Simplify the fractions</pc> as much as possible. For the example, the final result becomes <ph id="c26" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="mergeFractionsNumberInDenominator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Write this as a single fraction and simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Find the least common multiple of the two denominators <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Because of <ph id="c1" type="ui" subType="swi18n:inline-math"/> we need a factor <ph id="c2" type="ui" subType="swi18n:inline-math"/>, and due to <ph id="c3" type="ui" subType="swi18n:inline-math"/> we need a factor <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Next to this, we also require a factor <ph id="c5" type="ui" subType="swi18n:inline-math"/>. After all, this is the least common multiple of <ph id="c6" type="ui" subType="swi18n:inline-math"/> and <ph id="c7" type="ui" subType="swi18n:inline-math"/>. In this way we find <ph id="c8" type="ui" subType="swi18n:block-math"/> This is the least common multiple of both <ph id="c9" type="ui" subType="swi18n:inline-math"/> and <ph id="c10" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite both fractions so that they have <ph id="c1" type="ui" subType="swi18n:inline-math"/> as denominator.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply the first fraction above and below by <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This gives <ph id="c2" type="ui" subType="swi18n:block-math"/> The second fraction is multiplied above and below by <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c4" type="ui" subType="swi18n:block-math"/> Both fractions now have <ph id="c5" type="ui" subType="swi18n:inline-math"/> as denominator.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge the two rewritten fractions into a single fraction.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we put it all together, we find <ph id="c1" type="ui" subType="swi18n:block-math"/> This has merged the two fractions into a single fraction. Because we used the least common multiple in the denominator, no further simplifications are possible.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="mergeFractionsSquareAppearing">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Write this as a single fraction and simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Find the least common multiple of the two denominators <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The denominators <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/> do not have any common factors. We can hence multiply them to get their (smallest possible) common multiple. This gives <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite both fractions so that they have <ph id="c1" type="ui" subType="swi18n:inline-math"/> as denominator.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply the first fraction above and below by <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This gives <ph id="c2" type="ui" subType="swi18n:block-math"/> The second fraction is multiplied above and below by <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c4" type="ui" subType="swi18n:block-math"/> Both fractions now have <ph id="c5" type="ui" subType="swi18n:inline-math"/> as denominator.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge the two rewritten fractions into a single fraction.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we put it all together, we find <ph id="c1" type="ui" subType="swi18n:block-math"/> This has merged the two fractions into a single fraction. Because we used the least common multiple in the denominator, no further simplifications are possible.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="mergeFractionsVariableDenominator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Write this as a single fraction and simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Find the least common multiple of the two denominators <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Because of <ph id="c1" type="ui" subType="swi18n:inline-math"/> we need the factors <ph id="c2" type="ui" subType="swi18n:inline-math"/> and <ph id="c3" type="ui" subType="swi18n:inline-math"/>. Due to <ph id="c4" type="ui" subType="swi18n:inline-math"/> we also require the factors <ph id="c5" type="ui" subType="swi18n:inline-math"/> and <ph id="c6" type="ui" subType="swi18n:inline-math"/>. All together, we hence need the factors <ph id="c7" type="ui" subType="swi18n:inline-math"/>, <ph id="c8" type="ui" subType="swi18n:inline-math"/> and <ph id="c9" type="ui" subType="swi18n:inline-math"/>. This gives the multiple <ph id="c10" type="ui" subType="swi18n:block-math"/>. This is the least common multiple of both <ph id="c11" type="ui" subType="swi18n:inline-math"/> and <ph id="c12" type="ui" subType="swi18n:inline-math"/>. The factor <ph id="c13" type="ui" subType="swi18n:inline-math"/> should <pc id="c14" type="ui" subType="swi18n:strong" swi18n:slot="children">not</pc> be present twice.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite both fractions so that they have <ph id="c1" type="ui" subType="swi18n:inline-math"/> as denominator.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply the first fraction above and below by <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This gives <ph id="c2" type="ui" subType="swi18n:block-math"/> The second fraction is multiplied above and below by <ph id="c3" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c4" type="ui" subType="swi18n:block-math"/> Both fractions now have <ph id="c5" type="ui" subType="swi18n:inline-math"/> as denominator.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Merge the two rewritten fractions into a single fraction.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we put it all together, we find <ph id="c1" type="ui" subType="swi18n:block-math"/> This has merged the two fractions into a single fraction. Because we used the least common multiple in the denominator, no further simplifications are possible.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="splitFractionsNumberInDenominator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Split this fraction into separate fractions, each without any addition/subtraction inside of them. Simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Split the fraction up into two fractions with a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> sign in-between. (Don't apply any further simplifications.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When splitting up a fraction, the denominator (below) remains the same for both fractions. Only the numerator (above) will be split. This idea gives us <ph id="c1" type="ui" subType="swi18n:block-math"/> This has split up the fraction into two fractions that can still be simplified further.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify both fractions as much as possible. Cancel out any factors appearing in both the numerator and the denominator.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>At the first fraction we can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c2" type="ui" subType="swi18n:block-math"/> For the second fraction we cancel out <ph id="c3" type="ui" subType="swi18n:inline-math"/> to find <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Write the two simplified fractions together in one expression, with once more a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> sign in-between.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The final result of the two fractions is <ph id="c1" type="ui" subType="swi18n:block-math"/> These fractions are as simplified as we can possibly write them.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="splitFractionsSquareAppearing">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Split this fraction into separate fractions, each without any addition/subtraction inside of them. Simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Split the fraction up into two fractions with a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> sign in-between. (Don't apply any further simplifications.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When splitting up a fraction, the denominator (below) remains the same for both fractions. Only the numerator (above) will be split. This idea gives us <ph id="c1" type="ui" subType="swi18n:block-math"/> This has split up the fraction into two fractions that can still be simplified further.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify both fractions as much as possible. Cancel out any factors appearing in both the numerator and the denominator.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>At the first fraction we can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c2" type="ui" subType="swi18n:block-math"/> For the second fraction we cancel out <ph id="c3" type="ui" subType="swi18n:inline-math"/> to find <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Write the two simplified fractions together in one expression, with once more a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> sign in-between.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The final result of the two fractions is <ph id="c1" type="ui" subType="swi18n:block-math"/> These fractions are as simplified as we can possibly write them.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="splitFractionsVariableDenominator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the expression <ph id="c1" type="ui" subType="swi18n:block-math"/> Split this fraction into separate fractions, each without any addition/subtraction inside of them. Simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Split the fraction up into two fractions with a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> sign in-between. (Don't apply any further simplifications.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When splitting up a fraction, the denominator (below) remains the same for both fractions. Only the numerator (above) will be split. This idea gives us <ph id="c1" type="ui" subType="swi18n:block-math"/> This has split up the fraction into two fractions that can still be simplified further.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify both fractions as much as possible. Cancel out any factors appearing in both the numerator and the denominator.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>At the first fraction we can cancel out the factor <ph id="c1" type="ui" subType="swi18n:inline-math"/>. This results in <ph id="c2" type="ui" subType="swi18n:block-math"/> For the second fraction we cancel out <ph id="c3" type="ui" subType="swi18n:inline-math"/> to find <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Write the two simplified fractions together in one expression, with once more a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> sign in-between.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The final result of the two fractions is <ph id="c1" type="ui" subType="swi18n:block-math"/> These fractions are as simplified as we can possibly write them.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="leastCommonMultiple">
+					<segment>
+						<source>Least common multiple</source>
+					</segment>
+				</unit>
+				<unit id="denominatorEquivalent">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Technically correct, but you can still simplify this.</pc></source>
+					</segment>
+				</unit>
+				<unit id="denominatorNotSmallestMultiple">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">This is indeed a multiple of both denominators, but it is not the <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">smallest</pc> common multiple.</pc></source>
+					</segment>
+				</unit>
+				<unit id="denominatorWrongFactor">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You've got the variables correct, but something is wrong with the number that you entered.</pc></source>
+					</segment>
+				</unit>
+				<unit id="denominatorMissingDependency">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">I can't find any <ph id="c2" type="ui" subType="swi18n:inline-math"/> in your answer. This variable was expected somewhere.</pc></source>
+					</segment>
+				</unit>
+				<unit id="wrongDenominator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Your fraction doesn't have the desired denominator <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+					</segment>
+				</unit>
+				<unit id="wrongNumerator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The denominator is correct, but something is off in the numerator of your fraction.</pc></source>
+					</segment>
+				</unit>
+				<unit id="nonSimplifiedNumerator">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You can still simplify the numerator of your fraction.</pc></source>
+					</segment>
+				</unit>
+				<unit id="correctFraction">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The fraction is correct, but you can still simplify it further.</pc></source>
+					</segment>
+				</unit>
+				<unit id="ansEquivalent">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">This is correct, but it can be written simpler.</pc></source>
+					</segment>
+				</unit>
+				<unit id="denominatorCorrect">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The denominator is correct, but something is off in the numerator of your fraction.</pc></source>
+					</segment>
+				</unit>
+				<unit id="nonSimplifiedFirstTerm">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The first term of your answer can be simplified further.</pc></source>
+					</segment>
+				</unit>
+				<unit id="nonSimplifiedSecondTerm">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">The second term of your answer can be simplified further.</pc></source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

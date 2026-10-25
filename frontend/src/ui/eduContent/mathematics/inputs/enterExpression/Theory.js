@@ -1,17 +1,17 @@
 import React from 'react'
 
 import { M } from '@step-wise/math-display'
+import { Translation } from '@step-wise/i18n'
 
-import { Translation } from 'i18n'
 import { Head, Par, List, Term } from 'ui/components'
 
 export function Theory() {
 	return <>
-		<Translation entry="intro">
+		<Translation id="intro">
 			<Par>In mathematics, you may encounter a large variety of <Term>expressions</Term>. Think of for instance solutions of equations: they can have additions, multiplications, fractions and all sorts of mathematical functions. How do we enter those?</Par>
 		</Translation>
 
-		<Translation entry="basics">
+		<Translation id="basics">
 			<Head>Entering basic expressions</Head>
 			<Par>Mathematical input fields in Step-Wise are of the type <Term>what you see is what you get</Term>. You always see what you entered and can directly, in a user-friendly way, adjust it. Just use plus and minus signs, multiplications (type a star "*" for those) and brackets.</Par>
 			<Par>There are a few things that inherently are slightly more complicated to enter.</Par>
@@ -25,7 +25,7 @@ export function Theory() {
 			<Par>All of this is easily possible using either a regular computer keyboard (fast and efficient) or our own internally designed mathematical keyboard (accessible for smartphones). The only downside: selecting and copy-pasting expression parts is not yet possible. This is on our list of future ideas.</Par>
 		</Translation>
 
-		<Translation entry="function">
+		<Translation id="function">
 			<Head>Entering a variety of functions</Head>
 			<Par>There are many <Term>mathematical functions</Term> that can be part of expressions. All functions work similarly, but a few important exaples are the following.</Par>
 			<List>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The goal of this skill is to get familiar with <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">entering units</pc> for physics applications. In particular, this includes entering more complex units like fractions including powers, as well as Greek letters.</pc></source>
+					<target swi18n:sourceContentFingerprint="8e0c419efaf64850" swi18n:sourceStructureFingerprint="f7f184827b959a05"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Het doel van deze vaardigheid is om bekend te raken met het <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">invoeren van eenheden</pc> voor natuurkundige toepassingen. Specifieker gaat het hier om de meer complexe eenheden zoals breuken en Griekse letters.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">When calculating things in physics, it's crucial to use the right <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">units</pc>. There is a large difference between, for instance, <ph id="c3" type="ui" subType="swi18n:inline-math"/> and <ph id="c4" type="ui" subType="swi18n:inline-math"/>. However, sometimes units get complicated, with powers, fractions, Greek letters, and even <ph id="c5" type="ui" subType="swi18n:inline-math"/>. How do you enter all that?</pc></source>
+					<target swi18n:sourceContentFingerprint="f316be44270f141f" swi18n:sourceStructureFingerprint="41356c57b7faf237"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Bij het uitvoeren van berekeningen in de natuurkunde is het cruciaal om de juiste <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">eenheden</pc> te gebruiken. Er is een groot verschil tussen bijvoorbeeld <ph id="c3" type="ui" subType="swi18n:inline-math"/> en <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Eenheden kunnen echter complex zijn, met machten, breuken, Griekse letters, en zelfs <ph id="c5" type="ui" subType="swi18n:inline-math"/>. Hoe voer je dit alles in?</pc></target>
+				</segment>
+			</unit>
+			<unit id="basicFunctionalities">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Basic functionalities</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To enter basic units, keep the following matters in mind.</pc><pc id="c3" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:term" swi18n:slot="children">Unit products:</pc> to separate units in a product, like <ph id="c7" type="ui" subType="swi18n:inline-math"/>, use the multiplication star "*", the dot (period) "." or the space bar.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:term" swi18n:slot="children">Unit fractions:</pc> to add a fraction, like for <ph id="c11" type="ui" subType="swi18n:inline-math"/>, use the dividing slash "/" or the downward arrow.</pc></pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c13" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:term" swi18n:slot="children">Unit powers:</pc> for powers like <ph id="c15" type="ui" subType="swi18n:inline-math"/> you could optionally use the power hat "^" but this isn't even needed. If you type a number inside a unit field, it'll automatically understand it's for a power.</pc></pc></pc><pc id="c16" type="ui" subType="swi18n:par" swi18n:slot="children">This already allows you to type most units.</pc><pc id="c17" type="ui" subType="swi18n:info" swi18n:slot="children">Units are case-sensitive! If the input field doesn't understand a unit, it's colored red. In that case, you may want to check your capitalization.</pc></source>
+					<target swi18n:sourceContentFingerprint="e1a6828013987e3a" swi18n:sourceStructureFingerprint="d8d291ccd3943744"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Basisfunctionaliteiten</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Voor de meer eenvoudige eenheden is het volgende handig om te weten.</pc><pc id="c3" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:term" swi18n:slot="children">Vermenigvuldigingen:</pc> om de eenheden in een product van elkaar te onderscheiden, zoals in <ph id="c7" type="ui" subType="swi18n:inline-math"/>, gebruik je de vermenigvuldigingsster "*", de punt "." of de spatie.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:term" swi18n:slot="children">Breuken:</pc> om een deling toe te voegen, zoals <ph id="c11" type="ui" subType="swi18n:inline-math"/>, gebruik je de deelslash "/" of de pijl naar beneden.</pc></pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c13" type="ui" subType="swi18n:c" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:term" swi18n:slot="children">Machten:</pc> voor een exponent als <ph id="c15" type="ui" subType="swi18n:inline-math"/> kun je het machtsymbool "^" gebruiken, maar dit is niet per se nodig. Als je een nummer in een eenhedenveld invoert, dan snapt hij automatisch dat het voor een macht is.</pc></pc></pc><pc id="c16" type="ui" subType="swi18n:par" swi18n:slot="children">Hiermee kun je de meeste eenheden al invoeren.</pc><pc id="c17" type="ui" subType="swi18n:info" swi18n:slot="children">Eenheden zijn hoofdlettergevoelig! Als het invoerveld een eenheid niet begrijpt, dan kleurt hij hem rood. In dat geval wil je waarschijnlijk je hoofdletters controleren.</pc></target>
+				</segment>
+			</unit>
+			<unit id="autoReplace">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Auto-replace</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Most units are basic letters, but there are exceptions. Think of <ph id="c3" type="ui" subType="swi18n:inline-math"/>, <ph id="c4" type="ui" subType="swi18n:inline-math"/> or <ph id="c5" type="ui" subType="swi18n:inline-math"/>. To type these, you can use the <pc id="c6" type="ui" subType="swi18n:term" swi18n:slot="children">auto-replace</pc> functionality.</pc><pc id="c7" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:a" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:term" swi18n:slot="children">Greek letters:</pc> if you want to write <ph id="c11" type="ui" subType="swi18n:inline-math"/> (lower case mu, for the micro prefix) or <ph id="c12" type="ui" subType="swi18n:inline-math"/> (upper case Omega, for the Ohm unit) then simply type out the full name "mu" or "Omega"/"Ohm" (either works) and the input field will automatically turn it into the Greek letter.</pc></pc><pc id="c13" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:term" swi18n:slot="children">Degrees:</pc> for degrees Celsius you need to write <ph id="c16" type="ui" subType="swi18n:inline-math"/>. (Note: a <ph id="c17" type="ui" subType="swi18n:inline-math"/> does not suffice, since this is a different unit, the Coulomb.) The shortcut for this is "dC" or "degC" (case-sensitive).</pc></pc></pc><pc id="c18" type="ui" subType="swi18n:par" swi18n:slot="children">If the above doesn't work, you can also always use the internal unit input keyboard, which also contains all units you may need.</pc></source>
+					<target swi18n:sourceContentFingerprint="22e8d9b10edfaac2" swi18n:sourceStructureFingerprint="dc1199fe9e408b89"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Autovervanging</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">De meeste eenheden zijn simpele letters, maar er zijn uitzonderingen. Denk aan <ph id="c3" type="ui" subType="swi18n:inline-math"/>, <ph id="c4" type="ui" subType="swi18n:inline-math"/> of <ph id="c5" type="ui" subType="swi18n:inline-math"/>. Om deze te typen gebruik je de <pc id="c6" type="ui" subType="swi18n:term" swi18n:slot="children">autovervanging</pc> functionaliteit.</pc><pc id="c7" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:a" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:term" swi18n:slot="children">Griekse letters:</pc> als je <ph id="c11" type="ui" subType="swi18n:inline-math"/> wilt schrijven (kleine letter mu, voor het micro voorvoegsel) of <ph id="c12" type="ui" subType="swi18n:inline-math"/> (hoofdletter Omega, voor de Ohm eenheid) dan typ je simpelweg de volle naam "mu" of "Omega"/"Ohm" in (beiden werken) en het invoerveld zet het automatisch om in de Griekse letter.</pc></pc><pc id="c13" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:term" swi18n:slot="children">Graden:</pc> voor graden Celsius moet je <ph id="c16" type="ui" subType="swi18n:inline-math"/> typen. (Merk op: een <ph id="c17" type="ui" subType="swi18n:inline-math"/> is niet voldoende, omdat dit een andere eenheid is, de Coulomb.) De afkorting hiervoor is "gC" of "dC" (hoofdlettergevoelig).</pc></pc></pc><pc id="c18" type="ui" subType="swi18n:par" swi18n:slot="children">Als het bovenstaande niet werkt, dan kun je ook altijd het interne eenhedentoetsenbord gebruiken, die ook alle eenheden bevat die je nodig kan hebben.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="enterUnit">
+				<group id="problem">
+					<unit id="text">
+						<segment>
+							<source>Enter the unit <ph id="c1" type="ui" subType="swi18n:inline-math"/> exactly as shown.</source>
+							<target swi18n:sourceContentFingerprint="139b84dcfcfb8d26" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Voer de eenheid <ph id="c1" type="ui" subType="swi18n:inline-math"/> letterlijk in.</target>
+						</segment>
+					</unit>
+					<unit id="label">
+						<segment>
+							<source>Enter the unit here</source>
+							<target swi18n:sourceContentFingerprint="912365cd122ff287" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vul hier de eenheid in</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="solution">
+					<unit id="°C">
+						<segment>
+							<source>To enter <ph id="c1" type="ui" subType="swi18n:inline-math"/> you use "dC" or "degC" (degrees Celsius).</source>
+							<target swi18n:sourceContentFingerprint="a3e5c016b5ac0c3e" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Om <ph id="c1" type="ui" subType="swi18n:inline-math"/> in te voeren gebruik je "gC" (graden Celsius) of "dC" (degrees Celsius).</target>
+						</segment>
+					</unit>
+					<unit id="μm">
+						<segment>
+							<source>For the symbol <ph id="c1" type="ui" subType="swi18n:inline-math"/> you type "mu". So for the unit <ph id="c2" type="ui" subType="swi18n:inline-math"/> you basically enter "mum".</source>
+							<target swi18n:sourceContentFingerprint="f939f6a92df092cf" swi18n:sourceStructureFingerprint="98f3255e641e5524">Voor het symbool <ph id="c1" type="ui" subType="swi18n:inline-math"/> type je "mu". Voor de eenheid <ph id="c2" type="ui" subType="swi18n:inline-math"/> voer je dus eigenlijk "mum" in.</target>
+						</segment>
+					</unit>
+					<unit id="Ω">
+						<segment>
+							<source>To enter <ph id="c1" type="ui" subType="swi18n:inline-math"/> you can type "Ohm" or "Omega". Note: this is case-sensitive! Simply typing "ohm" won't work.</source>
+							<target swi18n:sourceContentFingerprint="71bd8ac55b3255af" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Om <ph id="c1" type="ui" subType="swi18n:inline-math"/> in te vullen kun je "Ohm" of "Omega" typen. Let op: dit is hoofdlettergevoelig! Simpelweg "ohm" typen werkt niet.</target>
+						</segment>
+					</unit>
+					<unit id="other">
+						<segment>
+							<source>You click on the input field and enter <ph id="c1" type="ui" subType="swi18n:inline-math"/>.<pc id="c2" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:a" swi18n:slot="children">For multiplications use the star "*" or the period ".". The space bar also works as short-cut.</pc></pc><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:b" swi18n:slot="children">For divisions use the slash "/" or the downward arrow.</pc></pc><pc id="c7" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c8" type="ui" subType="swi18n:c" swi18n:slot="children">For powers you can use the power hat "^" but this isn't even needed: directly entering numbers also works.</pc></pc></pc></source>
+							<target swi18n:sourceContentFingerprint="041d954aa52ec1e1" swi18n:sourceStructureFingerprint="0c1c39355650515c">Je klikt op het invoervak en typt <ph id="c1" type="ui" subType="swi18n:inline-math"/> in.<pc id="c2" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:a" swi18n:slot="children">Als vermenigvuldigingsteken kun je de ster "*" gebruiken of de punt ".". Ook de spatie werkt als short-cut.</pc></pc><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:b" swi18n:slot="children">Als deelteken gebruik je de slash "/" of de pijl omlaag.</pc></pc><pc id="c7" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c8" type="ui" subType="swi18n:c" swi18n:slot="children">Voor machten kun je eventueel het machtteken "^" gebruiken maar dit is niet per se nodig: direct getallen invoeren werkt ook.</pc></pc></pc></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="feedback">
+					<unit id="reorderedUnit">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Technically correct, but you must enter the unit <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">as shown</pc>, including its order.</pc></source>
+							<target swi18n:sourceContentFingerprint="3a0aa8e567886c96" swi18n:sourceStructureFingerprint="01706d2c9df487ac"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Technisch correct, maar je moet de eenheid <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">letterlijk</pc> overnemen, inclusief volgorde.</pc></target>
+						</segment>
+					</unit>
+					<unit id="equivalentUnit">
+						<segment>
+							<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Technically correct, but this is a whole different notation. Enter the unit <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">as shown</pc>.</pc></source>
+							<target swi18n:sourceContentFingerprint="272c3075dc355c20" swi18n:sourceStructureFingerprint="01706d2c9df487ac"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Technisch correct, maar dit is een heel andere schrijfwijze. Neem de eenheid <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">letterlijk</pc> over.</pc></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

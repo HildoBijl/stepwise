@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify roots</pc>. An expression like <ph id="c3" type="ui" subType="swi18n:inline-math"/> can for instance be written as <ph id="c4" type="ui" subType="swi18n:inline-math"/> and similarly <ph id="c5" type="ui" subType="swi18n:inline-math"/> is simplified to <ph id="c6" type="ui" subType="swi18n:inline-math"/>. Effectively, this skill is about pulling out (or pulling in) factors from roots, including both square roots and higher-power roots. It does not include roots within roots.</pc></source>
+					<target swi18n:sourceContentFingerprint="0abc85c8d9333708" swi18n:sourceStructureFingerprint="e14b76ae2bc35c7d"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Wurzeln zu vereinfachen</pc>. Zum Beispiel kann ein Ausdruck wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> als <ph id="c4" type="ui" subType="swi18n:inline-math"/> geschrieben werden und ebenso kann <ph id="c5" type="ui" subType="swi18n:inline-math"/> auf <ph id="c6" type="ui" subType="swi18n:inline-math"/> reduziert werden. Im Grunde geht es bei dieser Kompetenz darum, Faktoren aus Wurzeln zu ziehen (oder in sie zurückzubringen), sowohl für Wurzeln zweiten Grades als auch für Wurzeln höheren Grades. Sie umfasst keine Wurzeln innerhalb von Wurzeln.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

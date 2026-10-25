@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">multiply or divide all terms of an equation</pc> by a factor. If you have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to instantly multiply all terms by <ph id="c4" type="ui" subType="swi18n:inline-math"/> to end up at <ph id="c5" type="ui" subType="swi18n:inline-math"/>, or do the reverse. This includes understanding the idea behind this: <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplying both sides of an equation by a factor</pc> and subsequently <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding brackets</pc> and <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying any resulting fractions</pc>. The skill does not deal with which factor might be wise to multiply/divide by.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">An equation often consists of multiple terms. The equation <ph id="c2" type="ui" subType="swi18n:inline-math"/> for instance has two terms on the left and one term on the right. When rewriting such an equation, a common thing to do is <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">multiply all terms</pc> by a factor, or alternatively <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">divide all terms</pc> by a factor. We take a look at how and why this works, as well as what short-cuts we can take while doing so.</pc></source>
+				</segment>
+			</unit>
+			<unit id="multiplying">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Multiply all terms</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">When we have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, one thing we are allowed to do is <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply both sides of the equation</pc> by a factor. If we multiply by <ph id="c5" type="ui" subType="swi18n:inline-math"/>, then we get <ph id="c6" type="ui" subType="swi18n:block-math"/> Note that, when multiplying an entire side of the equation, we need to use brackets. Generally we don't want to have those brackets, and we can get rid of them by <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expanding them</pc>. This turns the equation into <ph id="c8" type="ui" subType="swi18n:block-math"/> Finally we can simplify each individual term. On the left, we can <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify the fraction</pc>, while on the right the multiplication can be written more succinctly using a <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">square</pc>. We end up with <ph id="c11" type="ui" subType="swi18n:block-math"/> Look at how this resulted from the original equation <ph id="c12" type="ui" subType="swi18n:inline-math"/>. Effectively, we have multiplied each term individually by <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+				</segment>
+			</unit>
+			<unit id="dividing">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Divide all terms</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We can do the same in reverse. After all, if we have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, we are also allowed to <pc id="c4" type="ui" subType="swi18n:skill-link" swi18n:slot="children">divide both sides of the equation</pc> by a factor. Dividing by <ph id="c5" type="ui" subType="swi18n:inline-math"/> gives <ph id="c6" type="ui" subType="swi18n:block-math"/> The fraction on the left can subsequently be <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">split up into separate fractions</pc> through <ph id="c8" type="ui" subType="swi18n:block-math"/> Finally we can <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplify fractions</pc> to get back to <ph id="c10" type="ui" subType="swi18n:block-math"/> Again look at how this follows from the starting point <ph id="c11" type="ui" subType="swi18n:inline-math"/>. Effectively we have divided each term by <ph id="c12" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To multiply or divide all terms in an equation by a factor, like when multiplying <ph id="c3" type="ui" subType="swi18n:inline-math"/> by <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children"><pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Apply the multiplication/division</pc> to the full equation. This turns the example into <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">On a multiplication <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">expand the brackets</pc>, or on a division <pc id="c13" type="ui" subType="swi18n:skill-link" swi18n:slot="children">split up the fraction</pc>. For the example, we get <ph id="c14" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c15" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c16" type="ui" subType="swi18n:c" swi18n:slot="children">Simplify the resulting outcome, which usually comes down to <pc id="c17" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying various fractions</pc>, canceling terms where needed. This reduces the example to <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+				</segment>
+			</unit>
+			<unit id="shortCut">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The short-cut</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We can summarize the above ideas into a useful short-cut. If we want to multiply or divide an entire equation by a factor, we can directly apply that multiplication/division to each individual term, simplifying these terms as we go. So if we multiply the equation <ph id="c3" type="ui" subType="swi18n:inline-math"/> by the factor <ph id="c4" type="ui" subType="swi18n:inline-math"/>, we can immediately see that this turns into <ph id="c5" type="ui" subType="swi18n:inline-math"/>. And if we then divide this by <ph id="c6" type="ui" subType="swi18n:inline-math"/> again, we right away get back to <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="divideTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Divide all terms by <ph id="c2" type="ui" subType="swi18n:inline-math"/> and simplify each resulting term as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Divide both sides of the equation by <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When we divide a side of an equation by <ph id="c1" type="ui" subType="swi18n:inline-math"/> it is important to put the entire original expression in the numerator (above). Doing so results in <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Split up all fractions into separate fractions, so that there is no sum in any numerator anymore.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When splitting up a fraction, we divide every term in the numerator (above) separately by the entire denominator (below). This turns the equation into <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify each of the resulting terms as much as possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>First we can cancel out any shared numerical factors. This gets us <ph id="c1" type="ui" subType="swi18n:block-math"/> If we then also cross out factors of <ph id="c2" type="ui" subType="swi18n:inline-math"/>, we end up with <ph id="c3" type="ui" subType="swi18n:block-math"/> Note that every term has been divided individually by the factor <ph id="c4" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="multiplyTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Multiply all terms by <ph id="c2" type="ui" subType="swi18n:inline-math"/> and simplify each resulting term as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Multiply both sides of the equation by <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>When we multiply a side of an equation by <ph id="c1" type="ui" subType="swi18n:inline-math"/> it is important to use brackets. Doing so results in <ph id="c2" type="ui" subType="swi18n:block-math"/> Note that it does not matter if we put the multiplication on the left or on the right: this comes down to the same.</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Expand all the brackets that are present.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>To expand the brackets, we multiply each of the terms within brackets separately by the factor outside of the brackets. This gives <ph id="c1" type="ui" subType="swi18n:block-math"/> It is wise to already simplify the products a bit further, giving us <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Simplify each of the resulting terms as much as possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The only thing left to do is simplifying the fractions by crossing out factors of <ph id="c1" type="ui" subType="swi18n:inline-math"/>. We end up with <ph id="c2" type="ui" subType="swi18n:block-math"/> Note that every term has been multiplied individually by the factor <ph id="c3" type="ui" subType="swi18n:inline-math"/>.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="incorrectForm">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Both sides should be of the form <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Your <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side is not set up this way.</pc></source>
+					</segment>
+				</unit>
+				<unit id="incorrectCopy">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">It looks like you didn't copy the original equation properly on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side.</pc></source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Meta-Info page</pc> contains background information about the skill, like the exact <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">learning goal</pc>. This is generally not so useful to students, but more so for teachers. It helps to properly assemble a course.</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">This current skill has as learning goal that students can <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">enter integer numbers</pc> into an integer input field. Numbers can be positive or negative and have multiple digits.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">Below you also find information about <pc id="c7" type="ui" subType="swi18n:term" swi18n:slot="children">links to other skills</pc>. What comes before (prerequisites)? What can come after (follow-ups)? And which skills are related to it, for instance by being similar or by being in the same category/grouping?</pc></source>
+					<target swi18n:sourceContentFingerprint="c050f37f778077c1" swi18n:sourceStructureFingerprint="8e24ca41388109c5"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Die <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">Meta-Info-Seite</pc> enthält Hintergrundinformationen über die Kompetenz, wie zum Beispiel das genaue <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">Lernziel</pc>. Dies ist im Allgemeinen nicht so nützlich für Studierende, dafür aber umso mehr für Lehrende. </pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Dieser Kompetenz liegt das Lernziel zugrunde, dass die Studierenden <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">Ganzzahlen</pc> in ein Ganzzahl-Eingabefeld eingeben. Zahlen können positiv oder negativ sein und mehrere Ziffern enthalten.</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">Nachfolgend gibt es auch Informationen zu <pc id="c7" type="ui" subType="swi18n:term" swi18n:slot="children">Verbindungen zu anderen Kompetenzen</pc>. Was kommt davor (Voraussetzungen)? Was kommt danach (Folgekompetenzen)? Und welche Kompetenzen sind vergleichbar, z.B. weil sie ähnlich sind oder zur gleichen Kategorie/Gruppe gehören?</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Welcome to the Step-Wise tutorial! Here you can learn how the web-app is set up and freely play around with the main functionalities.</pc><pc id="c2" type="ui" subType="swi18n:warning" swi18n:slot="children">Honestly, don't do this tutorial. This is the 21st century. Apps should be intuitive enough to not need a manual or tutorial, and Step-Wise certainly meets those requirements. Or if you really want to do the tutorial, just play around with the exercises and only check the theory in the unlikely case that you get stuck. Learn by doing.</pc></source>
+					<target swi18n:sourceContentFingerprint="5ec2a163863d646c" swi18n:sourceStructureFingerprint="5ef512ec1f0d4b38"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Willkommen zum Step-Wise-Tutorial! Hier kannst du lernen, wie die Web-App eingerichtet ist und mit ihren Hauptfunktionen spielen.</pc><pc id="c2" type="ui" subType="swi18n:warning" swi18n:slot="children">Um ehrlich zu sein, überspringe dieses Tutorial. Wir leben im 21. Jahrhundert. Jahrhundert. Apps sollten so intuitiv sein, dass sie kein Handbuch oder Tutorial benötigen, und Step-Wise erfüllt diese Anforderungen mit Sicherheit. Oder wenn du wirklich das Tutorial machen willst, spiel einfach mit den Übungen herum und benutze die Theorie nur für den unwahrscheinlichen Fall, dass du nicht weiterkommst. Lernen durch Tun.</pc></target>
+				</segment>
+			</unit>
+			<unit id="skills">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Skills</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Step-Wise is structured around the concept of <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">skills</pc>. Every skill is something that you can actually do. For instance (like for this skill) simply entering a number into a field.</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">For every skill we estimate the <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">likelihood</pc> that you will do it correctly. We developed our own probability theory script for this, which takes into account lots of different factors. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">For you it's simple: you can always see the success chance through the skill orb in the top right corner. Feel free to hover over it for more information.</pc><pc id="x3" type="other" subType="swi18n:condition-false">If you were signed in, you could also see that success chance in the top right corner of the screen.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="6b9a450df8cdf474" swi18n:sourceStructureFingerprint="749f9a8558079295"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Kompetenzen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Step-Wise ist auf dem Konzept der <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">Kompetenzen</pc> aufgebaut. Jede Kompetenz ist etwas, das man tatsächlich tun kann. Zum Beispiel (wie in dieser Kompetenz) die Eingabe einer Zahl in ein Eingabefeld.</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Für jede Kompetenz schätzen wir die <pc id="c5" type="ui" subType="swi18n:term" swi18n:slot="children">Wahrscheinlichkeit</pc>, dass du sie richtig ausführen wirst. Dazu haben wir unsere eigenen Wahrscheinlichkeitsskripte entwickelt, die zahlreiche Faktoren berücksichtigen. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Für dich ist es ganz einfach: Du kannst die Erfolgsquote immer über die Kompetenzkugel oben rechts sehen. Bewege den Mauszeiger darüber, um weitere Informationen zu erhalten.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Wenn du eingeloggt bist, kannst du auch deine Erfolgsquote oben rechts auf dem Bildschirm sehen.</pc></pc></pc></target>
+				</segment>
+			</unit>
+			<unit id="exercises">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Exercises</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To get better with a skill, you can practice with a variety of randomly generated <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">exercises</pc>. There are two types.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">The <pc id="c7" type="ui" subType="swi18n:term" swi18n:slot="children">example exercises</pc> are basic exercises for free experimentation. You can view the solution in advance if you so desire. Playing around with them doesn't affect your ratings in any way.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children">The <pc id="c10" type="ui" subType="swi18n:term" swi18n:slot="children">practice exercises</pc> are slightly more involved exercises to practice on. Every action you make there does effect your estimated success chance.</pc></pc></pc><pc id="c11" type="ui" subType="swi18n:par" swi18n:slot="children">Go ahead and try it out! The Step-Wise input system is <pc id="c12" type="ui" subType="swi18n:term" swi18n:slot="children">smartphone-compatible</pc> with our own internally designed keyboards. It's all easy to use. You'll figure it out.</pc><pc id="c13" type="ui" subType="swi18n:par" swi18n:slot="children">Once you've reached the goal set for the skill level, you'll get a notification that you can continue to the next skill. Keep on practicing until you've got it!</pc></source>
+					<target swi18n:sourceContentFingerprint="26187b2fa22a456e" swi18n:sourceStructureFingerprint="80eeb0da6d072751"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Übungen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Um eine Kompetenz zu verbessern, kannst du mit verschiedenen randomisierten <pc id="c3" type="ui" subType="swi18n:term" swi18n:slot="children">Übungsaufgaben</pc> üben. Es gibt zwei Arten von Aufgaben.</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:a" swi18n:slot="children">Die <pc id="c7" type="ui" subType="swi18n:term" swi18n:slot="children">Beispielaufgaben</pc> sind einfache Aufgaben, mit denen man frei experimentieren kann. Du kannst die Lösung vorher sehen, wenn du willst, und das Herumspielen hat keinen Einfluss auf deine Bewertung.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children">Die <pc id="c10" type="ui" subType="swi18n:term" swi18n:slot="children">Übungsaufgaben</pc> sind etwas komplexer. Jede Aktion, die du dort ausführst, beeinflusst die geschätzte Erfolgswahrscheinlichkeit.</pc></pc></pc><pc id="c11" type="ui" subType="swi18n:par" swi18n:slot="children">Probiere es selbst aus! Das Step-Wise Eingabesystem ist <pc id="c12" type="ui" subType="swi18n:term" swi18n:slot="children">geeignet für Smartphones</pc>, mit unseren eigenen, selbst entwickelten Tastaturen. Es funktioniert sehr einfach, du wirst es sicher herausfinden.</pc><pc id="c13" type="ui" subType="swi18n:par" swi18n:slot="children">Sobald du das Ziel für die Kompetenz erreicht hast, erhältst du automatisch eine Benachrichtigung, dass du mit der nächsten Kompetenz weitermachen kannst. Übe weiter, bis du es geschafft hast!</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="enterInteger">
+				<group id="problem">
+					<unit id="text">
+						<segment>
+							<source>Enter the number <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+							<target swi18n:sourceContentFingerprint="8ace1c42fb04726e" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Gib die Zahl <ph id="c1" type="ui" subType="swi18n:inline-math"/> ein.</target>
+						</segment>
+					</unit>
+					<unit id="label">
+						<segment>
+							<source>Enter <ph id="c1" type="ui" subType="swi18n:inline-math"/> here</source>
+							<target swi18n:sourceContentFingerprint="2649b57423b15b46" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Hier <ph id="c1" type="ui" subType="swi18n:inline-math"/> eingeben</target>
+						</segment>
+					</unit>
+					<unit id="noMinusSign">
+						<segment>
+							<source>You forgot the minus sign.</source>
+							<target swi18n:sourceContentFingerprint="729f679607b1d648" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">You forgot the minus sign.</target>
+						</segment>
+					</unit>
+				</group>
+				<unit id="solution">
+					<segment>
+						<source>You can click on the input field and type in the number <ph id="c1" type="ui" subType="swi18n:inline-math"/>.<pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true"> A potential minus sign can also be added after typing in the number. The input field is smart enough to know that the minus sign must be at the front.</pc><pc id="x3" type="other" subType="swi18n:condition-false"></pc></pc></source>
+						<target swi18n:sourceContentFingerprint="b6937b7925046aff" swi18n:sourceStructureFingerprint="dce06925e6f49b90">Du klickst auf das Eingabefeld und gibst <ph id="c1" type="ui" subType="swi18n:inline-math"/> ein.<pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true"> Ein eventuelles Minuszeichen kann auch nach der Eingabe der Zahl hinzugefügt werden. Das Eingabefeld ist intelligent genug, um zu wissen, dass das Minuszeichen vorangestellt werden muss.</pc><pc id="x3" type="other" subType="swi18n:condition-false"></pc></pc></target>
+					</segment>
+				</unit>
+				<group id="feedback">
+					<unit id="noMinusSign">
+						<segment>
+							<source>You forgot the minus sign.</source>
+							<target swi18n:sourceContentFingerprint="729f679607b1d648" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du hast das Minuszeichen vergessen.</target>
+						</segment>
+					</unit>
+					<unit id="unnecessaryMinusSign">
+						<segment>
+							<source>Try removing the minus sign.</source>
+							<target swi18n:sourceContentFingerprint="4d018f30ae4cd3ee" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Versuche, das Minuszeichen zu entfernen.</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

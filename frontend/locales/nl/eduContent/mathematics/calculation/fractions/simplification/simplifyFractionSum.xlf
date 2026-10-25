@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify a fraction sum</pc>. This relates to both sums of fractions as well as fractions with sums. If you for instance have <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to reduce the sums within the fraction, simplify the fraction as much as possible, subsequently add all terms together and simplify the final result. For the example, the result would be <ph id="c4" type="ui" subType="swi18n:inline-math"/>. This skill does not involve <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplying/dividing fractions</pc> or <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying fractions within fractions</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="77a35468cb666d56" swi18n:sourceStructureFingerprint="dfef11f6e1f8535d"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In deze vaardigheid leer je om een <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">som van breuken te vereenvoudigen</pc>. Dit gaat zowel over optellingen van breuken als ook optellingen binnenin breuken. Als je bijvoorbeeld <ph id="c3" type="ui" subType="swi18n:inline-math"/> hebt, dan kun je de sommen binnen de breuk vereenvoudigen, de breuk zelf zo ver mogelijk vereenvoudigen, hieropvolgend alle termen samenvoegen, en dit resultaat weer vereenvoudigen. Bij het voorbeeld kom je zo uit op <ph id="c4" type="ui" subType="swi18n:inline-math"/>. Deze vaardigheid omvat niet het <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vermenigvuldigen/delen van breuken</pc> of het <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">vereenvoudigen van breuken in breuken</pc>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

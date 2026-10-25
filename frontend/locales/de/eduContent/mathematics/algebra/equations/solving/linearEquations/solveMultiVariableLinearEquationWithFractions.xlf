@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">solve a linear equation with multiple variables and with fractions</pc>. If you have an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> then you will be able to determine the solution for <ph id="c4" type="ui" subType="swi18n:inline-math"/> as <ph id="c5" type="ui" subType="swi18n:inline-math"/>. This includes <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">simplifying the fraction with a fraction sum into a single fraction</pc>, <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplying equation terms by denominators</pc> and eventually <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solving the resulting linear equation</pc>.</pc></source>
+					<target swi18n:sourceContentFingerprint="bea0f0aaffcf4fef" swi18n:sourceStructureFingerprint="87fd95a7ee10f871"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In dieser Kompetenz lernst du, eine <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">lineare Gleichung mit mehreren Variablen und mit Brüchen zu lösen</pc>. Für eine Gleichung wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> kannst du die Lösung für <ph id="c4" type="ui" subType="swi18n:inline-math"/> als <ph id="c5" type="ui" subType="swi18n:inline-math"/> bestimmen. Dazu gehört die <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Vereinfachung eines Bruchs mit Bruchsumme in einen einzigen Bruch</pc>, die <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Multiplikation aller Terme mit den Nennern</pc> und schließlich die <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Lösung der entsprechenden linearen Gleichung</pc>.</pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Consider an equation like <ph id="c2" type="ui" subType="swi18n:inline-math"/> where the target variable <ph id="c3" type="ui" subType="swi18n:inline-math"/> is in the denominator of some fraction. Sometimes such an equation is a <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">linear equation in disguise</pc>. Here we learn how to check that, and how to subsequently solve such equations.</pc></source>
+					<target swi18n:sourceContentFingerprint="5b5f93e9848a7ae9" swi18n:sourceStructureFingerprint="835ab694df5c05a9"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Stelle dir eine Gleichung als <ph id="c2" type="ui" subType="swi18n:inline-math"/> vor, bei der die Zielvariable <ph id="c3" type="ui" subType="swi18n:inline-math"/> im Nenner eines Bruchs steht. Manchmal sind diese Gleichungen eigentlich <pc id="c4" type="ui" subType="swi18n:term" swi18n:slot="children">verschleierte lineare Gleichungen</pc>. Hier lernen wir, wie man das überprüft und wie man diese Gleichungen löst.</pc></target>
+				</segment>
+			</unit>
+			<unit id="cleaning">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Cleaning up the equation</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The first thing that we always do is clean up the equation. If there are any fractions inside of fractions, we first want to solve that, <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">reducing it to a single fraction</pc>. For the example, we can multiply the numerator and denominator of the fraction on the left by <ph id="c4" type="ui" subType="swi18n:inline-math"/> to get <ph id="c5" type="ui" subType="swi18n:block-math"/> After this, we note that the target variable <ph id="c6" type="ui" subType="swi18n:inline-math"/> is still in the denominator. We can solve this by <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiplying all terms</pc> by <ph id="c8" type="ui" subType="swi18n:inline-math"/>. Optionally, we can also multiply all terms by <ph id="c9" type="ui" subType="swi18n:inline-math"/> to get rid of the fraction on the right. This results in <ph id="c10" type="ui" subType="swi18n:block-math"/> We have ensured that there are no fractions anymore with <ph id="c11" type="ui" subType="swi18n:inline-math"/> in the denominator, so we have sufficiently cleaned up the equation. Now we see that the equation is in fact linear in <ph id="c12" type="ui" subType="swi18n:inline-math"/>. That is, there are no powers of <ph id="c13" type="ui" subType="swi18n:inline-math"/> or similar. Only multiplications by constants and non-target variables (which can also be seen as constants).</pc></source>
+					<target swi18n:sourceContentFingerprint="3145ea875f00f933" swi18n:sourceStructureFingerprint="4aa38a6e90dafc0c"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Gleichung bereinigen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Das erste, was wir immer tun, ist die Gleichung zu bereinigen. Wenn es irgendwo Brüche innerhalb von Brüchen gibt, wollen wir diese loswerden und das Ganze <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">auf einen einzigen Bruch reduzieren</pc>. Im Beispiel können wir den Zähler und den Nenner des Bruchs auf der linken Seite mit <ph id="c4" type="ui" subType="swi18n:inline-math"/> multiplizieren, um <ph id="c5" type="ui" subType="swi18n:block-math"/> zu erhalten. Danach stellen wir fest, dass die Zielvariable <ph id="c6" type="ui" subType="swi18n:inline-math"/> immer noch in einem Nenner steht. Wir können dies beheben, indem wir <pc id="c7" type="ui" subType="swi18n:skill-link" swi18n:slot="children">alle Terme</pc> mit dem Nenner <ph id="c8" type="ui" subType="swi18n:inline-math"/> multiplizieren. Optional können wir auch alle Terme mit <ph id="c9" type="ui" subType="swi18n:inline-math"/> multiplizieren, um den Bruch auf der rechten Seite loszuwerden. Dies ergibt <ph id="c10" type="ui" subType="swi18n:block-math"/> Wir haben sichergestellt, dass es keine Brüche mit <ph id="c11" type="ui" subType="swi18n:inline-math"/> im Nenner mehr gibt, und somit haben wir die Gleichung ausreichend bereinigt. Jetzt können wir sehen, dass die Gleichung tatsächlich linear in Bezug auf <ph id="c12" type="ui" subType="swi18n:inline-math"/> ist. Mit anderen Worten: Es gibt keine Potenzen von <ph id="c13" type="ui" subType="swi18n:inline-math"/> oder ähnliches. Nur Multiplikationen von Konstanten und Nicht-Zielvariablen (die man auch als Konstanten betrachten kann).</pc></target>
+				</segment>
+			</unit>
+			<unit id="solving">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Solving the linear equation</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We can now <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solve the linear equation</pc> in the standard way. Expanding brackets gives <ph id="c4" type="ui" subType="swi18n:block-math"/> Bringing all terms with <ph id="c5" type="ui" subType="swi18n:inline-math"/> to the left and all other terms to the right, we wind up with <ph id="c6" type="ui" subType="swi18n:block-math"/> Pulling <ph id="c7" type="ui" subType="swi18n:inline-math"/> out of brackets then reduces this to <ph id="c8" type="ui" subType="swi18n:block-math"/> The final solution follows by dividing by the term between brackets, giving <ph id="c9" type="ui" subType="swi18n:block-math"/> This is the solution of the equation.</pc></source>
+					<target swi18n:sourceContentFingerprint="9243b4f91ef85561" swi18n:sourceStructureFingerprint="aec61d9c65c77b9c"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die lineare Gleichung lösen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Wir können nun auf die übliche Weise die <pc id="c3" type="ui" subType="swi18n:skill-link" swi18n:slot="children">lineare Gleichung lösen</pc>. Das Auflösen der Klammern ergibt <ph id="c4" type="ui" subType="swi18n:block-math"/> Wenn man alle Terme mit <ph id="c5" type="ui" subType="swi18n:inline-math"/> nach links und alle Terme ohne die Zielvariabele nach rechts nimmt, erhält man <ph id="c6" type="ui" subType="swi18n:block-math"/> Wenn man dann <ph id="c7" type="ui" subType="swi18n:inline-math"/> aus den Klammern herausnimmt, reduziert sich dies auf <ph id="c8" type="ui" subType="swi18n:block-math"/> Die endgültige Lösung ergibt sich durch Division durch den Term in den Klammern, <ph id="c9" type="ui" subType="swi18n:block-math"/> Dies ist die Lösung der Gleichung.</pc></target>
+				</segment>
+			</unit>
+			<unit id="checking">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Checking the solution</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">It is still wise to check the solution. To do so, we insert the solution into the original equation. Doing so gets us <ph id="c3" type="ui" subType="swi18n:block-math"/> Simplifying the innermost fraction turns this into <ph id="c4" type="ui" subType="swi18n:block-math"/> Multiplying both sides of the outer fraction by <ph id="c5" type="ui" subType="swi18n:inline-math"/> further reduces this to <ph id="c6" type="ui" subType="swi18n:block-math"/> Finally getting rid of the brackets, canceling the <ph id="c7" type="ui" subType="swi18n:inline-math"/> term and subsequently canceling the factor <ph id="c8" type="ui" subType="swi18n:inline-math"/> in the fraction will reduce this to <ph id="c9" type="ui" subType="swi18n:block-math"/> This equation obviously holds, which means that the solution we found is correct.</pc></source>
+					<target swi18n:sourceContentFingerprint="4ff9232350b144af" swi18n:sourceStructureFingerprint="755ee1d2e63d1bb0"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Lösung überprüfen</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Es ist dennoch ratsam, die Lösung zu überprüfen. Dazu setzen wir die Lösung in die ursprüngliche Gleichung ein. So erhalten wir <ph id="c3" type="ui" subType="swi18n:block-math"/> Durch Vereinfachung des inneren Bruchs wird daraus <ph id="c4" type="ui" subType="swi18n:block-math"/> Durch Multiplikation beider Seiten des äußeren Bruchs mit <ph id="c5" type="ui" subType="swi18n:inline-math"/> reduziert sich die Gleichung weiter auf <ph id="c6" type="ui" subType="swi18n:block-math"/> Zum Schluss werden die Klammern aufgelöst, anschließend kürzen wir den Term <ph id="c7" type="ui" subType="swi18n:inline-math"/> und danach den Faktor <ph id="c8" type="ui" subType="swi18n:inline-math"/> im Bruch. Dadurch vereinfacht sich das Ganze zu <ph id="c9" type="ui" subType="swi18n:block-math"/> Diese Gleichung ist offensichtlich korrekt, was bedeutet, dass die von uns gefundene Lösung richtig ist.</pc></target>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To solve a linear equation in disguise, like <ph id="c3" type="ui" subType="swi18n:inline-math"/>, for a target variable <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">If there are any fractions within fractions, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">reduce these to single fractions</pc>. This turns the example into <ph id="c9" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">If the target variable is in any denominator, <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multiply all terms by this denominator</pc> to fix this. Optionally, you can get rid of all fractions; also those without the target variable in the denominator. For the example, we rewrite the equation to <ph id="c13" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children">If the equation indeed is linear, then <pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">solve the linear equation</pc> in the standard way. In the example, if we expand brackets, move terms around, pull <ph id="c17" type="ui" subType="swi18n:inline-math"/> out of brackets and divide by this factor, we end up with <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="38dd08a21dfb2a9e" swi18n:sourceStructureFingerprint="1a9aba9d0c56bc3a"><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Die Schritte</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Um eine verdeckte lineare Gleichung wie <ph id="c3" type="ui" subType="swi18n:inline-math"/> für eine Zielvariable <ph id="c4" type="ui" subType="swi18n:inline-math"/> zu lösen, ist wie folgt vorzugehen.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">Wenn es irgendwo Brüche innerhalb von Brüchen gibt, <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">reduziere sie zu einzelnen Brüchen</pc>. Dadurch wird das Beispiel in <ph id="c9" type="ui" subType="swi18n:inline-math"/> umgewandelt.</pc></pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c11" type="ui" subType="swi18n:b" swi18n:slot="children">Wenn die Zielvariable in einem Nenner steht, <pc id="c12" type="ui" subType="swi18n:skill-link" swi18n:slot="children">multipliziere alle Terme mit diesem Nenner</pc>, um dies zu beheben. Optional kannst du alle Brüche eliminieren, auch solche ohne Zielvariable im Nenner. Für das Beispiel wandeln wir die Gleichung in <ph id="c13" type="ui" subType="swi18n:inline-math"/> um.</pc></pc><pc id="c14" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:c" swi18n:slot="children">Wenn die Gleichung tatsächlich linear ist, <pc id="c16" type="ui" subType="swi18n:skill-link" swi18n:slot="children">löse die lineare Gleichung</pc> über die üblichen Schritte. Wenn wir im Beispiel die Klammern auflösen, die Terme verschieben, <ph id="c17" type="ui" subType="swi18n:inline-math"/> aus den Klammern ziehen und durch den entsprechenden Faktor dividieren, erhalten wir <ph id="c18" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="multipleBasicFractions">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Simplify your result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="79c18573054e6f42" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Betrachte die Gleichung <ph id="c1" type="ui" subType="swi18n:block-math"/> Löse sie für <ph id="c2" type="ui" subType="swi18n:inline-math"/> und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite the equation such that it does not have any fractions anymore.</source>
+							<target swi18n:sourceContentFingerprint="c844d3d20c476e5a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Schreibe die Gleichung so um, dass sie keine Brüche mehr enthält.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply all terms with both <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>. For the first term, <ph id="c3" type="ui" subType="swi18n:inline-math"/> disappears from the denominator, and the remaining factor is multiplied by <ph id="c4" type="ui" subType="swi18n:inline-math"/>. For the other two terms, it is <ph id="c5" type="ui" subType="swi18n:inline-math"/> that disappears from the denominator, and the remaining factors are multiplied by <ph id="c6" type="ui" subType="swi18n:inline-math"/>. The result is <ph id="c7" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="8ce84acc7e1a039b" swi18n:sourceStructureFingerprint="9b1cc9893ca647cd">Wir multiplizieren alle Terme sowohl mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> als auch mit <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Für den ersten Term verschwindet <ph id="c3" type="ui" subType="swi18n:inline-math"/> aus dem Nenner, und der verbleibende Faktor wird mit <ph id="c4" type="ui" subType="swi18n:inline-math"/> multipliziert. Bei den beiden anderen Termen verschwindet <ph id="c5" type="ui" subType="swi18n:inline-math"/> aus dem Nenner, und die verbleibenden Faktoren werden mit <ph id="c6" type="ui" subType="swi18n:inline-math"/> multipliziert. Das Ergebnis ist <ph id="c7" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Solve the resulting simplified equation for <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Simplify your result as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="68e5287b2236f9c7" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Löse die vereinfachte Gleichung für <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Vereinfache dein Ergebnis so weit wie möglich.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The equation is linear, so we take the default plan of approach. First we expand all brackets to get <ph id="c1" type="ui" subType="swi18n:block-math"/> We then move all terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/> to one side and all terms without <ph id="c3" type="ui" subType="swi18n:inline-math"/> to the other side. That is, <ph id="c4" type="ui" subType="swi18n:inline-math"/> moves to the left and <ph id="c5" type="ui" subType="swi18n:inline-math"/> goes to the right. This gives <ph id="c6" type="ui" subType="swi18n:block-math"/> Next, we pull <ph id="c7" type="ui" subType="swi18n:inline-math"/> out of brackets. This turns the above into <ph id="c8" type="ui" subType="swi18n:block-math"/> Finally we divide both sides of the equation by <ph id="c9" type="ui" subType="swi18n:inline-math"/> to solve for <ph id="c10" type="ui" subType="swi18n:inline-math"/>. The result is <ph id="c11" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="33d836e7f4928695" swi18n:sourceStructureFingerprint="e091d76bf34949d7">Die Gleichung ist linear, und so verwenden wir den Standardansatz. Zunächst lösen wir alle Klammern auf und finden so <ph id="c1" type="ui" subType="swi18n:block-math"/> Dann bringen wir alle Terme mit <ph id="c2" type="ui" subType="swi18n:inline-math"/> auf die eine Seite und alle Terme ohne <ph id="c3" type="ui" subType="swi18n:inline-math"/> auf die andere Seite. Also geht <ph id="c4" type="ui" subType="swi18n:inline-math"/> nach links und <ph id="c5" type="ui" subType="swi18n:inline-math"/> nach rechts. Das ergibt <ph id="c6" type="ui" subType="swi18n:block-math"/> Als nächstes ziehen wir <ph id="c7" type="ui" subType="swi18n:inline-math"/> aus den Klammern heraus. Das wandelt die obige Gleichung um in <ph id="c8" type="ui" subType="swi18n:block-math"/> Schließlich dividieren wir beide Seiten der Gleichung durch <ph id="c9" type="ui" subType="swi18n:inline-math"/>, um sie für <ph id="c10" type="ui" subType="swi18n:inline-math"/> zu lösen. Das Ergebnis ist <ph id="c11" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="extraFractionInNumerator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Simplify your result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="79c18573054e6f42" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Betrachte die Gleichung <ph id="c1" type="ui" subType="swi18n:block-math"/> Löse sie für <ph id="c2" type="ui" subType="swi18n:inline-math"/> und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Reduce the fraction of fractions into a single fraction. (Leave the rest of the equation unchanged.)</source>
+							<target swi18n:sourceContentFingerprint="a20031c5ecb56818" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Reduziere den Bruch von Brüchen auf einen einzigen Bruch. ( Lass den Rest unverändert.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The short-cut towards simplifying the fraction of fractions is multiplying the numerator and the denominator by <ph id="c1" type="ui" subType="swi18n:inline-math"/> and subsequently dividing them by <ph id="c2" type="ui" subType="swi18n:inline-math"/>. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Through this,</pc><pc id="x3" type="other" subType="swi18n:condition-false">Through this, and through the cancellation of minus signs,</pc></pc> the fraction reduces to <ph id="c3" type="ui" subType="swi18n:block-math"/> By inserting this into the equation, we can write it as <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="7156fb49d0048ffd" swi18n:sourceStructureFingerprint="3270b5e8613eb71b">Die Abkürzung zur Vereinfachung des Bruches von Brüchen ist, Zähler und Nenner mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> zu multiplizieren und dann durch <ph id="c2" type="ui" subType="swi18n:inline-math"/> zu dividieren. <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Damit</pc><pc id="x3" type="other" subType="swi18n:condition-false">Damit, und durch das Streichen von Minuszeichen,</pc></pc> reduzieren wir den Bruch auf <ph id="c3" type="ui" subType="swi18n:block-math"/> Wenn wir dies in die Gleichung einsetzen, können wir sie schreiben als <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite the equation such that it does not have any fractions anymore.</source>
+							<target swi18n:sourceContentFingerprint="c844d3d20c476e5a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Schreibe die Gleichung so um, dass sie keine Brüche mehr enthält.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply both sides of the equation by <ph id="c1" type="ui" subType="swi18n:inline-math"/> After canceling out factors, we remain with <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="a40da5dfd8fa3beb" swi18n:sourceStructureFingerprint="fd2fba868566671b">Wir multiplizieren beide Seiten der Gleichung mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> Nachdem wir die Faktoren entfernt haben, erhalten wir <ph id="c2" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Solve the resulting simplified equation for <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Simplify your result as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="68e5287b2236f9c7" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Löse die vereinfachte Gleichung für <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Vereinfache dein Ergebnis so weit wie möglich.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The equation is linear, so we take the default plan of approach. We move all terms with <ph id="c1" type="ui" subType="swi18n:inline-math"/> to one side and all terms without <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side. In this case it's easier to bring <ph id="c3" type="ui" subType="swi18n:inline-math"/> to the right, such that <ph id="c4" type="ui" subType="swi18n:block-math"/> Next, we pull <ph id="c5" type="ui" subType="swi18n:inline-math"/> out of brackets. This turns the above into <ph id="c6" type="ui" subType="swi18n:block-math"/> Finally we divide both sides of the equation by <ph id="c7" type="ui" subType="swi18n:inline-math"/> to solve for <ph id="c8" type="ui" subType="swi18n:inline-math"/>. The result is <ph id="c9" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="38f4c462b3ee056c" swi18n:sourceStructureFingerprint="5f4d3a2d211a5741">Die Gleichung ist linear, also verwenden wir den Standardansatz. Wir bringen alle Terme mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> auf die eine Seite und alle Terme ohne <ph id="c2" type="ui" subType="swi18n:inline-math"/> auf die andere Seite. In diesem Fall ist es einfacher, <ph id="c3" type="ui" subType="swi18n:inline-math"/> nach rechts zu bringen, also <ph id="c4" type="ui" subType="swi18n:block-math"/> Als nächstes ziehen wir <ph id="c5" type="ui" subType="swi18n:inline-math"/> aus den Klammern. Das wandelt die obige Gleichung um in <ph id="c6" type="ui" subType="swi18n:block-math"/> Schließlich dividieren wir beide Seiten der Gleichung durch <ph id="c7" type="ui" subType="swi18n:inline-math"/>, um sie für <ph id="c8" type="ui" subType="swi18n:inline-math"/> zu lösen. Das Ergebnis ist <ph id="c9" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="extraFractionInDenominator">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Solve it for <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Simplify your result as much as possible.</source>
+						<target swi18n:sourceContentFingerprint="79c18573054e6f42" swi18n:sourceStructureFingerprint="8b584cd4999cb162">Betrachte die Gleichung <ph id="c1" type="ui" subType="swi18n:block-math"/> Löse sie für <ph id="c2" type="ui" subType="swi18n:inline-math"/> und vereinfache das Ergebnis so weit wie möglich.</target>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source>Reduce the fraction of fractions into a single fraction. (Leave the rest of the equation unchanged.)</source>
+							<target swi18n:sourceContentFingerprint="a20031c5ecb56818" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Reduziere den Bruch von Brüchen auf einen einzigen Bruch. ( Lass den Rest unverändert.)</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The short-cut towards simplifying the fraction of fractions is multiplying the numerator and the denominator by both <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>. This turns the fraction into <ph id="c3" type="ui" subType="swi18n:block-math"/> By inserting this into the equation, we can write it as <ph id="c4" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="6b83aaf0147754a0" swi18n:sourceStructureFingerprint="91dc07c7ad2f3041">Die Abkürzung, um den Bruch von Brüchen zu vereinfachen, besteht darin, den Zähler und den Nenner mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> und <ph id="c2" type="ui" subType="swi18n:inline-math"/> zu multiplizieren. Dadurch wird der Bruch umgewandelt in <ph id="c3" type="ui" subType="swi18n:block-math"/> Wenn wir dies in die Gleichung einsetzen, können wir sie schreiben als <ph id="c4" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Rewrite the equation such that it does not have any fractions anymore.</source>
+							<target swi18n:sourceContentFingerprint="c844d3d20c476e5a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Schreibe die Gleichung so um, dass sie keine Brüche mehr enthält.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>We multiply both sides of the equation by both <ph id="c1" type="ui" subType="swi18n:inline-math"/> and <ph id="c2" type="ui" subType="swi18n:inline-math"/>. After canceling out factors, we remain with <ph id="c3" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="d6f75c8ab3c35b21" swi18n:sourceStructureFingerprint="48a11a365f442e35">Wir multiplizieren beide Seiten der Gleichung sowohl mit <ph id="c1" type="ui" subType="swi18n:inline-math"/> als auch mit <ph id="c2" type="ui" subType="swi18n:inline-math"/>. Nachdem wir die Faktoren entfernt haben, verbleibt <ph id="c3" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+				<group id="step3">
+					<unit id="problem">
+						<segment>
+							<source>Solve the resulting simplified equation for <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Simplify your result as much as possible.</source>
+							<target swi18n:sourceContentFingerprint="68e5287b2236f9c7" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Löse die vereinfachte Gleichung für <ph id="c1" type="ui" subType="swi18n:inline-math"/>. Vereinfache dein Ergebnis so weit wie möglich.</target>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>The equation is linear, so we take the default plan of approach. First we expand all brackets to get <ph id="c1" type="ui" subType="swi18n:block-math"/> We then move all terms with <ph id="c2" type="ui" subType="swi18n:inline-math"/> to one side and all terms without <ph id="c3" type="ui" subType="swi18n:inline-math"/> to the other side. That is, <ph id="c4" type="ui" subType="swi18n:inline-math"/> moves to the left, such that <ph id="c5" type="ui" subType="swi18n:block-math"/> Next, we pull <ph id="c6" type="ui" subType="swi18n:inline-math"/> out of brackets. This turns the above into <ph id="c7" type="ui" subType="swi18n:block-math"/> Finally we divide both sides of the equation by <ph id="c8" type="ui" subType="swi18n:inline-math"/> to solve for <ph id="c9" type="ui" subType="swi18n:inline-math"/>. The result is <ph id="c10" type="ui" subType="swi18n:block-math"/></source>
+							<target swi18n:sourceContentFingerprint="097b0c7a6d72887e" swi18n:sourceStructureFingerprint="96f4277d2c010605">Die Gleichung ist linear, und so verwenden wir den Standardansatz. Zunächst lösen wir alle Klammern auf und finden so <ph id="c1" type="ui" subType="swi18n:block-math"/> Dann bringen wir alle Terme mit <ph id="c2" type="ui" subType="swi18n:inline-math"/> auf die eine Seite und alle Terme ohne <ph id="c3" type="ui" subType="swi18n:inline-math"/> auf die andere Seite. Also wandert <ph id="c4" type="ui" subType="swi18n:inline-math"/> nach links, so dass <ph id="c5" type="ui" subType="swi18n:block-math"/> Als nächstes ziehen wir <ph id="c6" type="ui" subType="swi18n:inline-math"/> aus den Klammern. Dies wandelt die obige Gleichung um in <ph id="c7" type="ui" subType="swi18n:block-math"/> Schließlich teilen wir beide Seiten der Gleichung durch <ph id="c8" type="ui" subType="swi18n:inline-math"/>, um sie für <ph id="c9" type="ui" subType="swi18n:inline-math"/> zu lösen. Das Ergebnis ist <ph id="c10" type="ui" subType="swi18n:block-math"/></target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="rightSideChanged">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Leave the right side of the equation unchanged!</pc></source>
+						<target swi18n:sourceContentFingerprint="feece742c73c8f08" swi18n:sourceStructureFingerprint="beaa593419cd9789"><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Lass die rechte Seite der Gleichung unverändert!</pc></target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

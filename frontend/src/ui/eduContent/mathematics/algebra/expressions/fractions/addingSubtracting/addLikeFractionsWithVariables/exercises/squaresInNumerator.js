@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { M, BM } from '@step-wise/math-display'
+import { Translation, Condition } from '@step-wise/i18n'
 
-import { Translation, Check } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
@@ -72,7 +72,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, expression, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }) => {
-			return <Par><Translation>Merging all terms with <M>{variables.x}</M> together, as well as all terms with <M>{variables.x}^2</M>, we find <BM>{bracketsExpanded} = {ans}.</BM> The numerator here is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM><Check value={isFurtherSimplificationPossible}><Check.True>Optionally, this can still be simplified further, written as <BM>{expression} = {ansCleaned}.</BM></Check.True><Check.False>This cannot be simplified further.</Check.False></Check></Translation></Par>
+			return <Par><Translation>Merging all terms with <M>{variables.x}</M> together, as well as all terms with <M>{variables.x}^2</M>, we find <BM>{bracketsExpanded} = {ans}.</BM> The numerator here is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM><Condition value={isFurtherSimplificationPossible}><Condition.True>Optionally, this can still be simplified further, written as <BM>{expression} = {ansCleaned}.</BM></Condition.True><Condition.False>This cannot be simplified further.</Condition.False></Condition></Translation></Par>
 		},
 	},
 ]

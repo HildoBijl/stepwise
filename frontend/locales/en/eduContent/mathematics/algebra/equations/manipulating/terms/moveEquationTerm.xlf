@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">move a term to the other side of an equation</pc>. If you start with an equation like <ph id="c3" type="ui" subType="swi18n:inline-math"/> you can bring the term <ph id="c4" type="ui" subType="swi18n:inline-math"/> to the right to get <ph id="c5" type="ui" subType="swi18n:inline-math"/>, or you can bring the <ph id="c6" type="ui" subType="swi18n:inline-math"/> to the left to get <ph id="c7" type="ui" subType="swi18n:inline-math"/>. This includes understanding why this is allowed: <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">adding/subtracting a term to both sides of the equation</pc> and subsequently <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">canceling identical sum terms</pc>. This skill does not include reasoning about which term would be wise to move.</pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="theory">
+			<unit id="intro">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Equations often have summations with various <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">terms</pc>. For instance in <ph id="c3" type="ui" subType="swi18n:inline-math"/> the left side has terms <ph id="c4" type="ui" subType="swi18n:inline-math"/> and <ph id="c5" type="ui" subType="swi18n:inline-math"/> while the right side has the term <ph id="c6" type="ui" subType="swi18n:inline-math"/>. A common thing we can do with equations is <pc id="c7" type="ui" subType="swi18n:term" swi18n:slot="children">move terms</pc> to the other side of the equation. We'll first study the idea of how we can do that, and then summarize this idea into a short-cut.</pc></source>
+				</segment>
+			</unit>
+			<unit id="movingAnAddedTerm">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Moving an added term</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Suppose we have the equation <ph id="c3" type="ui" subType="swi18n:inline-math"/> and (for whatever reason) we want to get rid of the term <ph id="c4" type="ui" subType="swi18n:inline-math"/> on the left. To do so, the first step is to <pc id="c5" type="ui" subType="swi18n:skill-link" swi18n:slot="children">subtract <ph id="c6" type="ui" subType="swi18n:inline-math"/> from both sides</pc>. We are allowed to do this because, when we add or subtract the same term from both sides of the equation, the equation still remains valid. In this way we get <ph id="c7" type="ui" subType="swi18n:block-math"/> Subsequently, we can see that on the left side adding <ph id="c8" type="ui" subType="swi18n:inline-math"/> and subsequently subtracting <ph id="c9" type="ui" subType="swi18n:inline-math"/> has no effect. We can hence <pc id="c10" type="ui" subType="swi18n:skill-link" swi18n:slot="children">cancel these sum terms</pc> to get <ph id="c11" type="ui" subType="swi18n:block-math"/> Note that, when we compare this to the original equation <ph id="c12" type="ui" subType="swi18n:inline-math"/>, we have removed the term <ph id="c13" type="ui" subType="swi18n:inline-math"/> from the left side, while keeping the equation valid. The result is that this term <ph id="c14" type="ui" subType="swi18n:inline-math"/> has moved to the right side of the equation, and while it used to have a plus sign on the left, now it has a minus sign on the right.</pc></source>
+				</segment>
+			</unit>
+			<unit id="movingASubtractedTerm">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">Moving a subtracted term</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">But what if we started with a different equation, containing a minus sign? Like <ph id="c3" type="ui" subType="swi18n:inline-math"/>? In this case the procedure would have been nearly the same, but this time we have to add <ph id="c4" type="ui" subType="swi18n:inline-math"/> to both sides. This gives <ph id="c5" type="ui" subType="swi18n:block-math"/> On the left, we can <pc id="c6" type="ui" subType="swi18n:skill-link" swi18n:slot="children">cancel sum terms</pc> again, to end up at <ph id="c7" type="ui" subType="swi18n:block-math"/> Note that we have once more moved the term <ph id="c8" type="ui" subType="swi18n:inline-math"/> to the other side of the equation. Where before (on the left) it had a minus sign, it now (on the right) has a plus sign.</pc></source>
+				</segment>
+			</unit>
+			<unit id="steps">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The steps</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">To move a term from one side of an equation to the other, like when moving the term <ph id="c3" type="ui" subType="swi18n:inline-math"/> in the equation <ph id="c4" type="ui" subType="swi18n:inline-math"/>, take the following steps.</pc><pc id="c5" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:a" swi18n:slot="children">If the term is being added (has a plus sign), <pc id="c8" type="ui" subType="swi18n:skill-link" swi18n:slot="children">subtract this term from both sides of the equation</pc>. Or alternatively, if the term is being subtracted (has a minus sign), <pc id="c9" type="ui" subType="swi18n:skill-link" swi18n:slot="children">add this term to both sides of the equation</pc>. For the example, we subtract <ph id="c10" type="ui" subType="swi18n:inline-math"/> to get <ph id="c11" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c13" type="ui" subType="swi18n:b" swi18n:slot="children"><pc id="c14" type="ui" subType="swi18n:skill-link" swi18n:slot="children">Cancel sum terms</pc> to get rid of the term that has to be moved. For the example, we have <ph id="c15" type="ui" subType="swi18n:inline-math"/> disappearing, leaving the equation as <ph id="c16" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+				</segment>
+			</unit>
+			<unit id="shortCut">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">The short-cut</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Instead of going through all of the above steps, we can also take a short-cut and directly move the equation term.</pc><pc id="c3" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">If the term was added (had a plus sign) on the original side, then it will be subtracted (have a minus sign) on the other side. So <ph id="c6" type="ui" subType="swi18n:inline-math"/> directly turns into <ph id="c7" type="ui" subType="swi18n:inline-math"/>.</pc></pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:b" swi18n:slot="children">If the term was subtracted (had a minus sign) on the original side, then it will be added (have a plus sign) on the other side. So <ph id="c10" type="ui" subType="swi18n:inline-math"/> directly turns into <ph id="c11" type="ui" subType="swi18n:inline-math"/>.</pc></pc></pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="practice">
+			<group id="moveSingleTerm">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Move the term <ph id="c2" type="ui" subType="swi18n:inline-math"/> to the other side. Simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true"><pc id="c1" type="ui" subType="swi18n:emp" swi18n:slot="children">Subtract</pc> the term <ph id="c2" type="ui" subType="swi18n:inline-math"/> from</pc><pc id="x3" type="other" subType="swi18n:condition-false"><pc id="c3" type="ui" subType="swi18n:emp" swi18n:slot="children">Add</pc> the term <ph id="c4" type="ui" subType="swi18n:inline-math"/> to</pc></pc> both sides of the equation. (After all, the term <ph id="c5" type="ui" subType="swi18n:inline-math"/> is currently being <pc id="x4" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x5" type="other" subType="swi18n:condition-true"><pc id="c6" type="ui" subType="swi18n:emp" swi18n:slot="children">added</pc></pc><pc id="x6" type="other" subType="swi18n:condition-false"><pc id="c7" type="ui" subType="swi18n:emp" swi18n:slot="children">subtracted</pc></pc></pc>.)</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>If we <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">subtract</pc><pc id="x3" type="other" subType="swi18n:condition-false">add</pc></pc> <ph id="c1" type="ui" subType="swi18n:inline-math"/> on both sides, then we directly wind up with <ph id="c2" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the expression on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">right</pc><pc id="x3" type="other" subType="swi18n:condition-false">left</pc></pc> side by canceling sum terms where possible. Also apply any other potential simplifications.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Subsequently adding and subtracting <ph id="c1" type="ui" subType="swi18n:inline-math"/> has no effect, so these two terms can be canceled. We remain with <ph id="c2" type="ui" subType="swi18n:block-math"/> Note that <ph id="c3" type="ui" subType="swi18n:inline-math"/> has moved to the other side, and is now being <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">subtracted</pc><pc id="x3" type="other" subType="swi18n:condition-false">added</pc></pc>.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="moveAllTerms">
+				<unit id="mainProblem">
+					<segment>
+						<source>Consider the equation <ph id="c1" type="ui" subType="swi18n:block-math"/> Move all terms to the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">left</pc><pc id="x3" type="other" subType="swi18n:condition-false">right</pc></pc> side. Simplify the result as much as possible.</source>
+					</segment>
+				</unit>
+				<group id="step1">
+					<unit id="problem">
+						<segment>
+							<source><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Add the term <ph id="c1" type="ui" subType="swi18n:inline-math"/> to</pc><pc id="x3" type="other" subType="swi18n:condition-false">Subtract the term <ph id="c2" type="ui" subType="swi18n:inline-math"/> from</pc></pc> both sides of the equation. Then also <pc id="x4" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x5" type="other" subType="swi18n:condition-true">add the term <ph id="c3" type="ui" subType="swi18n:inline-math"/> to</pc><pc id="x6" type="other" subType="swi18n:condition-false">subtract the term <ph id="c4" type="ui" subType="swi18n:inline-math"/> from</pc></pc> both sides of the equation.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>Doing as requested turns the equation into <ph id="c1" type="ui" subType="swi18n:block-math"/></source>
+						</segment>
+					</unit>
+				</group>
+				<group id="step2">
+					<unit id="problem">
+						<segment>
+							<source>Simplify the expression on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">right</pc><pc id="x3" type="other" subType="swi18n:condition-false">left</pc></pc> side by canceling sum terms where possible.</source>
+						</segment>
+					</unit>
+					<unit id="solution">
+						<segment>
+							<source>By canceling terms, we see that everything on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">right</pc><pc id="x3" type="other" subType="swi18n:condition-false">left</pc></pc> side of the equation reduces to zero. We are left with <ph id="c1" type="ui" subType="swi18n:block-math"/> Note that all terms have indeed been moved to the <pc id="x4" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x5" type="other" subType="swi18n:condition-true">left</pc><pc id="x6" type="other" subType="swi18n:condition-false">right</pc></pc>. The <pc id="x7" type="other" subType="swi18n:condition" swi18n:variable="$condition3"><pc id="x8" type="other" subType="swi18n:condition-true">right</pc><pc id="x9" type="other" subType="swi18n:condition-false">left</pc></pc> side has nothing (zero) left.</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="crossExercise">
+				<unit id="termsNotCanceled">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">You <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">subtracted the correct term from</pc><pc id="x3" type="other" subType="swi18n:condition-false">added the correct term to</pc></pc> both sides, but you still have to cancel some terms.</pc></source>
+					</segment>
+				</unit>
+				<unit id="termsLeft">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">There are still terms left on the <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">right</pc><pc id="x3" type="other" subType="swi18n:condition-false">left</pc></pc> side of the equation.</pc></source>
+					</segment>
+				</unit>
+				<unit id="wrongSignUsed">
+					<segment>
+						<source><pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">If the term is <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">added (with plus sign)</pc><pc id="x3" type="other" subType="swi18n:condition-false">subtracted (with minus sign)</pc></pc> on one side, then when it's brought to the other side it should be <pc id="x4" type="other" subType="swi18n:condition" swi18n:variable="$condition2"><pc id="x5" type="other" subType="swi18n:condition-true">subtracted (with minus sign)</pc><pc id="x6" type="other" subType="swi18n:condition-false">added (with plus sign)</pc></pc>.</pc></source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

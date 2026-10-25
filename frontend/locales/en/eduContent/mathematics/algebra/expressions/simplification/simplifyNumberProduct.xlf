@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="meta">
+			<unit id="learningGoals">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">In this skill you learn to <pc id="c2" type="ui" subType="swi18n:term" swi18n:slot="children">simplify a multiplication of numbers</pc> inside an expression. For instance when seeing <ph id="c3" type="ui" subType="swi18n:inline-math"/> you should immediately realize, "Oh, that's just <ph id="c4" type="ui" subType="swi18n:inline-math"/>." This also includes dealing with negative numbers: <ph id="c5" type="ui" subType="swi18n:inline-math"/> should be adequately turned into <ph id="c6" type="ui" subType="swi18n:inline-math"/>.</pc></source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>
