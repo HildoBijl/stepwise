@@ -2,7 +2,7 @@ import React from 'react'
 
 import { expressionComparisons } from '@step-wise/cas'
 import { M, BM } from '@step-wise/math-display'
-import { Translation, useTranslation } from '@step-wise/i18n'
+import { Translation, useTextTranslation } from '@step-wise/i18n'
 
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -32,8 +32,8 @@ const steps = [
 	{
 		Problem: () => {
 			const { variables, expression } = useSolution()
-			const factor = useTranslation({ group: ['equationText'], id: 'factor', children: 'Factor' })
-			const originalExpression = useTranslation({ group: ['equationText'], id: 'originalExpression', children: 'Original expression' }).replace(' ', '\\ ')
+			const factor = useTextTranslation({ group: ['equationText'], id: 'factor', source: 'Factor' })
+			const originalExpression = useTextTranslation({ group: ['equationText'], id: 'originalExpression', source: 'Original expression' }).replace(' ', '\\ ')
 			return <>
 				<Par><Translation>Write the expression in the standard starting form <M>\rm({originalExpression}) = \rm({factor}) \cdot \left(\frac(\rm({originalExpression}))(\rm({factor}))\right)</M>.</Translation></Par>
 				<InputSpace>

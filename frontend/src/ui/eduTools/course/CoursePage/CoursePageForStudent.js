@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { Box, useMediaQuery } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
-import { useTranslation } from '@step-wise/i18n'
+import { useTextTranslation } from '@step-wise/i18n'
 
 import { TranslationFile, TranslationSection } from 'i18n'
 
@@ -60,7 +60,7 @@ export function CoursePageForStudent() {
 }
 
 function LandscapeCourse({ course, courseDefinition, analysis, activeBlock, toggleActiveBlock }) {
-	const priorKnowledge = useTranslation({ children: 'Prior knowledge', id: 'priorKnowledge' })
+	const priorKnowledge = useTextTranslation({ source: 'Prior knowledge', id: 'priorKnowledge' })
 	const landscape = true
 
 	// Determine which skillIds to show on the right.
@@ -106,7 +106,7 @@ function LandscapeCourse({ course, courseDefinition, analysis, activeBlock, togg
 }
 
 function PortraitCourse({ course, courseDefinition, analysis, activeBlock, toggleActiveBlock }) {
-	const priorKnowledge = useTranslation({ children: 'Prior knowledge', id: 'priorKnowledge' })
+	const priorKnowledge = useTextTranslation({ source: 'Prior knowledge', id: 'priorKnowledge' })
 	const landscape = false
 	const hasPriorKnowledge = courseDefinition.priorKnowledgeIds.length > 0
 

@@ -1,6 +1,4 @@
-import { type ReactNode } from 'react'
-
-import { useTranslation } from '@step-wise/i18n'
+import { useTextTranslation } from '@step-wise/i18n'
 
 type Course = {
 	organization: string
@@ -16,14 +14,14 @@ type CourseTranslationProps = {
 	block?: number
 }
 
-export function useCourseTranslation({ course, property = 'name', block }: CourseTranslationProps): ReactNode {
+export function useCourseTranslation({ course, property = 'name', block }: CourseTranslationProps): string {
 	const isBlock = block !== undefined
-	return useTranslation({
+	return useTextTranslation({
 		folder: ['eduContent'],
 		catalog: 'courseInfo',
 		group: [course.organization, course.code, ...(isBlock ? ['blocks'] : [])],
 		id: isBlock ? String(block) : property,
-		children: isBlock ? course.blockNames?.[block] ?? '' : course[property] ?? '',
+		source: isBlock ? course.blockNames?.[block] ?? '' : course[property] ?? '',
 	})
 }
 

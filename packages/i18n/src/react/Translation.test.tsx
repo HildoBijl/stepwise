@@ -10,7 +10,7 @@ import { Select } from './authoring/Select.tsx'
 import { I18nProvider } from './context/I18nProvider.tsx'
 import { TranslationCatalog } from './scoping/TranslationCatalog.tsx'
 import { TranslationGroup } from './scoping/TranslationGroup.tsx'
-import { Translation } from './Translation.tsx'
+import { Translation, useTextTranslation } from './Translation.tsx'
 
 describe('Translation', () => {
 	it('reads the plural locale from the i18n context', () => {
@@ -79,6 +79,43 @@ describe('Translation', () => {
 		</I18nProvider>)
 
 		expect(await screen.findByText('Hallo')).toBeTruthy()
+	})
+
+	it('translates text while extending the contextual group', async () => {
+		const source = [{ type: 'text', value: 'Description' }] as const
+		const loadCatalog = async () => ({
+			sourceLocale: 'en',
+			targetLocale: 'nl',
+			entries: [{
+				type: 'group' as const,
+				id: 'references',
+				entries: [{
+					type: 'group' as const,
+					id: 'header',
+					entries: [{
+						type: 'unit' as const,
+						id: 'description',
+						source,
+						target: {
+							message: [{ type: 'text' as const, value: 'Omschrijving' }],
+							reviewedSourceContentFingerprint: getMessageContentFingerprint(source),
+							reviewedSourceStructureFingerprint: getMessageStructureFingerprint(source),
+						},
+					}],
+				}],
+			}],
+		})
+		function Header() {
+			return <span>{useTextTranslation({ source: 'Description', group: 'header', extendGroup: true, id: 'description' })}</span>
+		}
+
+		render(<I18nProvider locale="nl" sourceLocale="en" loadCatalog={loadCatalog}>
+			<TranslationCatalog name="test">
+				<TranslationGroup path="references"><Header /></TranslationGroup>
+			</TranslationCatalog>
+		</I18nProvider>)
+
+		expect(await screen.findByText('Omschrijving')).toBeTruthy()
 	})
 
 	it('registers its authored source under every active locale', () => {

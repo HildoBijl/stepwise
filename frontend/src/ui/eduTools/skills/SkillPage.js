@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { lowerFirst, mapValues } from '@step-wise/js-utils'
 import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises, hasExamples } from '@step-wise/exercises'
-import { useTranslation } from '@step-wise/i18n'
+import { useTextTranslation } from '@step-wise/i18n'
 
 import { LoadingNote } from 'ui/components'
 import { TabPages, tabData } from 'ui/routingTools'
@@ -22,7 +22,7 @@ export function SkillPage() {
 }
 
 export function SkillPageForSkill({ skillId, freePracticeMode = false, onNewExercise }) {
-	const loadingSkillPages = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingSkillPages', children: 'Loading skill pages...' })
+	const loadingSkillPages = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingSkillPages', source: 'Loading skill pages...' })
 	const [loadedForSkillId, setLoadedForSkillId] = useState()
 	const Pages = useRef(null)
 

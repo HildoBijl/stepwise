@@ -14,8 +14,12 @@ export type TranslationProps = CatalogUnitAddressInput & {
 	children: TranslatableReactNode
 }
 
+export type TextTranslationInput = CatalogUnitAddressInput & {
+	source: string
+}
+
 // Load and render a translated Catalog unit, falling back to its authored source when necessary.
-export function useTranslation({ children, ...addressInput }: TranslationProps): ReactNode {
+function useTranslatedNode(sourceNode: TranslatableReactNode, addressInput: CatalogUnitAddressInput): ReactNode {
 	const { locale, sourceLocale, registerSource } = useI18n()
 
 	// Register the Translation to any potential surrounding TranslationArea.
@@ -27,7 +31,7 @@ export function useTranslation({ children, ...addressInput }: TranslationProps):
 	const unit = catalog && findCatalogUnit(catalog, address.group, address.id)
 
 	// Check the source and see if the translation is still valid.
-	const source = useMemo(() => reactToMessage(children), [children])
+	const source = useMemo(() => reactToMessage(sourceNode), [sourceNode])
 	const sourceSignature = getMessageContentSignature(source)
 	const targetIsCurrent = unit && getCatalogUnitStatus(unit) === 'current' && compareSourceMessages(unit.source, source) === 'current'
 
@@ -36,9 +40,17 @@ export function useTranslation({ children, ...addressInput }: TranslationProps):
 
 	// Determine the message that should be rendered, and apply it to the contents.
 	const message = locale !== sourceLocale && targetIsCurrent ? unit.target!.message : source
-	return messageToReact(message, children, locale)
+	return messageToReact(message, sourceNode, locale)
 }
 
-export function Translation(props: TranslationProps) {
-	return <Fragment>{useTranslation(props)}</Fragment>
+// Translate a plain-text Catalog unit for use as a string prop or calculated value.
+export function useTextTranslation({ source, ...addressInput }: TextTranslationInput): string {
+	const translation = useTranslatedNode(source, addressInput)
+	if (typeof translation !== 'string') throw new Error('A text translation must resolve to a string.')
+	return translation
+}
+
+// Translate a React node.
+export function Translation({ children, ...addressInput }: TranslationProps) {
+	return <Fragment>{useTranslatedNode(children, addressInput)}</Fragment>
 }

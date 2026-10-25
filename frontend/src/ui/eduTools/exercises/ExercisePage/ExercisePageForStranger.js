@@ -4,15 +4,15 @@ import { v4 as uuidv4 } from 'uuid'
 import { noop } from '@step-wise/js-utils'
 import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { hasExercises, getExercises } from '@step-wise/exercises'
-import { useTranslation } from '@step-wise/i18n'
+import { useTextTranslation } from '@step-wise/i18n'
 
 import { LoadingNote } from 'ui/components'
 
 import { ExerciseContainer } from '../containers'
 
 export function ExercisePageForStranger({ skillId }) {
-	const noExercises = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExercises', children: 'Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
-	const generatingNewExercise = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', children: 'Generating new exercise...' })
+	const noExercises = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExercises', source: 'Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
+	const generatingNewExercise = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', source: 'Generating new exercise...' })
 
 	// Track the exercise data. Generate new data on a change in skill ID.
 	const [exercise, setExercise] = useState(null)

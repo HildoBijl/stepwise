@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Box, Button, darken } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
-import { useTranslation } from '@step-wise/i18n'
+import { useTextTranslation } from '@step-wise/i18n'
 
 import { linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
@@ -12,8 +12,8 @@ import { QuickPractice } from 'ui/components'
 import { TranslatedSkillName } from '../../skills/components/TranslatedSkillName'
 
 export function SkillRecommender({ courseCode, recommendation }) {
-	const freePracticeText = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'freePracticeRecommendation', children: 'You have all skills on a sufficient level! The next step is the free practice mode.' })
-	const recommendationText = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'skillRecommendation', children: 'Our practice recommendation:' })
+	const freePracticeText = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'freePracticeRecommendation', source: 'You have all skills on a sufficient level! The next step is the free practice mode.' })
+	const recommendationText = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'skillRecommendation', source: 'Our practice recommendation:' })
 	const paths = usePaths()
 
 	// If there is no recommendation, not all data is loaded yet.

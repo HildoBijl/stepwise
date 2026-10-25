@@ -29,11 +29,11 @@ export function useCatalogAddress(input: CatalogAddressInput = {}): CatalogAddre
 export function useCatalogUnitAddress(input: CatalogUnitAddressInput): CatalogUnitAddress {
 	const scope = useTranslationScope()
 	const area = useTranslationArea()
-	const { folder, catalog, group, id } = input
-	return useMemo(() => resolveCatalogUnitAddress(scope, input, area), [scope, area, folder, catalog, group, id])
+	const { folder, catalog, group, extendGroup, id } = input
+	return useMemo(() => resolveCatalogUnitAddress(scope, input, area), [scope, area, folder, catalog, group, extendGroup, id])
 }
 
-// Register useTranslation hooks that use a TranslationArea: they're in such an area and don't overwrite the catalog.
+// Register translations that use a TranslationArea: they're in such an area and don't overwrite the catalog.
 export function useTranslationAreaRegistration(input: CatalogUnitAddressInput): void {
 	const area = useTranslationArea()
 	const token = useRef(Symbol('translation-area-unit'))

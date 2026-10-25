@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { noop } from '@step-wise/js-utils'
 import { ensureSkillId } from '@step-wise/module-tree'
 import { getExercise } from '@step-wise/exercises'
-import { TranslationGroup, useTranslation } from '@step-wise/i18n'
+import { TranslationGroup, useTextTranslation } from '@step-wise/i18n'
 
 import { LoadingNote, ErrorNote } from 'ui/components/flow'
 import { TitleItem } from 'ui/routingTools'
@@ -17,7 +17,7 @@ import { ModuleTranslationScope } from '../../skills/components'
 import { ExerciseContainer } from './ExerciseContainer'
 
 export function BlankExercise() {
-	const missingExerciseName = useTranslation({ folder: ['eduTools'], catalog: 'exercises', group: ['loadingNotes'], id: 'missingExerciseName', children: 'The URL has no exercise name in it.' })
+	const missingExerciseName = useTextTranslation({ folder: ['eduTools'], catalog: 'exercises', group: ['loadingNotes'], id: 'missingExerciseName', source: 'The URL has no exercise name in it.' })
 	const { skillId: skillIdFromUrl, exerciseName } = useParams()
 	const skillId = skillIdFromUrl && ensureSkillId(skillIdFromUrl, { allowCaseInsensitiveMatch: true })
 	if (!exerciseName)
@@ -30,8 +30,8 @@ export function BlankExercise() {
 }
 
 function BlankExerciseInner({ skillId, exerciseId }) {
-	const loadingError = useTranslation({ folder: ['eduTools'], catalog: 'exercises', group: ['loadingNotes'], id: 'loadingError', children: 'The exercise failed to load. Please check if the exercise ID is correct.' })
-	const loadingExercise = useTranslation({ folder: ['eduTools'], catalog: 'exercises', group: ['loadingNotes'], id: 'loadingExercise', children: 'Loading the exercise...' })
+	const loadingError = useTextTranslation({ folder: ['eduTools'], catalog: 'exercises', group: ['loadingNotes'], id: 'loadingError', source: 'The exercise failed to load. Please check if the exercise ID is correct.' })
+	const loadingExercise = useTextTranslation({ folder: ['eduTools'], catalog: 'exercises', group: ['loadingNotes'], id: 'loadingExercise', source: 'Loading the exercise...' })
 	const exerciseDefinition = useMemo(() => getExercise(skillId, exerciseId), [skillId, exerciseId])
 
 	// Make sure there is exercise data, such as parameters and state.

@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { noop } from '@step-wise/js-utils'
 import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { hasExamples, getExamples } from '@step-wise/exercises'
-import { useTranslation } from '@step-wise/i18n'
+import { useTextTranslation } from '@step-wise/i18n'
 
 import { LoadingNote } from 'ui/components'
 
@@ -12,8 +12,8 @@ import { ExerciseContainer } from '../containers'
 
 // The ExamplePage resembles the ExercisePageForStranger component: it selects an exercise and shows it, but then in demo mode.
 export function ExamplePage({ skillId }) {
-	const noExamples = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExamples', children: 'Oh no ... no examples have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
-	const generatingNewExercise = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', children: 'Generating new exercise...' })
+	const noExamples = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExamples', source: 'Oh no ... no examples have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
+	const generatingNewExercise = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', source: 'Generating new exercise...' })
 
 	// Track the exercise data. Generate new data on a change in skill ID.
 	const [exercise, setExercise] = useState(null)

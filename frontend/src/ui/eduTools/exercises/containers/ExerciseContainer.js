@@ -4,7 +4,7 @@ import { getCurrentState } from '@step-wise/exercise-definition'
 import { getSkill } from '@step-wise/module-tree'
 import { getExercise } from '@step-wise/exercises'
 import { useReferencePreservingValue } from '@step-wise/react-utils'
-import { useTranslation } from '@step-wise/i18n'
+import { useTextTranslation } from '@step-wise/i18n'
 
 import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
 
@@ -14,8 +14,8 @@ const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.
 
 export function ExerciseContainer({ skillId, exercise, groupExercise, submitting, submitAction, processActionsLocally, cancelAction, resolveEvent, startNewExercise, example, inspection, historyIndex }) {
-	const loadingExerciseComponent = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingExerciseComponent', children: 'Loading exercise component...' })
-	const exerciseCrashed = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'exerciseCrashed', children: 'Oops ... the exercise crashed.' })
+	const loadingExerciseComponent = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingExerciseComponent', source: 'Loading exercise component...' })
+	const exerciseCrashed = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'exerciseCrashed', source: 'Oops ... the exercise crashed.' })
 	const { exerciseId, parameters } = exercise
 	const mode = exercise.mode ?? (groupExercise ? 'group' : 'solo')
 	const instance = useMemo(() => exercise.mode === mode ? exercise : { ...exercise, mode }, [exercise, mode])

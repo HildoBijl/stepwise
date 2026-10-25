@@ -6,7 +6,7 @@ import { ArrowRight as Arrow } from '@mui/icons-material'
 
 import { last, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 import { useCoalescedCallback, useLatestRef, useResizeObserver } from '@step-wise/react-utils'
-import { TranslationGroup, useTranslation } from '@step-wise/i18n'
+import { TranslationGroup, useTextTranslation } from '@step-wise/i18n'
 
 import { websiteName } from 'settings'
 import { useTextTranslator } from 'i18n'
@@ -166,7 +166,7 @@ export function TitleItem({ id, path, entry, name, ...address }) {
 }
 
 function TranslatedTitleItem({ id, name, ...address }) {
-	return <ResolvedTitleItem name={useTranslation({ ...address, id, children: name })} />
+	return <ResolvedTitleItem name={useTextTranslation({ ...address, id, source: name })} />
 }
 
 function LegacyTranslatedTitleItem({ path, entry, name }) {

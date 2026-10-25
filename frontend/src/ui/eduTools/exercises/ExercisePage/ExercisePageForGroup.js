@@ -3,7 +3,7 @@ import { Alert } from '@mui/material'
 
 import { hasExercises } from '@step-wise/exercises'
 import { useSessionStorageState } from '@step-wise/react-utils'
-import { Translation, useTranslation } from '@step-wise/i18n'
+import { Translation, useTextTranslation } from '@step-wise/i18n'
 
 import { useActiveGroup, useGroupExercise, useLatestGroupExercise, useStartGroupExercise, useSubmitGroupAction, useCancelGroupAction, useResolveGroupEvent } from 'api'
 import { Button, ErrorNote, LoadingNote } from 'ui/components'
@@ -11,9 +11,9 @@ import { Button, ErrorNote, LoadingNote } from 'ui/components'
 import { ExerciseContainer } from '../containers'
 
 export function ExercisePageForGroup({ skillId }) {
-	const noExercises = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExercises', children: 'Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
-	const loadingExerciseData = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingExerciseData', children: 'Loading exercise data...' })
-	const generatingNewExercise = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', children: 'Generating new exercise...' })
+	const noExercises = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExercises', source: 'Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
+	const loadingExerciseData = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingExerciseData', source: 'Loading exercise data...' })
+	const generatingNewExercise = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', source: 'Generating new exercise...' })
 
 	// Load the latest exercise and remember which exercise this browser tab is displaying.
 	const group = useActiveGroup()

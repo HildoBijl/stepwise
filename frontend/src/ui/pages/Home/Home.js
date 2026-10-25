@@ -2,7 +2,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Box } from '@mui/material'
 
-import { useTranslation } from '@step-wise/i18n'
+import { useTextTranslation } from '@step-wise/i18n'
 
 import { PageTranslationFile } from '../PageTranslationFile'
 
@@ -15,8 +15,8 @@ export function Home() {
 }
 
 function HomeContents() {
-	const websiteName = useTranslation({ id: 'websiteName', children: 'Step-Wise' })
-	const websiteNameAddendum = useTranslation({ id: 'websiteNameAddendum', children: 'Practice exercises on your level' })
+	const websiteName = useTextTranslation({ id: 'websiteName', source: 'Step-Wise' })
+	const websiteNameAddendum = useTextTranslation({ id: 'websiteNameAddendum', source: 'Practice exercises on your level' })
 
 	return <>
 		<Helmet><title>{`${websiteName} | ${websiteNameAddendum}`}</title></Helmet>

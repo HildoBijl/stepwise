@@ -1,14 +1,14 @@
 import React from 'react'
 import { Box, Container, Grid, Stack } from '@mui/material'
 
-import { useTranslation } from '@step-wise/i18n'
+import { useTextTranslation } from '@step-wise/i18n'
 
 import logo from 'ui/images/logoAlternate.svg'
 import { Rectangle } from 'ui/components'
 
 export function TitleBar() {
-	const websiteName = useTranslation({ id: 'websiteName', children: 'Step-Wise' })
-	const websiteNameAddendum = useTranslation({ id: 'websiteNameAddendum', children: 'Practice exercises on your level' })
+	const websiteName = useTextTranslation({ id: 'websiteName', source: 'Step-Wise' })
+	const websiteNameAddendum = useTextTranslation({ id: 'websiteNameAddendum', source: 'Practice exercises on your level' })
 
 	return <Container maxWidth='lg' sx={{ flexFlow: 'row nowrap', flexDirection: 'row-reverse', paddingBottom: 'min(2vw,25px)' }}>
 		<Grid container direction="row">

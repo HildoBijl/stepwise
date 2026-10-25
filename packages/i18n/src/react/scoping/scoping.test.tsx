@@ -96,6 +96,7 @@ describe('translation scoping', () => {
 		const scope = { folder: ['eduTools'], catalog: 'exerciseManager', group: ['controls'] }
 		expect(resolveCatalogUnitAddress(scope, { id: 'submit' })).toEqual({ ...scope, id: 'submit' })
 		expect(resolveCatalogUnitAddress(scope, { group: ['buttons'], id: 'submit' })).toEqual({ ...scope, group: ['buttons'], id: 'submit' })
+		expect(resolveCatalogUnitAddress(scope, { group: 'buttons', extendGroup: true, id: 'submit' })).toEqual({ ...scope, group: ['controls', 'buttons'], id: 'submit' })
 		expect(resolveCatalogUnitAddress(scope, { catalog: 'shared', group: [], id: 'submit' })).toEqual({ folder: ['eduTools'], catalog: 'shared', group: [], id: 'submit' })
 		expect(resolveCatalogUnitAddress(scope, { folder: ['common'], catalog: 'shared', group: ['buttons'], id: 'submit' })).toEqual({ folder: ['common'], catalog: 'shared', group: ['buttons'], id: 'submit' })
 	})

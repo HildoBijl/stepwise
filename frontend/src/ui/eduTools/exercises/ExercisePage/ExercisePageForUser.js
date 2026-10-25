@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react'
 
 import { hasExercises } from '@step-wise/exercises'
-import { useTranslation } from '@step-wise/i18n'
+import { useTextTranslation } from '@step-wise/i18n'
 
 import { useSkill, useStartExercise, useSubmitExerciseAction } from 'api'
 import { ErrorNote, LoadingNote } from 'ui/components'
@@ -9,9 +9,9 @@ import { ErrorNote, LoadingNote } from 'ui/components'
 import { ExerciseContainer } from '../containers'
 
 export function ExercisePageForUser({ skillId, onNewExercise }) {
-	const noExercises = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExercises', children: 'Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
-	const loadingExerciseData = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingExerciseData', children: 'Loading exercise data...' })
-	const generatingNewExercise = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', children: 'Generating new exercise...' })
+	const noExercises = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExercises', source: 'Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
+	const loadingExerciseData = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingExerciseData', source: 'Loading exercise data...' })
+	const generatingNewExercise = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', source: 'Generating new exercise...' })
 
 	// Load the exercise the user has open.
 	const { skill, loading, error } = useSkill(skillId)

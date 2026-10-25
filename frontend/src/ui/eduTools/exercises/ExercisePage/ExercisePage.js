@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from '@step-wise/i18n'
+import { useTextTranslation } from '@step-wise/i18n'
 
 import { useUser, useIsUserLoading, useActiveGroupState, useActiveGroup } from 'api'
 import { LoadingNote } from 'ui/components'
@@ -9,7 +9,7 @@ import { ExercisePageForUser } from './ExercisePageForUser'
 import { ExercisePageForGroup } from './ExercisePageForGroup'
 
 export function ExercisePage({ skillId }) {
-	const loadingUserData = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingUserData', children: 'Loading user data...' })
+	const loadingUserData = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingUserData', source: 'Loading user data...' })
 	const userLoading = useIsUserLoading()
 	const { loading: groupLoading } = useActiveGroupState()
 	const user = useUser()

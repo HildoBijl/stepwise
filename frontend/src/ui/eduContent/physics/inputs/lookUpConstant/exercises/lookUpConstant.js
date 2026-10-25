@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { M } from '@step-wise/math-display'
-import { Translation, useTranslation } from '@step-wise/i18n'
+import { Translation, useTextTranslation } from '@step-wise/i18n'
 
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -15,7 +15,7 @@ export default function Exercise() {
 }
 
 function Problem({ constant }) {
-	const constantDescription = useTranslation({ group: ['references', 'constants'], id: constant, children: tableValues[constant].name })
+	const constantDescription = useTextTranslation({ group: ['references', 'constants'], id: constant, source: tableValues[constant].name })
 	return <>
 		<Par><Translation id="text">Look up {{ constantDescription }} <M>{tableValues[constant].symbol}</M>.</Translation></Par>
 		<InputSpace>

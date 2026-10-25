@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Tooltip, Box, alpha } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
-import { Plural, Translation, useTranslation } from '@step-wise/i18n'
+import { Plural, Translation, useTextTranslation } from '@step-wise/i18n'
 
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
@@ -61,9 +61,9 @@ export function Tile({ course, preventHoverStyle, children }) {
 }
 
 export function StudentTile({ course, skillsTotal, skillsDone, recommendation }) {
-	const loadingSkillData = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'loadingSkillData', children: 'Your progress is being loaded...' })
-	const freePracticeText = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'freePracticeRecommendation', children: 'You have all skills on a sufficient level! The next step is the free practice mode.' })
-	const recommendationText = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'skillRecommendation', children: 'Our practice recommendation:' })
+	const loadingSkillData = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'loadingSkillData', source: 'Your progress is being loaded...' })
+	const freePracticeText = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'freePracticeRecommendation', source: 'You have all skills on a sufficient level! The next step is the free practice mode.' })
+	const recommendationText = useTextTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'skillRecommendation', source: 'Our practice recommendation:' })
 	const paths = usePaths()
 	const [buttonHover, setButtonHover] = useState(false)
 	const navigate = useNavigate()

@@ -6,7 +6,7 @@ import { Check, Info } from '@mui/icons-material'
 import { getPracticeNeed } from '@step-wise/course-analysis'
 import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises } from '@step-wise/exercises'
-import { Translation, useTranslation } from '@step-wise/i18n'
+import { Translation, useTextTranslation } from '@step-wise/i18n'
 
 import { useSkillLevel } from 'api'
 import { notSelectable, linkStyleReset } from 'ui/theme'
@@ -51,10 +51,10 @@ export function SkillList({ courseCode, skillIds, display = true, landscape, isP
 
 function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, practiceNeed = 2, sx = {} }) {
 	const theme = useTheme()
-	const noExercisesText = useTranslation({ children: 'This skill has no exercises yet. They are probably coming soon.', id: 'noExercises' })
-	const sufficientMasteryText = useTranslation({ children: 'You have sufficiently mastered this skill.', id: 'sufficientMastery' })
-	const followUpMasteryText = useTranslation({ children: 'You have mastered a follow-up skill, so we mark this one as sufficient as well.', id: 'followUpMastery' })
-	const practiceRecommendationText = useTranslation({ children: 'This is currently the recommended skill to practice.', id: 'practiceRecommendation' })
+	const noExercisesText = useTextTranslation({ source: 'This skill has no exercises yet. They are probably coming soon.', id: 'noExercises' })
+	const sufficientMasteryText = useTextTranslation({ source: 'You have sufficiently mastered this skill.', id: 'sufficientMastery' })
+	const followUpMasteryText = useTextTranslation({ source: 'You have mastered a follow-up skill, so we mark this one as sufficient as well.', id: 'followUpMastery' })
+	const practiceRecommendationText = useTextTranslation({ source: 'This is currently the recommended skill to practice.', id: 'practiceRecommendation' })
 	const paths = usePaths()
 	const skillLevelSet = useSkillLevel(skillId)
 

@@ -31,16 +31,19 @@ export type CatalogAddressInput = {
 export type CatalogUnitAddressInput = {
 	folder?: never
 	catalog?: never
-	group?: CatalogGroupPath
+	group?: TranslationGroupPathInput
+	extendGroup?: boolean
 	id?: string
 } | {
 	folder?: never
 	catalog: string
 	group: CatalogGroupPath
+	extendGroup?: never
 	id: string
 } | {
 	folder: CatalogFolderPath
 	catalog: string
 	group: CatalogGroupPath
+	extendGroup?: never
 	id: string
 }

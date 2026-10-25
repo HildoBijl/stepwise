@@ -61,16 +61,17 @@ export function resolveCatalogAddress(scope: TranslationScope, input: CatalogAdd
 // Given an existing scope and potential explicit overrides, resolve the address of a Catalog unit.
 export function resolveCatalogUnitAddress(scope: TranslationScope, input: CatalogUnitAddressInput, area?: TranslationAreaScope): CatalogUnitAddress {
 	// Check the given input.
-	const { catalog, group, id } = input
+	const { catalog, group, extendGroup = false, id } = input
 	if (catalog !== undefined && group === undefined) throw new Error('A Catalog unit with an explicit catalog must also provide a group.')
-	group?.forEach(groupId => assertPathSegment(groupId, 'group ID'))
+	if (catalog !== undefined && extendGroup) throw new Error('A Catalog unit cannot extend its contextual group while selecting an explicit catalog.')
+	const normalizedGroup = group === undefined ? undefined : normalizePath(group, 'group ID')
 	if (id !== undefined) assertPathSegment(id, 'catalog unit ID')
 	if (id === undefined && !area) throw new Error('A Translation without an ID must be used inside a TranslationArea.')
 
 	// Determine the group. If a TranslationArea applies, apply it. Otherwise grab the given or scoped group.
 	const resolvedGroup = area && catalog === undefined && group === undefined
 		? id === undefined ? area.group : [...area.group, area.name]
-		: group ?? scope.group
+		: normalizedGroup === undefined ? scope.group : extendGroup ? [...scope.group, ...normalizedGroup] : normalizedGroup
 	const resolvedId = id ?? area!.name
 
 	// Use the scoped catalog address to fill in the gaps for the input catalog address.
