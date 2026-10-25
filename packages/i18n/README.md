@@ -112,6 +112,13 @@ Use `Translation`, `Plural`, `Select`, and `Condition` to author messages. The `
 <LocalizedList items={options} type="disjunction" style="short" />
 ```
 
+`LocalizedDuration` formats a fixed non-negative duration without relating it to the present. `RelativeTime` compares a date with the current time, includes the locale's equivalent of “ago” or “in”, and schedules its next update for when the displayed value changes. Both use `minute` as their smallest unit by default:
+
+```tsx
+<LocalizedDuration milliseconds={exerciseDuration} smallestUnit="second" />
+<RelativeTime date={lastActivityAt} />
+```
+
 
 ## XLIFF catalogs
 
