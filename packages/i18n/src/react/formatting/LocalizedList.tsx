@@ -1,7 +1,7 @@
 import { Fragment, type ReactNode, useMemo } from 'react'
 
-import { withTranslation } from './authoring/withTranslation.tsx'
-import { useI18n } from './context/hooks.ts'
+import { withTranslation } from '../authoring/withTranslation.tsx'
+import { useI18n } from '../context/hooks.ts'
 
 export type LocalizedListProps = {
 	items: readonly ReactNode[]

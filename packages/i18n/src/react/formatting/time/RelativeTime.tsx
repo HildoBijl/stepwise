@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import { withTranslation } from '../authoring/withTranslation.tsx'
-import { useI18n } from '../context/hooks.ts'
+import { withTranslation } from '../../authoring/withTranslation.tsx'
+import { useI18n } from '../../context/hooks.ts'
 
 import { getTimeDisplay, type TimeDisplay, type TimeUnit } from './time.ts'
 

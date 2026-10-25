@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
-import { withTranslation } from '../authoring/withTranslation.tsx'
-import { useI18n } from '../context/hooks.ts'
+import { withTranslation } from '../../authoring/withTranslation.tsx'
+import { useI18n } from '../../context/hooks.ts'
 import { getTimeDisplay, type TimeUnit } from './time.ts'
 
 export type LocalizedDurationProps = {

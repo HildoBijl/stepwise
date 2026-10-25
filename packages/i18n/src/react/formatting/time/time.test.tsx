@@ -3,8 +3,8 @@
 import { act, render } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { reactToMessage } from '../conversion/reactToMessage.ts'
-import { I18nProvider } from '../context/I18nProvider.tsx'
+import { reactToMessage } from '../../conversion/reactToMessage.ts'
+import { I18nProvider } from '../../context/I18nProvider.tsx'
 import { LocalizedDuration } from './LocalizedDuration.tsx'
 import { RelativeTime } from './RelativeTime.tsx'
 

@@ -3,8 +3,8 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
-import { reactToMessage } from './conversion/reactToMessage.ts'
-import { I18nProvider } from './context/I18nProvider.tsx'
+import { reactToMessage } from '../conversion/reactToMessage.ts'
+import { I18nProvider } from '../context/I18nProvider.tsx'
 import { LocalizedList } from './LocalizedList.tsx'
 
 describe('LocalizedList', () => {
