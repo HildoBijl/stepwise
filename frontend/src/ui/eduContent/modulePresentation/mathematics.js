@@ -1,4 +1,4 @@
-export const mathematicsModuleCatalog = {
+export const mathematicsModulePresentation = {
 	enterExpression: {
 		name: 'Enter an expression',
 		shortDescription: 'Learn how to enter a mathematical expression in the expected notation.',

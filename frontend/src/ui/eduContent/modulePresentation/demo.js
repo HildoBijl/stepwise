@@ -1,4 +1,4 @@
-export const demoModuleCatalog = {
+export const demoModulePresentation = {
 	demo: {
 		name: 'Demo exercise',
 		shortDescription: 'Module used to show various new/demonstration functionalities in exercises.',

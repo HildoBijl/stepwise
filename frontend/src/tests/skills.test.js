@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { moduleTree } from '@step-wise/module-tree'
 
-import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
+import { modulePresentation } from 'ui/eduContent/modulePresentation'
 
 describe('Check all skills:', () => {
 	Object.keys(moduleTree).forEach(key => {
@@ -13,7 +13,7 @@ describe('Check all skills:', () => {
 			})
 
 			it('has a name', () => {
-				expect(typeof moduleCatalog[skill.id]?.name).toBe('string')
+				expect(typeof modulePresentation[skill.id]?.name).toBe('string')
 			})
 
 			// it('has at least one exercise', () => {

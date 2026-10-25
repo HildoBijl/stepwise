@@ -1,4 +1,4 @@
-export const mechanicsModuleCatalog = {
+export const mechanicsModulePresentation = {
 	calculateForceOrMoment: {
 		name: 'Calculate a force or moment',
 		shortDescription: 'Calculate an unknown force or moment from an equilibrium situation.',

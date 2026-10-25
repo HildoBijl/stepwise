@@ -14,7 +14,7 @@ import { ModuleTranslationScope } from './components'
 import { useSkillId } from './util'
 import { MetaWrapper } from './MetaWrapper'
 
-const skillPageModules = import.meta.glob(['/src/ui/eduContent/**/index.js', '!/src/ui/eduContent/moduleCatalog/index.js'])
+const skillPageModules = import.meta.glob(['/src/ui/eduContent/**/index.js', '!/src/ui/eduContent/modulePresentation/index.js'])
 
 export function SkillPage() {
 	const skillId = useSkillId()

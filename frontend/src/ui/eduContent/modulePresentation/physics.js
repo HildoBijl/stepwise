@@ -1,4 +1,4 @@
-export const physicsModuleCatalog = {
+export const physicsModulePresentation = {
 	enterFloat: {
 		name: 'Enter a decimal number',
 		shortDescription: 'Learn how to enter a number with decimal precision.',
