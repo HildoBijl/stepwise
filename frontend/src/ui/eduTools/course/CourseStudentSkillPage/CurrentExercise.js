@@ -1,14 +1,12 @@
-import { getSkill } from '@step-wise/module-tree'
-
-import { TranslationFile, TranslationSection } from 'i18n'
+import { TranslationSection } from 'i18n'
 
 import { ExerciseContainer } from '../../exercises'
+import { ModuleTranslationScope } from '../../skills/components'
 
 export function CurrentExercise({ skillId, exercise, submissionIndex }) {
-	const skill = getSkill(skillId)
-	return <TranslationFile path={`eduContent/${skill.groupPath.join('/')}/${skillId}`} extend={false}>
+	return <ModuleTranslationScope moduleId={skillId}>
 		<TranslationSection entry="practice">
 			<ExerciseContainer key={exercise.startedAt} skillId={skillId} exercise={exercise} inspection={true} historyIndex={submissionIndex} />
 		</TranslationSection>
-	</TranslationFile>
+	</ModuleTranslationScope>
 }

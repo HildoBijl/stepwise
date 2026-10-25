@@ -12,11 +12,12 @@ import { resolveSolution, resolveStaticSolution } from '@step-wise/input-exercis
 import { getAllExercises } from '@step-wise/exercises'
 
 import { CURRENT_USER_QUERY } from 'api/user/queries'
-import { I18nProvider, TranslationFile, TranslationSection } from 'i18n'
+import { I18nProvider, TranslationSection } from 'i18n'
 import { ModalManager } from 'ui/components'
-import theme from 'ui/theme'
-import { FieldController } from 'ui/form'
 import { ExerciseContext } from 'ui/eduTools'
+import { ModuleTranslationScope } from 'ui/eduTools/skills/components'
+import { FieldController } from 'ui/form'
+import theme from 'ui/theme'
 
 const exerciseModules = import.meta.glob('/src/ui/eduContent/**/exercises/*.js')
 const apolloMocks = [{ request: { query: CURRENT_USER_QUERY }, result: { data: { me: null } }, maxUsageCount: Infinity }]
@@ -76,13 +77,13 @@ describe('Check all exercises:', () => {
 									<ThemeProvider theme={theme}>
 										<FieldController>
 											<ModalManager>
-												<TranslationFile path={`eduContent/${skill.groupPath.join('/')}/${skill.id}`}>
+												<ModuleTranslationScope moduleId={skill.id}>
 													<TranslationSection entry="practice">
 														<ExerciseContext.Provider value={exerciseData}>
 															<Exercise />
 														</ExerciseContext.Provider>
 													</TranslationSection>
-												</TranslationFile>
+												</ModuleTranslationScope>
 											</ModalManager>
 										</FieldController>
 									</ThemeProvider>

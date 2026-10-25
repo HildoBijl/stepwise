@@ -5,13 +5,15 @@ import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/js-utils'
-import { ensureSkillId, getSkill } from '@step-wise/module-tree'
+import { ensureSkillId } from '@step-wise/module-tree'
 import { getExercise } from '@step-wise/exercises'
 import { useTranslation } from '@step-wise/i18n'
 
-import { TranslationFile, TranslationSection } from 'i18n'
+import { TranslationSection } from 'i18n'
 import { LoadingNote, ErrorNote } from 'ui/components/flow'
 import { TitleItem } from 'ui/routingTools'
+
+import { ModuleTranslationScope } from '../../skills/components'
 
 import { ExerciseContainer } from './ExerciseContainer'
 
@@ -21,12 +23,11 @@ export function BlankExercise() {
 	const skillId = skillIdFromUrl && ensureSkillId(skillIdFromUrl, { allowCaseInsensitiveMatch: true })
 	if (!exerciseName)
 		return <ErrorNote text={missingExerciseName} />
-	const skill = getSkill(skillId)
-	return <TranslationFile path={`eduContent/${skill.groupPath.join('/')}/${skill.id}`}>
+	return <ModuleTranslationScope moduleId={skillId}>
 		<TranslationSection entry="practice">
 			<BlankExerciseInner skillId={skillId} exerciseId={exerciseName} />
 		</TranslationSection>
-	</TranslationFile>
+	</ModuleTranslationScope>
 }
 
 function BlankExerciseInner({ skillId, exerciseId }) {

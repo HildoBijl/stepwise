@@ -5,12 +5,12 @@ import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises, hasExamples } from '@step-wise/exercises'
 import { useTranslation } from '@step-wise/i18n'
 
-import { TranslationFile } from 'i18n'
 import { LoadingNote } from 'ui/components'
 import { TabPages, tabData } from 'ui/routingTools'
 
 import { ExamplePage, ExercisePage, ExercisePageForUser } from '../exercises'
 
+import { ModuleTranslationScope } from './components'
 import { useSkillId } from './util'
 import { MetaWrapper } from './MetaWrapper'
 
@@ -91,7 +91,7 @@ export function SkillPageForSkill({ skillId, freePracticeMode = false, onNewExer
 	const pagesFiltered = freePracticeMode ? mapValues(pages, (page, tab) => freePracticeModeTabs.includes(tab) ? page : undefined) : pages
 
 	// Render the pages. Use a key to force a reload on a new skillId.
-	return <TranslationFile path={`eduContent/${moduleTree[skillId].groupPath.join('/')}/${skillId}`}>
+	return <ModuleTranslationScope moduleId={skillId}>
 		<TabPages key={skillId} pages={pagesFiltered} initialPage="practice" />
-	</TranslationFile>
+	</ModuleTranslationScope>
 }
