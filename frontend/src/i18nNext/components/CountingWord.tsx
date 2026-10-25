@@ -35,13 +35,13 @@ function CountingWordBase({ children, value: valueProp, ordinal = false, upperCa
 	// If there's no word, just show the number (or on ordinal with counting addition). Otherwise show the counting word.
 	const contents = word === undefined
 		? ordinal ? <NumericOrdinal value={value} /> : new Intl.NumberFormat(locale).format(value)
-		: <Translation folder={['language']} catalog="counting" group={[ordinal ? 'ordinal' : 'cardinal']} id={String(value)}>{word}</Translation>
+		: <Translation folder={['language']} catalog="language" group={['counting', ordinal ? 'ordinal' : 'cardinal']} id={String(value)}>{word}</Translation>
 	return upperCase ? <span style={{ textTransform: 'capitalize' }}>{contents}</span> : contents
 }
 
 // Display a text-based ordinal number like "21st", "32nd", "43rd", "54th", etcetera, but then also translated to other languages.
 function NumericOrdinal({ value }: { value: number }) {
-	return <Translation folder={['language']} catalog="counting" group={['ordinal']} id="numeric">
+	return <Translation folder={['language']} catalog="language" group={['counting', 'ordinal']} id="numeric">
 		<Plural value={{ value }} form="ordinal">
 			<Plural.One><Plural.Value />st</Plural.One>
 			<Plural.Two><Plural.Value />nd</Plural.Two>

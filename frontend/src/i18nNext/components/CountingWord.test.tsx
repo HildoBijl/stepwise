@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest'
 import { I18nProvider } from '@step-wise/i18n'
 
 import { CountingWord } from './CountingWord.tsx'
-import { loadCatalog } from './loadCatalog.ts'
+import { loadCatalog } from '../loadCatalog.ts'
 
 describe('CountingWord', () => {
 	it('renders small cardinal and ordinal values as English words', () => {
@@ -23,7 +23,7 @@ describe('CountingWord', () => {
 		expect(document.body.textContent).toBe('thirty thousandth 44 22nd 113th')
 	})
 
-	it('loads translated words and ordinal forms from the counting Catalog', async () => {
+	it('loads translated words and ordinal forms from the language Catalog', async () => {
 		render(<I18nProvider locale="nl" sourceLocale="en" loadCatalog={loadCatalog}>
 			<span><CountingWord value={12} /></span> <span><CountingWord value={22} ordinal /></span>
 		</I18nProvider>)
