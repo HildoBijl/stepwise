@@ -122,9 +122,10 @@ function ProgressOverview({ processedStudent, course, courseDefinition }) {
 						<TableCell align="center">
 							<CenteredProgressIndicator size={50} total={block.contentSkillIds.length} done={processedStudent.analysis.numCompletedPerBlock[index]} />
 						</TableCell>
-						{repeat(numSkillColumns, index => <TableCell key={index} align="center" onClick={() => navigate(paths.courseStudentSkill({ courseCode: course.code, studentId: processedStudent.id, skillId: block.contentSkillIds[index] }))} sx={{ verticalAlign: 'top', cursor: 'pointer', '&:hover': { backgroundColor: theme => theme.palette.action.hover } }}>
-							<SkillIndicator skillId={block.contentSkillIds[index]} student={processedStudent} courseDefinition={courseDefinition} />
+						{block.contentSkillIds.map(skillId => <TableCell key={skillId} align="center" onClick={() => navigate(paths.courseStudentSkill({ courseCode: course.code, studentId: processedStudent.id, skillId }))} sx={{ verticalAlign: 'top', cursor: 'pointer', '&:hover': { backgroundColor: theme => theme.palette.action.hover } }}>
+							<SkillIndicator skillId={skillId} student={processedStudent} courseDefinition={courseDefinition} />
 						</TableCell>)}
+						{repeat(numSkillColumns - block.contentSkillIds.length, index => <TableCell key={`empty-${index}`} />)}
 					</TableRow>)}
 				</TableBody>
 			</Table>
