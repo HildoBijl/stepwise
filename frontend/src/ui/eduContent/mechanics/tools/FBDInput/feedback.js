@@ -4,7 +4,7 @@ import { isPlainObject, mapValues } from '@step-wise/js-utils'
 import { compareLoadLists, isLoadAtPoint } from '@step-wise/engineering-mechanics'
 import { Translation, Condition, Plural } from '@step-wise/i18n'
 
-import { CountingWord } from 'i18nNext'
+import { CountingWord } from 'i18n'
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
 import { getFeedbackCheckResult, processParameterOptions } from 'ui/eduTools'
 

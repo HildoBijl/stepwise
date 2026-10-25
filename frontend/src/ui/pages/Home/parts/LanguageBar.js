@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Container } from '@mui/material'
 import { GB, NL, DE } from 'country-flag-icons/react/3x2'
 
-import { useLanguage, useSetLanguage } from 'i18nNext'
+import { useLanguage, useSetLanguage } from 'i18n'
 import { notSelectable } from 'ui/theme'
 
 export function LanguageBar() {

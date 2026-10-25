@@ -7,7 +7,7 @@ import { fromKeysAndValues } from '@step-wise/js-utils'
 import { useLocalStorageState } from '@step-wise/react-utils'
 import { Translation, TranslationCatalog, TranslationGroup, withTranslation } from '@step-wise/i18n'
 
-import { RelativeTime } from 'i18nNext'
+import { RelativeTime } from 'i18n'
 import { notSelectable } from 'ui/theme'
 import { Par, Info } from 'ui/components'
 import { usePaths } from 'ui/routingTools'

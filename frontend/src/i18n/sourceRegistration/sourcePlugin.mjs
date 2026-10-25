@@ -4,7 +4,7 @@ import { dirname, resolve, sep } from 'node:path'
 import { getMessageContentSignature, assertValidMessage } from '../../../../packages/i18n/src/message/index.ts'
 import { parseXliff, serializeXliff } from '../../../../packages/i18n/src/xliff/index.ts'
 
-import { sourceRegistrationEndpoint } from '../settings.ts'
+import { sourceRegistrationEndpoint } from './registerSource.ts'
 
 const writeDelay = 50 // After this time of waiting (and possibly collecting more updates) we apply all updates to the Catalog file.
 const generatedWriteLifetime = 5000 // When a Catalog file gets updated, we exclude it from HMR for this amount of time. This prevents Catalog writes from activating HMR.

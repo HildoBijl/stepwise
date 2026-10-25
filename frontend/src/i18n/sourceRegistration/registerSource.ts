@@ -1,11 +1,12 @@
 import { type SourceRegistrar, getMessageContentSignature } from '@step-wise/i18n'
 
-import { sourceRegistrationEndpoint } from './settings.ts'
+// Endpoint on where to send registrations within the Vite bundler.
+export const sourceRegistrationEndpoint = '/__step-wise/i18n/source'
 
 const registeredSources = new Map<string, string>()
 
 // Send authored sources to the development server.
-export const registerSource: SourceRegistrar | undefined = import.meta.env.DEV ? registration => {
+export const registerSource: SourceRegistrar | undefined = import.meta.env?.DEV ? registration => {
 	// Check if the source is already registered at the server. If so, don't send it again.
 	const key = `${registration.folder.join('/')}:${registration.catalog}:${registration.group.join('/')}:${registration.id}`
 	const signature = getMessageContentSignature(registration.source)

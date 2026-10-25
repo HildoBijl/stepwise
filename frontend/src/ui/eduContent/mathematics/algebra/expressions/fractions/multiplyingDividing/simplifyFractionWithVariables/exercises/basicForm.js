@@ -3,7 +3,7 @@ import React from 'react'
 import { M, BM } from '@step-wise/math-display'
 import { Translation } from '@step-wise/i18n'
 
-import { CountingWord } from 'i18nNext'
+import { CountingWord } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'

@@ -4,7 +4,7 @@ import { gcd } from '@step-wise/math-tools'
 import { M, BM } from '@step-wise/math-display'
 import { Translation, Condition } from '@step-wise/i18n'
 
-import { CountingWord } from 'i18nNext'
+import { CountingWord } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'

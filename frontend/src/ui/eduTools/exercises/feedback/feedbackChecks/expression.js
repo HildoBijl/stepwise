@@ -4,7 +4,7 @@ import { expressionChecks, expressionComparisons } from '@step-wise/cas'
 import { M } from '@step-wise/math-display'
 import { Translation } from '@step-wise/i18n'
 
-import { CountingWord } from 'i18nNext'
+import { CountingWord } from 'i18n'
 
 const { areEqualExceptOrder, areEquivalent: equivalent, areConstantMultiples } = expressionComparisons
 

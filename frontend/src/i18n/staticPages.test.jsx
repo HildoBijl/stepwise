@@ -18,7 +18,7 @@ import { JoinGroupConditions } from '../ui/pages/groups/JoinGroupConditions'
 import { NewGroup } from '../ui/pages/groups/NewGroup'
 import { OtherGroups } from '../ui/pages/groups/OtherGroups'
 import { loadCatalog } from './loadCatalog.ts'
-import { LanguageProvider } from './LanguageProvider.tsx'
+import { LanguageProvider } from './context/index.ts'
 
 vi.mock('api', () => ({
 	useAcceptLatestPrivacyPolicy: () => [vi.fn()],

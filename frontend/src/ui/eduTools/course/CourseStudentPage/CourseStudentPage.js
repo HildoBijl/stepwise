@@ -9,7 +9,7 @@ import { Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i1
 
 import { useUserWithSkills } from 'api'
 
-import { RelativeTime } from 'i18nNext'
+import { RelativeTime } from 'i18n'
 import { Head, Par, LoadingIndicator, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 

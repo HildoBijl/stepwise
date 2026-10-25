@@ -1,7 +1,7 @@
 import { last } from '@step-wise/js-utils'
 import { LocalizedDuration, Translation, TranslationGroup } from '@step-wise/i18n'
 
-import { RelativeTime } from 'i18nNext'
+import { RelativeTime } from 'i18n'
 import { Par } from 'ui/components'
 
 export function SubmissionDate({ exercise, submissionIndex, events, event }) {

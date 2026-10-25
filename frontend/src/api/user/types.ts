@@ -1,4 +1,4 @@
-import type { Language } from '../../i18nNext/settings.ts'
+import type { Language } from '../../i18n/settings.ts'
 
 import type { ApiMutationResult, ApiQueryResult } from '../types.ts'
 

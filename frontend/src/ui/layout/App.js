@@ -4,7 +4,7 @@ import { ApolloProvider } from '@apollo/client/react'
 import { HelmetProvider } from 'react-helmet-async'
 
 import { useUser, ActiveGroupProvider, SkillLevelProvider } from 'api'
-import { LanguageProvider, useLanguageSetting } from 'i18nNext'
+import { LanguageProvider, useLanguageSetting } from 'i18n'
 import theme from 'ui/theme'
 
 import { PrivacyPolicyWrapper } from './PrivacyPolicy'

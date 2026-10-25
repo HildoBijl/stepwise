@@ -5,7 +5,7 @@ import { Box } from '@mui/material'
 import { HorizontalScroller } from '@step-wise/react-components'
 
 import { useAllUsers } from 'api'
-import { RelativeTime } from 'i18nNext'
+import { RelativeTime } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par } from 'ui/components'
 

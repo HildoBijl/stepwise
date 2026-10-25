@@ -1,17 +1,12 @@
-import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from 'react'
+import { type ReactNode, useCallback, useEffect, useState } from 'react'
 
 import { type CatalogLoader, I18nProvider, type SourceRegistrar } from '@step-wise/i18n'
 
-import { countryToLanguage, defaultLanguage, type Language, languages, localStorageKey } from './settings.ts'
-import { loadCatalog as defaultCatalogLoader } from './loadCatalog.ts'
-import { registerSource as defaultSourceRegistrar } from './registerSource.ts'
+import { countryToLanguage, defaultLanguage, type Language, languages, localStorageKey } from '../settings.ts'
+import { loadCatalog as defaultCatalogLoader } from '../loadCatalog.ts'
+import { registerSource as defaultSourceRegistrar } from '../sourceRegistration/registerSource.ts'
 
-type LanguageContextValue = {
-	language: Language
-	setLanguage: (language: Language) => void
-}
-
-const LanguageContext = createContext<LanguageContextValue | undefined>(undefined)
+import { LanguageContext } from './context.ts'
 
 export type LanguageProviderProps = {
 	children: ReactNode
@@ -49,31 +44,13 @@ export function LanguageProvider({ children, loadCatalog = defaultCatalogLoader,
 	</LanguageContext.Provider>
 }
 
-export function useLanguage(): Language {
-	const context = useContext(LanguageContext)
-	if (!context) throw new Error('useLanguage must be used within a LanguageProvider.')
-	return context.language
-}
-
-export function useSetLanguage(): (language: Language) => void {
-	const context = useContext(LanguageContext)
-	if (!context) throw new Error('useSetLanguage must be used within a LanguageProvider.')
-	return context.setLanguage
-}
-
-export function useLanguageSetting(language: string | undefined): void {
-	const setLanguage = useSetLanguage()
-	useEffect(() => {
-		if (!languages.includes(language as Language)) return
-		setLanguage(language as Language)
-	}, [language, setLanguage])
-}
-
+// Helper that reads the language stored in localStorage.
 function getStoredLanguage(): Language | undefined {
 	const language = localStorage.getItem(localStorageKey)
 	return languages.includes(language as Language) ? language as Language : undefined
 }
 
+// Helper that reads the language based on where the user's IP is located.
 async function getLocationBasedLanguage(signal: AbortSignal): Promise<Language | undefined> {
 	const response = await fetch('https://ipinfo.io/json?token=7d5a45b4af74c3', { signal })
 	if (!response.ok) return undefined

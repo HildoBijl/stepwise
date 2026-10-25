@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, alpha } from '@mui/material'
 
 import { useSetLanguage } from 'api'
-import { useLanguage } from 'i18nNext'
+import { useLanguage } from 'i18n'
 
 export function Language({ children, Flag, language }) {
 	const currentLanguage = useLanguage()

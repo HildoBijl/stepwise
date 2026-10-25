@@ -5,10 +5,10 @@ import react from '@vitejs/plugin-react'
 import { defineConfig, transformWithOxc } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
-import { defaultLanguage } from './src/i18nNext/settings.ts'
-import { i18nSourcePlugin } from './src/i18nNext/vite/sourcePlugin.mjs'
+import { defaultLanguage } from './src/i18n/settings.ts'
+import { i18nSourcePlugin } from './src/i18n/sourceRegistration/sourcePlugin.mjs'
 
-const sourceDirectories = ['api', 'i18nNext', 'tests', 'ui', 'util']
+const sourceDirectories = ['api', 'i18n', 'tests', 'ui', 'util']
 const sourceFiles = ['settings']
 const packagesDirectory = fileURLToPath(new URL('../packages', import.meta.url))
 const workspacePackages = readdirSync(packagesDirectory, { withFileTypes: true })

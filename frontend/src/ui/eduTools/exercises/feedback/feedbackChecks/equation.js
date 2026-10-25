@@ -4,7 +4,7 @@ import { findWithValue, resolveFunctionValuesDeep, resolveFunctionValue, identit
 import { asEquationEqualityOptions, expressionComparisons, equationComparisons } from '@step-wise/cas'
 import { Condition, Translation } from '@step-wise/i18n'
 
-import { CountingWord } from 'i18nNext'
+import { CountingWord } from 'i18n'
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/inputs'
 
 import * as expressionFeedbackChecks from './expression'
