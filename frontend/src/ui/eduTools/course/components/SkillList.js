@@ -6,9 +6,10 @@ import { Check, Info } from '@mui/icons-material'
 import { getPracticeNeed } from '@step-wise/course-analysis'
 import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises } from '@step-wise/exercises'
+import { Translation, useTranslation } from '@step-wise/i18n'
 
 import { useSkillLevel } from 'api'
-import { Translation, useTranslator } from 'i18n'
+import { useTranslator } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
 import { QuickPractice } from 'ui/components/icons'
@@ -52,6 +53,10 @@ export function SkillList({ courseCode, skillIds, display = true, landscape, isP
 function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, practiceNeed = 2, sx = {} }) {
 	const theme = useTheme()
 	const translate = useTranslator()
+	const noExercisesText = useTranslation({ children: 'This skill has no exercises yet. They are probably coming soon.', id: 'noExercises' })
+	const sufficientMasteryText = useTranslation({ children: 'You have sufficiently mastered this skill.', id: 'sufficientMastery' })
+	const followUpMasteryText = useTranslation({ children: 'You have mastered a follow-up skill, so we mark this one as sufficient as well.', id: 'followUpMastery' })
+	const practiceRecommendationText = useTranslation({ children: 'This is currently the recommended skill to practice.', id: 'practiceRecommendation' })
 	const paths = usePaths()
 	const skillLevelSet = useSkillLevel(skillId)
 
@@ -78,18 +83,16 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 
 	// If there is no data, show that skills will be added in the future.
 	if (!skillId)
-		return <Box><Translation entry="noSkills">This block is still under development: no skills/exercises have been added yet. They will be here shortly!</Translation></Box>
+		return <Box><Translation id="noSkills">This block is still under development: no skills/exercises have been added yet. They will be here shortly!</Translation></Box>
 
 	// Determine the tooltip to show under a "mastered" checkmark.
-	let noExercisesText = '', masteryText = ''
+	let masteryText = ''
 	const skill = moduleTree[skillId]
-	if (!hasExercises(skillId)) {
-		noExercisesText = translate('This skill has no exercises yet. They are probably coming soon.', 'noExercises')
-	} else if (practiceNeed === 0) {
+	if (hasExercises(skillId) && practiceNeed === 0) {
 		if (getPracticeNeed(skillId, skillLevelSet, { skillThresholds: skill.thresholds, priorKnowledge: isPriorKnowledge }) === 0)
-			masteryText = translate('You have sufficiently mastered this skill.', 'sufficientMastery')
+			masteryText = sufficientMasteryText
 		else
-			masteryText = translate('You have mastered a follow-up skill, so we mark this one as sufficient as well.', 'followUpMastery')
+			masteryText = followUpMasteryText
 	}
 
 	return <Box component={Link} to={paths.courseSkill({ courseCode, skillId })} sx={skillItemStyle}>
@@ -106,7 +109,7 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 				<Check sx={theme => ({ color: theme.palette.success.main })} />
 			</Box>
 		</Tooltip> : null)}
-		{recommend ? <Tooltip title={translate('This is currently the recommended skill to practice.', 'practiceRecommendation')} arrow>
+		{recommend ? <Tooltip title={practiceRecommendationText} arrow>
 			<Box sx={iconContainerStyle}>
 				<QuickPractice />
 			</Box>

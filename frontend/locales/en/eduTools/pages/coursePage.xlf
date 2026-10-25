@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="loading">
+			<unit id="loadingCourseTitle">
+				<segment>
+					<source>Loading course...</source>
+				</segment>
+			</unit>
+			<unit id="unknownCourseTitle">
+				<segment>
+					<source>Unknown course</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="externals">
+			<group id="signin">
+				<unit id="title">
+					<segment>
+						<source>Sign in required</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>To participate in this course, you have to be signed in. No worries, it's all free. This is so we can show you your progress within the course.</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="school">
+				<unit id="title">
+					<segment>
+						<source>School/Institution</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This course is taught by <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/></pc>.</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="students">
+			<unit id="priorKnowledge">
+				<segment>
+					<source>Prior knowledge</source>
+				</segment>
+			</unit>
+			<unit id="gradeEstimate">
+				<segment>
+					<source>Based on your practice so far, we expect a score of roughly <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="percentage"/></pc> (about <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="lowerPercentage"/> - <ph id="x3" type="ui" subType="xlf:var" swi18n:name="upperPercentage"/></pc>) on the final test.</source>
+				</segment>
+			</unit>
+			<unit id="disclaimer">
+				<segment>
+					<source>No rights can be derived from this estimate.</source>
+				</segment>
+			</unit>
+			<unit id="practiceRecommendation">
+				<segment>
+					<source>This is currently the recommended skill to practice.</source>
+				</segment>
+			</unit>
+			<unit id="sufficientMastery">
+				<segment>
+					<source>You have sufficiently mastered this skill.</source>
+				</segment>
+			</unit>
+			<unit id="followUpMastery">
+				<segment>
+					<source>You have mastered a follow-up skill, so we mark this one as sufficient as well.</source>
+				</segment>
+			</unit>
+			<unit id="noExercises">
+				<segment>
+					<source>This skill has no exercises yet. They are probably coming soon.</source>
+				</segment>
+			</unit>
+			<unit id="noSkills">
+				<segment>
+					<source>This block is still under development: no skills/exercises have been added yet. They will be here shortly!</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="teachers">
+			<unit id="noStudents">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Your course is ready, but there are no students yet. Share the <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">course link</pc> (this page's URL) with students, or ask them to <pc id="c3" type="ui" subType="swi18n:link" swi18n:slot="children">add the course</pc> from the full list.</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">For further options, check out the <pc id="c5" type="ui" subType="swi18n:link" swi18n:slot="children">Course Settings</pc> (top right).</pc></source>
+				</segment>
+			</unit>
+			<group id="headers">
+				<unit id="name">
+					<segment>
+						<source>Name</source>
+					</segment>
+				</unit>
+				<unit id="lastActive">
+					<segment>
+						<source>Last active</source>
+					</segment>
+				</unit>
+				<unit id="course">
+					<segment>
+						<source>Course</source>
+					</segment>
+				</unit>
+			</group>
+			<unit id="hideInactive">
+				<segment>
+					<source>Hide inactive students</source>
+				</segment>
+			</unit>
+			<unit id="noActiveStudents">
+				<segment>
+					<source>The course does not have any active students at the moment. All students have their last activity a while ago.</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

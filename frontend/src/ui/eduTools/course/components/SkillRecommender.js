@@ -4,6 +4,7 @@ import { Box, Button, darken } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
 import { moduleTree } from '@step-wise/module-tree'
+import { useTranslation } from '@step-wise/i18n'
 
 import { useGetTranslation } from 'i18n'
 import { linkStyleReset } from 'ui/theme'
@@ -12,6 +13,8 @@ import { QuickPractice } from 'ui/components'
 
 export function SkillRecommender({ courseCode, recommendation }) {
 	const getTranslation = useGetTranslation()
+	const freePracticeText = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'freePracticeRecommendation', children: 'You have all skills on a sufficient level! The next step is the free practice mode.' })
+	const recommendationText = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'skillRecommendation', children: 'Our practice recommendation:' })
 	const paths = usePaths()
 
 	// If there is no recommendation, not all data is loaded yet.
@@ -22,11 +25,11 @@ export function SkillRecommender({ courseCode, recommendation }) {
 	let link, message
 	if (recommendation === freePracticeRecommendation) {
 		link = paths.freePractice({ courseCode })
-		message = getTranslation('freePracticeRecommendation', 'eduTools/pages/coursesPage')
+		message = freePracticeText
 	} else {
 		link = paths.courseSkill({ courseCode, skillId: recommendation })
 		const skill = moduleTree[recommendation]
-		message = `${getTranslation('skillRecommendation', 'eduTools/pages/coursesPage')} ${getTranslation(`${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}`
+		message = `${recommendationText} ${getTranslation(`${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}`
 	}
 
 	// Show the button.

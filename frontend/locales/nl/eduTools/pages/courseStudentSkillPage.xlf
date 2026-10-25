@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<unit id="noExercises">
+			<segment>
+				<source>The student has not opened this skill yet. There are no exercises to show.</source>
+				<target swi18n:sourceContentFingerprint="f25fc72d0526f53b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De leerling heeft deze vaardigheid nog niet geopend. Er zijn geen oefeningen om te laten zien.</target>
+			</segment>
+		</unit>
+		<group id="buttons">
+			<unit id="exercises">
+				<segment>
+					<source>Exercises</source>
+					<target swi18n:sourceContentFingerprint="d6dfc7dde2552e5d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oefeningen</target>
+				</segment>
+			</unit>
+			<unit id="submissions">
+				<segment>
+					<source>Submissions</source>
+					<target swi18n:sourceContentFingerprint="fffeb3e5f4924317" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Inzendingen</target>
+				</segment>
+			</unit>
+			<unit id="noSubmissions">
+				<segment>
+					<source>None so far</source>
+					<target swi18n:sourceContentFingerprint="ea9443d5aae4981b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nog geen</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="submissionDate">
+			<unit id="exerciseStart">
+				<segment>
+					<source>Exercise started <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c2" type="ui" subType="swi18n:relative-time"/></pc>.</source>
+					<target swi18n:sourceContentFingerprint="e87151d305aa9368" swi18n:sourceStructureFingerprint="d876d738aaa39001">Opgave <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c2" type="ui" subType="swi18n:relative-time"/></pc> begonnen.</target>
+				</segment>
+			</unit>
+			<unit id="timeAfterExerciseStart">
+				<segment>
+					<source>Exercise started <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c2" type="ui" subType="swi18n:relative-time"/></pc>. Submission made <pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c4" type="ui" subType="swi18n:duration"/></pc> after starting the exercise.</source>
+					<target swi18n:sourceContentFingerprint="63a2bdc4f075b2c7" swi18n:sourceStructureFingerprint="e26e5a4df977d038">Opgave <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c2" type="ui" subType="swi18n:relative-time"/></pc> begonnen. Inzending <pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c4" type="ui" subType="swi18n:duration"/></pc> na aanvang van de opgave.</target>
+				</segment>
+			</unit>
+			<unit id="timeAfterPreviousInput">
+				<segment>
+					<source>Exercise started <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c2" type="ui" subType="swi18n:relative-time"/></pc>. Submission made <pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c4" type="ui" subType="swi18n:duration"/></pc> after the previous submission.</source>
+					<target swi18n:sourceContentFingerprint="ac1701204056f8a0" swi18n:sourceStructureFingerprint="e26e5a4df977d038">Opgave <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c2" type="ui" subType="swi18n:relative-time"/></pc> begonnen. Inzending <pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c4" type="ui" subType="swi18n:duration"/></pc> na de vorige inzending.</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

@@ -5,8 +5,9 @@ import { DataGrid } from '@mui/x-data-grid'
 
 import { fromKeysAndValues } from '@step-wise/js-utils'
 import { useLocalStorageState } from '@step-wise/react-utils'
+import { Translation, withTranslation } from '@step-wise/i18n'
 
-import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
+import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
 import { RelativeTime } from 'i18nNext'
 import { notSelectable } from 'ui/theme'
 import { Par, Info } from 'ui/components'
@@ -18,6 +19,7 @@ import { useCourseData, CenteredProgressIndicator } from '../components'
 
 const translationPath = 'eduTools/pages/coursePage'
 const translationSection = 'teachers'
+const TranslationLink = withTranslation(Link, { tag: 'link' })
 
 export function CoursePageForTeacher() {
 	const { course, courseDefinition } = useCourseData()
@@ -28,9 +30,9 @@ export function CoursePageForTeacher() {
 	if (!students || students.length === 0)
 		return <TranslationFile path={translationPath}>
 			<TranslationSection entry={translationSection}>
-				<Translation entry="noStudents">
-					<Par>Your course is ready, but there are no students yet. Share the <Link to={paths.course({ courseCode: course.code })}>course link</Link> (this page's URL) with students, or ask them to <Link to={paths.addCourse()}>add the course</Link> from the full list.</Par>
-					<Par>For further options, check out the <Link to={paths.courseSettings({ courseCode: course.code })}>Course Settings</Link> (top right).</Par>
+				<Translation id="noStudents">
+					<Par>Your course is ready, but there are no students yet. Share the <TranslationLink to={paths.course({ courseCode: course.code })}>course link</TranslationLink> (this page's URL) with students, or ask them to <TranslationLink to={paths.addCourse()}>add the course</TranslationLink> from the full list.</Par>
+					<Par>For further options, check out the <TranslationLink to={paths.courseSettings({ courseCode: course.code })}>Course Settings</TranslationLink> (top right).</Par>
 				</Translation>
 			</TranslationSection>
 		</TranslationFile >
@@ -52,7 +54,7 @@ function StudentOverview({ course, courseDefinition, students }) {
 		{
 			field: 'name',
 			sortingOrder: ['asc', 'desc'], // Go for ascending order first for names.
-			headerName: <Translation entry="headers.name">Name</Translation>,
+			headerName: <Translation group={['teachers', 'headers']} id="name">Name</Translation>,
 			minWidth: 140,
 			flex: 2,
 			align: 'left',
@@ -62,7 +64,7 @@ function StudentOverview({ course, courseDefinition, students }) {
 		{
 			field: 'lastActive',
 			sortingOrder: ['asc', 'desc'], // Go for ascending order first for times.
-			headerName: <Translation entry="headers.lastActive">Last active</Translation>,
+			headerName: <Translation group={['teachers', 'headers']} id="lastActive">Last active</Translation>,
 			minWidth: 105,
 			flex: 1,
 			align: 'center',
@@ -77,7 +79,7 @@ function StudentOverview({ course, courseDefinition, students }) {
 		},
 		{
 			field: 'all',
-			headerName: <Translation entry="headers.course">Course</Translation>,
+			headerName: <Translation group={['teachers', 'headers']} id="course">Course</Translation>,
 			minWidth: 80,
 			flex: 1,
 			align: 'center',
@@ -143,12 +145,12 @@ function StudentOverview({ course, courseDefinition, students }) {
 					}}
 				/>
 			</Paper> : <Info>
-				<Translation entry="noActiveStudents">The course does not have any active students at the moment. All students have their last activity a while ago.</Translation>
+				<Translation id="noActiveStudents">The course does not have any active students at the moment. All students have their last activity a while ago.</Translation>
 			</Info>}
 
 			{areInactiveStudents ? <Par>
 				<FormGroup>
-					<FormControlLabel control={<Switch checked={filterInactive} onChange={event => setFilterInactive(event.target.checked)} sx={{ ml: 1 }} />} label={<Translation entry="hideInactive">Hide inactive students</Translation>} />
+					<FormControlLabel control={<Switch checked={filterInactive} onChange={event => setFilterInactive(event.target.checked)} sx={{ ml: 1 }} />} label={<Translation id="hideInactive">Hide inactive students</Translation>} />
 				</FormGroup>
 			</Par> : null}
 		</TranslationSection>

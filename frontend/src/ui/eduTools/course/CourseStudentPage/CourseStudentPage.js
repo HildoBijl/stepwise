@@ -5,9 +5,10 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import { last, repeat, count } from '@step-wise/js-utils'
 import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises } from '@step-wise/exercises'
+import { Translation } from '@step-wise/i18n'
 
 import { useUserWithSkills } from 'api'
-import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
+import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
 import { RelativeTime } from 'i18nNext'
 import { Head, Par, LoadingIndicator, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
@@ -64,9 +65,9 @@ function LastActivity({ processedStudent, course, courseDefinition }) {
 	// Render the skills.
 	const numEntries = 2
 	return <TranslationSection entry="lastActivity">
-		<Head sx={{ mb: 1 }}><Translation entry="head">Last activity</Translation></Head>
+		<Head sx={{ mb: 1 }}><Translation id="head">Last activity</Translation></Head>
 		{skills.length === 0 ?
-			<Par><Translation entry="noActivity">There has been no activity yet within this course.</Translation></Par> :
+			<Par><Translation id="noActivity">There has been no activity yet within this course.</Translation></Par> :
 			<TableContainer component={Paper}>
 				<Table sx={{ width: '100%', '& td': { py: 1 } }}>
 					<TableBody>
@@ -100,14 +101,14 @@ function ProgressOverview({ processedStudent, course, courseDefinition }) {
 
 	// Render the course definition.
 	return <TranslationSection entry="progressOverview">
-		<Head sx={{ mb: 1 }}><Translation entry="head">Course progress</Translation></Head>
+		<Head sx={{ mb: 1 }}><Translation id="head">Course progress</Translation></Head>
 		<TableContainer component={Paper} sx={{ overflowX: 'auto' }}>
 			<Table sx={{ width: '100%', tableLayout: 'auto', '& td, & th': { px: 0.5 }, '& td': { py: 0.75 }, '& th': { py: 1.25 } }}>
 				<TableHead>
 					<TableRow>
 						<TableCell align="center" sx={{ minWidth: 40, width: 40 }} />
-						<TableCell sx={{ minWidth: 140, width: `${125 / (numSkillColumns + 2)}%` }}><Translation entry="block">Block</Translation></TableCell>
-						<TableCell sx={{ minWidth: 80, width: `${75 / (numSkillColumns + 2)}%` }} align="center"><Translation entry="progress">Progress</Translation></TableCell>
+						<TableCell sx={{ minWidth: 140, width: `${125 / (numSkillColumns + 2)}%` }}><Translation id="block">Block</Translation></TableCell>
+						<TableCell sx={{ minWidth: 80, width: `${75 / (numSkillColumns + 2)}%` }} align="center"><Translation id="progress">Progress</Translation></TableCell>
 						{repeat(numSkillColumns, index => <TableCell key={index} align="center" sx={{ minWidth: 110, width: `${100 / (numSkillColumns + 2)}%` }} />)}
 					</TableRow>
 				</TableHead>

@@ -4,8 +4,8 @@ import { getCurrentState } from '@step-wise/exercise-definition'
 import { getSkill } from '@step-wise/module-tree'
 import { getExercise } from '@step-wise/exercises'
 import { useReferencePreservingValue } from '@step-wise/react-utils'
+import { useTranslation } from '@step-wise/i18n'
 
-import { useTranslator } from 'i18n'
 import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
 
 const exerciseModules = import.meta.glob('/src/ui/eduContent/**/exercises/*.js')
@@ -14,7 +14,8 @@ const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.
 
 export function ExerciseContainer({ skillId, exercise, groupExercise, submitting, submitAction, processActionsLocally, cancelAction, resolveEvent, startNewExercise, example, inspection, historyIndex }) {
-	const translate = useTranslator()
+	const loadingExerciseComponent = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingExerciseComponent', children: 'Loading exercise component...' })
+	const exerciseCrashed = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'exerciseCrashed', children: 'Oops ... the exercise crashed.' })
 	const { exerciseId, parameters } = exercise
 	const mode = exercise.mode ?? (groupExercise ? 'group' : 'solo')
 	const instance = useMemo(() => exercise.mode === mode ? exercise : { ...exercise, mode }, [exercise, mode])
@@ -59,7 +60,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	const state = useReferencePreservingValue(historyLoaded ? (inspection ? (exercise.history[historyIndex]?.state ?? exercise.initialState) : getCurrentState(instance)) : undefined)
 
 	if (!exerciseLoaded || !historyLoaded)
-		return <LoadingNote text={translate('Loading exercise component...', 'loadingNotes.loadingExerciseComponent', 'eduTools/pages/skillPage')} />
+		return <LoadingNote text={loadingExerciseComponent} />
 
 	// Set up data for the exercise and put it in a context around the exercise.
 	const actionProcessor = mode === 'group' ? ExerciseShared.current.processGroupActions : ExerciseShared.current.processSoloAction
@@ -89,7 +90,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	const Exercise = ExerciseLocal.current
 	return (
 		<ExerciseContext.Provider value={exerciseData}>
-			<ErrorBoundary text={translate('Oops ... the exercise crashed.', 'loadingNotes.exerciseCrashed', 'eduTools/pages/skillPage')}>
+			<ErrorBoundary text={exerciseCrashed}>
 				<Exercise />
 			</ErrorBoundary>
 		</ExerciseContext.Provider>

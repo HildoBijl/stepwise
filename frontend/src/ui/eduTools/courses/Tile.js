@@ -4,8 +4,9 @@ import { Tooltip, Box, alpha } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
 import { moduleTree } from '@step-wise/module-tree'
+import { Plural, Translation, useTranslation } from '@step-wise/i18n'
 
-import { useTranslator, Translation, Plurals } from 'i18n'
+import { useTranslator } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
 import { Button, ProgressIndicator, QuickPractice } from 'ui/components'
@@ -63,6 +64,9 @@ export function Tile({ course, preventHoverStyle, children }) {
 
 export function StudentTile({ course, skillsTotal, skillsDone, recommendation }) {
 	const translate = useTranslator()
+	const loadingSkillData = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'loadingSkillData', children: 'Your progress is being loaded...' })
+	const freePracticeText = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'freePracticeRecommendation', children: 'You have all skills on a sufficient level! The next step is the free practice mode.' })
+	const recommendationText = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'skillRecommendation', children: 'Our practice recommendation:' })
 	const paths = usePaths()
 	const [buttonHover, setButtonHover] = useState(false)
 	const navigate = useNavigate()
@@ -71,14 +75,14 @@ export function StudentTile({ course, skillsTotal, skillsDone, recommendation })
 	let tooltip
 	switch (recommendation) {
 		case undefined:
-			tooltip = translate('Your progress is being loaded...', 'loadingSkillData')
+			tooltip = loadingSkillData
 			break
 		case freePracticeRecommendation:
-			tooltip = translate('You have all skills on a sufficient level! The next step is the free practice mode.', 'freePracticeRecommendation')
+			tooltip = freePracticeText
 			break
 		default:
 			const skill = moduleTree[recommendation]
-			tooltip = <>{translate(`Our practice recommendation:`, 'skillRecommendation')} {translate(moduleCatalog[skill.id].name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}</>
+			tooltip = <>{recommendationText} {translate(moduleCatalog[skill.id].name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}</>
 			break
 	}
 
@@ -128,22 +132,22 @@ export function TeacherTile({ course }) {
 		<Box sx={containerStyle}>
 			<Box sx={numberStyle}>{courseDefinition.contentSkillIds.length}</Box>
 			<Box sx={labelStyle}>
-				<Translation entry="tiles.skills">
-					<Plurals value={courseDefinition.contentSkillIds.length}>
-						<Plurals.One>Skill</Plurals.One>
-						<Plurals.NotOne>Skills</Plurals.NotOne>
-					</Plurals>
+				<Translation id="skills">
+					<Plural value={courseDefinition.contentSkillIds.length}>
+						<Plural.One>Skill</Plural.One>
+						<Plural.Other>Skills</Plural.Other>
+					</Plural>
 				</Translation>
 			</Box>
 		</Box>
 		<Box sx={containerStyle}>
 			<Box sx={numberStyle}>{course.students.length}</Box>
 			<Box sx={labelStyle}>
-				<Translation entry="tiles.students">
-					<Plurals value={course.students.length}>
-						<Plurals.One>Student</Plurals.One>
-						<Plurals.NotOne>Students</Plurals.NotOne>
-					</Plurals>
+				<Translation id="students">
+					<Plural value={course.students.length}>
+						<Plural.One>Student</Plural.One>
+						<Plural.Other>Students</Plural.Other>
+					</Plural>
 				</Translation>
 			</Box>
 		</Box>
@@ -151,12 +155,11 @@ export function TeacherTile({ course }) {
 }
 
 export function AddCourseTile() {
-	const translate = useTranslator()
 	const paths = usePaths()
 	return <Link to={paths.addCourse()} style={{ textDecoration: 'none', ...notSelectable }}>
 		<Box sx={getTileStyle(false)}>
 			<Box sx={{ fontWeight: 100, fontSize: '5rem', margin: '-0.4rem 0 -1.4rem', textAlign: 'center', width: '100%' }}>+</Box>
-			<Box sx={{ fontWeight: 500, textAlign: 'center', width: '100%' }}>{translate('Add course', 'addCourse')}</Box>
+			<Box sx={{ fontWeight: 500, textAlign: 'center', width: '100%' }}><Translation id="addCourse">Add course</Translation></Box>
 		</Box>
 	</Link>
 }

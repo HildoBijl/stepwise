@@ -1,4 +1,6 @@
-import { TranslationFile, TranslationSection, Translation, Check } from 'i18n'
+import { Condition, Translation } from '@step-wise/i18n'
+
+import { TranslationFile, TranslationSection, Translation as LegacyTranslation } from 'i18n'
 import { Head, Par } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
@@ -12,7 +14,7 @@ const translationSection = 'students'
 export function CourseSettingsPageForStudent() {
 	const { course } = useCourseData()
 	return <>
-		{course.description && <Par><Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</Translation></Par>}
+		{course.description && <Par><LegacyTranslation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</LegacyTranslation></Par>}
 		<UnsubscribeFromCourse course={course} />
 		<CourseTeachers course={course} />
 		<CourseLearningGoals course={course} />
@@ -25,8 +27,8 @@ function UnsubscribeFromCourse({ course }) {
 	return <>
 		<TranslationFile path={translationPath}>
 			<TranslationSection entry={translationSection}>
-				<Head><Translation entry="unsubscribe.title">Unsubscribe</Translation></Head>
-				<Par><Translation entry="unsubscribe.description"><Check value={!!organization.noTeachers}><Check.True>Unsubscribing from this course removes it from your course list. You can always resubscribe.</Check.True><Check.False>Unsubscribing from this course removes it from your course list. It also revokes permissions for the teachers of this course to view your progress within the course. You can always resubscribe to the course.</Check.False></Check></Translation></Par>
+				<Head><Translation group={['students', 'unsubscribe']} id="title">Unsubscribe</Translation></Head>
+				<Par><Translation group={['students', 'unsubscribe']} id="description"><Condition value={!!organization.noTeachers}><Condition.True>Unsubscribing from this course removes it from your course list. You can always resubscribe.</Condition.True><Condition.False>Unsubscribing from this course removes it from your course list. It also revokes permissions for the teachers of this course to view your progress within the course. You can always resubscribe to the course.</Condition.False></Condition></Translation></Par>
 			</TranslationSection>
 		</TranslationFile>
 		<UnsubscribeButton course={course} />

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="students">
+			<group id="subscribe">
+				<unit id="title">
+					<segment>
+						<source>Subscribe</source>
+						<target swi18n:sourceContentFingerprint="cbef75c6e5964c44" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Anmelden</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Subscribing to this course adds it to your course list.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Subscribing to this course adds it to your course list. By subscribing, you grant permission to the (current and future) teachers of this course to view your progress within the course. You can always undo this by unsubscribing from the course.</pc></pc></source>
+						<target swi18n:sourceContentFingerprint="43131069c1181e29" swi18n:sourceStructureFingerprint="acf7e1f41a552ee6"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Durch die Anmeldung zum Kurs fügst du ihn zu deiner Kursübersicht hinzu.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Durch die Anmeldung zum Kurs fügst du ihn zu deiner Kursübersicht hinzu. Außerdem erlaubst du den (aktuellen und zukünftigen) Lehrkräfte dieses Kurses, deine Fortschritte in diesem Kurs einzusehen. Du kannst dies jederzeit rückgängig machen, indem du dich von dem Kurs abmeldest.</pc></pc></target>
+					</segment>
+				</unit>
+				<unit id="button">
+					<segment>
+						<source>Subscribe to this course</source>
+						<target swi18n:sourceContentFingerprint="6b697f4f10ec9110" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Zum Kurs anmelden</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="teachers">
+				<unit id="title">
+					<segment>
+						<source>Teachers</source>
+						<target swi18n:sourceContentFingerprint="666a30474c81c579" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lehrkräfte</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-other">This <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x3" type="ui" subType="xlf:var" swi18n:name="name"/></pc> course is taught by <ph id="c3" type="ui" subType="swi18n:localized-list"/>.</pc><pc id="x4" type="other" subType="swi18n:plural-exact" swi18n:value="0">This <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x5" type="ui" subType="xlf:var" swi18n:name="name"/></pc> course has no teachers at the moment.</pc></pc></source>
+						<target swi18n:sourceContentFingerprint="230f4a7d79d61278" swi18n:sourceStructureFingerprint="f9763f085b3fb746"><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-other">Dieser <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x3" type="ui" subType="xlf:var" swi18n:name="name"/></pc> Kurs wird von <ph id="c3" type="ui" subType="swi18n:localized-list"/> unterrichtet.</pc><pc id="x4" type="other" subType="swi18n:plural-exact" swi18n:value="0">Dieser <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x5" type="ui" subType="xlf:var" swi18n:name="name"/></pc> Kurs hat derzeit noch keine Lehrkräfte.</pc></pc></target>
+					</segment>
+				</unit>
+			</group>
+			<group id="learningGoals">
+				<unit id="title">
+					<segment>
+						<source>Learning goals</source>
+						<target swi18n:sourceContentFingerprint="7176230f2a240752" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lernziele</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>The course has the following final <pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">goal</pc><pc id="x3" type="other" subType="swi18n:plural-other">goals</pc></pc>.</source>
+						<target swi18n:sourceContentFingerprint="ea0c4a860f16aa11" swi18n:sourceStructureFingerprint="1023a1ca10e2e498">Der Kurs hat <pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">das folgende Endziel</pc><pc id="x3" type="other" subType="swi18n:plural-other">die folgenden Endziele</pc></pc>.</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="unsubscribe">
+				<unit id="title">
+					<segment>
+						<source>Unsubscribe</source>
+						<target swi18n:sourceContentFingerprint="abbd02e4d756590f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Abmelden</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Unsubscribing from this course removes it from your course list. You can always resubscribe.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Unsubscribing from this course removes it from your course list. It also revokes permissions for the teachers of this course to view your progress within the course. You can always resubscribe to the course.</pc></pc></source>
+						<target swi18n:sourceContentFingerprint="a74f310c3a945940" swi18n:sourceStructureFingerprint="acf7e1f41a552ee6"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Durch die Abmeldung vom Kurs wird dieser aus deiner Kursübersicht entfernt. Du kannst dich jederzeit erneut anmelden.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Durch die Abmeldung vom Kurs wird dieser aus deiner Kursübersicht entfernt. Es verweigert auch den Lehrkräfte des Kurses die Erlaubnis, deine Fortschritte innerhalb des Kurses zu verfolgen. Du kannst dich jederzeit erneut anmelden.</pc></pc></target>
+					</segment>
+				</unit>
+				<unit id="button">
+					<segment>
+						<source>Unsubscribe from this course</source>
+						<target swi18n:sourceContentFingerprint="c8463751a44f9dfe" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vom Kurs abmelden</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="teachers">
+			<group id="studentView">
+				<unit id="title">
+					<segment>
+						<source>Student view</source>
+						<target swi18n:sourceContentFingerprint="69d95c354609b058" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lernendenansicht</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>In the student view you can see the course as if you are a student.</source>
+						<target swi18n:sourceContentFingerprint="92c3ff6bae79072e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">In der Lernendenansicht siehst du den Kurs genau so, wie die Lernenden ihn sehen.</target>
+					</segment>
+				</unit>
+				<unit id="label">
+					<segment>
+						<source>Student view active</source>
+						<target swi18n:sourceContentFingerprint="ef3fafaf9ebf611a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lernendenansicht</target>
+					</segment>
+				</unit>
+				<unit id="note">
+					<segment>
+						<source>As a teacher, you also get the "Insert solution" button at exercises. Students don't have it!</source>
+						<target swi18n:sourceContentFingerprint="81c52ee43b69f630" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Als Lehrkraft erhältst du bei den Aufgaben zusätzlich den Button "Lösung einfügen". Die Lernenden haben ihn nicht!</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="addTeacher">
+				<unit id="label">
+					<segment>
+						<source>Add a teacher</source>
+						<target swi18n:sourceContentFingerprint="9fb1f0e840216982" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Neue Lehrkraft hinzufügen</target>
+					</segment>
+				</unit>
+				<unit id="noneSelected">
+					<segment>
+						<source>None selected</source>
+						<target swi18n:sourceContentFingerprint="1e064715a41ba9e1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Keine ausgewählt</target>
+					</segment>
+				</unit>
+				<unit id="note">
+					<segment>
+						<source>Adding a teacher will grant them access to the work and progress of all students within this course.</source>
+						<target swi18n:sourceContentFingerprint="f57bed236ff6b937" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Durch das Hinzufügen einer Lehrkraft erhält diese Zugriff auf die Arbeit und den Fortschritt aller Lernenden in diesem Kurs.</target>
+					</segment>
+				</unit>
+				<unit id="button">
+					<segment>
+						<source>Add <ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/> as teacher</source>
+						<target swi18n:sourceContentFingerprint="d71a653471893659" swi18n:sourceStructureFingerprint="7c0f3a21375e7836"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/> zur Lehrkraft machen</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="unsubscribe">
+				<unit id="title">
+					<segment>
+						<source>Unsubscribe</source>
+						<target swi18n:sourceContentFingerprint="abbd02e4d756590f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Abmelden</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">By removing yourself from this course, you revoke your teacher access.</pc><pc id="x3" type="other" subType="swi18n:condition-false">You are a student in this course, but you see this teacher page due to your admin rights. You can unsubscribe as a student from this course.</pc></pc></source>
+						<target swi18n:sourceContentFingerprint="d9e269c12186280a" swi18n:sourceStructureFingerprint="acf7e1f41a552ee6"><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Durch die Abmeldung von diesem Kurs verlierst du deinen Lehrkraft-Zugriff.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Du bist als Lernender in diesem Kurs angemeldet, siehst diese Lehrerseite aber aufgrund deiner Administratorrechte. Du kannst dich als Lernender aus diesem Kurs abmelden.</pc></pc></target>
+					</segment>
+				</unit>
+			</group>
+			<group id="adminSubscribe">
+				<unit id="title">
+					<segment>
+						<source>Subscribe</source>
+						<target swi18n:sourceContentFingerprint="cbef75c6e5964c44" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Anmelden</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>You're currently not a part of this course, but you are using your admin rights to peek in. Want to formally subscribe? Do so here.</source>
+						<target swi18n:sourceContentFingerprint="1bf3572e5ff6fddd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Du bist derzeit nicht Teil dieses Kurses. Du nutzt lediglich deine Administratorrechte, um kurz hereinzuschauen. Möchtest du offiziell am Kurs teilnehmen? Dann kannst du das hier erledigen.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

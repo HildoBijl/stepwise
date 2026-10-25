@@ -2,7 +2,9 @@ import { useState, useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useUserWithSkills } from 'api'
-import { TranslationFile, TranslationSection, Translation } from 'i18n'
+import { Translation } from '@step-wise/i18n'
+
+import { TranslationFile, TranslationSection } from 'i18n'
 import { Info, LoadingIndicator, ErrorNote } from 'ui/components'
 
 import { useSkillId } from '../../skills'
@@ -46,7 +48,7 @@ export function CourseStudentSkillPageForUser({ courseDefinition, user }) {
 	// If there are no exercises, show this.
 	const exercises = userSkill?.exercises ?? []
 	if (exercises.length === 0)
-		return <Info><Translation path={translationPath} entry="noExercises">The student has not opened this skill yet. There are no exercises to show.</Translation></Info>
+		return <Info><Translation folder={['eduTools', 'pages']} catalog="courseStudentSkillPage" group={[]} id="noExercises">The student has not opened this skill yet. There are no exercises to show.</Translation></Info>
 
 	// Process the data based on the indices.
 	exerciseIndex = exerciseIndex ?? exercises.length - 1

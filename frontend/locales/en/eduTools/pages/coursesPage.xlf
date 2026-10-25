@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<unit id="loadingSkillData">
+			<segment>
+				<source>Your progress is being loaded...</source>
+			</segment>
+		</unit>
+		<unit id="freePracticeRecommendation">
+			<segment>
+				<source>You have all skills on a sufficient level! The next step is the free practice mode.</source>
+			</segment>
+		</unit>
+		<unit id="skillRecommendation">
+			<segment>
+				<source>Our practice recommendation:</source>
+			</segment>
+		</unit>
+		<unit id="studentCourses">
+			<segment>
+				<source>Courses where you are a student</source>
+			</segment>
+		</unit>
+		<unit id="teacherCourses">
+			<segment>
+				<source>Courses where you are a teacher</source>
+			</segment>
+		</unit>
+		<unit id="addCourse">
+			<segment>
+				<source>Add course</source>
+			</segment>
+		</unit>
+		<group id="tiles">
+			<unit id="skills">
+				<segment>
+					<source><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">Skill</pc><pc id="x3" type="other" subType="swi18n:plural-other">Skills</pc></pc></source>
+				</segment>
+			</unit>
+			<unit id="students">
+				<segment>
+					<source><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">Student</pc><pc id="x3" type="other" subType="swi18n:plural-other">Students</pc></pc></source>
+				</segment>
+			</unit>
+		</group>
+		<unit id="noSubscribedCoursesTitle">
+			<segment>
+				<source>You haven't subscribed to a course yet!</source>
+			</segment>
+		</unit>
+		<unit id="noSubscribedCoursesDescription">
+			<segment>
+				<source>Pick a course from the available list to start learning. No worries: it's all free and you can add/remove as many as you like.</source>
+			</segment>
+		</unit>
+	</file>
+</xliff>

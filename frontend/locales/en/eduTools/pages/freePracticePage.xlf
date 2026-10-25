@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<unit id="selectingSkill">
+			<segment>
+				<source>Selecting the right skill to practice ...</source>
+			</segment>
+		</unit>
+		<unit id="noSkillWithExercises">
+			<segment>
+				<source>The free practice mode is not available yet for this course: the course still seems to be under development. None of the final goals of this course has exercises.</source>
+			</segment>
+		</unit>
+	</file>
+</xliff>

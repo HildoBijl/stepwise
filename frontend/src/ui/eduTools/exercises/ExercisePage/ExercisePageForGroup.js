@@ -3,15 +3,18 @@ import { Alert } from '@mui/material'
 
 import { hasExercises } from '@step-wise/exercises'
 import { useSessionStorageState } from '@step-wise/react-utils'
+import { useTranslation } from '@step-wise/i18n'
 
 import { useActiveGroup, useGroupExercise, useLatestGroupExercise, useStartGroupExercise, useSubmitGroupAction, useCancelGroupAction, useResolveGroupEvent } from 'api'
-import { useGetTranslation, useTranslator } from 'i18n'
+import { useTranslator } from 'i18n'
 import { Button, ErrorNote, LoadingNote } from 'ui/components'
 
 import { ExerciseContainer } from '../containers'
 
 export function ExercisePageForGroup({ skillId }) {
-	const getTranslation = useGetTranslation()
+	const noExercises = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExercises', children: 'Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
+	const loadingExerciseData = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingExerciseData', children: 'Loading exercise data...' })
+	const generatingNewExercise = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', children: 'Generating new exercise...' })
 	const translate = useTranslator('eduTools/exercises')
 
 	// Load the latest exercise and remember which exercise this browser tab is displaying.
@@ -61,7 +64,7 @@ export function ExercisePageForGroup({ skillId }) {
 
 	// Are there simply no exercises?
 	if (!hasExercises(skillId))
-		return <div>{getTranslation('loadingNotes.noExercises', 'eduTools/pages/skillPage')}</div>
+		return <div>{noExercises}</div>
 
 	// Any errors we should notify the user of?
 	const presentError = latestExerciseError || storedExerciseError || newExerciseError || actionError || cancelError || resolveError
@@ -70,9 +73,9 @@ export function ExercisePageForGroup({ skillId }) {
 
 	// Anything still loading?
 	if (latestExerciseLoading || storedExerciseLoading)
-		return <LoadingNote text={getTranslation('loadingNotes.loadingExerciseData', 'eduTools/pages/skillPage')} />
+		return <LoadingNote text={loadingExerciseData} />
 	if (newExerciseLoading || !displayedExercise)
-		return <LoadingNote text={getTranslation('loadingNotes.generatingNewExercise', 'eduTools/pages/skillPage')} />
+		return <LoadingNote text={generatingNewExercise} />
 
 	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
 	const newerExerciseAvailable = !!latestExercise && latestExercise.id !== displayedExercise.id

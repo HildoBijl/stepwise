@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<unit id="emptySkillWarning">
+			<segment>
+				<source>The contents of this skill have not been created yet.<pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true"></pc><pc id="x3" type="other" subType="swi18n:condition-false"> The default meta-info is shown below.</pc></pc> Theory and exercises will likely be added soon.</source>
+			</segment>
+		</unit>
+		<unit id="noExerciseWarning">
+			<segment>
+				<source>This skill has no exercises yet. It cannot be practiced at this moment. Exercises will likely be added soon.</source>
+			</segment>
+		</unit>
+		<unit id="title">
+			<segment>
+				<source>Links to other skills</source>
+			</segment>
+		</unit>
+		<unit id="noPrerequisites">
+			<segment>
+				<source>This skill has no <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">prerequisites</pc>.</source>
+			</segment>
+		</unit>
+		<unit id="prerequisites">
+			<segment>
+				<source>This skill has <ph id="c1" type="ui" subType="swi18n:counting-word"/> <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">prerequisite</pc> <pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">skill</pc><pc id="x3" type="other" subType="swi18n:plural-other">skills</pc></pc>.</source>
+			</segment>
+		</unit>
+		<unit id="links">
+			<segment>
+				<source>It is <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">similar</pc> (correlated) to <ph id="c2" type="ui" subType="swi18n:counting-word"/> <pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">skill</pc><pc id="x3" type="other" subType="swi18n:plural-other">skills</pc></pc>.</source>
+			</segment>
+		</unit>
+		<unit id="noContinuations">
+			<segment>
+				<source>It is an <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">end goal</pc>: it is not needed for any other skills.</source>
+			</segment>
+		</unit>
+		<unit id="continuations">
+			<segment>
+				<source>It is a <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">requirement</pc> for <ph id="c2" type="ui" subType="swi18n:counting-word"/> other <pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">skill</pc><pc id="x3" type="other" subType="swi18n:plural-other">skills</pc></pc>.</source>
+			</segment>
+		</unit>
+		<unit id="sameGroup">
+			<segment>
+				<source>It is part of the group <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="group"/></pc> consisting of <ph id="c2" type="ui" subType="swi18n:counting-word"/> <pc id="x2" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x3" type="other" subType="swi18n:plural-one">skill</pc><pc id="x4" type="other" subType="swi18n:plural-other">skills</pc></pc> in total.</source>
+			</segment>
+		</unit>
+	</file>
+</xliff>

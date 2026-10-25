@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { Box, useMediaQuery } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
+import { useTranslation } from '@step-wise/i18n'
 
 import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
 
@@ -59,6 +60,7 @@ export function CoursePageForStudent() {
 
 function LandscapeCourse({ course, courseDefinition, analysis, activeBlock, toggleActiveBlock }) {
 	const translate = useTranslator()
+	const priorKnowledge = useTranslation({ children: 'Prior knowledge', id: 'priorKnowledge' })
 	const landscape = true
 
 	// Determine which skillIds to show on the right.
@@ -81,7 +83,7 @@ function LandscapeCourse({ course, courseDefinition, analysis, activeBlock, togg
 				skillIds={courseDefinition.priorKnowledgeIds}
 				active={activeBlock === -1}
 				toggleActive={() => toggleActiveBlock(-1)}
-				name={translate('Prior knowledge', 'priorKnowledge')}
+				name={priorKnowledge}
 				isPriorKnowledge={true}
 				analysis={analysis}
 			/> : null}
@@ -105,6 +107,7 @@ function LandscapeCourse({ course, courseDefinition, analysis, activeBlock, togg
 
 function PortraitCourse({ course, courseDefinition, analysis, activeBlock, toggleActiveBlock }) {
 	const translate = useTranslator()
+	const priorKnowledge = useTranslation({ children: 'Prior knowledge', id: 'priorKnowledge' })
 	const landscape = false
 	const hasPriorKnowledge = courseDefinition.priorKnowledgeIds.length > 0
 
@@ -116,7 +119,7 @@ function PortraitCourse({ course, courseDefinition, analysis, activeBlock, toggl
 				skillIds={courseDefinition.priorKnowledgeIds}
 				active={activeBlock === -1}
 				toggleActive={() => toggleActiveBlock(-1)}
-				name={translate('Prior knowledge', 'priorKnowledge')}
+				name={priorKnowledge}
 				isPriorKnowledge={true}
 				analysis={analysis}
 			/> : null}

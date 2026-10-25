@@ -4,14 +4,15 @@ import { v4 as uuidv4 } from 'uuid'
 import { noop } from '@step-wise/js-utils'
 import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { hasExercises, getExercises } from '@step-wise/exercises'
+import { useTranslation } from '@step-wise/i18n'
 
-import { useGetTranslation } from 'i18n'
 import { LoadingNote } from 'ui/components'
 
 import { ExerciseContainer } from '../containers'
 
 export function ExercisePageForStranger({ skillId }) {
-	const getTranslation = useGetTranslation()
+	const noExercises = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExercises', children: 'Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
+	const generatingNewExercise = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', children: 'Generating new exercise...' })
 
 	// Track the exercise data. Generate new data on a change in skill ID.
 	const [exercise, setExercise] = useState(null)
@@ -45,11 +46,11 @@ export function ExercisePageForStranger({ skillId }) {
 
 	// Are there simply no exercises?
 	if (!hasExercises)
-		return <div>{getTranslation('loadingNotes.noExercises', 'eduTools/pages/skillPage')}</div>
+		return <div>{noExercises}</div>
 
 	// Is there no exercise loaded yet?
 	if (!exercise)
-		return <LoadingNote text={getTranslation('loadingNotes.generatingNewExercise', 'eduTools/pages/skillPage')} />
+		return <LoadingNote text={generatingNewExercise} />
 
 	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
 	return <ExerciseContainer key={exercise.startedAt} skillId={skillId} exercise={exercise} submitting={false} submitAction={submitAction} processActionsLocally={true} startNewExercise={startNewExercise} />

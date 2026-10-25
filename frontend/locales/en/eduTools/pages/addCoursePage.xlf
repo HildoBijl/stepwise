@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="loading">
+			<unit id="loadingTitle">
+				<segment>
+					<source>Loading courses...</source>
+				</segment>
+			</unit>
+			<unit id="loadingDescription">
+				<segment>
+					<source>We are loading all available courses from the database. This shouldn't take long.</source>
+				</segment>
+			</unit>
+			<unit id="failedTitle">
+				<segment>
+					<source>Loading courses failed</source>
+				</segment>
+			</unit>
+			<unit id="failedDescription">
+				<segment>
+					<source>Oops ... something went wrong loading all courses. Maybe it's your connection? Maybe our server is down? We're not sure! Either way, try refreshing the page, and otherwise try again later.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="table">
+			<unit id="courseName">
+				<segment>
+					<source>Course name</source>
+				</segment>
+			</unit>
+			<unit id="blocks">
+				<segment>
+					<source>Blocks</source>
+				</segment>
+			</unit>
+			<unit id="skills">
+				<segment>
+					<source>Skills</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

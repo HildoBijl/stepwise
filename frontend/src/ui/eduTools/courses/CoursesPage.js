@@ -2,9 +2,10 @@ import { useMemo } from 'react'
 import { Alert, AlertTitle, Box } from '@mui/material'
 
 import { count } from '@step-wise/js-utils'
+import { Translation, TranslationGroup } from '@step-wise/i18n'
 
 import { useSkillLevels, useMyCourses } from 'api'
-import { Translation, TranslationFile } from 'i18n'
+import { TranslationFile } from 'i18n'
 import { Head, LoadingIndicator, ErrorNote } from 'ui/components'
 
 import { analyzeCourseProgress } from './courseAnalysis'
@@ -42,7 +43,7 @@ function CoursePageForCourses({ studentCourses, teacherCourses }) {
 
 function StudentCourses({ courses, showHeader }) {
 	return <>
-		{showHeader && <Head><Translation path={translationPath} entry="studentCourses">Courses where you are a student</Translation></Head>}
+		{showHeader && <Head><Translation folder={['eduTools', 'pages']} catalog="coursesPage" group={[]} id="studentCourses">Courses where you are a student</Translation></Head>}
 		<StudentCourseList courses={courses} showAddButton={true} />
 	</>
 }
@@ -51,7 +52,7 @@ function TeacherCourses({ courses, showHeader }) {
 	if (courses.length === 0)
 		return null
 	return <>
-		{showHeader && <Head><Translation path={translationPath} entry="teacherCourses">Courses where you are a teacher</Translation></Head>}
+		{showHeader && <Head><Translation folder={['eduTools', 'pages']} catalog="coursesPage" group={[]} id="teacherCourses">Courses where you are a teacher</Translation></Head>}
 		<TeacherCourseList courses={courses} />
 	</>
 }
@@ -91,12 +92,10 @@ function StudentCourseList({ courses, showAddButton }) {
 			</Box>
 			:
 			<>
-				<Translation path={translationPath} entry="noSubscribedCourses">
-					<Alert severity="info" sx={{ mb: 2 }}>
-						<AlertTitle>You haven't subscribed to a course yet!</AlertTitle>
-						Pick a course from the available list to start learning. No worries: it's all free and you can add/remove as many as you like.
-					</Alert>
-				</Translation>
+				<Alert severity="info" sx={{ mb: 2 }}>
+					<AlertTitle><Translation id="noSubscribedCoursesTitle">You haven't subscribed to a course yet!</Translation></AlertTitle>
+					<Translation id="noSubscribedCoursesDescription">Pick a course from the available list to start learning. No worries: it's all free and you can add/remove as many as you like.</Translation>
+				</Alert>
 				<Box sx={coursesStyle}>
 					{showAddButton && <AddCourseTile />}
 				</Box>
@@ -109,11 +108,13 @@ function TeacherCourseList({ courses }) {
 	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => c1.subscription.subscribedAt - c2.subscription.subscribedAt), [courses]) // Sort by subscription date, so that later courses come at the end.
 
 	return <TranslationFile path={translationPath}>
-		<Box sx={coursesStyle}>
-			{sortedCourses.map(course => <TeacherTile
-				key={course.id}
-				course={course}
-			/>)}
-		</Box>
+		<TranslationGroup path="tiles">
+			<Box sx={coursesStyle}>
+				{sortedCourses.map(course => <TeacherTile
+					key={course.id}
+					course={course}
+				/>)}
+			</Box>
+		</TranslationGroup>
 	</TranslationFile>
 }

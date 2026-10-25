@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<unit id="emptySkillWarning">
+			<segment>
+				<source>The contents of this skill have not been created yet.<pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true"></pc><pc id="x3" type="other" subType="swi18n:condition-false"> The default meta-info is shown below.</pc></pc> Theory and exercises will likely be added soon.</source>
+				<target swi18n:sourceContentFingerprint="17ce23637af45eb8" swi18n:sourceStructureFingerprint="998d5745899a9747">Der Inhalt dieser Kompetenz ist noch nicht entwickelt worden.<pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true"></pc><pc id="x3" type="other" subType="swi18n:condition-false"> Die üblichen Metainformationen sind unten zu finden.</pc></pc> Theorie und Übungen werden wahrscheinlich bald folgen.</target>
+			</segment>
+		</unit>
+		<unit id="noExerciseWarning">
+			<segment>
+				<source>This skill has no exercises yet. It cannot be practiced at this moment. Exercises will likely be added soon.</source>
+				<target swi18n:sourceContentFingerprint="d2aa2a1d7a1004fb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Für diese Kompetenz gibt es noch keine Übungen. Sie kann im Moment nicht geübt werden. Übungen werden wahrscheinlich bald folgen.</target>
+			</segment>
+		</unit>
+		<unit id="title">
+			<segment>
+				<source>Links to other skills</source>
+				<target swi18n:sourceContentFingerprint="ad453593586dad1e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Verknüpfung mit anderen Kompetenzen</target>
+			</segment>
+		</unit>
+		<unit id="noPrerequisites">
+			<segment>
+				<source>This skill has no <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">prerequisites</pc>.</source>
+				<target swi18n:sourceContentFingerprint="3a69f42a8d0472a0" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Diese Kompetenz erfordert keine <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Vorkenntnisse</pc>.</target>
+			</segment>
+		</unit>
+		<unit id="prerequisites">
+			<segment>
+				<source>This skill has <ph id="c1" type="ui" subType="swi18n:counting-word"/> <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">prerequisite</pc> <pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">skill</pc><pc id="x3" type="other" subType="swi18n:plural-other">skills</pc></pc>.</source>
+				<target swi18n:sourceContentFingerprint="88e63906a8e23539" swi18n:sourceStructureFingerprint="18f03cc6217688d7">Dieze Kompetenz hat <ph id="c1" type="ui" subType="swi18n:counting-word"/> <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children">Vorkenntnisse</pc>-<pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">Kompetenz</pc><pc id="x3" type="other" subType="swi18n:plural-other">Kompetenzen</pc></pc>.</target>
+			</segment>
+		</unit>
+		<unit id="links">
+			<segment>
+				<source>It is <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">similar</pc> (correlated) to <ph id="c2" type="ui" subType="swi18n:counting-word"/> <pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">skill</pc><pc id="x3" type="other" subType="swi18n:plural-other">skills</pc></pc>.</source>
+				<target swi18n:sourceContentFingerprint="4b5f2f4e56768e81" swi18n:sourceStructureFingerprint="baa5b90b73c15273">Sie ist <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">vergleichbar</pc> (korreliert) mit <ph id="c2" type="ui" subType="swi18n:counting-word"/> <pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">Kompetenz</pc><pc id="x3" type="other" subType="swi18n:plural-other">Kompetenzen</pc></pc>.</target>
+			</segment>
+		</unit>
+		<unit id="noContinuations">
+			<segment>
+				<source>It is an <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">end goal</pc>: it is not needed for any other skills.</source>
+				<target swi18n:sourceContentFingerprint="fc14b3e2f4245f43" swi18n:sourceStructureFingerprint="4c5edc7f50011465">Sie ist ein <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Endziel</pc>: Sie ist für keine andere Kompetenz erforderlich.</target>
+			</segment>
+		</unit>
+		<unit id="continuations">
+			<segment>
+				<source>It is a <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">requirement</pc> for <ph id="c2" type="ui" subType="swi18n:counting-word"/> other <pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">skill</pc><pc id="x3" type="other" subType="swi18n:plural-other">skills</pc></pc>.</source>
+				<target swi18n:sourceContentFingerprint="d6b5d82a3e77b00e" swi18n:sourceStructureFingerprint="baa5b90b73c15273">Sie ist <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children">Vorwissen</pc> für <ph id="c2" type="ui" subType="swi18n:counting-word"/> andere <pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">Kompetenz</pc><pc id="x3" type="other" subType="swi18n:plural-other">Kompetenzen</pc></pc>.</target>
+			</segment>
+		</unit>
+		<unit id="sameGroup">
+			<segment>
+				<source>It is part of the group <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="group"/></pc> consisting of <ph id="c2" type="ui" subType="swi18n:counting-word"/> <pc id="x2" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x3" type="other" subType="swi18n:plural-one">skill</pc><pc id="x4" type="other" subType="swi18n:plural-other">skills</pc></pc> in total.</source>
+				<target swi18n:sourceContentFingerprint="aa55ba9d25073924" swi18n:sourceStructureFingerprint="84afc452e324598f">Sie ist Teil der Gruppe <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="group"/></pc>, bestehend aus insgesamt <ph id="c2" type="ui" subType="swi18n:counting-word"/> <pc id="x2" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x3" type="other" subType="swi18n:plural-one">Kompetenz</pc><pc id="x4" type="other" subType="swi18n:plural-other">Kompetenzen</pc></pc>.</target>
+			</segment>
+		</unit>
+	</file>
+</xliff>

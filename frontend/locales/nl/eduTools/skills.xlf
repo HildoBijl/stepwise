@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="skillFlask">
+			<unit id="prediction">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">We estimate a chance of <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="percentage"/>%</pc> that you will successfully complete an exercise in this skill.<pc id="x2" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x3" type="other" subType="swi18n:condition-true"> (Goal: <ph id="x4" type="ui" subType="xlf:var" swi18n:name="goal"/>%)</pc><pc id="x5" type="other" subType="swi18n:condition-false"></pc></pc></pc></source>
+					<target swi18n:sourceContentFingerprint="20afe5fae15a2f12" swi18n:sourceStructureFingerprint="4b9a400fbb6c4e71"><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">We schatten de kans in op <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="percentage"/>%</pc> dat je een opdracht met deze vaardigheid goed gaat doen.<pc id="x2" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x3" type="other" subType="swi18n:condition-true"> (Doel: <ph id="x4" type="ui" subType="xlf:var" swi18n:name="goal"/>%)</pc><pc id="x5" type="other" subType="swi18n:condition-false"></pc></pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

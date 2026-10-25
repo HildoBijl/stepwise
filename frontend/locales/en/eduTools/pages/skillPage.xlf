@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="loadingNotes">
+			<unit id="loadingUserData">
+				<segment>
+					<source>Loading user data...</source>
+				</segment>
+			</unit>
+			<unit id="loadingSkillPages">
+				<segment>
+					<source>Loading skill pages...</source>
+				</segment>
+			</unit>
+			<unit id="loadingExerciseData">
+				<segment>
+					<source>Loading exercise data...</source>
+				</segment>
+			</unit>
+			<unit id="generatingNewExercise">
+				<segment>
+					<source>Generating new exercise...</source>
+				</segment>
+			</unit>
+			<unit id="noExercises">
+				<segment>
+					<source>Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!</source>
+				</segment>
+			</unit>
+			<unit id="loadingExerciseComponent">
+				<segment>
+					<source>Loading exercise component...</source>
+				</segment>
+			</unit>
+			<unit id="exerciseCrashed">
+				<segment>
+					<source>Oops ... the exercise crashed.</source>
+				</segment>
+			</unit>
+			<unit id="noExamples">
+				<segment>
+					<source>Oh no ... no examples have been added yet for this skill. We will add them as soon as we can. Please check back later!</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="notifications">
+			<group id="notPartOfCourse">
+				<unit id="noRecommendation">
+					<segment>
+						<source>The skill you are currently practising is not part of the course <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc>.</source>
+					</segment>
+				</unit>
+				<unit id="freePracticeRecommendation">
+					<segment>
+						<source>The skill you are currently practising is not part of the course <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc>. If you want to practice for this course, it's best to use the <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">free practice mode</pc>.</source>
+					</segment>
+				</unit>
+				<unit id="skillRecommendation">
+					<segment>
+						<source>The skill you are currently practising is not part of the course <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc>. If you want to practice for this course, it's best to work on <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="skill"/></pc>.</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="alreadyMastered">
+				<unit id="freePracticeRecommendation">
+					<segment>
+						<source>You have already sufficiently mastered this skill! It is more effective for the course <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc> to use the <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">free practice mode</pc>.</source>
+					</segment>
+				</unit>
+				<unit id="skillRecommendation">
+					<segment>
+						<source>You have already sufficiently mastered this skill! It is more effective for the course <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc> if you practice <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="skill"/></pc>.</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="notMastered">
+				<unit id="onFreePracticeMode">
+					<segment>
+						<source>You're not ready yet for free practice on the final level of the course. It is wiser to first practice <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="skill"/></pc>.</source>
+					</segment>
+				</unit>
+				<unit id="onSkill">
+					<segment>
+						<source>You have not yet mastered all the prerequisites for this skill. It is wiser to first practice <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="skill"/></pc>.</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="modals">
+			<group id="mastery">
+				<unit id="title">
+					<segment>
+						<source>Amazing!</source>
+					</segment>
+				</unit>
+				<unit id="nextSkill">
+					<segment>
+						<source>You just mastered <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="passedSkill"/></pc>! You can carry on with the next skill: <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="nextSkill"/></pc>.</source>
+					</segment>
+				</unit>
+				<unit id="toFreePracticeMode">
+					<segment>
+						<source>You just mastered <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="passedSkill"/></pc>, and with that all skills of <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="course"/></pc>! We recommend you to practice with a mixed assortment of exercises in the <pc id="c3" type="ui" subType="swi18n:link" swi18n:slot="children">free practice mode</pc>.</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="deficiency">
+				<unit id="title">
+					<segment>
+						<source>Oh, wait ...</source>
+					</segment>
+				</unit>
+				<unit id="toDeficientSkill">
+					<segment>
+						<source>It seems that you haven't yet sufficiently mastered the subskill <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="deficientSkill"/></pc>. We recommend to practice this separately first.</source>
+					</segment>
+				</unit>
+				<unit id="reassurance">
+					<segment>
+						<source>Don't worry: your exercise remains saved and you can always come back.</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="buttons">
+			<unit id="stay">
+				<segment>
+					<source>Stay for a bit</source>
+				</segment>
+			</unit>
+			<unit id="continue">
+				<segment>
+					<source>Continue onwards</source>
+				</segment>
+			</unit>
+			<unit id="goBack">
+				<segment>
+					<source>Go back a step</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

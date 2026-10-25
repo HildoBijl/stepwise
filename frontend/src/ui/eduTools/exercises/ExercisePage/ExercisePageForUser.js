@@ -1,15 +1,17 @@
 import React, { useEffect, useCallback } from 'react'
 
 import { hasExercises } from '@step-wise/exercises'
+import { useTranslation } from '@step-wise/i18n'
 
 import { useSkill, useStartExercise, useSubmitExerciseAction } from 'api'
-import { useTranslator } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
 
 import { ExerciseContainer } from '../containers'
 
 export function ExercisePageForUser({ skillId, onNewExercise }) {
-	const translate = useTranslator()
+	const noExercises = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExercises', children: 'Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
+	const loadingExerciseData = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'loadingExerciseData', children: 'Loading exercise data...' })
+	const generatingNewExercise = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', children: 'Generating new exercise...' })
 
 	// Load the exercise the user has open.
 	const { skill, loading, error } = useSkill(skillId)
@@ -37,7 +39,7 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 	}, [loading, exercise, startNewExercise])
 
 	// Are there simply no exercises?
-	if (!hasExercises(skillId)) return <div>{translate('Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!', 'loadingNotes.noExercises', 'eduTools/pages/skillPage')}</div>
+	if (!hasExercises(skillId)) return <div>{noExercises}</div>
 
 	// Any errors we should notify the user of?
 	if (error) return <ErrorNote error={error} />
@@ -45,8 +47,8 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 	if (newExerciseError) return <ErrorNote error={newExerciseError} />
 
 	// Anything still loading?
-	if (loading) return <LoadingNote text={translate('Loading exercise data...', 'loadingNotes.loadingExerciseData', 'eduTools/pages/skillPage')} />
-	if (newExerciseLoading || !exercise) return <LoadingNote text={translate('Generating new exercise...', 'loadingNotes.generatingNewExercise', 'eduTools/pages/skillPage')} />
+	if (loading) return <LoadingNote text={loadingExerciseData} />
+	if (newExerciseLoading || !exercise) return <LoadingNote text={generatingNewExercise} />
 
 	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
 	return <ExerciseContainer key={exercise.startedAt} skillId={skillId} exercise={exercise} submitting={actionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />

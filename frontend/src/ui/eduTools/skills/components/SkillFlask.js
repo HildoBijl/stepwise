@@ -7,7 +7,7 @@ import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/be
 import { moduleTree } from '@step-wise/module-tree'
 import { colorToCss, mixColors, shiftColorBrightness } from '@step-wise/browser-utils'
 
-import { Translation, Check } from 'i18n'
+import { Condition, Translation } from '@step-wise/i18n'
 
 // Define general settings.
 const vb = 100 // Viewbox size.
@@ -84,7 +84,7 @@ export function SkillFlask(props) {
 	// Render the flask within a tooltip.
 	if (!tooltip)
 		return flask
-	return <Tooltip title={<Translation entry="skills.prediction" path="eduTools/main"><span>We estimate a chance of <strong>{{ percentage: Math.round(part * 100) }}%</strong> that you will successfully complete an exercise in this skill.<Check value={!!thresholds}><Check.True> (Goal: {{ goal: Math.round(target * 100) }}%)</Check.True></Check></span></Translation>} arrow>{flask}</Tooltip>
+	return <Tooltip title={<Translation folder={['eduTools']} catalog="skills" group={['skillFlask']} id="prediction"><span>We estimate a chance of <strong>{{ percentage: Math.round(part * 100) }}%</strong> that you will successfully complete an exercise in this skill.<Condition value={!!thresholds}><Condition.True> (Goal: {{ goal: Math.round(target * 100) }}%)</Condition.True></Condition></span></Translation>} arrow>{flask}</Tooltip>
 }
 
 function partToColor(part) {

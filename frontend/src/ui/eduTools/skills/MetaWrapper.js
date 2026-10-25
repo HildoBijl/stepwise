@@ -2,8 +2,9 @@ import React from 'react'
 
 import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises } from '@step-wise/exercises'
+import { Condition, Plural, Translation } from '@step-wise/i18n'
 
-import { TranslationFile, Translation, Check, Plurals } from 'i18n'
+import { TranslationFile } from 'i18n'
 import { CountingWord } from 'i18nNext'
 import { Head, Par, List, Warning } from 'ui/components'
 
@@ -13,9 +14,9 @@ export function MetaWrapper({ skillId, empty, children }) {
 	return <>
 		{children}
 		<TranslationFile path="eduTools/pages/meta" extend={false}>
-			{empty ? <Warning><Translation entry="emptySkillWarning">The contents of this skill have not been created yet.<Check value={!!children}><Check.False> The default meta-info is shown below.</Check.False></Check> Theory and exercises will likely be added soon.</Translation></Warning> : null}
-			{!empty && !hasExercises(skillId) ? <Warning><Translation entry="noExerciseWarning">This skill has no exercises yet. It cannot be practiced at this moment. Exercises will likely be added soon.</Translation></Warning> : null}
-			<Head><Translation entry="title">Links to other skills</Translation></Head>
+			{empty ? <Warning><Translation id="emptySkillWarning">The contents of this skill have not been created yet.<Condition value={!!children}><Condition.False> The default meta-info is shown below.</Condition.False></Condition> Theory and exercises will likely be added soon.</Translation></Warning> : null}
+			{!empty && !hasExercises(skillId) ? <Warning><Translation id="noExerciseWarning">This skill has no exercises yet. It cannot be practiced at this moment. Exercises will likely be added soon.</Translation></Warning> : null}
+			<Head><Translation id="title">Links to other skills</Translation></Head>
 			<Prerequisites skillId={skillId} />
 			<Links skillId={skillId} />
 			<Continuations skillId={skillId} />
@@ -28,9 +29,9 @@ function Prerequisites({ skillId }) {
 	const skill = moduleTree[skillId]
 	const numPrerequisities = skill.prerequisiteIds.length
 	if (numPrerequisities === 0)
-		return <Par><Translation entry="noPrerequisites">This skill has no <strong>prerequisites</strong>.</Translation></Par>
+		return <Par><Translation id="noPrerequisites">This skill has no <strong>prerequisites</strong>.</Translation></Par>
 	return <>
-		<Par><Translation entry="prerequisites">This skill has <CountingWord>{numPrerequisities}</CountingWord> <strong>prerequisite</strong> <Plurals value={numPrerequisities}><Plurals.One>skill</Plurals.One><Plurals.NotOne>skills</Plurals.NotOne></Plurals>.</Translation></Par>
+		<Par><Translation id="prerequisites">This skill has <CountingWord>{numPrerequisities}</CountingWord> <strong>prerequisite</strong> <Plural value={numPrerequisities}><Plural.One>skill</Plural.One><Plural.Other>skills</Plural.Other></Plural>.</Translation></Par>
 		<SkillList skillIds={skill.prerequisiteIds} />
 	</>
 }
@@ -41,7 +42,7 @@ function Links({ skillId }) {
 	if (numLinks === 0)
 		return null
 	return <>
-		<Par><Translation entry="links">It is <strong>similar</strong> (correlated) to <CountingWord>{numLinks}</CountingWord> <Plurals value={numLinks}><Plurals.One>skill</Plurals.One><Plurals.NotOne>skills</Plurals.NotOne></Plurals>.</Translation></Par>
+		<Par><Translation id="links">It is <strong>similar</strong> (correlated) to <CountingWord>{numLinks}</CountingWord> <Plural value={numLinks}><Plural.One>skill</Plural.One><Plural.Other>skills</Plural.Other></Plural>.</Translation></Par>
 		<SkillList skillIds={skill.linkedSkillIds} />
 	</>
 }
@@ -50,9 +51,9 @@ function Continuations({ skillId }) {
 	const skill = moduleTree[skillId]
 	const numContinuations = skill.continuationIds.length
 	if (numContinuations === 0)
-		return <Par><Translation entry="noContinuations">It is an <strong>end goal</strong>: it is not needed for any other skills.</Translation></Par>
+		return <Par><Translation id="noContinuations">It is an <strong>end goal</strong>: it is not needed for any other skills.</Translation></Par>
 	return <>
-		<Par><Translation entry="continuations">It is a <strong>requirement</strong> for <CountingWord>{numContinuations}</CountingWord> other <Plurals value={numContinuations}><Plurals.One>skill</Plurals.One><Plurals.NotOne>skills</Plurals.NotOne></Plurals>.</Translation></Par>
+		<Par><Translation id="continuations">It is a <strong>requirement</strong> for <CountingWord>{numContinuations}</CountingWord> other <Plural value={numContinuations}><Plural.One>skill</Plural.One><Plural.Other>skills</Plural.Other></Plural>.</Translation></Par>
 		<SkillList skillIds={skill.continuationIds} />
 	</>
 }
@@ -64,7 +65,7 @@ function SameGroup({ skillId }) {
 	if (numSkillsInGroup <= 1)
 		return null
 	return <>
-		<Par><Translation entry="sameGroup">It is part of the group <strong>{{ group: skill.groupPath.join('/') }}</strong> consisting of <CountingWord>{numSkillsInGroup}</CountingWord> <Plurals value={numSkillsInGroup}><Plurals.One>skill</Plurals.One><Plurals.NotOne>skills</Plurals.NotOne></Plurals> in total.</Translation></Par>
+		<Par><Translation id="sameGroup">It is part of the group <strong>{{ group: skill.groupPath.join('/') }}</strong> consisting of <CountingWord>{numSkillsInGroup}</CountingWord> <Plural value={numSkillsInGroup}><Plural.One>skill</Plural.One><Plural.Other>skills</Plural.Other></Plural> in total.</Translation></Par>
 		<SkillList skillIds={groupSkillIds} />
 	</>
 }

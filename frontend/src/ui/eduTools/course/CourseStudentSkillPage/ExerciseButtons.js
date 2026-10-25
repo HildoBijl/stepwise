@@ -2,8 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Box, Typography, Button, alpha } from '@mui/material'
 
 import { useElementSize } from '@step-wise/react-utils'
-
-import { Translation } from 'i18n'
+import { Translation } from '@step-wise/i18n'
 
 
 import { getExerciseOutcome, getOutcomeColor } from '../util'
@@ -25,7 +24,7 @@ export function ExerciseButtons({ exerciseIndex, setExerciseIndex, userSkill, sh
 	// Render the buttons.
 	return <Box ref={containerRef} sx={{ display: 'flex', alignItems: 'center', gap: 2, my: showLabels ? 1 : 2, minHeight: '32px' }}>
 		{showLabels && <Typography variant="subtitle1" sx={{ fontWeight: 500, width: labelWidth }}>
-			<Translation entry="exercises">Exercises</Translation>
+			<Translation id="exercises">Exercises</Translation>
 		</Typography>}
 		<Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1 }}>
 			{exercises.map((exercise, index) => <ListButton
@@ -49,10 +48,10 @@ export function SubmissionButtons({ exerciseIndex, submissionIndex, setSubmissio
 	// Show the submission buttons.
 	return <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, my: showLabels ? 1 : 2, minHeight: '32px' }}>
 		{showLabels && <Typography variant="subtitle1" sx={{ fontWeight: 500, width: labelWidth }}>
-			<Translation entry="submissions">Submissions</Translation>
+			<Translation id="submissions">Submissions</Translation>
 		</Typography>}
 		{events.length === 0 ? <Box>
-			<Translation entry="noSubmissions">None so far</Translation>
+			<Translation id="noSubmissions">None so far</Translation>
 		</Box> : <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1 }}>
 			{events.map((event, index) => {
 				let disabled, color, value

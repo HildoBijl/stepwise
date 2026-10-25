@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<unit id="noExercises">
+			<segment>
+				<source>The student has not opened this skill yet. There are no exercises to show.</source>
+			</segment>
+		</unit>
+		<group id="buttons">
+			<unit id="exercises">
+				<segment>
+					<source>Exercises</source>
+				</segment>
+			</unit>
+			<unit id="submissions">
+				<segment>
+					<source>Submissions</source>
+				</segment>
+			</unit>
+			<unit id="noSubmissions">
+				<segment>
+					<source>None so far</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="submissionDate">
+			<unit id="exerciseStart">
+				<segment>
+					<source>Exercise started <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c2" type="ui" subType="swi18n:relative-time"/></pc>.</source>
+				</segment>
+			</unit>
+			<unit id="timeAfterExerciseStart">
+				<segment>
+					<source>Exercise started <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c2" type="ui" subType="swi18n:relative-time"/></pc>. Submission made <pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c4" type="ui" subType="swi18n:duration"/></pc> after starting the exercise.</source>
+				</segment>
+			</unit>
+			<unit id="timeAfterPreviousInput">
+				<segment>
+					<source>Exercise started <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c2" type="ui" subType="swi18n:relative-time"/></pc>. Submission made <pc id="c3" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="c4" type="ui" subType="swi18n:duration"/></pc> after the previous submission.</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

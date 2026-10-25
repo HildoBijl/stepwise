@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom'
+import { TranslationCatalog, TranslationFolder, TranslationGroup } from '@step-wise/i18n'
 
 import { TitleItem } from 'ui/routingTools'
 
@@ -12,6 +13,6 @@ export function CourseStudentName() {
 
 	// Render the student's name as the page title.
 	if (!student)
-		return <TitleItem path="eduTools/pages/courseStudentPage" entry="unknownStudentTitle" name="Unknown student" />
+		return <TranslationFolder path={['eduTools', 'pages']}><TranslationCatalog name="courseStudentPage"><TranslationGroup path={[]}><TitleItem id="unknownStudentTitle" name="Unknown student" /></TranslationGroup></TranslationCatalog></TranslationFolder>
 	return <TitleItem name={student.name} />
 }

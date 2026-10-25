@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="loadingNotes">
+			<unit id="loadingUserData">
+				<segment>
+					<source>Loading user data...</source>
+					<target swi18n:sourceContentFingerprint="b84b73c8bfcf2483" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gebruikersgegevens worden geladen...</target>
+				</segment>
+			</unit>
+			<unit id="loadingSkillPages">
+				<segment>
+					<source>Loading skill pages...</source>
+					<target swi18n:sourceContentFingerprint="c114d40a5f609b5f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Pagina's voor de vaardigheid worden geladen...</target>
+				</segment>
+			</unit>
+			<unit id="loadingExerciseData">
+				<segment>
+					<source>Loading exercise data...</source>
+					<target swi18n:sourceContentFingerprint="43a9ffd40407aff4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De opgave wordt geladen...</target>
+				</segment>
+			</unit>
+			<unit id="generatingNewExercise">
+				<segment>
+					<source>Generating new exercise...</source>
+					<target swi18n:sourceContentFingerprint="d6e68055bc8a3c0a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nieuwe opgave wordt gegenereerd...</target>
+				</segment>
+			</unit>
+			<unit id="noExercises">
+				<segment>
+					<source>Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!</source>
+					<target swi18n:sourceContentFingerprint="c18d0d4ca1cb208c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Uh oh ... er zijn nog geen opgaven toegevoegd aan deze vaardigheid. We voegen ze zo snel mogelijk toe. Kijk vooral later nog eens.!</target>
+				</segment>
+			</unit>
+			<unit id="loadingExerciseComponent">
+				<segment>
+					<source>Loading exercise component...</source>
+					<target swi18n:sourceContentFingerprint="936d4100ea23582f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De opgavecomponent wordt geladen...</target>
+				</segment>
+			</unit>
+			<unit id="exerciseCrashed">
+				<segment>
+					<source>Oops ... the exercise crashed.</source>
+					<target swi18n:sourceContentFingerprint="c2aa113918e4ccf4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oops ... de opgave is gecrashed.</target>
+				</segment>
+			</unit>
+			<unit id="noExamples">
+				<segment>
+					<source>Oh no ... no examples have been added yet for this skill. We will add them as soon as we can. Please check back later!</source>
+					<target swi18n:sourceContentFingerprint="d1c6f7593461944e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oh nee ... er zijn nog geen voorbeelden toegevoegd voor deze vaardigheid. We voegen ze zo snel mogelijk toe. Kijk later nog eens!</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="notifications">
+			<group id="notPartOfCourse">
+				<unit id="noRecommendation">
+					<segment>
+						<source>The skill you are currently practising is not part of the course <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc>.</source>
+						<target swi18n:sourceContentFingerprint="88e37de8be867f42" swi18n:sourceStructureFingerprint="00b681309b65333c">De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc>.</target>
+					</segment>
+				</unit>
+				<unit id="freePracticeRecommendation">
+					<segment>
+						<source>The skill you are currently practising is not part of the course <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc>. If you want to practice for this course, it's best to use the <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">free practice mode</pc>.</source>
+						<target swi18n:sourceContentFingerprint="69be88be41c5c120" swi18n:sourceStructureFingerprint="3f7fbcc75d8c1a76">De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc>. Als je wilt oefenen voor deze cursus, dan kun je het beste naar de <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">vrij-oefenen-modus</pc> gaan.</target>
+					</segment>
+				</unit>
+				<unit id="skillRecommendation">
+					<segment>
+						<source>The skill you are currently practising is not part of the course <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc>. If you want to practice for this course, it's best to work on <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="skill"/></pc>.</source>
+						<target swi18n:sourceContentFingerprint="6fc1feda0f037978" swi18n:sourceStructureFingerprint="af1ab4d9c896e23c">De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc>. Als je wilt oefenen voor deze cursus, dan kun je beter bezig gaan met <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="skill"/></pc>.</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="alreadyMastered">
+				<unit id="freePracticeRecommendation">
+					<segment>
+						<source>You have already sufficiently mastered this skill! It is more effective for the course <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc> to use the <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">free practice mode</pc>.</source>
+						<target swi18n:sourceContentFingerprint="ae181eb5275d863e" swi18n:sourceStructureFingerprint="3f7fbcc75d8c1a76">Je beheerst deze vaardigheid al goed! Het is effectiever voor de cursus <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc> om met de <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children">vrij-oefenen-modus</pc> bezig te gaan.</target>
+					</segment>
+				</unit>
+				<unit id="skillRecommendation">
+					<segment>
+						<source>You have already sufficiently mastered this skill! It is more effective for the course <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc> if you practice <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="skill"/></pc>.</source>
+						<target swi18n:sourceContentFingerprint="65d551fc99d7a5be" swi18n:sourceStructureFingerprint="af1ab4d9c896e23c">Je beheerst deze vaardigheid al goed! Het is effectiever voor de cursus <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="course"/></pc> als je <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="skill"/></pc> oefent.</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="notMastered">
+				<unit id="onFreePracticeMode">
+					<segment>
+						<source>You're not ready yet for free practice on the final level of the course. It is wiser to first practice <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="skill"/></pc>.</source>
+						<target swi18n:sourceContentFingerprint="1e0b0082eb39b32d" swi18n:sourceStructureFingerprint="37c705b27b4839a8">Je bent nog niet toe aan vrij oefenen op het eindniveau. Het is handiger om eerst <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="skill"/></pc> te oefenen.</target>
+					</segment>
+				</unit>
+				<unit id="onSkill">
+					<segment>
+						<source>You have not yet mastered all the prerequisites for this skill. It is wiser to first practice <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="skill"/></pc>.</source>
+						<target swi18n:sourceContentFingerprint="1b161a2ba885342d" swi18n:sourceStructureFingerprint="37c705b27b4839a8">Je hebt nog niet alle voorkennis voor deze vaardigheid. Het is handiger om eerst <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="skill"/></pc> te oefenen.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="modals">
+			<group id="mastery">
+				<unit id="title">
+					<segment>
+						<source>Amazing!</source>
+						<target swi18n:sourceContentFingerprint="b810ffacc4da1eae" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Geweldig!</target>
+					</segment>
+				</unit>
+				<unit id="nextSkill">
+					<segment>
+						<source>You just mastered <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="passedSkill"/></pc>! You can carry on with the next skill: <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="nextSkill"/></pc>.</source>
+						<target swi18n:sourceContentFingerprint="119b02e96075f53c" swi18n:sourceStructureFingerprint="96e6468ada243517">Je beheerst nu <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="passedSkill"/></pc>! Tijd om verder te gaan met de volgende vaardigheid: <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="nextSkill"/></pc>.</target>
+					</segment>
+				</unit>
+				<unit id="toFreePracticeMode">
+					<segment>
+						<source>You just mastered <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="passedSkill"/></pc>, and with that all skills of <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="course"/></pc>! We recommend you to practice with a mixed assortment of exercises in the <pc id="c3" type="ui" subType="swi18n:link" swi18n:slot="children">free practice mode</pc>.</source>
+						<target swi18n:sourceContentFingerprint="c9a1f0a4d39691fe" swi18n:sourceStructureFingerprint="328a279c120f4fce">Je beheerst nu <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="passedSkill"/></pc>, en daarmee alle vaardigheden van <pc id="c2" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x2" type="ui" subType="xlf:var" swi18n:name="course"/></pc>! We raden je aan verder te oefenen met een gevarieerde opgavenset in de <pc id="c3" type="ui" subType="swi18n:link" swi18n:slot="children">vrij-oefenen-modus</pc>.</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="deficiency">
+				<unit id="title">
+					<segment>
+						<source>Oh, wait ...</source>
+						<target swi18n:sourceContentFingerprint="5d334048def98dc8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Wacht even ...</target>
+					</segment>
+				</unit>
+				<unit id="toDeficientSkill">
+					<segment>
+						<source>It seems that you haven't yet sufficiently mastered the subskill <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="deficientSkill"/></pc>. We recommend to practice this separately first.</source>
+						<target swi18n:sourceContentFingerprint="33097f93f911d11c" swi18n:sourceStructureFingerprint="812269a48eb806c9">Het lijkt erop dat je de subvaardigheid <pc id="c1" type="ui" subType="swi18n:link" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="deficientSkill"/></pc> nog niet voldoende beheerst. We raden aan om hier eerst los nog wat mee te oefenen.</target>
+					</segment>
+				</unit>
+				<unit id="reassurance">
+					<segment>
+						<source>Don't worry: your exercise remains saved and you can always come back.</source>
+						<target swi18n:sourceContentFingerprint="624352e0e0cc8126" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Maak je geen zorgen: je opgave blijft bewaard en je kunt altijd nog terugkomen.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="buttons">
+			<unit id="stay">
+				<segment>
+					<source>Stay for a bit</source>
+					<target swi18n:sourceContentFingerprint="8fbfc6f5ec814af2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Blijf nog even</target>
+				</segment>
+			</unit>
+			<unit id="continue">
+				<segment>
+					<source>Continue onwards</source>
+					<target swi18n:sourceContentFingerprint="dc40e05a51a62fb3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ga verder</target>
+				</segment>
+			</unit>
+			<unit id="goBack">
+				<segment>
+					<source>Go back a step</source>
+					<target swi18n:sourceContentFingerprint="32b12557b84a2674" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ga een stapje terug</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

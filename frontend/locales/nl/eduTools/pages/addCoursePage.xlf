@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="loading">
+			<unit id="loadingTitle">
+				<segment>
+					<source>Loading courses...</source>
+					<target swi18n:sourceContentFingerprint="a6f66e3af06f36b8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Cursussen worden geladen...</target>
+				</segment>
+			</unit>
+			<unit id="loadingDescription">
+				<segment>
+					<source>We are loading all available courses from the database. This shouldn't take long.</source>
+					<target swi18n:sourceContentFingerprint="5c4a508e8d405abf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">We zijn alle beschikbare cursussen uit de database aan het laden. Dit zou zo gedaan moeten zijn.</target>
+				</segment>
+			</unit>
+			<unit id="failedTitle">
+				<segment>
+					<source>Loading courses failed</source>
+					<target swi18n:sourceContentFingerprint="a1ba560e0d13f17d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Fout bij laden van cursussen</target>
+				</segment>
+			</unit>
+			<unit id="failedDescription">
+				<segment>
+					<source>Oops ... something went wrong loading all courses. Maybe it's your connection? Maybe our server is down? We're not sure! Either way, try refreshing the page, and otherwise try again later.</source>
+					<target swi18n:sourceContentFingerprint="60e688b6929236e3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oeps ... er is iets mis gegaan bij het laden van alle cursussen. Misschien is het jouw verbinding? Misschien ligt onze server plat? We weten het niet! Probeer in elk geval de pagina te vernieuwen, en probeer het anders later opnieuw.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="table">
+			<unit id="courseName">
+				<segment>
+					<source>Course name</source>
+					<target swi18n:sourceContentFingerprint="5e6bc7547f691940" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Cursusnaam</target>
+				</segment>
+			</unit>
+			<unit id="blocks">
+				<segment>
+					<source>Blocks</source>
+					<target swi18n:sourceContentFingerprint="e7f53ae4759d2cc2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Blokken</target>
+				</segment>
+			</unit>
+			<unit id="skills">
+				<segment>
+					<source>Skills</source>
+					<target swi18n:sourceContentFingerprint="9c21f4df5ff14b1e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vaardigheden</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

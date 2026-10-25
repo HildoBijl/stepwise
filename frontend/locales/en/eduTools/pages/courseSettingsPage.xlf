@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="students">
+			<group id="subscribe">
+				<unit id="title">
+					<segment>
+						<source>Subscribe</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Subscribing to this course adds it to your course list.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Subscribing to this course adds it to your course list. By subscribing, you grant permission to the (current and future) teachers of this course to view your progress within the course. You can always undo this by unsubscribing from the course.</pc></pc></source>
+					</segment>
+				</unit>
+				<unit id="button">
+					<segment>
+						<source>Subscribe to this course</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="teachers">
+				<unit id="title">
+					<segment>
+						<source>Teachers</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-other">This <pc id="c2" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x3" type="ui" subType="xlf:var" swi18n:name="name"/></pc> course is taught by <ph id="c3" type="ui" subType="swi18n:localized-list"/>.</pc><pc id="x4" type="other" subType="swi18n:plural-exact" swi18n:value="0">This <pc id="c1" type="ui" subType="swi18n:strong" swi18n:slot="children"><ph id="x5" type="ui" subType="xlf:var" swi18n:name="name"/></pc> course has no teachers at the moment.</pc></pc></source>
+					</segment>
+				</unit>
+			</group>
+			<group id="learningGoals">
+				<unit id="title">
+					<segment>
+						<source>Learning goals</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>The course has the following final <pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">goal</pc><pc id="x3" type="other" subType="swi18n:plural-other">goals</pc></pc>.</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="unsubscribe">
+				<unit id="title">
+					<segment>
+						<source>Unsubscribe</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">Unsubscribing from this course removes it from your course list. You can always resubscribe.</pc><pc id="x3" type="other" subType="swi18n:condition-false">Unsubscribing from this course removes it from your course list. It also revokes permissions for the teachers of this course to view your progress within the course. You can always resubscribe to the course.</pc></pc></source>
+					</segment>
+				</unit>
+				<unit id="button">
+					<segment>
+						<source>Unsubscribe from this course</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="teachers">
+			<group id="studentView">
+				<unit id="title">
+					<segment>
+						<source>Student view</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>In the student view you can see the course as if you are a student.</source>
+					</segment>
+				</unit>
+				<unit id="label">
+					<segment>
+						<source>Student view active</source>
+					</segment>
+				</unit>
+				<unit id="note">
+					<segment>
+						<source>As a teacher, you also get the "Insert solution" button at exercises. Students don't have it!</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="addTeacher">
+				<unit id="label">
+					<segment>
+						<source>Add a teacher</source>
+					</segment>
+				</unit>
+				<unit id="noneSelected">
+					<segment>
+						<source>None selected</source>
+					</segment>
+				</unit>
+				<unit id="note">
+					<segment>
+						<source>Adding a teacher will grant them access to the work and progress of all students within this course.</source>
+					</segment>
+				</unit>
+				<unit id="button">
+					<segment>
+						<source>Add <ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/> as teacher</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="unsubscribe">
+				<unit id="title">
+					<segment>
+						<source>Unsubscribe</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source><pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="$condition1"><pc id="x2" type="other" subType="swi18n:condition-true">By removing yourself from this course, you revoke your teacher access.</pc><pc id="x3" type="other" subType="swi18n:condition-false">You are a student in this course, but you see this teacher page due to your admin rights. You can unsubscribe as a student from this course.</pc></pc></source>
+					</segment>
+				</unit>
+			</group>
+			<group id="adminSubscribe">
+				<unit id="title">
+					<segment>
+						<source>Subscribe</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>You're currently not a part of this course, but you are using your admin rights to peek in. Want to formally subscribe? Do so here.</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

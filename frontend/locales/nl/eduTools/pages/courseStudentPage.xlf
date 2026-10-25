@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<unit id="unknownStudentTitle">
+			<segment>
+				<source>Unknown student</source>
+				<target swi18n:sourceContentFingerprint="7efe3cb53dbc2177" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Onbekende student</target>
+			</segment>
+		</unit>
+		<group id="lastActivity">
+			<unit id="head">
+				<segment>
+					<source>Last activity</source>
+					<target swi18n:sourceContentFingerprint="737c0a9c771f01cf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Laatste activiteit</target>
+				</segment>
+			</unit>
+			<unit id="noActivity">
+				<segment>
+					<source>There has been no activity yet within this course.</source>
+					<target swi18n:sourceContentFingerprint="7c51bb8562dba1a2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er is nog geen activiteit in deze cursus geweest.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="progressOverview">
+			<unit id="head">
+				<segment>
+					<source>Course progress</source>
+					<target swi18n:sourceContentFingerprint="cdaef8db095fc89c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Cursusvoortgang</target>
+				</segment>
+			</unit>
+			<unit id="block">
+				<segment>
+					<source>Block</source>
+					<target swi18n:sourceContentFingerprint="1c8b49ca2c1446cb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Block</target>
+				</segment>
+			</unit>
+			<unit id="progress">
+				<segment>
+					<source>Progress</source>
+					<target swi18n:sourceContentFingerprint="3e57e9119f0796dd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Voortgang</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

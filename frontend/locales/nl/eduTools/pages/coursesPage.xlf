@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<unit id="loadingSkillData">
+			<segment>
+				<source>Your progress is being loaded...</source>
+				<target swi18n:sourceContentFingerprint="1399fdea4d8574d0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Je voortgang wordt nog ingeladen...</target>
+			</segment>
+		</unit>
+		<unit id="freePracticeRecommendation">
+			<segment>
+				<source>You have all skills on a sufficient level! The next step is the free practice mode.</source>
+				<target swi18n:sourceContentFingerprint="405f3eebc9aea22a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Je beheerst alle vaardigheden! Ga naar de vrij-oefenen-modus.</target>
+			</segment>
+		</unit>
+		<unit id="skillRecommendation">
+			<segment>
+				<source>Our practice recommendation:</source>
+				<target swi18n:sourceContentFingerprint="b6f0dd2657603fc0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Onze oefensuggestie:</target>
+			</segment>
+		</unit>
+		<unit id="studentCourses">
+			<segment>
+				<source>Courses where you are a student</source>
+				<target swi18n:sourceContentFingerprint="410e027fc182f82c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Cursussen waar je leerling bent</target>
+			</segment>
+		</unit>
+		<unit id="teacherCourses">
+			<segment>
+				<source>Courses where you are a teacher</source>
+				<target swi18n:sourceContentFingerprint="05822729067a1857" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Cursussen waar je docent bent</target>
+			</segment>
+		</unit>
+		<unit id="addCourse">
+			<segment>
+				<source>Add course</source>
+				<target swi18n:sourceContentFingerprint="3998fdd2116e1328" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Cursus toevoegen</target>
+			</segment>
+		</unit>
+		<group id="tiles">
+			<unit id="skills">
+				<segment>
+					<source><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">Skill</pc><pc id="x3" type="other" subType="swi18n:plural-other">Skills</pc></pc></source>
+					<target swi18n:sourceContentFingerprint="5ac3954aabb0c83f" swi18n:sourceStructureFingerprint="f5433458ec56a758"><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">Vaardigheid</pc><pc id="x3" type="other" subType="swi18n:plural-other">Vaardigheden</pc></pc></target>
+				</segment>
+			</unit>
+			<unit id="students">
+				<segment>
+					<source><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">Student</pc><pc id="x3" type="other" subType="swi18n:plural-other">Students</pc></pc></source>
+					<target swi18n:sourceContentFingerprint="c7051880b6cbfdab" swi18n:sourceStructureFingerprint="f5433458ec56a758"><pc id="x1" type="other" subType="swi18n:plural" swi18n:variable="$plural1" swi18n:form="cardinal"><pc id="x2" type="other" subType="swi18n:plural-one">Leerling</pc><pc id="x3" type="other" subType="swi18n:plural-other">Leerlingen</pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<unit id="noSubscribedCoursesTitle">
+			<segment>
+				<source>You haven't subscribed to a course yet!</source>
+				<target swi18n:sourceContentFingerprint="8acacd0f5448668c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Je hebt je nog niet voor een cursus ingeschreven!</target>
+			</segment>
+		</unit>
+		<unit id="noSubscribedCoursesDescription">
+			<segment>
+				<source>Pick a course from the available list to start learning. No worries: it's all free and you can add/remove as many as you like.</source>
+				<target swi18n:sourceContentFingerprint="35f755f57a5f1501" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kies een cursus uit de lijst van beschikbare cursussen om te beginnen met leren. Geen zorgen: het is allemaal gratis en je kan zo veel cursussen toevoegen/verwijderen als je wilt.</target>
+			</segment>
+		</unit>
+	</file>
+</xliff>

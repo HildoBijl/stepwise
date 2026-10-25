@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { Tooltip, Alert, AlertTitle, Box, alpha } from '@mui/material'
 import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 import clsx from 'clsx'
+import { Translation } from '@step-wise/i18n'
 
 import { useAvailableCourses } from 'api'
-import { TranslationFile, Translation } from 'i18n'
+import { TranslationFile, Translation as LegacyTranslation } from 'i18n'
 import { Head } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
@@ -18,19 +19,15 @@ export function AddCoursePage() {
 
 	// When we don't have the data, show a relevant indication of what's going on.
 	if (loading)
-		return <Translation path={translationPath} entry="loading.loading">
-			<Alert severity="info">
-				<AlertTitle>Loading courses...</AlertTitle>
-				We are loading all available courses from the database. This shouldn't take long.
-			</Alert>
-		</Translation>
+		return <Alert severity="info">
+			<AlertTitle><Translation folder={['eduTools', 'pages']} catalog="addCoursePage" group={['loading']} id="loadingTitle">Loading courses...</Translation></AlertTitle>
+			<Translation folder={['eduTools', 'pages']} catalog="addCoursePage" group={['loading']} id="loadingDescription">We are loading all available courses from the database. This shouldn't take long.</Translation>
+		</Alert>
 	if (error || !courses)
-		return <Translation path={translationPath} entry="loading.failed">
-			<Alert severity="error">
-				<AlertTitle>Loading courses failed</AlertTitle>
-				Oops ... something went wrong loading all courses. Maybe it's your connection? Maybe our server is down? We're not sure! Either way, try refreshing the page, and otherwise try again later.
-			</Alert>
-		</Translation>
+		return <Alert severity="error">
+			<AlertTitle><Translation folder={['eduTools', 'pages']} catalog="addCoursePage" group={['loading']} id="failedTitle">Loading courses failed</Translation></AlertTitle>
+			<Translation folder={['eduTools', 'pages']} catalog="addCoursePage" group={['loading']} id="failedDescription">Oops ... something went wrong loading all courses. Maybe it's your connection? Maybe our server is down? We're not sure! Either way, try refreshing the page, and otherwise try again later.</Translation>
+		</Alert>
 
 	// When we have the data, render it accordingly.
 	return <AddCoursePageForCourses courses={courses} />
@@ -94,9 +91,9 @@ function CoursesPerOrganization({ organization, courses }) {
 
 function CourseHeader() {
 	return <>
-		<div className="header name"><Translation entry="table.courseName">Course name</Translation></div>
-		<div className="header numBlocks"><Translation entry="table.blocks">Blocks</Translation></div>
-		<div className="header numSkills"><Translation entry="table.skills">Skills</Translation></div>
+		<div className="header name"><Translation group={['table']} id="courseName">Course name</Translation></div>
+		<div className="header numBlocks"><Translation group={['table']} id="blocks">Blocks</Translation></div>
+		<div className="header numSkills"><Translation group={['table']} id="skills">Skills</Translation></div>
 		<div className="header subscribed"><SubscribeIcon /></div>
 	</>
 }
@@ -118,8 +115,8 @@ function CourseEntry({ course }) {
 
 	// Render the row for the course.
 	return <>
-		<Tooltip open={hover} arrow title={<Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</Translation>}>
-			<Box className={clsx('cell', 'name', { hover })} {...handlers}><Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.name`}>{course.name}</Translation></Box>
+		<Tooltip open={hover} arrow title={<LegacyTranslation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</LegacyTranslation>}>
+			<Box className={clsx('cell', 'name', { hover })} {...handlers}><LegacyTranslation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.name`}>{course.name}</LegacyTranslation></Box>
 		</Tooltip>
 		<Box className={clsx('cell', 'numBlocks', { hover })} {...handlers}>{courseDefinition.blocks.length}</Box>
 		<Box className={clsx('cell', 'numSkills', { hover })} {...handlers}>{courseDefinition.contentSkillIds.length}</Box>
