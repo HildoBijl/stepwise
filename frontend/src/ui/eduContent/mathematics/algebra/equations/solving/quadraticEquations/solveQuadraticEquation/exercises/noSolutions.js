@@ -7,7 +7,7 @@ import { Translation } from '@step-wise/i18n'
 import { Par } from 'ui/components'
 import { InputSpace, useInput, selectRandomIncorrect } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, getFieldInputFeedback, getMCFeedback, CrossExerciseTranslation } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, getMCFeedback, FeedbackTranslation } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -98,14 +98,13 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	const { translateCrossExercise } = exerciseData
 	return {
 		...getMCFeedback(exerciseData, {
 			numSolutions: [
-				translateCrossExercise(<>Exactly. The discriminant <M>D = b^2 - 4ac</M> is negative, so the square root has no valid outcomes.</>, "0Correct"),
-				translateCrossExercise(<>That can't be true. This is only the case when the discriminant <M>D = b^2 - 4ac</M> is equal to zero.</>, "1Incorrect"),
-				translateCrossExercise(<>This doesn't add up. This would be the case when the discriminant <M>D = b^2 - 4ac</M> is larger than zero.</>, "2Incorrect"),
-				translateCrossExercise(<>No, this cannot be the case. A quadratic equation never has more than two solutions.</>, "3Incorrect"),
+				<FeedbackTranslation shared id="0Correct">Exactly. The discriminant <M>D = b^2 - 4ac</M> is negative, so the square root has no valid outcomes.</FeedbackTranslation>,
+				<FeedbackTranslation shared id="1Incorrect">That can't be true. This is only the case when the discriminant <M>D = b^2 - 4ac</M> is equal to zero.</FeedbackTranslation>,
+				<FeedbackTranslation shared id="2Incorrect">This doesn't add up. This would be the case when the discriminant <M>D = b^2 - 4ac</M> is larger than zero.</FeedbackTranslation>,
+				<FeedbackTranslation shared id="3Incorrect">No, this cannot be the case. A quadratic equation never has more than two solutions.</FeedbackTranslation>,
 			],
 		}),
 		...getFieldInputFeedback(exerciseData, ['a', 'b', 'c', 'D']),
@@ -120,12 +119,12 @@ function getFeedback(exerciseData) {
 
 function NumSolutionsInput() {
 	const { x } = useSolution()
-	return <CrossExerciseTranslation entry="numSolutionsInput">
+	return <FeedbackTranslation shared id="numSolutionsInput">
 		<MultipleChoice id="numSolutions" choices={[
 			<>There are no possible solutions for <M>{x}</M>.</>,
 			<>There is <M>1</M> solution for <M>{x}</M>.</>,
 			<>There are <M>2</M> solutions for <M>{x}</M>.</>,
 			<>There are <M>3</M> solutions for <M>{x}</M>.</>,
 		]} />
-	</CrossExerciseTranslation>
+	</FeedbackTranslation>
 }

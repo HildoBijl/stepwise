@@ -7,7 +7,7 @@ import { Translation, Condition } from '@step-wise/i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, FeedbackTranslation } from 'ui/eduTools'
 
 const { areEqualExceptOrder, areEquivalent: equivalent } = expressionComparisons
 const { originalExpression, equivalentExpression, nonEquivalentExpression, hasSimilarTerms, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct } = expressionChecks
@@ -81,14 +81,14 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Set up additional checks for the specific requirements.
-	const notTwoFractions = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction()))) && translateCrossExercise(<>We are expecting a sum of two fractions. Only rewrite the fractions and don't merge them together yet.</>, 'notTwoFractions')
+	const notTwoFractions = (input, correct, solution, isCorrect) => !isCorrect && !(input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction()))) && <FeedbackTranslation shared id="notTwoFractions">We are expecting a sum of two fractions. Only rewrite the fractions and don't merge them together yet.</FeedbackTranslation>
 
-	const unequalDenominators = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && translateCrossExercise(<>The two fractions do not have the same denominator.</>, 'unequalDenominators')
+	const unequalDenominators = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && <FeedbackTranslation shared id="unequalDenominators">The two fractions do not have the same denominator.</FeedbackTranslation>
 
-	const unsimplifiedNumerator = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !input.terms.every(term => {
+	const unsimplifiedNumerator = (input, correct, solution, isCorrect) => !isCorrect && !input.terms.every(term => {
 		const numerator = term.find(part => part.isFraction()).numerator
 		return areEqualExceptOrder(numerator.flatten(), numerator.cancel(['expandProductsOfSums', 'combineLikeTerms']))
-	}) && translateCrossExercise(<>You can still further simplify the numerators.</>, 'unsimplifiedNumerator')
+	}) && <FeedbackTranslation shared id="unsimplifiedNumerator">You can still further simplify the numerators.</FeedbackTranslation>
 
 	// Merge all checks in the right order.
 	return getFieldInputFeedback(exerciseData, {

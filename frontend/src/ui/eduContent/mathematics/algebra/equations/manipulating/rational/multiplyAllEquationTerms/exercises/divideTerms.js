@@ -7,7 +7,7 @@ import { Translation } from '@step-wise/i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'
-import { useSolution, StepExercise, getFieldInputFeedback, equationChecks } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, equationChecks, FeedbackTranslation } from 'ui/eduTools'
 
 import { incorrectFormMessage, incorrectCopyMessage } from './util'
 
@@ -83,8 +83,8 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Set up checks to check the form of the first step, first checking if the factor is set up properly and then whether or not the original expression has been copied properly.
-	const incorrectForm = (input, correct, { equation, factor }, isCorrect, { translateCrossExercise }) => !isCorrect && input.findSide((side, part) => equation[part].isSum() && !(side.isFraction() && areEqualExceptOrder(side.denominator, factor)) && translateCrossExercise(incorrectFormMessage(part, <M>\frac(\left(\ldots\right))({factor})</M>), 'incorrectForm'))?.value
-	const incorrectCopy = (input, correct, { equation }, isCorrect, { translateCrossExercise }) => !isCorrect && input.findSide((side, part) => equation[part].isSum() && !(side.isFraction() && areEqualExceptOrder(side.numerator, equation[part])) && translateCrossExercise(incorrectCopyMessage(part), 'incorrectCopy'))?.value
+	const incorrectForm = (input, correct, { equation, factor }, isCorrect) => !isCorrect && input.findSide((side, part) => equation[part].isSum() && !(side.isFraction() && areEqualExceptOrder(side.denominator, factor)) && <FeedbackTranslation shared id="incorrectForm">{incorrectFormMessage(part, <M>\frac(\left(\ldots\right))({factor})</M>)}</FeedbackTranslation>)?.value
+	const incorrectCopy = (input, correct, { equation }, isCorrect) => !isCorrect && input.findSide((side, part) => equation[part].isSum() && !(side.isFraction() && areEqualExceptOrder(side.numerator, equation[part])) && <FeedbackTranslation shared id="incorrectCopy">{incorrectCopyMessage(part)}</FeedbackTranslation>)?.value
 
 	// Assemble all the feedback checks.
 	return getFieldInputFeedback(exerciseData, {

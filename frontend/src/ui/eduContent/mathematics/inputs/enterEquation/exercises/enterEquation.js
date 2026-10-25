@@ -7,7 +7,7 @@ import { Translation } from '@step-wise/i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'
-import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
+import { MonoExercise, getFieldInputFeedback, FeedbackTranslation } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -27,11 +27,10 @@ function Solution({ equation, ans }) {
 }
 
 function getFeedback(exerciseData) {
-	const { translate } = exerciseData
 	return getFieldInputFeedback(exerciseData, {
 		ans: [
-			(input, solution, _, correct) => !correct && equationComparisons.areExactlyEqual(input, solution.switchSides()) && translate(<>You have entered the equation without making any modifications. You must rewrite the equation to something different.</>, 'exactlyEqual'),
-			(input, solution, _, correct) => !correct && !equationComparisons.areEquivalent(input, solution.switchSides()) && translate(<>This is not equivalent to the original equation. You have done something to it that's mathematically not allowed, or that's too different for us to detect.</>, 'notEquivalent'),
+			(input, solution, _, correct) => !correct && equationComparisons.areExactlyEqual(input, solution.switchSides()) && <FeedbackTranslation id="exactlyEqual">You have entered the equation without making any modifications. You must rewrite the equation to something different.</FeedbackTranslation>,
+			(input, solution, _, correct) => !correct && !equationComparisons.areEquivalent(input, solution.switchSides()) && <FeedbackTranslation id="notEquivalent">This is not equivalent to the original equation. You have done something to it that's mathematically not allowed, or that's too different for us to detect.</FeedbackTranslation>,
 		]
 	})
 }

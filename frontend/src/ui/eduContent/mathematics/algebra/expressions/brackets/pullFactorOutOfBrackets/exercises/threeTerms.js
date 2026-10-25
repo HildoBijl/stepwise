@@ -8,7 +8,7 @@ import { useGetTranslation } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, FeedbackTranslation } from 'ui/eduTools'
 
 const { areEqualExceptOrder } = expressionComparisons
 const { originalExpression, sumWithUnsimplifiedTerms, hasSumWithinProduct, equivalentExpression, nonEquivalentExpression } = expressionChecks
@@ -101,14 +101,14 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define general checks.
-	const missingFactor = (input, correct, { factor }, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isProduct() && input.factors.length === 3 && factor.factors.every(subFactor => input.factors.some(inputFactor => areEqualExceptOrder(inputFactor, subFactor)))) && translateCrossExercise(<>Your answer should be of the form <M>{factor} \cdot \left(\ldots\right)</M>.</>, 'missingFactor')
+	const missingFactor = (input, correct, { factor }, isCorrect) => !isCorrect && !(input.isProduct() && input.factors.length === 3 && factor.factors.every(subFactor => input.factors.some(inputFactor => areEqualExceptOrder(inputFactor, subFactor)))) && <FeedbackTranslation shared id="missingFactor">Your answer should be of the form <M>{factor} \cdot \left(\ldots\right)</M>.</FeedbackTranslation>
 
 	// Define checks for the starting form.
-	const incorrectFractionDenominator = (input, correct, { factor }, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isProduct() && input.factors.find(inputFactor => inputFactor.isFraction() && areEqualExceptOrder(inputFactor.denominator, factor))) && translateCrossExercise(<>Your answer should be in the given starting form. Have you put the factor <M>{factor}</M> in the denominator of a fraction?</>, 'incorrectFractionDenominator')
-	const incorrectFractionNumerator = (input, correct, { expression }, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isProduct() && input.factors.find(inputFactor => inputFactor.isFraction() && areEqualExceptOrder(inputFactor.numerator, expression))) && translateCrossExercise(<>Your answer should be in the given starting form. Have you put the original expression <M>{expression}</M> in the numerator of a fraction?</>, 'incorrectFractionNumerator')
+	const incorrectFractionDenominator = (input, correct, { factor }, isCorrect) => !isCorrect && !(input.isProduct() && input.factors.find(inputFactor => inputFactor.isFraction() && areEqualExceptOrder(inputFactor.denominator, factor))) && <FeedbackTranslation shared id="incorrectFractionDenominator">Your answer should be in the given starting form. Have you put the factor <M>{factor}</M> in the denominator of a fraction?</FeedbackTranslation>
+	const incorrectFractionNumerator = (input, correct, { expression }, isCorrect) => !isCorrect && !(input.isProduct() && input.factors.find(inputFactor => inputFactor.isFraction() && areEqualExceptOrder(inputFactor.numerator, expression))) && <FeedbackTranslation shared id="incorrectFractionNumerator">Your answer should be in the given starting form. Have you put the original expression <M>{expression}</M> in the numerator of a fraction?</FeedbackTranslation>
 
 	// Define checks for the split form.
-	const hasFractionBeenSplit = (input, correct, { expression }, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isProduct() && input.factors.find(inputFactor => inputFactor.isSum() && inputFactor.terms.length === expression.terms.length)) && translateCrossExercise(<>Have you split up the fraction into a summation?</>, 'hasFractionBeenSplit')
+	const hasFractionBeenSplit = (input, correct, { expression }, isCorrect) => !isCorrect && !(input.isProduct() && input.factors.find(inputFactor => inputFactor.isSum() && inputFactor.terms.length === expression.terms.length)) && <FeedbackTranslation shared id="hasFractionBeenSplit">Have you split up the fraction into a summation?</FeedbackTranslation>
 
 	return getFieldInputFeedback(exerciseData, {
 		startingForm: [originalExpression, missingFactor, incorrectFractionDenominator, incorrectFractionNumerator, nonEquivalentExpression, equivalentExpression],

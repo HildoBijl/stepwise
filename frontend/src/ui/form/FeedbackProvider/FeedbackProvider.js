@@ -4,14 +4,10 @@ import { useTheme } from '@mui/material'
 import { isPlainObject, mapValues, pickKeys, deepEqual } from '@step-wise/js-utils'
 import { useLatestRef, useStableCallback } from '@step-wise/react-utils'
 
-import { useTranslator, addSection } from 'i18n'
-
 import { useFormData } from '../Form'
 
 import { FeedbackContext } from './context'
 import { processFeedback } from './processing'
-
-export const crossExerciseTranslationPath = `practice.crossExercise`
 
 /* The FeedbackProvider takes the following properties.
  * - children: whatever is shown inside the Provider.
@@ -22,11 +18,6 @@ export const crossExerciseTranslationPath = `practice.crossExercise`
  */
 export function FeedbackProvider({ children, getFeedback, input, report, exerciseData = {} }) {
 	const theme = useTheme()
-
-	// Add some useful translation handlers.
-	const rawTranslate = useTranslator()
-	const translate = addSection(rawTranslate, `practice.${exerciseData.exerciseId}.feedback`, false)
-	const translateCrossExercise = addSection(rawTranslate, crossExerciseTranslationPath, false) // Allows skill-wide feedback translation (cross-exercise) instead of exercise-bound feedback translation.
 
 	// Set up state to store the feedback and corresponding input to which that feedback was given.
 	const [feedback, setFeedback] = useState({ result: {}, input: {} })
@@ -65,7 +56,6 @@ export function FeedbackProvider({ children, getFeedback, input, report, exercis
 				previousRawInput: previousInput,
 				report,
 				areValuesEqual,
-				translate, translateCrossExercise,
 			})
 			if (!result || !isPlainObject(result))
 				throw new Error(`Invalid feedback: a feedback was returned which is not an object. Instead, we received "${result}". Possibly the getFeedback function forgot to return anything sensible?`)

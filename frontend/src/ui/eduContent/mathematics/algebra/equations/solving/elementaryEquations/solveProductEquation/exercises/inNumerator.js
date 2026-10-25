@@ -7,7 +7,7 @@ import { Translation, Condition } from '@step-wise/i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
-import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, equationChecks } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, equationChecks, FeedbackTranslation } from 'ui/eduTools'
 
 const { nonEquivalentSolution, equivalentExpression, hasFractionWithinFraction, unsimplifiedFractionNumbers, invertedFraction } = expressionChecks
 const { originalEquation } = equationChecks
@@ -86,7 +86,7 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Set up an extra feedbackCheck to check that the two check-parameters are equal.
-	const unbalancedEquation = (input, answer, solution, correct, { input: { checkLeft, checkRight }, translateCrossExercise }) => checkLeft && checkRight && !expressionComparisons.areEqualExceptOrder(checkLeft, checkRight) && { correct: false, text: translateCrossExercise(<>The two sides of the equation should in the end be the same. This value is not equal to the other one.</>, 'unbalancedEquation') }
+	const unbalancedEquation = (input, answer, solution, correct, { input: { checkLeft, checkRight } }) => checkLeft && checkRight && !expressionComparisons.areEqualExceptOrder(checkLeft, checkRight) && { correct: false, text: <FeedbackTranslation shared id="unbalancedEquation">The two sides of the equation should in the end be the same. This value is not equal to the other one.</FeedbackTranslation> }
 
 	// Assemble the feedback.
 	return getFieldInputFeedback(exerciseData, {

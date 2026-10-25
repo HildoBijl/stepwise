@@ -7,7 +7,7 @@ import { Translation } from '@step-wise/i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
+import { MonoExercise, getFieldInputFeedback, FeedbackTranslation } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -27,11 +27,10 @@ function Solution({ expression }) {
 }
 
 function getFeedback(exerciseData) {
-	const { translate } = exerciseData
 	return getFieldInputFeedback(exerciseData, {
 		ans: [
-			(input, solution, _, correct) => !correct && expressionComparisons.areEquivalent(input, solution) && translate(<>Technically this is equivalent to the expression above, but you must enter the expression <strong>as shown</strong>.</>, 'equivalent'),
-			(input, solution, _, correct) => !correct && translate(<>This is not equal to the expression shown above.</>, 'remaining'),
+			(input, solution, _, correct) => !correct && expressionComparisons.areEquivalent(input, solution) && <FeedbackTranslation id="equivalent">Technically this is equivalent to the expression above, but you must enter the expression <strong>as shown</strong>.</FeedbackTranslation>,
+			(input, solution, _, correct) => !correct && <FeedbackTranslation id="remaining">This is not equal to the expression shown above.</FeedbackTranslation>,
 		]
 	})
 }

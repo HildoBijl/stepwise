@@ -6,7 +6,7 @@ import { Translation } from '@step-wise/i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { IntegerInput, MultipleChoice } from 'ui/inputs'
-import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback, FeedbackTranslation } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -47,14 +47,13 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	const { translate } = exerciseData
 	return {
 		...getFieldInputFeedback(exerciseData, ['ab','ans']),
 		...getMCFeedback(exerciseData, {
 			order: {
 				step: 1,
-				correctText: translate(`Yes! Multiplication indeed comes first.`, 'order.correct'),
-				incorrectText: translate(`That's not correct. Addition always comes last. (Unless it's prioritized by brackets, which is not the case here.)`, 'order.incorrect'),
+				correctText: <FeedbackTranslation group="order" id="correct">Yes! Multiplication indeed comes first.</FeedbackTranslation>,
+				incorrectText: <FeedbackTranslation group="order" id="incorrect">That's not correct. Addition always comes last. (Unless it's prioritized by brackets, which is not the case here.)</FeedbackTranslation>,
 			}
 		}),
 	}

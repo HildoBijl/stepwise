@@ -7,7 +7,7 @@ import { Translation } from '@step-wise/i18n'
 import { Par, List } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { UnitInput } from 'ui/inputs'
-import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
+import { MonoExercise, getFieldInputFeedback, FeedbackTranslation } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -37,11 +37,10 @@ function Solution({ unit }) {
 }
 
 function getFeedback(exerciseData) {
-	const { translate } = exerciseData
 	return getFieldInputFeedback(exerciseData, {
 		ans: [
-			(input, solution, _, correct) => !correct && solution.equals(input, { target: 'standard' }) && translate(<>Technically correct, but you must enter the unit <strong>as shown</strong>, including its order.</>, 'reorderedUnit'),
-			(input, solution, _, correct) => !correct && solution.equals(input, { target: 'base' }) && translate(<>Technically correct, but this is a whole different notation. Enter the unit <strong>as shown</strong>.</>, 'equivalentUnit'),
+			(input, solution, _, correct) => !correct && solution.equals(input, { target: 'standard' }) && <FeedbackTranslation id="reorderedUnit">Technically correct, but you must enter the unit <strong>as shown</strong>, including its order.</FeedbackTranslation>,
+			(input, solution, _, correct) => !correct && solution.equals(input, { target: 'base' }) && <FeedbackTranslation id="equivalentUnit">Technically correct, but this is a whole different notation. Enter the unit <strong>as shown</strong>.</FeedbackTranslation>,
 		],
 	})
 }

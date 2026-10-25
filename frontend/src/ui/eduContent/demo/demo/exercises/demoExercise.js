@@ -5,7 +5,7 @@ import { M } from '@step-wise/math-display'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { IntegerInput } from 'ui/inputs'
-import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
+import { MonoExercise, getFieldInputFeedback, FeedbackTranslation } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -27,7 +27,7 @@ function Solution({ x }) {
 function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, {
 		ans: [
-			(input, solution, _, correct) => !correct && Math.abs(input) === Math.abs(solution) && (input > 0 ? exerciseData.translate('You forgot the minus sign.', 'noMinusSign') : exerciseData.translate('Try removing the minus sign.', 'unnecessaryMinusSign'))
+			(input, solution, _, correct) => !correct && Math.abs(input) === Math.abs(solution) && (input > 0 ? <FeedbackTranslation id="noMinusSign">You forgot the minus sign.</FeedbackTranslation> : <FeedbackTranslation id="unnecessaryMinusSign">Try removing the minus sign.</FeedbackTranslation>)
 		]
 	})
 }

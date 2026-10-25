@@ -8,7 +8,7 @@ import { Translation, Condition, Plural } from '@step-wise/i18n'
 import { Par } from 'ui/components'
 import { InputSpace, useInput, selectRandomIncorrect } from 'ui/form'
 import { ExpressionInput, EquationInput, MultipleChoice } from 'ui/inputs'
-import { useSolution, StepExercise, getFieldInputFeedback, getFieldInputListFeedback, getMCFeedback, equationChecks, CrossExerciseTranslation } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, getFieldInputListFeedback, getMCFeedback, equationChecks, FeedbackTranslation } from 'ui/eduTools'
 
 const { areEqualExceptOrder } = expressionComparisons
 const { originalEquation, sumWithUnsimplifiedTerms } = equationChecks
@@ -85,13 +85,13 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	const { solution, translateCrossExercise } = exerciseData
+	const { solution } = exerciseData
 	const { numSolutions } = solution
 	return {
 		...getMCFeedback(exerciseData, {
 			numSolutions: {
-				correctText: translateCrossExercise(<>That is correct!</>, "numSolutionsCorrect"),
-				incorrectText: translateCrossExercise(<>That is not correct. You might want to check the discriminant of your equation.</>, "numSolutionsIncorrect"),
+				correctText: <FeedbackTranslation shared id="numSolutionsCorrect">That is correct!</FeedbackTranslation>,
+				incorrectText: <FeedbackTranslation shared id="numSolutionsIncorrect">That is not correct. You might want to check the discriminant of your equation.</FeedbackTranslation>,
 			},
 		}),
 		...getFieldInputFeedback(exerciseData, {
@@ -109,12 +109,12 @@ function getFeedback(exerciseData) {
 
 function NumSolutionsInput() {
 	const { x } = useSolution()
-	return <CrossExerciseTranslation entry="numSolutionsInput">
+	return <FeedbackTranslation shared id="numSolutionsInput">
 		<MultipleChoice id="numSolutions" choices={[
 			<>There are no possible solutions for <M>{x}</M>.</>,
 			<>There is <M>1</M> solution for <M>{x}</M>.</>,
 			<>There are <M>2</M> solutions for <M>{x}</M>.</>,
 			<>There are <M>3</M> solutions for <M>{x}</M>.</>,
 		]} />
-	</CrossExerciseTranslation>
+	</FeedbackTranslation>
 }
