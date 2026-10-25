@@ -39,6 +39,5 @@ export interface CreateServerOptions {
 	surfConextClient: SurfConextClient
 	googleClient: GoogleClient
 	pubsub: PubSubEngine
-	useI18n?: boolean
 	devAuthPortal?: DevAuthPortal | null
 }

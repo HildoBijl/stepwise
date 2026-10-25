@@ -2,14 +2,11 @@ import { useState, useCallback, useEffect } from 'react'
 import { Box, useMediaQuery } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
-import { useTextTranslation } from '@step-wise/i18n'
-
-import { TranslationFile, TranslationSection } from 'i18n'
+import { TranslationCatalog, TranslationGroup, useTextTranslation } from '@step-wise/i18n'
 
 import { useCourseData, SkillList, SkillRecommender, Block, GradeEstimate } from '../components'
 import { CourseTranslation } from '../components/CourseTranslation'
 
-const translationPath = 'eduTools/pages/coursePage'
 const translationSection = 'students'
 
 // Define central style.
@@ -51,12 +48,12 @@ export function CoursePageForStudent() {
 
 	// Render the component.
 	const data = { course, courseDefinition, analysis, activeBlock, toggleActiveBlock }
-	return <TranslationFile path={translationPath}>
-		<TranslationSection entry={translationSection}>
+	return <TranslationCatalog folder={['eduTools', 'pages']} name="coursePage">
+		<TranslationGroup path={translationSection}>
 			{hasRecommendation ? <SkillRecommender courseCode={course.code} recommendation={recommendation} /> : null}
 			{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
-		</TranslationSection>
-	</TranslationFile>
+		</TranslationGroup>
+	</TranslationCatalog>
 }
 
 function LandscapeCourse({ course, courseDefinition, analysis, activeBlock, toggleActiveBlock }) {

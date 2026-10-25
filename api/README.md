@@ -56,7 +56,7 @@ The complete template is in [`.env-template`](.env-template). The application re
 | `API_DOMAIN` | Domain assigned to the session cookie. |
 | `CORS_URLS` | Semicolon-separated frontend origins allowed to make credentialed requests. |
 
-Production enables secure, cross-site session cookies. Development enables Apollo Sandbox, the mock authentication portal, and the development i18n routes.
+Production enables secure, cross-site session cookies. Development enables Apollo Sandbox and the mock authentication portal.
 
 ### PostgreSQL
 

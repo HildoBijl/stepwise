@@ -1,15 +1,13 @@
 import React from 'react'
 
 import { Drawing, SvgPortal, HtmlElement } from '@step-wise/drawing'
-import { Translation, TranslationGroup } from '@step-wise/i18n'
+import { Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 
 import { infoEmail } from 'settings'
 import { Par, Head, SubHead, Student, List } from 'ui/components'
 
-import { PageTranslationFile } from '../PageTranslationFile'
-
 export function ForTeachers() {
-	return <PageTranslationFile page="explainers/forTeachers">
+	return <TranslationCatalog folder={['pages', 'explainers']} name="forTeachers">
 		<Translation id="intro">
 			<Par>You can see Step-Wise as a <strong>textbook</strong>: it has theory and lots of practice exercises. No need for you to create any content. It's already there!</Par>
 			<Par>
@@ -79,7 +77,7 @@ export function ForTeachers() {
 			<Head><Translation id="head">Get started</Translation></Head>
 			<Par><Translation id="intro">Do you want to use Step-Wise in your course? Step-Wise is still in the <strong>beta phase</strong>. So the good news is: it's free to use! The bad news: not all content may be there yet. The best thing you can do is <strong>send an email</strong> to <a href={`mailto:${infoEmail}`}>{{ infoEmail }}</a> (Hildo) and we can check out the possibilities together. It's always great to have more people use Step-Wise!</Translation></Par>
 		</TranslationGroup>
-	</PageTranslationFile>
+	</TranslationCatalog>
 }
 
 function SettingGoals() {

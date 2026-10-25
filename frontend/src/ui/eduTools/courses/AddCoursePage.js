@@ -3,17 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import { Tooltip, Alert, AlertTitle, Box, alpha } from '@mui/material'
 import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 import clsx from 'clsx'
-import { Translation } from '@step-wise/i18n'
+import { Translation, TranslationCatalog } from '@step-wise/i18n'
 
 import { useAvailableCourses } from 'api'
-import { TranslationFile } from 'i18n'
+
 import { Head } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
 import { organizations } from '../organizations'
 import { CourseTranslation } from '../course/components/CourseTranslation'
-
-const translationPath = 'eduTools/pages/addCoursePage'
 
 export function AddCoursePage() {
 	const { courses, loading, error } = useAvailableCourses()
@@ -46,9 +44,9 @@ function AddCoursePageForCourses({ courses }) {
 	}, [courses])
 
 	// Render the courses per organization.
-	return <TranslationFile path={translationPath}>
+	return <TranslationCatalog folder={['eduTools', 'pages']} name="addCoursePage">
 		{Object.values(organizations).map(organization => <CoursesPerOrganization key={organization.id} organization={organization} courses={coursesPerOrganization[organization.id] || []} />)}
-	</TranslationFile>
+	</TranslationCatalog>
 }
 
 function CoursesPerOrganization({ organization, courses }) {

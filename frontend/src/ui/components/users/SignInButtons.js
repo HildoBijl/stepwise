@@ -7,7 +7,7 @@ import { Translation } from '@step-wise/i18n'
 
 import { apiAddress, googleClientId, googleRedirectAddress } from 'settings'
 import { useIsUserLoading } from 'api'
-import { useLanguage } from 'i18n'
+import { useLanguage } from 'i18nNext'
 import HUlogo from 'ui/images/HU.png'
 
 export function SignInButtons({ redirect = window.location.pathname + window.location.search, centered = true }) {

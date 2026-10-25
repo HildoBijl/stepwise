@@ -1,7 +1,7 @@
 import { synchronizeCatalog } from '@step-wise/i18n/catalog'
 import { isValidLocale } from '@step-wise/i18n/locale'
 
-import { defaultLanguage, languages } from '../../i18n/settings.ts'
+import { defaultLanguage, languages } from '../settings.ts'
 
 import { findCatalogPaths, readCatalog, writeCatalog } from './catalogFiles.mjs'
 
@@ -30,7 +30,7 @@ for (const { path, catalog } of sourceCatalogs) {
 
 // Report on the outcome of the process.
 console.log(`Initialized ${sourceCatalogs.length} Catalog${sourceCatalogs.length === 1 ? '' : 's'} for "${locale}".`)
-console.log(`Next: add "${locale}" to frontend/src/i18n/settings.ts, translate and review its targets, then run npm run i18n:check.`)
+console.log(`Next: add "${locale}" to frontend/src/i18nNext/settings.ts, translate and review its targets, then run npm run i18n:check.`)
 
 // End the process after showing how the command should be used.
 function failWithUsage() {

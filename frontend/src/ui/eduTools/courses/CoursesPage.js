@@ -2,16 +2,14 @@ import { useMemo } from 'react'
 import { Alert, AlertTitle, Box } from '@mui/material'
 
 import { count } from '@step-wise/js-utils'
-import { Translation, TranslationGroup } from '@step-wise/i18n'
+import { Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 
 import { useSkillLevels, useMyCourses } from 'api'
-import { TranslationFile } from 'i18n'
+
 import { Head, LoadingIndicator, ErrorNote } from 'ui/components'
 
 import { analyzeCourseProgress } from './courseAnalysis'
 import { StudentTile, TeacherTile, AddCourseTile } from './Tile'
-
-const translationPath = 'eduTools/pages/coursesPage'
 
 export function CoursesPage() {
 	const { studentCourses, teacherCourses, loading, error } = useMyCourses()
@@ -78,7 +76,7 @@ function StudentCourseList({ courses, showAddButton }) {
 	}, [courseDefinitions, skillLevelSet, skillLevelSnapshot])
 
 	// Render all the tiles with corresponding data.
-	return <TranslationFile path={translationPath}>
+	return <TranslationCatalog folder={['eduTools', 'pages']} name="coursesPage">
 		{sortedCourses.length > 0 ?
 			<Box sx={coursesStyle}>
 				{sortedCourses.map((course, index) => <StudentTile
@@ -100,14 +98,14 @@ function StudentCourseList({ courses, showAddButton }) {
 					{showAddButton && <AddCourseTile />}
 				</Box>
 			</>}
-	</TranslationFile>
+	</TranslationCatalog>
 }
 
 function TeacherCourseList({ courses }) {
 	// Load all the skills data for the courses and use it to determine which skills need practice.
 	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => c1.subscription.subscribedAt - c2.subscription.subscribedAt), [courses]) // Sort by subscription date, so that later courses come at the end.
 
-	return <TranslationFile path={translationPath}>
+	return <TranslationCatalog folder={['eduTools', 'pages']} name="coursesPage">
 		<TranslationGroup path="tiles">
 			<Box sx={coursesStyle}>
 				{sortedCourses.map(course => <TeacherTile
@@ -116,5 +114,5 @@ function TeacherCourseList({ courses }) {
 				/>)}
 			</Box>
 		</TranslationGroup>
-	</TranslationFile>
+	</TranslationCatalog>
 }

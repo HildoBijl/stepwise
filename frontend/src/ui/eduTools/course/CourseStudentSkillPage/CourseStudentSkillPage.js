@@ -2,9 +2,8 @@ import { useState, useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useUserWithSkills } from 'api'
-import { Translation } from '@step-wise/i18n'
+import { Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 
-import { TranslationFile, TranslationSection } from 'i18n'
 import { Info, LoadingIndicator, ErrorNote } from 'ui/components'
 
 import { useSkillId } from '../../skills'
@@ -15,8 +14,6 @@ import { useCourseData } from '../components'
 import { ExerciseButtons, SubmissionButtons } from './ExerciseButtons'
 import { SubmissionDate } from './SubmissionDate'
 import { CurrentExercise } from './CurrentExercise'
-
-const translationPath = `eduTools/pages/courseStudentSkillPage`
 
 export function CourseStudentSkillPage() {
 	// Load in required data.
@@ -59,12 +56,12 @@ export function CourseStudentSkillPageForUser({ courseDefinition, user }) {
 	const event = submissionIndex !== undefined ? events[submissionIndex] : undefined
 
 	// Render the parts of the page.
-	return <TranslationFile path={translationPath}>
-		<TranslationSection entry="buttons">
+	return <TranslationCatalog folder={['eduTools', 'pages']} name="courseStudentSkillPage">
+		<TranslationGroup path="buttons">
 			<ExerciseButtons {...{ exerciseIndex, setExerciseIndex, userSkill, showLabels, setShowLabels }} />
 			<SubmissionButtons {...{ exerciseIndex, submissionIndex, setSubmissionIndex, userSkill, showLabels }} />
-		</TranslationSection>
+		</TranslationGroup>
 		<SubmissionDate {...{ exercise, submissionIndex, events, event }} />
 		<CurrentExercise {...{ skillId, exercise, submissionIndex }} />
-	</TranslationFile>
+	</TranslationCatalog>
 }

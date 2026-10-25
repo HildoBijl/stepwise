@@ -2,9 +2,6 @@ import React from 'react'
 
 import { Translation } from '@step-wise/i18n'
 
-// This translationPath defines where the translations of the group pages are located.
-export const translationPath = 'pages/groups'
-
 // groupPossibilities is a React list of possibilities that group members have. It is shown at various points in the app.
 export const groupPossibilities = [
 	<Translation folder={['pages']} catalog="groups" group={['groupPossibilities']} id="entry1">See who is active in the group and whether they are online/active.</Translation>,

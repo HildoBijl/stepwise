@@ -13,20 +13,13 @@ npm install @step-wise/settings
 ## Quick start
 
 ```ts
-import { i18nLoadPath } from '@step-wise/settings'
+import { defaultDecimalSeparator } from '@step-wise/settings'
 
-const mainTranslations = i18nLoadPath('en', 'main')
-console.log(mainTranslations) // /locales/en/main.json
+console.log(defaultDecimalSeparator)
 ```
 
 
 ## Exports
-
-**Internationalization**
-
-- `i18nLoadPath(language, path)`: builds the public JSON path for a translation resource.
-- `i18nUpdatePath`: the development translation-update endpoint.
-- `i18nUpdateLogPath`: the public path to the translation update log.
 
 **User settings**
 
@@ -35,6 +28,3 @@ console.log(mainTranslations) // /locales/en/main.json
 **Number settings**
 
 - `defaultDecimalSeparator`: the site-wide decimal separator.
-
-
-The internationalization exports support the legacy JSON translation toolbox. Applications own their supported languages; these paths remain here only until that toolbox has been replaced.

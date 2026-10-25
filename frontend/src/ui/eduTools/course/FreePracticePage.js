@@ -3,15 +3,11 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { sample } from '@step-wise/js-utils'
 import { hasExercises } from '@step-wise/exercises'
 
-import { Translation } from '@step-wise/i18n'
-
-import { TranslationFile } from 'i18n'
+import { Translation, TranslationCatalog } from '@step-wise/i18n'
 
 import { SkillPageForSkill } from '../skills'
 
 import { useCourseData } from './components'
-
-const translationPath = 'eduTools/pages/freePracticePage'
 
 export function FreePracticePage() {
 	const { courseDefinition } = useCourseData()
@@ -56,16 +52,16 @@ export function FreePracticePage() {
 
 	// When no skill has been chosen, show a loading message.
 	if (skillId === undefined) {
-		return <TranslationFile path={translationPath}>
+		return <TranslationCatalog folder={['eduTools', 'pages']} name="freePracticePage">
 			<Translation id="selectingSkill">Selecting the right skill to practice ...</Translation>
-		</TranslationFile>
+		</TranslationCatalog>
 	}
 
 	// When no skill has exercises, show an error message.
 	if (skillId === null) {
-		return <TranslationFile path={translationPath}>
+		return <TranslationCatalog folder={['eduTools', 'pages']} name="freePracticePage">
 			<Translation id="noSkillWithExercises">The free practice mode is not available yet for this course: the course still seems to be under development. None of the final goals of this course has exercises.</Translation>
-		</TranslationFile>
+		</TranslationCatalog>
 	}
 
 	// When a skill has been chosen, show an exercise for that skill.

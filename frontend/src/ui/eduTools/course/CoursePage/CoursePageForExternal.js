@@ -1,6 +1,5 @@
-import { Translation } from '@step-wise/i18n'
+import { Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 
-import { TranslationFile, TranslationSection } from 'i18n'
 import { Head, Par, SignInButtons } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
@@ -8,7 +7,6 @@ import { getOrganization } from '../../organizations'
 import { useCourseData } from '../components'
 import { CourseTranslation } from '../components/CourseTranslation'
 
-const translationPath = `eduTools/pages/coursePage`
 const translationSection = `externals`
 
 export function CoursePageForExternal() {
@@ -18,8 +16,8 @@ export function CoursePageForExternal() {
 	const organization = getOrganization(course.organization)
 	return <>
 		{course.description && <Par><CourseTranslation course={course} property="description" /></Par>}
-		<TranslationFile path={translationPath}>
-			<TranslationSection entry={translationSection}>
+		<TranslationCatalog folder={['eduTools', 'pages']} name="coursePage">
+			<TranslationGroup path={translationSection}>
 				<Head><Translation group={['externals', 'signin']} id="title">Sign in required</Translation></Head>
 				<Par><Translation group={['externals', 'signin']} id="description">To participate in this course, you have to be signed in. No worries, it's all free. This is so we can show you your progress within the course.</Translation></Par>
 				<SignInButtons centered={false} />
@@ -36,8 +34,8 @@ export function CoursePageForExternal() {
 						</div>
 					</Par>
 				</>}
-			</TranslationSection>
-		</TranslationFile>
+			</TranslationGroup>
+		</TranslationCatalog>
 	</>
 }
 

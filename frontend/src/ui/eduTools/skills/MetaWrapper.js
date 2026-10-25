@@ -2,9 +2,7 @@ import React from 'react'
 
 import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises } from '@step-wise/exercises'
-import { Condition, Plural, Translation } from '@step-wise/i18n'
-
-import { TranslationFile } from 'i18n'
+import { Condition, Plural, Translation, TranslationCatalog } from '@step-wise/i18n'
 import { CountingWord } from 'i18nNext'
 import { Head, Par, List, Warning } from 'ui/components'
 
@@ -13,7 +11,7 @@ import { SkillLink } from './routing'
 export function MetaWrapper({ skillId, empty, children }) {
 	return <>
 		{children}
-		<TranslationFile path="eduTools/pages/meta" extend={false}>
+		<TranslationCatalog folder={['eduTools', 'pages']} name="meta">
 			{empty ? <Warning><Translation id="emptySkillWarning">The contents of this skill have not been created yet.<Condition value={!!children}><Condition.False> The default meta-info is shown below.</Condition.False></Condition> Theory and exercises will likely be added soon.</Translation></Warning> : null}
 			{!empty && !hasExercises(skillId) ? <Warning><Translation id="noExerciseWarning">This skill has no exercises yet. It cannot be practiced at this moment. Exercises will likely be added soon.</Translation></Warning> : null}
 			<Head><Translation id="title">Links to other skills</Translation></Head>
@@ -21,7 +19,7 @@ export function MetaWrapper({ skillId, empty, children }) {
 			<Links skillId={skillId} />
 			<Continuations skillId={skillId} />
 			<SameGroup skillId={skillId} />
-		</TranslationFile>
+		</TranslationCatalog>
 	</>
 }
 

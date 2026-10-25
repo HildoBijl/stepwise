@@ -10,7 +10,7 @@ import { M, BM } from '@step-wise/math-display'
 
 // import { getHexColor } from 'ui/theme'
 import { useUser } from 'api'
-import { useLanguage, useSetLanguage } from 'i18n'
+import { useLanguage, useSetLanguage } from 'i18nNext'
 import { apiAddress } from 'settings'
 import { Par, Head } from 'ui/components'
 

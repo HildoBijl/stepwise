@@ -2,14 +2,13 @@ import React, { useEffect, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import { sortBy } from '@step-wise/js-utils'
-import { Translation } from '@step-wise/i18n'
+import { Translation, TranslationCatalog } from '@step-wise/i18n'
 
 import { useUserId, useMyGroups, useActivateGroup } from 'api'
-import { TranslationFile } from 'i18n'
+
 import { usePaths } from 'ui/routingTools'
 import { Par } from 'ui/components'
 
-import { translationPath } from './support'
 import { JoinGroupConditions } from './JoinGroupConditions'
 import { ActiveGroup } from './ActiveGroup'
 import { OtherGroups } from './OtherGroups'
@@ -55,12 +54,12 @@ export function Groups() {
 
 	// If a code has been provided to join a group, and this group is not already joined, show a join confirmation screen.
 	if (code && !myGroups.find(group => group.code === code))
-		return <TranslationFile path={translationPath}><JoinGroupConditions code={code} /></TranslationFile>
+		return <TranslationCatalog folder={['pages']} name="groups"><JoinGroupConditions code={code} /></TranslationCatalog>
 
 	// Render the component as usual.
-	return <TranslationFile path={translationPath}>
+	return <TranslationCatalog folder={['pages']} name="groups">
 		{activeGroup ? <ActiveGroup group={activeGroup} /> : null}
 		{otherGroups.length > 0 ? <OtherGroups groups={otherGroups} hasActiveGroup={!!activeGroup} /> : null}
 		{activeGroup ? null : <GroupCreation />}
-	</TranslationFile>
+	</TranslationCatalog>
 }

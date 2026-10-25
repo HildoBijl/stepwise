@@ -1,17 +1,14 @@
 import React from 'react'
+import { TranslationCatalog, useTextTranslation } from '@step-wise/i18n'
 import { Helmet } from 'react-helmet-async'
 import { Box } from '@mui/material'
-
-import { useTextTranslation } from '@step-wise/i18n'
-
-import { PageTranslationFile } from '../PageTranslationFile'
 
 import { LanguageBar, TitleBar, Description, Blocks } from './parts'
 
 export function Home() {
-	return <PageTranslationFile page="home">
+	return <TranslationCatalog folder={['pages']} name="home">
 		<HomeContents />
-	</PageTranslationFile>
+	</TranslationCatalog>
 }
 
 function HomeContents() {

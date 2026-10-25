@@ -5,7 +5,7 @@ import { GB, NL, DE } from 'country-flag-icons/react/3x2'
 
 import { Translation, TranslationGroup } from '@step-wise/i18n'
 
-import { useLanguage } from 'i18n'
+import { useLanguage } from 'i18nNext'
 import { Par, Head } from 'ui/components'
 
 import { Language } from './Language'

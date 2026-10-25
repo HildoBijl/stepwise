@@ -5,10 +5,10 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import { last, repeat, count } from '@step-wise/js-utils'
 import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises } from '@step-wise/exercises'
-import { Translation } from '@step-wise/i18n'
+import { Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 
 import { useUserWithSkills } from 'api'
-import { TranslationFile, TranslationSection } from 'i18n'
+
 import { RelativeTime } from 'i18nNext'
 import { Head, Par, LoadingIndicator, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
@@ -20,8 +20,6 @@ import { processStudentForCourse } from '../../courses'
 import { getExerciseOutcome } from '../util'
 import { useCourseData, CenteredProgressIndicator } from '../components'
 import { CourseTranslation } from '../components/CourseTranslation'
-
-const translationPath = `eduTools/pages/courseStudentPage`
 
 export function CourseStudentPage() {
 	// Load in required data.
@@ -40,10 +38,10 @@ export function CourseStudentPageForStudent({ course, courseDefinition, student 
 	const processedStudent = useMemo(() => processStudentForCourse(student, courseDefinition), [student, courseDefinition])
 
 	// Render the various page parts.
-	return <TranslationFile path={translationPath}>
+	return <TranslationCatalog folder={['eduTools', 'pages']} name="courseStudentPage">
 		<LastActivity {...{ processedStudent, course, courseDefinition }} />
 		<ProgressOverview {...{ processedStudent, course, courseDefinition }} />
-	</TranslationFile>
+	</TranslationCatalog>
 }
 
 function LastActivity({ processedStudent, course, courseDefinition }) {
@@ -64,7 +62,7 @@ function LastActivity({ processedStudent, course, courseDefinition }) {
 
 	// Render the skills.
 	const numEntries = 2
-	return <TranslationSection entry="lastActivity">
+	return <TranslationGroup path="lastActivity">
 		<Head sx={{ mb: 1 }}><Translation id="head">Last activity</Translation></Head>
 		{skills.length === 0 ?
 			<Par><Translation id="noActivity">There has been no activity yet within this course.</Translation></Par> :
@@ -90,7 +88,7 @@ function LastActivity({ processedStudent, course, courseDefinition }) {
 					</TableBody>
 				</Table>
 			</TableContainer>}
-	</TranslationSection >
+	</TranslationGroup>
 }
 
 function ProgressOverview({ processedStudent, course, courseDefinition }) {
@@ -99,7 +97,7 @@ function ProgressOverview({ processedStudent, course, courseDefinition }) {
 	const numSkillColumns = useMemo(() => Math.max(...courseDefinition.blocks.map(block => block.contentSkillIds.length)), [courseDefinition])
 
 	// Render the course definition.
-	return <TranslationSection entry="progressOverview">
+	return <TranslationGroup path="progressOverview">
 		<Head sx={{ mb: 1 }}><Translation id="head">Course progress</Translation></Head>
 		<TableContainer component={Paper} sx={{ overflowX: 'auto' }}>
 			<Table sx={{ width: '100%', tableLayout: 'auto', '& td, & th': { px: 0.5 }, '& td': { py: 0.75 }, '& th': { py: 1.25 } }}>
@@ -130,7 +128,7 @@ function ProgressOverview({ processedStudent, course, courseDefinition }) {
 				</TableBody>
 			</Table>
 		</TableContainer>
-	</TranslationSection>
+	</TranslationGroup>
 }
 
 function SkillIndicator({ skillId, student, courseDefinition }) {

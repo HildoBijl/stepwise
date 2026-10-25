@@ -25,7 +25,6 @@ async function startWebserver(): Promise<void> {
 		surfConextClient,
 		googleClient,
 		pubsub: new PubSub(),
-		useI18n: config.isDevelopment,
 		devAuthPortal: config.isDevelopment ? { path: SurfConext.directoryPath, directory: SurfConext.userDirectory } : null,
 	})
 

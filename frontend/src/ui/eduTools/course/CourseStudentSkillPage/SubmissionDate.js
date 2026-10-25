@@ -1,7 +1,6 @@
 import { last } from '@step-wise/js-utils'
-import { LocalizedDuration, Translation } from '@step-wise/i18n'
+import { LocalizedDuration, Translation, TranslationGroup } from '@step-wise/i18n'
 
-import { TranslationSection } from 'i18n'
 import { RelativeTime } from 'i18nNext'
 import { Par } from 'ui/components'
 
@@ -25,7 +24,7 @@ export function SubmissionDate({ exercise, submissionIndex, events, event }) {
 		message = <Translation id="timeAfterExerciseStart">Exercise started <strong><RelativeTime date={exerciseStartDate} smallestUnit="second" /></strong>. Submission made <strong><LocalizedDuration milliseconds={inputDate - exerciseStartDate} smallestUnit="second" /></strong> after starting the exercise.</Translation>
 
 	// Render the message.
-	return <TranslationSection entry="submissionDate">
+	return <TranslationGroup path="submissionDate">
 		<Par sx={{ fontSize: 12, fontWeight: 400 }}>{message}</Par>
-	</TranslationSection>
+	</TranslationGroup>
 }

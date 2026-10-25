@@ -3,13 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { Box, Tooltip } from '@mui/material'
 
 import { usePrevious } from '@step-wise/react-utils'
-import { LocalizedList, Translation, TranslationGroup } from '@step-wise/i18n'
+import { LocalizedList, Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 
 import { useActiveGroup, useOtherGroupMembers } from 'api'
-import { TranslationFile } from 'i18n'
-import { usePaths } from 'ui/routingTools'
 
-import { translationPath } from './support'
+import { usePaths } from 'ui/routingTools'
 
 export function GroupIndicator() {
 	const activeGroup = useActiveGroup()
@@ -39,7 +37,7 @@ function GroupIndicatorInternal({ group }) {
 	}, [numActiveMembers, prevNumActiveMembers])
 
 	// Render the indicator.
-	return <TranslationFile path={translationPath} extend={false}>
+	return <TranslationCatalog folder={['pages']} name="groups">
 		<TranslationGroup path="indicator">
 			<Tooltip title={<span>{numActiveMembers <= 1 ? <Translation id="noOthers">No other group members are present yet.</Translation> : <Translation id="others">You are working together with <LocalizedList items={names} />.</Translation>}</span>} arrow>
 				<Box onClick={() => navigate(paths.groups({ code: group.code }))} sx={theme => ({
@@ -67,5 +65,5 @@ function GroupIndicatorInternal({ group }) {
 				</Box>
 			</Tooltip>
 		</TranslationGroup>
-	</TranslationFile>
+	</TranslationCatalog>
 }

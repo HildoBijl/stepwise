@@ -1,3 +1,5 @@
 export * from './components/index.ts'
+export * from './LanguageProvider.tsx'
 export * from './loadCatalog.ts'
 export * from './registerSource.ts'
+export * from './settings.ts'

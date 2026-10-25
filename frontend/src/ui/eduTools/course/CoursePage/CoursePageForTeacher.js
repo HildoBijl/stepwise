@@ -5,9 +5,8 @@ import { DataGrid } from '@mui/x-data-grid'
 
 import { fromKeysAndValues } from '@step-wise/js-utils'
 import { useLocalStorageState } from '@step-wise/react-utils'
-import { Translation, withTranslation } from '@step-wise/i18n'
+import { Translation, TranslationCatalog, TranslationGroup, withTranslation } from '@step-wise/i18n'
 
-import { TranslationFile, TranslationSection } from 'i18n'
 import { RelativeTime } from 'i18nNext'
 import { notSelectable } from 'ui/theme'
 import { Par, Info } from 'ui/components'
@@ -18,7 +17,6 @@ import { processStudentForCourse } from '../../courses'
 import { useCourseData, CenteredProgressIndicator } from '../components'
 import { CourseTranslation } from '../components/CourseTranslation'
 
-const translationPath = 'eduTools/pages/coursePage'
 const translationSection = 'teachers'
 const TranslationLink = withTranslation(Link, { tag: 'link' })
 
@@ -29,14 +27,14 @@ export function CoursePageForTeacher() {
 	// When there are no students, show a note.
 	const { students } = course
 	if (!students || students.length === 0)
-		return <TranslationFile path={translationPath}>
-			<TranslationSection entry={translationSection}>
+		return <TranslationCatalog folder={['eduTools', 'pages']} name="coursePage">
+			<TranslationGroup path={translationSection}>
 				<Translation id="noStudents">
 					<Par>Your course is ready, but there are no students yet. Share the <TranslationLink to={paths.course({ courseCode: course.code })}>course link</TranslationLink> (this page's URL) with students, or ask them to <TranslationLink to={paths.addCourse()}>add the course</TranslationLink> from the full list.</Par>
 					<Par>For further options, check out the <TranslationLink to={paths.courseSettings({ courseCode: course.code })}>Course Settings</TranslationLink> (top right).</Par>
 				</Translation>
-			</TranslationSection>
-		</TranslationFile >
+			</TranslationGroup>
+		</TranslationCatalog>
 
 	// On students, show the course definition.
 	return <StudentOverview course={course} courseDefinition={courseDefinition} students={students} />
@@ -121,8 +119,8 @@ function StudentOverview({ course, courseDefinition, students }) {
 	}), [processedStudents, blocks])
 
 	// Render the data grid.
-	return <TranslationFile path={translationPath}>
-		<TranslationSection entry={translationSection}>
+	return <TranslationCatalog folder={['eduTools', 'pages']} name="coursePage">
+		<TranslationGroup path={translationSection}>
 			{processedStudents.length > 0 ? <Paper elevation={3}>
 				<DataGrid
 					rows={dgRows}
@@ -153,6 +151,6 @@ function StudentOverview({ course, courseDefinition, students }) {
 					<FormControlLabel control={<Switch checked={filterInactive} onChange={event => setFilterInactive(event.target.checked)} sx={{ ml: 1 }} />} label={<Translation id="hideInactive">Hide inactive students</Translation>} />
 				</FormGroup>
 			</Par> : null}
-		</TranslationSection>
-	</TranslationFile>
+		</TranslationGroup>
+	</TranslationCatalog>
 }

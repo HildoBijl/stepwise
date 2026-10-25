@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { type TypedDocumentNode, gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 
-import type { Language } from '../../../i18n/settings.ts'
+import type { Language } from '../../../i18nNext/settings.ts'
 
 import type { UseSetLanguageResult } from '../types.ts'
 

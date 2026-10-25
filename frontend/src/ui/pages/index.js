@@ -1,4 +1,3 @@
-export * from './PageTranslationFile'
 export * from './Home'
 export * from './explainers'
 export * from './Settings'

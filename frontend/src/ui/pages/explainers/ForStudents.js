@@ -5,7 +5,7 @@ import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@m
 
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { Drawing, SvgPortal, HtmlElement } from '@step-wise/drawing'
-import { Condition, Translation, TranslationGroup } from '@step-wise/i18n'
+import { Condition, Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 import { M } from '@step-wise/math-display'
 import { skill } from '@step-wise/skill-setup'
 import { createModuleTree } from '@step-wise/module-tree-definition'
@@ -16,12 +16,10 @@ import { usePaths } from 'ui/routingTools'
 import { Par, Head, SubHead, Button } from 'ui/components'
 import { SkillFlask } from 'ui/eduTools'
 
-import { PageTranslationFile } from '../PageTranslationFile'
-
 export function ForStudents() {
 	const paths = usePaths()
 	const isSignedIn = useIsSignedIn()
-	return <PageTranslationFile page="explainers/forStudents">
+	return <TranslationCatalog folder={['pages', 'explainers']} name="forStudents">
 		<Par><Translation id="intro">People learn best by doing. That's why Step-Wise is focused around (1) you <strong>practicing</strong>, and (2) on <strong>coaching</strong> you to practice on your level.</Translation></Par>
 
 		<TranslationGroup path="practice">
@@ -75,7 +73,7 @@ export function ForStudents() {
 			<Head><Translation id="head">Get started</Translation></Head>
 			<Par><Translation id="intro">Want to try it out? <Condition value={isSignedIn}><Condition.True>Head to the <Link to={isSignedIn && paths.courses()}>Courses page</Link> and start practicing.</Condition.True><Condition.False>Head back to the <Link to={!isSignedIn && paths.home()}>home page</Link>, sign in (it's free!) and start practicing.</Condition.False></Condition></Translation></Par>
 		</TranslationGroup>
-	</PageTranslationFile>
+	</TranslationCatalog>
 }
 
 // Define page-wide image settings.

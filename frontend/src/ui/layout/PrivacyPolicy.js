@@ -2,14 +2,12 @@ import React from 'react'
 import { Box, Button } from '@mui/material'
 import { Check, Clear } from '@mui/icons-material'
 
-import { Translation, TranslationGroup } from '@step-wise/i18n'
+import { Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 
 import { signOutAddress } from 'settings'
 import { useUser, useAcceptLatestPrivacyPolicy } from 'api'
 import { List } from 'ui/components'
 import { linkStyle } from 'ui/theme'
-
-import { PageTranslationFile } from '../pages'
 
 export function PrivacyPolicyWrapper({ children }) {
 	const user = useUser()
@@ -34,7 +32,7 @@ export function ApprovePrivacyPolicy({ firstTime }) {
 	const signOut = () => { window.location.href = signOutAddress }
 	const [acceptLatestPrivacyPolicy] = useAcceptLatestPrivacyPolicy()
 
-	return <PageTranslationFile page="privacyPolicy">
+	return <TranslationCatalog folder={['pages']} name="privacyPolicy">
 		<Box sx={{
 			display: 'flex',
 			flexFlow: 'row nowrap',
@@ -83,7 +81,7 @@ export function ApprovePrivacyPolicy({ firstTime }) {
 				</Box>
 			</Box>
 		</Box>
-	</PageTranslationFile >
+	</TranslationCatalog>
 }
 
 function FirstTimeContent() {

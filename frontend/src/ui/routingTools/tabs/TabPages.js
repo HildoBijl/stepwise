@@ -2,8 +2,8 @@ import React, { useEffect, useEffectEvent, useLayoutEffect, useRef } from 'react
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { useReferencePreservingValue } from '@step-wise/react-utils'
+import { TranslationGroup } from '@step-wise/i18n'
 
-import { TranslationSection } from 'i18n'
 import { VisibleProvider } from 'ui/components'
 import { useRoute, insertParametersIntoPath } from 'ui/routingTools'
 
@@ -69,9 +69,9 @@ export function TabPages({ pages, initialPage, updateUrl = true }) {
 	return <>
 		{tabs.map(id => <div key={id} hidden={contextTab !== id}>
 			<VisibleProvider visible={contextTab === id}>
-				<TranslationSection entry={id === 'example' ? 'practice' : id}>{/* The example page puts its translations in the practice section too, since they're also exercises. */}
+				<TranslationGroup path={id === 'example' ? 'practice' : id}>{/* The example page puts its translations in the practice group too, since they're also exercises. */}
 					{pages[id]}
-				</TranslationSection>
+				</TranslationGroup>
 			</VisibleProvider>
 		</div>)}
 	</>

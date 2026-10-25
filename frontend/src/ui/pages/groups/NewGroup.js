@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Done, Clear } from '@mui/icons-material'
 
-import { Translation, TranslationGroup } from '@step-wise/i18n'
+import { Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 
 import { useCreateGroup, useActiveGroup } from 'api'
-import { TranslationFile } from 'i18n'
+
 import { usePaths } from 'ui/routingTools'
 import { Par, List } from 'ui/components'
 
-import { translationPath, groupPossibilities } from './support'
+import { groupPossibilities } from './support'
 
 export function NewGroup() {
 	const paths = usePaths()
@@ -24,7 +24,7 @@ export function NewGroup() {
 			navigate(paths.groups())
 	}, [activeGroup, navigate, paths])
 
-	return <TranslationFile path={translationPath}>
+	return <TranslationCatalog folder={['pages']} name="groups">
 		<TranslationGroup path="newGroup">
 			<Par><Translation id="paragraph1">You are about to create a new practice group. This will give you a code/link to share with your fellow students. Each person entering the code will get access to the practice group. This includes:</Translation>
 				<List>
@@ -53,5 +53,5 @@ export function NewGroup() {
 				><Translation id="disagreeButton">No, I don't want that</Translation></Button>
 			</Par>
 		</TranslationGroup>
-	</TranslationFile>
+	</TranslationCatalog>
 }

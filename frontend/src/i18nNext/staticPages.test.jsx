@@ -5,7 +5,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 
-import { I18nProvider, compareSourceMessages, findCatalogUnit } from '@step-wise/i18n'
+import { TranslationCatalog, compareSourceMessages, findCatalogUnit } from '@step-wise/i18n'
 
 import { About } from '../ui/pages/explainers/About'
 import { ForStudents } from '../ui/pages/explainers/ForStudents'
@@ -17,9 +17,8 @@ import { GroupCreation } from '../ui/pages/groups/GroupCreation'
 import { JoinGroupConditions } from '../ui/pages/groups/JoinGroupConditions'
 import { NewGroup } from '../ui/pages/groups/NewGroup'
 import { OtherGroups } from '../ui/pages/groups/OtherGroups'
-import { TranslationFile } from '../i18n/sectioning/TranslationFile'
-
 import { loadCatalog } from './loadCatalog.ts'
+import { LanguageProvider } from './LanguageProvider.tsx'
 
 vi.mock('api', () => ({
 	useAcceptLatestPrivacyPolicy: () => [vi.fn()],
@@ -52,9 +51,9 @@ describe('migrated static page translations', () => {
 		['pages/explainers/forTeachers', ForTeachers],
 	])('keeps the authored sources in sync with %s.xlf', async (catalogPath, Page) => {
 		const registrations = []
-		render(<MemoryRouter><I18nProvider locale="en" sourceLocale="en" registerSource={registration => registrations.push(registration)}>
+		render(<MemoryRouter><LanguageProvider registerSource={registration => registrations.push(registration)}>
 			<Page />
-		</I18nProvider></MemoryRouter>)
+		</LanguageProvider></MemoryRouter>)
 		await waitFor(() => expect(registrations.length).toBeGreaterThan(0))
 
 		const catalog = await loadCatalog('en', catalogPath)
@@ -72,9 +71,9 @@ describe('migrated static page translations', () => {
 		['pages/privacyPolicy', ApprovePrivacyPolicy],
 	])('keeps the authored sources in sync with %s.xlf', async (catalogPath, Page) => {
 		const registrations = []
-		render(<HelmetProvider><MemoryRouter><I18nProvider locale="en" sourceLocale="en" registerSource={registration => registrations.push(registration)}>
+		render(<HelmetProvider><MemoryRouter><LanguageProvider registerSource={registration => registrations.push(registration)}>
 			<Page firstTime />
-		</I18nProvider></MemoryRouter></HelmetProvider>)
+		</LanguageProvider></MemoryRouter></HelmetProvider>)
 		await waitFor(() => expect(registrations.length).toBeGreaterThan(0))
 
 		const catalog = await loadCatalog('en', catalogPath)
@@ -91,15 +90,15 @@ describe('migrated static page translations', () => {
 		const registrations = []
 		const member = { active: true, id: 'member-1', name: 'Alex', userId: 'user-1' }
 		const group = { code: 'ABCD', members: [member] }
-		render(<MemoryRouter><I18nProvider locale="en" sourceLocale="en" registerSource={registration => registrations.push(registration)}>
-			<TranslationFile path="pages/groups">
+		render(<MemoryRouter><LanguageProvider registerSource={registration => registrations.push(registration)}>
+			<TranslationCatalog folder={['pages']} name="groups">
 				<GroupCreation />
 				<JoinGroupConditions code="ABCD" />
 				<NewGroup />
 				<ActiveGroup group={group} />
 				<OtherGroups groups={[group]} hasActiveGroup />
-			</TranslationFile>
-		</I18nProvider></MemoryRouter>)
+			</TranslationCatalog>
+		</LanguageProvider></MemoryRouter>)
 		await waitFor(() => expect(registrations.length).toBeGreaterThan(0))
 
 		const catalogPath = 'pages/groups'

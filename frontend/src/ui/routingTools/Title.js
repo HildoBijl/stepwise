@@ -9,7 +9,6 @@ import { useCoalescedCallback, useLatestRef, useResizeObserver } from '@step-wis
 import { TranslationGroup, useTextTranslation } from '@step-wise/i18n'
 
 import { websiteName } from 'settings'
-import { useTextTranslator } from 'i18n'
 import { useRoute, usePaths } from 'ui/routingTools'
 
 // Define styles.
@@ -159,19 +158,13 @@ function TitleWrapper({ index, children }) {
 }
 
 // TitleItem is an element whose name must be the page title (a string). It can translate fixed names or receive dynamic names directly.
-export function TitleItem({ id, path, entry, name, ...address }) {
+export function TitleItem({ id, name, ...address }) {
 	if (id) return <TranslatedTitleItem {...address} id={id} name={name} />
-	if (entry) return <LegacyTranslatedTitleItem path={path} entry={entry} name={name} />
 	return <ResolvedTitleItem name={name} />
 }
 
 function TranslatedTitleItem({ id, name, ...address }) {
 	return <ResolvedTitleItem name={useTextTranslation({ ...address, id, source: name })} />
-}
-
-function LegacyTranslatedTitleItem({ path, entry, name }) {
-	const translate = useTextTranslator()
-	return <ResolvedTitleItem name={translate(name, entry, path)} />
 }
 
 function ResolvedTitleItem({ name }) {

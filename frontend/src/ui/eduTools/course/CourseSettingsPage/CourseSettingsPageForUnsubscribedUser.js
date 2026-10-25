@@ -1,7 +1,6 @@
 import { useUser } from 'api'
-import { Condition, Translation } from '@step-wise/i18n'
+import { Condition, Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 
-import { TranslationFile, TranslationSection } from 'i18n'
 import { Head, Par, SignInButtons } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
@@ -11,7 +10,6 @@ import { CourseTranslation } from '../components/CourseTranslation'
 
 import { CourseTeachers, CourseLearningGoals, SubscribeButton } from './components'
 
-const translationPath = `eduTools/pages/courseSettingsPage`
 const translationSection = `students`
 
 export function CourseSettingsPageForUnsubscribedUser() {
@@ -31,24 +29,24 @@ function SubscribeToCourse({ course }) {
 	const user = useUser()
 	if (!user)
 		return <>
-			<TranslationFile path={translationPath}>
-				<TranslationSection entry={translationSection}>
+			<TranslationCatalog folder={['eduTools', 'pages']} name="courseSettingsPage">
+				<TranslationGroup path={translationSection}>
 					<Head><Translation group={['students', 'subscribe']} id="title">Subscribe</Translation></Head>
 					<Par>You are currently not signed in.</Par>
 					<SignInButtons centered={false} />
-				</TranslationSection>
-			</TranslationFile>
+				</TranslationGroup>
+			</TranslationCatalog>
 		</>
 
 	// For a teacherless organization, do not note the permissions.
 	const organization = getOrganization(course.organization)
 	return <>
-		<TranslationFile path={translationPath}>
-			<TranslationSection entry={translationSection}>
+		<TranslationCatalog folder={['eduTools', 'pages']} name="courseSettingsPage">
+			<TranslationGroup path={translationSection}>
 				<Head><Translation group={['students', 'subscribe']} id="title">Subscribe</Translation></Head>
 				<Par><Translation group={['students', 'subscribe']} id="description"><Condition value={!!organization.noTeachers}><Condition.True>Subscribing to this course adds it to your course list.</Condition.True><Condition.False>Subscribing to this course adds it to your course list. By subscribing, you grant permission to the (current and future) teachers of this course to view your progress within the course. You can always undo this by unsubscribing from the course.</Condition.False></Condition></Translation></Par>
-			</TranslationSection>
-		</TranslationFile>
+			</TranslationGroup>
+		</TranslationCatalog>
 		<SubscribeButton course={course} />
 	</>
 }

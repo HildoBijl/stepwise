@@ -1,17 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { Translation, TranslationGroup } from '@step-wise/i18n'
+import { Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 
 import { infoEmail } from 'settings'
 import { usePaths } from 'ui/routingTools'
 import { Par, Head, List } from 'ui/components'
 
-import { PageTranslationFile } from '../PageTranslationFile'
-
 export function About() {
 	const paths = usePaths()
-	return <PageTranslationFile page="explainers/about">
+	return <TranslationCatalog folder={['pages', 'explainers']} name="about">
 		<Par><Translation id="intro">Step-Wise is a free tutoring web-app that brushes up mathematics, physics and/or mechanics skills to (pre-)university level. Want to know how it works? Then read the dedicated pages <Link to={paths.forStudents()}>for students</Link> and <Link to={paths.forTeachers()}>for teachers</Link>. Below you find more historic and technical information about Step-Wise.</Translation></Par>
 
 		<TranslationGroup path="contact">
@@ -54,5 +52,5 @@ export function About() {
 			</List></Translation>
 			<Par><Translation id="par2">This gives you a fluent user experience, while at the same time keeping your data secure. Want to know more about how we treat your data? Then check out our full <a href="/PrivacyPolicy.pdf" target="_blank" rel="noreferrer">Privacy Policy</a>. This is also the policy you approve of when first signing in.</Translation></Par>
 		</TranslationGroup>
-	</PageTranslationFile>
+	</TranslationCatalog>
 }

@@ -3,16 +3,15 @@ import { Link } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 
-import { LocalizedList, Plural, Translation } from '@step-wise/i18n'
+import { LocalizedList, Plural, Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 import { useSubscribeToCourse, useUnsubscribeFromCourse } from 'api'
-import { TranslationFile, TranslationSection } from 'i18n'
+
 import { Head, Par, List, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
 import { getOrganization } from '../../organizations'
 import { TranslatedSkillName } from '../../skills/components/TranslatedSkillName'
 
-const translationPath = `eduTools/pages/courseSettingsPage`
 const translationSection = `students`
 
 export function CourseTeachers({ course }) {
@@ -26,8 +25,8 @@ export function CourseTeachers({ course }) {
 		return
 
 	// Show the teachers.
-	return <TranslationFile path={translationPath}>
-		<TranslationSection entry={translationSection}>
+	return <TranslationCatalog folder={['eduTools', 'pages']} name="courseSettingsPage">
+		<TranslationGroup path={translationSection}>
 			<Head><Translation group={['students', 'teachers']} id="title">Teachers</Translation></Head>
 			<Par style={{ marginBottom: '1.2rem' }}>
 				<div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'flex-start' }}>
@@ -39,43 +38,43 @@ export function CourseTeachers({ course }) {
 					</div>
 				</div>
 			</Par>
-		</TranslationSection>
-	</TranslationFile>
+		</TranslationGroup>
+	</TranslationCatalog>
 }
 
 export function CourseLearningGoals({ course }) {
 	const paths = usePaths()
-	return <TranslationFile path={translationPath}>
-		<TranslationSection entry={translationSection}>
+	return <TranslationCatalog folder={['eduTools', 'pages']} name="courseSettingsPage">
+		<TranslationGroup path={translationSection}>
 			<Head><Translation group={['students', 'learningGoals']} id="title">Learning goals</Translation></Head>
 			<Par><Translation group={['students', 'learningGoals']} id="description">The course has the following final <Plural value={course.courseDefinition.learningGoalIds.length}><Plural.One>goal</Plural.One><Plural.Other>goals</Plural.Other></Plural>.</Translation></Par>
 			<List>
 				{course.courseDefinition.learningGoalIds.map(goalId => <List.Item key={goalId}><Link to={paths.skill({ skillId: goalId })}><TranslatedSkillName skillId={goalId} /></Link></List.Item>)}
 			</List>
-		</TranslationSection>
-	</TranslationFile>
+		</TranslationGroup>
+	</TranslationCatalog>
 }
 
 export function SubscribeButton({ course }) {
 	const [subscribeToCourse, { loading, error }] = useSubscribeToCourse()
-	return <TranslationFile path={translationPath}>
-		<TranslationSection entry={translationSection}>
+	return <TranslationCatalog folder={['eduTools', 'pages']} name="courseSettingsPage">
+		<TranslationGroup path={translationSection}>
 			<Button variant="contained" startIcon={<SubscribeIcon />} onClick={() => subscribeToCourse(course.id).catch(() => {})} disabled={loading} color="primary" style={{ marginTop: '0.2rem', marginBottom: '0.6rem' }}>
 				<Translation group={['students', 'subscribe']} id="button">Subscribe to this course</Translation>
 			</Button>
 			{error && <ErrorNote error={error} />}
-		</TranslationSection>
-	</TranslationFile>
+		</TranslationGroup>
+	</TranslationCatalog>
 }
 
 export function UnsubscribeButton({ course }) {
 	const [unsubscribeFromCourse, { loading, error }] = useUnsubscribeFromCourse()
-	return <TranslationFile path={translationPath}>
-		<TranslationSection entry={translationSection}>
+	return <TranslationCatalog folder={['eduTools', 'pages']} name="courseSettingsPage">
+		<TranslationGroup path={translationSection}>
 			<Button variant="contained" startIcon={<SubscribeIcon />} onClick={() => unsubscribeFromCourse(course.id).catch(() => {})} disabled={loading} color="secondary" style={{ marginTop: '0.2rem', marginBottom: '0.6rem' }}>
 				<Translation group={['students', 'unsubscribe']} id="button">Unsubscribe from this course</Translation>
 			</Button>
 			{error && <ErrorNote error={error} />}
-		</TranslationSection>
-	</TranslationFile>
+		</TranslationGroup>
+	</TranslationCatalog>
 }

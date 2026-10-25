@@ -1,7 +1,7 @@
 import { type Catalog } from '@step-wise/i18n'
 import { parseXliff } from '@step-wise/i18n/xliff'
 
-import { type Language, languages } from '../i18n/settings.ts'
+import { type Language, languages } from './settings.ts'
 
 const catalogImports = import.meta.glob<string>('../../locales/*/**/*.xlf', { query: '?raw', import: 'default' })
 

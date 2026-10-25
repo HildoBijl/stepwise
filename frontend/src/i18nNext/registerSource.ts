@@ -1,6 +1,6 @@
 import { type SourceRegistrar, getMessageContentSignature } from '@step-wise/i18n'
 
-import { sourceRegistrationEndpoint } from '../i18n/settings.ts'
+import { sourceRegistrationEndpoint } from './settings.ts'
 
 const registeredSources = new Map<string, string>()
 

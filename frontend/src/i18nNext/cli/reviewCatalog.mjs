@@ -1,6 +1,6 @@
 import { reviewAllCatalogUnits, reviewCatalogUnit } from '@step-wise/i18n/catalog'
 
-import { defaultLanguage, languages } from '../../i18n/settings.ts'
+import { defaultLanguage, languages } from '../settings.ts'
 import { readCatalog, writeCatalog } from './catalogFiles.mjs'
 
 // Check the given arguments.

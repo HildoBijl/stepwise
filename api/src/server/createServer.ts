@@ -12,7 +12,6 @@ import { WebSocketServer } from 'ws'
 import { useServer } from 'graphql-ws/use/ws'
 
 import { createAuthRouter } from '../modules/authentication/index.ts'
-import { createI18nRouter } from '../modules/i18n/index.ts'
 import { typeDefs, resolvers } from '../graphql/index.ts'
 
 import type { ApiServer, CreateServerOptions, SessionRequest } from './types.ts'
@@ -20,7 +19,7 @@ import { getSessionUserId } from './support.ts'
 import { validateServerConfig } from './config.ts'
 import { createApolloContext } from './apolloContext.ts'
 
-export async function createServer({ config, db, sessionStore, surfConextClient, googleClient, pubsub, useI18n, devAuthPortal }: CreateServerOptions): Promise<ApiServer> {
+export async function createServer({ config, db, sessionStore, surfConextClient, googleClient, pubsub, devAuthPortal }: CreateServerOptions): Promise<ApiServer> {
 	validateServerConfig(config)
 
 	const corsOptions = { origin: config.corsUrls, credentials: true }
@@ -51,9 +50,6 @@ export async function createServer({ config, db, sessionStore, surfConextClient,
 
 	// Authentication endpoints
 	app.use('/auth', createAuthRouter(config, db, { surfConextClient, googleClient }))
-
-	// Language file submission from i18n
-	if (useI18n) app.use('/locales', createI18nRouter())
 
 	// Development auth portal
 	if (devAuthPortal) app.get(devAuthPortal.path, devAuthPortal.directory)
