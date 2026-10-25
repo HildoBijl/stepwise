@@ -1,15 +1,14 @@
 import React from 'react'
 
 import { M, BM } from '@step-wise/math-display'
-import { Translation } from '@step-wise/i18n'
+import { Translation, useTranslation } from '@step-wise/i18n'
 
-import { useTextTranslation } from 'i18n'
 import { Head, Par, List, Term } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
-	const factor = useTextTranslation('Factor', 'equationText.factor', undefined, false)
-	const originalExpression = useTextTranslation('Original expression', 'equationText.originalExpression', undefined, false).replace(' ', '\\ ')
+	const factor = useTranslation({ group: ['equationText'], id: 'factor', children: 'Factor' })
+	const originalExpression = useTranslation({ group: ['equationText'], id: 'originalExpression', children: 'Original expression' }).replace(' ', '\\ ')
 	
 	return <>
 		<Translation id="intro">

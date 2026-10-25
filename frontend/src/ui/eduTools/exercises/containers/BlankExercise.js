@@ -7,9 +7,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { noop } from '@step-wise/js-utils'
 import { ensureSkillId } from '@step-wise/module-tree'
 import { getExercise } from '@step-wise/exercises'
-import { useTranslation } from '@step-wise/i18n'
+import { TranslationGroup, useTranslation } from '@step-wise/i18n'
 
-import { TranslationSection } from 'i18n'
 import { LoadingNote, ErrorNote } from 'ui/components/flow'
 import { TitleItem } from 'ui/routingTools'
 
@@ -24,9 +23,9 @@ export function BlankExercise() {
 	if (!exerciseName)
 		return <ErrorNote text={missingExerciseName} />
 	return <ModuleTranslationScope moduleId={skillId}>
-		<TranslationSection entry="practice">
+		<TranslationGroup path="practice">
 			<BlankExerciseInner skillId={skillId} exerciseId={exerciseName} />
-		</TranslationSection>
+		</TranslationGroup>
 	</ModuleTranslationScope>
 }
 

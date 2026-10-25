@@ -1,12 +1,10 @@
 import React from 'react'
 
+import { TranslationCatalog } from '@step-wise/i18n'
 import { getModule } from '@step-wise/module-tree'
 
-import { TranslationFile } from 'i18n'
-
-// Keep the module catalog address in one place while the old and new translation toolboxes coexist.
+// Keep the module catalog address in one place.
 export function ModuleTranslationScope({ moduleId, children }) {
 	const module = getModule(moduleId)
-	const path = ['eduContent', ...module.groupPath, module.id].join('/')
-	return <TranslationFile path={path} extend={false}>{children}</TranslationFile>
+	return <TranslationCatalog folder={['eduContent', ...module.groupPath]} name={module.id}>{children}</TranslationCatalog>
 }

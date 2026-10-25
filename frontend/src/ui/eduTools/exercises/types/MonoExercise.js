@@ -6,7 +6,6 @@ import { hasPreviousInput } from '@step-wise/input-exercises'
 import { TranslationArea } from '@step-wise/i18n'
 
 import { useUserId } from 'api'
-import { useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
@@ -22,7 +21,6 @@ export function MonoExercise(props) {
 }
 
 function MonoExerciseInner({ Problem, Solution }) {
-	const translate = useTranslator()
 	const exerciseData = useExerciseData()
 	const { parameters, state, history, example, inspection, startNewExercise } = exerciseData
 	const solution = useSolution(false) || {}
@@ -53,7 +51,7 @@ function MonoExerciseInner({ Problem, Solution }) {
 			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!state.done}>
 				<VerticalAdjuster>
 					<TranslationArea name="problem">
-						<Problem {...parameters} translate={addSection(translate, 'problem')} />
+						<Problem {...parameters} />
 					</TranslationArea>
 				</VerticalAdjuster>
 			</FormPart>
@@ -62,7 +60,7 @@ function MonoExerciseInner({ Problem, Solution }) {
 		</ProblemContainer>
 		<SolutionContainer problemStep={0} display={!!showSolution} initialExpand={initialExpandSolution}>
 			<TranslationArea name="solution">
-				<Solution {...parameters} {...solution} translate={addSection(translate, 'solution')} />
+				<Solution {...parameters} {...solution} />
 			</TranslationArea>
 		</SolutionContainer>
 		<ContinuationButtons />

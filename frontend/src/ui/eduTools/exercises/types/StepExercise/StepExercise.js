@@ -8,7 +8,6 @@ import { getCurrentStep, hasPreviousInputAtStep } from '@step-wise/input-exercis
 import { TranslationArea } from '@step-wise/i18n'
 
 import { useUserId } from 'api'
-import { useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
@@ -26,7 +25,6 @@ export function StepExercise(props) {
 }
 
 function StepExerciseInner({ Problem: MainProblem, steps }) {
-	const translate = useTranslator()
 	const exerciseData = useExerciseData()
 	const { instance, parameters, state, history, startNewExercise, example, inspection } = exerciseData
 	const userId = useUserId()
@@ -55,7 +53,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 			<FormPart part={0} readOnly={readOnly} showInputSpace={showInputSpace} showHints={!doneWithMainProblem}>
 				<VerticalAdjuster>
 					<TranslationArea name="mainProblem">
-						<MainProblem {...parameters} translate={addSection(translate, 'mainProblem')} />
+						<MainProblem {...parameters} />
 					</TranslationArea>
 				</VerticalAdjuster>
 			</FormPart>

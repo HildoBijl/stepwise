@@ -4,7 +4,6 @@ import { getCurrentStep } from '@step-wise/input-exercises'
 import { TranslationArea, TranslationGroup } from '@step-wise/i18n'
 
 import { useUserId } from 'api'
-import { useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart } from 'ui/form'
 
@@ -18,7 +17,6 @@ export function Steps({ steps, forceDisplay }) {
 }
 
 function Step({ step, Problem, Solution, forceDisplay }) {
-	const translate = useTranslator()
 	const userId = useUserId()
 	const { mode, parameters, state, history, example, inspection, historyIndex } = useExerciseData()
 	const solution = useSolution(false) || {}
@@ -55,7 +53,7 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 				<VerticalAdjuster>
 					<TranslationGroup path={`step${step}`}>
 						<TranslationArea name="problem">
-							<Problem {...parameters} translate={addSection(translate, `step${step}.problem`)} />
+							<Problem {...parameters} />
 						</TranslationArea>
 					</TranslationGroup>
 				</VerticalAdjuster>
@@ -66,7 +64,7 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 		<SolutionContainer problemStep={step} display={showSolution} initialExpand={initialSolutionExpand}>
 			<TranslationGroup path={`step${step}`}>
 				<TranslationArea name="solution">
-					<Solution {...parameters} {...solution} translate={addSection(translate, `step${step}.solution`)} />
+					<Solution {...parameters} {...solution} />
 				</TranslationArea>
 			</TranslationGroup>
 		</SolutionContainer>

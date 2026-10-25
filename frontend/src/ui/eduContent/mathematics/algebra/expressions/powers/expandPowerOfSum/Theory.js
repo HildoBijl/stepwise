@@ -1,16 +1,15 @@
 import { Fragment } from 'react'
 import { alpha } from '@mui/material'
 
-import { repeat } from '@step-wise/js-utils'
-import { binomialCoefficient } from '@step-wise/math-tools'
+import { Drawing, Circle, Rectangle, Polygon, HtmlElement } from '@step-wise/drawing'
 import { Vector } from '@step-wise/geometry'
+import { Translation, useTranslation } from '@step-wise/i18n'
+import { repeat } from '@step-wise/js-utils'
 import { M, BM, BMList, BMPart } from '@step-wise/math-display'
+import { binomialCoefficient } from '@step-wise/math-tools'
 
-import { useTextTranslation } from 'i18n'
 import { usePrimaryColor } from 'ui/theme'
 import { Head, Par, List, Term } from 'ui/components'
-import { Drawing, Circle, Rectangle, Polygon, HtmlElement } from '@step-wise/drawing'
-import { Translation } from '@step-wise/i18n'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
@@ -179,7 +178,7 @@ const width = (n + 1) * colWidth + indexWidth
 const height = (n + 1) * rowHeight
 function PascalsTriangle() {
 	const primaryColor = usePrimaryColor()
-	const rowText = useTextTranslation('Row', 'PascalsTriangleRow')
+	const rowText = useTranslation({ id: 'PascalsTriangleRow', children: 'Row' })
 	return <Drawing view={{ type: 'identity', width: width, height: height }}>
 		{repeat(n + 1, rowIndex => <Fragment key={rowIndex}>
 			{/* Row number. */}

@@ -6,14 +6,12 @@ import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { hasExamples, getExamples } from '@step-wise/exercises'
 import { useTranslation } from '@step-wise/i18n'
 
-import { useGetTranslation } from 'i18n'
 import { LoadingNote } from 'ui/components'
 
 import { ExerciseContainer } from '../containers'
 
 // The ExamplePage resembles the ExercisePageForStranger component: it selects an exercise and shows it, but then in demo mode.
 export function ExamplePage({ skillId }) {
-	const getTranslation = useGetTranslation()
 	const noExamples = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'noExamples', children: 'Oh no ... no examples have been added yet for this skill. We will add them as soon as we can. Please check back later!' })
 	const generatingNewExercise = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'skillPage', group: ['loadingNotes'], id: 'generatingNewExercise', children: 'Generating new exercise...' })
 

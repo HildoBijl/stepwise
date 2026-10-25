@@ -2,9 +2,9 @@ import React, { createContext, useCallback, useContext, useEffect, useEffectEven
 import { useTheme } from '@mui/material'
 
 import { getAccumulatedRawInput, getAccumulatedReport, getCurrentStep } from '@step-wise/input-exercises'
+import { TranslationGroup } from '@step-wise/i18n'
 
 import { useUserId } from 'api'
-import { TranslationSection } from 'i18n'
 import { useVisible } from 'ui/components'
 import { Form, FeedbackProvider, useFormData } from 'ui/form'
 
@@ -33,7 +33,7 @@ function ExerciseWrapperInner({ getFeedback, children }) {
 	// Determine the initial input for the form. (And overwrite it if this updates, for instance in a group exercise through a websocket connection.) In inspection mode, get the requested one, and otherwise the latest one.
 	const userId = useUserId()
 	const exerciseData = useExerciseData()
-	const { instance, history, inspection, historyIndex } = exerciseData
+	const { exerciseId, instance, history, inspection, historyIndex } = exerciseData
 	const { setAdoptUserHistory } = useInputHistoryAdoption()
 	useEffect(() => setAdoptUserHistory(undefined), [history.length, setAdoptUserHistory])
 	const initialInput = useMemo(() => getAccumulatedRawInput(instance, userId, {
@@ -50,13 +50,13 @@ function ExerciseWrapperInner({ getFeedback, children }) {
 		<ExerciseScrollingContext.Provider value={scrollToExercisePart}>
 			<Form submit={submit} initialInput={initialInput} interpretInput={exerciseData.valueOperations.interpretInput}>
 				{exerciseData.mode === 'solo' ? <ExerciseInputSynchronizer input={initialInput} /> : null}
-				<TranslationWrapper>
+				<TranslationGroup path={exerciseId}>
 					<SolutionProvider>
 						<FeedbackWrapper getFeedback={getFeedback}>
 							{children}
 						</FeedbackWrapper>
 					</SolutionProvider>
-				</TranslationWrapper>
+				</TranslationGroup>
 			</Form>
 		</ExerciseScrollingContext.Provider>
 	</div>
@@ -191,9 +191,4 @@ function FeedbackWrapper({ getFeedback, children }) {
 	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} report={report} exerciseData={mergedExerciseData}>
 		{children}
 	</FeedbackProvider>
-}
-
-function TranslationWrapper({ children }) {
-	const { exerciseId } = useExerciseData()
-	return <TranslationSection entry={`${exerciseId}`}>{children}</TranslationSection>
 }

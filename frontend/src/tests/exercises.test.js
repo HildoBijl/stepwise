@@ -10,9 +10,9 @@ import { noop } from '@step-wise/js-utils'
 import { moduleTree } from '@step-wise/module-tree'
 import { resolveSolution, resolveStaticSolution } from '@step-wise/input-exercises'
 import { getAllExercises } from '@step-wise/exercises'
+import { I18nProvider, TranslationGroup } from '@step-wise/i18n'
 
 import { CURRENT_USER_QUERY } from 'api/user/queries'
-import { I18nProvider, TranslationSection } from 'i18n'
 import { ModalManager } from 'ui/components'
 import { ExerciseContext } from 'ui/eduTools'
 import { ModuleTranslationScope } from 'ui/eduTools/skills/components'
@@ -73,16 +73,16 @@ describe('Check all exercises:', () => {
 						}
 						expect(() => render(
 							<MockedProvider mocks={apolloMocks}>
-								<I18nProvider loadLanguageFiles={false}>
+								<I18nProvider locale="en" sourceLocale="en">
 									<ThemeProvider theme={theme}>
 										<FieldController>
 											<ModalManager>
 												<ModuleTranslationScope moduleId={skill.id}>
-													<TranslationSection entry="practice">
+													<TranslationGroup path="practice">
 														<ExerciseContext.Provider value={exerciseData}>
 															<Exercise />
 														</ExerciseContext.Provider>
-													</TranslationSection>
+													</TranslationGroup>
 												</ModuleTranslationScope>
 											</ModalManager>
 										</FieldController>
