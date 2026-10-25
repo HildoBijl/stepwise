@@ -1,6 +1,6 @@
 import { isNumeric, removeAt, insertAt, mapValues, fromKeys } from '@step-wise/js-utils'
 
-import { Translation } from 'i18n'
+import { InputTranslation } from 'ui/inputs/InputTranslation'
 
 import { getClickPosition } from '../TextInput'
 import { errorToMessage as integerErrorToMessage } from '../IntegerInput'
@@ -167,7 +167,7 @@ export function mouseClickToCursor(event, FI, contentsElement) {
 // errorToMessage turns an error during interpretation into a message to be displayed.
 export function errorToMessage(error) {
 	switch (error.code) {
-		case 'DecimalSeparator': return <Translation path="inputs" entry="precisionNumberInput.validation.onlyDecimalSeparator">A decimal separator on its own is not a number.</Translation>
+		case 'DecimalSeparator': return <InputTranslation input="precisionNumberInput" group={['validation']} id="onlyDecimalSeparator">A decimal separator on its own is not a number.</InputTranslation>
 		default: return integerErrorToMessage(error)
 	}
 }

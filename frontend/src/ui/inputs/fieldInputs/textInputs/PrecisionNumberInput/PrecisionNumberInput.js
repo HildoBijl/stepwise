@@ -2,7 +2,7 @@ import React from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
 
-import { Translation } from 'i18n'
+import { InputTranslation } from 'ui/inputs/InputTranslation'
 
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 
@@ -14,7 +14,7 @@ export const defaultPrecisionNumberInputOptions = {
 	...defaultTextInputOptions,
 
 	// Settings from outside.
-	placeholder: <Translation path="inputs" entry="precisionNumberInput.placeHolder">Precision number</Translation>,
+	placeholder: <InputTranslation input="precisionNumberInput" id="placeHolder">Precision number</InputTranslation>,
 	positive: false,
 	allowPower: true,
 	validate: validation.any,

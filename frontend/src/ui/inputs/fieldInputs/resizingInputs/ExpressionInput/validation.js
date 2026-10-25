@@ -2,14 +2,14 @@ import { isPlainObject } from '@step-wise/js-utils'
 import { asExpression } from '@step-wise/cas'
 import { M } from '@step-wise/math-display'
 
-import { Translation } from 'i18n'
+import { InputTranslation } from 'ui/inputs/InputTranslation'
 
 export function any() { }
 
 // Numeric checks if the expression can be reduced to a single number and hence does not depend on variables.
 export function numeric(expression) {
 	if (!expression.isNumeric())
-		return <Translation path="inputs" entry="expressionInput.validation.notANumber">This is not a number. Something without any variables was expected.</Translation>
+		return <InputTranslation input="expressionInput" group={['validation']} id="notANumber">This is not a number. Something without any variables was expected.</InputTranslation>
 }
 
 // validWithVariables is a validation-function-generating function. Give it a set of variables that are accepted, and it checks that only those variables are used.
@@ -34,6 +34,6 @@ export function validWithVariables(...variables) {
 		const inputVariables = expression.collectVariables()
 		const invalidVariable = inputVariables.find(inputVariable => !variables.some(variable => variable.equalStructure(inputVariable)))
 		if (invalidVariable)
-			return <Translation path="inputs" entry="expressionInput.validation.unknownVariable">Unknown variable <M>{invalidVariable}</M>.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="unknownVariable">Unknown variable <M>{invalidVariable}</M>.</InputTranslation>
 	}
 }

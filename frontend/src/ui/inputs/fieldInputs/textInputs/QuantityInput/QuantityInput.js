@@ -2,7 +2,7 @@ import React from 'react'
 
 import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
-import { Translation } from 'i18n'
+import { InputTranslation } from 'ui/inputs/InputTranslation'
 
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 import { defaultPrecisionNumberInputOptions } from '../PrecisionNumberInput'
@@ -23,7 +23,7 @@ export const defaultQuantityInputOptions = {
 	}),
 
 	// Settings from outside.
-	placeholder: <Translation path="inputs" entry="quantityInput.placeHolder">Number with unit</Translation>,
+	placeholder: <InputTranslation input="quantityInput" id="placeHolder">Number with unit</InputTranslation>,
 	validate: validation.nonEmptyUnit,
 
 	// Functionalities.

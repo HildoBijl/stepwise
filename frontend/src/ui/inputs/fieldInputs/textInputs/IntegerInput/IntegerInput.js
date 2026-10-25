@@ -3,7 +3,7 @@ import clsx from 'clsx'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
 
-import { Translation } from 'i18n'
+import { InputTranslation } from 'ui/inputs/InputTranslation'
 
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 
@@ -15,7 +15,7 @@ export const defaultIntegerInputOptions = {
 	...defaultTextInputOptions,
 
 	// Settings from outside.
-	placeholder: <Translation path="inputs" entry="integerInput.placeHolder">Integer number</Translation>,
+	placeholder: <InputTranslation input="integerInput" id="placeHolder">Integer number</InputTranslation>,
 	positive: false,
 	validate: validation.any,
 

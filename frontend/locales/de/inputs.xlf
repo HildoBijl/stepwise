@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="integerInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Integer number</source>
+					<target swi18n:sourceContentFingerprint="258032eed91b3635" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ganzzahl</target>
+				</segment>
+			</unit>
+			<group id="validation">
+				<unit id="generalValidationError">
+					<segment>
+						<source>Oops ... something went wrong interpreting this input.</source>
+						<target swi18n:sourceContentFingerprint="292b7d58fd42bac7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ups ... irgendetwas läuft bei der Eingabeverarbeitung schief.</target>
+					</segment>
+				</unit>
+				<unit id="onlyMinusSign">
+					<segment>
+						<source>A minus sign on its own is not a number.</source>
+						<target swi18n:sourceContentFingerprint="0f97d97341d34a02" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nur ein Minuszeichen ist keine Zahl.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="precisionNumberInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Precision number</source>
+					<target swi18n:sourceContentFingerprint="b2e75ecb76ddd3a7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kommazahl</target>
+				</segment>
+			</unit>
+			<group id="validation">
+				<unit id="onlyDecimalSeparator">
+					<segment>
+						<source>A decimal separator on its own is not a number.</source>
+						<target swi18n:sourceContentFingerprint="9516f68c9dd3ddcb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nur ein Komma ist keine Zahl.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="unitInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Unit</source>
+					<target swi18n:sourceContentFingerprint="9b9bae3bb2d963ea" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Einheit</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="quantityInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Number with unit</source>
+					<target swi18n:sourceContentFingerprint="81af4f10b5faeea5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Zahl mit Einheit</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="expressionInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Expression</source>
+					<target swi18n:sourceContentFingerprint="867717776f334526" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ausdruck</target>
+				</segment>
+			</unit>
+			<group id="validation">
+				<unit id="emptyExpression">
+					<segment>
+						<source>There's (part of) an expression missing here.</source>
+						<target swi18n:sourceContentFingerprint="e3b8b12ce24d4452" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es fehlt ein (Teil eines) Ausdrucks.</target>
+					</segment>
+				</unit>
+				<unit id="unmatchedClosingBracket">
+					<segment>
+						<source>There is a closing bracket without corresponding opening bracket.</source>
+						<target swi18n:sourceContentFingerprint="af1ee27d30332e2f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es gibt eine schließende Klammer ohne entsprechende öffnende Klammer.</target>
+					</segment>
+				</unit>
+				<unit id="unmatchedOpeningBracket">
+					<segment>
+						<source>There is an opening bracket without corresponding closing bracket.</source>
+						<target swi18n:sourceContentFingerprint="d1e404450f80c637" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es gibt eine öffnende Klammer ohne entsprechende schließende Klammer.</target>
+					</segment>
+				</unit>
+				<unit id="plusAtStart">
+					<segment>
+						<source>There is a plus symbol at the start.</source>
+						<target swi18n:sourceContentFingerprint="7a3d475b167893f3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es gibt ein Plus am Anfang.</target>
+					</segment>
+				</unit>
+				<unit id="doublePlusMinus">
+					<segment>
+						<source>There are two subsequent plus/minus symbols.</source>
+						<target swi18n:sourceContentFingerprint="a5fbdd0cc4cab3d5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es sind zwei Plus/Minus-Symbole hintereinander angeordnet.</target>
+					</segment>
+				</unit>
+				<unit id="plusMinusAtEnd">
+					<segment>
+						<source>There is a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="isPlus"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> symbol at the end.</source>
+						<target swi18n:sourceContentFingerprint="d3d00576a0869d6e" swi18n:sourceStructureFingerprint="27feab12d041b1f8">Es gibt ein <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="isPlus"><pc id="x2" type="other" subType="swi18n:condition-true">Plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">Minus</pc></pc> am Ende.</target>
+					</segment>
+				</unit>
+				<unit id="timesAtStart">
+					<segment>
+						<source>There is a multiplication symbol at the start of a term.</source>
+						<target swi18n:sourceContentFingerprint="764ee30315fe9f41" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Am Anfang eines Terms steht eine Multiplikation.</target>
+					</segment>
+				</unit>
+				<unit id="doubleTimes">
+					<segment>
+						<source>There are two subsequent multiplication symbols.</source>
+						<target swi18n:sourceContentFingerprint="bb5bfc5a087fa358" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Zwei Multiplikationszeichen stehen hintereinander.</target>
+					</segment>
+				</unit>
+				<unit id="timesAtEnd">
+					<segment>
+						<source>There is a multiplication symbol at the end of a term.</source>
+						<target swi18n:sourceContentFingerprint="2072f4caab460b1c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Am Ende eines Terms steht ein Multiplikationszeichen.</target>
+					</segment>
+				</unit>
+				<unit id="unknownFunction">
+					<segment>
+						<source>Encountered an unknown function "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/>".</source>
+						<target swi18n:sourceContentFingerprint="2c0067b666a45441" swi18n:sourceStructureFingerprint="7c0f3a21375e7836">Es wurde eine unbekannte Funktion "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/>" gefunden.</target>
+					</segment>
+				</unit>
+				<unit id="unknownAccent">
+					<segment>
+						<source>Encountered an unknown accent "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/>".</source>
+						<target swi18n:sourceContentFingerprint="a4c86d2867229b9b" swi18n:sourceStructureFingerprint="7c0f3a21375e7836">Es wurde ein unbekannter Akzent "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/>" gefunden.</target>
+					</segment>
+				</unit>
+				<unit id="emptyAccent">
+					<segment>
+						<source>There is an empty accent.</source>
+						<target swi18n:sourceContentFingerprint="7dff4796a9d9c0fc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es gibt einen leeren Akzent.</target>
+					</segment>
+				</unit>
+				<unit id="tooLongAccent">
+					<segment>
+						<source>There is an accent with more than one character in it: "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="contents"/>".</source>
+						<target swi18n:sourceContentFingerprint="f4ac61690490ea73" swi18n:sourceStructureFingerprint="5685131f67e0656b">Es gibt einen Akzent mit mehr als einem Zeichen: "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="contents"/>".</target>
+					</segment>
+				</unit>
+				<unit id="invalidSymbol">
+					<segment>
+						<source>Unexpected character "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="character"/>".</source>
+						<target swi18n:sourceContentFingerprint="0d52541a8b135670" swi18n:sourceStructureFingerprint="1cb1a87ab90782ba">Unerwartetes Zeichen "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="character"/>".</target>
+					</segment>
+				</unit>
+				<unit id="singleDecimalSeparator">
+					<segment>
+						<source>There is a decimal separator without numbers around it.</source>
+						<target swi18n:sourceContentFingerprint="051c9881dfa00333" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es steht ein Komma ohne Zahlen drum herum.</target>
+					</segment>
+				</unit>
+				<unit id="multipleDecimalSeparator">
+					<segment>
+						<source>There is a number with multiple decimal separators.</source>
+						<target swi18n:sourceContentFingerprint="eb50b800d245aed5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es gibt eine Zahl mit mehreren Kommas.</target>
+					</segment>
+				</unit>
+				<unit id="misplacedSubscript">
+					<segment>
+						<source>There is a subscript "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="subscript"/>" without a variable.</source>
+						<target swi18n:sourceContentFingerprint="5c20b1ce3bb62acf" swi18n:sourceStructureFingerprint="d3c6d724c5b23d40">Es gibt ein tiefgestelltes "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="subscript"/>", dem keine Variable vorangestellt ist.</target>
+					</segment>
+				</unit>
+				<unit id="misplacedSuperscript">
+					<segment>
+						<source>There is an exponent without a term prior to it.</source>
+						<target swi18n:sourceContentFingerprint="bce03aed73de9e87" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es gibt eine Potenz ohne vorgehendes Term.</target>
+					</segment>
+				</unit>
+				<unit id="emptySubscript">
+					<segment>
+						<source>There is a subscript symbol "_" without a character after it.</source>
+						<target swi18n:sourceContentFingerprint="4f9727b8d4fb6a4a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es gibt ein Indexzeichen "_" ohne nachfolgende Ziffer oder Buchstabe.</target>
+					</segment>
+				</unit>
+				<unit id="emptySuperscript">
+					<segment>
+						<source>There is an exponent symbol "^" without a character after it.</source>
+						<target swi18n:sourceContentFingerprint="d521a2c8df3d7987" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es gibt ein Potenzzeichen "^" ohne nachfolgende Ziffer oder Buchstabe.</target>
+					</segment>
+				</unit>
+				<unit id="emptySubSup">
+					<segment>
+						<source>There is an empty subscript/superscript.</source>
+						<target swi18n:sourceContentFingerprint="263934a3ca6b954c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es gibt ein leeres Index-/Potenzobjekt.</target>
+					</segment>
+				</unit>
+				<unit id="remaining">
+					<segment>
+						<source>Failed to interpret what was written. There's something wrong with the notation used.</source>
+						<target swi18n:sourceContentFingerprint="06ba2f18987066be" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Die Eingabe konnte nicht interpretiert werden. Etwas stimmt nicht mit der verwendeten Notation.</target>
+					</segment>
+				</unit>
+				<unit id="notANumber">
+					<segment>
+						<source>This is not a number. Something without any variables was expected.</source>
+						<target swi18n:sourceContentFingerprint="926b706ce02a2d95" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dies ist keine Zahl. Es wurde etwas ohne Variablen erwartet.</target>
+					</segment>
+				</unit>
+				<unit id="unknownVariable">
+					<segment>
+						<source>Unknown variable <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						<target swi18n:sourceContentFingerprint="9791f3b674861916" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Unbekannte Variable <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="equationInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Equation</source>
+					<target swi18n:sourceContentFingerprint="d6f1c3e943cc7272" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gleichung</target>
+				</segment>
+			</unit>
+			<group id="validation">
+				<unit id="emptyEquation">
+					<segment>
+						<source>There's (part of) an equation missing here.</source>
+						<target swi18n:sourceContentFingerprint="9ea5a74064934906" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Es fehlt ein (Teil eines) Vergleichungs.</target>
+					</segment>
+				</unit>
+				<unit id="multipleEqualsSigns">
+					<segment>
+						<source>The equation has multiple "=" characters.</source>
+						<target swi18n:sourceContentFingerprint="fefb46a80c7e1490" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Die Gleichung hat mehrere "="-Zeichen.</target>
+					</segment>
+				</unit>
+				<unit id="missingEqualsSign">
+					<segment>
+						<source>The equation has no "=" character.</source>
+						<target swi18n:sourceContentFingerprint="6c544fe67d385a40" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Die Gleichung hat kein "="-Zeichen.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

@@ -1,9 +1,6 @@
-import { Translation } from 'i18n'
+import { InputTranslation } from 'ui/inputs/InputTranslation'
 
 import { keyboardSettings, errorToMessage as expressionErrorToMessage } from '../ExpressionInput'
-
-const translationPath = 'inputs'
-const translationEntry = 'equationInput.validation'
 
 // keyboardSettings are the same as for the ExpressionInput.
 export { keyboardSettings }
@@ -13,11 +10,11 @@ export function errorToMessage(error) {
 	switch (error.code) {
 		// Equation interpretation.
 		case 'EmptyEquation':
-			return <Translation path={translationPath} entry={`${translationEntry}.emptyEquation`}>There's (part of) an equation missing here.</Translation>
+			return <InputTranslation input="equationInput" group={['validation']} id="emptyEquation">There's (part of) an equation missing here.</InputTranslation>
 		case 'MultipleEqualsSigns':
-			return <Translation path={translationPath} entry={`${translationEntry}.multipleEqualsSigns`}>The equation has multiple "=" characters.</Translation>
+			return <InputTranslation input="equationInput" group={['validation']} id="multipleEqualsSigns">The equation has multiple "=" characters.</InputTranslation>
 		case 'MissingEqualsSign':
-			return <Translation path={translationPath} entry={`${translationEntry}.missingEqualsSign`}>The equation has no "=" character.</Translation>
+			return <InputTranslation input="equationInput" group={['validation']} id="missingEqualsSign">The equation has no "=" character.</InputTranslation>
 
 		// Expression interpretation.
 		default: return expressionErrorToMessage(error)

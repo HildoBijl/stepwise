@@ -1,6 +1,6 @@
 import { identity, isNumeric, removeAt, insertAt } from '@step-wise/js-utils'
 
-import { Translation } from 'i18n'
+import { InputTranslation } from 'ui/inputs/InputTranslation'
 
 import { selectRandomEmpty } from '../../../util'
 
@@ -93,7 +93,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive) {
 export function errorToMessage(error) {
 	switch (error.code) {
 		case 'Empty': return selectRandomEmpty()
-		case 'MinusSign': return <Translation path="inputs" entry="integerInput.validation.onlyMinusSign">A minus sign on its own is not a number.</Translation>
-		default: return <Translation path="inputs" entry="integerInput.validation.generalValidationError">Oops ... something went wrong interpreting this input.</Translation>
+		case 'MinusSign': return <InputTranslation input="integerInput" group={['validation']} id="onlyMinusSign">A minus sign on its own is not a number.</InputTranslation>
+		default: return <InputTranslation input="integerInput" group={['validation']} id="generalValidationError">Oops ... something went wrong interpreting this input.</InputTranslation>
 	}
 }

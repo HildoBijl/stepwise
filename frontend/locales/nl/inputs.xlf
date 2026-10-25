@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="integerInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Integer number</source>
+					<target swi18n:sourceContentFingerprint="258032eed91b3635" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Geheel getal</target>
+				</segment>
+			</unit>
+			<group id="validation">
+				<unit id="generalValidationError">
+					<segment>
+						<source>Oops ... something went wrong interpreting this input.</source>
+						<target swi18n:sourceContentFingerprint="292b7d58fd42bac7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oops ... er gaat iets mis met het verwerken van de invoer.</target>
+					</segment>
+				</unit>
+				<unit id="onlyMinusSign">
+					<segment>
+						<source>A minus sign on its own is not a number.</source>
+						<target swi18n:sourceContentFingerprint="0f97d97341d34a02" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Alleen een min-teken is geen getal.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="precisionNumberInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Precision number</source>
+					<target swi18n:sourceContentFingerprint="b2e75ecb76ddd3a7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kommagetal</target>
+				</segment>
+			</unit>
+			<group id="validation">
+				<unit id="onlyDecimalSeparator">
+					<segment>
+						<source>A decimal separator on its own is not a number.</source>
+						<target swi18n:sourceContentFingerprint="9516f68c9dd3ddcb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Alleen een komma is geen getal.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="unitInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Unit</source>
+					<target swi18n:sourceContentFingerprint="9b9bae3bb2d963ea" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Eenheid</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="quantityInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Number with unit</source>
+					<target swi18n:sourceContentFingerprint="81af4f10b5faeea5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Getal met eenheid</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="expressionInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Expression</source>
+					<target swi18n:sourceContentFingerprint="867717776f334526" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Uitdrukking</target>
+				</segment>
+			</unit>
+			<group id="validation">
+				<unit id="emptyExpression">
+					<segment>
+						<source>There's (part of) an expression missing here.</source>
+						<target swi18n:sourceContentFingerprint="e3b8b12ce24d4452" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er mist een (deel van een) uitdrukking.</target>
+					</segment>
+				</unit>
+				<unit id="unmatchedClosingBracket">
+					<segment>
+						<source>There is a closing bracket without corresponding opening bracket.</source>
+						<target swi18n:sourceContentFingerprint="af1ee27d30332e2f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er is een sluitend haakje zonder bijbehorend openingshaakje.</target>
+					</segment>
+				</unit>
+				<unit id="unmatchedOpeningBracket">
+					<segment>
+						<source>There is an opening bracket without corresponding closing bracket.</source>
+						<target swi18n:sourceContentFingerprint="d1e404450f80c637" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er is een openend haakje zonder bijbehorend sluitingshaakje.</target>
+					</segment>
+				</unit>
+				<unit id="plusAtStart">
+					<segment>
+						<source>There is a plus symbol at the start.</source>
+						<target swi18n:sourceContentFingerprint="7a3d475b167893f3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er staat een plus aan het begin.</target>
+					</segment>
+				</unit>
+				<unit id="doublePlusMinus">
+					<segment>
+						<source>There are two subsequent plus/minus symbols.</source>
+						<target swi18n:sourceContentFingerprint="a5fbdd0cc4cab3d5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er zijn twee plussen/minnen na elkaar.</target>
+					</segment>
+				</unit>
+				<unit id="plusMinusAtEnd">
+					<segment>
+						<source>There is a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="isPlus"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> symbol at the end.</source>
+						<target swi18n:sourceContentFingerprint="d3d00576a0869d6e" swi18n:sourceStructureFingerprint="27feab12d041b1f8">Er staat een <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="isPlus"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">min</pc></pc> aan het eind.</target>
+					</segment>
+				</unit>
+				<unit id="timesAtStart">
+					<segment>
+						<source>There is a multiplication symbol at the start of a term.</source>
+						<target swi18n:sourceContentFingerprint="764ee30315fe9f41" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er staat een vermenigvuldiging aan het begin van een term.</target>
+					</segment>
+				</unit>
+				<unit id="doubleTimes">
+					<segment>
+						<source>There are two subsequent multiplication symbols.</source>
+						<target swi18n:sourceContentFingerprint="bb5bfc5a087fa358" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er staan twee vermenigvuldigingen na elkaar.</target>
+					</segment>
+				</unit>
+				<unit id="timesAtEnd">
+					<segment>
+						<source>There is a multiplication symbol at the end of a term.</source>
+						<target swi18n:sourceContentFingerprint="2072f4caab460b1c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er staat een vermenigvuldiging aan het einde van een term.</target>
+					</segment>
+				</unit>
+				<unit id="unknownFunction">
+					<segment>
+						<source>Encountered an unknown function "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/>".</source>
+						<target swi18n:sourceContentFingerprint="2c0067b666a45441" swi18n:sourceStructureFingerprint="7c0f3a21375e7836">Er is een onbekende functie "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/>" aangetroffen.</target>
+					</segment>
+				</unit>
+				<unit id="unknownAccent">
+					<segment>
+						<source>Encountered an unknown accent "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/>".</source>
+						<target swi18n:sourceContentFingerprint="a4c86d2867229b9b" swi18n:sourceStructureFingerprint="7c0f3a21375e7836">Er is een onbekend accent "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/>" aangetroffen.</target>
+					</segment>
+				</unit>
+				<unit id="emptyAccent">
+					<segment>
+						<source>There is an empty accent.</source>
+						<target swi18n:sourceContentFingerprint="7dff4796a9d9c0fc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er is een leeg accent.</target>
+					</segment>
+				</unit>
+				<unit id="tooLongAccent">
+					<segment>
+						<source>There is an accent with more than one character in it: "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="contents"/>".</source>
+						<target swi18n:sourceContentFingerprint="f4ac61690490ea73" swi18n:sourceStructureFingerprint="5685131f67e0656b">Er is een accent met meer dan één teken: "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="contents"/>".</target>
+					</segment>
+				</unit>
+				<unit id="invalidSymbol">
+					<segment>
+						<source>Unexpected character "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="character"/>".</source>
+						<target swi18n:sourceContentFingerprint="0d52541a8b135670" swi18n:sourceStructureFingerprint="1cb1a87ab90782ba">Onverwacht symbool "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="character"/>".</target>
+					</segment>
+				</unit>
+				<unit id="singleDecimalSeparator">
+					<segment>
+						<source>There is a decimal separator without numbers around it.</source>
+						<target swi18n:sourceContentFingerprint="051c9881dfa00333" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er is een komma zonder getallen eromheen.</target>
+					</segment>
+				</unit>
+				<unit id="multipleDecimalSeparator">
+					<segment>
+						<source>There is a number with multiple decimal separators.</source>
+						<target swi18n:sourceContentFingerprint="eb50b800d245aed5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er is een getal met meerdere komma's.</target>
+					</segment>
+				</unit>
+				<unit id="misplacedSubscript">
+					<segment>
+						<source>There is a subscript "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="subscript"/>" without a variable.</source>
+						<target swi18n:sourceContentFingerprint="5c20b1ce3bb62acf" swi18n:sourceStructureFingerprint="d3c6d724c5b23d40">Er is een subscript "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="subscript"/>" zonder variabele ervoor.</target>
+					</segment>
+				</unit>
+				<unit id="misplacedSuperscript">
+					<segment>
+						<source>There is an exponent without a term prior to it.</source>
+						<target swi18n:sourceContentFingerprint="bce03aed73de9e87" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er is een macht zonder term ervoor.</target>
+					</segment>
+				</unit>
+				<unit id="emptySubscript">
+					<segment>
+						<source>There is a subscript symbol "_" without a character after it.</source>
+						<target swi18n:sourceContentFingerprint="4f9727b8d4fb6a4a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er is een subscriptteken "_" zonder cijfer/letter erachter.</target>
+					</segment>
+				</unit>
+				<unit id="emptySuperscript">
+					<segment>
+						<source>There is an exponent symbol "^" without a character after it.</source>
+						<target swi18n:sourceContentFingerprint="d521a2c8df3d7987" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er is een machtsymbool "^" zonder cijfer/letter erachter.</target>
+					</segment>
+				</unit>
+				<unit id="emptySubSup">
+					<segment>
+						<source>There is an empty subscript/superscript.</source>
+						<target swi18n:sourceContentFingerprint="263934a3ca6b954c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er is een leeg subscript-/superscriptobject.</target>
+					</segment>
+				</unit>
+				<unit id="remaining">
+					<segment>
+						<source>Failed to interpret what was written. There's something wrong with the notation used.</source>
+						<target swi18n:sourceContentFingerprint="06ba2f18987066be" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Het is niet gelukt de invoer te interpreteren. Er gaat iets mis met de gebruikte notatie.</target>
+					</segment>
+				</unit>
+				<unit id="notANumber">
+					<segment>
+						<source>This is not a number. Something without any variables was expected.</source>
+						<target swi18n:sourceContentFingerprint="926b706ce02a2d95" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dit is geen getal. Er werd iets zonder variabelen verwacht.</target>
+					</segment>
+				</unit>
+				<unit id="unknownVariable">
+					<segment>
+						<source>Unknown variable <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+						<target swi18n:sourceContentFingerprint="9791f3b674861916" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Onbekende variabele <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="equationInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Equation</source>
+					<target swi18n:sourceContentFingerprint="d6f1c3e943cc7272" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vergelijking</target>
+				</segment>
+			</unit>
+			<group id="validation">
+				<unit id="emptyEquation">
+					<segment>
+						<source>There's (part of) an equation missing here.</source>
+						<target swi18n:sourceContentFingerprint="9ea5a74064934906" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Er mist een (deel van een) vergelijking.</target>
+					</segment>
+				</unit>
+				<unit id="multipleEqualsSigns">
+					<segment>
+						<source>The equation has multiple "=" characters.</source>
+						<target swi18n:sourceContentFingerprint="fefb46a80c7e1490" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De vergelijking heeft meerdere "=" tekens.</target>
+					</segment>
+				</unit>
+				<unit id="missingEqualsSign">
+					<segment>
+						<source>The equation has no "=" character.</source>
+						<target swi18n:sourceContentFingerprint="6c544fe67d385a40" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De vergelijking heeft geen "=" teken.</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

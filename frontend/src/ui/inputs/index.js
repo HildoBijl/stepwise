@@ -1,4 +1,5 @@
 export * from './util'
+export * from './InputTranslation'
 export * from './Input'
 export * from './miscellaneous'
 export * from './fieldInputs'

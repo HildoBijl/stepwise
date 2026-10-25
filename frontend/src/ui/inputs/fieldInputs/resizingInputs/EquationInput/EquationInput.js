@@ -2,7 +2,7 @@ import React from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
 
-import { Translation } from 'i18n'
+import { InputTranslation } from 'ui/inputs/InputTranslation'
 
 import { MathInput, defaultMathInputOptions } from '../MathInput'
 
@@ -15,7 +15,7 @@ const defaultEquationInputOptions = {
 	center: true, // Center equations in their input fields.
 	size: 'l', // Equation Inputs are by default large.
 	type: 'Equation',
-	placeholder: <Translation path="inputs" entry="equationInput.placeHolder">Equation</Translation>,
+	placeholder: <InputTranslation input="equationInput" id="placeHolder">Equation</InputTranslation>,
 	keyboardSettings,
 	errorToMessage,
 }

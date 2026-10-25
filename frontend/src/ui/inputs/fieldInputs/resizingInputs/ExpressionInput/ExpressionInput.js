@@ -2,7 +2,7 @@ import React from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
 
-import { Translation } from 'i18n'
+import { InputTranslation } from 'ui/inputs/InputTranslation'
 
 import { MathInput, defaultMathInputOptions } from '../MathInput'
 
@@ -14,7 +14,7 @@ const defaultExpressionInputOptions = {
 	...defaultMathInputOptions,
 	size: 's', // Expression Inputs are by default small.
 	type: 'Expression',
-	placeholder: <Translation path="inputs" entry="expressionInput.placeHolder">Expression</Translation>,
+	placeholder: <InputTranslation input="expressionInput" id="placeHolder">Expression</InputTranslation>,
 	keyboardSettings,
 	errorToMessage,
 }

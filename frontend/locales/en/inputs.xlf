@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="integerInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Integer number</source>
+				</segment>
+			</unit>
+			<group id="validation">
+				<unit id="generalValidationError">
+					<segment>
+						<source>Oops ... something went wrong interpreting this input.</source>
+					</segment>
+				</unit>
+				<unit id="onlyMinusSign">
+					<segment>
+						<source>A minus sign on its own is not a number.</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="precisionNumberInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Precision number</source>
+				</segment>
+			</unit>
+			<group id="validation">
+				<unit id="onlyDecimalSeparator">
+					<segment>
+						<source>A decimal separator on its own is not a number.</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="unitInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Unit</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="quantityInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Number with unit</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="expressionInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Expression</source>
+				</segment>
+			</unit>
+			<group id="validation">
+				<unit id="emptyExpression">
+					<segment>
+						<source>There's (part of) an expression missing here.</source>
+					</segment>
+				</unit>
+				<unit id="unmatchedClosingBracket">
+					<segment>
+						<source>There is a closing bracket without corresponding opening bracket.</source>
+					</segment>
+				</unit>
+				<unit id="unmatchedOpeningBracket">
+					<segment>
+						<source>There is an opening bracket without corresponding closing bracket.</source>
+					</segment>
+				</unit>
+				<unit id="plusAtStart">
+					<segment>
+						<source>There is a plus symbol at the start.</source>
+					</segment>
+				</unit>
+				<unit id="doublePlusMinus">
+					<segment>
+						<source>There are two subsequent plus/minus symbols.</source>
+					</segment>
+				</unit>
+				<unit id="plusMinusAtEnd">
+					<segment>
+						<source>There is a <pc id="x1" type="other" subType="swi18n:condition" swi18n:variable="isPlus"><pc id="x2" type="other" subType="swi18n:condition-true">plus</pc><pc id="x3" type="other" subType="swi18n:condition-false">minus</pc></pc> symbol at the end.</source>
+					</segment>
+				</unit>
+				<unit id="timesAtStart">
+					<segment>
+						<source>There is a multiplication symbol at the start of a term.</source>
+					</segment>
+				</unit>
+				<unit id="doubleTimes">
+					<segment>
+						<source>There are two subsequent multiplication symbols.</source>
+					</segment>
+				</unit>
+				<unit id="timesAtEnd">
+					<segment>
+						<source>There is a multiplication symbol at the end of a term.</source>
+					</segment>
+				</unit>
+				<unit id="unknownFunction">
+					<segment>
+						<source>Encountered an unknown function "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/>".</source>
+					</segment>
+				</unit>
+				<unit id="unknownAccent">
+					<segment>
+						<source>Encountered an unknown accent "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="name"/>".</source>
+					</segment>
+				</unit>
+				<unit id="emptyAccent">
+					<segment>
+						<source>There is an empty accent.</source>
+					</segment>
+				</unit>
+				<unit id="tooLongAccent">
+					<segment>
+						<source>There is an accent with more than one character in it: "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="contents"/>".</source>
+					</segment>
+				</unit>
+				<unit id="invalidSymbol">
+					<segment>
+						<source>Unexpected character "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="character"/>".</source>
+					</segment>
+				</unit>
+				<unit id="singleDecimalSeparator">
+					<segment>
+						<source>There is a decimal separator without numbers around it.</source>
+					</segment>
+				</unit>
+				<unit id="multipleDecimalSeparator">
+					<segment>
+						<source>There is a number with multiple decimal separators.</source>
+					</segment>
+				</unit>
+				<unit id="misplacedSubscript">
+					<segment>
+						<source>There is a subscript "<ph id="x1" type="ui" subType="xlf:var" swi18n:name="subscript"/>" without a variable.</source>
+					</segment>
+				</unit>
+				<unit id="misplacedSuperscript">
+					<segment>
+						<source>There is an exponent without a term prior to it.</source>
+					</segment>
+				</unit>
+				<unit id="emptySubscript">
+					<segment>
+						<source>There is a subscript symbol "_" without a character after it.</source>
+					</segment>
+				</unit>
+				<unit id="emptySuperscript">
+					<segment>
+						<source>There is an exponent symbol "^" without a character after it.</source>
+					</segment>
+				</unit>
+				<unit id="emptySubSup">
+					<segment>
+						<source>There is an empty subscript/superscript.</source>
+					</segment>
+				</unit>
+				<unit id="remaining">
+					<segment>
+						<source>Failed to interpret what was written. There's something wrong with the notation used.</source>
+					</segment>
+				</unit>
+				<unit id="notANumber">
+					<segment>
+						<source>This is not a number. Something without any variables was expected.</source>
+					</segment>
+				</unit>
+				<unit id="unknownVariable">
+					<segment>
+						<source>Unknown variable <ph id="c1" type="ui" subType="swi18n:inline-math"/>.</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="equationInput">
+			<unit id="placeHolder">
+				<segment>
+					<source>Equation</source>
+				</segment>
+			</unit>
+			<group id="validation">
+				<unit id="emptyEquation">
+					<segment>
+						<source>There's (part of) an equation missing here.</source>
+					</segment>
+				</unit>
+				<unit id="multipleEqualsSigns">
+					<segment>
+						<source>The equation has multiple "=" characters.</source>
+					</segment>
+				</unit>
+				<unit id="missingEqualsSign">
+					<segment>
+						<source>The equation has no "=" character.</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+	</file>
+</xliff>

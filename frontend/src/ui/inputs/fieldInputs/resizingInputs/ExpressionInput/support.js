@@ -1,13 +1,12 @@
-import { Translation, Check } from 'i18n'
+import { Condition } from '@step-wise/i18n'
+
+import { InputTranslation } from 'ui/inputs/InputTranslation'
 import { simplifyKey, keyboards, greekAlphabet } from 'ui/form'
 
 import { expressionFunctions } from '../MathInput'
 
 const mathKeys = keyboards.basicMath.keys
 const keysToCheck = [...mathKeys, ...Object.keys(greekAlphabet)]
-
-const translationPath = 'inputs'
-const translationEntry = 'expressionInput.validation'
 
 // keyboardSettings takes an FI object and determines what keyboard settings are appropriate.
 export function keyboardSettings(FI, settings) {
@@ -35,65 +34,65 @@ export function errorToMessage(error) {
 	switch (code) {
 		// Special cases.
 		case 'EmptyExpression':
-			return <Translation path={translationPath} entry={`${translationEntry}.emptyExpression`}>There's (part of) an expression missing here.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="emptyExpression">There's (part of) an expression missing here.</InputTranslation>
 
 		// Bracket interpretation.
 		case 'UnmatchedClosingBracket':
-			return <Translation path={translationPath} entry={`${translationEntry}.unmatchedClosingBracket`}>There is a closing bracket without corresponding opening bracket.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="unmatchedClosingBracket">There is a closing bracket without corresponding opening bracket.</InputTranslation>
 		case 'UnmatchedOpeningBracket':
-			return <Translation path={translationPath} entry={`${translationEntry}.unmatchedOpeningBracket`}>There is an opening bracket without corresponding closing bracket.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="unmatchedOpeningBracket">There is an opening bracket without corresponding closing bracket.</InputTranslation>
 
 		// Sum interpretation.
 		case 'PlusAtStart':
-			return <Translation path={translationPath} entry={`${translationEntry}.plusAtStart`}>There is a plus symbol at the start.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="plusAtStart">There is a plus symbol at the start.</InputTranslation>
 		case 'DoublePlusMinus':
-			return <Translation path={translationPath} entry={`${translationEntry}.doublePlusMinus`}>There are two subsequent plus/minus symbols.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="doublePlusMinus">There are two subsequent plus/minus symbols.</InputTranslation>
 		case 'PlusMinusAtEnd':
-			return <Translation path={translationPath} entry={`${translationEntry}.plusMinusAtEnd`}>There is a <Check value={cause === '+'}><Check.True>plus</Check.True><Check.False>minus</Check.False></Check> symbol at the end.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="plusMinusAtEnd">There is a <Condition value={{ isPlus: cause === '+' }}><Condition.True>plus</Condition.True><Condition.False>minus</Condition.False></Condition> symbol at the end.</InputTranslation>
 
 		// Product interpretation.
 		case 'TimesAtStart':
-			return <Translation path={translationPath} entry={`${translationEntry}.timesAtStart`}>There is a multiplication symbol at the start of a term.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="timesAtStart">There is a multiplication symbol at the start of a term.</InputTranslation>
 		case 'DoubleTimes':
-			return <Translation path={translationPath} entry={`${translationEntry}.doubleTimes`}>There are two subsequent multiplication symbols.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="doubleTimes">There are two subsequent multiplication symbols.</InputTranslation>
 		case 'TimesAtEnd':
-			return <Translation path={translationPath} entry={`${translationEntry}.timesAtEnd`}>There is a multiplication symbol at the end of a term.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="timesAtEnd">There is a multiplication symbol at the end of a term.</InputTranslation>
 
 		// Advanced function interpretation.
 		case 'UnknownBasicFunction':
 		case 'UnknownAdvancedFunction':
-			return <Translation path={translationPath} entry={`${translationEntry}.unknownFunction`}>Encountered an unknown function "{{ name: cause }}".</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="unknownFunction">Encountered an unknown function "{{ name: cause }}".</InputTranslation>
 
 		// Accent interpretation.
 		case 'UnknownAccent':
-			return <Translation path={translationPath} entry={`${translationEntry}.unknownAccent`}>Encountered an unknown accent "{{ name: cause }}".</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="unknownAccent">Encountered an unknown accent "{{ name: cause }}".</InputTranslation>
 		case 'EmptyAccent':
-			return <Translation path={translationPath} entry={`${translationEntry}.emptyAccent`}>There is an empty accent.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="emptyAccent">There is an empty accent.</InputTranslation>
 		case 'TooLongAccent':
-			return <Translation path={translationPath} entry={`${translationEntry}.tooLongAccent`}>There is an accent with more than one character in it: "{{ contents: cause }}".</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="tooLongAccent">There is an accent with more than one character in it: "{{ contents: cause }}".</InputTranslation>
 
 		// String interpretation.
 		case 'InvalidSymbol':
-			return <Translation path={translationPath} entry={`${translationEntry}.invalidSymbol`}>Unexpected character "{{ character: cause }}".</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="invalidSymbol">Unexpected character "{{ character: cause }}".</InputTranslation>
 		case 'SingleDecimalSeparator':
-			return <Translation path={translationPath} entry={`${translationEntry}.singleDecimalSeparator`}>There is a decimal separator without numbers around it.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="singleDecimalSeparator">There is a decimal separator without numbers around it.</InputTranslation>
 		case 'MultipleDecimalSeparator':
-			return <Translation path={translationPath} entry={`${translationEntry}.multipleDecimalSeparator`}>There is a number with multiple decimal separators.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="multipleDecimalSeparator">There is a number with multiple decimal separators.</InputTranslation>
 
 		// Subscript/superscript interpretation.
 		case 'MisplacedSubscript':
-			return <Translation path={translationPath} entry={`${translationEntry}.misplacedSubscript`}>There is a subscript "{{ subscript: cause }}" without a variable.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="misplacedSubscript">There is a subscript "{{ subscript: cause }}" without a variable.</InputTranslation>
 		case 'MisplacedSuperscript':
-			return <Translation path={translationPath} entry={`${translationEntry}.misplacedSuperscript`}>There is an exponent without a term prior to it.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="misplacedSuperscript">There is an exponent without a term prior to it.</InputTranslation>
 		case 'EmptySubscript':
-			return <Translation path={translationPath} entry={`${translationEntry}.emptySubscript`}>There is a subscript symbol "_" without a character after it.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="emptySubscript">There is a subscript symbol "_" without a character after it.</InputTranslation>
 		case 'EmptySuperscript':
-			return <Translation path={translationPath} entry={`${translationEntry}.emptySuperscript`}>There is an exponent symbol "^" without a character after it.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="emptySuperscript">There is an exponent symbol "^" without a character after it.</InputTranslation>
 		case 'EmptySubSup':
-			return <Translation path={translationPath} entry={`${translationEntry}.emptySubSup`}>There is an empty subscript/superscript.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="emptySubSup">There is an empty subscript/superscript.</InputTranslation>
 
 		default:
 			console.error(error) // Display the error.
-			return <Translation path={translationPath} entry={`${translationEntry}.remaining`}>Failed to interpret what was written. There's something wrong with the notation used.</Translation>
+			return <InputTranslation input="expressionInput" group={['validation']} id="remaining">Failed to interpret what was written. There's something wrong with the notation used.</InputTranslation>
 	}
 }

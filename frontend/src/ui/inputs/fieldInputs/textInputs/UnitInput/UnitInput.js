@@ -1,9 +1,9 @@
 import React from 'react'
 import { alpha } from '@mui/material'
 
-import { Translation } from 'i18n'
-
 import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
+
+import { InputTranslation } from 'ui/inputs/InputTranslation'
 
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 
@@ -89,7 +89,7 @@ export const defaultUnitInputOptions = {
 	}),
 
 	// Settings from outside.
-	placeholder: <Translation path="inputs" entry="unitInput.placeHolder">Unit</Translation>,
+	placeholder: <InputTranslation input="unitInput" id="placeHolder">Unit</InputTranslation>,
 	validate: validation.nonEmpty,
 
 	// Functionalities.
