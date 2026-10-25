@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
+import { withTranslation } from '@step-wise/i18n'
 
 import { InputTranslation } from 'ui/inputs/InputTranslation'
 
@@ -35,7 +36,7 @@ export const defaultIntegerInputOptions = {
 	errorToMessage,
 }
 
-export function IntegerInput(options) {
+function IntegerInputBase(options) {
 	options = mergeDefaults(options, defaultIntegerInputOptions)
 
 	// Set up options for the TextInput field.
@@ -52,5 +53,11 @@ export function IntegerInput(options) {
 		<IntegerInputInner />
 	</TextInput>
 }
-IntegerInput.validation = validation
-IntegerInput.translatableProps = TextInput.translatableProps
+
+export const IntegerInput = Object.assign(withTranslation(IntegerInputBase, {
+	tag: 'integer-input',
+	translatedProps: TextInput.translatableProps,
+}), {
+	validation,
+	translatableProps: TextInput.translatableProps,
+})

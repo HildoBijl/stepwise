@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
+import { withTranslation } from '@step-wise/i18n'
 
 import { InputTranslation } from 'ui/inputs/InputTranslation'
 
@@ -20,7 +21,7 @@ const defaultEquationInputOptions = {
 	errorToMessage,
 }
 
-export function EquationInput(options) {
+function EquationInputBase(options) {
 	options = mergeDefaults(options, defaultEquationInputOptions)
 
 	// Force equals to be true in the settings to allow an equals sign.
@@ -35,6 +36,12 @@ export function EquationInput(options) {
 	// Render everything.
 	return <MathInput {...mathInputOptions} />
 }
-EquationInput.validation = validation
-EquationInput.settings = settings
-EquationInput.translatableProps = MathInput.translatableProps
+
+export const EquationInput = Object.assign(withTranslation(EquationInputBase, {
+	tag: 'equation-input',
+	translatedProps: MathInput.translatableProps,
+}), {
+	validation,
+	settings,
+	translatableProps: MathInput.translatableProps,
+})

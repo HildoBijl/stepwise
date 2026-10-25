@@ -2,6 +2,7 @@ import React from 'react'
 import { alpha } from '@mui/material'
 
 import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
+import { withTranslation } from '@step-wise/i18n'
 
 import { InputTranslation } from 'ui/inputs/InputTranslation'
 
@@ -108,11 +109,17 @@ export const defaultUnitInputOptions = {
 	errorToMessage,
 }
 
-export function UnitInput(options) {
+function UnitInputBase(options) {
 	options = mergeDefaults(options, defaultUnitInputOptions)
 	return <TextInput {...pickFromDefaults(options, defaultTextInputOptions)}>
 		<UnitInputInner />
 	</TextInput>
 }
-UnitInput.validation = validation
-UnitInput.translatableProps = TextInput.translatableProps
+
+export const UnitInput = Object.assign(withTranslation(UnitInputBase, {
+	tag: 'unit-input',
+	translatedProps: TextInput.translatableProps,
+}), {
+	validation,
+	translatableProps: TextInput.translatableProps,
+})

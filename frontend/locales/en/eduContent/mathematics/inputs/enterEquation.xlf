@@ -27,7 +27,7 @@
 			<group id="enterEquation">
 				<unit id="problem">
 					<segment>
-						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Consider the equation <ph id="c2" type="ui" subType="swi18n:block-math"/> Make some basic modification to it, so that it's different yet still mathematically equivalent.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:equation-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Enter the equation here</pc></pc></pc></pc></source>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Consider the equation <ph id="c2" type="ui" subType="swi18n:block-math"/> Make some basic modification to it, so that it's different yet still mathematically equivalent.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:equation-input" swi18n:slot="label">Enter the equation here</pc></pc></pc></source>
 					</segment>
 				</unit>
 				<unit id="solution">

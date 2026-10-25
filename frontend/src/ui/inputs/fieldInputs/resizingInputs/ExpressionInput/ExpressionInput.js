@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
+import { withTranslation } from '@step-wise/i18n'
 
 import { InputTranslation } from 'ui/inputs/InputTranslation'
 
@@ -19,7 +20,7 @@ const defaultExpressionInputOptions = {
 	errorToMessage,
 }
 
-export function ExpressionInput(options) {
+function ExpressionInputBase(options) {
 	options = mergeDefaults(options, defaultExpressionInputOptions)
 
 	// Set up the options for the Math Input field.
@@ -28,6 +29,12 @@ export function ExpressionInput(options) {
 	// Render everything.
 	return <MathInput {...mathInputOptions} />
 }
-ExpressionInput.validation = validation
-ExpressionInput.settings = settings
-ExpressionInput.translatableProps = MathInput.translatableProps
+
+export const ExpressionInput = Object.assign(withTranslation(ExpressionInputBase, {
+	tag: 'expression-input',
+	translatedProps: MathInput.translatableProps,
+}), {
+	validation,
+	settings,
+	translatableProps: MathInput.translatableProps,
+})

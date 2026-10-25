@@ -38,11 +38,6 @@
 							<source>Enter <ph id="c1" type="ui" subType="swi18n:inline-math"/> here</source>
 						</segment>
 					</unit>
-					<unit id="noMinusSign">
-						<segment>
-							<source>You forgot the minus sign.</source>
-						</segment>
-					</unit>
 				</group>
 				<unit id="solution">
 					<segment>

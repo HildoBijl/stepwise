@@ -44,12 +44,6 @@
 							<target swi18n:sourceContentFingerprint="2649b57423b15b46" swi18n:sourceStructureFingerprint="8c52ffd8f6d33b16">Vul hier <ph id="c1" type="ui" subType="swi18n:inline-math"/> in</target>
 						</segment>
 					</unit>
-					<unit id="noMinusSign">
-						<segment>
-							<source>You forgot the minus sign.</source>
-							<target swi18n:sourceContentFingerprint="729f679607b1d648" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">You forgot the minus sign.</target>
-						</segment>
-					</unit>
 				</group>
 				<unit id="solution">
 					<segment>

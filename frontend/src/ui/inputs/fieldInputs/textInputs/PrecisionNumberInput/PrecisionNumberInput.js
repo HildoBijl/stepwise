@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
+import { withTranslation } from '@step-wise/i18n'
 
 import { InputTranslation } from 'ui/inputs/InputTranslation'
 
@@ -35,7 +36,7 @@ export const defaultPrecisionNumberInputOptions = {
 	errorToMessage,
 }
 
-export function PrecisionNumberInput(options) {
+function PrecisionNumberInputBase(options) {
 	options = mergeDefaults(options, defaultPrecisionNumberInputOptions)
 
 	// Set up options for the TextInput field.
@@ -51,5 +52,11 @@ export function PrecisionNumberInput(options) {
 		<PrecisionNumberInputInner />
 	</TextInput>
 }
-PrecisionNumberInput.validation = validation
-PrecisionNumberInput.translatableProps = TextInput.translatableProps
+
+export const PrecisionNumberInput = Object.assign(withTranslation(PrecisionNumberInputBase, {
+	tag: 'precision-number-input',
+	translatedProps: TextInput.translatableProps,
+}), {
+	validation,
+	translatableProps: TextInput.translatableProps,
+})

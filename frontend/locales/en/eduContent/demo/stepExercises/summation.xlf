@@ -24,7 +24,7 @@
 			<group id="summation1">
 				<unit id="problem">
 					<segment>
-						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the addition <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input" swi18n:slot="children"><pc id="c6" type="ui" subType="swi18n:label" swi18n:slot="children">Answer</pc><pc id="c7" type="ui" subType="swi18n:prelabel" swi18n:slot="children"><ph id="c8" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
+						<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Calculate the addition <ph id="c2" type="ui" subType="swi18n:inline-math"/>.</pc><pc id="c3" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:integer-input"><pc id="x1" type="other" subType="swi18n:slot" swi18n:name="label">Answer</pc><pc id="x2" type="other" subType="swi18n:slot" swi18n:name="prelabel"><ph id="c6" type="ui" subType="swi18n:inline-math"/></pc></pc></pc></pc></source>
 					</segment>
 				</unit>
 				<unit id="solution">

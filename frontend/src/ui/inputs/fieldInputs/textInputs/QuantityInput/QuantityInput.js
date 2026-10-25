@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
+import { withTranslation } from '@step-wise/i18n'
 
 import { InputTranslation } from 'ui/inputs/InputTranslation'
 
@@ -42,7 +43,7 @@ export const defaultQuantityInputOptions = {
 	errorToMessage,
 }
 
-export function QuantityInput(options) {
+function QuantityInputBase(options) {
 	options = mergeDefaults(options, defaultQuantityInputOptions)
 
 	// Set up options for the TextInput field.
@@ -58,5 +59,11 @@ export function QuantityInput(options) {
 		<QuantityInputInner />
 	</TextInput>
 }
-QuantityInput.validation = validation
-QuantityInput.translatableProps = TextInput.translatableProps
+
+export const QuantityInput = Object.assign(withTranslation(QuantityInputBase, {
+	tag: 'quantity-input',
+	translatedProps: TextInput.translatableProps,
+}), {
+	validation,
+	translatableProps: TextInput.translatableProps,
+})
