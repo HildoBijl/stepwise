@@ -1,12 +1,13 @@
 import { useUser } from 'api'
 import { Condition, Translation } from '@step-wise/i18n'
 
-import { TranslationFile, TranslationSection, Translation as LegacyTranslation } from 'i18n'
+import { TranslationFile, TranslationSection } from 'i18n'
 import { Head, Par, SignInButtons } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
 
 import { useCourseData } from '../components'
+import { CourseTranslation } from '../components/CourseTranslation'
 
 import { CourseTeachers, CourseLearningGoals, SubscribeButton } from './components'
 
@@ -18,7 +19,7 @@ export function CourseSettingsPageForUnsubscribedUser() {
 	const user = useUser()
 
 	return <>
-		{course.description && <Par><LegacyTranslation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</LegacyTranslation></Par>}
+		{course.description && <Par><CourseTranslation course={course} property="description" /></Par>}
 		<SubscribeToCourse course={course} />
 		{user ? <CourseTeachers course={course} /> : null}
 		<CourseLearningGoals course={course} />

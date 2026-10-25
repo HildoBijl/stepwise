@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="stepwise">
+			<group id="stepwisetutorial">
+				<unit id="name">
+					<segment>
+						<source>Step-Wise Tutorial</source>
+						<target swi18n:sourceContentFingerprint="d1e18710657601e3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Step-Wise Tutorial</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>In this brief demo you can play around with how Step-Wise works.</source>
+						<target swi18n:sourceContentFingerprint="32a6d6971b7d5959" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">In dieser kurzen Demo kannst du ein wenig damit spielen, wie Step-Wise funktioniert.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Number input fields</source>
+							<target swi18n:sourceContentFingerprint="b6606c564a94de1e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Eingabefelder für Zahlen</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Mathematical input fields</source>
+							<target swi18n:sourceContentFingerprint="52de31323a2bd1ef" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Mathematische Eingabefelder</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Demo Step-Wise exercises</source>
+							<target swi18n:sourceContentFingerprint="e7a7b2b6a765690b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Demo schrittweise Übungen</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="algebrabasics">
+				<unit id="name">
+					<segment>
+						<source>Mathematics: algebra basics</source>
+						<target swi18n:sourceContentFingerprint="c33828882ed36ccd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Mathematik: Algebra Grundlagen</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This introductory course walks you through the basics of algebra, from simplifying fractions to solving various types of linear equations.</source>
+						<target swi18n:sourceContentFingerprint="c5da5abb0b000194" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dieser Einführungskurs führt dich durch die Grundlagen der Algebra, vom Vereinfachen von Brüchen bis zum Lösen verschiedener Arten von linearen Gleichungen.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Expanding brackets</source>
+							<target swi18n:sourceContentFingerprint="d14e4f32d005496f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Klammern auflösen</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Adding fractions</source>
+							<target swi18n:sourceContentFingerprint="8c228443bec8b5ca" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Brüche addieren</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Simplifying fractions</source>
+							<target swi18n:sourceContentFingerprint="fbde78b3a261f3b2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Brüche vereinfachen</target>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Solving linear equations</source>
+							<target swi18n:sourceContentFingerprint="d3eea132667ada5e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lineare Gleichungen lösen</target>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Simplifying fractions with multiple variables</source>
+							<target swi18n:sourceContentFingerprint="f4e4284870e39681" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Brüche mit mehreren Variablen vereinfachen</target>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Solve linear equations with multiple variables</source>
+							<target swi18n:sourceContentFingerprint="af9cc41c6d547822" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lineare Gleichungen mit mehreren Variablen lösen</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="algebrasolvingequations">
+				<unit id="name">
+					<segment>
+						<source>Mathematics: solving equations</source>
+						<target swi18n:sourceContentFingerprint="ccd460a383edd701" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Mathematik: Gleichungen lösen</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This course applies the fundamentals of algebra towards solving various types of equations, ranging from systems of linear equations up to rewritten quadratic equations.</source>
+						<target swi18n:sourceContentFingerprint="97039721818aac1f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dieser Kurs wendet die Grundlagen der Algebra auf die Lösung verschiedener Arten von Gleichungen an, von linearen Gleichungssystemen bis hin zu umgeschriebenen quadratischen Gleichungen.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Basic rules of algebra</source>
+							<target swi18n:sourceContentFingerprint="6c08dc1e881b1422" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Grundregeln der Algebra</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Rewritten linear equations</source>
+							<target swi18n:sourceContentFingerprint="d2e35424048ba0ee" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Umgeformte lineare Gleichungen</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Systems of equations</source>
+							<target swi18n:sourceContentFingerprint="0f3da3543e51ac88" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Systeme von Gleichungen</target>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Quadratic equations</source>
+							<target swi18n:sourceContentFingerprint="23de187ec0bc7b4b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Quadratische Gleichungen</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="geometrybasics">
+				<unit id="name">
+					<segment>
+						<source>Mathematics: geometry basics</source>
+						<target swi18n:sourceContentFingerprint="65071af44887aa2d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Mathematik: Geometrie Grundlagen</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>In this small course you practice some basic geometry skills like calculating angles and distances.</source>
+						<target swi18n:sourceContentFingerprint="855ca0805ed0a054" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">In diesem kleinen Kurs übst du einige grundlegende geometrische Kompetenzen, wie das Berechnen von Winkeln und Distanzen.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Right-angled triangles</source>
+							<target swi18n:sourceContentFingerprint="6f9eda58d722d413" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Rechteckige Dreiecke</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Fundamentals: solving equations</source>
+							<target swi18n:sourceContentFingerprint="a215e102f2050977" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Grundlagen: Gleichungen lösen</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>General triangles</source>
+							<target swi18n:sourceContentFingerprint="891502cb7b80fb0f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Allgemeine Dreiecke</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="derivativesbasics">
+				<unit id="name">
+					<segment>
+						<source>Mathematics: derivatives</source>
+						<target swi18n:sourceContentFingerprint="ca9d29a4d43bbab6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Mathematik: Ableitungen</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This course teaches derivatives, starting with looking up basic derivatives, and building up to applying combinations of rules.</source>
+						<target swi18n:sourceContentFingerprint="ef97389f2caeb58b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dieser Kurs behandelt Ableitungen, von der Bestimmung der grundlegenden Ableitungen bis zur Anwendung von Kombinationen von Regeln.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Derivative basics</source>
+							<target swi18n:sourceContentFingerprint="4d2f6027f9ba8234" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Basisableitungen</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Derivative rules</source>
+							<target swi18n:sourceContentFingerprint="a2d72ad3126e5326" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ableitungsregeln anwenden</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Determine derivatives</source>
+							<target swi18n:sourceContentFingerprint="cdf44404a4cf2c49" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Ableitungen bestimmen</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="staticsfundamentals">
+				<unit id="name">
+					<segment>
+						<source>Statics: free body diagrams</source>
+						<target swi18n:sourceContentFingerprint="a9738d1041a1fb3b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Statica: Freikörperdiagrammen</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This tiny course helps you get used to the concept of Free Body Diagrams and apply them to calculate support forces within structures.</source>
+						<target swi18n:sourceContentFingerprint="e9d895f830fcdca8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dieser Minikurs hilft dir, dich mit dem Konzept der Freikörperdiagramme vertraut zu machen und sie zur Berechnung von Reaktionskräften innerhalb von Strukturen anzuwenden.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Drawing free body diagrams</source>
+							<target swi18n:sourceContentFingerprint="ffdbc41892ccfd3a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Freikörperdiagrammen zeichnen</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Calculate support reactions</source>
+							<target swi18n:sourceContentFingerprint="265575f697ec0939" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Reaktionenskräfte berechnen</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="thermodynamicsfundamentals">
+				<unit id="name">
+					<segment>
+						<source>Thermodynamics: cycles</source>
+						<target swi18n:sourceContentFingerprint="93da59074a265258" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Thermodynamik: Kreisläufe</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles. Air humidity is also briefly considered at the end.</source>
+						<target swi18n:sourceContentFingerprint="73b247e6e74ae0f4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dieser Einführungskurs in die Thermodynamik behandelt die Grundlagen thermodynamischer Prozesse bis hin zur Analyse geschlossener Kreisläufe. Am Ende wird auch Luftfeuchtigkeit betrachtet.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Gas properties and the gas law</source>
+							<target swi18n:sourceContentFingerprint="c47e6686713b3177" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gaseigenschaften und das Gasgesetz</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Thermodynamic processes and Poisson's law</source>
+							<target swi18n:sourceContentFingerprint="a7399587553925bf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Thermodynamische Prozesse und das Poisson'sche Gesetz</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Work and heat</source>
+							<target swi18n:sourceContentFingerprint="619a2582d98e54e6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Arbeit und Wärme</target>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Cycles: analysis</source>
+							<target swi18n:sourceContentFingerprint="db8583220f95a26d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kreisläufe: Analyse</target>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Cycles: energy and efficiency</source>
+							<target swi18n:sourceContentFingerprint="6393459d0cc8dfd3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kreisläufe: Energie und Effizienz</target>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Humidity and air conditioning</source>
+							<target swi18n:sourceContentFingerprint="8acc45dbe7661d31" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Luftfeuchtigkeit und Klimatisierung</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="huwiskundevoorkennis">
+				<unit id="name">
+					<segment>
+						<source>Mathematics: prior knowledge</source>
+						<target swi18n:sourceContentFingerprint="068f715a5ac02920" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Mathematics: prior knowledge</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This introductory course contains all skills you should already have when starting your studies. It walks you through the basics of algebra, from simplifying fractions to solving various types of basic linear equations.</source>
+						<target swi18n:sourceContentFingerprint="933f4aa4e3c1dfab" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">This introductory course contains all skills you should already have when starting your studies. It walks you through the basics of algebra, from simplifying fractions to solving various types of basic linear equations.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Expanding brackets</source>
+							<target swi18n:sourceContentFingerprint="d14e4f32d005496f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Expanding brackets</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Adding fractions</source>
+							<target swi18n:sourceContentFingerprint="8c228443bec8b5ca" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Adding fractions</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Simplifying fractions</source>
+							<target swi18n:sourceContentFingerprint="fbde78b3a261f3b2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Simplifying fractions</target>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Solving linear equations</source>
+							<target swi18n:sourceContentFingerprint="d3eea132667ada5e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Solving linear equations</target>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Simplifying fractions with multiple variables</source>
+							<target swi18n:sourceContentFingerprint="f4e4284870e39681" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Simplifying fractions with multiple variables</target>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Solve linear equations with multiple variables</source>
+							<target swi18n:sourceContentFingerprint="af9cc41c6d547822" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Solve linear equations with multiple variables</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+		<group id="sintAgnesinstituut">
+			<group id="saiwiskunde">
+				<unit id="name">
+					<segment>
+						<source>Wiskunde bijspijkercursus</source>
+						<target swi18n:sourceContentFingerprint="0fdbb7e14ff7ebb8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Wiskunde bijspijkercursus</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>Via deze cursus kun je de wiskundevaardigheden bijspijkeren. Begin met haakjes en breuken en bouw op tot het oplossen van verschillende soorten vergelijkingen.</source>
+						<target swi18n:sourceContentFingerprint="3503e3e81c7a11cb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Via deze cursus kun je de wiskundevaardigheden bijspijkeren. Begin met haakjes en breuken en bouw op tot het oplossen van verschillende soorten vergelijkingen.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Haakjes uitwerken</source>
+							<target swi18n:sourceContentFingerprint="26123bbd0cc087d7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Haakjes uitwerken</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Machten vereenvoudigen</source>
+							<target swi18n:sourceContentFingerprint="31dc27de1dfc6206" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Machten vereenvoudigen</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Breuken optellen</source>
+							<target swi18n:sourceContentFingerprint="ec4b75f9afdbc21d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breuken optellen</target>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Breuken vereenvoudigen</source>
+							<target swi18n:sourceContentFingerprint="2b39117c3fb3a41a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breuken vereenvoudigen</target>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Lineaire vergelijkingen oplossen</source>
+							<target swi18n:sourceContentFingerprint="035058f1a726c482" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lineaire vergelijkingen oplossen</target>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Kwadratische vergelijkingen oplossen</source>
+							<target swi18n:sourceContentFingerprint="cc80ccd35ff37af5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kwadratische vergelijkingen oplossen</target>
+						</segment>
+					</unit>
+					<unit id="6">
+						<segment>
+							<source>Breuken met meerdere variabelen vereenvoudigen</source>
+							<target swi18n:sourceContentFingerprint="d38e98e5b98a80c8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breuken met meerdere variabelen vereenvoudigen</target>
+						</segment>
+					</unit>
+					<unit id="7">
+						<segment>
+							<source>Lineaire vergelijkingen met meerdere variabelen oplossen</source>
+							<target swi18n:sourceContentFingerprint="bf7bc8bd8c65aa20" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lineaire vergelijkingen met meerdere variabelen oplossen</target>
+						</segment>
+					</unit>
+					<unit id="8">
+						<segment>
+							<source>Stelsels van vergelijkingen oplossen</source>
+							<target swi18n:sourceContentFingerprint="06e8dc085af442cb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Stelsels van vergelijkingen oplossen</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+		<group id="hogeschoolUtrecht">
+			<group id="hu-voorkennis-wiskunde">
+				<unit id="name">
+					<segment>
+						<source>Prior knowledge: Algebra</source>
+						<target swi18n:sourceContentFingerprint="555ad937cc3cc4fe" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Prior knowledge: Algebra</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This introductory course contains all algebra skills you should already have when starting your studies. It walks you through the basics of algebra, from simplifying fractions to solving various types of basic linear equations.</source>
+						<target swi18n:sourceContentFingerprint="04c8e350aac75943" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">This introductory course contains all algebra skills you should already have when starting your studies. It walks you through the basics of algebra, from simplifying fractions to solving various types of basic linear equations.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Expanding brackets</source>
+							<target swi18n:sourceContentFingerprint="d14e4f32d005496f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Expanding brackets</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Adding fractions</source>
+							<target swi18n:sourceContentFingerprint="8c228443bec8b5ca" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Adding fractions</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Simplifying fractions</source>
+							<target swi18n:sourceContentFingerprint="fbde78b3a261f3b2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Simplifying fractions</target>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Solving linear equations</source>
+							<target swi18n:sourceContentFingerprint="d3eea132667ada5e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Solving linear equations</target>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Simplifying fractions with multiple variables</source>
+							<target swi18n:sourceContentFingerprint="f4e4284870e39681" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Simplifying fractions with multiple variables</target>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Solve linear equations with multiple variables</source>
+							<target swi18n:sourceContentFingerprint="af9cc41c6d547822" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Solve linear equations with multiple variables</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="hu-a-wiskunde">
+				<unit id="name">
+					<segment>
+						<source>Period 1A: Mathematics</source>
+						<target swi18n:sourceContentFingerprint="1f320ad4f8785a4d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Period 1A: Mathematics</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>In the first period we apply the fundamentals of algebra towards solving various types of equations, ranging from systems of linear equations up to rewritten quadratic equations.</source>
+						<target swi18n:sourceContentFingerprint="2608844c37da34cb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">In the first period we apply the fundamentals of algebra towards solving various types of equations, ranging from systems of linear equations up to rewritten quadratic equations.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Basic rules of algebra</source>
+							<target swi18n:sourceContentFingerprint="6c08dc1e881b1422" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Basic rules of algebra</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Rewritten linear equations</source>
+							<target swi18n:sourceContentFingerprint="d2e35424048ba0ee" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Rewritten linear equations</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Systems of equations</source>
+							<target swi18n:sourceContentFingerprint="0f3da3543e51ac88" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Systems of equations</target>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Quadratic equations</source>
+							<target swi18n:sourceContentFingerprint="23de187ec0bc7b4b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Quadratic equations</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="hu-a-statica">
+				<unit id="name">
+					<segment>
+						<source>Period 1A: Statics intro</source>
+						<target swi18n:sourceContentFingerprint="81e46fc98e9e8de4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Period 1A: Statics intro</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This tiny introduction course to Statics helps you get used to the concept of Free Body Diagrams and apply them to calculate support forces within structures.</source>
+						<target swi18n:sourceContentFingerprint="aa0f774e662290a4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">This tiny introduction course to Statics helps you get used to the concept of Free Body Diagrams and apply them to calculate support forces within structures.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Drawing free body diagrams</source>
+							<target swi18n:sourceContentFingerprint="ffdbc41892ccfd3a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Drawing free body diagrams</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Calculating support reactions</source>
+							<target swi18n:sourceContentFingerprint="ac450e0cc69d992c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Calculating support reactions</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="hu-b-wiskunde">
+				<unit id="name">
+					<segment>
+						<source>Period 1B: Mathematics derivatives</source>
+						<target swi18n:sourceContentFingerprint="abc442fe5f6c38b2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Period 1B: Mathematics derivatives</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This course teaches derivatives, starting with looking up basic derivatives, and building up to applying combinations of rules.</source>
+						<target swi18n:sourceContentFingerprint="ef97389f2caeb58b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">This course teaches derivatives, starting with looking up basic derivatives, and building up to applying combinations of rules.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Derivative basics</source>
+							<target swi18n:sourceContentFingerprint="4d2f6027f9ba8234" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Derivative basics</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Derivative rules</source>
+							<target swi18n:sourceContentFingerprint="a2d72ad3126e5326" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Derivative rules</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Determine derivatives</source>
+							<target swi18n:sourceContentFingerprint="cdf44404a4cf2c49" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Determine derivatives</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="hu-d-thermodynamica">
+				<unit id="name">
+					<segment>
+						<source>Period 1D: Thermodynamics</source>
+						<target swi18n:sourceContentFingerprint="9ec03f70d609b1cb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Period 1D: Thermodynamics</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles.</source>
+						<target swi18n:sourceContentFingerprint="de290ca78c016116" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Gas properties and the gas law</source>
+							<target swi18n:sourceContentFingerprint="c47e6686713b3177" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gas properties and the gas law</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Thermodynamic processes and Poisson's law</source>
+							<target swi18n:sourceContentFingerprint="a7399587553925bf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Thermodynamic processes and Poisson's law</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Work and heat</source>
+							<target swi18n:sourceContentFingerprint="619a2582d98e54e6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Work and heat</target>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Cycles: analysis</source>
+							<target swi18n:sourceContentFingerprint="db8583220f95a26d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Cycles: analysis</target>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Cycles: energy and efficiency</source>
+							<target swi18n:sourceContentFingerprint="6393459d0cc8dfd3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Cycles: energy and efficiency</target>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Steam turbines and cooling machines</source>
+							<target swi18n:sourceContentFingerprint="70df9cb28948ef04" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Steam turbines and cooling machines</target>
+						</segment>
+					</unit>
+					<unit id="6">
+						<segment>
+							<source>Humidity and air conditioning</source>
+							<target swi18n:sourceContentFingerprint="8acc45dbe7661d31" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Humidity and air conditioning</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="hu-thermodynamica">
+				<unit id="name">
+					<segment>
+						<source>Period 2B: Heat and energy</source>
+						<target swi18n:sourceContentFingerprint="f7cc48ab72706546" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Period 2B: Heat and energy</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>In this applied thermodynamics course you learn about how various types of thermodynamic cycles work in practice, including gas turbines, Rankine cycles and cooling cycles.</source>
+						<target swi18n:sourceContentFingerprint="8e946a063f07ea13" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">In this applied thermodynamics course you learn about how various types of thermodynamic cycles work in practice, including gas turbines, Rankine cycles and cooling cycles.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Closed systems and cycles</source>
+							<target swi18n:sourceContentFingerprint="a77e9f9bc9f2b49e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Closed systems and cycles</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Open systems and enthalpy</source>
+							<target swi18n:sourceContentFingerprint="b43742fea1a60f68" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Open systems and enthalpy</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Entropy and the second law</source>
+							<target swi18n:sourceContentFingerprint="624b4fda05193e47" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Entropy and the second law</target>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Gas turbines</source>
+							<target swi18n:sourceContentFingerprint="cb36eaa40d36c779" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gas turbines</target>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Vapors and diagrams</source>
+							<target swi18n:sourceContentFingerprint="dae8016aea58e7b8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vapors and diagrams</target>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Steam turbines</source>
+							<target swi18n:sourceContentFingerprint="16befe23d9feeab8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Steam turbines</target>
+						</segment>
+					</unit>
+					<unit id="6">
+						<segment>
+							<source>Cooling machines and heat pumps</source>
+							<target swi18n:sourceContentFingerprint="2b7aaab1e0b27cb9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Cooling machines and heat pumps</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="hu-deeltijd-thermodynamica">
+				<unit id="name">
+					<segment>
+						<source>Part-time: Modeling and processes</source>
+						<target swi18n:sourceContentFingerprint="2efdebac03238b10" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Part-time: Modeling and processes</target>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>In this applied thermodynamics course you learn about how various types of thermodynamic cycles work in practice, including gas turbines, Rankine cycles and cooling cycles.</source>
+						<target swi18n:sourceContentFingerprint="8e946a063f07ea13" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">In this applied thermodynamics course you learn about how various types of thermodynamic cycles work in practice, including gas turbines, Rankine cycles and cooling cycles.</target>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Thermodynamic processes</source>
+							<target swi18n:sourceContentFingerprint="4261f13c05d244f7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Thermodynamic processes</target>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Closed systems and cycles</source>
+							<target swi18n:sourceContentFingerprint="a77e9f9bc9f2b49e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Closed systems and cycles</target>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Open systems and enthalpy</source>
+							<target swi18n:sourceContentFingerprint="b43742fea1a60f68" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Open systems and enthalpy</target>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Entropy and the second law</source>
+							<target swi18n:sourceContentFingerprint="624b4fda05193e47" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Entropy and the second law</target>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Gasturbines</source>
+							<target swi18n:sourceContentFingerprint="cf591d8a4a5ae8cf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gasturbines</target>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Vapors and diagrams</source>
+							<target swi18n:sourceContentFingerprint="dae8016aea58e7b8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vapors and diagrams</target>
+						</segment>
+					</unit>
+					<unit id="6">
+						<segment>
+							<source>Steam turbines</source>
+							<target swi18n:sourceContentFingerprint="16befe23d9feeab8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Steam turbines</target>
+						</segment>
+					</unit>
+					<unit id="7">
+						<segment>
+							<source>Cooling machines and heat pumps</source>
+							<target swi18n:sourceContentFingerprint="2b7aaab1e0b27cb9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Cooling machines and heat pumps</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

@@ -8,17 +8,18 @@ import { hasExercises } from '@step-wise/exercises'
 import { Translation } from '@step-wise/i18n'
 
 import { useUserWithSkills } from 'api'
-import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
+import { TranslationFile, TranslationSection } from 'i18n'
 import { RelativeTime } from 'i18nNext'
 import { Head, Par, LoadingIndicator, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
-import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
 
 import { SkillFlask } from '../../skills'
+import { TranslatedSkillName } from '../../skills/components/TranslatedSkillName'
 import { processStudentForCourse } from '../../courses'
 
 import { getExerciseOutcome } from '../util'
 import { useCourseData, CenteredProgressIndicator } from '../components'
+import { CourseTranslation } from '../components/CourseTranslation'
 
 const translationPath = `eduTools/pages/courseStudentPage`
 
@@ -46,7 +47,6 @@ export function CourseStudentPageForStudent({ course, courseDefinition, student 
 }
 
 function LastActivity({ processedStudent, course, courseDefinition }) {
-	const translate = useTranslator()
 	const paths = usePaths()
 	const navigate = useNavigate()
 
@@ -83,7 +83,7 @@ function LastActivity({ processedStudent, course, courseDefinition }) {
 									<SkillFlaskWithNumbers skillId={skill.id} student={processedStudent} courseDefinition={courseDefinition} />
 								</TableCell>
 								<TableCell sx={{ minWidth: 140, width: 800 }}>
-									{translate(moduleCatalog[skill.id].name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
+									<TranslatedSkillName skillId={skill.id} />
 								</TableCell>
 							</TableRow>
 						})}
@@ -94,7 +94,6 @@ function LastActivity({ processedStudent, course, courseDefinition }) {
 }
 
 function ProgressOverview({ processedStudent, course, courseDefinition }) {
-	const translate = useTranslator()
 	const paths = usePaths()
 	const navigate = useNavigate()
 	const numSkillColumns = useMemo(() => Math.max(...courseDefinition.blocks.map(block => block.contentSkillIds.length)), [courseDefinition])
@@ -118,7 +117,7 @@ function ProgressOverview({ processedStudent, course, courseDefinition }) {
 							{index + 1}
 						</TableCell>
 						<TableCell sx={{}}>
-							{translate(course.blockNames[index], `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
+							<CourseTranslation course={course} block={index} />
 						</TableCell>
 						<TableCell align="center">
 							<CenteredProgressIndicator size={50} total={block.contentSkillIds.length} done={processedStudent.analysis.numCompletedPerBlock[index]} />
@@ -135,8 +134,6 @@ function ProgressOverview({ processedStudent, course, courseDefinition }) {
 }
 
 function SkillIndicator({ skillId, student, courseDefinition }) {
-	const translate = useTranslator()
-
 	// When there's no skillId, we are through the skills of this block and don't need to show more.
 	if (!skillId)
 		return null
@@ -146,7 +143,7 @@ function SkillIndicator({ skillId, student, courseDefinition }) {
 	return <Box sx={{ display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', justifyContent: 'flex-start', gap: '4px' }}>
 		<SkillFlaskWithNumbers {...{ skillId, student, courseDefinition }} />
 		<Box sx={{ fontSize: 8, fontWeight: 500 }}>
-			{translate(moduleCatalog[skill.id].name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
+			<TranslatedSkillName skillId={skill.id} />
 		</Box>
 	</Box>
 }

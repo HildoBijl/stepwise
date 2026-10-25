@@ -7,7 +7,7 @@ import { fromKeysAndValues } from '@step-wise/js-utils'
 import { useLocalStorageState } from '@step-wise/react-utils'
 import { Translation, withTranslation } from '@step-wise/i18n'
 
-import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
+import { TranslationFile, TranslationSection } from 'i18n'
 import { RelativeTime } from 'i18nNext'
 import { notSelectable } from 'ui/theme'
 import { Par, Info } from 'ui/components'
@@ -16,6 +16,7 @@ import { usePaths } from 'ui/routingTools'
 import { processStudentForCourse } from '../../courses'
 
 import { useCourseData, CenteredProgressIndicator } from '../components'
+import { CourseTranslation } from '../components/CourseTranslation'
 
 const translationPath = 'eduTools/pages/coursePage'
 const translationSection = 'teachers'
@@ -42,7 +43,6 @@ export function CoursePageForTeacher() {
 }
 
 function StudentOverview({ course, courseDefinition, students }) {
-	const translate = useTranslator()
 	const [filterInactive, setFilterInactive] = useLocalStorageState(`hide-inactive-students-${course.code}`, false)
 	const navigate = useNavigate()
 	const paths = usePaths()
@@ -94,12 +94,12 @@ function StudentOverview({ course, courseDefinition, students }) {
 			flex: 1,
 			align: 'center',
 			headerAlign: 'center',
-			renderHeader: cell => <Tooltip title={translate(course.blockNames[index], `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')} arrow>
+			renderHeader: cell => <Tooltip title={<CourseTranslation course={course} block={index} />} arrow>
 				{renderHeader(cell)}
 			</Tooltip>,
 			renderCell: cell => <CenteredProgressIndicator total={courseDefinition.blocks[index].contentSkillIds.length} done={cell.value} />,
 		})),
-	], [course, courseDefinition, translate])
+	], [course, courseDefinition])
 
 	// Process the student data and potentially filter out inactive students.
 	let processedStudents = useMemo(() => students.map(student => processStudentForCourse(student, courseDefinition)), [students, courseDefinition])

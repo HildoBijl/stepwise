@@ -4,9 +4,10 @@ import { Box, useMediaQuery } from '@mui/material'
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
 import { useTranslation } from '@step-wise/i18n'
 
-import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
+import { TranslationFile, TranslationSection } from 'i18n'
 
 import { useCourseData, SkillList, SkillRecommender, Block, GradeEstimate } from '../components'
+import { CourseTranslation } from '../components/CourseTranslation'
 
 const translationPath = 'eduTools/pages/coursePage'
 const translationSection = 'students'
@@ -59,7 +60,6 @@ export function CoursePageForStudent() {
 }
 
 function LandscapeCourse({ course, courseDefinition, analysis, activeBlock, toggleActiveBlock }) {
-	const translate = useTranslator()
 	const priorKnowledge = useTranslation({ children: 'Prior knowledge', id: 'priorKnowledge' })
 	const landscape = true
 
@@ -94,7 +94,7 @@ function LandscapeCourse({ course, courseDefinition, analysis, activeBlock, togg
 				skillIds={block.contentSkillIds}
 				active={activeBlock === index}
 				toggleActive={() => toggleActiveBlock(index)}
-				name={translate(course.blockNames[index], `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
+				name={<CourseTranslation course={course} block={index} />}
 				number={index + 1}
 				isPriorKnowledge={false}
 				analysis={analysis}
@@ -106,7 +106,6 @@ function LandscapeCourse({ course, courseDefinition, analysis, activeBlock, togg
 }
 
 function PortraitCourse({ course, courseDefinition, analysis, activeBlock, toggleActiveBlock }) {
-	const translate = useTranslator()
 	const priorKnowledge = useTranslation({ children: 'Prior knowledge', id: 'priorKnowledge' })
 	const landscape = false
 	const hasPriorKnowledge = courseDefinition.priorKnowledgeIds.length > 0
@@ -131,7 +130,7 @@ function PortraitCourse({ course, courseDefinition, analysis, activeBlock, toggl
 					skillIds={block.contentSkillIds}
 					active={activeBlock === index}
 					toggleActive={() => toggleActiveBlock(index)}
-					name={translate(course.blockNames[index], `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
+					name={<CourseTranslation course={course} block={index} />}
 					number={index + 1}
 					isPriorKnowledge={false}
 					analysis={analysis}

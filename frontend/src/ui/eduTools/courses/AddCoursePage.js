@@ -6,11 +6,12 @@ import clsx from 'clsx'
 import { Translation } from '@step-wise/i18n'
 
 import { useAvailableCourses } from 'api'
-import { TranslationFile, Translation as LegacyTranslation } from 'i18n'
+import { TranslationFile } from 'i18n'
 import { Head } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
 import { organizations } from '../organizations'
+import { CourseTranslation } from '../course/components/CourseTranslation'
 
 const translationPath = 'eduTools/pages/addCoursePage'
 
@@ -115,8 +116,8 @@ function CourseEntry({ course }) {
 
 	// Render the row for the course.
 	return <>
-		<Tooltip open={hover} arrow title={<LegacyTranslation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</LegacyTranslation>}>
-			<Box className={clsx('cell', 'name', { hover })} {...handlers}><LegacyTranslation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.name`}>{course.name}</LegacyTranslation></Box>
+		<Tooltip open={hover} arrow title={<CourseTranslation course={course} property="description" />}>
+			<Box className={clsx('cell', 'name', { hover })} {...handlers}><CourseTranslation course={course} /></Box>
 		</Tooltip>
 		<Box className={clsx('cell', 'numBlocks', { hover })} {...handlers}>{courseDefinition.blocks.length}</Box>
 		<Box className={clsx('cell', 'numSkills', { hover })} {...handlers}>{courseDefinition.contentSkillIds.length}</Box>

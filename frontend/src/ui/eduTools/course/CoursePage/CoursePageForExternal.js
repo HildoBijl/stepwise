@@ -1,11 +1,12 @@
 import { Translation } from '@step-wise/i18n'
 
-import { TranslationFile, TranslationSection, Translation as LegacyTranslation } from 'i18n'
+import { TranslationFile, TranslationSection } from 'i18n'
 import { Head, Par, SignInButtons } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
 
 import { useCourseData } from '../components'
+import { CourseTranslation } from '../components/CourseTranslation'
 
 const translationPath = `eduTools/pages/coursePage`
 const translationSection = `externals`
@@ -16,7 +17,7 @@ export function CoursePageForExternal() {
 	// A course without teachers should not display them.
 	const organization = getOrganization(course.organization)
 	return <>
-		{course.description && <Par><LegacyTranslation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</LegacyTranslation></Par>}
+		{course.description && <Par><CourseTranslation course={course} property="description" /></Par>}
 		<TranslationFile path={translationPath}>
 			<TranslationSection entry={translationSection}>
 				<Head><Translation group={['externals', 'signin']} id="title">Sign in required</Translation></Head>

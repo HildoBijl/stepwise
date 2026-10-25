@@ -3,16 +3,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Tooltip, Box, alpha } from '@mui/material'
 
 import { freePracticeRecommendation } from '@step-wise/course-analysis'
-import { moduleTree } from '@step-wise/module-tree'
 import { Plural, Translation, useTranslation } from '@step-wise/i18n'
 
-import { useTranslator } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
 import { Button, ProgressIndicator, QuickPractice } from 'ui/components'
-import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
 
 import { getOrganization } from '../organizations'
+import { CourseTranslation } from '../course/components/CourseTranslation'
+import { TranslatedSkillName } from '../skills/components/TranslatedSkillName'
 
 // Set up style for a tile.
 const getTileStyle = preventHoverStyle => (theme => ({
@@ -33,7 +32,6 @@ const getTileStyle = preventHoverStyle => (theme => ({
 
 
 export function Tile({ course, preventHoverStyle, children }) {
-	const translate = useTranslator()
 	const paths = usePaths()
 
 	const organization = getOrganization(course.organization)
@@ -52,7 +50,7 @@ export function Tile({ course, preventHoverStyle, children }) {
 			}} />
 			<Box sx={{ alignItems: 'center', display: 'flex', flexFlow: 'row nowrap', height: '35%' }}>
 				<Box sx={{ fontWeight: 500, textAlign: 'center', width: '100%' }}>
-					{translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo')}
+					<CourseTranslation course={course} />
 				</Box>
 			</Box>
 			<Box sx={{ alignItems: 'center', display: 'flex', flexFlow: 'row nowrap', height: '65%', justifyContent: 'space-evenly' }}>
@@ -63,7 +61,6 @@ export function Tile({ course, preventHoverStyle, children }) {
 }
 
 export function StudentTile({ course, skillsTotal, skillsDone, recommendation }) {
-	const translate = useTranslator()
 	const loadingSkillData = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'loadingSkillData', children: 'Your progress is being loaded...' })
 	const freePracticeText = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'freePracticeRecommendation', children: 'You have all skills on a sufficient level! The next step is the free practice mode.' })
 	const recommendationText = useTranslation({ folder: ['eduTools', 'pages'], catalog: 'coursesPage', group: [], id: 'skillRecommendation', children: 'Our practice recommendation:' })
@@ -81,8 +78,7 @@ export function StudentTile({ course, skillsTotal, skillsDone, recommendation })
 			tooltip = freePracticeText
 			break
 		default:
-			const skill = moduleTree[recommendation]
-			tooltip = <>{recommendationText} {translate(moduleCatalog[skill.id].name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}</>
+			tooltip = <>{recommendationText} <TranslatedSkillName skillId={recommendation} /></>
 			break
 	}
 

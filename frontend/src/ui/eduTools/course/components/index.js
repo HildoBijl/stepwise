@@ -1,5 +1,6 @@
 export * from './CourseProvider'
 export * from './CourseName'
+export * from './CourseTranslation'
 export * from './SkillAdvice'
 export * from './SkillList'
 export * from './SkillRecommender'

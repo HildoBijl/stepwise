@@ -9,8 +9,7 @@ import { moduleTree } from '@step-wise/module-tree'
 import { useUserWithSkills } from 'api'
 import { Par } from 'ui/components'
 import { TitleItem } from 'ui/routingTools'
-import { SkillFlask } from 'ui/eduTools'
-import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
+import { SkillFlask, TranslatedSkillName } from 'ui/eduTools/skills'
 
 export function UserInspection() {
 	const params = useParams()
@@ -56,7 +55,7 @@ function UserInspectionForUser({ user }) {
 function UserInspectionItem({ skillId, skillLevel }) {
 	return <>
 		<div className="flask"><SkillFlask skillId={skillId} coef={skillLevel.coefficients} size={40} /></div>
-		<div className="name">{moduleCatalog[skillLevel.skillId].name}</div>
+		<div className="name"><TranslatedSkillName skillId={skillLevel.skillId} /></div>
 		<div className="numPracticed">{skillLevel.numPracticed}</div>
 		<div className="lastPracticed">{formatDate(skillLevel.coefficientsOn, { includeTime: true })}</div>
 	</>

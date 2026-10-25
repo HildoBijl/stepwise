@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="stepwise">
+			<group id="stepwisetutorial">
+				<unit id="name">
+					<segment>
+						<source>Step-Wise Tutorial</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>In this brief demo you can play around with how Step-Wise works.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Number input fields</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Mathematical input fields</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Demo Step-Wise exercises</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="algebrabasics">
+				<unit id="name">
+					<segment>
+						<source>Mathematics: algebra basics</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This introductory course walks you through the basics of algebra, from simplifying fractions to solving various types of linear equations.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Expanding brackets</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Adding fractions</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Simplifying fractions</source>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Solving linear equations</source>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Simplifying fractions with multiple variables</source>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Solve linear equations with multiple variables</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="algebrasolvingequations">
+				<unit id="name">
+					<segment>
+						<source>Mathematics: solving equations</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This course applies the fundamentals of algebra towards solving various types of equations, ranging from systems of linear equations up to rewritten quadratic equations.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Basic rules of algebra</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Rewritten linear equations</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Systems of equations</source>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Quadratic equations</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="geometrybasics">
+				<unit id="name">
+					<segment>
+						<source>Mathematics: geometry basics</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>In this small course you practice some basic geometry skills like calculating angles and distances.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Right-angled triangles</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Fundamentals: solving equations</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>General triangles</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="derivativesbasics">
+				<unit id="name">
+					<segment>
+						<source>Mathematics: derivatives</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This course teaches derivatives, starting with looking up basic derivatives, and building up to applying combinations of rules.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Derivative basics</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Derivative rules</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Determine derivatives</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="staticsfundamentals">
+				<unit id="name">
+					<segment>
+						<source>Statics: free body diagrams</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This tiny course helps you get used to the concept of Free Body Diagrams and apply them to calculate support forces within structures.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Drawing free body diagrams</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Calculate support reactions</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="thermodynamicsfundamentals">
+				<unit id="name">
+					<segment>
+						<source>Thermodynamics: cycles</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles. Air humidity is also briefly considered at the end.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Gas properties and the gas law</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Thermodynamic processes and Poisson's law</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Work and heat</source>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Cycles: analysis</source>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Cycles: energy and efficiency</source>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Humidity and air conditioning</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="huwiskundevoorkennis">
+				<unit id="name">
+					<segment>
+						<source>Mathematics: prior knowledge</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This introductory course contains all skills you should already have when starting your studies. It walks you through the basics of algebra, from simplifying fractions to solving various types of basic linear equations.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Expanding brackets</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Adding fractions</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Simplifying fractions</source>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Solving linear equations</source>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Simplifying fractions with multiple variables</source>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Solve linear equations with multiple variables</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+		<group id="sintAgnesinstituut">
+			<group id="saiwiskunde">
+				<unit id="name">
+					<segment>
+						<source>Wiskunde bijspijkercursus</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>Via deze cursus kun je de wiskundevaardigheden bijspijkeren. Begin met haakjes en breuken en bouw op tot het oplossen van verschillende soorten vergelijkingen.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Haakjes uitwerken</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Machten vereenvoudigen</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Breuken optellen</source>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Breuken vereenvoudigen</source>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Lineaire vergelijkingen oplossen</source>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Kwadratische vergelijkingen oplossen</source>
+						</segment>
+					</unit>
+					<unit id="6">
+						<segment>
+							<source>Breuken met meerdere variabelen vereenvoudigen</source>
+						</segment>
+					</unit>
+					<unit id="7">
+						<segment>
+							<source>Lineaire vergelijkingen met meerdere variabelen oplossen</source>
+						</segment>
+					</unit>
+					<unit id="8">
+						<segment>
+							<source>Stelsels van vergelijkingen oplossen</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+		<group id="hogeschoolUtrecht">
+			<group id="hu-voorkennis-wiskunde">
+				<unit id="name">
+					<segment>
+						<source>Prior knowledge: Algebra</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This introductory course contains all algebra skills you should already have when starting your studies. It walks you through the basics of algebra, from simplifying fractions to solving various types of basic linear equations.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Expanding brackets</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Adding fractions</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Simplifying fractions</source>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Solving linear equations</source>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Simplifying fractions with multiple variables</source>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Solve linear equations with multiple variables</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="hu-a-wiskunde">
+				<unit id="name">
+					<segment>
+						<source>Period 1A: Mathematics</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>In the first period we apply the fundamentals of algebra towards solving various types of equations, ranging from systems of linear equations up to rewritten quadratic equations.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Basic rules of algebra</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Rewritten linear equations</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Systems of equations</source>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Quadratic equations</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="hu-a-statica">
+				<unit id="name">
+					<segment>
+						<source>Period 1A: Statics intro</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This tiny introduction course to Statics helps you get used to the concept of Free Body Diagrams and apply them to calculate support forces within structures.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Drawing free body diagrams</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Calculating support reactions</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="hu-b-wiskunde">
+				<unit id="name">
+					<segment>
+						<source>Period 1B: Mathematics derivatives</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This course teaches derivatives, starting with looking up basic derivatives, and building up to applying combinations of rules.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Derivative basics</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Derivative rules</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Determine derivatives</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="hu-d-thermodynamica">
+				<unit id="name">
+					<segment>
+						<source>Period 1D: Thermodynamics</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Gas properties and the gas law</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Thermodynamic processes and Poisson's law</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Work and heat</source>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Cycles: analysis</source>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Cycles: energy and efficiency</source>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Steam turbines and cooling machines</source>
+						</segment>
+					</unit>
+					<unit id="6">
+						<segment>
+							<source>Humidity and air conditioning</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="hu-thermodynamica">
+				<unit id="name">
+					<segment>
+						<source>Period 2B: Heat and energy</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>In this applied thermodynamics course you learn about how various types of thermodynamic cycles work in practice, including gas turbines, Rankine cycles and cooling cycles.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Closed systems and cycles</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Open systems and enthalpy</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Entropy and the second law</source>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Gas turbines</source>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Vapors and diagrams</source>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Steam turbines</source>
+						</segment>
+					</unit>
+					<unit id="6">
+						<segment>
+							<source>Cooling machines and heat pumps</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="hu-deeltijd-thermodynamica">
+				<unit id="name">
+					<segment>
+						<source>Part-time: Modeling and processes</source>
+					</segment>
+				</unit>
+				<unit id="description">
+					<segment>
+						<source>In this applied thermodynamics course you learn about how various types of thermodynamic cycles work in practice, including gas turbines, Rankine cycles and cooling cycles.</source>
+					</segment>
+				</unit>
+				<group id="blocks">
+					<unit id="0">
+						<segment>
+							<source>Thermodynamic processes</source>
+						</segment>
+					</unit>
+					<unit id="1">
+						<segment>
+							<source>Closed systems and cycles</source>
+						</segment>
+					</unit>
+					<unit id="2">
+						<segment>
+							<source>Open systems and enthalpy</source>
+						</segment>
+					</unit>
+					<unit id="3">
+						<segment>
+							<source>Entropy and the second law</source>
+						</segment>
+					</unit>
+					<unit id="4">
+						<segment>
+							<source>Gasturbines</source>
+						</segment>
+					</unit>
+					<unit id="5">
+						<segment>
+							<source>Vapors and diagrams</source>
+						</segment>
+					</unit>
+					<unit id="6">
+						<segment>
+							<source>Steam turbines</source>
+						</segment>
+					</unit>
+					<unit id="7">
+						<segment>
+							<source>Cooling machines and heat pumps</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

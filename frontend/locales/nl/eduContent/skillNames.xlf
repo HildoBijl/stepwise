@@ -1,0 +1,839 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="miscellaneous">
+			<unit id="unknownSkill">
+				<segment>
+					<source>Unknown skill</source>
+					<target swi18n:sourceContentFingerprint="44d8719d8017f889" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Onbekende vaardigheid</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="demo">
+			<unit id="test">
+				<segment>
+					<source>Test exercise</source>
+					<target swi18n:sourceContentFingerprint="ef90ad343ae2dc22" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Testopgave</target>
+				</segment>
+			</unit>
+			<unit id="demo">
+				<segment>
+					<source>Demo exercise</source>
+					<target swi18n:sourceContentFingerprint="3811434add44c385" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Demo-opgave</target>
+				</segment>
+			</unit>
+			<group id="inputs">
+				<unit id="enterInteger">
+					<segment>
+						<source>Enter an integer</source>
+						<target swi18n:sourceContentFingerprint="9f65c269f08470d1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Geheel getal invullen</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="stepExercises">
+				<unit id="multiplication">
+					<segment>
+						<source>Multiply numbers</source>
+						<target swi18n:sourceContentFingerprint="8f87f8a3609a1d52" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vermenigvuldigen</target>
+					</segment>
+				</unit>
+				<unit id="summation">
+					<segment>
+						<source>Add numbers</source>
+						<target swi18n:sourceContentFingerprint="d6a9376ba5b77087" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Optellen</target>
+					</segment>
+				</unit>
+				<unit id="summationAndMultiplication">
+					<segment>
+						<source>Add and multiply numbers</source>
+						<target swi18n:sourceContentFingerprint="f7b0663c038bb8e0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Optellen en vermenigvuldigen</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="mathematics">
+			<group id="inputs">
+				<unit id="enterExpression">
+					<segment>
+						<source>Enter an expression</source>
+						<target swi18n:sourceContentFingerprint="0ed3dd2e172b5a4b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Uitdrukking invullen</target>
+					</segment>
+				</unit>
+				<unit id="enterEquation">
+					<segment>
+						<source>Enter an equation</source>
+						<target swi18n:sourceContentFingerprint="ad24def46709af77" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vergelijking invullen</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="calculation">
+				<group id="fundamentals">
+					<group id="combinations">
+						<unit id="calculateSumOfProducts">
+							<segment>
+								<source>Calculate sum of products</source>
+								<target swi18n:sourceContentFingerprint="ca794b34118dae08" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Som van producten berekenen</target>
+							</segment>
+						</unit>
+					</group>
+				</group>
+				<group id="fractions">
+					<group id="calculating">
+						<unit id="simplifyFraction">
+							<segment>
+								<source>Simplify fraction</source>
+								<target swi18n:sourceContentFingerprint="293b7d141b3675e1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breuk vereenvoudigen</target>
+							</segment>
+						</unit>
+					</group>
+					<group id="basicOperations">
+						<unit id="multiplyDivideFractions">
+							<segment>
+								<source>Multiply/divide fractions</source>
+								<target swi18n:sourceContentFingerprint="a55a59d6f62b17bd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breuken vermenigvuldigen/delen</target>
+							</segment>
+						</unit>
+					</group>
+					<group id="simplification">
+						<unit id="simplifyFractionOfFractions">
+							<segment>
+								<source>Simplify fraction of fractions</source>
+								<target swi18n:sourceContentFingerprint="a25e6f40292a3495" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breuk van breuken vereenvoudigen</target>
+							</segment>
+						</unit>
+						<unit id="simplifyFractionSum">
+							<segment>
+								<source>Simplify fraction sum</source>
+								<target swi18n:sourceContentFingerprint="de0f780e26f562ec" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Som van breuken vereenvoudigen</target>
+							</segment>
+						</unit>
+					</group>
+				</group>
+				<group id="powers">
+					<unit id="rewritePower">
+						<segment>
+							<source>Rewrite power</source>
+							<target swi18n:sourceContentFingerprint="43679924df4b1a43" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Macht herschrijven</target>
+						</segment>
+					</unit>
+					<unit id="rewriteNegativePower">
+						<segment>
+							<source>Rewrite negative power</source>
+							<target swi18n:sourceContentFingerprint="ebf80db377d45b4a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Negatieve macht herschrijven</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="roots">
+					<unit id="simplifyRoot">
+						<segment>
+							<source>Simplify root</source>
+							<target swi18n:sourceContentFingerprint="7d9f0a9366d12553" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Wortel vereenvoudigen</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="algebra">
+				<group id="expressions">
+					<group id="substitution">
+						<unit id="substituteANumber">
+							<segment>
+								<source>Substitute a number</source>
+								<target swi18n:sourceContentFingerprint="0cc1bf3e2982b404" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Getal invullen</target>
+							</segment>
+						</unit>
+						<unit id="substituteAnExpression">
+							<segment>
+								<source>Substitute an expression</source>
+								<target swi18n:sourceContentFingerprint="8c27c47dbed4ca71" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Uitdrukking invullen</target>
+							</segment>
+						</unit>
+					</group>
+					<group id="simplification">
+						<unit id="simplifyNumberProduct">
+							<segment>
+								<source>Simplify number product</source>
+								<target swi18n:sourceContentFingerprint="b48c470e7206ba45" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vermenigvuldiging van getallen vereenvoudigen</target>
+							</segment>
+						</unit>
+						<unit id="cancelSumTerms">
+							<segment>
+								<source>Cancel sum terms</source>
+								<target swi18n:sourceContentFingerprint="219cbaaa1f61f802" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Somtermen wegstrepen</target>
+							</segment>
+						</unit>
+						<unit id="mergeSimilarTerms">
+							<segment>
+								<source>Merge similar terms</source>
+								<target swi18n:sourceContentFingerprint="18242c1b92ca97fe" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Soortgelijke termen samenvoegen</target>
+							</segment>
+						</unit>
+					</group>
+					<group id="brackets">
+						<unit id="expandBrackets">
+							<segment>
+								<source>Expand brackets</source>
+								<target swi18n:sourceContentFingerprint="6139ee193f2229b7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Haakjes uitwerken</target>
+							</segment>
+						</unit>
+						<unit id="expandDoubleBrackets">
+							<segment>
+								<source>Expand double brackets</source>
+								<target swi18n:sourceContentFingerprint="5b920939057b5852" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dubbele haakjes uitwerken</target>
+							</segment>
+						</unit>
+						<unit id="pullFactorOutOfBrackets">
+							<segment>
+								<source>Pull factor out of brackets</source>
+								<target swi18n:sourceContentFingerprint="e7b3702af3fcdfa0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Factor buiten haakjes halen</target>
+							</segment>
+						</unit>
+					</group>
+					<group id="powers">
+						<unit id="simplifyProductOfPowers">
+							<segment>
+								<source>Simplify product of powers</source>
+								<target swi18n:sourceContentFingerprint="5bfeea6fdffbda87" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vermenigvuldiging van machten vereenvoudigen</target>
+							</segment>
+						</unit>
+						<unit id="expandPowerOfSum">
+							<segment>
+								<source>Expand power of sum</source>
+								<target swi18n:sourceContentFingerprint="3f7df2c2ce1cccaf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Macht van som uitwerken</target>
+							</segment>
+						</unit>
+					</group>
+					<group id="fractions">
+						<group id="multiplyingDividing">
+							<unit id="cancelFractionFactors">
+								<segment>
+									<source>Cancel fraction factors</source>
+									<target swi18n:sourceContentFingerprint="84c38bf7669411e0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breukfactoren wegstrepen</target>
+								</segment>
+							</unit>
+							<unit id="simplifyFractionWithVariables">
+								<segment>
+									<source>Simplify fraction with variables</source>
+									<target swi18n:sourceContentFingerprint="79fe2213a24ef298" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breuk met variabelen vereenvoudigen</target>
+								</segment>
+							</unit>
+							<unit id="simplifyFractionOfFractionsWithVariables">
+								<segment>
+									<source>Simplify fraction of fractions with variables</source>
+									<target swi18n:sourceContentFingerprint="e7bc420f40022e2c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breuk van breuken met variabelen vereenvoudigen</target>
+								</segment>
+							</unit>
+						</group>
+						<group id="addingSubtracting">
+							<unit id="addLikeFractionsWithVariables">
+								<segment>
+									<source>Add like fractions with variables</source>
+									<target swi18n:sourceContentFingerprint="5eece0be4b2d36f6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gelijknamige breuken met variabelen optellen</target>
+								</segment>
+							</unit>
+							<unit id="addFractionsWithVariables">
+								<segment>
+									<source>Add fractions with variables</source>
+									<target swi18n:sourceContentFingerprint="6588b4f34d04a02f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breuken met variabelen optellen</target>
+								</segment>
+							</unit>
+							<unit id="simplifyFractionOfFractionSumsWithVariables">
+								<segment>
+									<source>Simplify fraction of fraction sums with variables</source>
+									<target swi18n:sourceContentFingerprint="c827e184920eda89" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breuk van breuksommen met variabelen vereenvoudigen</target>
+								</segment>
+							</unit>
+							<unit id="addFractionsWithMultipleVariables">
+								<segment>
+									<source>Add fractions with multiple variables</source>
+									<target swi18n:sourceContentFingerprint="2bf617665c414c6b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breuken met meerdere variabelen optellen</target>
+								</segment>
+							</unit>
+							<unit id="simplifyFractionOfFractionSumsWithMultipleVariables">
+								<segment>
+									<source>Simplify fraction of fraction sums with multiple variables</source>
+									<target swi18n:sourceContentFingerprint="6b8c3485cd960d71" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Breuk van breuksommen met meerdere variabelen vereenvoudigen</target>
+								</segment>
+							</unit>
+						</group>
+					</group>
+				</group>
+				<group id="equations">
+					<group id="verifying">
+						<unit id="checkEquationSolution">
+							<segment>
+								<source>Check equation solution</source>
+								<target swi18n:sourceContentFingerprint="2f8539bb92b3537b" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vergelijkingsoplossing controleren</target>
+							</segment>
+						</unit>
+						<unit id="checkMultiVariableEquationSolution">
+							<segment>
+								<source>Check multi-variable equation solution</source>
+								<target swi18n:sourceContentFingerprint="02a3dc76749b0eb3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vergelijkingsoplossing met variabelen controleren</target>
+							</segment>
+						</unit>
+					</group>
+					<group id="manipulating">
+						<group id="terms">
+							<unit id="addToBothEquationSides">
+								<segment>
+									<source>Add to both equation sides</source>
+									<target swi18n:sourceContentFingerprint="7a0a5127f7e0f0ad" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Aan beide kanten van een vergelijking optellen</target>
+								</segment>
+							</unit>
+							<unit id="moveEquationTerm">
+								<segment>
+									<source>Move equation term</source>
+									<target swi18n:sourceContentFingerprint="309f746ee522fecf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vergelijkingsterm verplaatsen</target>
+								</segment>
+							</unit>
+						</group>
+						<group id="factors">
+							<unit id="multiplyBothEquationSides">
+								<segment>
+									<source>Multiply both equation sides</source>
+									<target swi18n:sourceContentFingerprint="34d7b2c6fcdfff45" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Beide kanten van een vergelijking vermenigvuldigen</target>
+								</segment>
+							</unit>
+							<unit id="moveEquationFactor">
+								<segment>
+									<source>Move equation factor</source>
+									<target swi18n:sourceContentFingerprint="aaed56591bae3ce4" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vergelijkingsfactor verplaatsen</target>
+								</segment>
+							</unit>
+						</group>
+						<group id="rational">
+							<unit id="multiplyAllEquationTerms">
+								<segment>
+									<source>Multiply all equation terms</source>
+									<target swi18n:sourceContentFingerprint="3e880c24cce53978" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Alle vergelijkingstermen vermenigvuldigen</target>
+								</segment>
+							</unit>
+							<unit id="bringEquationToStandardForm">
+								<segment>
+									<source>Bring equation to standard form</source>
+									<target swi18n:sourceContentFingerprint="f603c31f6db9ffbe" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vergelijking in standaardvorm brengen</target>
+								</segment>
+							</unit>
+						</group>
+					</group>
+					<group id="solving">
+						<group id="elementaryEquations">
+							<unit id="solveProductEquation">
+								<segment>
+									<source>Solve product equation</source>
+									<target swi18n:sourceContentFingerprint="f5db2183cded346a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Productvergelijking oplossen</target>
+								</segment>
+							</unit>
+							<unit id="solveMultiVariableProductEquation">
+								<segment>
+									<source>Solve multi-variable product equation</source>
+									<target swi18n:sourceContentFingerprint="f93bccaef00bd268" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Productvergelijking met meerdere variabelen oplossen</target>
+								</segment>
+							</unit>
+						</group>
+						<group id="linearEquations">
+							<unit id="solveLinearEquation">
+								<segment>
+									<source>Solve linear equation</source>
+									<target swi18n:sourceContentFingerprint="2294750c9d027486" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lineaire vergelijking oplossen</target>
+								</segment>
+							</unit>
+							<unit id="solveLinearEquationWithFractions">
+								<segment>
+									<source>Solve linear equation with fractions</source>
+									<target swi18n:sourceContentFingerprint="11ecf84538bcc68f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lineaire vergelijking met breuken oplossen</target>
+								</segment>
+							</unit>
+							<unit id="solveMultiVariableLinearEquation">
+								<segment>
+									<source>Solve multi-variable linear equation</source>
+									<target swi18n:sourceContentFingerprint="3ef38e87bb014a74" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lineaire vergelijking met meerdere variabelen oplossen</target>
+								</segment>
+							</unit>
+							<unit id="solveMultiVariableLinearEquationWithFractions">
+								<segment>
+									<source>Solve multi-variable linear equation with fractions</source>
+									<target swi18n:sourceContentFingerprint="ddf98dde9a0a9785" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lineaire vergelijking met meerdere variabelen en breuken oplossen</target>
+								</segment>
+							</unit>
+						</group>
+						<group id="quadraticEquations">
+							<unit id="solveQuadraticEquation">
+								<segment>
+									<source>Solve quadratic equation</source>
+									<target swi18n:sourceContentFingerprint="82708a81ecf636a7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kwadratische vergelijking oplossen</target>
+								</segment>
+							</unit>
+							<unit id="solveRewrittenQuadraticEquation">
+								<segment>
+									<source>Solve rewritten quadratic equation</source>
+									<target swi18n:sourceContentFingerprint="df6744100034f93f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Herschreven kwadratische vergelijking oplossen</target>
+								</segment>
+							</unit>
+						</group>
+						<group id="systemsOfEquations">
+							<unit id="solveSystemOfLinearEquations">
+								<segment>
+									<source>Solve system of linear equations</source>
+									<target swi18n:sourceContentFingerprint="38d0e79ac3b52443" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Stelsel van lineaire vergelijkingen oplossen</target>
+								</segment>
+							</unit>
+							<unit id="solveMultiVariableSystemOfLinearEquations">
+								<segment>
+									<source>Solve multi-variable system of linear equations</source>
+									<target swi18n:sourceContentFingerprint="c2cab920f9167f29" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Stelsel van lineaire vergelijkingen met meerdere variabelen oplossen</target>
+								</segment>
+							</unit>
+						</group>
+					</group>
+				</group>
+			</group>
+			<group id="geometry">
+				<group id="triangles">
+					<unit id="applyPythagoreanTheorem">
+						<segment>
+							<source>Apply the Pythagorean theorem</source>
+							<target swi18n:sourceContentFingerprint="7cd89f86c2ab86a3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De stelling van Pythagoras toepassen</target>
+						</segment>
+					</unit>
+					<unit id="applySineCosineTangent">
+						<segment>
+							<source>Apply the sine/cosine/tangent</source>
+							<target swi18n:sourceContentFingerprint="a45c16b30df41378" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Sinus/cosinus/tangens toepassen</target>
+						</segment>
+					</unit>
+					<unit id="applySimilarTriangles">
+						<segment>
+							<source>Apply similar triangles</source>
+							<target swi18n:sourceContentFingerprint="ad221a0dd3fd619c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gelijkvormige driehoeken toepassen</target>
+						</segment>
+					</unit>
+					<unit id="calculateTriangle">
+						<segment>
+							<source>Calculate a triangle</source>
+							<target swi18n:sourceContentFingerprint="8e6ca2d67f6acac7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Driehoek doorrekenen</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="anglesAndDistances">
+					<unit id="determine2DAngles">
+						<segment>
+							<source>Determine 2D angles</source>
+							<target swi18n:sourceContentFingerprint="f15d3c252915716d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">2D hoeken bepalen</target>
+						</segment>
+					</unit>
+					<unit id="determine2DDistances">
+						<segment>
+							<source>Determine 2D distances</source>
+							<target swi18n:sourceContentFingerprint="6b91a2c7797cce3f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">2D afstanden bepalen</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="areasAndVolumes">
+					<unit id="calculate2DShape">
+						<segment>
+							<source>Calculate a 2D shape</source>
+							<target swi18n:sourceContentFingerprint="70a79b6221a51fde" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">2D vorm doorrekenen</target>
+						</segment>
+					</unit>
+					<unit id="calculate3DShape">
+						<segment>
+							<source>Calculate a 3D shape</source>
+							<target swi18n:sourceContentFingerprint="d0382cda0bd535fd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">3D vorm doorrekenen</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="derivatives">
+				<group id="basicRules">
+					<unit id="lookUpElementaryDerivative">
+						<segment>
+							<source>Look up an elementary derivative</source>
+							<target swi18n:sourceContentFingerprint="1675c20cd23f833c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Elementaire afgeleide opzoeken</target>
+						</segment>
+					</unit>
+					<unit id="findBasicDerivative">
+						<segment>
+							<source>Determine a basic derivative</source>
+							<target swi18n:sourceContentFingerprint="f94991cd163c3117" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Basis afgeleide bepalen</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="combinedRules">
+					<unit id="applyProductRule">
+						<segment>
+							<source>Apply the product rule</source>
+							<target swi18n:sourceContentFingerprint="ba4f4f01e77af8a6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Productregel toepassen</target>
+						</segment>
+					</unit>
+					<unit id="applyQuotientRule">
+						<segment>
+							<source>Apply the quotient rule</source>
+							<target swi18n:sourceContentFingerprint="cb1c022ae66a9722" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Quotiëntregel toepassen</target>
+						</segment>
+					</unit>
+					<unit id="applyChainRule">
+						<segment>
+							<source>Apply the chain rule</source>
+							<target swi18n:sourceContentFingerprint="e2494cb5b3e65150" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kettingregel toepassen</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="generalDerivatives">
+					<unit id="findGeneralDerivative">
+						<segment>
+							<source>Determine a general derivative</source>
+							<target swi18n:sourceContentFingerprint="94948e4f57502341" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Algemene afgeleide bepalen</target>
+						</segment>
+					</unit>
+					<unit id="findAdvancedDerivative">
+						<segment>
+							<source>Determine an advanced derivative</source>
+							<target swi18n:sourceContentFingerprint="c8494bfb86bf0059" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Geavanceerde afgeleide bepalen</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+		<group id="mechanics">
+			<group id="equilibrium">
+				<unit id="calculateForceOrMoment">
+					<segment>
+						<source>Calculate a force or moment</source>
+						<target swi18n:sourceContentFingerprint="b5cf3dd1fcf8efed" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kracht of moment berekenen</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="supportReactions">
+				<unit id="schematizeSupport">
+					<segment>
+						<source>Schematize a support</source>
+						<target swi18n:sourceContentFingerprint="a4362b1e4a5b146f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Bevestiging schematiseren</target>
+					</segment>
+				</unit>
+				<unit id="drawFreeBodyDiagram">
+					<segment>
+						<source>Draw a free body diagram</source>
+						<target swi18n:sourceContentFingerprint="bbdfe467a47528da" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Vrijlichaamsschema tekenen</target>
+					</segment>
+				</unit>
+				<unit id="calculateBasicSupportReactions">
+					<segment>
+						<source>Calculate basic support reactions</source>
+						<target swi18n:sourceContentFingerprint="3d1bf67b5428c6a7" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Basis reactiekrachten berekenen</target>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="physics">
+			<group id="inputs">
+				<unit id="enterFloat">
+					<segment>
+						<source>Enter a decimal number</source>
+						<target swi18n:sourceContentFingerprint="af84afb423b3905d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kommagetal invullen</target>
+					</segment>
+				</unit>
+				<unit id="enterUnit">
+					<segment>
+						<source>Enter a unit</source>
+						<target swi18n:sourceContentFingerprint="e2ff9c928704e2cb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Eenheid invullen</target>
+					</segment>
+				</unit>
+				<unit id="lookUpConstant">
+					<segment>
+						<source>Look up a constant</source>
+						<target swi18n:sourceContentFingerprint="4b89a582d98ef78f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Constanten opzoeken</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="physicsMathematics">
+				<unit id="solveExponentEquation">
+					<segment>
+						<source>Solve an exponent equation</source>
+						<target swi18n:sourceContentFingerprint="571ffab9407dde33" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Exponent-vergelijking oplossen</target>
+					</segment>
+				</unit>
+				<unit id="linearInterpolation">
+					<segment>
+						<source>Apply linear interpolation</source>
+						<target swi18n:sourceContentFingerprint="277bb439e0408ef1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Lineair interpoleren</target>
+					</segment>
+				</unit>
+			</group>
+			<group id="fundamentals">
+				<group id="units">
+					<unit id="calculateWithPressure">
+						<segment>
+							<source>Calculate with pressure</source>
+							<target swi18n:sourceContentFingerprint="ae99fe0c34022151" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Rekenen met druk</target>
+						</segment>
+					</unit>
+					<unit id="calculateWithVolume">
+						<segment>
+							<source>Calculate with volume</source>
+							<target swi18n:sourceContentFingerprint="c608b0ca3bc1550a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Rekenen met volume</target>
+						</segment>
+					</unit>
+					<unit id="calculateWithMass">
+						<segment>
+							<source>Calculate with mass</source>
+							<target swi18n:sourceContentFingerprint="a5cdb93ac5f48318" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Rekenen met massa</target>
+						</segment>
+					</unit>
+					<unit id="calculateWithTemperature">
+						<segment>
+							<source>Calculate with temperature</source>
+							<target swi18n:sourceContentFingerprint="9f0a274920cc4db2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Rekenen met temperatuur</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="efficiency">
+					<unit id="calculateWithEfficiency">
+						<segment>
+							<source>Calculate with efficiency</source>
+							<target swi18n:sourceContentFingerprint="b3fac1a80488b337" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Rekenen met rendement</target>
+						</segment>
+					</unit>
+					<unit id="calculateWithCOP">
+						<segment>
+							<source>Calculate with the COP</source>
+							<target swi18n:sourceContentFingerprint="c02e0495399fd78f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Rekenen met koudefactor/warmtefactor</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="thermodynamics">
+				<group id="constants">
+					<unit id="specificGasConstant">
+						<segment>
+							<source>Look up a specific gas constant</source>
+							<target swi18n:sourceContentFingerprint="3ca5df23b54dd99c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Specifieke gasconstante opzoeken</target>
+						</segment>
+					</unit>
+					<unit id="specificHeatRatio">
+						<segment>
+							<source>Look up a specific heat ratio</source>
+							<target swi18n:sourceContentFingerprint="07b113489e0fca5a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De k-waarde opzoeken</target>
+						</segment>
+					</unit>
+					<unit id="specificHeats">
+						<segment>
+							<source>Look up specific heats</source>
+							<target swi18n:sourceContentFingerprint="6a0b1608a8ff00f1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Soortelijke warmten opzoeken</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="basicLaws">
+					<unit id="gasLaw">
+						<segment>
+							<source>Apply the gas law</source>
+							<target swi18n:sourceContentFingerprint="d43c81b2d2b78ee2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De gaswet toepassen</target>
+						</segment>
+					</unit>
+					<unit id="recognizeProcessTypes">
+						<segment>
+							<source>Recognize process types</source>
+							<target swi18n:sourceContentFingerprint="812b262b344f19e8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Soorten processen herkennen</target>
+						</segment>
+					</unit>
+					<unit id="poissonsLaw">
+						<segment>
+							<source>Apply Poisson's law</source>
+							<target swi18n:sourceContentFingerprint="b70d7f607db7e483" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Poisson's wet</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="closedCycles">
+					<unit id="calculateProcessStep">
+						<segment>
+							<source>Calculate a process step</source>
+							<target swi18n:sourceContentFingerprint="47b3e99713c0b480" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Processtap doorrekenen</target>
+						</segment>
+					</unit>
+					<unit id="calculateClosedCycle">
+						<segment>
+							<source>Calculate a closed cycle</source>
+							<target swi18n:sourceContentFingerprint="cc758a5f12b49481" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gesloten kringproces doorrekenen</target>
+						</segment>
+					</unit>
+					<unit id="calculateHeatAndWork">
+						<segment>
+							<source>Calculate heat and work</source>
+							<target swi18n:sourceContentFingerprint="2e8fadd3dccb0c30" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Warmte en arbeid berekenen</target>
+						</segment>
+					</unit>
+					<unit id="calculateWithInternalEnergy">
+						<segment>
+							<source>Calculate with internal energy</source>
+							<target swi18n:sourceContentFingerprint="4e4ef4b6a2add495" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Rekenen met inwendige energie</target>
+						</segment>
+					</unit>
+					<unit id="createClosedCycleEnergyOverview">
+						<segment>
+							<source>Create a closed-cycle energy overview</source>
+							<target swi18n:sourceContentFingerprint="e9d371920cd3ab0f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gesloten kringproces energie-overzicht maken</target>
+						</segment>
+					</unit>
+					<unit id="analyseClosedCycle">
+						<segment>
+							<source>Analyse a closed cycle</source>
+							<target swi18n:sourceContentFingerprint="1286bb7e1cc61398" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gesloten kringproces analyseren</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="openCycles">
+					<unit id="calculateWithSpecificQuantities">
+						<segment>
+							<source>Calculate with specific quantities</source>
+							<target swi18n:sourceContentFingerprint="cfbd193128bd159f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Rekenen met specifieke grootheden</target>
+						</segment>
+					</unit>
+					<unit id="massFlowTrick">
+						<segment>
+							<source>Apply the mass flow trick</source>
+							<target swi18n:sourceContentFingerprint="3bb45c26bf1f6318" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">De massastroom-truc toepassen</target>
+						</segment>
+					</unit>
+					<unit id="calculateOpenProcessStep">
+						<segment>
+							<source>Calculate an open process step</source>
+							<target swi18n:sourceContentFingerprint="397fae47e8ef38ba" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Open processtap doorrekenen</target>
+						</segment>
+					</unit>
+					<unit id="calculateOpenCycle">
+						<segment>
+							<source>Calculate an open cycle</source>
+							<target swi18n:sourceContentFingerprint="fcb39ba6a81bc769" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Open kringproces doorrekenen</target>
+						</segment>
+					</unit>
+					<unit id="calculateSpecificHeatAndMechanicalWork">
+						<segment>
+							<source>Calculate specific heat and mechanical work</source>
+							<target swi18n:sourceContentFingerprint="92860a284fb21ea1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Specifieke warmte en technische arbeid berekenen</target>
+						</segment>
+					</unit>
+					<unit id="calculateWithEnthalpy">
+						<segment>
+							<source>Calculate with enthalpy</source>
+							<target swi18n:sourceContentFingerprint="f39f9cedc39e46cb" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Rekenen met enthalpie</target>
+						</segment>
+					</unit>
+					<unit id="createOpenCycleEnergyOverview">
+						<segment>
+							<source>Create an open cycle energy overview</source>
+							<target swi18n:sourceContentFingerprint="3f58a4ec37ae4a44" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Open kringproces energie-overzicht maken</target>
+						</segment>
+					</unit>
+					<unit id="analyseOpenCycle">
+						<segment>
+							<source>Analyse an open cycle</source>
+							<target swi18n:sourceContentFingerprint="1212843e68daa14a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Open kringproces analyseren</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="entropy">
+					<unit id="calculateEntropyChange">
+						<segment>
+							<source>Calculate an entropy change</source>
+							<target swi18n:sourceContentFingerprint="a350bc9387d2fbd2" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Entropieverandering berekenen</target>
+						</segment>
+					</unit>
+					<unit id="calculateMissedWork">
+						<segment>
+							<source>Calculate the missed work</source>
+							<target swi18n:sourceContentFingerprint="3cba076b2c148457" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gemiste arbeid berekenen</target>
+						</segment>
+					</unit>
+					<unit id="useIsentropicEfficiency">
+						<segment>
+							<source>Use the isentropic efficiency</source>
+							<target swi18n:sourceContentFingerprint="b3d5b26a294b44b1" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Isentropisch rendement gebruiken</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="gasTurbines">
+					<unit id="analyseGasTurbine">
+						<segment>
+							<source>Analyse gas turbines</source>
+							<target swi18n:sourceContentFingerprint="2d6a40af0b81c0bc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gasturbine analyseren</target>
+						</segment>
+					</unit>
+				</group>
+				<group id="steam">
+					<group id="properties">
+						<unit id="lookUpSteamProperties">
+							<segment>
+								<source>Look up steam properties</source>
+								<target swi18n:sourceContentFingerprint="63b49d89bba3f163" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Stoomeigenschappen opzoeken</target>
+							</segment>
+						</unit>
+						<unit id="useVaporFraction">
+							<segment>
+								<source>Use the vapor fraction</source>
+								<target swi18n:sourceContentFingerprint="d01474dd1d1d9230" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Dampfractie gebruiken</target>
+							</segment>
+						</unit>
+					</group>
+					<group id="rankineCycle">
+						<unit id="createRankineCycleOverview">
+							<segment>
+								<source>Create a Rankine cycle overview</source>
+								<target swi18n:sourceContentFingerprint="3da66418461ec594" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Overzicht Rankine-cyclus maken</target>
+							</segment>
+						</unit>
+						<unit id="analyseRankineCycle">
+							<segment>
+								<source>Analyse a Rankine cycle</source>
+								<target swi18n:sourceContentFingerprint="9a49096a017a48bc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Rankine-cyclus analyseren</target>
+							</segment>
+						</unit>
+					</group>
+				</group>
+				<group id="cooling">
+					<group id="properties">
+						<unit id="findFridgeTemperatures">
+							<segment>
+								<source>Find refrigerator temperatures</source>
+								<target swi18n:sourceContentFingerprint="2b3d8620d86be466" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Koelmachinetemperaturen bepalen</target>
+							</segment>
+						</unit>
+						<unit id="determineRefrigerantProcess">
+							<segment>
+								<source>Determine a refrigerant process</source>
+								<target swi18n:sourceContentFingerprint="787151bb9f7d0240" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Koelmiddelproces bepalen</target>
+							</segment>
+						</unit>
+					</group>
+					<group id="coolingCycles">
+						<unit id="createCoolingCycleOverview">
+							<segment>
+								<source>Create a cooling cycle overview</source>
+								<target swi18n:sourceContentFingerprint="c9cfbba161beea1f" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Overzicht koelcyclus maken</target>
+							</segment>
+						</unit>
+						<unit id="analyseCoolingCycle">
+							<segment>
+								<source>Analyse a cooling cycle</source>
+								<target swi18n:sourceContentFingerprint="e4930cf365e1f7a5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Koelcyclus analyseren</target>
+							</segment>
+						</unit>
+					</group>
+				</group>
+				<group id="humidity">
+					<unit id="readMollierDiagram">
+						<segment>
+							<source>Read a Mollier diagram</source>
+							<target swi18n:sourceContentFingerprint="19795cdaae30c5ee" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Mollier diagram aflezen</target>
+						</segment>
+					</unit>
+					<unit id="analyseAirco">
+						<segment>
+							<source>Analyse an air conditioner</source>
+							<target swi18n:sourceContentFingerprint="b079f0b8499430be" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Airco analyseren</target>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

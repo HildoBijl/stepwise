@@ -1,17 +1,11 @@
 import React from 'react'
 
-import { moduleTree } from '@step-wise/module-tree'
-
 import { TitleItem } from 'ui/routingTools'
-import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
 
 import { useSkillId } from '../util'
+import { useSkillName } from './TranslatedSkillName'
 
 export function SkillName() {
 	const skillId = useSkillId()
-	const skill = moduleTree[skillId]
-	const skillNames = 'eduContent/skillNames'
-	if (!skill || !moduleCatalog[skillId])
-		return <TitleItem path={skillNames} entry={`miscellaneous.unknownSkill`} name="Unknown skill" />
-	return <TitleItem path={skillNames} entry={`${skill.groupPath.join('.')}.${skill.id}`} name={moduleCatalog[skillId].name} />
+	return <TitleItem name={useSkillName(skillId)} />
 }

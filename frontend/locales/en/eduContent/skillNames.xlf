@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="miscellaneous">
+			<unit id="unknownSkill">
+				<segment>
+					<source>Unknown skill</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="demo">
+			<unit id="test">
+				<segment>
+					<source>Test exercise</source>
+				</segment>
+			</unit>
+			<unit id="demo">
+				<segment>
+					<source>Demo exercise</source>
+				</segment>
+			</unit>
+			<group id="inputs">
+				<unit id="enterInteger">
+					<segment>
+						<source>Enter an integer</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="stepExercises">
+				<unit id="multiplication">
+					<segment>
+						<source>Multiply numbers</source>
+					</segment>
+				</unit>
+				<unit id="summation">
+					<segment>
+						<source>Add numbers</source>
+					</segment>
+				</unit>
+				<unit id="summationAndMultiplication">
+					<segment>
+						<source>Add and multiply numbers</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="mathematics">
+			<group id="inputs">
+				<unit id="enterExpression">
+					<segment>
+						<source>Enter an expression</source>
+					</segment>
+				</unit>
+				<unit id="enterEquation">
+					<segment>
+						<source>Enter an equation</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="calculation">
+				<group id="fundamentals">
+					<group id="combinations">
+						<unit id="calculateSumOfProducts">
+							<segment>
+								<source>Calculate sum of products</source>
+							</segment>
+						</unit>
+					</group>
+				</group>
+				<group id="fractions">
+					<group id="calculating">
+						<unit id="simplifyFraction">
+							<segment>
+								<source>Simplify fraction</source>
+							</segment>
+						</unit>
+					</group>
+					<group id="basicOperations">
+						<unit id="multiplyDivideFractions">
+							<segment>
+								<source>Multiply/divide fractions</source>
+							</segment>
+						</unit>
+					</group>
+					<group id="simplification">
+						<unit id="simplifyFractionOfFractions">
+							<segment>
+								<source>Simplify fraction of fractions</source>
+							</segment>
+						</unit>
+						<unit id="simplifyFractionSum">
+							<segment>
+								<source>Simplify fraction sum</source>
+							</segment>
+						</unit>
+					</group>
+				</group>
+				<group id="powers">
+					<unit id="rewritePower">
+						<segment>
+							<source>Rewrite power</source>
+						</segment>
+					</unit>
+					<unit id="rewriteNegativePower">
+						<segment>
+							<source>Rewrite negative power</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="roots">
+					<unit id="simplifyRoot">
+						<segment>
+							<source>Simplify root</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="algebra">
+				<group id="expressions">
+					<group id="substitution">
+						<unit id="substituteANumber">
+							<segment>
+								<source>Substitute a number</source>
+							</segment>
+						</unit>
+						<unit id="substituteAnExpression">
+							<segment>
+								<source>Substitute an expression</source>
+							</segment>
+						</unit>
+					</group>
+					<group id="simplification">
+						<unit id="simplifyNumberProduct">
+							<segment>
+								<source>Simplify number product</source>
+							</segment>
+						</unit>
+						<unit id="cancelSumTerms">
+							<segment>
+								<source>Cancel sum terms</source>
+							</segment>
+						</unit>
+						<unit id="mergeSimilarTerms">
+							<segment>
+								<source>Merge similar terms</source>
+							</segment>
+						</unit>
+					</group>
+					<group id="brackets">
+						<unit id="expandBrackets">
+							<segment>
+								<source>Expand brackets</source>
+							</segment>
+						</unit>
+						<unit id="expandDoubleBrackets">
+							<segment>
+								<source>Expand double brackets</source>
+							</segment>
+						</unit>
+						<unit id="pullFactorOutOfBrackets">
+							<segment>
+								<source>Pull factor out of brackets</source>
+							</segment>
+						</unit>
+					</group>
+					<group id="powers">
+						<unit id="simplifyProductOfPowers">
+							<segment>
+								<source>Simplify product of powers</source>
+							</segment>
+						</unit>
+						<unit id="expandPowerOfSum">
+							<segment>
+								<source>Expand power of sum</source>
+							</segment>
+						</unit>
+					</group>
+					<group id="fractions">
+						<group id="multiplyingDividing">
+							<unit id="cancelFractionFactors">
+								<segment>
+									<source>Cancel fraction factors</source>
+								</segment>
+							</unit>
+							<unit id="simplifyFractionWithVariables">
+								<segment>
+									<source>Simplify fraction with variables</source>
+								</segment>
+							</unit>
+							<unit id="simplifyFractionOfFractionsWithVariables">
+								<segment>
+									<source>Simplify fraction of fractions with variables</source>
+								</segment>
+							</unit>
+						</group>
+						<group id="addingSubtracting">
+							<unit id="addLikeFractionsWithVariables">
+								<segment>
+									<source>Add like fractions with variables</source>
+								</segment>
+							</unit>
+							<unit id="addFractionsWithVariables">
+								<segment>
+									<source>Add fractions with variables</source>
+								</segment>
+							</unit>
+							<unit id="simplifyFractionOfFractionSumsWithVariables">
+								<segment>
+									<source>Simplify fraction of fraction sums with variables</source>
+								</segment>
+							</unit>
+							<unit id="addFractionsWithMultipleVariables">
+								<segment>
+									<source>Add fractions with multiple variables</source>
+								</segment>
+							</unit>
+							<unit id="simplifyFractionOfFractionSumsWithMultipleVariables">
+								<segment>
+									<source>Simplify fraction of fraction sums with multiple variables</source>
+								</segment>
+							</unit>
+						</group>
+					</group>
+				</group>
+				<group id="equations">
+					<group id="verifying">
+						<unit id="checkEquationSolution">
+							<segment>
+								<source>Check equation solution</source>
+							</segment>
+						</unit>
+						<unit id="checkMultiVariableEquationSolution">
+							<segment>
+								<source>Check multi-variable equation solution</source>
+							</segment>
+						</unit>
+					</group>
+					<group id="manipulating">
+						<group id="terms">
+							<unit id="addToBothEquationSides">
+								<segment>
+									<source>Add to both equation sides</source>
+								</segment>
+							</unit>
+							<unit id="moveEquationTerm">
+								<segment>
+									<source>Move equation term</source>
+								</segment>
+							</unit>
+						</group>
+						<group id="factors">
+							<unit id="multiplyBothEquationSides">
+								<segment>
+									<source>Multiply both equation sides</source>
+								</segment>
+							</unit>
+							<unit id="moveEquationFactor">
+								<segment>
+									<source>Move equation factor</source>
+								</segment>
+							</unit>
+						</group>
+						<group id="rational">
+							<unit id="multiplyAllEquationTerms">
+								<segment>
+									<source>Multiply all equation terms</source>
+								</segment>
+							</unit>
+							<unit id="bringEquationToStandardForm">
+								<segment>
+									<source>Bring equation to standard form</source>
+								</segment>
+							</unit>
+						</group>
+					</group>
+					<group id="solving">
+						<group id="elementaryEquations">
+							<unit id="solveProductEquation">
+								<segment>
+									<source>Solve product equation</source>
+								</segment>
+							</unit>
+							<unit id="solveMultiVariableProductEquation">
+								<segment>
+									<source>Solve multi-variable product equation</source>
+								</segment>
+							</unit>
+						</group>
+						<group id="linearEquations">
+							<unit id="solveLinearEquation">
+								<segment>
+									<source>Solve linear equation</source>
+								</segment>
+							</unit>
+							<unit id="solveLinearEquationWithFractions">
+								<segment>
+									<source>Solve linear equation with fractions</source>
+								</segment>
+							</unit>
+							<unit id="solveMultiVariableLinearEquation">
+								<segment>
+									<source>Solve multi-variable linear equation</source>
+								</segment>
+							</unit>
+							<unit id="solveMultiVariableLinearEquationWithFractions">
+								<segment>
+									<source>Solve multi-variable linear equation with fractions</source>
+								</segment>
+							</unit>
+						</group>
+						<group id="quadraticEquations">
+							<unit id="solveQuadraticEquation">
+								<segment>
+									<source>Solve quadratic equation</source>
+								</segment>
+							</unit>
+							<unit id="solveRewrittenQuadraticEquation">
+								<segment>
+									<source>Solve rewritten quadratic equation</source>
+								</segment>
+							</unit>
+						</group>
+						<group id="systemsOfEquations">
+							<unit id="solveSystemOfLinearEquations">
+								<segment>
+									<source>Solve system of linear equations</source>
+								</segment>
+							</unit>
+							<unit id="solveMultiVariableSystemOfLinearEquations">
+								<segment>
+									<source>Solve multi-variable system of linear equations</source>
+								</segment>
+							</unit>
+						</group>
+					</group>
+				</group>
+			</group>
+			<group id="geometry">
+				<group id="triangles">
+					<unit id="applyPythagoreanTheorem">
+						<segment>
+							<source>Apply the Pythagorean theorem</source>
+						</segment>
+					</unit>
+					<unit id="applySineCosineTangent">
+						<segment>
+							<source>Apply the sine/cosine/tangent</source>
+						</segment>
+					</unit>
+					<unit id="applySimilarTriangles">
+						<segment>
+							<source>Apply similar triangles</source>
+						</segment>
+					</unit>
+					<unit id="calculateTriangle">
+						<segment>
+							<source>Calculate a triangle</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="anglesAndDistances">
+					<unit id="determine2DAngles">
+						<segment>
+							<source>Determine 2D angles</source>
+						</segment>
+					</unit>
+					<unit id="determine2DDistances">
+						<segment>
+							<source>Determine 2D distances</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="areasAndVolumes">
+					<unit id="calculate2DShape">
+						<segment>
+							<source>Calculate a 2D shape</source>
+						</segment>
+					</unit>
+					<unit id="calculate3DShape">
+						<segment>
+							<source>Calculate a 3D shape</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="derivatives">
+				<group id="basicRules">
+					<unit id="lookUpElementaryDerivative">
+						<segment>
+							<source>Look up an elementary derivative</source>
+						</segment>
+					</unit>
+					<unit id="findBasicDerivative">
+						<segment>
+							<source>Determine a basic derivative</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="combinedRules">
+					<unit id="applyProductRule">
+						<segment>
+							<source>Apply the product rule</source>
+						</segment>
+					</unit>
+					<unit id="applyQuotientRule">
+						<segment>
+							<source>Apply the quotient rule</source>
+						</segment>
+					</unit>
+					<unit id="applyChainRule">
+						<segment>
+							<source>Apply the chain rule</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="generalDerivatives">
+					<unit id="findGeneralDerivative">
+						<segment>
+							<source>Determine a general derivative</source>
+						</segment>
+					</unit>
+					<unit id="findAdvancedDerivative">
+						<segment>
+							<source>Determine an advanced derivative</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+		<group id="mechanics">
+			<group id="equilibrium">
+				<unit id="calculateForceOrMoment">
+					<segment>
+						<source>Calculate a force or moment</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="supportReactions">
+				<unit id="schematizeSupport">
+					<segment>
+						<source>Schematize a support</source>
+					</segment>
+				</unit>
+				<unit id="drawFreeBodyDiagram">
+					<segment>
+						<source>Draw a free body diagram</source>
+					</segment>
+				</unit>
+				<unit id="calculateBasicSupportReactions">
+					<segment>
+						<source>Calculate basic support reactions</source>
+					</segment>
+				</unit>
+			</group>
+		</group>
+		<group id="physics">
+			<group id="inputs">
+				<unit id="enterFloat">
+					<segment>
+						<source>Enter a decimal number</source>
+					</segment>
+				</unit>
+				<unit id="enterUnit">
+					<segment>
+						<source>Enter a unit</source>
+					</segment>
+				</unit>
+				<unit id="lookUpConstant">
+					<segment>
+						<source>Look up a constant</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="physicsMathematics">
+				<unit id="solveExponentEquation">
+					<segment>
+						<source>Solve an exponent equation</source>
+					</segment>
+				</unit>
+				<unit id="linearInterpolation">
+					<segment>
+						<source>Apply linear interpolation</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="fundamentals">
+				<group id="units">
+					<unit id="calculateWithPressure">
+						<segment>
+							<source>Calculate with pressure</source>
+						</segment>
+					</unit>
+					<unit id="calculateWithVolume">
+						<segment>
+							<source>Calculate with volume</source>
+						</segment>
+					</unit>
+					<unit id="calculateWithMass">
+						<segment>
+							<source>Calculate with mass</source>
+						</segment>
+					</unit>
+					<unit id="calculateWithTemperature">
+						<segment>
+							<source>Calculate with temperature</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="efficiency">
+					<unit id="calculateWithEfficiency">
+						<segment>
+							<source>Calculate with efficiency</source>
+						</segment>
+					</unit>
+					<unit id="calculateWithCOP">
+						<segment>
+							<source>Calculate with the COP</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+			<group id="thermodynamics">
+				<group id="constants">
+					<unit id="specificGasConstant">
+						<segment>
+							<source>Look up a specific gas constant</source>
+						</segment>
+					</unit>
+					<unit id="specificHeatRatio">
+						<segment>
+							<source>Look up a specific heat ratio</source>
+						</segment>
+					</unit>
+					<unit id="specificHeats">
+						<segment>
+							<source>Look up specific heats</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="basicLaws">
+					<unit id="gasLaw">
+						<segment>
+							<source>Apply the gas law</source>
+						</segment>
+					</unit>
+					<unit id="recognizeProcessTypes">
+						<segment>
+							<source>Recognize process types</source>
+						</segment>
+					</unit>
+					<unit id="poissonsLaw">
+						<segment>
+							<source>Apply Poisson's law</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="closedCycles">
+					<unit id="calculateProcessStep">
+						<segment>
+							<source>Calculate a process step</source>
+						</segment>
+					</unit>
+					<unit id="calculateClosedCycle">
+						<segment>
+							<source>Calculate a closed cycle</source>
+						</segment>
+					</unit>
+					<unit id="calculateHeatAndWork">
+						<segment>
+							<source>Calculate heat and work</source>
+						</segment>
+					</unit>
+					<unit id="calculateWithInternalEnergy">
+						<segment>
+							<source>Calculate with internal energy</source>
+						</segment>
+					</unit>
+					<unit id="createClosedCycleEnergyOverview">
+						<segment>
+							<source>Create a closed-cycle energy overview</source>
+						</segment>
+					</unit>
+					<unit id="analyseClosedCycle">
+						<segment>
+							<source>Analyse a closed cycle</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="openCycles">
+					<unit id="calculateWithSpecificQuantities">
+						<segment>
+							<source>Calculate with specific quantities</source>
+						</segment>
+					</unit>
+					<unit id="massFlowTrick">
+						<segment>
+							<source>Apply the mass flow trick</source>
+						</segment>
+					</unit>
+					<unit id="calculateOpenProcessStep">
+						<segment>
+							<source>Calculate an open process step</source>
+						</segment>
+					</unit>
+					<unit id="calculateOpenCycle">
+						<segment>
+							<source>Calculate an open cycle</source>
+						</segment>
+					</unit>
+					<unit id="calculateSpecificHeatAndMechanicalWork">
+						<segment>
+							<source>Calculate specific heat and mechanical work</source>
+						</segment>
+					</unit>
+					<unit id="calculateWithEnthalpy">
+						<segment>
+							<source>Calculate with enthalpy</source>
+						</segment>
+					</unit>
+					<unit id="createOpenCycleEnergyOverview">
+						<segment>
+							<source>Create an open cycle energy overview</source>
+						</segment>
+					</unit>
+					<unit id="analyseOpenCycle">
+						<segment>
+							<source>Analyse an open cycle</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="entropy">
+					<unit id="calculateEntropyChange">
+						<segment>
+							<source>Calculate an entropy change</source>
+						</segment>
+					</unit>
+					<unit id="calculateMissedWork">
+						<segment>
+							<source>Calculate the missed work</source>
+						</segment>
+					</unit>
+					<unit id="useIsentropicEfficiency">
+						<segment>
+							<source>Use the isentropic efficiency</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="gasTurbines">
+					<unit id="analyseGasTurbine">
+						<segment>
+							<source>Analyse gas turbines</source>
+						</segment>
+					</unit>
+				</group>
+				<group id="steam">
+					<group id="properties">
+						<unit id="lookUpSteamProperties">
+							<segment>
+								<source>Look up steam properties</source>
+							</segment>
+						</unit>
+						<unit id="useVaporFraction">
+							<segment>
+								<source>Use the vapor fraction</source>
+							</segment>
+						</unit>
+					</group>
+					<group id="rankineCycle">
+						<unit id="createRankineCycleOverview">
+							<segment>
+								<source>Create a Rankine cycle overview</source>
+							</segment>
+						</unit>
+						<unit id="analyseRankineCycle">
+							<segment>
+								<source>Analyse a Rankine cycle</source>
+							</segment>
+						</unit>
+					</group>
+				</group>
+				<group id="cooling">
+					<group id="properties">
+						<unit id="findFridgeTemperatures">
+							<segment>
+								<source>Find refrigerator temperatures</source>
+							</segment>
+						</unit>
+						<unit id="determineRefrigerantProcess">
+							<segment>
+								<source>Determine a refrigerant process</source>
+							</segment>
+						</unit>
+					</group>
+					<group id="coolingCycles">
+						<unit id="createCoolingCycleOverview">
+							<segment>
+								<source>Create a cooling cycle overview</source>
+							</segment>
+						</unit>
+						<unit id="analyseCoolingCycle">
+							<segment>
+								<source>Analyse a cooling cycle</source>
+							</segment>
+						</unit>
+					</group>
+				</group>
+				<group id="humidity">
+					<unit id="readMollierDiagram">
+						<segment>
+							<source>Read a Mollier diagram</source>
+						</segment>
+					</unit>
+					<unit id="analyseAirco">
+						<segment>
+							<source>Analyse an air conditioner</source>
+						</segment>
+					</unit>
+				</group>
+			</group>
+		</group>
+	</file>
+</xliff>

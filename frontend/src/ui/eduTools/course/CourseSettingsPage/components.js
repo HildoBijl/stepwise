@@ -4,15 +4,13 @@ import { Button } from '@mui/material'
 import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 
 import { LocalizedList, Plural, Translation } from '@step-wise/i18n'
-import { moduleTree } from '@step-wise/module-tree'
-
 import { useSubscribeToCourse, useUnsubscribeFromCourse } from 'api'
-import { TranslationFile, TranslationSection, Translation as LegacyTranslation } from 'i18n'
+import { TranslationFile, TranslationSection } from 'i18n'
 import { Head, Par, List, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
-import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
 
 import { getOrganization } from '../../organizations'
+import { TranslatedSkillName } from '../../skills/components/TranslatedSkillName'
 
 const translationPath = `eduTools/pages/courseSettingsPage`
 const translationSection = `students`
@@ -52,10 +50,7 @@ export function CourseLearningGoals({ course }) {
 			<Head><Translation group={['students', 'learningGoals']} id="title">Learning goals</Translation></Head>
 			<Par><Translation group={['students', 'learningGoals']} id="description">The course has the following final <Plural value={course.courseDefinition.learningGoalIds.length}><Plural.One>goal</Plural.One><Plural.Other>goals</Plural.Other></Plural>.</Translation></Par>
 			<List>
-				{course.courseDefinition.learningGoalIds.map(goalId => {
-				const skill = moduleTree[goalId]
-				return <List.Item key={goalId}><Link to={paths.skill({ skillId: goalId })}><LegacyTranslation path="eduContent/skillNames" entry={`${skill.groupPath.join('.')}.${skill.id}`}>{moduleCatalog[skill.id].name}</LegacyTranslation></Link></List.Item>
-			})}
+				{course.courseDefinition.learningGoalIds.map(goalId => <List.Item key={goalId}><Link to={paths.skill({ skillId: goalId })}><TranslatedSkillName skillId={goalId} /></Link></List.Item>)}
 			</List>
 		</TranslationSection>
 	</TranslationFile>

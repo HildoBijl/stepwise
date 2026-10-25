@@ -1,10 +1,9 @@
 import { useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-import { moduleTree } from '@step-wise/module-tree'
-
-import { useGetTranslation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
+
+import { TranslatedSkillName } from './components/TranslatedSkillName'
 
 // useSkillPath returns a pathing function. This pathing function gets a skillId and returns the path to said skill. This is done content-dependent: if we are in a course, then we stay within the course.
 export function useSkillPath() {
@@ -30,10 +29,8 @@ export function SkillLink({ skillId, tab, children, ...props }) {
 	const path = skillPath(skillId || currentSkillId, tab || currentTab)
 
 	// On no children, get the skill title.
-	const skill = moduleTree[skillId]
-	const getTranslation = useGetTranslation('eduContent/skillNames')
 	if (!children)
-		children = getTranslation(`${skill.groupPath.join('.')}.${skill.id}`)
+		children = <TranslatedSkillName skillId={skillId} />
 
 	// Render the link.
 	return <Link to={path} {...props}>{children}</Link>

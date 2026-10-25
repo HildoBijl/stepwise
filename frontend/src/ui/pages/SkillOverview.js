@@ -4,20 +4,18 @@ import { Link } from 'react-router-dom'
 import { moduleTree } from '@step-wise/module-tree'
 import { getExercises, getExamples } from '@step-wise/exercises'
 
-import { useTranslator } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par } from 'ui/components'
-import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
+import { TranslatedSkillName } from 'ui/eduTools/skills'
 
 export function SkillOverview() {
-	const translate = useTranslator()
 	const paths = usePaths()
 	return <>
 		<Par>This is a test system used to inspect exercises. Below you find all exercises available on the website, grouped per skill.</Par>
 		<ul>
 			{Object.values(moduleTree).map(skill => (
 				<li key={skill.id}>
-					<Link to={paths.skillInspection({ skillId: skill.id })}>{translate(moduleCatalog[skill.id].name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}</Link>
+					<Link to={paths.skillInspection({ skillId: skill.id })}><TranslatedSkillName skillId={skill.id} /></Link>
 					<ExerciseSkillList skill={skill} />
 				</li>
 			))}

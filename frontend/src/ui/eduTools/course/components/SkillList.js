@@ -9,13 +9,12 @@ import { hasExercises } from '@step-wise/exercises'
 import { Translation, useTranslation } from '@step-wise/i18n'
 
 import { useSkillLevel } from 'api'
-import { useTranslator } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
 import { QuickPractice } from 'ui/components/icons'
-import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
 
 import { SkillFlask } from '../../skills'
+import { TranslatedSkillName } from '../../skills/components/TranslatedSkillName'
 
 export function SkillList({ courseCode, skillIds, display = true, landscape, isPriorKnowledge, analysis, sx = {} }) {
 
@@ -52,7 +51,6 @@ export function SkillList({ courseCode, skillIds, display = true, landscape, isP
 
 function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, practiceNeed = 2, sx = {} }) {
 	const theme = useTheme()
-	const translate = useTranslator()
 	const noExercisesText = useTranslation({ children: 'This skill has no exercises yet. They are probably coming soon.', id: 'noExercises' })
 	const sufficientMasteryText = useTranslation({ children: 'You have sufficiently mastered this skill.', id: 'sufficientMastery' })
 	const followUpMasteryText = useTranslation({ children: 'You have mastered a follow-up skill, so we mark this one as sufficient as well.', id: 'followUpMastery' })
@@ -98,7 +96,7 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 	return <Box component={Link} to={paths.courseSkill({ courseCode, skillId })} sx={skillItemStyle}>
 		{skillLevelSet.hasRequiredDataFor(skillId) ? <SkillFlask skillId={skillId} coef={skillLevelSet.getInferredCoefficients(skillId)} isPriorKnowledge={isPriorKnowledge} size={40} sx={{ flex: '0 0 auto', marginRight: '0.8rem' }} /> : null}
 		<Box sx={{ flex: '1 1 auto' }}>
-			{translate(moduleCatalog[skill.id].name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
+			<TranslatedSkillName skillId={skill.id} />
 		</Box>
 		{!hasExercises(skillId) ? <Tooltip title={noExercisesText} arrow>
 			<Box sx={iconContainerStyle}>

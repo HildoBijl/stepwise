@@ -3,6 +3,7 @@ import React from 'react'
 import { TitleItem } from 'ui/routingTools'
 
 import { useCourseData } from './CourseProvider'
+import { useCourseTranslation } from './CourseTranslation'
 
 export function CourseName() {
 	const { loading, error, course } = useCourseData()
@@ -10,5 +11,9 @@ export function CourseName() {
 		return <TitleItem folder={['eduTools', 'pages']} catalog="coursePage" group={['loading']} id="loadingCourseTitle" name="Loading course..." />
 	if (error || !course)
 		return <TitleItem folder={['eduTools', 'pages']} catalog="coursePage" group={['loading']} id="unknownCourseTitle" name="Unknown course" />
-	return <TitleItem path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.name`} name={course.name} />
+	return <TranslatedCourseName course={course} />
+}
+
+function TranslatedCourseName({ course }) {
+	return <TitleItem name={useCourseTranslation({ course })} />
 }
