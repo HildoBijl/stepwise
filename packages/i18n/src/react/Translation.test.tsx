@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
 import { getMessageContentFingerprint, getMessageStructureFingerprint } from '../message/index.ts'
@@ -81,6 +81,57 @@ describe('Translation', () => {
 		expect(await screen.findByText('Hallo')).toBeTruthy()
 	})
 
+	it.each([
+		['missing', undefined],
+		['needs-review', {
+			message: [{ type: 'text' as const, value: 'Hallo' }],
+			reviewedSourceContentFingerprint: getMessageContentFingerprint([{ type: 'text', value: 'Old hello' }]),
+			reviewedSourceStructureFingerprint: getMessageStructureFingerprint([{ type: 'text', value: 'Hello' }]),
+		}],
+		['stale', {
+			message: [{ type: 'text' as const, value: 'Hallo' }],
+			reviewedSourceContentFingerprint: getMessageContentFingerprint([{ type: 'variable', name: 'old' }]),
+			reviewedSourceStructureFingerprint: getMessageStructureFingerprint([{ type: 'variable', name: 'old' }]),
+		}],
+	] as const)('falls back to the authored source when a target is %s', async (_, target) => {
+		const loadCatalog = async () => ({
+			sourceLocale: 'en',
+			targetLocale: 'nl',
+			entries: [{ type: 'unit' as const, id: 'welcome', source: [{ type: 'text' as const, value: 'Hello' }], target }],
+		})
+
+		const view = render(<I18nProvider locale="nl" sourceLocale="en" loadCatalog={loadCatalog}>
+			<TranslationCatalog name="test"><Translation id="welcome">Hello</Translation></TranslationCatalog>
+		</I18nProvider>)
+		await act(async () => {})
+
+		expect(view.container.textContent).toBe('Hello')
+	})
+
+	it('falls back to the authored source when Catalog loading fails', async () => {
+		const loadCatalog = async () => { throw new Error('Catalog unavailable') }
+		const view = render(<I18nProvider locale="nl" sourceLocale="en" loadCatalog={loadCatalog}>
+			<TranslationCatalog name="test"><Translation id="welcome">Hello</Translation></TranslationCatalog>
+		</I18nProvider>)
+		await act(async () => {})
+
+		expect(view.container.textContent).toBe('Hello')
+	})
+
+	it('uses the authored source when the source locale is active', async () => {
+		const loadCatalog = async () => ({
+			sourceLocale: 'en',
+			entries: [{ type: 'unit' as const, id: 'welcome', source: [{ type: 'text' as const, value: 'Stored source' }] }],
+		})
+		render(<I18nProvider locale="en" sourceLocale="en" loadCatalog={loadCatalog}>
+			<TranslationCatalog name="test"><Translation id="welcome">Authored source</Translation></TranslationCatalog>
+		</I18nProvider>)
+		await act(async () => {})
+
+		expect(screen.getByText('Authored source')).toBeTruthy()
+		expect(screen.queryByText('Stored source')).toBeNull()
+	})
+
 	it('translates text while extending the contextual group', async () => {
 		const source = [{ type: 'text', value: 'Description' }] as const
 		const loadCatalog = async () => ({
@@ -118,6 +169,35 @@ describe('Translation', () => {
 		expect(await screen.findByText('Omschrijving')).toBeTruthy()
 	})
 
+	it('falls back to source text and rejects translations that do not resolve to a string', async () => {
+		const source = [{ type: 'text', value: 'Description' }] as const
+		const currentTarget = {
+			message: [{ type: 'text' as const, value: 'Om' }, { type: 'text' as const, value: 'schrijving' }],
+			reviewedSourceContentFingerprint: getMessageContentFingerprint(source),
+			reviewedSourceStructureFingerprint: getMessageStructureFingerprint(source),
+		}
+		const loadCatalog = async () => ({
+			sourceLocale: 'en',
+			targetLocale: 'nl',
+			entries: [
+				{ type: 'unit' as const, id: 'missing', source },
+				{ type: 'unit' as const, id: 'invalid', source, target: currentTarget },
+			],
+		})
+		function Text({ id }: { id: 'missing' | 'invalid' }) {
+			return <span>{useTextTranslation({ id, source: 'Description' })}</span>
+		}
+
+		const view = render(<I18nProvider locale="nl" sourceLocale="en" loadCatalog={loadCatalog}>
+			<TranslationCatalog name="test"><Text id="missing" /></TranslationCatalog>
+		</I18nProvider>)
+		expect(await screen.findByText('Description')).toBeTruthy()
+
+		expect(() => view.rerender(<I18nProvider locale="nl" sourceLocale="en" loadCatalog={loadCatalog}>
+			<TranslationCatalog name="test"><Text id="invalid" /></TranslationCatalog>
+		</I18nProvider>)).toThrow('A text translation must resolve to a string.')
+	})
+
 	it('registers its authored source under every active locale', () => {
 		const registerSource = vi.fn()
 		render(<I18nProvider locale="nl" sourceLocale="en" registerSource={registerSource}>
@@ -133,5 +213,30 @@ describe('Translation', () => {
 			id: 'welcome',
 			source: [{ type: 'text', value: 'Hello' }],
 		})
+	})
+
+	it('registers changed sources but not equivalent rerenders', () => {
+		const registerSource = vi.fn()
+		function TestTranslation({ source }: { source: string }) {
+			return <TranslationCatalog name="test"><Translation id="welcome">{source}</Translation></TranslationCatalog>
+		}
+
+		const view = render(<I18nProvider locale="nl" sourceLocale="en" registerSource={registerSource}>
+			<TestTranslation source="Hello" />
+		</I18nProvider>)
+		expect(registerSource).toHaveBeenCalledTimes(1)
+
+		view.rerender(<I18nProvider locale="nl" sourceLocale="en" registerSource={registerSource}>
+			<TestTranslation source="Hello" />
+		</I18nProvider>)
+		expect(registerSource).toHaveBeenCalledTimes(1)
+
+		view.rerender(<I18nProvider locale="nl" sourceLocale="en" registerSource={registerSource}>
+			<TestTranslation source="Welcome" />
+		</I18nProvider>)
+		expect(registerSource).toHaveBeenCalledTimes(2)
+		expect(registerSource).toHaveBeenLastCalledWith(expect.objectContaining({
+			source: [{ type: 'text', value: 'Welcome' }],
+		}))
 	})
 })

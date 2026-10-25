@@ -13,6 +13,21 @@ const target = {
 } as const
 
 describe('Catalog synchronization', () => {
+	it('creates a new target Catalog from the complete source hierarchy', () => {
+		const sourceCatalog: Catalog = { sourceLocale: 'en', entries: [
+			{ type: 'group', id: 'outer', entries: [
+				{ type: 'group', id: 'inner', entries: [
+					{ type: 'unit', id: 'message', source: originalSource },
+				] },
+			] },
+		] }
+
+		expect(synchronizeCatalog(sourceCatalog, 'nl')).toEqual({
+			...sourceCatalog,
+			targetLocale: 'nl',
+		})
+	})
+
 	it('updates source entries, adds missing entries and retains translations and obsolete entries', () => {
 		const sourceCatalog: Catalog = { sourceLocale: 'en', entries: [
 			{ type: 'group', id: 'group', entries: [
@@ -34,6 +49,48 @@ describe('Catalog synchronization', () => {
 		expect(group.entries.map(entry => entry.id)).toEqual(['existing', 'new', 'obsolete'])
 		expect((group.entries[0] as CatalogUnit).source).toBe(changedSource)
 		expect((group.entries[0] as CatalogUnit).target).toBe(target)
+	})
+
+	it('retains obsolete entries inside nested target groups', () => {
+		const sourceCatalog: Catalog = { sourceLocale: 'en', entries: [
+			{ type: 'group', id: 'outer', entries: [
+				{ type: 'group', id: 'inner', entries: [
+					{ type: 'unit', id: 'current', source: originalSource },
+				] },
+			] },
+		] }
+		const targetCatalog: Catalog = { sourceLocale: 'en', targetLocale: 'nl', entries: [
+			{ type: 'group', id: 'outer', entries: [
+				{ type: 'group', id: 'inner', entries: [
+					{ type: 'unit', id: 'current', source: originalSource },
+					{ type: 'unit', id: 'obsolete', source: changedSource },
+				] },
+			] },
+		] }
+
+		const synchronized = synchronizeCatalog(sourceCatalog, 'nl', targetCatalog)
+		const outer = synchronized.entries[0]
+		if (outer?.type !== 'group') throw new Error('Expected the outer group.')
+		const inner = outer.entries[0]
+		if (inner?.type !== 'group') throw new Error('Expected the inner group.')
+		expect(inner.entries.map(entry => entry.id)).toEqual(['current', 'obsolete'])
+	})
+
+	it('rejects conflicting entry types', () => {
+		const sourceCatalog: Catalog = { sourceLocale: 'en', entries: [
+			{ type: 'group', id: 'entry', entries: [] },
+		] }
+		const targetCatalog: Catalog = { sourceLocale: 'en', targetLocale: 'nl', entries: [
+			{ type: 'unit', id: 'entry', source: originalSource },
+		] }
+
+		expect(() => synchronizeCatalog(sourceCatalog, 'nl', targetCatalog)).toThrow('A source group conflicts with a target unit.')
+	})
+
+	it('rejects target Catalogs with mismatched locales', () => {
+		const sourceCatalog: Catalog = { sourceLocale: 'en', entries: [] }
+		expect(() => synchronizeCatalog(sourceCatalog, 'nl', { sourceLocale: 'de', targetLocale: 'nl', entries: [] })).toThrow('does not match "en"')
+		expect(() => synchronizeCatalog(sourceCatalog, 'nl', { sourceLocale: 'en', targetLocale: 'de', entries: [] })).toThrow('Expected target locale "nl"')
 	})
 
 	it('reports outdated source snapshots and every non-current translation', () => {
