@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { Translation } from 'i18n'
+import { Translation } from '@step-wise/i18n'
 
 import { Par } from '../text'
 
 export function LoadingNote({ text }) {
-	return <Par><Translation entry="loading" path="main">Loading ... {{ text }}</Translation></Par>
+	return <Par><Translation folder={[]} catalog="main" group={[]} id="loading">Loading ... {{ text }}</Translation></Par>
 }
 LoadingNote.translation = false // Translation is handled internally.

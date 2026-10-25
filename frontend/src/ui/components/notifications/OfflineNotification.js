@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 
-import { Translation } from 'i18n'
+import { Translation } from '@step-wise/i18n'
 
 import NotificationBar from './NotificationBar'
 
@@ -18,5 +18,5 @@ export default function OfflineNotification() {
 	}, [updateStatus])
 
 	// Only display the notification when the user is offline. 
-	return <NotificationBar display={!online} type="warning"><Translation entry="notifications.notOnline" path="main">You seem to have lost your internet connection. Some functionalities will not be available until you are back online.</Translation></NotificationBar>
+	return <NotificationBar display={!online} type="warning"><Translation folder={[]} catalog="main" group={['notifications']} id="notOnline">You seem to have lost your internet connection. Some functionalities will not be available until you are back online.</Translation></NotificationBar>
 }

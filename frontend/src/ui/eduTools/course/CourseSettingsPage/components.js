@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 
+import { LocalizedList } from '@step-wise/i18n'
 import { moduleTree } from '@step-wise/module-tree'
 
 import { useSubscribeToCourse, useUnsubscribeFromCourse } from 'api'
-import { TranslationFile, TranslationSection, Translation, Plurals, WordList } from 'i18n'
+import { TranslationFile, TranslationSection, Translation, Plurals } from 'i18n'
 import { Head, Par, List, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 import { moduleCatalog } from 'ui/eduContent/moduleCatalog'
@@ -36,7 +37,7 @@ export function CourseTeachers({ course }) {
 						<img src={organization.logo} alt={`Logo ${organization.name}`} style={{ display: 'inline-block', height: '100%', width: 'auto', maxWidth: '100%', transform: 'translateY(2pt)' }} />
 					</div>
 					<div style={{ flex: 1, marginLeft: '0.8rem' }}>
-						<Translation entry="teachers.description"><Plurals value={teachers.length}><Plurals.Zero>This <strong>{{ name: organization.name }}</strong> course has no teachers at the moment.</Plurals.Zero><Plurals.NotZero>This <strong>{{ name: organization.name }}</strong> course is taught by <WordList words={teachers.map(teacher => <strong key={teacher.id}>{teacher.name}</strong>)} />.</Plurals.NotZero></Plurals></Translation>
+						<Translation entry="teachers.description"><Plurals value={teachers.length}><Plurals.Zero>This <strong>{{ name: organization.name }}</strong> course has no teachers at the moment.</Plurals.Zero><Plurals.NotZero>This <strong>{{ name: organization.name }}</strong> course is taught by <LocalizedList items={teachers.map(teacher => <strong key={teacher.id}>{teacher.name}</strong>)} />.</Plurals.NotZero></Plurals></Translation>
 					</div>
 				</div>
 			</Par>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="pageTitles">
+			<unit id="forStudents">
+				<segment>
+					<source>Step-Wise for students</source>
+					<target swi18n:sourceContentFingerprint="879b159bd83c3466" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Step-Wise für Studierende</target>
+				</segment>
+			</unit>
+			<unit id="forTeachers">
+				<segment>
+					<source>Step-Wise for teachers</source>
+					<target swi18n:sourceContentFingerprint="43c2faee54cbdea3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Step-Wise für Lehrende</target>
+				</segment>
+			</unit>
+			<unit id="about">
+				<segment>
+					<source>About Step-Wise</source>
+					<target swi18n:sourceContentFingerprint="534832a9e18cf4dc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Über Step-Wise</target>
+				</segment>
+			</unit>
+			<unit id="settings">
+				<segment>
+					<source>Settings</source>
+					<target swi18n:sourceContentFingerprint="f28ac8f1d3d524bf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Einstellungen</target>
+				</segment>
+			</unit>
+			<unit id="signOut">
+				<segment>
+					<source>Signing out...</source>
+					<target swi18n:sourceContentFingerprint="5186dc84995c983d" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Abmelden...</target>
+				</segment>
+			</unit>
+			<unit id="feedback">
+				<segment>
+					<source>Feedback</source>
+					<target swi18n:sourceContentFingerprint="043d77b85de626d9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Feedback</target>
+				</segment>
+			</unit>
+			<unit id="courses">
+				<segment>
+					<source>Courses</source>
+					<target swi18n:sourceContentFingerprint="521025a3330c3486" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kurse</target>
+				</segment>
+			</unit>
+			<unit id="addCourse">
+				<segment>
+					<source>Add course</source>
+					<target swi18n:sourceContentFingerprint="3998fdd2116e1328" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kurs hinzufügen</target>
+				</segment>
+			</unit>
+			<unit id="courseSettings">
+				<segment>
+					<source>Settings</source>
+					<target swi18n:sourceContentFingerprint="f28ac8f1d3d524bf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Einstellungen</target>
+				</segment>
+			</unit>
+			<unit id="groups">
+				<segment>
+					<source>Practice together</source>
+					<target swi18n:sourceContentFingerprint="4e68aa76fbd9e5a3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gemeinsam üben</target>
+				</segment>
+			</unit>
+			<unit id="newGroup">
+				<segment>
+					<source>New practice group</source>
+					<target swi18n:sourceContentFingerprint="009542480db921a0" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Neue Übungsgruppe</target>
+				</segment>
+			</unit>
+			<unit id="group">
+				<segment>
+					<source>Join practice group</source>
+					<target swi18n:sourceContentFingerprint="93d28403957e1116" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Übungsgruppe beitreten</target>
+				</segment>
+			</unit>
+			<unit id="inspect">
+				<segment>
+					<source>Skill overview</source>
+					<target swi18n:sourceContentFingerprint="45bcc625139259ac" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kompetenzübersicht</target>
+				</segment>
+			</unit>
+			<unit id="admin">
+				<segment>
+					<source>User overview</source>
+					<target swi18n:sourceContentFingerprint="efcfe1b45c9a27ea" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Benutzerübersicht</target>
+				</segment>
+			</unit>
+			<unit id="test">
+				<segment>
+					<source>Test page</source>
+					<target swi18n:sourceContentFingerprint="e6c9902c4e1158e9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Testseite</target>
+				</segment>
+			</unit>
+			<unit id="freePractice">
+				<segment>
+					<source>Free practice mode</source>
+					<target swi18n:sourceContentFingerprint="4b1b90134bff2af6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Freie Übungsmodus</target>
+				</segment>
+			</unit>
+			<unit id="notFoundForStranger">
+				<segment>
+					<source>Home</source>
+					<target swi18n:sourceContentFingerprint="c0babaab374a84d9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Home</target>
+				</segment>
+			</unit>
+			<unit id="notFoundForUser">
+				<segment>
+					<source>Courses</source>
+					<target swi18n:sourceContentFingerprint="521025a3330c3486" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kurse</target>
+				</segment>
+			</unit>
+			<unit id="freePracticeTab">
+				<segment>
+					<source>Free practice mode</source>
+					<target swi18n:sourceContentFingerprint="4b1b90134bff2af6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Free practice mode</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="menu">
+			<unit id="home">
+				<segment>
+					<source>Home</source>
+					<target swi18n:sourceContentFingerprint="c0babaab374a84d9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Home</target>
+				</segment>
+			</unit>
+			<unit id="courses">
+				<segment>
+					<source>Courses</source>
+					<target swi18n:sourceContentFingerprint="521025a3330c3486" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kurse</target>
+				</segment>
+			</unit>
+			<unit id="groups">
+				<segment>
+					<source>Practice together</source>
+					<target swi18n:sourceContentFingerprint="4e68aa76fbd9e5a3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Gemeinsam üben</target>
+				</segment>
+			</unit>
+			<unit id="settings">
+				<segment>
+					<source>Settings</source>
+					<target swi18n:sourceContentFingerprint="f28ac8f1d3d524bf" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Einstellungen</target>
+				</segment>
+			</unit>
+			<unit id="signOut">
+				<segment>
+					<source>Sign out</source>
+					<target swi18n:sourceContentFingerprint="9fe5f662e21d8d87" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Abmelden</target>
+				</segment>
+			</unit>
+			<unit id="forStudents">
+				<segment>
+					<source>Step-Wise for students</source>
+					<target swi18n:sourceContentFingerprint="879b159bd83c3466" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Step-Wise für Studierende</target>
+				</segment>
+			</unit>
+			<unit id="forTeachers">
+				<segment>
+					<source>Step-Wise for teachers</source>
+					<target swi18n:sourceContentFingerprint="43c2faee54cbdea3" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Step-Wise für Lehrende</target>
+				</segment>
+			</unit>
+			<unit id="about">
+				<segment>
+					<source>About Step-Wise</source>
+					<target swi18n:sourceContentFingerprint="534832a9e18cf4dc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Über Step-Wise</target>
+				</segment>
+			</unit>
+			<unit id="inspect">
+				<segment>
+					<source>Skill overview</source>
+					<target swi18n:sourceContentFingerprint="45bcc625139259ac" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Kompetenzübersicht</target>
+				</segment>
+			</unit>
+			<unit id="admin">
+				<segment>
+					<source>User overview</source>
+					<target swi18n:sourceContentFingerprint="efcfe1b45c9a27ea" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Benutzerübersicht</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="tabs">
+			<unit id="theory">
+				<segment>
+					<source>Theory</source>
+					<target swi18n:sourceContentFingerprint="f271c089afcf5263" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Theorie</target>
+				</segment>
+			</unit>
+			<unit id="video">
+				<segment>
+					<source>Video</source>
+					<target swi18n:sourceContentFingerprint="7ac41c53f00e11dd" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Video</target>
+				</segment>
+			</unit>
+			<unit id="background">
+				<segment>
+					<source>Background</source>
+					<target swi18n:sourceContentFingerprint="52df82c15e8303c8" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Hintergrund</target>
+				</segment>
+			</unit>
+			<unit id="summary">
+				<segment>
+					<source>Summary</source>
+					<target swi18n:sourceContentFingerprint="c85465d9f90df874" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Zusammenfassung</target>
+				</segment>
+			</unit>
+			<unit id="example">
+				<segment>
+					<source>Example</source>
+					<target swi18n:sourceContentFingerprint="ef8f5358f1e9993a" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Beispiel</target>
+				</segment>
+			</unit>
+			<unit id="practice">
+				<segment>
+					<source>Practice</source>
+					<target swi18n:sourceContentFingerprint="7c0e2586199aed33" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Übung</target>
+				</segment>
+			</unit>
+			<unit id="formulas">
+				<segment>
+					<source>Formulas</source>
+					<target swi18n:sourceContentFingerprint="7fd9cb6efcb8c4d5" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Formeln</target>
+				</segment>
+			</unit>
+			<unit id="references">
+				<segment>
+					<source>Attachments</source>
+					<target swi18n:sourceContentFingerprint="7d7856487b2d655e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Anhänge</target>
+				</segment>
+			</unit>
+			<unit id="meta">
+				<segment>
+					<source>Meta-info</source>
+					<target swi18n:sourceContentFingerprint="3812c083ec5ac058" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Meta-Info</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

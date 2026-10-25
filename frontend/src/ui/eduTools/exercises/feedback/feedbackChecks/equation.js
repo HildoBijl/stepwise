@@ -3,7 +3,8 @@
 import { findWithValue, resolveFunctionValuesDeep, resolveFunctionValue, identity } from '@step-wise/js-utils'
 import { asEquationEqualityOptions, expressionComparisons, equationComparisons } from '@step-wise/cas'
 
-import { Translation, Check, CountingWord } from 'i18n'
+import { Translation, Check } from 'i18n'
+import { CountingWord } from 'i18nNext'
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/inputs'
 
 import * as expressionFeedbackChecks from './expression'

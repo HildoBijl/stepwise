@@ -18,6 +18,12 @@ function Equation({ children }: { children: ReactNode }) {
 const M = withTranslation(Equation, { tag: 'equation', translatedProps: [], canCopy: false, canDelete: false })
 
 describe('message-to-React rendering', () => {
+	it('returns a single rendered node directly', () => {
+		const message: Message = [{ type: 'text', value: 'Settings' }]
+
+		expect(messageToReact(message, 'Settings', 'en')).toBe('Settings')
+	})
+
 	it('translates variables and component slots while retaining the original elements', () => {
 		const source = <>Hello {variable('name', 'Ada')}, <strong>important</strong>.</>
 		const target: Message = [

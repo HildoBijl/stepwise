@@ -3,7 +3,8 @@
 import { expressionChecks, expressionComparisons } from '@step-wise/cas'
 import { M } from '@step-wise/math-display'
 
-import { Translation, CountingWord } from 'i18n'
+import { Translation } from 'i18n'
+import { CountingWord } from 'i18nNext'
 
 const { areEqualExceptOrder, areEquivalent: equivalent, areConstantMultiples } = expressionComparisons
 

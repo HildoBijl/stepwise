@@ -2,7 +2,8 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { ListItemButton, ListItemIcon, ListItemText, alpha } from '@mui/material'
 
-import { useTranslator } from 'i18n'
+import { Translation } from '@step-wise/i18n'
+
 import { useRoute, useRouteById } from 'ui/routingTools'
 
 export default function MenuLink({ id, path, text, icon: Icon }) {
@@ -18,11 +19,10 @@ export default function MenuLink({ id, path, text, icon: Icon }) {
 	const selected = activeRoute.path === linkRoute.path
 
 	// Render the link.
-	const translate = useTranslator()
 	return (
 		<ListItemButton component={NavLink} to={path}>
 			<ListItemIcon sx={theme => ({ color: selected ? alpha(theme.palette.primary.main, 0.8) : undefined })}><Icon /></ListItemIcon>
-			<ListItemText primary={translate(text, id)} sx={{ color: selected ? 'primary.main' : undefined }} />
+			<ListItemText primary={<Translation id={id}>{text}</Translation>} sx={{ color: selected ? 'primary.main' : undefined }} />
 		</ListItemButton>
 	)
 }

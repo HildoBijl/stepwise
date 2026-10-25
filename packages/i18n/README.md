@@ -103,7 +103,7 @@ Use `Translation`, `Plural`, `Select`, and `Condition` to author messages. The `
 
 `Condition` represents an exhaustive boolean choice. Either branch may be omitted in React authoring; an omitted outcome is stored as an empty branch and renders nothing.
 
-`messageToReact` applies a translated `Message` to its original React source. It retains preserved props, correlates reordered components by occurrence ID, resolves variables and constructs, and enforces component copy/delete permissions.
+`messageToReact` applies a translated `Message` to its original React source. It retains preserved props, correlates reordered components by occurrence ID, resolves variables and constructs, and enforces component copy/delete permissions. A message that renders exactly one node returns that node directly; multi-node messages return an array.
 
 `LocalizedList` formats a list of strings or React nodes with the active locale's punctuation and conjunctions. It is opaque inside an outer translation because it performs its own locale-sensitive rendering:
 

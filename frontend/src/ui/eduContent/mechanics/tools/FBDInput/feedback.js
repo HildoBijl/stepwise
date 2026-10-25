@@ -3,7 +3,8 @@ import { isValidElement } from 'react'
 import { isPlainObject, mapValues } from '@step-wise/js-utils'
 import { compareLoadLists, isLoadAtPoint } from '@step-wise/engineering-mechanics'
 
-import { Translation, Check, Plurals, CountingWord } from 'i18n'
+import { Translation, Check, Plurals } from 'i18n'
+import { CountingWord } from 'i18nNext'
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
 import { getFeedbackCheckResult, processParameterOptions } from 'ui/eduTools'
 

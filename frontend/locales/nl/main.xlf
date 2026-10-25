@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="nl">
+	<file id="catalog">
+		<group id="notifications">
+			<unit id="notSignedIn">
+				<segment>
+					<source>You are not signed in. Progress will not be tracked. Practice recommendations and personalized exercises are not possible.</source>
+					<target swi18n:sourceContentFingerprint="5d67173750895f57" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Je bent niet ingelogd. Voortgang wordt niet bijgehouden. Oefensuggesties en gepersonaliseerde opgaven zijn niet mogelijk.</target>
+				</segment>
+			</unit>
+			<unit id="notOnline">
+				<segment>
+					<source>You seem to have lost your internet connection. Some functionalities will not be available until you are back online.</source>
+					<target swi18n:sourceContentFingerprint="84032dc0b02c4b29" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Je hebt blijkbaar even geen internetverbinding. Bepaalde functionaliteiten zijn niet beschikbaar tot je weer online bent.</target>
+				</segment>
+			</unit>
+		</group>
+		<unit id="loading">
+			<segment>
+				<source>Loading ... <ph id="x1" type="ui" subType="xlf:var" swi18n:name="text"/></source>
+				<target swi18n:sourceContentFingerprint="295ea2ebf4e23db5" swi18n:sourceStructureFingerprint="c0db093aa7a9c3b3">Laden ... <ph id="x1" type="ui" subType="xlf:var" swi18n:name="text"/></target>
+			</segment>
+		</unit>
+		<group id="errorNote">
+			<unit id="title">
+				<segment>
+					<source>Oops ... something went wrong.</source>
+					<target swi18n:sourceContentFingerprint="3c63a4ee3681e1aa" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Oops ... daar ging iets mis.</target>
+				</segment>
+			</unit>
+			<unit id="body">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The page could not be loaded/displayed properly. <ph id="x1" type="ui" subType="xlf:var" swi18n:name="reason"/> We recommend you try the following.</pc><pc id="c2" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:item" swi18n:slot="children">Refresh the page (F5). Maybe your connection briefly flaked.</pc><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children">Make sure the URL is correct. No typos?</pc><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children">Try a hard refresh (Shift+F5) to ensure you don't have an old version of the web-app still cached on your device.</pc><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children">The above attempts all fail? It's probably us. Try again later.</pc></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Is the bug still present later on? Then please send an email to <ph id="x2" type="ui" subType="xlf:var" swi18n:name="emailLink"/> (Hildo). I'll fix the bug, so that both you and others won't continue running into it. If possible, also add:</pc><pc id="c8" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children">Where the bug occurred: for instance which skill/exercise.</pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children">What you did right before the bug appeared.</pc><pc id="c11" type="ui" subType="swi18n:item" swi18n:slot="children">Possibly a screenshot of any red error message in the Developer's Tools console (F12).</pc></pc></source>
+					<target swi18n:sourceContentFingerprint="ba044958a55d3758" swi18n:sourceStructureFingerprint="6c61e74cbe0ff60b"><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">De pagina kon niet geladen/weergegeven worden. <ph id="x1" type="ui" subType="xlf:var" swi18n:name="reason"/> We raden je het volgende aan.</pc><pc id="c2" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:item" swi18n:slot="children">Vernieuw de pagina (F5). Misschien viel je verbinding even uit.</pc><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children">Check dat de URL correct is. Geen typfouten?</pc><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children">Probeer een harde refresh (Shift+F5) om er zeker van te zijn dat je niet nog een oude versie van de web-app op je apparaat gecached hebt.</pc><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children">Het bovenstaande werkt allemaal niet? Dan ligt het waarschijnlijk aan ons. Probeer het later opnieuw.</pc></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Is de bug later nog steeds aanwezig? Stuur dan een mail naar <ph id="x2" type="ui" subType="xlf:var" swi18n:name="emailLink"/> (Hildo). Ik los de bug op, zodat zowel jij als ook anderen er niet tegenaan blijven lopen. Voeg indien mogelijk ook toe:</pc><pc id="c8" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children">Waar de bug optrad: bijvoorbeeld welke vaardigheid/opgave.</pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children">Wat je deed vlak voordat de bug optrad.</pc><pc id="c11" type="ui" subType="swi18n:item" swi18n:slot="children">Eventueel een screenshot van mogelijke rode foutmeldingen in de Developer's Tools console (F12).</pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="signOut">
+			<unit id="message">
+				<segment>
+					<source>You're being signed out...</source>
+					<target swi18n:sourceContentFingerprint="8906cc30b555921c" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Je wordt uitgelogd...</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

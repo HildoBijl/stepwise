@@ -3,14 +3,11 @@ import React from 'react'
 import { Box } from '@mui/material'
 
 import { resolveFunctionValuesDeep } from '@step-wise/js-utils'
-
-import { useTranslator } from 'i18n'
+import { Translation } from '@step-wise/i18n'
 
 import { tabData } from './tabData'
 
 export function TabLabel({ tab, showLabel, showIcon, sx = {} }) {
-	const translate = useTranslator()
-
 	// Extract data (icon, title) on the tab.
 	const currTabData = tabData[tab]
 	if (!currTabData)
@@ -33,7 +30,7 @@ export function TabLabel({ tab, showLabel, showIcon, sx = {} }) {
 		</Box> : null}
 
 		{showLabel ? <Box>
-			{translate(currTabData.title, `tabs.${currTabData.id}`, 'navigation')}
+			<Translation folder={[]} catalog="navigation" group={['tabs']} id={currTabData.id}>{currTabData.title}</Translation>
 		</Box> : null}
 	</Box>
 }

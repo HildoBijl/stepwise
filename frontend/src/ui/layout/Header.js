@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTheme, AppBar, Toolbar, Container } from '@mui/material'
 
-import { TranslationFile } from 'i18n'
+import { TranslationCatalog, TranslationFolder } from '@step-wise/i18n'
 
 import { Title, TabBar } from 'ui/routingTools'
 import { GroupIndicator } from 'ui/pages'
@@ -13,18 +13,20 @@ export function Header({ Indicator }) {
 	const [titleCollapsed, setTitleCollapsed] = useState(false)
 
 	return (
-		<TranslationFile path="navigation">
-			<AppBar data-scroll-header position="sticky">
-				<Container maxWidth={theme.appWidth}>
-					<Toolbar disableGutters sx={{ p: 0 }}>
-						<Menu titleCollapsed={titleCollapsed} sx={{ mr: 2 }} />
-						<Title setTitleCollapsed={setTitleCollapsed} sx={{ flex: 1 }} />
-						{Indicator ? <Indicator /> : null}
-						<GroupIndicator />
-					</Toolbar>
-				</Container>
-				<TabBar />
-			</AppBar>
-		</TranslationFile>
+		<TranslationFolder path={[]} extend={false}>
+			<TranslationCatalog name="navigation">
+				<AppBar data-scroll-header position="sticky">
+					<Container maxWidth={theme.appWidth}>
+						<Toolbar disableGutters sx={{ p: 0 }}>
+							<Menu titleCollapsed={titleCollapsed} sx={{ mr: 2 }} />
+							<Title setTitleCollapsed={setTitleCollapsed} sx={{ flex: 1 }} />
+							{Indicator ? <Indicator /> : null}
+							<GroupIndicator />
+						</Toolbar>
+					</Container>
+					<TabBar />
+				</AppBar>
+			</TranslationCatalog>
+		</TranslationFolder>
 	)
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="notifications">
+			<unit id="notSignedIn">
+				<segment>
+					<source>You are not signed in. Progress will not be tracked. Practice recommendations and personalized exercises are not possible.</source>
+				</segment>
+			</unit>
+			<unit id="notOnline">
+				<segment>
+					<source>You seem to have lost your internet connection. Some functionalities will not be available until you are back online.</source>
+				</segment>
+			</unit>
+		</group>
+		<unit id="loading">
+			<segment>
+				<source>Loading ... <ph id="x1" type="ui" subType="xlf:var" swi18n:name="text"/></source>
+			</segment>
+		</unit>
+		<group id="errorNote">
+			<unit id="title">
+				<segment>
+					<source>Oops ... something went wrong.</source>
+				</segment>
+			</unit>
+			<unit id="body">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">The page could not be loaded/displayed properly. <ph id="x1" type="ui" subType="xlf:var" swi18n:name="reason"/> We recommend you try the following.</pc><pc id="c2" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:item" swi18n:slot="children">Refresh the page (F5). Maybe your connection briefly flaked.</pc><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children">Make sure the URL is correct. No typos?</pc><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children">Try a hard refresh (Shift+F5) to ensure you don't have an old version of the web-app still cached on your device.</pc><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children">The above attempts all fail? It's probably us. Try again later.</pc></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">Is the bug still present later on? Then please send an email to <ph id="x2" type="ui" subType="xlf:var" swi18n:name="emailLink"/> (Hildo). I'll fix the bug, so that both you and others won't continue running into it. If possible, also add:</pc><pc id="c8" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children">Where the bug occurred: for instance which skill/exercise.</pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children">What you did right before the bug appeared.</pc><pc id="c11" type="ui" subType="swi18n:item" swi18n:slot="children">Possibly a screenshot of any red error message in the Developer's Tools console (F12).</pc></pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="signOut">
+			<unit id="message">
+				<segment>
+					<source>You're being signed out...</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

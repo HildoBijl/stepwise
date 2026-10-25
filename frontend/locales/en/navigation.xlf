@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="pageTitles">
+			<unit id="forStudents">
+				<segment>
+					<source>Step-Wise for students</source>
+				</segment>
+			</unit>
+			<unit id="forTeachers">
+				<segment>
+					<source>Step-Wise for teachers</source>
+				</segment>
+			</unit>
+			<unit id="about">
+				<segment>
+					<source>About Step-Wise</source>
+				</segment>
+			</unit>
+			<unit id="settings">
+				<segment>
+					<source>Settings</source>
+				</segment>
+			</unit>
+			<unit id="signOut">
+				<segment>
+					<source>Signing out...</source>
+				</segment>
+			</unit>
+			<unit id="feedback">
+				<segment>
+					<source>Feedback</source>
+				</segment>
+			</unit>
+			<unit id="courses">
+				<segment>
+					<source>Courses</source>
+				</segment>
+			</unit>
+			<unit id="addCourse">
+				<segment>
+					<source>Add course</source>
+				</segment>
+			</unit>
+			<unit id="courseSettings">
+				<segment>
+					<source>Settings</source>
+				</segment>
+			</unit>
+			<unit id="groups">
+				<segment>
+					<source>Practice together</source>
+				</segment>
+			</unit>
+			<unit id="newGroup">
+				<segment>
+					<source>New practice group</source>
+				</segment>
+			</unit>
+			<unit id="group">
+				<segment>
+					<source>Join practice group</source>
+				</segment>
+			</unit>
+			<unit id="inspect">
+				<segment>
+					<source>Skill overview</source>
+				</segment>
+			</unit>
+			<unit id="admin">
+				<segment>
+					<source>User overview</source>
+				</segment>
+			</unit>
+			<unit id="test">
+				<segment>
+					<source>Test page</source>
+				</segment>
+			</unit>
+			<unit id="freePractice">
+				<segment>
+					<source>Free practice mode</source>
+				</segment>
+			</unit>
+			<unit id="notFoundForStranger">
+				<segment>
+					<source>Home</source>
+				</segment>
+			</unit>
+			<unit id="notFoundForUser">
+				<segment>
+					<source>Courses</source>
+				</segment>
+			</unit>
+			<unit id="freePracticeTab">
+				<segment>
+					<source>Free practice mode</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="menu">
+			<unit id="home">
+				<segment>
+					<source>Home</source>
+				</segment>
+			</unit>
+			<unit id="courses">
+				<segment>
+					<source>Courses</source>
+				</segment>
+			</unit>
+			<unit id="groups">
+				<segment>
+					<source>Practice together</source>
+				</segment>
+			</unit>
+			<unit id="settings">
+				<segment>
+					<source>Settings</source>
+				</segment>
+			</unit>
+			<unit id="signOut">
+				<segment>
+					<source>Sign out</source>
+				</segment>
+			</unit>
+			<unit id="forStudents">
+				<segment>
+					<source>Step-Wise for students</source>
+				</segment>
+			</unit>
+			<unit id="forTeachers">
+				<segment>
+					<source>Step-Wise for teachers</source>
+				</segment>
+			</unit>
+			<unit id="about">
+				<segment>
+					<source>About Step-Wise</source>
+				</segment>
+			</unit>
+			<unit id="inspect">
+				<segment>
+					<source>Skill overview</source>
+				</segment>
+			</unit>
+			<unit id="admin">
+				<segment>
+					<source>User overview</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="tabs">
+			<unit id="theory">
+				<segment>
+					<source>Theory</source>
+				</segment>
+			</unit>
+			<unit id="video">
+				<segment>
+					<source>Video</source>
+				</segment>
+			</unit>
+			<unit id="background">
+				<segment>
+					<source>Background</source>
+				</segment>
+			</unit>
+			<unit id="summary">
+				<segment>
+					<source>Summary</source>
+				</segment>
+			</unit>
+			<unit id="example">
+				<segment>
+					<source>Example</source>
+				</segment>
+			</unit>
+			<unit id="practice">
+				<segment>
+					<source>Practice</source>
+				</segment>
+			</unit>
+			<unit id="formulas">
+				<segment>
+					<source>Formulas</source>
+				</segment>
+			</unit>
+			<unit id="references">
+				<segment>
+					<source>Attachments</source>
+				</segment>
+			</unit>
+			<unit id="meta">
+				<segment>
+					<source>Meta-info</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

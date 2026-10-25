@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme, Box, SwipeableDrawer, List, Divider, IconButton, useMediaQuery } from '@mui/material'
 import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Info, ExitToApp, Policy, SupervisorAccount, Settings, People } from '@mui/icons-material'
 
+import { TranslationGroup } from '@step-wise/i18n'
+
 import { useUser, isTeacher, isAdmin } from 'api'
-import { TranslationSection } from 'i18n'
 import { usePaths, useParentPath } from 'ui/routingTools'
 import { Student, Teacher } from 'ui/components'
 import { useFieldRegistration, useFieldControllerContext } from 'ui/form'
@@ -64,7 +65,7 @@ export default function Menu({ titleCollapsed, sx }) {
 				</List>
 			</>
 
-		return <TranslationSection entry="menu">
+		return <TranslationGroup path="menu">
 			<IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)} ref={menuButtonRef} sx={sx}>
 				<MenuIcon />
 			</IconButton>
@@ -88,7 +89,7 @@ export default function Menu({ titleCollapsed, sx }) {
 					</>}
 				</Box>
 			</SwipeableDrawer>
-		</TranslationSection>
+		</TranslationGroup>
 	} else {
 		const goToParent = () => navigate(parentPath)
 		return (

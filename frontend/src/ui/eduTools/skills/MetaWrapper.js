@@ -3,7 +3,8 @@ import React from 'react'
 import { moduleTree } from '@step-wise/module-tree'
 import { hasExercises } from '@step-wise/exercises'
 
-import { TranslationFile, Translation, Check, Plurals, CountingWord } from 'i18n'
+import { TranslationFile, Translation, Check, Plurals } from 'i18n'
+import { CountingWord } from 'i18nNext'
 import { Head, Par, List, Warning } from 'ui/components'
 
 import { SkillLink } from './routing'

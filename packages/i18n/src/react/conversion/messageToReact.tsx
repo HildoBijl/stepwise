@@ -19,7 +19,8 @@ export function messageToReact(message: Message, sourceNode: unknown, locale: st
 	const source = createReactMessageSource(sourceNode)
 	assertCompatibleMessage(source.message, message)
 	assertValidComponentUsage(source, message)
-	return renderMessage(message, { locale, source }, '$')
+	const renderedNodes = renderMessage(message, { locale, source }, '$')
+	return renderedNodes.length === 1 ? renderedNodes[0] : renderedNodes
 }
 
 function renderMessage(message: Message, context: RenderingContext, path: string): ReactNode[] {

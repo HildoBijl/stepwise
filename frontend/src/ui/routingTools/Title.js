@@ -6,9 +6,10 @@ import { ArrowRight as Arrow } from '@mui/icons-material'
 
 import { last, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 import { useCoalescedCallback, useLatestRef, useResizeObserver } from '@step-wise/react-utils'
+import { TranslationGroup, useTranslation } from '@step-wise/i18n'
 
 import { websiteName } from 'settings'
-import { TranslationSection, useTextTranslator } from 'i18n'
+import { useTextTranslator } from 'i18n'
 import { useRoute, usePaths } from 'ui/routingTools'
 
 // Define styles.
@@ -104,7 +105,7 @@ export function Title({ setTitleCollapsed, sx }) {
 	const tabTitle = pageName ? `${pageName} | ${websiteName}` : websiteName
 
 	// Render everything.
-	return <TranslationSection entry="pageTitles">
+	return <TranslationGroup path="pageTitles">
 		<TitleContext.Provider value={{ registerPageName, deregisterPageName }}>
 			<TitleItems routes={routes} />
 		</TitleContext.Provider>
@@ -115,7 +116,7 @@ export function Title({ setTitleCollapsed, sx }) {
 		<Breadcrumbs ref={partialTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow sx={arrowStyle} />} sx={theme => ({ ...breadcrumbsStyle(theme), ...resolveFunctionValuesDeep(sx, theme) })}>
 			<Breadcrumb key={route.id} route={route} name={pageName} last />
 		</Breadcrumbs>
-	</TranslationSection>
+	</TranslationGroup>
 }
 
 // getRoutes takes a route and goes up the tree to get the routes of its parents too.
@@ -146,7 +147,7 @@ function TitleItems({ routes }) {
 	// Set up the elements for each route.
 	return <>
 		{routes.map((route, index) => {
-			return <TitleWrapper key={index} index={index}>{typeof route.name === 'string' ? <TitleItem entry={route.id} name={route.name} /> : <route.name />}</TitleWrapper>
+			return <TitleWrapper key={index} index={index}>{typeof route.name === 'string' ? <TitleItem id={route.id} name={route.name} /> : <route.name />}</TitleWrapper>
 		})}
 	</>
 }
@@ -157,14 +158,27 @@ function TitleWrapper({ index, children }) {
 	return <TitleWrapperContext.Provider value={index}>{children}</TitleWrapperContext.Provider>
 }
 
-// TitleItem is an element whose name must be the page title (a string). It can receive this name from a hook or something similar.
-export function TitleItem({ path, entry, name }) {
+// TitleItem is an element whose name must be the page title (a string). It can translate fixed names or receive dynamic names directly.
+export function TitleItem({ id, path, entry, name }) {
+	if (id) return <TranslatedTitleItem id={id} name={name} />
+	if (entry) return <LegacyTranslatedTitleItem path={path} entry={entry} name={name} />
+	return <ResolvedTitleItem name={name} />
+}
+
+function TranslatedTitleItem({ id, name }) {
+	return <ResolvedTitleItem name={useTranslation({ id, children: name })} />
+}
+
+function LegacyTranslatedTitleItem({ path, entry, name }) {
 	const translate = useTextTranslator()
-	const nameTranslation = entry ? translate(name, entry, path) : name
+	return <ResolvedTitleItem name={translate(name, entry, path)} />
+}
+
+function ResolvedTitleItem({ name }) {
 	const index = useContext(TitleWrapperContext)
 	const { registerPageName, deregisterPageName } = useContext(TitleContext)
 	useEffect(() => {
-		registerPageName(index, nameTranslation)
+		registerPageName(index, name)
 		return () => deregisterPageName(index)
-	}, [index, nameTranslation, registerPageName, deregisterPageName])
+	}, [index, name, registerPageName, deregisterPageName])
 }

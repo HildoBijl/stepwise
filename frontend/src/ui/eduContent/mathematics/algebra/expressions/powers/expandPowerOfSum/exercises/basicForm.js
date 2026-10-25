@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { repeat, fromKeysAndValues } from '@step-wise/js-utils'
+import { LocalizedList } from '@step-wise/i18n'
 import { M, BM, BMList, BMPart } from '@step-wise/math-display'
 
-import { Translation, WordList } from 'i18n'
+import { Translation } from 'i18n'
 import { Par } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, IntegerInput } from 'ui/inputs'
@@ -60,7 +61,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ e, coefficients }) => {
-			return <Par><Translation>By looking up row <M>{e}</M> in Pascal's triangle, we can find the coefficients <WordList words={coefficients.map(c => <M>{c}</M>)} />, respectively.</Translation></Par>
+			return <Par><Translation>By looking up row <M>{e}</M> in Pascal's triangle, we can find the coefficients <LocalizedList items={coefficients.map(c => <M>{c}</M>)} />, respectively.</Translation></Par>
 		},
 	},
 	{

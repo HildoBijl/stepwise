@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo } from 'react'
+import { type ReactNode, Fragment, useEffect, useMemo } from 'react'
 
 import { findCatalogUnit, getCatalogUnitStatus } from '../catalog/index.ts'
 import { compareSourceMessages, getMessageContentSignature } from '../message/index.ts'
@@ -15,7 +15,7 @@ export type TranslationProps = CatalogUnitAddressInput & {
 }
 
 // Load and render a translated Catalog unit, falling back to its authored source when necessary.
-export function useTranslation({ children, ...addressInput }: TranslationProps) {
+export function useTranslation({ children, ...addressInput }: TranslationProps): ReactNode {
 	const { locale, sourceLocale, registerSource } = useI18n()
 
 	// Load in the catalog's respective unit.
