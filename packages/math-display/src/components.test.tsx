@@ -68,10 +68,4 @@ describe('mathematics components', () => {
 		])
 	})
 
-	it('retains legacy translation metadata while the old toolbox remains in use', () => {
-		expect([M.tag, M.translation]).toEqual(['inline-math', false])
-		expect([BM.tag, BM.translation]).toEqual(['block-math', false])
-		expect([BMList.tag, BMList.translation]).toEqual(['math-list', false])
-		expect([BMPart.tag, BMPart.translation]).toEqual(['math-list-part', false])
-	})
 })

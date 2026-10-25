@@ -22,9 +22,7 @@ function ListItemBase({ children }) {
 }
 
 const ListItem = withTranslation(ListItemBase, { tag: 'item' })
-ListItem.tag = 'item' // Support the legacy translation toolbox during the migration.
 
 export const List = Object.assign(withTranslation(ListBase, { tag: 'list' }), {
 	Item: ListItem,
-	tag: 'list', // Support the legacy translation toolbox during the migration.
 })

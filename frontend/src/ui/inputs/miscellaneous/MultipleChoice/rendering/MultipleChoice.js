@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
+import { withTranslation } from '@step-wise/i18n'
 import { useAssertConstant } from '@step-wise/react-utils'
 
 import { Input, defaultInputOptions } from '../../../Input'
@@ -21,7 +22,7 @@ export const defaultMultipleChoiceOptions = {
 	...defaultMultipleChoiceInnerOptions,
 }
 
-export function MultipleChoice(options) {
+function MultipleChoiceBase(options) {
 	options = mergeDefaults(options, defaultMultipleChoiceOptions)
 
 	// Set up the Input field settings.
@@ -37,5 +38,8 @@ export function MultipleChoice(options) {
 		<MultipleChoiceInner {...pickFromDefaults(options, defaultMultipleChoiceInnerOptions)} />
 	</Input>
 }
-MultipleChoice.validation = validation
-MultipleChoice.translatableProps = 'choices'
+
+export const MultipleChoice = Object.assign(withTranslation(MultipleChoiceBase, {
+	tag: 'multiple-choice',
+	translatedProps: [{ name: 'choices', itemName: 'choice' }],
+}), { validation })

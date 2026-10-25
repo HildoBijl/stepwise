@@ -57,8 +57,20 @@ function renderComponent(node: ComponentNode, context: RenderingContext, path: s
 	if (node.copyOf && context.source.components.has(node.id)) throw new Error(`${path}: Copied component ID "${node.id}" collides with a source occurrence.`)
 	if (node.component !== binding.source.component) throw new Error(`${path}: Expected component "${binding.source.component}", received "${node.component}".`)
 
-	// Apply the translation to all slots of the component.
-	const translatedProps = Object.fromEntries(Object.entries(node.slots).map(([name, slot]) => [name, renderMessage(slot, context, `${path}.slots.${name}`)]))
+	// Apply the translation to all regular and array-valued props of the component.
+	const translatedPropEntries = binding.definition.translatedProps.flatMap(prop => {
+		// Apply the translation to regular props.
+		if (typeof prop === 'string') {
+			const slot = node.slots[prop]
+			return slot ? [[prop, renderMessage(slot, context, `${path}.slots.${prop}`)] as const] : []
+		}
+
+		// Apply the translation to array-valued props.
+		const slotNames = Object.keys(binding.source.slots).filter(name => name.startsWith(`${prop.itemName}-`))
+		const values = slotNames.map(name => renderMessage(node.slots[name]!, context, `${path}.slots.${name}`))
+		return [[prop.name, values] as const]
+	})
+	const translatedProps = Object.fromEntries(translatedPropEntries)
 	return cloneElement(binding.element, { ...translatedProps, key: node.id })
 }
 

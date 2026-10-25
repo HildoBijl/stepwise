@@ -35,7 +35,7 @@
 				<group id="step1">
 					<unit id="problem">
 						<segment>
-							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Determine which operation must be applied first.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:multiple-choice" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Addition comes first, before multiplication.</pc></pc><pc id="c6" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:b" swi18n:slot="children">Multiplication comes first, before addition.</pc></pc></pc></pc></source>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Determine which operation must be applied first.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:multiple-choice"><pc id="x1" type="other" subType="swi18n:slot" swi18n:name="choice-1">Addition comes first, before multiplication.</pc><pc id="x2" type="other" subType="swi18n:slot" swi18n:name="choice-2">Multiplication comes first, before addition.</pc></pc></pc></source>
 						</segment>
 					</unit>
 					<unit id="solution">
@@ -92,7 +92,7 @@
 				<group id="step1">
 					<unit id="problem">
 						<segment>
-							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Determine which operation must be applied first.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:multiple-choice" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:a" swi18n:slot="children">Addition comes first, before multiplication.</pc></pc><pc id="c6" type="ui" subType="swi18n:choice" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:b" swi18n:slot="children">Multiplication comes first, before addition.</pc></pc></pc></pc></source>
+							<source><pc id="c1" type="ui" subType="swi18n:par" swi18n:slot="children">Determine which operation must be applied first.</pc><pc id="c2" type="ui" subType="swi18n:input-space" swi18n:slot="children"><pc id="c3" type="ui" subType="swi18n:multiple-choice"><pc id="x1" type="other" subType="swi18n:slot" swi18n:name="choice-1">Addition comes first, before multiplication.</pc><pc id="x2" type="other" subType="swi18n:slot" swi18n:name="choice-2">Multiplication comes first, before addition.</pc></pc></pc></source>
 						</segment>
 					</unit>
 					<unit id="solution">

@@ -7,15 +7,27 @@ import { type ComponentProps, type ComponentType, type ElementType, type JSXElem
 // The options that can be passed when setting up a Translation Component.
 export type TranslationComponentOptions<Props extends object> = {
 	tag?: string // The name of the tag to use.
-	translatedProps?: readonly Extract<keyof Props, string>[] // The props to expose as translatable message slots.
+	translatedProps?: readonly TranslatedProp<Props>[] // The props to expose as translatable message slots.
 	canCopy?: boolean // Whether this element can be copied within translations.
 	canDelete?: boolean // Whether this element may be removed from translations.
 }
 
+export type TranslatedProp<Props extends object> = Extract<keyof Props, string> | TranslatedArrayProp<Props>
+
+export type TranslatedArrayProp<Props extends object> = {
+	name: Extract<keyof Props, string>
+	itemName: string
+}
+
 // The definition that's created, filling in default options.
+export type TranslatedArrayPropDefinition = {
+	name: string
+	itemName: string
+}
+
 export type TranslationComponentDefinition = {
 	tag: string
-	translatedProps: readonly string[]
+	translatedProps: readonly (string | TranslatedArrayPropDefinition)[]
 	canCopy: boolean
 	canDelete: boolean
 }

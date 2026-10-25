@@ -6,6 +6,7 @@ import { withTranslation } from '@step-wise/i18n'
 
 import { InputTranslation } from 'ui/inputs/InputTranslation'
 
+import { fieldInputTranslatedProps } from '../../FieldInput'
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 
 import { type, initialValue, isEmpty, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, mouseClickToCursor, keyboardSettings, keyPressToFI, clean, functionalize, errorToMessage } from './support'
@@ -56,8 +57,7 @@ function IntegerInputBase(options) {
 
 export const IntegerInput = Object.assign(withTranslation(IntegerInputBase, {
 	tag: 'integer-input',
-	translatedProps: TextInput.translatableProps,
+	translatedProps: fieldInputTranslatedProps,
 }), {
 	validation,
-	translatableProps: TextInput.translatableProps,
 })

@@ -7,4 +7,3 @@ import { Par } from '../text'
 export function LoadingNote({ text }) {
 	return <Par><Translation folder={[]} catalog="main" group={[]} id="loading">Loading ... {{ text }}</Translation></Par>
 }
-LoadingNote.translation = false // Translation is handled internally.

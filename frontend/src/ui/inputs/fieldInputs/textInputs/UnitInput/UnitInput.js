@@ -6,6 +6,7 @@ import { withTranslation } from '@step-wise/i18n'
 
 import { InputTranslation } from 'ui/inputs/InputTranslation'
 
+import { fieldInputTranslatedProps } from '../../FieldInput'
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 
 import { type, initialValue, isEmpty, keyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './Unit'
@@ -118,8 +119,7 @@ function UnitInputBase(options) {
 
 export const UnitInput = Object.assign(withTranslation(UnitInputBase, {
 	tag: 'unit-input',
-	translatedProps: TextInput.translatableProps,
+	translatedProps: fieldInputTranslatedProps,
 }), {
 	validation,
-	translatableProps: TextInput.translatableProps,
 })

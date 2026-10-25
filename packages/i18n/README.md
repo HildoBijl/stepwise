@@ -95,12 +95,17 @@ const TranslatedInput = withTranslation(Input, {
 	translatedProps: ['label'],
 })
 
+const TranslatedMultipleChoice = withTranslation(MultipleChoice, {
+	tag: 'multiple-choice',
+	translatedProps: [{ name: 'choices', itemName: 'choice' }],
+})
+
 const message = reactToMessage(
 	<>Welcome {{ name }}. <TranslatedInput label="Your answer" /> <TranslatedEquation>x^2</TranslatedEquation></>,
 )
 ```
 
-`translatedProps` defaults to `['children']`. Each listed prop becomes a named message slot; unlisted props remain in the original React element and do not enter translation catalogs. Anonymous components must be wrapped with an explicit tag because no stable default can be derived for them. Copying and deletion are allowed by default and can be disabled independently for required or identity-sensitive components.
+`translatedProps` defaults to `['children']`. Each listed prop becomes a named message slot; unlisted props remain in the original React element and do not enter translation catalogs. For an array-valued prop, use `{ name, itemName }` to give each item its own stable slot, named from `itemName` and its one-based position. This preserves item boundaries without adding React wrappers to authored content. Anonymous components must be wrapped with an explicit tag because no stable default can be derived for them. Copying and deletion are allowed by default and can be disabled independently for required or identity-sensitive components.
 
 Use `Translation`, `Plural`, `Select`, and `Condition` to author messages. The `{{ name }}` shorthand creates a named runtime variable; `variable('name', value)` remains available when an explicit expression is clearer. Raw construct values receive deterministic internal names. Passing a one-property object names the construct variable explicitly.
 

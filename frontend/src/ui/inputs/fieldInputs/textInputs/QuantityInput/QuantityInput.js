@@ -5,6 +5,7 @@ import { withTranslation } from '@step-wise/i18n'
 
 import { InputTranslation } from 'ui/inputs/InputTranslation'
 
+import { fieldInputTranslatedProps } from '../../FieldInput'
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 import { defaultPrecisionNumberInputOptions } from '../PrecisionNumberInput'
 import { defaultUnitInputOptions } from '../UnitInput'
@@ -62,8 +63,7 @@ function QuantityInputBase(options) {
 
 export const QuantityInput = Object.assign(withTranslation(QuantityInputBase, {
 	tag: 'quantity-input',
-	translatedProps: TextInput.translatableProps,
+	translatedProps: fieldInputTranslatedProps,
 }), {
 	validation,
-	translatableProps: TextInput.translatableProps,
 })

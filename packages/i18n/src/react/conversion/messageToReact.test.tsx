@@ -15,7 +15,12 @@ function Equation({ children }: { children: ReactNode }) {
 	return <span data-testid="equation">{children}</span>
 }
 
+function Options({ choices }: { choices: ReactNode[] }) {
+	return <ul>{choices.map((choice, index) => <li key={index}>{choice}</li>)}</ul>
+}
+
 const M = withTranslation(Equation, { tag: 'equation', translatedProps: [], canCopy: false, canDelete: false })
+const TranslatedOptions = withTranslation(Options, { tag: 'options', translatedProps: [{ name: 'choices', itemName: 'choice' }] })
 
 describe('message-to-React rendering', () => {
 	it('returns a single rendered node directly', () => {
@@ -64,6 +69,22 @@ describe('message-to-React rendering', () => {
 
 		render(<>{messageToReact(target, source, 'nl')}</>)
 		expect(screen.getAllByTestId('equation').map(element => element.textContent)).toEqual(['y', 'x'])
+	})
+
+	it('reconstructs translated array props from their item slots', () => {
+		const source = <TranslatedOptions choices={[<>First choice</>, <>Second choice</>]} />
+		const target: Message = [{
+			type: 'component',
+			id: 'c1',
+			component: 'options',
+			slots: {
+				'choice-1': [{ type: 'text', value: 'Eerste keuze' }],
+				'choice-2': [{ type: 'text', value: 'Tweede keuze' }],
+			},
+		}]
+
+		render(<>{messageToReact(target, source, 'nl')}</>)
+		expect(screen.getAllByRole('listitem').map(item => item.textContent)).toEqual(['Eerste keuze', 'Tweede keuze'])
 	})
 
 	it('enforces component copy and deletion permissions', () => {

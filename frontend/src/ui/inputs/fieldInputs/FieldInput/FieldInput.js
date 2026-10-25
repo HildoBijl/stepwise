@@ -30,6 +30,8 @@ export const defaultFieldInputOptions = {
 	initialProperties: undefined,
 }
 
+export const fieldInputTranslatedProps = ['label', 'prelabel', 'placeholder']
+
 export const FieldInput = forwardRef((options, ref) => {
 	options = mergeDefaults(options, defaultFieldInputOptions)
 	const { type, initialValue, initialSettings, initialProperties, clean, functionalize, keyPressToFI, keyboardSettings } = options
@@ -78,4 +80,3 @@ export const FieldInput = forwardRef((options, ref) => {
 		</FieldInputHull>
 	</Input>
 })
-FieldInput.translatableProps = ['label', 'prelabel', 'placeholder']

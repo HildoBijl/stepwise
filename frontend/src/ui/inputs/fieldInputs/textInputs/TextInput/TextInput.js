@@ -47,4 +47,3 @@ export function TextInput(options) {
 		{options.children}
 	</FieldInput>
 }
-TextInput.translatableProps = FieldInput.translatableProps

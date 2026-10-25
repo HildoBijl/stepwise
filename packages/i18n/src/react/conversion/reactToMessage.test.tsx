@@ -24,10 +24,15 @@ function Equation({ children }: { children: ReactNode }) {
 	return <span>{children}</span>
 }
 
+function Options({ choices }: { choices: ReactNode[] }) {
+	return <>{choices}</>
+}
+
 const TranslatedInput = withTranslation(Input, { tag: 'input-field', translatedProps: ['label'] })
 const TranslatedParagraph = withTranslation(Paragraph, { tag: 'paragraph' })
 const TranslatedContainer = withTranslation(Container, { tag: 'container', translatedProps: ['children', 'header'] })
 const TranslatedEquation = withTranslation(Equation, { tag: 'equation', translatedProps: [], canCopy: false, canDelete: false })
+const TranslatedOptions = withTranslation(Options, { tag: 'options', translatedProps: [{ name: 'choices', itemName: 'choice' }] })
 
 describe('React message conversion', () => {
 	it('converts text, variables, fragments and native elements', () => {
@@ -141,6 +146,21 @@ describe('React message conversion', () => {
 					] },
 				}],
 				header: [{ type: 'text', value: 'Title' }],
+			},
+		}])
+	})
+
+	it('keeps translated array items in separate, descriptively named slots', () => {
+		expect(reactToMessage(<TranslatedOptions choices={[<>First <strong>choice</strong></>, <>Second choice</>]} />)).toEqual([{
+			type: 'component',
+			id: 'c1',
+			component: 'options',
+			slots: {
+				'choice-1': [
+					{ type: 'text', value: 'First ' },
+					{ type: 'component', id: 'c2', component: 'strong', slots: { children: [{ type: 'text', value: 'choice' }] } },
+				],
+				'choice-2': [{ type: 'text', value: 'Second choice' }],
 			},
 		}])
 	})

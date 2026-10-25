@@ -46,7 +46,7 @@ export function QuadraticSolutions() {
 | `BMPart` | Displays one equation within a `BMList`. |
 | `MathContent` | Low-level renderer supporting explicit inline or display mode without a scroller. |
 
-The authoring components are registered with `@step-wise/i18n` as mandatory, non-copyable components. Individual equations are opaque: translations can reposition them, but cannot alter their LaTeX. A `BMList` exposes its list of opaque `BMPart` children so those equations can be reordered. The components temporarily retain the old `tag` and `translation` metadata while consumers migrate from the legacy translation toolbox.
+The authoring components are registered with `@step-wise/i18n` as mandatory, non-copyable components. Individual equations are opaque: translations can reposition them, but cannot alter their LaTeX. A `BMList` exposes its list of opaque `BMPart` children so those equations can be reordered.
 
 
 ## LaTeX content

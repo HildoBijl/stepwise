@@ -5,6 +5,7 @@ import { withTranslation } from '@step-wise/i18n'
 
 import { InputTranslation } from 'ui/inputs/InputTranslation'
 
+import { fieldInputTranslatedProps } from '../../FieldInput'
 import { MathInput, defaultMathInputOptions } from '../MathInput'
 
 import { keyboardSettings, errorToMessage } from './support'
@@ -39,9 +40,8 @@ function EquationInputBase(options) {
 
 export const EquationInput = Object.assign(withTranslation(EquationInputBase, {
 	tag: 'equation-input',
-	translatedProps: MathInput.translatableProps,
+	translatedProps: fieldInputTranslatedProps,
 }), {
 	validation,
 	settings,
-	translatableProps: MathInput.translatableProps,
 })

@@ -98,13 +98,29 @@ function convertElement(element: ReactElement, context: ConversionContext): Mess
 	const slots: Record<string, Message> = {}
 	const props = element.props as Record<string, unknown>
 	definition.translatedProps.forEach(prop => {
-		if (props[prop] !== undefined) slots[prop] = normalizeMessage(convertNode(props[prop], context))
+		// Deal with regular props.
+		if (typeof prop === 'string') {
+			if (props[prop] !== undefined) addSlot(slots, prop, props[prop], context)
+			return
+		}
+
+		// Deal with array-valued props.
+		const value = props[prop.name]
+		if (value === undefined) return
+		if (!Array.isArray(value)) throw new Error(`Translated array prop "${prop.name}" must be an array.`)
+		value.forEach((item, index) => addSlot(slots, `${prop.itemName}-${index + 1}`, item, context))
 	})
 
 	// Assemble the data into a component message.
 	const source = { type: 'component' as const, id, component: definition.tag, slots }
 	context.components.set(id, { definition, element, source })
 	return source
+}
+
+// Add a translated value as a named component slot, guarding against conflicting prop definitions.
+function addSlot(slots: Record<string, Message>, name: string, value: unknown, context: ConversionContext): void {
+	if (slots[name]) throw new Error(`Duplicate translated component slot "${name}".`)
+	slots[name] = normalizeMessage(convertNode(value, context))
 }
 
 // Convert a Plural construct and register its runtime value.

@@ -27,4 +27,3 @@ export function ResizingInput(options) {
 		</ResizingInputInner>
 	</FieldInput>
 }
-ResizingInput.translatableProps = FieldInput.translatableProps

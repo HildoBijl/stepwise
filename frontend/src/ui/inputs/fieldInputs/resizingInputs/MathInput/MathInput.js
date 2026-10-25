@@ -75,7 +75,6 @@ export function MathInput(options) {
 		<MathInputInner {...mathInputInnerOptions} />
 	</ResizingInput>
 }
-MathInput.translatableProps = ResizingInput.translatableProps
 
 export function getMathInputValueSettings(settings) {
 	const interpretationSettings = omitDefaults(pickFromDefaults(settings, defaultInterpretationSettings), defaultInterpretationSettings)
