@@ -99,10 +99,10 @@ function Diagram({ decompose = false, showIntersection = false }) {
 	const grid = integerRange(0, 4).map(x => integerRange(0, 4).map(y => new Vector(x, y))).flat()
 	const rectangle = new Rectangle({ min: new Vector(-rectangleMargin, -rectangleMargin), max: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
 	const force1 = loads[0]
-	const forceStart1 = force1.position.subtract(Vector.fromPolar(force1.relativeMagnitude * defaultForceLengthInPixels / scale, force1.angle))
+	const forceStart1 = force1.position.subtract(Vector.fromPolar(force1.relativeMagnitude * defaultForceLengthInPixels / scale, -force1.angle))
 	const lineEndpoint1 = new Vector(force1.position.x, forceStart1.y)
 	const force2 = loads[2]
-	const forceStart2 = force2.position.subtract(Vector.fromPolar(force2.relativeMagnitude * defaultForceLengthInPixels / scale, force2.angle))
+	const forceStart2 = force2.position.subtract(Vector.fromPolar(force2.relativeMagnitude * defaultForceLengthInPixels / scale, -force2.angle))
 	const lineEndpoint2 = new Vector(force2.position.x, forceStart2.y)
 
 	return <DrawingFigure view={{ type: 'scale', points: [Vector.zero, new Vector(4, 4)], scale, margin: 70, yDirection: 'up' }}>
