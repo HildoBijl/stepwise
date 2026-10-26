@@ -5,7 +5,7 @@ import { Info as InfoIcon } from '@mui/icons-material'
 
 import { DrawingFigure, SvgPortal, HtmlElement } from '@step-wise/drawing'
 import { Beam, Force, HingeSupport, RollerHingeSupport } from '@step-wise/engineering-diagrams'
-import { Translation, TranslationGroup, withTranslation } from '@step-wise/i18n'
+import { Translation, TranslationGroup } from '@step-wise/i18n'
 import { M } from '@step-wise/math-display'
 
 import { Student, Teacher, SignInButtons } from 'ui/components'
@@ -152,7 +152,7 @@ export function Blocks() {
 	</Container>
 }
 
-function PythagorasImageBase() {
+function PythagorasImage() {
 	const lineStyle = { fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinejoin: 'round', strokeMiterlimit: 10 }
 	const textScale = 0.85
 
@@ -165,9 +165,8 @@ function PythagorasImageBase() {
 		</SvgPortal>
 	</DrawingFigure>
 }
-const PythagorasImage = withTranslation(PythagorasImageBase, { tag: 'pythagoras-image', translatedProps: [] })
 
-function StructureImageBase() {
+function StructureImage() {
 	const theme = useTheme()
 	const supportProps = {
 		groundProps: { height: 7.2, width: 30 },
@@ -186,4 +185,3 @@ function StructureImageBase() {
 		<Force angle={Math.PI / 2} applicationPointAt="start" length={{ pixelDistance: 24.6 }} position={[71.7, 5.5]} strokeWidth={2} />
 	</DrawingFigure>
 }
-const StructureImage = withTranslation(StructureImageBase, { tag: 'structure-image', translatedProps: [] })

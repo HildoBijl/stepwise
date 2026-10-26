@@ -153,8 +153,8 @@
 				</unit>
 				<unit id="contents">
 					<segment>
-						<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Calculate <ph id="c2" type="ui" subType="swi18n:inline-math"/> in </pc><ph id="c3" type="ui" subType="swi18n:pythagoras-image"/></source>
-						<target swi18n:sourceContentFingerprint="1769e5159bf19f94" swi18n:sourceStructureFingerprint="79113a4a3695652b"><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Bereken <ph id="c2" type="ui" subType="swi18n:inline-math"/> in </pc><ph id="c3" type="ui" subType="swi18n:pythagoras-image"/></target>
+						<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Calculate <ph id="c2" type="ui" subType="swi18n:inline-math"/> in </pc><ph id="c3" type="ui" subType="swi18n:component-1"/></source>
+						<target swi18n:sourceContentFingerprint="aaf4ef8049e9402b" swi18n:sourceStructureFingerprint="f525e589f836eb6a"><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Bereken <ph id="c2" type="ui" subType="swi18n:inline-math"/> in </pc><ph id="c3" type="ui" subType="swi18n:component-1"/></target>
 					</segment>
 				</unit>
 			</group>
@@ -181,8 +181,8 @@
 				</unit>
 				<unit id="contents">
 					<segment>
-						<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Analyze </pc><ph id="c2" type="ui" subType="swi18n:structure-image"/></source>
-						<target swi18n:sourceContentFingerprint="5ba64bc146f3000c" swi18n:sourceStructureFingerprint="980a38a21326c22c"><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Analyseer </pc><ph id="c2" type="ui" subType="swi18n:structure-image"/></target>
+						<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Analyze </pc><ph id="c2" type="ui" subType="swi18n:component-1"/></source>
+						<target swi18n:sourceContentFingerprint="e450ef2444c6a678" swi18n:sourceStructureFingerprint="c66f78195b585198"><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Analyseer </pc><ph id="c2" type="ui" subType="swi18n:component-1"/></target>
 					</segment>
 				</unit>
 			</group>
