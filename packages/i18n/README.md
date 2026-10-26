@@ -115,7 +115,7 @@ const description = useTextTranslation({
 
 ### React components inside Messages
 
-Ordinary custom components and native elements such as `strong` use the default behavior automatically: their kebab-case component name becomes the tag and their children are translated. Wrap components whose behavior differs from these defaults.
+Ordinary custom components and native elements such as `strong` use the default behavior automatically, with their children translated. Native elements retain their semantic tag. Unwrapped custom component types receive stable numbered tags such as `component-1`; repeated instances of the same type share a tag. These numbered tags deliberately do not depend on JavaScript function names, which may change during minification. Wrap components to provide a semantic tag or behavior that differs from the defaults.
 
 ```tsx
 import { withTranslation } from '@step-wise/i18n'
@@ -138,7 +138,7 @@ const TranslatedMultipleChoice = withTranslation(MultipleChoice, {
 })
 ```
 
-`translatedProps` defaults to `['children']`. Each listed prop becomes a named message slot; unlisted props remain in the original React element and do not enter translation catalogs. For an array-valued prop, use `{ name, itemName }` to give each item its own stable slot, named from `itemName` and its one-based position. This preserves item boundaries without adding React wrappers to authored content. Anonymous components must be wrapped with an explicit tag because no stable default can be derived for them. Copying and deletion are allowed by default and can be disabled independently for required or identity-sensitive components.
+`translatedProps` defaults to `['children']`. Each listed prop becomes a named message slot; unlisted props remain in the original React element and do not enter translation catalogs. For an array-valued prop, use `{ name, itemName }` to give each item its own stable slot, named from `itemName` and its one-based position. This preserves item boundaries without adding React wrappers to authored content. Copying and deletion are allowed by default and can be disabled independently for required or identity-sensitive components.
 
 ### Translation areas
 

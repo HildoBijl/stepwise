@@ -14,6 +14,8 @@ import { type TranslationComponentDefinition, getTranslationComponentDefinition 
 
 type ConversionContext = {
 	nextComponentId: number
+	nextComponentTagId: number
+	componentTags: Map<unknown, string>
 	components: Map<string, ReactComponentBinding>
 	variables: Map<string, unknown>
 	nextPluralVariableId: number
@@ -48,6 +50,8 @@ export function reactToMessage(node: unknown): Message {
 export function createReactMessageSource(node: unknown): ReactMessageSource {
 	const context: ConversionContext = {
 		nextComponentId: 1,
+		nextComponentTagId: 1,
+		componentTags: new Map(),
 		components: new Map(),
 		variables: new Map(),
 		nextPluralVariableId: 1,
@@ -91,7 +95,7 @@ function convertNode(node: unknown, context: ConversionContext): MessageNode[] {
 
 // Convert a regular React element to a component node and remember its original element.
 function convertElement(element: ReactElement, context: ConversionContext): MessageNode {
-	const definition = getTranslationComponentDefinition(element.type)
+	const definition = getTranslationComponentDefinition(element.type, () => getFallbackComponentTag(element.type, context))
 	const id = `c${context.nextComponentId++}`
 
 	// Turn the element's props into slots.
@@ -115,6 +119,15 @@ function convertElement(element: ReactElement, context: ConversionContext): Mess
 	const source = { type: 'component' as const, id, component: definition.tag, slots }
 	context.components.set(id, { definition, element, source })
 	return source
+}
+
+// Assign a stable numbered tag to each distinct unregistered component type within a Message.
+function getFallbackComponentTag(component: unknown, context: ConversionContext): string {
+	const existingTag = context.componentTags.get(component)
+	if (existingTag) return existingTag
+	const tag = `component-${context.nextComponentTagId++}`
+	context.componentTags.set(component, tag)
+	return tag
 }
 
 // Add a translated value as a named component slot, guarding against conflicting prop definitions.

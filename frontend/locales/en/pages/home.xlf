@@ -130,7 +130,7 @@
 				</unit>
 				<unit id="contents">
 					<segment>
-						<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Calculate <ph id="c2" type="ui" subType="swi18n:inline-math"/> in </pc><ph id="c3" type="ui" subType="swi18n:pythagoras-image"/></source>
+						<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Calculate <ph id="c2" type="ui" subType="swi18n:inline-math"/> in </pc><ph id="c3" type="ui" subType="swi18n:component-1"/></source>
 					</segment>
 				</unit>
 			</group>
@@ -154,7 +154,7 @@
 				</unit>
 				<unit id="contents">
 					<segment>
-						<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Analyze </pc><ph id="c2" type="ui" subType="swi18n:structure-image"/></source>
+						<source><pc id="c1" type="ui" subType="swi18n:span" swi18n:slot="children">Analyze </pc><ph id="c2" type="ui" subType="swi18n:component-1"/></source>
 					</segment>
 				</unit>
 			</group>

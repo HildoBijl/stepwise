@@ -44,6 +44,20 @@ describe('message-to-React rendering', () => {
 		expect(document.body.textContent).toContain('Hallo Ada, belangrijk.')
 	})
 
+	it('renders translated slots through numbered custom component tags', () => {
+		function Paragraph({ children }: { children: ReactNode }) { return <p>{children}</p> }
+		const source = <Paragraph>Source text</Paragraph>
+		const target: Message = [{
+			type: 'component',
+			id: 'c1',
+			component: 'component-1',
+			slots: { children: [{ type: 'text', value: 'Translated text' }] },
+		}]
+
+		render(<>{messageToReact(target, source, 'nl')}</>)
+		expect(screen.getByText('Translated text').tagName).toBe('P')
+	})
+
 	it('assigns stable keys to element-valued variables', () => {
 		const source = <>Contact {variable('emailLink', <a href="mailto:test@example.com">test@example.com</a>)}.</>
 		const target: Message = [

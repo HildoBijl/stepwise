@@ -35,8 +35,9 @@ export type TranslationComponentDefinition = {
 // The type of the wrapped Translation Component.
 const translationComponent = Symbol('translationComponent')
 type TranslationComponent = string | JSXElementConstructor<any>
+type RegisteredTranslationComponentDefinition = Omit<TranslationComponentDefinition, 'tag'> & { tag?: string }
 type RegisteredTranslationComponent = TranslationComponent & {
-	[translationComponent]?: TranslationComponentDefinition
+	[translationComponent]?: RegisteredTranslationComponentDefinition
 }
 
 /*
@@ -46,8 +47,8 @@ type RegisteredTranslationComponent = TranslationComponent & {
 // Wrap a React component and describe how it participates in translated messages.
 export function withTranslation<Component extends ElementType>(Component: Component, options: TranslationComponentOptions<ComponentProps<Component>> = {}): ComponentType<ComponentProps<Component>> {
 	// Turn the options into a definition object by adding default values for options.
-	const definition: TranslationComponentDefinition = {
-		tag: options.tag ?? getDefaultComponentTag(Component),
+	const definition: RegisteredTranslationComponentDefinition = {
+		tag: options.tag,
 		translatedProps: options.translatedProps ?? ['children'],
 		canCopy: options.canCopy ?? true,
 		canDelete: options.canDelete ?? true,
@@ -57,31 +58,25 @@ export function withTranslation<Component extends ElementType>(Component: Compon
 	function TranslatableComponent(props: ComponentProps<Component>) {
 		return createElement(Component, props)
 	}
-	TranslatableComponent.displayName = `withTranslation(${definition.tag})`
+	TranslatableComponent.displayName = `withTranslation(${options.tag ?? getComponentDisplayName(Component)})`
 	Object.defineProperty(TranslatableComponent, translationComponent, { value: definition })
 	return TranslatableComponent
 }
 
-// Return the registered translation definition or derive the default definition for an ordinary component.
-export function getTranslationComponentDefinition(component: TranslationComponent): TranslationComponentDefinition {
-	return (component as RegisteredTranslationComponent)[translationComponent] ?? getDefaultTranslationComponentDefinition(component)
-}
-
-// Set up the default translation definition for a component.
-function getDefaultTranslationComponentDefinition(component: TranslationComponent): TranslationComponentDefinition {
+// Return the registered translation definition, using a caller-provided stable tag when none was registered.
+export function getTranslationComponentDefinition(component: TranslationComponent, getFallbackTag: () => string): TranslationComponentDefinition {
+	const registeredDefinition = (component as RegisteredTranslationComponent)[translationComponent]
 	return {
-		tag: getDefaultComponentTag(component),
-		translatedProps: ['children'],
-		canCopy: true,
-		canDelete: true,
+		tag: typeof component === 'string' ? component : registeredDefinition?.tag ?? getFallbackTag(),
+		translatedProps: registeredDefinition?.translatedProps ?? ['children'],
+		canCopy: registeredDefinition?.canCopy ?? true,
+		canDelete: registeredDefinition?.canDelete ?? true,
 	}
 }
 
-// Derive a kebab-case translation tag from a React component's name or displayName property (whichever is present).
-function getDefaultComponentTag(component: TranslationComponent): string {
+// Obtain a human-readable component name for React debugging only. Translation identities never depend on it.
+function getComponentDisplayName(component: TranslationComponent): string {
 	if (typeof component === 'string') return component
 	const namedComponent = component as { displayName?: string, name?: string }
-	const name = namedComponent.name ?? namedComponent.displayName
-	if (!name) throw new Error('Cannot derive a translation tag from an anonymous component. Provide an explicit tag instead.')
-	return name.replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2').replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
+	return namedComponent.displayName ?? namedComponent.name ?? 'Component'
 }

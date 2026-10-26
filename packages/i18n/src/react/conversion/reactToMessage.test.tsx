@@ -171,14 +171,26 @@ describe('React message conversion', () => {
 		])
 	})
 
-	it('uses default behavior for ordinary custom components', () => {
+	it('uses stable numbered tags for ordinary custom components', () => {
 		function Paragraph({ children }: { children: ReactNode }) { return <p>{children}</p> }
-		expect(reactToMessage(<Paragraph>Text</Paragraph>)).toEqual([{
-			type: 'component',
-			id: 'c1',
-			component: 'paragraph',
-			slots: { children: [{ type: 'text', value: 'Text' }] },
-		}])
+		function Section({ children }: { children: ReactNode }) { return <section>{children}</section> }
+		expect(reactToMessage(<><Paragraph>First</Paragraph><Section><Paragraph>Second</Paragraph></Section></>)).toEqual([
+			{ type: 'component', id: 'c1', component: 'component-1', slots: { children: [{ type: 'text', value: 'First' }] } },
+			{
+				type: 'component',
+				id: 'c2',
+				component: 'component-2',
+				slots: { children: [
+					{ type: 'component', id: 'c3', component: 'component-1', slots: { children: [{ type: 'text', value: 'Second' }] } },
+				] },
+			},
+		])
+	})
+
+	it('does not use custom component function names in message signatures', () => {
+		function DevelopmentName({ children }: { children: ReactNode }) { return <p>{children}</p> }
+		const MinifiedName = function a({ children }: { children: ReactNode }) { return <p>{children}</p> }
+		expect(reactToMessage(<DevelopmentName>Text</DevelopmentName>)).toEqual(reactToMessage(<MinifiedName>Text</MinifiedName>))
 	})
 
 	it('rejects malformed variable shorthand', () => {

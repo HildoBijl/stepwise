@@ -16,13 +16,13 @@ const TranslatedEquation = withTranslation(Equation, { tag: 'equation', translat
 
 describe('withTranslation', () => {
 	it('defines defaults and preserves configured component behavior', () => {
-		expect(getTranslationComponentDefinition(TranslatedParagraph)).toEqual({
+		expect(getTranslationComponentDefinition(TranslatedParagraph, () => { throw new Error('Explicit tags do not need a fallback.') })).toEqual({
 			tag: 'paragraph',
 			translatedProps: ['children'],
 			canCopy: true,
 			canDelete: true,
 		})
-		expect(getTranslationComponentDefinition(TranslatedEquation)).toMatchObject({
+		expect(getTranslationComponentDefinition(TranslatedEquation, () => { throw new Error('Explicit tags do not need a fallback.') })).toMatchObject({
 			tag: 'equation',
 			translatedProps: [],
 			canCopy: false,
@@ -30,11 +30,11 @@ describe('withTranslation', () => {
 		})
 	})
 
-	it('derives a kebab-case tag from the wrapped component name', () => {
+	it('uses caller-provided tags for components without an explicit tag', () => {
 		const Translated = withTranslation(Paragraph)
-		function HTMLInput() { return <input /> }
 
-		expect(getTranslationComponentDefinition(Translated)?.tag).toBe('paragraph')
-		expect(getTranslationComponentDefinition(HTMLInput)?.tag).toBe('html-input')
+		expect(getTranslationComponentDefinition(Translated, () => 'component-1').tag).toBe('component-1')
+		expect(getTranslationComponentDefinition(Paragraph, () => 'component-2').tag).toBe('component-2')
+		expect(getTranslationComponentDefinition('strong', () => 'unused').tag).toBe('strong')
 	})
 })
