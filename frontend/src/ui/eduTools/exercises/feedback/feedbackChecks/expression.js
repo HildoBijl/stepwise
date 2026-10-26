@@ -144,14 +144,14 @@ export const unsimplifiedPowerMerging = (input, correct, solution, isCorrect) =>
 
 export const wrongSign = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct.negate()) && <Translation folder={['eduTools']} catalog="feedback" group={['expression']} id="wrongSign">You haven't used the right sign. Check your pluses and minuses.</Translation>
 
-export const invertedFraction = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct.invert()) && <Translation folder={['eduTools']} catalog="feedback" group={['expression']} id="incorrectFraction.inverted">You entered your fraction the wrong way around. Check carefuly through what factor you're dividing!</Translation>
+export const invertedFraction = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct.invert()) && <Translation folder={['eduTools']} catalog="feedback" group={['expression', 'incorrectFraction']} id="inverted">You entered your fraction the wrong way around. Check carefuly through what factor you're dividing!</Translation>
 
 export const incorrectFraction = (input, correct, solution, isCorrect) => {
 	if (isCorrect)
 		return
 	input = input.flatten()
 	if (correct.isFraction() && !input.isFraction())
-		return <Translation folder={['eduTools']} catalog="feedback" group={['expression']} id="incorrectFraction.noFraction">Hmm ... a fraction was expected as a solution here.</Translation>
+		return <Translation folder={['eduTools']} catalog="feedback" group={['expression', 'incorrectFraction']} id="noFraction">Hmm ... a fraction was expected as a solution here.</Translation>
 	const invertedFractionResult = invertedFraction(input, correct, solution, isCorrect)
 	if (invertedFractionResult)
 		return invertedFractionResult
@@ -160,8 +160,8 @@ export const incorrectFraction = (input, correct, solution, isCorrect) => {
 	if (!correct.isFraction())
 		correct = correct.divide(1)
 	if (!areConstantMultiples(input.numerator, correct.numerator))
-		return <Translation folder={['eduTools']} catalog="feedback" group={['expression']} id="incorrectFraction.incorrectNumerator">The numerator of your fraction (above) is not what was expected. Did you apply all the rules correctly?</Translation>
+		return <Translation folder={['eduTools']} catalog="feedback" group={['expression', 'incorrectFraction']} id="incorrectNumerator">The numerator of your fraction (above) is not what was expected. Did you apply all the rules correctly?</Translation>
 	if (!areConstantMultiples(input.denominator, correct.denominator))
-		return <Translation folder={['eduTools']} catalog="feedback" group={['expression']} id="incorrectFraction.incorrectDenominator">The denominator of your fraction (below) is not what was expected. Did you apply all the rules correctly?</Translation>
-	return <Translation folder={['eduTools']} catalog="feedback" group={['expression']} id="incorrectFraction.constantMultiple">You seem to be off by a constant multiple.</Translation>
+		return <Translation folder={['eduTools']} catalog="feedback" group={['expression', 'incorrectFraction']} id="incorrectDenominator">The denominator of your fraction (below) is not what was expected. Did you apply all the rules correctly?</Translation>
+	return <Translation folder={['eduTools']} catalog="feedback" group={['expression', 'incorrectFraction']} id="constantMultiple">You seem to be off by a constant multiple.</Translation>
 }
