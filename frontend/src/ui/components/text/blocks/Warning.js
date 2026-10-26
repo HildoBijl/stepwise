@@ -1,6 +1,10 @@
 import React from 'react'
+
+import { withTranslation } from '@step-wise/i18n'
+
 import Block from './Block'
 
-export default function Warning(props) {
+function WarningBase(props) {
 	return <Block type="warning" {...props}></Block>
 }
+export default withTranslation(WarningBase, { tag: 'warning' })

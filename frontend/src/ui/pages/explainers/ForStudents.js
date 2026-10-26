@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Box } from '@mui/material'
 import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@mui/icons-material'
 
@@ -13,7 +12,8 @@ import { SkillLevelSet, getInitialSkillLevel } from '@step-wise/skill-tracking'
 
 import { useIsSignedIn } from 'api'
 import { usePaths } from 'ui/routingTools'
-import { Par, Head, SubHead, Button } from 'ui/components'
+
+import { Par, Head, SubHead, Button, Link } from 'ui/components'
 import { SkillFlask } from 'ui/eduTools'
 
 export function ForStudents() {

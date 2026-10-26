@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { Box, Button, useMediaQuery } from '@mui/material'
 import { ExitToApp } from '@mui/icons-material'
 
@@ -8,7 +7,7 @@ import { Translation, TranslationGroup } from '@step-wise/i18n'
 import { useDeactivateGroup, useSortedGroupMembers } from 'api'
 
 import { usePaths } from 'ui/routingTools'
-import { Head, MemberList } from 'ui/components'
+import { Head, Link, MemberList } from 'ui/components'
 
 export function ActiveGroup({ group }) {
 	const paths = usePaths()

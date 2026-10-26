@@ -1,9 +1,11 @@
 import React from 'react'
 import { Typography } from '@mui/material'
 
+import { withTranslation } from '@step-wise/i18n'
+
 import { startMarginFix } from 'ui/theme'
 
-export function Head({ children, sx, ...props }) {
+function HeadBase({ children, sx, ...props }) {
 	return <Typography variant="h5"
 		sx={{
 			fontWeight: 500,
@@ -16,3 +18,4 @@ export function Head({ children, sx, ...props }) {
 		{children}
 	</Typography>
 }
+export const Head = withTranslation(HeadBase, { tag: 'head' })

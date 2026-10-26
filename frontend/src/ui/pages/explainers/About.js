@@ -1,11 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import { Translation, TranslationCatalog, TranslationGroup } from '@step-wise/i18n'
 
 import { infoEmail } from 'settings'
 import { usePaths } from 'ui/routingTools'
-import { Par, Head, List } from 'ui/components'
+import { Par, Head, List, Link } from 'ui/components'
 
 export function About() {
 	const paths = usePaths()

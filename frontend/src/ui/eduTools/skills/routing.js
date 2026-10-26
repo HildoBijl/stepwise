@@ -1,6 +1,8 @@
 import { useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
+import { withTranslation } from '@step-wise/i18n'
+
 import { usePaths } from 'ui/routingTools'
 
 import { TranslatedSkillName } from './components/TranslatedSkillName'
@@ -22,7 +24,7 @@ export function useSkillPath() {
 }
 
 // SkillLink is an extension of the Link component that creates a link to a given skill. It does it context-dependent, using the useSkillPath function.
-export function SkillLink({ skillId, tab, children, ...props }) {
+function SkillLinkBase({ skillId, tab, children, ...props }) {
 	// Determine the path for the link.
 	const { skillId: currentSkillId, tab: currentTab } = useParams()
 	const skillPath = useSkillPath()
@@ -35,3 +37,4 @@ export function SkillLink({ skillId, tab, children, ...props }) {
 	// Render the link.
 	return <Link to={path} {...props}>{children}</Link>
 }
+export const SkillLink = withTranslation(SkillLinkBase, { tag: 'skill-link' })

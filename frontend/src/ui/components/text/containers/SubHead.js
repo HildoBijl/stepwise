@@ -1,9 +1,11 @@
 import React from 'react'
 import { Typography } from '@mui/material'
 
+import { withTranslation } from '@step-wise/i18n'
+
 import { startEndMarginFix } from 'ui/theme'
 
-export function SubHead({ children, sx, ...props }) {
+function SubHeadBase({ children, sx, ...props }) {
 	return <Typography variant="h6" sx={{
 		fontSize: '1.125rem',
 		margin: '1rem 0',
@@ -14,3 +16,4 @@ export function SubHead({ children, sx, ...props }) {
 		{children}
 	</Typography>
 }
+export const SubHead = withTranslation(SubHeadBase, { tag: 'sub-head' })

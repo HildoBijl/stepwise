@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+import { withTranslation } from '@step-wise/i18n'
 import { ensureInteger } from '@step-wise/js-utils'
 import { getCurrentStep } from '@step-wise/input-exercises'
 
@@ -10,7 +11,7 @@ import { FormPart, useFormPartSettings } from 'ui/form'
 import { useExerciseData } from '../../containers'
 
 // Substep is used to update the "done" status when a substep is done. This then informs the field that this part of the exercise is done, so the field cannot be edited anymore.
-export function Substep({ ss, children }) {
+function SubstepBase({ ss, children }) {
 	// Gather data.
 	let settings = useFormPartSettings()
 	const { state, example } = useExerciseData()
@@ -29,3 +30,4 @@ export function Substep({ ss, children }) {
 	// Set up a new status.
 	return <FormPart {...settings}>{children}</FormPart>
 }
+export const Substep = withTranslation(SubstepBase, { tag: 'substep' })
