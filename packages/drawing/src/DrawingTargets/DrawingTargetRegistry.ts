@@ -2,6 +2,7 @@ import { numbersEqual } from '@step-wise/js-utils'
 import { type Rectangle, Rectangle as RectangleClass } from '@step-wise/geometry'
 
 import type { DrawingCoordinateSystem } from '../transforms/index.ts'
+import { drawingMeasurementEqualityOptions } from '../transforms/measurementTolerance.ts'
 
 export type DrawingTargetNode = Element | Text
 
@@ -25,9 +26,6 @@ type BoundsMeasurement = {
 	clientBounds: Rectangle
 	drawingClientBounds: Rectangle
 }
-
-// Browser layout measurements can fluctuate by tiny subpixel amounts between otherwise equivalent renders.
-const clientMeasurementTolerance = { absoluteTolerance: 0.1 } as const
 
 /// A registry for managing drawing targets, their bounds, and listeners for changes in those bounds. It tracks specific elements inside of it, their rectangles in a given coordinate system, and registers listeners for when the elements and/or their bounds change.
 export class DrawingTargetRegistry {
@@ -253,7 +251,7 @@ export class DrawingTargetRegistry {
 
 // Check if two client-space measurements match closely enough to represent the same browser layout.
 function areClientBoundsEquivalent(first: Rectangle, second: Rectangle): boolean {
-	return numbersEqual(first.min.x, second.min.x, clientMeasurementTolerance) && numbersEqual(first.min.y, second.min.y, clientMeasurementTolerance) && numbersEqual(first.max.x, second.max.x, clientMeasurementTolerance) && numbersEqual(first.max.y, second.max.y, clientMeasurementTolerance)
+	return numbersEqual(first.min.x, second.min.x, drawingMeasurementEqualityOptions) && numbersEqual(first.min.y, second.min.y, drawingMeasurementEqualityOptions) && numbersEqual(first.max.x, second.max.x, drawingMeasurementEqualityOptions) && numbersEqual(first.max.y, second.max.y, drawingMeasurementEqualityOptions)
 }
 
 function toClientBounds(rectangle: DOMRect): Rectangle {

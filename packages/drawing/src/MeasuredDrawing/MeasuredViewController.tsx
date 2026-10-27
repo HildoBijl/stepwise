@@ -6,11 +6,9 @@ import { useStableValue } from '@step-wise/react-utils'
 import { useDrawingCoordinateSystem } from '../Drawing/context.ts'
 import { useDrawingTargetRenderBoundsMap } from '../DrawingTargets/renderBoundsHooks.ts'
 import { type DrawingCoordinateSystem, type DrawingView, resolveDrawingView } from '../transforms/index.ts'
+import { drawingMeasurementToleranceInPixels, drawingMeasurementEqualityOptions } from '../transforms/measurementTolerance.ts'
 
 import { type TargetBoundsRecord, resolveTargetRectanglesRecord, toTargetBoundsRecord } from './targetBounds.ts'
-
-// Browser layout measurements can fluctuate by tiny subpixel amounts between otherwise equivalent renders.
-const measuredViewTolerance = { absoluteTolerance: 0.01 } as const
 
 export type MeasuredDrawingCalculation<Targets extends readonly string[]> = (
 	targetBounds: TargetBoundsRecord<Targets>,
@@ -58,7 +56,13 @@ function areTargetArraysEqual(current: readonly string[], previous: readonly str
 function areDrawingViewsEquivalent(first: DrawingView, second: DrawingView): boolean {
 	const firstCoordinates = resolveDrawingView(first)
 	const secondCoordinates = resolveDrawingView(second)
-	if (!numbersEqual(firstCoordinates.width, secondCoordinates.width, measuredViewTolerance) || !numbersEqual(firstCoordinates.height, secondCoordinates.height, measuredViewTolerance)) return false
+	if (!numbersEqual(firstCoordinates.width, secondCoordinates.width, drawingMeasurementEqualityOptions) || !numbersEqual(firstCoordinates.height, secondCoordinates.height, drawingMeasurementEqualityOptions)) return false
 	if (firstCoordinates.yDirection !== secondCoordinates.yDirection) return false
-	return [[0, 0], [1, 0], [0, 1]].every(point => firstCoordinates.drawingToPixel(point).distanceTo(secondCoordinates.drawingToPixel(point)) <= measuredViewTolerance.absoluteTolerance)
+
+	// Compare the visual effect of both transformations throughout the viewport. Sampling only drawing-coordinate unit vectors can hide a tiny scale difference that accumulates into a visible shift farther from the origin.
+	const viewportCorners = [[0, 0], [firstCoordinates.width, 0], [0, firstCoordinates.height], [firstCoordinates.width, firstCoordinates.height]]
+	return viewportCorners.every(pixelPosition => {
+		const drawingPosition = firstCoordinates.pixelToDrawing(pixelPosition)
+		return firstCoordinates.drawingToPixel(drawingPosition).distanceTo(secondCoordinates.drawingToPixel(drawingPosition)) <= drawingMeasurementToleranceInPixels
+	})
 }
