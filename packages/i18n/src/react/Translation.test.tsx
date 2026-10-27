@@ -215,6 +215,30 @@ describe('Translation', () => {
 		})
 	})
 
+	it('registers nested Translations independently and keeps the inner source opaque to the outer Translation', () => {
+		const registerSource = vi.fn()
+		render(<I18nProvider locale="en" sourceLocale="en" registerSource={registerSource}>
+			<TranslationCatalog name="test">
+				<Translation id="outer">Before <Translation id="inner">inner text</Translation> after</Translation>
+			</TranslationCatalog>
+		</I18nProvider>)
+
+		expect(screen.getByText('Before inner text after')).toBeTruthy()
+		expect(registerSource).toHaveBeenCalledTimes(2)
+		expect(registerSource).toHaveBeenCalledWith(expect.objectContaining({
+			id: 'outer',
+			source: [
+				{ type: 'text', value: 'Before ' },
+				{ type: 'component', id: 'c1', component: 'translation', slots: {} },
+				{ type: 'text', value: ' after' },
+			],
+		}))
+		expect(registerSource).toHaveBeenCalledWith(expect.objectContaining({
+			id: 'inner',
+			source: [{ type: 'text', value: 'inner text' }],
+		}))
+	})
+
 	it('registers changed sources but not equivalent rerenders', () => {
 		const registerSource = vi.fn()
 		function TestTranslation({ source }: { source: string }) {

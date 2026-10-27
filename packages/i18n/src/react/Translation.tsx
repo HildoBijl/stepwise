@@ -3,6 +3,7 @@ import { type ReactNode, Fragment, useEffect, useMemo } from 'react'
 import { findCatalogUnit, getCatalogUnitStatus } from '../catalog/index.ts'
 import { compareSourceMessages, getMessageContentSignature } from '../message/index.ts'
 
+import { withTranslation } from './authoring/withTranslation.tsx'
 import { type TranslatableReactNode } from './authoring/variable.ts'
 import { messageToReact } from './conversion/messageToReact.tsx'
 import { reactToMessage } from './conversion/reactToMessage.ts'
@@ -51,6 +52,14 @@ export function useTextTranslation({ source, ...addressInput }: TextTranslationI
 }
 
 // Translate a React node.
-export function Translation({ children, ...addressInput }: TranslationProps) {
+function TranslationBase({ children, ...addressInput }: TranslationProps) {
 	return <Fragment>{useTranslatedNode(children, addressInput)}</Fragment>
 }
+
+// Keep nested Translations as opaque, required placeholders in their surrounding Translation.
+export const Translation = withTranslation(TranslationBase, {
+	tag: 'translation',
+	translatedProps: [],
+	canCopy: false,
+	canDelete: false,
+})

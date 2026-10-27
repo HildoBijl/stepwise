@@ -140,6 +140,8 @@ const TranslatedMultipleChoice = withTranslation(MultipleChoice, {
 
 `translatedProps` defaults to `['children']`. Each listed prop becomes a named message slot; unlisted props remain in the original React element and do not enter translation catalogs. For an array-valued prop, use `{ name, itemName }` to give each item its own stable slot, named from `itemName` and its one-based position. This preserves item boundaries without adding React wrappers to authored content. Copying and deletion are allowed by default and can be disabled independently for required or identity-sensitive components.
 
+A `Translation` nested inside another `Translation` is an opaque, required component in the outer Message. Its children are not translated by the outer unit; the nested `Translation` registers and resolves its own unit independently. Translators may reposition the nested unit, but cannot copy or delete it.
+
 ### Translation areas
 
 `TranslationArea` reserves one semantic name while allowing its contents to use either one complete Message or several named Messages. This is useful for containers such as exercise problems and solutions. An anonymous `Translation` uses the area's name as its unit ID; named translations use the area as a group.
