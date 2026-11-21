@@ -35,7 +35,7 @@ export function ApprovePrivacyPolicy({ firstTime }) {
 	const signOut = () => { window.location.href = signOutAddress }
 	const [acceptLatestPrivacyPolicy] = useAcceptLatestPrivacyPolicy()
 
-	return <TranslationCatalog folder={['pages']} name="privacyPolicy">
+	return <TranslationCatalog folder={['pages']} name="privacyPolicyApproval">
 		<Box sx={{
 			display: 'flex',
 			flexFlow: 'row nowrap',

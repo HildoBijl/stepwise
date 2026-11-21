@@ -7,7 +7,7 @@ import { useUser, ActiveGroupProvider, SkillLevelProvider } from 'api'
 import { LanguageProvider, useLanguageSetting } from 'i18n'
 import theme from 'ui/theme'
 
-import { PrivacyPolicyWrapper } from './PrivacyPolicy'
+import { PrivacyPolicyWrapper } from './PrivacyPolicyApproval'
 import { Routing } from './Routing'
 
 function UserLanguageSynchronizer() {
