@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Box, Container, Grid, Button, useTheme } from '@mui/material'
 import { Info as InfoIcon, Policy as PrivacyPolicyIcon } from '@mui/icons-material'
 
@@ -13,7 +13,6 @@ import { usePaths } from 'ui/routingTools'
 
 export function Blocks() {
 	const paths = usePaths()
-	const navigate = useNavigate()
 
 	return <Container maxWidth='lg' disableGutters sx={theme => ({
 		'& .block': {
@@ -53,15 +52,15 @@ export function Blocks() {
 						display: 'flex',
 						flexFlow: 'column nowrap',
 						margin: '4px',
-						'& > button': {
+						'& > .button': {
 							margin: '4px',
 							width: '280px',
 						},
 					}}>
-						<Button variant="contained" className="button" startIcon={<Student />} onClick={() => navigate(paths.forStudents())} color="primary"><Translation id="forStudents">Step-Wise for students</Translation></Button>
-						<Button variant="contained" className="button" startIcon={<Teacher />} onClick={() => navigate(paths.forTeachers())} color="primary"><Translation id="forTeachers">Step-Wise for teachers</Translation></Button>
-						<Button variant="contained" className="button" startIcon={<InfoIcon />} onClick={() => navigate(paths.about())} color="primary"><Translation id="about">About Step-Wise</Translation></Button>
-						<Button variant="contained" className="button" startIcon={<PrivacyPolicyIcon />} onClick={() => navigate(paths.privacyPolicy())} color="primary"><Translation id="privacyPolicy">Privacy Policy</Translation></Button>
+						<Button component={Link} to={paths.forStudents()} variant="contained" className="button" startIcon={<Student />} color="primary"><Translation id="forStudents">Step-Wise for students</Translation></Button>
+						<Button component={Link} to={paths.forTeachers()} variant="contained" className="button" startIcon={<Teacher />} color="primary"><Translation id="forTeachers">Step-Wise for teachers</Translation></Button>
+						<Button component={Link} to={paths.about()} variant="contained" className="button" startIcon={<InfoIcon />} color="primary"><Translation id="about">About Step-Wise</Translation></Button>
+						<Button component={Link} to={paths.privacyPolicy()} variant="contained" className="button" startIcon={<PrivacyPolicyIcon />} color="primary"><Translation id="privacyPolicy">Privacy Policy</Translation></Button>
 					</Box></TranslationGroup>
 				</TranslationGroup>
 			</Grid>
@@ -71,7 +70,7 @@ export function Blocks() {
 					<Box className="description"><Translation id="description">Try out for yourself how it works.</Translation></Box>
 					<Grid container spacing={0} sx={{
 						margin: '4px',
-						'& button': {
+						'& .button': {
 							margin: '4px',
 							maxWidth: '280px',
 							width: '96%',
@@ -91,7 +90,7 @@ export function Blocks() {
 						},
 					}}>
 						<Grid size={{ xs: 12, md: 3, lg: 6 }}>
-							<Button variant="contained" className="button" onClick={() => navigate(paths.skill({ skillId: 'solveMultiVariableLinearEquation' }))} color="secondary">
+							<Button component={Link} to={paths.skill({ skillId: 'solveMultiVariableLinearEquation' })} variant="contained" className="button" color="secondary">
 								<TranslationGroup path="algebra">
 									<Box className="container">
 										<Box><Translation id="title">Algebra</Translation></Box>
@@ -105,7 +104,7 @@ export function Blocks() {
 							</Button>
 						</Grid>
 						<Grid size={{ xs: 12, md: 3, lg: 6 }}>
-							<Button variant="contained" className="button" onClick={() => navigate(paths.skill({ skillId: 'applyPythagoreanTheorem' }))} color="secondary">
+							<Button component={Link} to={paths.skill({ skillId: 'applyPythagoreanTheorem' })} variant="contained" className="button" color="secondary">
 								<TranslationGroup path="geometry">
 									<Box className="container">
 										<Box><Translation id="title">Geometry</Translation></Box>
@@ -119,7 +118,7 @@ export function Blocks() {
 							</Button>
 						</Grid>
 						<Grid size={{ xs: 12, md: 3, lg: 6 }}>
-							<Button variant="contained" className="button" onClick={() => navigate(paths.skill({ skillId: 'gasLaw' }))} color="secondary">
+							<Button component={Link} to={paths.skill({ skillId: 'gasLaw' })} variant="contained" className="button" color="secondary">
 								<TranslationGroup path="thermodynamics">
 									<Box className="container">
 										<Box><Translation id="title">Thermodynamics</Translation></Box>
@@ -133,7 +132,7 @@ export function Blocks() {
 							</Button>
 						</Grid>
 						<Grid size={{ xs: 12, md: 3, lg: 6 }}>
-							<Button variant="contained" className="button" onClick={() => navigate(paths.skill({ skillId: 'calculateBasicSupportReactions' }))} color="secondary">
+							<Button component={Link} to={paths.skill({ skillId: 'calculateBasicSupportReactions' })} variant="contained" className="button" color="secondary">
 								<TranslationGroup path="statics">
 									<Box className="container">
 										<Box><Translation id="title">Statics</Translation></Box>

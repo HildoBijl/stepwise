@@ -39,10 +39,11 @@ vi.mock('ui/routingTools', () => ({
 		courses: () => '/courses',
 		forStudents: () => '/for-students',
 		forTeachers: () => '/for-teachers',
-		privacyPolicy: () => '/privacy-policy',
 		group: ({ code }) => `/groups/${code}`,
 		groups: () => '/groups',
 		home: () => '/',
+		privacyPolicy: () => '/privacy-policy',
+		skill: ({ skillId }) => `/skills/${skillId}`,
 	})
 }))
 
