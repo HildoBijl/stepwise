@@ -115,6 +115,12 @@
 						<target swi18n:sourceContentFingerprint="534832a9e18cf4dc" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Over Step-Wise</target>
 					</segment>
 				</unit>
+				<unit id="privacyPolicy">
+					<segment>
+						<source>Privacy Policy</source>
+						<target swi18n:sourceContentFingerprint="4f340d2c3fe3d08e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Privacybeleid</target>
+					</segment>
+				</unit>
 			</group>
 		</group>
 		<group id="exampleSkills">

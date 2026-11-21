@@ -11,6 +11,7 @@ import { About } from '../ui/pages/explainers/About'
 import { ForStudents } from '../ui/pages/explainers/ForStudents'
 import { ForTeachers } from '../ui/pages/explainers/ForTeachers'
 import { Home } from '../ui/pages/Home/Home'
+import { PrivacyPolicy } from '../ui/pages/PrivacyPolicy'
 import { ApprovePrivacyPolicy } from '../ui/layout/PrivacyPolicy'
 import { ActiveGroup } from '../ui/pages/groups/ActiveGroup'
 import { GroupCreation } from '../ui/pages/groups/GroupCreation'
@@ -38,6 +39,7 @@ vi.mock('ui/routingTools', () => ({
 		courses: () => '/courses',
 		forStudents: () => '/for-students',
 		forTeachers: () => '/for-teachers',
+		privacyPolicy: () => '/privacy-policy',
 		group: ({ code }) => `/groups/${code}`,
 		groups: () => '/groups',
 		home: () => '/',
@@ -64,6 +66,13 @@ describe('migrated static page translations', () => {
 			const status = compareSourceMessages(unit.source, registration.source)
 			if (status !== 'current') throw new Error(`${catalogPath}:${registration.group.join('.')}:${registration.id} is ${status}.\nStored: ${JSON.stringify(unit.source)}\nAuthored: ${JSON.stringify(registration.source)}`)
 		}
+	})
+
+	it('renders the public privacy policy', () => {
+		const { getByText } = render(<PrivacyPolicy />)
+		expect(getByText('This is version 1.3 of the Privacy Policy. It was last updated on 2026-11-21.')).toBeDefined()
+		expect(getByText('3. Legal basis')).toBeDefined()
+		expect(getByText(/The information shared with Step-Wise depends on the provider/)).toBeDefined()
 	})
 
 	it.each([

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Container, Grid, Button, useTheme } from '@mui/material'
-import { Info as InfoIcon } from '@mui/icons-material'
+import { Info as InfoIcon, Policy as PrivacyPolicyIcon } from '@mui/icons-material'
 
 import { DrawingFigure, SvgPortal, HtmlElement } from '@step-wise/drawing'
 import { Beam, Force, HingeSupport, RollerHingeSupport } from '@step-wise/engineering-diagrams'
@@ -61,6 +61,7 @@ export function Blocks() {
 						<Button variant="contained" className="button" startIcon={<Student />} onClick={() => navigate(paths.forStudents())} color="primary"><Translation id="forStudents">Step-Wise for students</Translation></Button>
 						<Button variant="contained" className="button" startIcon={<Teacher />} onClick={() => navigate(paths.forTeachers())} color="primary"><Translation id="forTeachers">Step-Wise for teachers</Translation></Button>
 						<Button variant="contained" className="button" startIcon={<InfoIcon />} onClick={() => navigate(paths.about())} color="primary"><Translation id="about">About Step-Wise</Translation></Button>
+						<Button variant="contained" className="button" startIcon={<PrivacyPolicyIcon />} onClick={() => navigate(paths.privacyPolicy())} color="primary"><Translation id="privacyPolicy">Privacy Policy</Translation></Button>
 					</Box></TranslationGroup>
 				</TranslationGroup>
 			</Grid>
