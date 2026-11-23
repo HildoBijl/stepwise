@@ -14,6 +14,8 @@ InputState <--hydrateInput---- InputValue
 
 Validation and other derived results are associated with normalized `InputValue`s. Editor-only changes such as moving a cursor therefore preserve cached results when the normalized input value remains equal.
 
+Interpretation and domain validation form one validation pipeline. The form uses its provided `interpretInput` operation to interpret each field with the same value-type adapters as its consumer. An interpretation error is converted through the field's `getInterpretationErrorFeedback`; a successfully interpreted value is subsequently checked by the optional `validateDomainValue` callback.
+
 
 ## Package boundary
 

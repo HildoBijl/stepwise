@@ -3,13 +3,11 @@ import type { ReactNode } from 'react'
 import type { Awaitable } from '@step-wise/js-utils'
 import type { InputValue, InputValueMap } from '@step-wise/input-interpretation'
 
+import type { FormFieldId } from './fields/index.ts'
+
 /*
  * Form values.
  */
-
-// Form parts.
-export type FormFieldId = string
-export type FormSectionId = string
 
 // Form data types.
 export type FormInputStates = Record<FormFieldId, unknown>
@@ -19,65 +17,12 @@ export type FormDomainValues = Record<FormFieldId, unknown>
 // Form validation.
 export type FormValidationReports = Record<FormFieldId, unknown>
 
-// Input state conversion.
-export type NormalizeInput<TInputState, TInputValue extends InputValue = InputValue> = (inputState: TInputState) => TInputValue
-export type HydrateInput<TInputState, TInputValue extends InputValue = InputValue> = (inputValue: TInputValue) => TInputState
-
-// Form field comparison and interpretation.
-export type AreInputValuesEqual<TInputValue extends InputValue = InputValue> = (first: TInputValue, second: TInputValue) => boolean
+// Form field interpretation.
 export type InterpretInput<TInputValues extends FormInputValues = FormInputValues, TDomainValues extends FormDomainValues = FormDomainValues> = (inputValues: TInputValues) => TDomainValues
-
-/*
- * Field definitions.
- */
-
-export type FormFieldDefinition<
-	TInputState = unknown,
-	TInputValue extends InputValue = InputValue,
-	TDomainValue = unknown,
-	TInputValues extends FormInputValues = FormInputValues,
-	TDomainValues extends FormDomainValues = FormDomainValues,
-> = {
-	initialInputValue: TInputValue
-	normalizeInput: NormalizeInput<TInputState, TInputValue>
-	hydrateInput: HydrateInput<TInputState, TInputValue>
-	areInputValuesEqual?: AreInputValuesEqual<TInputValue>
-	getInterpretationErrorFeedback?: (error: unknown) => ReactNode
-	validate?: FormFieldValidator<TInputState, TInputValue, TDomainValue, TInputValues, TDomainValues>
-	retainOnUnmount?: boolean
-}
 
 /*
  * Validation.
  */
-
-export type FieldValidationData<
-	TInputState = unknown,
-	TInputValue extends InputValue = InputValue,
-	TDomainValue = unknown,
-	TInputValues extends FormInputValues = FormInputValues,
-	TDomainValues extends FormDomainValues = FormDomainValues,
-> = {
-	fieldId: FormFieldId
-	inputState: TInputState
-	inputValue: TInputValue
-	domainValue: TDomainValue
-	inputValues: TInputValues
-	domainValues: TDomainValues
-	signal: AbortSignal
-}
-
-export type FieldValidationResult =
-	| { valid: true, report?: unknown }
-	| { valid: false, feedback?: ReactNode }
-
-export type FormFieldValidator<
-	TInputState = unknown,
-	TInputValue extends InputValue = InputValue,
-	TDomainValue = unknown,
-	TInputValues extends FormInputValues = FormInputValues,
-	TDomainValues extends FormDomainValues = FormDomainValues,
-> = (data: FieldValidationData<TInputState, TInputValue, TDomainValue, TInputValues, TDomainValues>) => Awaitable<FieldValidationResult>
 
 export type FieldValidationState<TInputValue extends InputValue = InputValue> =
 	| { status: 'unvalidated' }
