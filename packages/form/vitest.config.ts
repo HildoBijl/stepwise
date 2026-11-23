@@ -4,6 +4,7 @@ import baseConfig from '../../vitest.base.config.ts'
 
 export default mergeConfig(baseConfig, defineConfig({
 	test: {
+		environment: 'jsdom',
 		include: ['src/**/*.test.{ts,tsx}'],
 	},
 }))
