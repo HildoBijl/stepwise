@@ -5,29 +5,29 @@ import { Rectangle } from '@step-wise/geometry'
 import { Drawing, DrawingFigure, SvgDefsPortal, useDrawingCoordinateSystem } from '../Drawing/index.ts'
 
 import type { PlotFigureProps, PlotProps } from './types.ts'
-import { PlotContextProvider, usePlot } from './context.ts'
+import { PlotContext, usePlot } from './context.ts'
 import { resolvePlot, resolvePlotView } from './resolution.ts'
 
 export function Plot(props: PlotProps) {
 	const { axes, bounds, children, points, ref, view, ...drawingProps } = props
 	const { context, drawingView } = useResolvedPlot(bounds, points, axes, view)
-	return <PlotContextProvider value={context}>
+	return <PlotContext value={context}>
 		<Drawing {...drawingProps} ref={ref} view={drawingView}>
 			<PlotClipDefinition />
 			{children}
 		</Drawing>
-	</PlotContextProvider>
+	</PlotContext>
 }
 
 export function PlotFigure(props: PlotFigureProps) {
 	const { axes, bounds, children, points, ref, view, ...drawingProps } = props
 	const { context, drawingView } = useResolvedPlot(bounds, points, axes, view)
-	return <PlotContextProvider value={context}>
+	return <PlotContext value={context}>
 		<DrawingFigure {...drawingProps} ref={ref} view={drawingView}>
 			<PlotClipDefinition />
 			{children}
 		</DrawingFigure>
-	</PlotContextProvider>
+	</PlotContext>
 }
 
 function useResolvedPlot(bounds: PlotProps['bounds'], points: PlotProps['points'], axes: PlotProps['axes'], view: PlotProps['view']) {

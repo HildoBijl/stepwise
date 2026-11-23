@@ -10,7 +10,7 @@ export function SvgPortal({ children }: { children?: ReactNode }) {
 	const { svg } = useDrawing()
 	const isInsideSvgPortal = useContext(SvgPortalContext)
 	if (isInsideSvgPortal) return children
-	return <SvgPortalContext.Provider value={true}><Portal target={svg}>{children}</Portal></SvgPortalContext.Provider>
+	return <SvgPortalContext value={true}><Portal target={svg}>{children}</Portal></SvgPortalContext>
 }
 
 export function SvgDefsPortal({ children }: { children?: ReactNode }) {

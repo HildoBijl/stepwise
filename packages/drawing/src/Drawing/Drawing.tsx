@@ -6,7 +6,7 @@ import { Figure } from '../Figure/index.ts'
 import { type DrawingCoordinateSystem, resolveDrawingView } from '../transforms/index.ts'
 import { DrawingTargetRegistryProvider } from '../DrawingTargets/DrawingTargetRegistryProvider.tsx'
 
-import { DrawingContextProvider } from './context.ts'
+import { DrawingContext } from './context.ts'
 import type { DrawingFigureProps, DrawingHandle, DrawingProps } from './types.ts'
 
 export function Drawing(props: DrawingProps) {
@@ -61,7 +61,7 @@ function ResolvedDrawing(props: ResolvedDrawingProps) {
 	const context = useMemo(() => ({ id, clipPathId, coordinateSystem, element, svg, svgDefs, canvas, htmlBehind, html }), [id, clipPathId, coordinateSystem, element, svg, svgDefs, canvas, htmlBehind, html])
 
 	// Render the drawing.
-	return <DrawingContextProvider value={context}>
+	return <DrawingContext value={context}>
 		<DrawingTargetRegistryProvider element={element} coordinateSystem={coordinateSystem}>
 			<div {...divProps} ref={setElement} style={{ ...divProps.style, height, overflow: clip ? 'hidden' : 'visible', position: 'relative', width }}>
 				{useCanvas && <canvas height={height} ref={setCanvas} width={width} style={layerStyle(0)} />}
@@ -77,7 +77,7 @@ function ResolvedDrawing(props: ResolvedDrawingProps) {
 				{children}
 			</div>
 		</DrawingTargetRegistryProvider>
-	</DrawingContextProvider>
+	</DrawingContext>
 }
 
 function useResolvedDrawingCoordinateSystem(view: DrawingProps['view']): DrawingCoordinateSystem {

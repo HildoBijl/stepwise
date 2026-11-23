@@ -37,11 +37,11 @@ export function LanguageProvider({ children, loadCatalog = defaultCatalogLoader,
 	}, [setLanguage])
 
 	// Set up the provider with the language settings, and include the i18nProvider loading the language files.
-	return <LanguageContext.Provider value={{ language, setLanguage }}>
+	return <LanguageContext value={{ language, setLanguage }}>
 		<I18nProvider locale={language} sourceLocale={defaultLanguage} loadCatalog={loadCatalog} {...registerSource ? { registerSource } : {}}>
 			{children}
 		</I18nProvider>
-	</LanguageContext.Provider>
+	</LanguageContext>
 }
 
 // Helper that reads the language stored in localStorage.

@@ -43,5 +43,5 @@ export function SkillLevelProvider({ children }: PropsWithChildren) {
 	useEffect(() => { skillLevelSet.clear() }, [skillLevelSet, user?.id])
 
 	const contextValue: SkillLevelContextValue = useMemo(() => ({ skillLevelSet, registerSkillLevels }), [registerSkillLevels, skillLevelSet])
-	return <SkillLevelContext.Provider value={contextValue}>{children}</SkillLevelContext.Provider>
+	return <SkillLevelContext value={contextValue}>{children}</SkillLevelContext>
 }

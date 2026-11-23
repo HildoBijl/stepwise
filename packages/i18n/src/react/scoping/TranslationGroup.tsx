@@ -14,5 +14,5 @@ export type TranslationGroupProps = {
 export function TranslationGroup({ children, path, extend = true }: TranslationGroupProps) {
 	const parent = useTranslationScope()
 	const scope = useMemo(() => resolveGroupScope(parent, path, extend), [extend, parent, path])
-	return <TranslationScopeContext.Provider value={scope}>{children}</TranslationScopeContext.Provider>
+	return <TranslationScopeContext value={scope}>{children}</TranslationScopeContext>
 }

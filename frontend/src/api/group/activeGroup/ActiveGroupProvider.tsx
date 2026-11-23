@@ -6,5 +6,5 @@ import { ActiveGroupContext } from './context.ts'
 
 export function ActiveGroupProvider({ children }: PropsWithChildren) {
 	const value = useMyActiveGroup()
-	return <ActiveGroupContext.Provider value={value}>{children}</ActiveGroupContext.Provider>
+	return <ActiveGroupContext value={value}>{children}</ActiveGroupContext>
 }

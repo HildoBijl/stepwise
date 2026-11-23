@@ -15,5 +15,5 @@ export type TranslationCatalogProps = {
 export function TranslationCatalog({ children, folder, name }: TranslationCatalogProps) {
 	const parent = useTranslationScope()
 	const scope = useMemo(() => resolveCatalogScope(parent, name, folder), [folder, name, parent])
-	return <TranslationScopeContext.Provider value={scope}>{children}</TranslationScopeContext.Provider>
+	return <TranslationScopeContext value={scope}>{children}</TranslationScopeContext>
 }

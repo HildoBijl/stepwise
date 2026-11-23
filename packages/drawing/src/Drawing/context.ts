@@ -14,9 +14,7 @@ export interface DrawingContextValue {
 	readonly html: HTMLDivElement | null
 }
 
-const DrawingContext = createContext<DrawingContextValue | undefined>(undefined)
-
-export const DrawingContextProvider = DrawingContext.Provider
+export const DrawingContext = createContext<DrawingContextValue | undefined>(undefined)
 
 export function useDrawing(): DrawingContextValue {
 	const drawing = useContext(DrawingContext)

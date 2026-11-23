@@ -31,5 +31,5 @@ export function TranslationArea({ children, name }: TranslationAreaProps) {
 
 	// Provide this Translation Area context to child components.
 	const area = useMemo(() => ({ group: parent.group, name, register }), [parent.group, name, register])
-	return <TranslationAreaContext.Provider value={area}>{children}</TranslationAreaContext.Provider>
+	return <TranslationAreaContext value={area}>{children}</TranslationAreaContext>
 }

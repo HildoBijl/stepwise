@@ -10,8 +10,7 @@ export interface PlotContextValue {
 	readonly clipPathId: string
 }
 
-const PlotContext = createContext<PlotContextValue | undefined>(undefined)
-export const PlotContextProvider = PlotContext.Provider
+export const PlotContext = createContext<PlotContextValue | undefined>(undefined)
 
 export function usePlot(): PlotContextValue {
 	const plot = useContext(PlotContext)

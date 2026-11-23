@@ -32,7 +32,7 @@ export function DrawingTargetRegistryProvider({ children, element, coordinateSys
 	useEffect(() => { registry.refresh() }, [registry, element, coordinateSystem, refreshIndex])
 
 	// Provide the registry to the context for use by child components.
-	return <DrawingTargetRegistryContext.Provider value={registry}>
+	return <DrawingTargetRegistryContext value={registry}>
 		{children}
-	</DrawingTargetRegistryContext.Provider>
+	</DrawingTargetRegistryContext>
 }

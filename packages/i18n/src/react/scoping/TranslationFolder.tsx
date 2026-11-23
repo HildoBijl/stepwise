@@ -14,5 +14,5 @@ export type TranslationFolderProps = {
 export function TranslationFolder({ children, path, extend = true }: TranslationFolderProps) {
 	const parent = useTranslationScope()
 	const scope = useMemo(() => resolveFolderScope(parent, path, extend), [extend, parent, path])
-	return <TranslationScopeContext.Provider value={scope}>{children}</TranslationScopeContext.Provider>
+	return <TranslationScopeContext value={scope}>{children}</TranslationScopeContext>
 }

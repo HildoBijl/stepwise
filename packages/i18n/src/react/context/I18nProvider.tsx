@@ -26,5 +26,5 @@ export function I18nProvider({ children, locale, sourceLocale, loadCatalog: cata
 		loadCatalog: catalogStore.loadCatalog,
 		registerSource,
 	}), [catalogStore, locale, registerSource, sourceLocale])
-	return <I18nContext.Provider value={runtime}>{children}</I18nContext.Provider>
+	return <I18nContext value={runtime}>{children}</I18nContext>
 }
