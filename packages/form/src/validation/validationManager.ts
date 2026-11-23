@@ -39,15 +39,16 @@ export function createValidationManager({ registry, inputManager, interpretInput
 
 	// Invalidate the validation state of a specific field, aborting any ongoing validation and removing its record.
 	const invalidateField: FormValidationManager['invalidateField'] = fieldId => {
-		registry.requireField(fieldId)
 		validations.get(fieldId)?.controller?.abort()
 		validations.delete(fieldId)
+		interpretations.delete(fieldId)
 	}
 
 	// Invalidate all fields, aborting any ongoing validations and clearing the validation records.
 	const invalidateAll: FormValidationManager['invalidateAll'] = () => {
 		validations.forEach(validation => validation.controller?.abort())
 		validations.clear()
+		interpretations.clear()
 	}
 
 	// Interpret the input value of a field, caching the result to avoid redundant interpretations for the same input value.

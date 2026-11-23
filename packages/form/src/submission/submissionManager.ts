@@ -7,7 +7,7 @@ export function createSubmissionManager<
 	TInputValues extends FormInputValues = FormInputValues,
 	TDomainValues extends FormDomainValues = FormDomainValues,
 	TResult = void,
->({ validate, onSubmit }: FormSubmissionManagerOptions<TInputValues, TDomainValues, TResult>): FormSubmissionManager<TInputValues, TDomainValues, TResult> {
+>({ validateForm, onSubmit }: FormSubmissionManagerOptions<TInputValues, TDomainValues, TResult>): FormSubmissionManager<TInputValues, TDomainValues, TResult> {
 	// Set up internal memory for this manager.
 	let isSubmitting = false
 
@@ -22,7 +22,7 @@ export function createSubmissionManager<
 
 		// Perform validation and handle submission, ensuring that the submission state is reset after the process completes, regardless of success or failure.
 		try {
-			const validation = await validate()
+			const validation = await validateForm()
 			if (!validation.valid) return { submitted: false, reason: 'invalid', validation }
 			const submission: FormSubmission<TInputValues, TDomainValues> = {
 				inputValues: validation.inputValues,

@@ -19,7 +19,7 @@ const validValidation: FormValidationResult<InputValues, DomainValues> = {
 describe('submission manager', () => {
 	it('validates and submits InputValues, DomainValues and validation reports', async () => {
 		const onSubmit = vi.fn(() => 'saved')
-		const manager = createSubmissionManager({ validate: () => validValidation, onSubmit })
+		const manager = createSubmissionManager({ validateForm: () => validValidation, onSubmit })
 
 		await expect(manager.submit()).resolves.toEqual({
 			submitted: true,
@@ -45,7 +45,7 @@ describe('submission manager', () => {
 			domainValues: {},
 		}
 		const onSubmit = vi.fn()
-		const manager = createSubmissionManager({ validate: () => validation, onSubmit })
+		const manager = createSubmissionManager({ validateForm: () => validation, onSubmit })
 
 		await expect(manager.submit()).resolves.toEqual({ submitted: false, reason: 'invalid', validation })
 		expect(onSubmit).not.toHaveBeenCalled()
@@ -54,7 +54,7 @@ describe('submission manager', () => {
 	it('rejects concurrent submissions while the current submission is pending', async () => {
 		let resolveSubmission!: (result: string) => void
 		const manager = createSubmissionManager({
-			validate: () => validValidation,
+			validateForm: () => validValidation,
 			onSubmit: () => new Promise(resolve => { resolveSubmission = resolve }),
 		})
 
@@ -69,7 +69,7 @@ describe('submission manager', () => {
 	it('returns to idle after validation or submission throws', async () => {
 		const validationError = new Error('Validation failed unexpectedly.')
 		const validationManager = createSubmissionManager({
-			validate: () => { throw validationError },
+			validateForm: () => { throw validationError },
 			onSubmit: vi.fn(),
 		})
 		await expect(validationManager.submit()).rejects.toBe(validationError)
@@ -77,7 +77,7 @@ describe('submission manager', () => {
 
 		const submissionError = new Error('Submission failed unexpectedly.')
 		const submissionManager = createSubmissionManager({
-			validate: () => validValidation,
+			validateForm: () => validValidation,
 			onSubmit: () => { throw submissionError },
 		})
 		await expect(submissionManager.submit()).rejects.toBe(submissionError)

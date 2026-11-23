@@ -44,7 +44,7 @@ export type FormSubmissionManagerOptions<
 	TDomainValues extends FormDomainValues = FormDomainValues,
 	TResult = void,
 > = {
-	validate: () => Awaitable<FormValidationResult<TInputValues, TDomainValues>>
+	validateForm: () => Awaitable<FormValidationResult<TInputValues, TDomainValues>>
 	onSubmit: FormSubmitHandler<TInputValues, TDomainValues, TResult>
 }
 
