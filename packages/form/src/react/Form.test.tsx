@@ -1,4 +1,3 @@
-import type { InputValue } from '@step-wise/input-interpretation'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
@@ -7,7 +6,7 @@ import type { FormFieldDefinition } from '../fields/index.ts'
 import { Form } from './Form.tsx'
 import { useFormField } from './useFormField.ts'
 
-type TestInputValue = InputValue<'Test', string>
+type TestInputValue = { type: 'Test', value: string }
 type TestInputState = { value: string }
 type InputValues = { answer: TestInputValue }
 type DomainValues = { answer: number }

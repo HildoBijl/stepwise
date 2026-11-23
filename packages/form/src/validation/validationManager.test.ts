@@ -1,13 +1,11 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import type { InputValue } from '@step-wise/input-interpretation'
-
 import { type FieldValidationResult, type FormFieldDefinition, createFieldRegistry } from '../fields/index.ts'
-import { createInputManager } from '../input/index.ts'
+import { type FormInputValues, createInputManager } from '../input/index.ts'
 
 import { createValidationManager } from './validationManager.ts'
 
-type TestInputValue = InputValue<'Test', string>
+type TestInputValue = { type: 'Test', value: string }
 type TestInputState = { value: string, cursor?: number }
 
 function createDefinition(options: Partial<FormFieldDefinition<TestInputState, TestInputValue, number>> = {}): FormFieldDefinition<TestInputState, TestInputValue, number> {
@@ -29,7 +27,7 @@ function createSetup({
 	}))),
 }: {
 	definition?: FormFieldDefinition<TestInputState, TestInputValue, number>
-	interpretInput?: (inputValues: Record<string, InputValue>) => Record<string, unknown>
+	interpretInput?: (inputValues: FormInputValues) => Record<string, unknown>
 } = {}) {
 	const registry = createFieldRegistry()
 	registry.registerField('answer', definition, 'main')

@@ -1,20 +1,18 @@
 import type { ReactNode } from 'react'
 
-import type { InputValue } from '@step-wise/input-interpretation'
-
-import { type FieldValidationResult, type FormFieldId, areFieldInputValuesEqual } from '../fields/index.ts'
+import { type FieldValidationResult, type FormFieldId, type FormInputValue, areFieldInputValuesEqual } from '../fields/index.ts'
 import type { FormInputValues } from '../input/index.ts'
 
 import type { FieldValidationState, FormDomainValues, FormValidationManager, FormValidationManagerOptions, FormValidationResult } from './types.ts'
 
 // Define types for field value interpretation results.
-type ValidInterpretation = { valid: true, inputValue: InputValue, domainValue: unknown }
-type InvalidInterpretation = { valid: false, inputValue: InputValue, feedback?: ReactNode }
+type ValidInterpretation = { valid: true, inputValue: FormInputValue, domainValue: unknown }
+type InvalidInterpretation = { valid: false, inputValue: FormInputValue, feedback?: ReactNode }
 type Interpretation = ValidInterpretation | InvalidInterpretation
 
 // Define a record type to store the validation state and associated data for each field.
 type ValidationRecord = {
-	inputValue: InputValue
+	inputValue: FormInputValue
 	state: FieldValidationState
 	controller?: AbortController
 	promise?: Promise<FieldValidationState>
@@ -52,7 +50,7 @@ export function createValidationManager({ registry, inputManager, interpretInput
 	}
 
 	// Interpret the input value of a field, caching the result to avoid redundant interpretations for the same input value.
-	const interpretField = (fieldId: FormFieldId, inputValue: InputValue): Interpretation => {
+	const interpretField = (fieldId: FormFieldId, inputValue: FormInputValue): Interpretation => {
 		// If the field's input value has already been interpreted and cached, return the cached interpretation.
 		const { definition } = registry.requireField(fieldId)
 		const cached = interpretations.get(fieldId)

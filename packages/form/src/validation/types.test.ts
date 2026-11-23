@@ -1,9 +1,8 @@
-import type { InputValue } from '@step-wise/input-interpretation'
 import { describe, expectTypeOf, it } from 'vitest'
 
 import type { FormValidationResult, InterpretInput } from './types.ts'
 
-type IntegerInputValue = InputValue<'Integer', string>
+type IntegerInputValue = { type: 'Integer', value: string }
 type InputValues = { answer: IntegerInputValue }
 type DomainValues = { answer: number }
 

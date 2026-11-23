@@ -1,6 +1,4 @@
-import type { InputValue } from '@step-wise/input-interpretation'
-
-import { type AnyFormFieldDefinition, type FormFieldId, areFieldInputValuesEqual, hydrateFieldInput, normalizeFieldInput } from '../fields/index.ts'
+import { type AnyFormFieldDefinition, type FormFieldId, type FormInputValue, areFieldInputValuesEqual, hydrateFieldInput, normalizeFieldInput } from '../fields/index.ts'
 
 import type { FieldInputSnapshot, FieldInputUpdate, FormInputManager, FormInputManagerOptions, FormInputValues, InputStateUpdater } from './types.ts'
 
@@ -48,7 +46,7 @@ export function createInputManager({ registry, initialInputValues = {} }: FormIn
 	}
 
 	// Internal helper to apply one input value while preserving equal values and any existing editor state.
-	const applyFieldInputValue = (fieldId: FormFieldId, nextInputValue: InputValue): FieldInputUpdate => {
+	const applyFieldInputValue = (fieldId: FormFieldId, nextInputValue: FormInputValue): FieldInputUpdate => {
 		// If the input value did not change, return a snapshot indicating no changes to the input state or value.
 		const { definition } = registry.requireField(fieldId)
 		const previousInputValue = inputValues[fieldId]
@@ -162,7 +160,7 @@ export function createInputManager({ registry, initialInputValues = {} }: FormIn
 }
 
 // Get the initial input value for a field, using the provided initial values or falling back to the field's defined initial value.
-function resolveInitialInputValue(fieldId: FormFieldId, definition: AnyFormFieldDefinition, initialInputValues: FormInputValues): InputValue {
+function resolveInitialInputValue(fieldId: FormFieldId, definition: AnyFormFieldDefinition, initialInputValues: FormInputValues): FormInputValue {
 	return Object.hasOwn(initialInputValues, fieldId) ? initialInputValues[fieldId] : definition.defaultInputValue
 }
 
@@ -172,6 +170,6 @@ function resolveInputStateUpdate(update: InputStateUpdater, current: unknown): u
 }
 
 // Create a snapshot of a field's input state and value for a given field ID.
-function createFieldInputSnapshot<TInputState, TInputValue extends InputValue>(fieldId: FormFieldId, inputState: TInputState, inputValue: TInputValue): FieldInputSnapshot<TInputState, TInputValue> {
+function createFieldInputSnapshot<TInputState, TInputValue extends FormInputValue>(fieldId: FormFieldId, inputState: TInputState, inputValue: TInputValue): FieldInputSnapshot<TInputState, TInputValue> {
 	return { fieldId, inputState, inputValue }
 }

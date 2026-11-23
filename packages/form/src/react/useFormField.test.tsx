@@ -2,15 +2,13 @@ import type { PropsWithChildren } from 'react'
 import { act, renderHook } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
-import type { InputValue } from '@step-wise/input-interpretation'
-
 import type { FormFieldDefinition } from '../fields/index.ts'
 import { createFormStore } from '../store/index.ts'
 
 import { FormProvider } from './context.tsx'
 import { useFormField } from './useFormField.ts'
 
-type TestInputValue = InputValue<'Test', string>
+type TestInputValue = { type: 'Test', value: string }
 type TestInputState = { value: string, cursor?: number }
 type InputValues = { answer: TestInputValue }
 type DomainValues = { answer: number }

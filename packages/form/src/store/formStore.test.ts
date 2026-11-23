@@ -1,11 +1,10 @@
-import type { InputValue } from '@step-wise/input-interpretation'
 import { describe, expect, it, vi } from 'vitest'
 
 import type { FieldValidationResult, FormFieldDefinition } from '../fields/index.ts'
 
 import { createFormStore } from './formStore.ts'
 
-type TestInputValue = InputValue<'Test', string>
+type TestInputValue = { type: 'Test', value: string }
 type TestInputState = { value: string, cursor?: number }
 type InputValues = { answer: TestInputValue }
 type DomainValues = { answer: number }

@@ -1,10 +1,9 @@
-import type { InputValue } from '@step-wise/input-interpretation'
 import { describe, expectTypeOf, it } from 'vitest'
 
 import type { FieldDomainValidationData, FormFieldDefinition } from './types.ts'
 
 type IntegerInputState = { value: string, cursor?: number }
-type IntegerInputValue = InputValue<'Integer', string>
+type IntegerInputValue = { type: 'Integer', value: string }
 type InputValues = { answer: IntegerInputValue }
 type DomainValues = { answer: number }
 

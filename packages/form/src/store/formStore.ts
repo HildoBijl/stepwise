@@ -1,6 +1,4 @@
-import type { InputValue } from '@step-wise/input-interpretation'
-
-import type { AnyFormFieldDefinition, FormFieldId, FormSectionId } from '../fields/index.ts'
+import type { AnyFormFieldDefinition, FormFieldId, FormInputValue, FormSectionId } from '../fields/index.ts'
 import { createFieldRegistry } from '../fields/index.ts'
 import type { FieldInputUpdate, FormInputValues, InitialInputUpdatePolicy, InputStateUpdater } from '../input/index.ts'
 import { createInputManager } from '../input/index.ts'
@@ -98,7 +96,7 @@ export function createFormStore<
 
 	// Set the input state or value of a specific field, or set/patch/reset the input values of the form, while managing validation and emitting state changes as necessary.
 	const setFieldInputState = (fieldId: FormFieldId, update: InputStateUpdater): void => applyInputUpdate(inputManager.setFieldInputState(fieldId, update))
-	const setFieldInputValue = (fieldId: FormFieldId, inputValue: InputValue): void => applyInputUpdate(inputManager.setFieldInputValue(fieldId, inputValue))
+	const setFieldInputValue = (fieldId: FormFieldId, inputValue: FormInputValue): void => applyInputUpdate(inputManager.setFieldInputValue(fieldId, inputValue))
 	const setInputValues = (inputValues: FormInputValues): void => applyInputUpdates(inputManager.setInputValues(inputValues))
 	const patchInputValues = (inputValues: FormInputValues): void => applyInputUpdates(inputManager.patchInputValues(inputValues))
 	const resetInputValues = (inputValues?: FormInputValues): void => applyInputUpdates(inputManager.resetInputValues(inputValues))

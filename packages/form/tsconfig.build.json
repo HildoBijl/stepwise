@@ -11,7 +11,6 @@
 	},
 	"references": [
 		{ "path": "../js-utils/tsconfig.build.json" },
-		{ "path": "../input-interpretation/tsconfig.build.json" },
 		{ "path": "../react-utils/tsconfig.build.json" }
 	],
 	"include": ["src/**/*.ts", "src/**/*.tsx"]

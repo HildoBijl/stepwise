@@ -1,6 +1,4 @@
-import type { InputValue } from '@step-wise/input-interpretation'
-
-import type { FormFieldDefinition, FormFieldId, FormSectionId } from '../fields/index.ts'
+import type { FormFieldDefinition, FormFieldId, FormInputValue, FormSectionId } from '../fields/index.ts'
 import type { FormInputStates, FormInputValues, InitialInputUpdatePolicy, InputStateUpdater } from '../input/index.ts'
 import type { FieldValidationState, FormDomainValues, FormValidationResult, InterpretInput } from '../validation/index.ts'
 import type { FormSubmissionManagerOptions, FormSubmissionResult } from '../submission/index.ts'
@@ -35,7 +33,7 @@ export type FormStore<
 	TDomainValues extends FormDomainValues = FormDomainValues,
 	TResult = void,
 > = {
-	registerField: <TInputState, TInputValue extends InputValue, TDomainValue = unknown>(
+	registerField: <TInputState, TInputValue extends FormInputValue, TDomainValue = unknown>(
 		fieldId: FormFieldId,
 		definition: FormFieldDefinition<TInputState, TInputValue, TDomainValue, TInputValues, TDomainValues>,
 		sectionId?: FormSectionId,
@@ -43,7 +41,7 @@ export type FormStore<
 	getSnapshot: () => FormStoreSnapshot
 	subscribe: (listener: () => void) => () => void
 	setFieldInputState: (fieldId: FormFieldId, update: InputStateUpdater) => void
-	setFieldInputValue: (fieldId: FormFieldId, inputValue: InputValue) => void
+	setFieldInputValue: (fieldId: FormFieldId, inputValue: FormInputValue) => void
 	setInputValues: (inputValues: FormInputValues) => void
 	patchInputValues: (inputValues: FormInputValues) => void
 	resetInputValues: (inputValues?: FormInputValues) => void

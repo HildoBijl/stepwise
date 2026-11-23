@@ -1,8 +1,6 @@
 import type { ReactNode } from 'react'
 
-import type { InputValue } from '@step-wise/input-interpretation'
-
-import type { FormFieldId, FormFieldRegistry, FormSectionId } from '../fields/index.ts'
+import type { FormFieldId, FormSectionId, FormInputValue, FormFieldRegistry } from '../fields/index.ts'
 import type { FormInputManager, FormInputValues } from '../input/index.ts'
 
 /*
@@ -16,7 +14,7 @@ export type InterpretInput<
 	TDomainValues extends FormDomainValues = FormDomainValues,
 > = (inputValues: TInputValues) => TDomainValues
 
-export type FieldValidationState<TInputValue extends InputValue = InputValue> =
+export type FieldValidationState<TInputValue extends FormInputValue = FormInputValue> =
 	| { status: 'unvalidated' }
 	| { status: 'validating', inputValue: TInputValue }
 	| { status: 'valid', inputValue: TInputValue, report?: unknown }

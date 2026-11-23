@@ -42,7 +42,7 @@ describe('input manager', () => {
 		expect(cursorUpdate).toEqual({ fieldId: 'answer', inputStateChanged: true, inputValueChanged: false })
 		expect(input.getFieldInputValue('answer')).toBe(previousInputValue)
 
-		const valueUpdate = input.setFieldInputState('answer', state => ({ ...(state as TestInputState), value: 'changed' }))
+		const valueUpdate = input.setFieldInputState('answer', (state: unknown) => ({ ...(state as TestInputState), value: 'changed' }))
 		expect(valueUpdate.inputValueChanged).toBe(true)
 		expect(input.getFieldInputValue('answer')).toEqual({ type: 'Test', value: 'changed' })
 	})

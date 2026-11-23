@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react'
 
-import type { InputValue } from '@step-wise/input-interpretation'
-
-import type { FormFieldDefinition, FormFieldId, FormSectionId } from '../fields/index.ts'
+import type { FormFieldDefinition, FormFieldId, FormInputValue, FormSectionId } from '../fields/index.ts'
 import type { FormInputValues } from '../input/index.ts'
 import type { FieldValidationState, FormDomainValues } from '../validation/index.ts'
 
@@ -11,7 +9,7 @@ import { useFormSnapshot } from './useFormSnapshot.ts'
 
 export type FieldInputStateUpdater<TInputState> = TInputState | ((current: TInputState) => TInputState)
 
-export type FormFieldController<TInputState, TInputValue extends InputValue> = {
+export type FormFieldController<TInputState, TInputValue extends FormInputValue> = {
 	inputState: TInputState
 	inputValue: TInputValue
 	validationState: FieldValidationState<TInputValue>
@@ -27,7 +25,7 @@ export type UseFormFieldOptions = {
 // Hook to access a form field's state and operations.
 export function useFormField<
 	TInputState,
-	TInputValue extends InputValue,
+	TInputValue extends FormInputValue,
 	TDomainValue = unknown,
 	TInputValues extends FormInputValues = FormInputValues,
 	TDomainValues extends FormDomainValues = FormDomainValues,

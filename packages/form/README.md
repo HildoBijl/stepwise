@@ -22,7 +22,7 @@ InputState <--hydrateInput---- InputValue
 ```
 
 - `InputState` contains everything needed by an editor, such as text, cursor position, and selection.
-- `InputValue` is the normalized representation that can be stored or submitted.
+- `InputValue` is the normalized plain-data representation that can be stored or submitted. It may be a primitive, array, or plain object composed recursively from those values.
 - `DomainValue` is the value used by application logic, such as a number, expression, or quantity.
 
 Validation is associated with normalized InputValues. Editor-only changes therefore preserve cached validation when normalization produces an equal InputValue.
@@ -33,11 +33,9 @@ Validation is associated with normalized InputValues. Editor-only changes theref
 A field definition provides its default InputValue and the conversions between InputState and InputValue. It may customize InputValue equality and DomainValue validation.
 
 ```ts
-import type { InputValue } from '@step-wise/input-interpretation'
-
 import type { FormFieldDefinition } from '@step-wise/form'
 
-type IntegerInputValue = InputValue<'Integer', string>
+type IntegerInputValue = { type: 'Integer', value: string }
 type IntegerInputState = {
 	text: string
 	cursor: number
@@ -231,6 +229,6 @@ It intentionally does not own visual input components, focus traversal, virtual 
 
 ## Related packages
 
-- `@step-wise/input-interpretation` defines serializable InputValues and their adapter-driven conversion to DomainValues.
+- `@step-wise/input-interpretation` optionally provides Step-Wise's `{ type, value }` InputValue convention and adapter-driven conversion to DomainValues. Its values structurally satisfy this package's plain-data contract.
 - `@step-wise/react-utils` provides general-purpose React hooks unrelated to form semantics.
 - Domain-specific input packages can build visual field components and keyboards on top of this package.

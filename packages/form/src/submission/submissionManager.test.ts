@@ -1,11 +1,10 @@
-import type { InputValue } from '@step-wise/input-interpretation'
 import { describe, expect, it, vi } from 'vitest'
 
 import type { FormValidationResult } from '../validation/index.ts'
 
 import { createSubmissionManager } from './submissionManager.ts'
 
-type TestInputValue = InputValue<'Test', string>
+type TestInputValue = { type: 'Test', value: string }
 type InputValues = { answer: TestInputValue }
 type DomainValues = { answer: number }
 
