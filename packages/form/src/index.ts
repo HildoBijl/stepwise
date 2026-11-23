@@ -1,15 +1,20 @@
 export type {
-	FieldValidationState,
-	FormDomainValues,
 	FormSubmission,
 	FormSubmissionResult,
 	FormSubmitHandler,
+} from './types.ts'
+
+export type {
+	FieldValidationState,
+	FormDomainValues,
 	FormValidationReports,
+	FormValidationManager,
+	FormValidationManagerOptions,
 	FormValidationResult,
 	InterpretInput,
 	InvalidFormValidationResult,
 	ValidFormValidationResult,
-} from './types.ts'
+} from './validation/index.ts'
 
 export type {
 	AreInputValuesEqual,
