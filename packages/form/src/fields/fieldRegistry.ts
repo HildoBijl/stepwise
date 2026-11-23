@@ -41,6 +41,13 @@ export function createFieldRegistry(): FormFieldRegistry {
 		return field ? createFieldSnapshot(field) : undefined
 	}
 
+	// Retrieve a field and reject IDs that are unknown to the registry.
+	const requireField: FormFieldRegistry['requireField'] = fieldId => {
+		const field = getField(fieldId)
+		if (!field) throw new Error(`Cannot find form field "${fieldId}": it is not registered.`)
+		return field
+	}
+
 	// Get a list of field IDs, optionally including inactive fields (those with zero registration count).
 	const getFieldIds: FormFieldRegistry['getFieldIds'] = ({ includeInactive = false } = {}) => {
 		return [...fields.values()].filter(field => includeInactive || field.registrationCount > 0).map(field => field.fieldId)
@@ -52,7 +59,7 @@ export function createFieldRegistry(): FormFieldRegistry {
 	}
 
 	// Return the registry interface with the defined methods.
-	return { registerField, getField, getFieldIds, getSectionFieldIds }
+	return { registerField, getField, requireField, getFieldIds, getSectionFieldIds }
 }
 
 // Validate that a field ID is a non-empty string.
@@ -62,7 +69,7 @@ function assertValidFieldId(fieldId: FormFieldId): void {
 
 // Check if two field definitions are compatible (i.e., they have the same properties and values).
 function areFieldDefinitionsCompatible(first: AnyFormFieldDefinition, second: AnyFormFieldDefinition): boolean {
-	return deepEqual(first.initialInputValue, second.initialInputValue)
+	return deepEqual(first.defaultInputValue, second.defaultInputValue)
 		&& first.normalizeInput === second.normalizeInput
 		&& first.hydrateInput === second.hydrateInput
 		&& first.areInputValuesEqual === second.areInputValuesEqual

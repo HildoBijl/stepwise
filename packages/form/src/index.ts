@@ -1,14 +1,11 @@
 export type {
 	FieldValidationState,
 	FormDomainValues,
-	FormInputStates,
-	FormInputValues,
 	FormSubmission,
 	FormSubmissionResult,
 	FormSubmitHandler,
 	FormValidationReports,
 	FormValidationResult,
-	InitialInputUpdatePolicy,
 	InterpretInput,
 	InvalidFormValidationResult,
 	ValidFormValidationResult,
@@ -25,3 +22,14 @@ export type {
 	HydrateInput,
 	NormalizeInput,
 } from './fields/index.ts'
+
+export type {
+	FieldInputSnapshot,
+	FieldInputUpdate,
+	FormInputManager,
+	FormInputManagerOptions,
+	FormInputStates,
+	FormInputValues,
+	InitialInputUpdatePolicy,
+	InputStateUpdater,
+} from './input/index.ts'

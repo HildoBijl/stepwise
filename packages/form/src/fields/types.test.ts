@@ -11,7 +11,7 @@ type DomainValues = { answer: number }
 describe('form field contracts', () => {
 	it('connects a field InputState, InputValue and DomainValue', () => {
 		const field = {
-			initialInputValue: { type: 'Integer', value: '' },
+			defaultInputValue: { type: 'Integer', value: '' },
 			normalizeInput: state => ({ type: 'Integer', value: state.value }),
 			hydrateInput: value => ({ value: value.value }),
 			validateDomainValue: ({ domainValue }) => ({ valid: domainValue >= 0 }),

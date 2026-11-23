@@ -1,17 +1,16 @@
 import type { ReactNode } from 'react'
 
 import type { Awaitable } from '@step-wise/js-utils'
-import type { InputValue, InputValueMap } from '@step-wise/input-interpretation'
+import type { InputValue } from '@step-wise/input-interpretation'
 
 import type { FormFieldId } from './fields/index.ts'
+import type { FormInputValues } from './input/index.ts'
 
 /*
  * Form values.
  */
 
 // Form data types.
-export type FormInputStates = Record<FormFieldId, unknown>
-export type FormInputValues = InputValueMap
 export type FormDomainValues = Record<FormFieldId, unknown>
 
 // Form validation.
@@ -82,9 +81,3 @@ export type FormSubmissionResult<
 	| { submitted: false, reason: 'already-submitting' }
 	| { submitted: false, reason: 'invalid', validation: InvalidFormValidationResult<TInputValues, TDomainValues> }
 	| { submitted: true, submission: FormSubmission<TInputValues, TDomainValues>, result: TResult }
-
-/*
- * Configuration.
- */
-
-export type InitialInputUpdatePolicy = 'untouched' | 'always' | 'never'

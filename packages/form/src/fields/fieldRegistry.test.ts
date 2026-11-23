@@ -11,7 +11,7 @@ const hydrateInput = (value: TestInputValue): TestInputState => ({ value: value.
 
 function createDefinition(options: Partial<FormFieldDefinition<TestInputState, TestInputValue>> = {}): FormFieldDefinition<TestInputState, TestInputValue> {
 	return {
-		initialInputValue: { type: 'Test', value: '' },
+		defaultInputValue: { type: 'Test', value: '' },
 		normalizeInput,
 		hydrateInput,
 		...options,
@@ -28,6 +28,14 @@ describe('field registry', () => {
 
 		unregister()
 		expect(registry.getField('answer')).toBeUndefined()
+	})
+
+	it('requires registered fields', () => {
+		const registry = createFieldRegistry()
+		registry.registerField('answer', createDefinition())
+
+		expect(registry.requireField('answer')).toMatchObject({ fieldId: 'answer' })
+		expect(() => registry.requireField('missing')).toThrow('is not registered')
 	})
 
 	it('tracks multiple registrations of the same field and section', () => {

@@ -58,7 +58,7 @@ export type FormFieldDefinition<
 	TInputValues extends Record<string, InputValue> = Record<string, InputValue>,
 	TDomainValues extends Record<string, unknown> = Record<string, unknown>,
 > = {
-	initialInputValue: TInputValue
+	defaultInputValue: TInputValue
 	normalizeInput: NormalizeInput<TInputState, TInputValue>
 	hydrateInput: HydrateInput<TInputState, TInputValue>
 	areInputValuesEqual?: AreInputValuesEqual<TInputValue>
@@ -68,7 +68,7 @@ export type FormFieldDefinition<
 }
 
 export type AnyFormFieldDefinition = {
-	initialInputValue: InputValue
+	defaultInputValue: InputValue
 	normalizeInput: (inputState: never) => InputValue
 	hydrateInput: (inputValue: never) => unknown
 	areInputValuesEqual?: (first: never, second: never) => boolean
@@ -95,6 +95,7 @@ export type FieldRegistryOptions = {
 export type FormFieldRegistry = {
 	registerField: (fieldId: FormFieldId, definition: AnyFormFieldDefinition, sectionId?: FormSectionId) => () => void
 	getField: (fieldId: FormFieldId) => RegisteredFormField | undefined
+	requireField: (fieldId: FormFieldId) => RegisteredFormField
 	getFieldIds: (options?: FieldRegistryOptions) => FormFieldId[]
 	getSectionFieldIds: (sectionId: FormSectionId) => FormFieldId[]
 }
