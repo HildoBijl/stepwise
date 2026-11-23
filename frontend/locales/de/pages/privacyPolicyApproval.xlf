@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en" trgLang="de">
+	<file id="catalog">
+		<group id="firstTime">
+			<unit id="title">
+				<segment>
+					<source>Privacy Policy</source>
+					<target swi18n:sourceContentFingerprint="4f340d2c3fe3d08e" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Datenschutzerklärung</target>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>To use Step-Wise, you must approve of the <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Privacy Policy</pc>. In short:</source>
+					<target swi18n:sourceContentFingerprint="c773474c919d8b20" swi18n:sourceStructureFingerprint="be2367f53b7c141b">Um Step-Wise nutzen zu können, musst du der <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Datenschutzerklärung</pc> zustimmen. In Kürze:</target>
+				</segment>
+			</unit>
+			<unit id="list">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c2" type="ui" subType="swi18n:item" swi18n:slot="children">We use cookies only for sign-in and site settings purposes. No tracking/ads.</pc><pc id="c3" type="ui" subType="swi18n:item" swi18n:slot="children">We won't share personal identifiable data with others unless after specific approval.</pc><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children">You can always remove all your data by deleting your account.</pc></pc></source>
+					<target swi18n:sourceContentFingerprint="4d4e1fec8bba7853" swi18n:sourceStructureFingerprint="b8b468efc32bc889"><pc id="c1" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c2" type="ui" subType="swi18n:item" swi18n:slot="children">Wir verwenden Cookies nur für die Anmeldung und für Website-Einstellungen. Kein Tracking/Werbung.</pc><pc id="c3" type="ui" subType="swi18n:item" swi18n:slot="children">Wir geben keine persönlich identifizierbaren Daten an Dritte weiter, es sei denn, du stimmst ausdrücklich zu.</pc><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children">Du kannst jederzeit alle deine Daten löschen, indem du dein Konto löschst.</pc></pc></target>
+				</segment>
+			</unit>
+		</group>
+		<group id="update">
+			<unit id="title">
+				<segment>
+					<source>Privacy Policy Update</source>
+					<target swi18n:sourceContentFingerprint="0d904abae5097cd9" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Update der Datenschutzerklärung</target>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>Our <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Privacy Policy</pc> has been updated. To continue using Step-Wise, you must approve of this version.</source>
+					<target swi18n:sourceContentFingerprint="64e9caac3f05e13d" swi18n:sourceStructureFingerprint="be2367f53b7c141b">Unsere <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Datenschutzerklärung</pc> wurde aktualisiert. Um Step-Wise weiterhin nutzen zu können, musst du dieser Version zustimmen.</target>
+				</segment>
+			</unit>
+		</group>
+		<group id="buttons">
+			<unit id="reject">
+				<segment>
+					<source>Do not approve: sign out</source>
+					<target swi18n:sourceContentFingerprint="81e5f7715b6f0fae" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Nicht akzeptieren: Abmelden</target>
+				</segment>
+			</unit>
+			<unit id="approve">
+				<segment>
+					<source>Approve: finish signing in</source>
+					<target swi18n:sourceContentFingerprint="836c13f83edf21f6" swi18n:sourceStructureFingerprint="5ecb3f106fbb7f40">Akzeptieren: Anmelden</target>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

@@ -40,7 +40,7 @@
 	},
 	"dependencies": {
 		"@step-wise/browser-utils": "^0.1.1",
-		"@step-wise/js-utils": "^0.1.2",
+		"@step-wise/js-utils": "^0.1.3",
 		"@step-wise/react-utils": "^0.1.2"
 	},
 	"peerDependencies": {

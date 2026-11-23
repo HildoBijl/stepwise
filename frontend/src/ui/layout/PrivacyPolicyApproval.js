@@ -12,6 +12,9 @@ import { linkStyle } from 'ui/theme'
 export function PrivacyPolicyWrapper({ children }) {
 	const user = useUser()
 
+	// The policy itself must remain accessible before it has been accepted.
+	if (window.location.pathname === '/privacy-policy') return children
+
 	// Not signed in? Just show contents.
 	if (!user)
 		return children
@@ -32,7 +35,7 @@ export function ApprovePrivacyPolicy({ firstTime }) {
 	const signOut = () => { window.location.href = signOutAddress }
 	const [acceptLatestPrivacyPolicy] = useAcceptLatestPrivacyPolicy()
 
-	return <TranslationCatalog folder={['pages']} name="privacyPolicy">
+	return <TranslationCatalog folder={['pages']} name="privacyPolicyApproval">
 		<Box sx={{
 			display: 'flex',
 			flexFlow: 'row nowrap',
@@ -87,7 +90,7 @@ export function ApprovePrivacyPolicy({ firstTime }) {
 function FirstTimeContent() {
 	return <TranslationGroup path="firstTime">
 		<h1><Translation id="title">Privacy Policy</Translation></h1>
-		<p style={{ fontSize: '1.3em' }}><Translation id="intro">To use Step-Wise, you must approve of the <a href="/PrivacyPolicy.pdf" target="_blank" rel="noreferrer">Privacy Policy</a>. In short:</Translation></p>
+		<p style={{ fontSize: '1.3em' }}><Translation id="intro">To use Step-Wise, you must approve of the <a href="/privacy-policy" target="_blank" rel="noreferrer">Privacy Policy</a>. In short:</Translation></p>
 		<Translation id="list">
 			<List sx={{ marginTop: '0.2rem', marginBottom: '0.2rem', textAlign: 'left', '& li': { margin: '0.2rem' } }}>
 				<List.Item>We use cookies only for sign-in and site settings purposes. No tracking/ads.</List.Item>
@@ -101,6 +104,6 @@ function FirstTimeContent() {
 function UpdateContent() {
 	return <TranslationGroup path="update">
 		<h1><Translation id="title">Privacy Policy Update</Translation></h1>
-		<p className="intro"><Translation id="intro">Our <a href="/PrivacyPolicy.pdf" target="_blank" rel="noreferrer">Privacy Policy</a> has been updated. To continue using Step-Wise, you must approve of this version.</Translation></p>
+		<p className="intro"><Translation id="intro">Our <a href="/privacy-policy" target="_blank" rel="noreferrer">Privacy Policy</a> has been updated. To continue using Step-Wise, you must approve of this version.</Translation></p>
 	</TranslationGroup>
 }

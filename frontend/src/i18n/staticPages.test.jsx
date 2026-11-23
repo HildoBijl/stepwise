@@ -5,13 +5,14 @@ import { HelmetProvider } from 'react-helmet-async'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 
-import { TranslationCatalog, compareSourceMessages, findCatalogUnit } from '@step-wise/i18n'
+import { I18nProvider, TranslationCatalog, compareSourceMessages, findCatalogUnit } from '@step-wise/i18n'
 
 import { About } from '../ui/pages/explainers/About'
 import { ForStudents } from '../ui/pages/explainers/ForStudents'
 import { ForTeachers } from '../ui/pages/explainers/ForTeachers'
 import { Home } from '../ui/pages/Home/Home'
-import { ApprovePrivacyPolicy } from '../ui/layout/PrivacyPolicy'
+import { PrivacyPolicy } from '../ui/pages/PrivacyPolicy'
+import { ApprovePrivacyPolicy } from '../ui/layout/PrivacyPolicyApproval'
 import { ActiveGroup } from '../ui/pages/groups/ActiveGroup'
 import { GroupCreation } from '../ui/pages/groups/GroupCreation'
 import { JoinGroupConditions } from '../ui/pages/groups/JoinGroupConditions'
@@ -41,6 +42,8 @@ vi.mock('ui/routingTools', () => ({
 		group: ({ code }) => `/groups/${code}`,
 		groups: () => '/groups',
 		home: () => '/',
+		privacyPolicy: () => '/privacy-policy',
+		skill: ({ skillId }) => `/skills/${skillId}`,
 	})
 }))
 
@@ -49,6 +52,7 @@ describe('migrated static page translations', () => {
 		['pages/explainers/about', About],
 		['pages/explainers/forStudents', ForStudents],
 		['pages/explainers/forTeachers', ForTeachers],
+		['pages/privacyPolicy', PrivacyPolicy],
 	])('keeps the authored sources in sync with %s.xlf', async (catalogPath, Page) => {
 		const registrations = []
 		render(<MemoryRouter><LanguageProvider registerSource={registration => registrations.push(registration)}>
@@ -66,9 +70,24 @@ describe('migrated static page translations', () => {
 		}
 	})
 
+	it('renders the public privacy policy', () => {
+		const { getByText } = render(<MemoryRouter><LanguageProvider><PrivacyPolicy /></LanguageProvider></MemoryRouter>)
+		expect(getByText('This is version 1.3 of the Privacy Policy. It was last updated on 2026-11-21.')).toBeDefined()
+		expect(getByText('3. Legal basis')).toBeDefined()
+		expect(getByText(/The information shared with Step-Wise depends on the provider/)).toBeDefined()
+	})
+
+	it.each([
+		['nl', '4. Informatie die we verzamelen'],
+		['de', '4. Von uns erhobene Informationen'],
+	])('renders the public privacy policy in %s', async (locale, expectedHeading) => {
+		const { findByText } = render(<MemoryRouter><I18nProvider locale={locale} sourceLocale="en" loadCatalog={loadCatalog}><PrivacyPolicy /></I18nProvider></MemoryRouter>)
+		expect(await findByText(expectedHeading)).toBeDefined()
+	})
+
 	it.each([
 		['pages/home', Home],
-		['pages/privacyPolicy', ApprovePrivacyPolicy],
+		['pages/privacyPolicyApproval', ApprovePrivacyPolicy],
 	])('keeps the authored sources in sync with %s.xlf', async (catalogPath, Page) => {
 		const registrations = []
 		render(<HelmetProvider><MemoryRouter><LanguageProvider registerSource={registration => registrations.push(registration)}>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
+	<file id="catalog">
+		<group id="firstTime">
+			<unit id="title">
+				<segment>
+					<source>Privacy Policy</source>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>To use Step-Wise, you must approve of the <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Privacy Policy</pc>. In short:</source>
+				</segment>
+			</unit>
+			<unit id="list">
+				<segment>
+					<source><pc id="c1" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c2" type="ui" subType="swi18n:item" swi18n:slot="children">We use cookies only for sign-in and site settings purposes. No tracking/ads.</pc><pc id="c3" type="ui" subType="swi18n:item" swi18n:slot="children">We won't share personal identifiable data with others unless after specific approval.</pc><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children">You can always remove all your data by deleting your account.</pc></pc></source>
+				</segment>
+			</unit>
+		</group>
+		<group id="update">
+			<unit id="title">
+				<segment>
+					<source>Privacy Policy Update</source>
+				</segment>
+			</unit>
+			<unit id="intro">
+				<segment>
+					<source>Our <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Privacy Policy</pc> has been updated. To continue using Step-Wise, you must approve of this version.</source>
+				</segment>
+			</unit>
+		</group>
+		<group id="buttons">
+			<unit id="reject">
+				<segment>
+					<source>Do not approve: sign out</source>
+				</segment>
+			</unit>
+			<unit id="approve">
+				<segment>
+					<source>Approve: finish signing in</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

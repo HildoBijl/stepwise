@@ -1,6 +1,6 @@
 {
 	"name": "@step-wise/drawing",
-	"version": "0.5.2",
+	"version": "0.5.3",
 	"description": "Framework-independent React components for responsive figures, drawings, and plots.",
 	"license": "MIT",
 	"repository": {
@@ -40,7 +40,7 @@
 	},
 	"dependencies": {
 		"@step-wise/geometry": "^0.1.1",
-		"@step-wise/js-utils": "^0.1.2",
+		"@step-wise/js-utils": "^0.1.3",
 		"@step-wise/react-utils": "^0.1.2"
 	},
 	"peerDependencies": {

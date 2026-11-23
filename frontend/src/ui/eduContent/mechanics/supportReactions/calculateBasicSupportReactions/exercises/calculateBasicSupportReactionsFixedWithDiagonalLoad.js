@@ -161,7 +161,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const schematics = <Schematics {...solution} loads={styledLoads} showSupports={showSupports} />
 
 	// Set up either a diagram or an input field with said diagram.
-	const snappers = [...Object.values(points), Line.fromPointAndAngle(points.B, angleRad)]
+	const snappers = [...Object.values(points), Line.fromPointAndAngle(points.B, -angleRad)]
 	return isInputField ?
 		<FBDInput id="loads" view={view} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)} getLoadNames={loads => getNamedLoads(loads, solution)}>{schematics}</FBDInput> :
 		<DrawingFigure view={view}>{schematics}</DrawingFigure>
@@ -187,7 +187,7 @@ function Schematics({ l1, l2, angle, points, loads, externalLoad, loadNameDefini
 		<Group>{render(loads)}</Group>
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 
-		{displayedExternalLoad ? <CornerLabel points={[B.subtract(Vector.fromPolar(defaultGraphicalForceLength / 70, displayedExternalLoad.angle)), B, A]} graphicalSize={32}><M>{angle}^\circ</M></CornerLabel> : null}
+		{displayedExternalLoad ? <CornerLabel points={[B.subtract(Vector.fromPolar(defaultGraphicalForceLength / 70, -displayedExternalLoad.angle)), B, A]} graphicalSize={32}><M>{angle}^\circ</M></CornerLabel> : null}
 
 		<Distance lineSegment={{ start: A, end: B }} graphicalShift={new Vector(0, distanceShift)} />
 		<Element position={A.interpolate(B)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>

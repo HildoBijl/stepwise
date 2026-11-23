@@ -21,6 +21,21 @@ describe('object manipulation', () => {
 		expect(result.changed).toEqual(newValue.changed)
 	})
 
+	it('treats class instances as leaf values', () => {
+		class Value {
+			constructor(readonly amount: number) {}
+		}
+
+		const retainedValue = new Value(1)
+		const oldValue = { retained: retainedValue, replaced: new Value(2) }
+		const replacement = new Value(2)
+		const result = preserveRefs({ retained: retainedValue, replaced: replacement }, oldValue)
+
+		expect(result).not.toBe(oldValue)
+		expect(result.retained).toBe(retainedValue)
+		expect(result.replaced).toBe(replacement)
+	})
+
 	it('picks and omits own keys without mutating input', () => {
 		const input = { a: 1, b: 2, c: undefined }
 		expect(pickKeys(input, ['b', 'missing', 'c'])).toEqual({ b: 2, c: undefined })

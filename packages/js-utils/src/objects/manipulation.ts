@@ -1,5 +1,4 @@
 import { isPlainObject } from './plainnessChecks.ts'
-import { deepEqual } from './comparisons.ts'
 import { fromKeys } from './creation.ts'
 
 // Apply a mapping function to a plain object (maps values) or array (maps elements).
@@ -29,17 +28,23 @@ export function mapValues<T = unknown, U = unknown>(input: readonly T[] | Record
 
 // Try to preserve references from oldValue where possible. If newValue is deeply equal to oldValue, return oldValue (keep reference). If both are arrays or plain objects, recursively attempt to preserve child references. Otherwise return newValue.
 export function preserveRefs<T = unknown>(newValue: T, oldValue: T): T {
-	// If deeply equal, reuse old reference.
-	if (deepEqual(newValue, oldValue)) return oldValue
+	if (Object.is(newValue, oldValue)) return oldValue
 
-	// If both are arrays or both are plain objects, recurse into children.
+	// Reconcile arrays recursively. If every entry retained its old reference, retain the array too.
 	if (Array.isArray(newValue) && Array.isArray(oldValue)) {
 		const newArray = newValue as readonly unknown[]
 		const oldArray = oldValue as readonly unknown[]
-		return mapValues(newArray, (value, index) => preserveRefs(value, oldArray[index])) as unknown as T
+		const result = newArray.map((value, index) => preserveRefs(value, oldArray[index]))
+		return newArray.length === oldArray.length && result.every((value, index) => Object.is(value, oldArray[index])) ? oldValue : result as T
 	}
+
+	// Reconcile plain objects recursively. Class instances and other unsupported objects remain leaf values.
 	if (isPlainObject(newValue) && isPlainObject(oldValue)) {
-		return mapValues(newValue, (value, key) => preserveRefs(value, oldValue[key])) as unknown as T
+		const newObject = newValue as Record<string, unknown>
+		const oldObject = oldValue as Record<string, unknown>
+		const keys = Object.keys(newObject)
+		const result = fromKeys(keys, key => preserveRefs(newObject[key], oldObject[key]))
+		return keys.length === Object.keys(oldObject).length && keys.every(key => Object.prototype.hasOwnProperty.call(oldObject, key) && Object.is(result[key], oldObject[key])) ? oldValue : result as T
 	}
 
 	// Fallback: cannot reconcile deeper; return new value.

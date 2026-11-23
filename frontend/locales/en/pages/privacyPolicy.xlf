@@ -1,46 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:swi18n="https://step-wise.com/ns/i18n" version="2.1" srcLang="en">
 	<file id="catalog">
-		<group id="firstTime">
-			<unit id="title">
-				<segment>
-					<source>Privacy Policy</source>
-				</segment>
-			</unit>
-			<unit id="intro">
-				<segment>
-					<source>To use Step-Wise, you must approve of the <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Privacy Policy</pc>. In short:</source>
-				</segment>
-			</unit>
-			<unit id="list">
-				<segment>
-					<source><pc id="c1" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c2" type="ui" subType="swi18n:item" swi18n:slot="children">We use cookies only for sign-in and site settings purposes. No tracking/ads.</pc><pc id="c3" type="ui" subType="swi18n:item" swi18n:slot="children">We won't share personal identifiable data with others unless after specific approval.</pc><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children">You can always remove all your data by deleting your account.</pc></pc></source>
-				</segment>
-			</unit>
-		</group>
-		<group id="update">
-			<unit id="title">
-				<segment>
-					<source>Privacy Policy Update</source>
-				</segment>
-			</unit>
-			<unit id="intro">
-				<segment>
-					<source>Our <pc id="c1" type="ui" subType="swi18n:a" swi18n:slot="children">Privacy Policy</pc> has been updated. To continue using Step-Wise, you must approve of this version.</source>
-				</segment>
-			</unit>
-		</group>
-		<group id="buttons">
-			<unit id="reject">
-				<segment>
-					<source>Do not approve: sign out</source>
-				</segment>
-			</unit>
-			<unit id="approve">
-				<segment>
-					<source>Approve: finish signing in</source>
-				</segment>
-			</unit>
-		</group>
+		<unit id="intro">
+			<segment>
+				<source>This document outlines the way the Step-Wise app (later referred to as "we", "our" or "us") deals with the data of its users (referred to as "you" or "your") and related privacy matters.</source>
+			</segment>
+		</unit>
+		<unit id="section1">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">1. Version</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">This is version 1.3 of the Privacy Policy. It was last updated on 2026-11-21.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">The English version of this Privacy Policy is authoritative. Translations are provided for convenience. If a translation differs from the English version, the English version prevails.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section2">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">2. Main philosophy</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Our privacy policy is based on two principles:</pc><pc id="c3" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:strong" swi18n:slot="children">Need to know:</pc> you only get access to the specific data you need to accomplish your goals.</pc><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children"><pc id="c7" type="ui" subType="swi18n:strong" swi18n:slot="children">Ask when required:</pc> only when you perform an action that will give others access to your data (like logging in or enrolling in a course) do we ask you for approval. Not before, and not after.</pc></pc></source>
+			</segment>
+		</unit>
+		<unit id="section3">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">3. Legal basis</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We process your personal data on the legal basis of Article 6(1)(b) GDPR — performance of a contract, as the processing is necessary to provide the Step-Wise app. In addition to Article 6(1)(b) GDPR (performance of a contract), certain processing activities rely on additional legal bases:</pc><pc id="c3" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children">Non-essential email notifications (such as reminders and newsletters) are processed on the basis of your consent under Article 6(1)(a), which you may withdraw at any time through your notification settings.</pc><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children">Strictly necessary cookies are used under Article 6(1)(f) GDPR (legitimate interest), as they are required to provide the service.</pc><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children">Research is conducted only with fully anonymized data. As anonymized data is no longer personal data, GDPR does not apply to research use.</pc></pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">You have the right to lodge a complaint with the <pc id="c8" type="ui" subType="swi18n:link" swi18n:slot="children">Data Protection Authority</pc> (Autoriteit Persoonsgegevens) in the Netherlands.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section4">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">4. Information we collect</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">When you do not log in to the website, Step-Wise does not create an account-linked profile or use cookies for analytics, tracking, marketing or advertising. Our web server and hosting infrastructure may nevertheless process limited technical information, such as your IP address, the requested page, the time of the request and browser information. We use this information only to operate and secure the service and to diagnose technical problems.</pc><pc id="c3" type="ui" subType="swi18n:sub-head" swi18n:slot="children">Logging in: third-party identity provider data</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Step-Wise uses third-party identity providers (primarily Google and SURFconext) to authenticate users. These identity providers act as independent data controllers under GDPR and process your data for their own purposes, such as account management, security and fraud prevention. For more information, please consult the <pc id="c5" type="ui" subType="swi18n:link" swi18n:slot="children">Google Privacy Policy</pc> and the <pc id="c6" type="ui" subType="swi18n:link" swi18n:slot="children">SURFconext Privacy Policy</pc>.</pc><pc id="c7" type="ui" subType="swi18n:par" swi18n:slot="children">The information shared with Step-Wise depends on the provider.</pc><pc id="c8" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children">Google shares your verified email address and may share your name and profile information.</pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children">SURFconext shares your identifying code and email address and may share your name, organization, organization role, organization identifier and preferred language.</pc></pc><pc id="c11" type="ui" subType="swi18n:par" swi18n:slot="children">We use this information only to create, identify or update your Step-Wise account and provide the Step-Wise service. Step-Wise does not receive your password or other authentication credentials. We do not use Google sign-in to access Gmail, Google Drive, Google Calendar or other Google services, and we do not sell identity-provider data or disclose it to third parties except as described in this policy.</pc><pc id="c12" type="ui" subType="swi18n:sub-head" swi18n:slot="children">Account information stored by Step-Wise</pc><pc id="c13" type="ui" subType="swi18n:par" swi18n:slot="children">Once an identity provider shares information with us, Step-Wise acts as an independent data controller for the data we receive. Depending on the identity provider and the information available for your account, we store some or all of the following information.</pc><pc id="c14" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c15" type="ui" subType="swi18n:item" swi18n:slot="children">An ID code: to uniquely identify you.</pc><pc id="c16" type="ui" subType="swi18n:item" swi18n:slot="children">Name-related information (first name, last name, etcetera): to properly address you.</pc><pc id="c17" type="ui" subType="swi18n:item" swi18n:slot="children">E-mail address: used to send potential notifications, updates to this privacy policy, etcetera.</pc><pc id="c18" type="ui" subType="swi18n:item" swi18n:slot="children">Organization (which university/school): used to recommend relevant courses.</pc><pc id="c19" type="ui" subType="swi18n:item" swi18n:slot="children">Organization role (student, teacher, etcetera): used to determine who can create new courses.</pc><pc id="c20" type="ui" subType="swi18n:item" swi18n:slot="children">Organization ID (student/employee number): used in case a course teacher needs a data export of the performance of the students in the respective course.</pc><pc id="c21" type="ui" subType="swi18n:item" swi18n:slot="children">Preferred language: to offer content in the right language, when appropriate.</pc></pc><pc id="c22" type="ui" subType="swi18n:sub-head" swi18n:slot="children">Exercise practice data</pc><pc id="c23" type="ui" subType="swi18n:par" swi18n:slot="children">Step-Wise is an online platform that keeps track of which skills students have mastered and which skills they are struggling with. To accomplish this, the following information is tracked.</pc><pc id="c24" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c25" type="ui" subType="swi18n:item" swi18n:slot="children">Exercise data: all exercises that you do and all submissions you make will be remembered.</pc><pc id="c26" type="ui" subType="swi18n:item" swi18n:slot="children">Skill data: estimates will be made about your skill level. These estimates are also stored.</pc></pc><pc id="c27" type="ui" subType="swi18n:sub-head" swi18n:slot="children">Other information</pc><pc id="c28" type="ui" subType="swi18n:par" swi18n:slot="children">The regular operation of the website requires various other trivial information to be recorded. Examples include:</pc><pc id="c29" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c30" type="ui" subType="swi18n:item" swi18n:slot="children">Site settings and preferences.</pc><pc id="c31" type="ui" subType="swi18n:item" swi18n:slot="children">Course enrollments and related data.</pc><pc id="c32" type="ui" subType="swi18n:item" swi18n:slot="children">Approvals when you indicate other users (like teachers) may access your data.</pc><pc id="c33" type="ui" subType="swi18n:item" swi18n:slot="children">Other trivial information related to the regular usage of the Step-Wise app.</pc></pc></source>
+			</segment>
+		</unit>
+		<unit id="section5">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">5. Usage of your information</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We use your information for the regular functioning of the Step-Wise app. That is: your data influences what you see in the app. It also influences potential email notifications you may receive, all subject to your notification preferences.</pc><pc id="c3" type="ui" subType="swi18n:sub-head" swi18n:slot="children">Showing data to other Step-Wise users</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">Your personal data is never shown to other Step-Wise users without your express consent. In various cases, we do ask you for this consent. For example, if you enroll in a course, you are asked if the course teachers may access your progress with the course. If you do not provide consent, you may not be able to access the relevant app functionalities.</pc><pc id="c5" type="ui" subType="swi18n:sub-head" swi18n:slot="children">Using data for research</pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">At Step-Wise we continuously strive to improve education. To do so, we use bulk data from students for research purposes, with the specific goal of understanding better how people learn and how we can improve the learning process. When we do so, we always make all data anonymous before any sharing takes place: no identifiable data will be used. Anonymized research data may at times be shared with trusted research partners. Research results may be published in journals or likewise publication platforms.</pc><pc id="c7" type="ui" subType="swi18n:sub-head" swi18n:slot="children">Exposing data to third parties</pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">We share personal data only with:</pc><pc id="c9" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children">DigitalOcean (our hosting provider and data processor).</pc><pc id="c11" type="ui" subType="swi18n:item" swi18n:slot="children">Third-party identity providers you choose to authenticate with (such as Google and SURFconext), who act as independent controllers.</pc><pc id="c12" type="ui" subType="swi18n:item" swi18n:slot="children">Our email provider, solely for sending service-related communications (if applicable).</pc></pc><pc id="c13" type="ui" subType="swi18n:par" swi18n:slot="children">We will never provide non-anonymized personal data to other third parties for their own purposes without your express consent.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section6">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">6. Storage of your data and possible breaches</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We use DigitalOcean LLC as our hosting provider. DigitalOcean acts as a data processor under the GDPR. DigitalOcean processes personal data solely on our behalf and in accordance with our instructions.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">By using DigitalOcean's services under their Customer Terms of Service, we rely on DigitalOcean's publicly available <pc id="c4" type="ui" subType="swi18n:link" swi18n:slot="children">Data Processing Agreement (DPA)</pc>. A copy of this DPA is available at their website.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">If a personal data breach occurs, we assess the resulting risk to the rights and freedoms of affected people. Unless the breach is unlikely to result in such a risk, we notify the relevant supervisory authority without undue delay and, where feasible, within 72 hours after becoming aware of the breach. If the breach is likely to result in a high risk, we also notify the affected people without undue delay. We document all personal data breaches, including those that do not need to be reported.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section7">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">7. International data transfers</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Step-Wise's primary application data is stored on DigitalOcean servers in Amsterdam. Some service providers, including Google, DigitalOcean and their subprocessors, may process or access personal data outside the European Economic Area (EEA).</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Where personal data is transferred outside the EEA, we ensure that the transfer complies with GDPR Chapter V. Depending on the recipient and destination, this may rely on a European Commission adequacy decision, including the EU-US Data Privacy Framework for participating organizations, or on appropriate safeguards such as the European Commission's Standard Contractual Clauses (SCCs).</pc></source>
+			</segment>
+		</unit>
+		<unit id="section8">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">8. Children under 13</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The Step-Wise app is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you are under 13, please do not provide any information to the Step-Wise app.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section9">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">9. Usage of cookies</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Step-Wise makes minimal use of cookies. We use only strictly necessary cookies that are required for the functioning of the Step-Wise app, such as authentication cookies and preference cookies.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">These cookies are essential to provide the service and cannot be disabled as they are necessary for:</pc><pc id="c4" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children">Logging in.</pc><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children">Maintaining your session.</pc><pc id="c7" type="ui" subType="swi18n:item" swi18n:slot="children">Storing technical preferences.</pc></pc><pc id="c8" type="ui" subType="swi18n:par" swi18n:slot="children">Because these cookies are strictly necessary, GDPR and the ePrivacy Directive do not require us to ask for your consent. We do not use cookies for analytics, tracking, marketing, or advertising.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section10">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">10. Removal of data</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">If you do not wish to use Step-Wise anymore, you are able to remove all data. To do so, delete your account through the Step-Wise app. This will erase all personal data that we have stored of you from our servers. Note that this action is irreversible: the data cannot be retrieved afterwards.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">Step-Wise uses your actions related to exercises, courses and similar to build a model of your skill level on various skills. Because your exercise history and skill model are technically interconnected, it is not feasible to remove specific parts of these data sets without impairing the functioning of the service. If you wish to exercise your right to erasure, you may delete your account, which removes all personal data.</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">As long as you do not delete your account, your data will continue to be stored. This includes account information (name, email, etcetera), exercise and skill data (including the above-mentioned skill model), and functional data like course subscriptions and given permissions. If no activity has been taken for more than 36 months, your account will be considered inactive and the account including all personal data may be deleted without prior notification.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">Support emails and direct communications with our support team are retained for up to 24 months for the purpose of resolving your inquiry and improving service quality. After this period they are deleted, unless we are legally required to keep them longer.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section11">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">11. Loss of data</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Step-Wise performs regular back-ups of all relevant data. In case of a data loss, attempts will be made to restore this data from back-ups. If data is nevertheless permanently lost or otherwise not realistically retrievable, then Step-Wise or any associated organizations are not liable for any resulting damages.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section12">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">12. Communication</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We will use your email address to send you crucial Step-Wise-related information, like updates to the privacy policy, changes of ownership of Step-Wise, and other matters directly affecting the functioning of the Step-Wise app. It is not possible to opt out of these crucial emails, except for the complete removal of your Step-Wise account.</pc><pc id="c3" type="ui" subType="swi18n:par" swi18n:slot="children">We may use your email address to send you non-crucial notifications related to the website. Think of reminders to practice, notifications of approaching course deadlines, newsletters and similar. It is always possible to opt out of non-crucial emails through the notification settings.</pc><pc id="c4" type="ui" subType="swi18n:par" swi18n:slot="children">We will never use your email address for non-crucial messages that you cannot opt out of. Nor will we share your email address with third parties without your express consent.</pc><pc id="c5" type="ui" subType="swi18n:par" swi18n:slot="children">If you email us with a problem/question, from the email address that is connected to your account, our support officers may check your data to help you resolve your problem/question. This data may be used in a reply to you, but is otherwise not recorded.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section13">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">13. Business transfers</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">In the off-chance that Step-Wise buys, merges or partners with or is sold to other companies or businesses, all Step-Wise functioning and data may be passed along with the transaction. When this happens, you will be notified of this through the email address that is known to us, at least two weeks prior to said transaction. If you do not approve of this transaction, you will be able to delete your account and remove all your data.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section14">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">14. Future changes to this privacy policy</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">We may update this Privacy Policy as necessary to reflect changes we make and to satisfy legal requirements. In case of significant changes relating to you, we will provide you with appropriate notice.</pc><pc id="c3" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children">For changes relating only to future interaction with the Step-Wise app, we will ask you, when you log in again, whether you approve of the new Privacy Policy.</pc><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children">If the changes also encompass passive users, you will be notified through the email address you provided, at least two weeks prior to the effective date of the revised Privacy Policy.</pc></pc><pc id="c6" type="ui" subType="swi18n:par" swi18n:slot="children">Changes take immediate effect: users have to approve the new version of the Privacy Policy to continue using the app. If you do not agree with the revised Privacy Policy, you will be able to delete your account, removing all your data from the Step-Wise servers.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section15">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">15. Data controller</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">The data controller for Step-Wise is Hildo Bijl, residing at Geldropseweg 198-02, 5643 TP Eindhoven, The Netherlands. The data controller can be contacted through <pc id="c3" type="ui" subType="swi18n:a" swi18n:slot="children"><ph id="x1" type="ui" subType="xlf:var" swi18n:name="infoEmail"/></pc>.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section16">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">16. User rights</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">Compliant to GDPR, users have the right to:</pc><pc id="c3" type="ui" subType="swi18n:list" swi18n:slot="children"><pc id="c4" type="ui" subType="swi18n:item" swi18n:slot="children">Access their data.</pc><pc id="c5" type="ui" subType="swi18n:item" swi18n:slot="children">Rectify their data.</pc><pc id="c6" type="ui" subType="swi18n:item" swi18n:slot="children">Erase their data ("right to be forgotten").</pc><pc id="c7" type="ui" subType="swi18n:item" swi18n:slot="children">Restrict processing.</pc><pc id="c8" type="ui" subType="swi18n:item" swi18n:slot="children">Object to processing.</pc><pc id="c9" type="ui" subType="swi18n:item" swi18n:slot="children">Data portability.</pc><pc id="c10" type="ui" subType="swi18n:item" swi18n:slot="children">Withdraw consent.</pc><pc id="c11" type="ui" subType="swi18n:item" swi18n:slot="children">Lodge a complaint with a supervisory authority.</pc></pc><pc id="c12" type="ui" subType="swi18n:par" swi18n:slot="children">Most of the above items can be directly done through the Step-Wise app. For any other legal requests, contact the data controller.</pc></source>
+			</segment>
+		</unit>
+		<unit id="section17">
+			<segment>
+				<source><pc id="c1" type="ui" subType="swi18n:head" swi18n:slot="children">17. Dispute resolution</pc><pc id="c2" type="ui" subType="swi18n:par" swi18n:slot="children">If you have an unresolved privacy or data use concern that we have not addressed satisfactorily, contact the data controller mentioned above. We will investigate and attempt to resolve complaints and disputes regarding the use and disclosure of personal information in accordance with this privacy policy and GDPR regulations.</pc></source>
+			</segment>
+		</unit>
 	</file>
 </xliff>

@@ -97,6 +97,11 @@
 						<source>About Step-Wise</source>
 					</segment>
 				</unit>
+				<unit id="privacyPolicy">
+					<segment>
+						<source>Privacy Policy</source>
+					</segment>
+				</unit>
 			</group>
 		</group>
 		<group id="exampleSkills">

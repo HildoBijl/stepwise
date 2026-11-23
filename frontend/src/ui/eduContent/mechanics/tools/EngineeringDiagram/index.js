@@ -33,9 +33,8 @@ export const CornerLabel = forwardRef(function CornerLabel({ graphicalPoints, gr
 		positions = graphicalPoints?.map(point => ({ pixelPosition: coordinateSystem.renderToPixel(point) }))
 	} else {
 		positions = points.map((point, index) => {
-			const graphicalPoint = coordinateSystem.drawingToPixel(point)
 			const offset = isVectorLike(graphicalPoints) ? graphicalPoints : graphicalPoints?.[index]
-			return { pixelPosition: coordinateSystem.renderToPixel(offset === undefined ? graphicalPoint : graphicalPoint.add(offset)) }
+			return offset === undefined ? point : { position: point, pixelOffset: coordinateSystem.renderVectorToPixel(offset) }
 		})
 	}
 	return <DrawingCornerLabel {...props} positions={positions} size={size ?? { pixelDistance: graphicalSize ?? 30 }} ref={ref} />

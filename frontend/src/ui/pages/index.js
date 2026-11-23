@@ -1,5 +1,6 @@
 export * from './Home'
 export * from './explainers'
+export * from './PrivacyPolicy'
 export * from './Settings'
 export * from './groups'
 export * from './SkillOverview'

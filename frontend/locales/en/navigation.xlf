@@ -17,6 +17,11 @@
 					<source>About Step-Wise</source>
 				</segment>
 			</unit>
+			<unit id="privacyPolicy">
+				<segment>
+					<source>Privacy Policy</source>
+				</segment>
+			</unit>
 			<unit id="settings">
 				<segment>
 					<source>Settings</source>
@@ -137,6 +142,11 @@
 			<unit id="about">
 				<segment>
 					<source>About Step-Wise</source>
+				</segment>
+			</unit>
+			<unit id="privacyPolicy">
+				<segment>
+					<source>Privacy Policy</source>
 				</segment>
 			</unit>
 			<unit id="inspect">
