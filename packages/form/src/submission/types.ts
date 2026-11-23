@@ -1,10 +1,10 @@
 import type { Awaitable } from '@step-wise/js-utils'
 
-import type { FormInputValues } from './input/index.ts'
-import type { FormDomainValues, FormValidationReports, InvalidFormValidationResult } from './validation/index.ts'
+import type { FormInputValues } from '../input/index.ts'
+import type { FormDomainValues, FormValidationReports, FormValidationResult, InvalidFormValidationResult } from '../validation/index.ts'
 
 /*
- * Submission.
+ * Form submission data.
  */
 
 export type FormSubmission<
@@ -15,6 +15,10 @@ export type FormSubmission<
 	domainValues: TDomainValues
 	validationReports: FormValidationReports
 }
+
+/*
+ * Form submission handler and result types.
+ */
 
 export type FormSubmitHandler<
 	TInputValues extends FormInputValues = FormInputValues,
@@ -30,3 +34,25 @@ export type FormSubmissionResult<
 	| { submitted: false, reason: 'already-submitting' }
 	| { submitted: false, reason: 'invalid', validation: InvalidFormValidationResult<TInputValues, TDomainValues> }
 	| { submitted: true, submission: FormSubmission<TInputValues, TDomainValues>, result: TResult }
+
+/*
+ * Form submission manager.
+ */
+
+export type FormSubmissionManagerOptions<
+	TInputValues extends FormInputValues = FormInputValues,
+	TDomainValues extends FormDomainValues = FormDomainValues,
+	TResult = void,
+> = {
+	validate: () => Awaitable<FormValidationResult<TInputValues, TDomainValues>>
+	onSubmit: FormSubmitHandler<TInputValues, TDomainValues, TResult>
+}
+
+export type FormSubmissionManager<
+	TInputValues extends FormInputValues = FormInputValues,
+	TDomainValues extends FormDomainValues = FormDomainValues,
+	TResult = void,
+> = {
+	getIsSubmitting: () => boolean
+	submit: () => Promise<FormSubmissionResult<TInputValues, TDomainValues, TResult>>
+}

@@ -1,8 +1,10 @@
 export type {
 	FormSubmission,
+	FormSubmissionManager,
+	FormSubmissionManagerOptions,
 	FormSubmissionResult,
 	FormSubmitHandler,
-} from './types.ts'
+} from './submission/index.ts'
 
 export type {
 	FieldValidationState,
