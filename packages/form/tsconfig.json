@@ -1,0 +1,7 @@
+{
+	"extends": "../../tsconfig.test.vitest.json",
+	"compilerOptions": {
+		"jsx": "react-jsx"
+	},
+	"include": ["src/**/*.ts", "src/**/*.tsx"]
+}

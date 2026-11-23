@@ -15,6 +15,7 @@
 		{ "path": "./packages/exercise-grading/tsconfig.build.json" },
 		{ "path": "./packages/exercise-selection/tsconfig.build.json" },
 		{ "path": "./packages/exercises/tsconfig.build.json" },
+		{ "path": "./packages/form/tsconfig.build.json" },
 		{ "path": "./packages/geometry/tsconfig.build.json" },
 		{ "path": "./packages/input-exercises/tsconfig.build.json" },
 		{ "path": "./packages/input-interpretation/tsconfig.build.json" },

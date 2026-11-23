@@ -25,19 +25,12 @@ Pass an adapter registry as the second argument:
 
 ```ts
 import { isString } from '@step-wise/js-utils'
-import {
-	type InputValue,
-	type InputValueAdapter,
-	isInputValueOfType,
-	interpretInputValue,
-	toInputValue,
-} from '@step-wise/input-interpretation'
+import { type InputValue, type InputValueAdapter, isInputValueOfType, interpretInputValue, toInputValue } from '@step-wise/input-interpretation'
 
 type LabelInputValue = InputValue<'Label', string>
 
 const labelAdapter = {
-	isInputValue: (value: unknown): value is LabelInputValue =>
-		isInputValueOfType(value, 'Label', isString),
+	isInputValue: (value: unknown): value is LabelInputValue => isInputValueOfType(value, 'Label', isString),
 	isDomainValue: isString,
 	interpret: inputValue => inputValue.value.trim(),
 	toInputValue: label => ({ type: 'Label', value: label }),

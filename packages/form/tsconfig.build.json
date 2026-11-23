@@ -1,0 +1,17 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"composite": true,
+		"outDir": "dist",
+		"declaration": true,
+		"declarationMap": true,
+		"rootDir": "src",
+		"tsBuildInfoFile": "tsconfig.tsbuildinfo",
+		"jsx": "react-jsx"
+	},
+	"references": [
+		{ "path": "../js-utils/tsconfig.build.json" },
+		{ "path": "../input-interpretation/tsconfig.build.json" }
+	],
+	"include": ["src/**/*.ts", "src/**/*.tsx"]
+}
