@@ -57,76 +57,95 @@ export const integerFieldDefinition = {
 `defaultInputValue` is the field-level fallback. Form-specific `initialInputValues`, such as previously stored answers, override it.
 
 
-## Creating a form store
+## React usage
 
-The form store is the recommended orchestration API. It coordinates field registration, input updates, validation invalidation, snapshots, and submission.
+`Form` is the recommended entry point. It creates a stable store, provides it to descendants, renders a native form element, prevents navigation on submission, validates the active fields, and invokes `onSubmit` only for valid input.
 
-```ts
-import type { InputValue } from '@step-wise/input-interpretation'
+```tsx
+import { Form, useFormField } from '@step-wise/form'
 
-import { createFormStore } from '@step-wise/form'
-
-type IntegerInputValue = InputValue<'Integer', string>
 type InputValues = { answer: IntegerInputValue }
 type DomainValues = { answer: number }
 
-const store = createFormStore<InputValues, DomainValues>({
-	initialInputValues: {
-		answer: { type: 'Integer', value: '2' },
-	},
-	interpretInput: inputValues => ({
-		answer: Number(inputValues.answer.value),
-	}),
-	onSubmit: submission => {
-		console.log(submission.inputValues)
-		console.log(submission.domainValues)
-	},
+const interpretFormInput = (inputValues: InputValues): DomainValues => ({
+	answer: Number(inputValues.answer.value),
 })
-```
-
-Keep a store instance stable for the lifetime of one form. In a component, create it through a lazy state initializer or another stable owner rather than recreating it during every render.
-
-
-## React usage
-
-Provide the store through `FormProvider`. `useFormField` registers a field for the lifetime of its component and returns its typed state and operations.
-
-```tsx
-import { useState } from 'react'
-
-import { FormProvider, createFormStore, useFormField } from '@step-wise/form'
 
 function AnswerField() {
 	const field = useFormField('answer', integerFieldDefinition)
 
-	return <>
-		<input
-			value={field.inputState.text}
-			onChange={event => field.setInputState(current => ({ ...current, text: event.target.value }))}
-			onBlur={() => void field.validate()}
-		/>
-		{field.validationState.status === 'invalid' && field.validationState.feedback}
-	</>
+	return (
+		<>
+			<input
+				value={field.inputState.text}
+				onChange={event => field.setInputState(current => ({ ...current, text: event.target.value }))}
+				onBlur={() => void field.validate()}
+			/>
+			{field.validationState.status === 'invalid' && field.validationState.feedback}
+		</>
+	)
 }
 
 export function ExampleForm() {
-	const [store] = useState(() => createFormStore({
-		interpretInput: inputValues => ({ answer: Number(inputValues.answer.value) }),
-		onSubmit: submission => console.log(submission),
-	}))
-
-	return <FormProvider store={store}>
-		<AnswerField />
-		<button type="button" onClick={() => void store.submit()}>Submit</button>
-	</FormProvider>
+	return (
+		<Form<InputValues, DomainValues>
+			initialInputValues={{ answer: { type: 'Integer', value: '2' } }}
+			interpretInput={interpretFormInput}
+			onSubmit={submission => console.log(submission)}
+		>
+			<AnswerField />
+			<button type="submit">Submit</button>
+		</Form>
+	)
 }
 ```
+
+Keep `interpretInput` referentially stable. Define constant interpreters outside components, as above. When interpretation depends on component data, wrap it in `useCallback` with every semantic dependency:
+
+```ts
+const interpretFormInput = useCallback(
+	inputValues => interpretInput(inputValues, { angleUnit }),
+	[angleUnit],
+)
+```
+
+Changing the interpreter reference invalidates cached DomainValues and validation results. This ensures changed settings are applied, but an unnecessarily recreated inline callback would also clear the cache after every parent render.
+
+When `initialInputValues` changes after mounting, `initialInputUpdatePolicy` controls how it is applied:
+
+| Policy | Behavior |
+| --- | --- |
+| `untouched` | Default. Update fields that still equal their previous initial values while preserving user edits. |
+| `always` | Replace current field values whenever the supplied initial values change. |
+| `never` | Ignore later changes to the supplied initial values. |
 
 Pass `{ sectionId }` as the third `useFormField` argument when fields should be validated as a group:
 
 ```ts
 useFormField('answer', integerFieldDefinition, { sectionId: 'step-1' })
 ```
+
+
+## Advanced store usage
+
+Use `createFormStore` and `FormProvider` directly when the store must be owned outside the rendered form, shared with non-React code, or integrated without a native form element.
+
+```tsx
+import { useState } from 'react'
+
+import { FormProvider, createFormStore } from '@step-wise/form'
+
+function CustomFormOwner({ children }) {
+	const [store] = useState(() => createFormStore<InputValues, DomainValues>({
+		interpretInput: interpretFormInput,
+		onSubmit: submission => console.log(submission),
+	}))
+
+	return <FormProvider store={store}>{children}</FormProvider>
+}
+```
+
+Keep a manually created store stable for the lifetime of one form. `Form` already handles this internally.
 
 
 ## Validation
@@ -186,6 +205,7 @@ The main high-level exports are:
 
 | Export | Purpose |
 | --- | --- |
+| `Form` | Creates, provides, validates, and submits a form through a native form element. |
 | `createFormStore` | Creates the coordinated headless form store. |
 | `FormProvider` | Places a store in React context. |
 | `useFormStore` | Retrieves the current store without subscribing to its state. |
@@ -193,7 +213,7 @@ The main high-level exports are:
 | `useFormField` | Registers and controls one typed field. |
 | `FormFieldDefinition` | Defines field conversion, equality, and validation behavior. |
 
-The field registry, input manager, validation manager, and submission manager are also exported for advanced composition. Most applications should use `createFormStore`, which preserves their coordination invariants automatically.
+The field registry, input manager, validation manager, and submission manager are also exported for advanced composition. Most React applications should use `Form`; nonstandard integrations should use `createFormStore`, which preserves the lower-level coordination invariants automatically.
 
 
 ## Package boundary

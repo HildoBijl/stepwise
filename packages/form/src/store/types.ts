@@ -51,5 +51,6 @@ export type FormStore<
 	validateField: (fieldId: FormFieldId) => Promise<FieldValidationState>
 	validateSection: (sectionId: FormSectionId) => Promise<FormValidationResult>
 	validateForm: () => Promise<FormValidationResult<TInputValues, TDomainValues>>
+	invalidateFormValidation: () => void
 	submit: () => Promise<FormSubmissionResult<TInputValues, TDomainValues, TResult>>
 }
