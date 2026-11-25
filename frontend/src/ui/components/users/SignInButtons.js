@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { Helmet } from 'react-helmet-async'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Box, Alert, AlertTitle } from '@mui/material'
 
@@ -34,55 +33,75 @@ export function SignInButtons({ redirect = window.location.pathname + window.loc
 	</Box>
 }
 
+let googleIdentityLoader
+
+function loadGoogleIdentity() {
+	if (window.google?.accounts?.id) return Promise.resolve(window.google.accounts.id)
+	googleIdentityLoader ??= new Promise((resolve, reject) => {
+		const script = document.createElement('script')
+		script.src = 'https://accounts.google.com/gsi/client'
+		script.async = true
+		script.onload = () => {
+			const identity = window.google?.accounts?.id
+			if (identity) resolve(identity)
+			else reject(new Error('Google Identity Services did not initialize.'))
+		}
+		script.onerror = () => reject(new Error('Google Identity Services could not be loaded.'))
+		document.head.append(script)
+	}).catch(error => {
+		googleIdentityLoader = undefined
+		throw error
+	})
+	return googleIdentityLoader
+}
+
 function GoogleSignInButton({ redirect }) {
 	const language = useLanguage()
-	const [signInAttempt, setSignInAttempt] = useState(null)
+	const buttonRef = useRef(null)
 
-	// Prepare a server-side sign-in attempt before loading the widget. (Google doesn't allow this on-click due to a strict user flow.)
 	useEffect(() => {
+		const button = buttonRef.current
 		const controller = new AbortController()
-		setSignInAttempt(null)
 		const url = `${apiAddress}/auth/google/initiate?redirect=${encodeURIComponent(redirect)}`
 		fetch(url, { credentials: 'include', signal: controller.signal })
 			.then(response => {
 				if (!response.ok) throw new Error(`Google initiation failed with status ${response.status}.`)
 				return response.json()
 			})
-			.then(setSignInAttempt)
-			.catch(error => {
-				if (error.name !== 'AbortError') console.error('Google initiation failed:', error)
+			.then(async ({ nonce, state }) => {
+				if (controller.signal.aborted) return
+				const identity = await loadGoogleIdentity()
+				if (controller.signal.aborted) return
+				identity.initialize({
+					client_id: googleClientId,
+					context: 'signin',
+					ux_mode: 'redirect',
+					login_uri: `${googleRedirectAddress}/auth/google/login`,
+					nonce,
+					auto_select: false,
+				})
+				identity.renderButton(button, {
+					type: 'standard',
+					shape: 'rectangular',
+					theme: 'outline',
+					text: 'signin_with',
+					size: 'large',
+					logo_alignment: 'left',
+					width: '320',
+					locale: language,
+					state,
+				})
 			})
-		return () => controller.abort()
-	}, [redirect])
+			.catch(error => {
+				if (!controller.signal.aborted) console.error('Google sign-in button setup failed:', error)
+			})
+		return () => {
+			controller.abort()
+			button.replaceChildren()
+		}
+	}, [redirect, language])
 
-	// Only load the Google widget once its state and nonce are stored in the server session.
-	if (!signInAttempt) return null
-	return <>
-		<div
-			id='g_id_onload'
-			data-client_id={googleClientId}
-			data-context='signin'
-			data-ux_mode='redirect'
-			data-login_uri={`${googleRedirectAddress}/auth/google/login`}
-			data-nonce={signInAttempt.nonce}
-			data-auto_prompt='false'>
-		</div>
-		<div
-			className='g_id_signin'
-			data-type='standard'
-			data-shape='rectangular'
-			data-theme='outline'
-			data-text='signin_with'
-			data-size='large'
-			data-logo_alignment='left'
-			data-width='320'
-			data-state={signInAttempt.state}>
-		</div>
-
-		<Helmet>
-			<script src={`https://accounts.google.com/gsi/client?hl=${language}`} async defer />
-		</Helmet>
-	</>
+	return <div ref={buttonRef} />
 }
 
 const errorCode2Message = {
